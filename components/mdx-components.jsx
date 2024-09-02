@@ -14,12 +14,15 @@ import {
   Tab,
   IconButton,
   Tooltip,
+  styled,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { RxCheck, RxCopy } from "react-icons/rx";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import ButtonVariants from "./ui/Buttons";
+
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
     const id =
@@ -82,10 +85,8 @@ const CodeBlock = ({ className, children }) => {
     <Box
       sx={{
         position: "relative",
-        mb: 4,
-        mt: 2,
+        borderRadius: "0px !important",
         overflow: "hidden",
-        borderRadius: "6px",
       }}
     >
       <Tooltip arrow title={copied ? "Copied!" : "Copy code"}>
@@ -149,29 +150,58 @@ const DynamicCodeBlock = dynamic(() => Promise.resolve(CodeBlock), {
   ssr: false,
 });
 
-const Preview = ({ children }) => (
-  <Box mb={2} p={3} border={1} borderColor="grey.200" borderRadius={1}>
-    {children}
-  </Box>
-);
+const Preview = ({ children }) => <Box p={3}>{children}</Box>;
 
 const CodePreview = ({ preview, code }) => {
+  const StyledTabs = styled(Tabs)(({ theme }) => ({
+    borderBottom: `1px solid ${
+      theme.palette.mode === "dark"
+        ? "rgba(255, 255, 255, 0.2)"
+        : "rgba(0, 0, 0, 0.2)"
+    }`,
+    "& .MuiTabs-indicator": {
+      backgroundColor: theme.palette.mode === "dark" ? "white" : "black",
+      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    },
+  }));
+
+  const StyledTab = styled(Tab)(({ theme }) => ({
+    color:
+      theme.palette.mode === "dark"
+        ? "rgba(255, 255, 255, 0.7)"
+        : "rgba(0, 0, 0, 0.7)",
+    "&.Mui-selected": {
+      color: theme.palette.mode === "dark" ? "white" : "black",
+    },
+    "&:hover": {
+      color: theme.palette.mode === "dark" ? "white" : "black",
+      opacity: 1,
+    },
+    minWidth: 100,
+    fontWeight: 500,
+    fontSize: theme.typography.pxToRem(15),
+    textTransform: "none",
+    padding: "12px 16px",
+    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  }));
+
   const [tab, setTab] = useState(0);
 
   return (
     <Paper
       variant="outlined"
-      sx={{ mb: 4, overflow: "hidden", borderRadius: 1 }}
+      sx={{
+        mb: 4,
+        overflow: "hidden",
+        borderRadius: 1,
+        boxShadow: 3,
+      }}
     >
-      <Tabs
-        value={tab}
-        onChange={(e, newValue) => setTab(newValue)}
-        sx={{ borderBottom: 1, borderColor: "divider" }}
-      >
-        <Tab label="Preview" />
-        <Tab label="Code" />
-      </Tabs>
-      <Box p={0}>
+      <StyledTabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
+        <StyledTab label="Preview" />
+        <StyledTab label="Code" />
+      </StyledTabs>
+      <Box p={1} sx={{ borderRadius: "0px !important" }}>
         {tab === 0 ? (
           <Preview>{preview}</Preview>
         ) : (
@@ -183,6 +213,7 @@ const CodePreview = ({ preview, code }) => {
 };
 
 export const MDXComponents = {
+  ButtonVariants: ButtonVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
