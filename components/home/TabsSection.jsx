@@ -40,7 +40,9 @@ const SectionContent = ({ title, description, children }) => {
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Box sx={{ p: 4 }}>{children}</Box>
+        <Box sx={{ p: title === "Interactive Buttons" ? 2.5 : 4 }}>
+          {children}
+        </Box>
         <Divider />
         <Box
           sx={{
