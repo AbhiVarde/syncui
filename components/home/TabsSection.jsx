@@ -75,6 +75,20 @@ const SectionContent = ({ title, description, children }) => {
 };
 
 const TabsSection = () => {
+  const buttonVariants = [
+    "neubrutalism",
+    "animatedBorder",
+    "gradientShine",
+    "underline",
+    "sendIcon",
+    "expand",
+    "glitch",
+    "outlineFill",
+    "elasticSlide",
+    "magnetic",
+  ];
+
+
   return (
     <Box sx={{ py: 12, backgroundColor: "background.default" }}>
       <Container maxWidth="md">
@@ -108,7 +122,20 @@ const TabsSection = () => {
             title="Interactive Buttons"
             description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
           >
-            <ButtonVariants />
+           <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {buttonVariants.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <ButtonVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
           </SectionContent>
 
           <SectionContent
