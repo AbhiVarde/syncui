@@ -14,9 +14,55 @@ import ButtonVariants from "../ui/Buttons";
 import CardVariants from "../ui/Cards";
 import TextVariants from "../ui/Texts";
 import LoaderVariants from "../ui/Loaders";
+import { useRouter } from "next/navigation";
 
-const SectionContent = ({ title, description, children }) => {
+const buttonVariants = [
+  "neubrutalism",
+  "animatedBorder",
+  "gradientShine",
+  "underline",
+  "sendIcon",
+  "expand",
+  "glitch",
+  "outlineFill",
+  "elasticSlide",
+  "magnetic",
+];
+
+const cardVariants = [
+  "meteorShower",
+  "animatedBorder",
+  "multilayerStack",
+  "infoCard",
+  "neubrutalism",
+  "3dCard",
+];
+
+const textVariants = [
+  "gradualSpacing",
+  "typingEffect",
+  "staggeredFade",
+  "rotateWords",
+  "lettersPullUp",
+  "wordsPullUp",
+  "blurIn",
+  "textFade",
+];
+
+const loaderVariants = [
+  "pulsatingDots",
+  "morphingCube",
+  "pulsatingRing",
+  "circularSweep",
+  "fadingSquares",
+  "orbitalSpin",
+  "triadicOrbit",
+  "barWave",
+];
+
+const SectionContent = ({ title, description, children, url }) => {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <motion.div
@@ -58,6 +104,7 @@ const SectionContent = ({ title, description, children }) => {
           <Button
             variant="text"
             startIcon={<RiCodeSSlashLine />}
+            onClick={() => router.push(url)}
             sx={{
               color: theme.palette.mode === "light" ? "black" : "white",
               "&:hover": {
@@ -77,20 +124,6 @@ const SectionContent = ({ title, description, children }) => {
 };
 
 const TabsSection = () => {
-  const buttonVariants = [
-    "neubrutalism",
-    "animatedBorder",
-    "gradientShine",
-    "underline",
-    "sendIcon",
-    "expand",
-    "glitch",
-    "outlineFill",
-    "elasticSlide",
-    "magnetic",
-  ];
-
-
   return (
     <Box sx={{ py: 12, backgroundColor: "background.default" }}>
       <Container maxWidth="md">
@@ -114,17 +147,10 @@ const TabsSection = () => {
           </Box>
 
           <SectionContent
-            title="Dynamic Cards"
-            description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
-          >
-            <CardVariants />
-          </SectionContent>
-
-          <SectionContent
             title="Interactive Buttons"
             description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
           >
-           <Box
+            <Box
               sx={{
                 display: "flex",
                 flexWrap: "wrap",
@@ -141,17 +167,75 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
+            title="Dynamic Cards"
+            description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
+            url="/docs/buttons"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {cardVariants.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <CardVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
             title="Captivating Loaders"
             description="Engage your users with these unique, smoothly animated loaders that add a touch of sophistication to your loading states."
+            url="/docs/loaders"
           >
-            <LoaderVariants />
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {loaderVariants.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <LoaderVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
           </SectionContent>
 
           <SectionContent
             title="Animated Text"
             description="Bring your content to life with these eye-catching text animations, perfect for headers, highlights, and more."
+            url="/docs/texts"
           >
-            <TextVariants />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 2,
+              }}
+            >
+              {textVariants.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <TextVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
           </SectionContent>
         </Box>
       </Container>
