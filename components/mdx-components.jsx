@@ -22,6 +22,8 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { RxCheck, RxCopy } from "react-icons/rx";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import ButtonVariants from "./ui/Buttons";
+import TextVariants from "./ui/Texts";
+import LoaderVariants from "./ui/Loaders";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -214,6 +216,8 @@ const CodePreview = ({ preview, code }) => {
 
 export const MDXComponents = {
   ButtonVariants: ButtonVariants,
+  LoaderVariants: LoaderVariants,
+  TextVariants: TextVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
