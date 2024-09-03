@@ -149,6 +149,7 @@ const TabsSection = () => {
           <SectionContent
             title="Interactive Buttons"
             description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
+            url="/docs/buttons"
           >
             <Box
               sx={{
@@ -169,7 +170,6 @@ const TabsSection = () => {
           <SectionContent
             title="Dynamic Cards"
             description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
-            url="/docs/buttons"
           >
             <Box
               sx={{
