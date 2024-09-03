@@ -95,27 +95,8 @@ const PagerButton = ({ direction, page }) => {
   );
 };
 
-const flattenTree = (tree) => {
-  return tree.reduce((acc, node) => {
-    acc.push(node);
-    if (node.children) {
-      acc.push(...flattenTree(node.children));
-    }
-    return acc;
-  }, []);
-};
-
-const findAdjacentPages = (flatTree, currentSlug) => {
-  if (currentSlug === "") {
-    const changelogPage = flatTree.find((item) => item.title === "Changelog");
-    return { prevPage: null, nextPage: changelogPage };
-  }
-
-  if (currentSlug === "changelog") {
-    const setupPage = flatTree.find((item) => item.title === "Setup");
-    return { prevPage: setupPage, nextPage: null };
-  }
-
+const findAdjacentPages = (docsTree, currentSlug) => {
+  const flatTree = flattenTree(docsTree);
   const currentIndex = flatTree.findIndex(
     (item) => item.url === `/docs/${currentSlug}`
   );
@@ -124,29 +105,40 @@ const findAdjacentPages = (flatTree, currentSlug) => {
   let nextPage = null;
 
   if (currentIndex > 0) {
-    for (let i = currentIndex - 1; i >= 0; i--) {
-      if (!flatTree[i].children) {
-        prevPage = flatTree[i];
-        break;
-      }
-    }
+    prevPage = flatTree[currentIndex - 1];
   }
 
   if (currentIndex < flatTree.length - 1) {
-    for (let i = currentIndex + 1; i < flatTree.length; i++) {
-      if (!flatTree[i].children) {
-        nextPage = flatTree[i];
-        break;
-      }
-    }
+    nextPage = flatTree[currentIndex + 1];
+  }
+
+  // Special case for the Setup page
+  if (currentSlug === "" || currentSlug === "setup") {
+    prevPage = null;
+    nextPage = flatTree.find((item) => item.title === "Buttons");
   }
 
   return { prevPage, nextPage };
 };
 
+const flattenTree = (tree) => {
+  return tree.reduce((acc, node) => {
+    if (node.title === "Setup") {
+      acc.unshift(node);
+    } else if (!node.children) {
+      acc.push(node);
+    } else {
+      acc.push(...flattenTree(node.children));
+    }
+    return acc;
+  }, []);
+};
+
 export const DocPager = ({ slug, docsTree }) => {
-  const flatTree = useMemo(() => flattenTree(docsTree), [docsTree]);
-  const { prevPage, nextPage } = findAdjacentPages(flatTree, slug);
+  const { prevPage, nextPage } = useMemo(
+    () => findAdjacentPages(docsTree, slug),
+    [docsTree, slug]
+  );
 
   return (
     <Box
@@ -157,22 +149,10 @@ export const DocPager = ({ slug, docsTree }) => {
       gap={2}
     >
       <Box width="50%">
-        {prevPage ? (
-          <PagerButton direction="prev" page={prevPage} />
-        ) : (
-          <Box sx={{ visibility: "hidden" }}>
-            <PagerButton direction="prev" page={null} />
-          </Box>
-        )}
+        {prevPage && <PagerButton direction="prev" page={prevPage} />}
       </Box>
       <Box width="50%">
-        {nextPage ? (
-          <PagerButton direction="next" page={nextPage} />
-        ) : (
-          <Box sx={{ visibility: "hidden" }}>
-            <PagerButton direction="next" page={null} />
-          </Box>
-        )}
+        {nextPage && <PagerButton direction="next" page={nextPage} />}
       </Box>
     </Box>
   );
