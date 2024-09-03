@@ -35,8 +35,21 @@ const Footer = () => {
           alignItems="center"
           height="100%"
         >
-          <Typography variant="body2">
-            © {new Date().getFullYear()} Sync UI. All rights reserved.
+          <Typography variant="caption">
+            Brought to you by{" "}
+            <a
+              href="https://abhivarde.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                textDecorationLine: "underline",
+                textUnderlineOffset: "4px",
+                fontWeight: 500,
+                color: "inherit",
+              }}
+            >
+              abhivarde.in.
+            </a>
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
             <IconButton
