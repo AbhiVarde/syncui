@@ -102,10 +102,7 @@ const SectionContent = ({ title, description, children, url }) => {
         <Box
           sx={{
             p: 1,
-            backgroundColor:
-              theme.palette.mode === "light"
-                ? theme.palette.grey[50]
-                : theme.palette.grey[800],
+            backgroundColor: "background.paper",
             display: "flex",
             justifyContent: "flex-end",
           }}
