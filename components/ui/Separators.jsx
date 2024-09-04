@@ -81,7 +81,7 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
             sx={{
               width: "100%",
               height: "10px",
-              backgroundImage: `radial-gradient(circle, ${theme.palette.primary.main} 1px, transparent 1px)`,
+              backgroundImage: `radial-gradient(circle, ${theme.palette.divider} 1.5px, transparent 1.5px)`,
               backgroundSize: "10px 10px",
             }}
           />
