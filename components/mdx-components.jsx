@@ -24,6 +24,7 @@ import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import ButtonVariants from "./ui/Buttons";
 import TextVariants from "./ui/Texts";
 import LoaderVariants from "./ui/Loaders";
+import SeparatorVariants from "./ui/Separators";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -218,6 +219,7 @@ export const MDXComponents = {
   ButtonVariants: ButtonVariants,
   LoaderVariants: LoaderVariants,
   TextVariants: TextVariants,
+  SeparatorVariants: SeparatorVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
