@@ -16,7 +16,6 @@ import {
   DialogTitle,
   DialogContent,
   Button,
-  Grid,
   Chip,
   Slide,
 } from "@mui/material";
@@ -151,7 +150,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       "Getting Started": [],
     };
 
-    docsTree.forEach((item) => {
+    docsTree?.forEach((item) => {
       if (item.title === "Setup" || item.title === "Changelog") {
         grouped["Getting Started"].push(item);
       } else {
@@ -249,8 +248,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   );
 
   const renderBreadcrumbs = () => {
-    const activeTocItem = toc.find((item) => item.id === activeId);
-    const activeText = activeTocItem ? activeTocItem.text : "";
+    const activeTocItem = toc?.find((item) => item?.id === activeId);
+    const activeText = activeTocItem ? activeTocItem?.text : "";
 
     return (
       <Breadcrumbs
@@ -420,7 +419,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
-                  Check pro templates
+                  Unlock Premium Designs
                   <motion.div
                     initial={false}
                     animate={{
