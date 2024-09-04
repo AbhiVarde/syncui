@@ -186,8 +186,8 @@ import { Typography, Box, useTheme } from '@mui/material';
 import { keyframes } from '@mui/system';
 
 const shimmer = keyframes\`
-0% { background-position: -1000px 0; }
-100% { background-position: 1000px 0; }
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
 \`;
 
 const ShimmerSeparator = ({ label }) => {
@@ -250,7 +250,7 @@ return (
       sx={{
         width: '100%',
         height: '5px',
-        backgroundImage: \`radial-gradient(circle, \${theme.palette.primary.main} 1px, transparent 1px)\`,
+        backgroundImage: \`radial-gradient(circle, \${theme.palette.divider} 1.5px, transparent 1.5px)\`,
         backgroundSize: '10px 10px',
       }}
     />
@@ -278,27 +278,26 @@ const theme = useTheme();
 
 return (
 
-{" "}
-
-<Box sx={{ width: "100%" }}>
-  {label && (
-    <Typography
-      variant="body2"
-      color="textSecondary"
-      sx={{ mb: 1, textAlign: "center" }}
-    >
-      {label}
-    </Typography>
-  )}
-  <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-    <Divider sx={{ flex: 1 }} />
-    <Box sx={{ mx: 2, color: theme.palette.primary.main }}>
-      <RxStar />
+  <Box sx={{ width: "100%" }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: "center" }}
+      >
+        {label}
+      </Typography>
+    )}
+    <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+      <Divider sx={{ flex: 1 }} />
+      <Box sx={{ mx: 2, color: theme.palette.primary.main }}>
+        <RxStar />
+      </Box>
+      <Divider sx={{ flex: 1 }} />
     </Box>
-    <Divider sx={{ flex: 1 }} />
   </Box>
-</Box>
-); };
+  ); 
+};
 
 export default StarrySeparator;
   `}
