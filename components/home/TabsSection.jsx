@@ -14,51 +14,60 @@ import ButtonVariants from "../ui/Buttons";
 import CardVariants from "../ui/Cards";
 import TextVariants from "../ui/Texts";
 import LoaderVariants from "../ui/Loaders";
+import SeparatorVariants from "../ui/Separators";
 import { useRouter } from "next/navigation";
 
-const buttonVariants = [
-  "neubrutalism",
-  "animatedBorder",
-  "gradientShine",
-  "underline",
-  "sendIcon",
-  "expand",
-  "glitch",
-  "outlineFill",
-  "elasticSlide",
-  "magnetic",
-];
-
-const cardVariants = [
-  "meteorShower",
-  "animatedBorder",
-  "multilayerStack",
-  "infoCard",
-  "neubrutalism",
-  "3dCard",
-];
-
-const textVariants = [
-  "gradualSpacing",
-  "typingEffect",
-  "staggeredFade",
-  "rotateWords",
-  "lettersPullUp",
-  "wordsPullUp",
-  "blurIn",
-  "textFade",
-];
-
-const loaderVariants = [
-  "pulsatingDots",
-  "morphingCube",
-  "pulsatingRing",
-  "circularSweep",
-  "fadingSquares",
-  "orbitalSpin",
-  "triadicOrbit",
-  "barWave",
-];
+const componentVariants = {
+  buttons: [
+    "neubrutalism",
+    "animatedBorder",
+    "gradientShine",
+    "underline",
+    "sendIcon",
+    "expand",
+    "glitch",
+    "outlineFill",
+    "elasticSlide",
+    "magnetic",
+  ],
+  cards: [
+    "meteorShower",
+    "animatedBorder",
+    "multilayerStack",
+    "infoCard",
+    "neubrutalism",
+    "3dCard",
+  ],
+  texts: [
+    "gradualSpacing",
+    "typingEffect",
+    "staggeredFade",
+    "rotateWords",
+    "lettersPullUp",
+    "wordsPullUp",
+    "blurIn",
+    "textFade",
+  ],
+  loaders: [
+    "pulsatingDots",
+    "morphingCube",
+    "pulsatingRing",
+    "circularSweep",
+    "fadingSquares",
+    "orbitalSpin",
+    "triadicOrbit",
+    "barWave",
+  ],
+  separators: [
+    { variant: "dashed", label: "Dashed" },
+    { variant: "icon", label: "Icon" },
+    { variant: "zigzag", label: "Zigzag" },
+    { variant: "gradient", label: "Gradient" },
+    { variant: "shimmer", label: "Shimmer" },
+    { variant: "dotted", label: "Dotted" },
+    { variant: "starry", label: "Starry" },
+  ],
+};
 
 const SectionContent = ({ title, description, children, url }) => {
   const theme = useTheme();
@@ -96,7 +105,7 @@ const SectionContent = ({ title, description, children, url }) => {
             backgroundColor:
               theme.palette.mode === "light"
                 ? theme.palette.grey[50]
-                : theme.palette.grey[80],
+                : theme.palette.grey[800],
             display: "flex",
             justifyContent: "flex-end",
           }}
@@ -159,7 +168,7 @@ const TabsSection = () => {
                 justifyContent: "center",
               }}
             >
-              {buttonVariants.map((variant) => (
+              {componentVariants.buttons.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <ButtonVariants variant={variant} />
                 </Box>
@@ -170,6 +179,7 @@ const TabsSection = () => {
           <SectionContent
             title="Dynamic Cards"
             description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
+            url="/docs/cards"
           >
             <Box
               sx={{
@@ -179,7 +189,7 @@ const TabsSection = () => {
                 justifyContent: "center",
               }}
             >
-              {cardVariants.map((variant) => (
+              {componentVariants.cards.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <CardVariants variant={variant} />
                 </Box>
@@ -200,7 +210,7 @@ const TabsSection = () => {
                 justifyContent: "center",
               }}
             >
-              {loaderVariants.map((variant) => (
+              {componentVariants.loaders.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <LoaderVariants variant={variant} />
                 </Box>
@@ -221,7 +231,7 @@ const TabsSection = () => {
                 gap: 2,
               }}
             >
-              {textVariants.map((variant) => (
+              {componentVariants.texts.map((variant) => (
                 <Box
                   key={variant}
                   sx={{
@@ -233,6 +243,37 @@ const TabsSection = () => {
                   }}
                 >
                   <TextVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Stylish Separators"
+            description="Add visual interest and structure to your layouts with these unique, theme-adaptive separator designs."
+            url="/docs/separators"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.separators.map((separatorProps, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <SeparatorVariants {...separatorProps} width="80%" />
                 </Box>
               ))}
             </Box>
