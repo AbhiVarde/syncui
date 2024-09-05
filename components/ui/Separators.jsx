@@ -91,7 +91,7 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
           <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
             <StyledDivider sx={{ flex: 1 }} {...props} />
             <Box sx={{ mx: 2 }}>
-              <RxStar size={19} />
+              <RxStar size={22} />
             </Box>
             <StyledDivider sx={{ flex: 1 }} {...props} />
           </Box>
