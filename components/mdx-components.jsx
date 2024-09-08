@@ -25,6 +25,7 @@ import ButtonVariants from "./ui/Buttons";
 import TextVariants from "./ui/Texts";
 import LoaderVariants from "./ui/Loaders";
 import SeparatorVariants from "./ui/Separators";
+import BackgroundVariants from "./ui/Backgrounds";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -220,6 +221,7 @@ export const MDXComponents = {
   LoaderVariants: LoaderVariants,
   TextVariants: TextVariants,
   SeparatorVariants: SeparatorVariants,
+  BackgroundVariants: BackgroundVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
