@@ -1,0 +1,369 @@
+---
+title: Background Animations
+description: Sync UI offers a variety of background animation styles to enhance your user interface.
+---
+
+Sync UI provides several background animation styles to add visual interest and depth to your user interface. These backgrounds can be used to create engaging and dynamic layouts.
+
+#### Gemini Wave
+
+A flowing wave animation with gradient colors.
+
+<CodePreview
+  preview={<BackgroundVariants variant="geminiWave" />}
+  code={`
+import React from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const GeminiWave = () => {
+  const theme = useTheme();
+
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: \`linear-gradient(135deg, \${theme.palette.primary.dark}, \${theme.palette.secondary.dark})\`,
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <MotionBox
+        sx={{
+          position: "absolute",
+          width: "150%",
+          height: "100%",
+          left: "-25%",
+        }}
+      >
+        {[...Array(3)].map((_, index) => (
+          <MotionBox
+            key={index}
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              opacity: 0.7 - index * 0.2,
+            }}
+          >
+            <svg
+              viewBox="0 0 1440 320"
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <motion.path
+                d="M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z"
+                fill={\`rgba(255,255,255,\${0.3 - index * 0.1})\`}
+                animate={{
+                  d: [
+                    "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
+                    "M0,200 C320,100,420,260,640,200 C880,140,1200,180,1440,240 V320 H0 Z",
+                    "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
+                  ],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 10 - index * 2,
+                  ease: "easeInOut",
+                }}
+              />
+            </svg>
+          </MotionBox>
+        ))}
+      </MotionBox>
+      <Typography variant="h4" sx={{ color: "white", zIndex: 1 }}>
+        Gemini Wave
+      </Typography>
+    </MotionBox>
+  );
+};
+
+export default GeminiWave;
+`}
+/>
+
+#### Moving Shapes
+
+Animated shapes that move across the background.
+
+<CodePreview
+  preview={<BackgroundVariants variant="movingShapes" />}
+  code={`
+import React from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const MovingShapes = () => {
+  const theme = useTheme();
+
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: \`linear-gradient(45deg, \${theme.palette.background.default}, \${theme.palette.primary.light})\`,
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {[...Array(8)].map((_, index) => (
+        <MotionBox
+          key={index}
+          sx={{
+            position: "absolute",
+            width: ["60px", "80px", "100px", "120px"][index % 4],
+            height: ["60px", "80px", "100px", "120px"][index % 4],
+            borderRadius: index % 2 === 0 ? "50%" : "30%",
+            background: \`linear-gradient(135deg, \${theme.palette.primary.main}, \${theme.palette.secondary.main})\`,
+            opacity: 0.2,
+            filter: "blur(4px)",
+          }}
+          animate={{
+            x: ["-20%", "120%"],
+            y: ["-20%", "120%"],
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: 15 + index * 2,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "linear",
+          }}
+          style={{
+            left: \`\${(index * 25) % 100}%\`,
+            top: \`\${(index * 35) % 100}%\`,
+          }}
+        />
+      ))}
+      <Typography variant="h4" sx={{ color: "white", zIndex: 1 }}>
+        Moving Shapes
+      </Typography>
+    </MotionBox>
+  );
+};
+
+export default MovingShapes;
+`}
+/>
+
+#### Gradient Mesh
+
+A dynamic gradient background with multiple color points.
+
+<CodePreview
+  preview={<BackgroundVariants variant="gradientMesh" />}
+  code={`
+import React, { useRef, useEffect } from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+import { motion, useAnimation, useInView } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const GradientMesh = () => {
+  const theme = useTheme();
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    }
+  }, [isInView, controls]);
+
+  return (
+    <MotionBox
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 1 } },
+      }}
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: \`
+          radial-gradient(at 40% 20%, \${theme.palette.primary.light} 0px, transparent 50%),
+          radial-gradient(at 80% 0%, \${theme.palette.secondary.light} 0px, transparent 50%),
+          radial-gradient(at 0% 50%, \${theme.palette.primary.main} 0px, transparent 50%),
+          radial-gradient(at 80% 50%, \${theme.palette.secondary.main} 0px, transparent 50%),
+          radial-gradient(at 0% 100%, \${theme.palette.primary.dark} 0px, transparent 50%),
+          radial-gradient(at 80% 100%, \${theme.palette.secondary.dark} 0px, transparent 50%)
+        \`,
+        backgroundSize: "100% 100%",
+        animation: "gradientShift 15s ease infinite",
+        "@keyframes gradientShift": {
+          "0%, 100%": { backgroundPosition: "0% 0%" },
+          "50%": { backgroundPosition: "100% 100%" },
+        },
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4" sx={{ color: "white" }}>
+        Gradient Mesh
+      </Typography>
+    </MotionBox>
+  );
+};
+
+export default GradientMesh;
+`}
+/>
+
+#### Boxes
+
+A grid of interactive boxes that react to hover and tap gestures.
+
+<CodePreview
+  preview={<BackgroundVariants variant="boxes" />}
+  code={`
+import React from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const Boxes = () => {
+  const theme = useTheme();
+
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
+        gap: 2,
+        p: 2,
+        background: theme.palette.background.default,
+        position: "relative",
+      }}
+    >
+      {[...Array(20)].map((_, index) => (
+        <MotionBox
+          key={index}
+          whileHover={{
+            scale: 1.05,
+            zIndex: 1,
+            backgroundColor: theme.palette.primary.main,
+          }}
+          whileTap={{ scale: 0.95 }}
+          sx={{
+            aspectRatio: "1",
+            backgroundColor: theme.palette.action.hover,
+            borderRadius: 1,
+            transition: "background-color 0.3s",
+          }}
+        />
+      ))}
+      <Typography
+        variant="h4"
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 2,
+        }}
+      >
+        Boxes
+      </Typography>
+    </MotionBox>
+  );
+};
+
+export default Boxes;
+`}
+/>
+
+#### Dots
+
+A simple dotted background pattern.
+
+<CodePreview
+  preview={<BackgroundVariants variant="dots" />}
+  code={`
+import React from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+
+const Dots = () => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        backgroundImage: \`radial-gradient(\${theme.palette.text.secondary} 1px, transparent 1px)\`,
+        backgroundSize: "20px 20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4">Dots</Typography>
+    </Box>
+  );
+};
+
+export default Dots;
+`}
+/>
+
+#### Grid
+
+A background with a grid pattern.
+
+<CodePreview
+  preview={<BackgroundVariants variant="grid" />}
+  code={`
+import React from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+
+const Grid = () => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        backgroundImage: \`linear-gradient(\${theme.palette.divider} 1px, transparent 1px),
+                           linear-gradient(90deg, \${theme.palette.divider} 1px, transparent 1px)\`,
+        backgroundSize: "20px 20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4">Grid</Typography>
+    </Box>
+  );
+};
+
+export default Grid;
+`}
+/>
+
