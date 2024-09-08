@@ -15,6 +15,7 @@ import CardVariants from "../ui/Cards";
 import TextVariants from "../ui/Texts";
 import LoaderVariants from "../ui/Loaders";
 import SeparatorVariants from "../ui/Separators";
+import BackgroundVariants from "../ui/Backgrounds";
 import { useRouter } from "next/navigation";
 
 const componentVariants = {
@@ -38,16 +39,6 @@ const componentVariants = {
     "neubrutalism",
     "3dCard",
   ],
-  texts: [
-    "gradualSpacing",
-    "typingEffect",
-    "staggeredFade",
-    "rotateWords",
-    "lettersPullUp",
-    "wordsPullUp",
-    "blurIn",
-    "textFade",
-  ],
   loaders: [
     "pulsatingDots",
     "morphingCube",
@@ -58,6 +49,14 @@ const componentVariants = {
     "triadicOrbit",
     "barWave",
   ],
+  backgrounds: [
+    "geminiWave",
+    "movingShapes",
+    "gradientMesh",
+    "boxes",
+    "dots",
+    "grid",
+  ],
   separators: [
     { variant: "dashed", label: "Dashed" },
     { variant: "icon", label: "Icon" },
@@ -66,6 +65,16 @@ const componentVariants = {
     { variant: "shimmer", label: "Shimmer" },
     { variant: "dotted", label: "Dotted" },
     { variant: "starry", label: "Starry" },
+  ],
+  texts: [
+    "gradualSpacing",
+    "typingEffect",
+    "staggeredFade",
+    "rotateWords",
+    "lettersPullUp",
+    "wordsPullUp",
+    "blurIn",
+    "textFade",
   ],
 };
 
@@ -153,6 +162,37 @@ const TabsSection = () => {
           </Box>
 
           <SectionContent
+            title="Dynamic Backgrounds"
+            description="Enhance your UI with these eye-catching, animated background designs that add depth and interactivity to your layouts."
+            url="/docs/backgrounds"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.backgrounds.map((variant, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    height: "200px",
+                    overflow: "hidden",
+                    borderRadius: 2,
+                    position: "relative",
+                  }}
+                >
+                  <BackgroundVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
             title="Interactive Buttons"
             description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
             url="/docs/buttons"
@@ -216,36 +256,6 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Animated Text"
-            description="Bring your content to life with these eye-catching text animations, perfect for headers, highlights, and more."
-            url="/docs/texts"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 2,
-              }}
-            >
-              {componentVariants.texts.map((variant) => (
-                <Box
-                  key={variant}
-                  sx={{
-                    m: 1,
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  <TextVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          <SectionContent
             title="Stylish Separators"
             description="Add visual interest and structure to your layouts with these unique, theme-adaptive separator designs."
             url="/docs/separators"
@@ -271,6 +281,36 @@ const TabsSection = () => {
                   }}
                 >
                   <SeparatorVariants {...separatorProps} width="80%" />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Animated Text"
+            description="Bring your content to life with these eye-catching text animations, perfect for headers, highlights, and more."
+            url="/docs/texts"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 2,
+              }}
+            >
+              {componentVariants.texts.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <TextVariants variant={variant} />
                 </Box>
               ))}
             </Box>
