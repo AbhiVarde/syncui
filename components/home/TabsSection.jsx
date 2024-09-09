@@ -214,7 +214,7 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Dynamic Cards"
+            title="Engaging Cards"
             description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
             url="/docs/cards"
           >
@@ -256,7 +256,7 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Stylish Separators"
+            title="Stylish Dividers"
             description="Add visual interest and structure to your layouts with these unique, theme-adaptive separator designs."
             url="/docs/separators"
           >
@@ -287,7 +287,7 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Animated Text"
+            title="Animated Typography"
             description="Bring your content to life with these eye-catching text animations, perfect for headers, highlights, and more."
             url="/docs/texts"
           >
