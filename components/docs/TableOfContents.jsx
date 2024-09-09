@@ -103,7 +103,7 @@ export const TableOfContents = ({ toc }) => {
           color: "inherit",
           textTransform: "none",
         }}
-        href="https://github.com/your-repo"
+        href={GITHUB_URL}
         target="_blank"
         rel="noopener noreferrer"
       >
