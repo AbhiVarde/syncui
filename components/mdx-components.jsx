@@ -26,6 +26,7 @@ import TextVariants from "./ui/Texts";
 import LoaderVariants from "./ui/Loaders";
 import SeparatorVariants from "./ui/Separators";
 import BackgroundVariants from "./ui/Backgrounds";
+import { GoEye, GoTerminal } from "react-icons/go";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -181,11 +182,13 @@ const CodePreview = ({ preview, code }) => {
       color: theme.palette.mode === "dark" ? "white" : "black",
       opacity: 1,
     },
-    minWidth: 100,
+    minHeight: "36px",
     fontWeight: 500,
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(14),
     textTransform: "none",
-    padding: "12px 16px",
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   }));
 
@@ -202,8 +205,16 @@ const CodePreview = ({ preview, code }) => {
       }}
     >
       <StyledTabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
-        <StyledTab label="Preview" />
-        <StyledTab label="Code" />
+        <StyledTab
+          icon={<GoEye size={20} />}
+          label="Preview"
+          iconPosition="start"
+        />
+        <StyledTab
+          icon={<GoTerminal size={20} />}
+          label="Code"
+          iconPosition="start"
+        />
       </StyledTabs>
       <Box p={1} sx={{ borderRadius: "0px !important" }}>
         {tab === 0 ? (
