@@ -182,52 +182,6 @@ const BackgroundVariants = ({ variant }) => {
           </MotionBox>
         );
 
-      case "boxes":
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
-              gap: 2,
-              p: 2,
-              background: theme.palette.background.default,
-              position: "relative",
-            }}
-          >
-            {[...Array(20)].map((_, index) => (
-              <MotionBox
-                key={index}
-                whileHover={{
-                  scale: 1.05,
-                  zIndex: 1,
-                  backgroundColor: theme.palette.primary.main,
-                }}
-                whileTap={{ scale: 0.95 }}
-                sx={{
-                  aspectRatio: "1",
-                  backgroundColor: theme.palette.action.hover,
-                  borderRadius: 1,
-                  transition: "background-color 0.3s",
-                }}
-              />
-            ))}
-            <Typography
-              variant="h4"
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                zIndex: 2,
-              }}
-            >
-              Boxes
-            </Typography>
-          </MotionBox>
-        );
-
       case "dots":
         return (
           <MotionBox
