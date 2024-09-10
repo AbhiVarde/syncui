@@ -27,6 +27,7 @@ import {
   RxTextAlignLeft,
   RxChevronRight,
   RxCross2,
+  RxExternalLink,
 } from "react-icons/rx";
 import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
@@ -432,6 +433,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       marginLeft: "6px",
                       display: "flex",
                       alignItems: "center",
+                      backgroundColor: theme.palette.background.default,
+                      padding: "6px",
+                      border: `1px solid ${theme.palette.divider}`,
+                      borderRadius: "8px",
                     }}
                   >
                     <RxArrowRight size={18} style={{ fontWeight: 500 }} />
@@ -483,6 +488,22 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     gap: 0.5,
                   }}
                 >
+                  <Button
+                    color="inherit"
+                    endIcon={<RxExternalLink size={16} />}
+                    sx={{
+                      fontSize: "15px !important",
+                      padding: "4px 8px !important",
+                      fontWeight: 400,
+                      textTransform: "none",
+                      marginRight: "10px",
+                      "& .MuiButton-endIcon": {
+                        marginLeft: 0.5,
+                      },
+                    }}
+                  >
+                    Templates
+                  </Button>
                   <IconButton
                     href={GITHUB_URL}
                     color="inherit"
