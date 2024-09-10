@@ -267,7 +267,7 @@ const BackgroundVariants = ({ variant }) => {
                   top: `${
                     Math.floor(i / gridSize.cols) * (squareSize + gridGap)
                   }%`,
-                  backgroundColor: theme.palette.primary.main,
+                  backgroundColor: "#34D399",
                 }}
               />
             ))}
