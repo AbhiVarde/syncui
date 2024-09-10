@@ -269,12 +269,18 @@ A separator with star icons.
 <CodePreview
   preview={<SeparatorVariants variant="starry" label="Starry Separator" />}
   code={`
-import React from 'react';
+import React, { useState } from "react";
 import { Divider, Typography, Box, useTheme } from '@mui/material';
-import { RxStar } from 'react-icons/rx';
+import { RxStarFilled, RxStar } from 'react-icons/rx';
 
 const StarrySeparator = ({ label }) => {
-const theme = useTheme();
+
+  const theme = useTheme();
+  const [isStarFilled, setIsStarFilled] = useState(false);
+
+  const handleStarClick = () => {
+    setIsStarFilled(!isStarFilled);
+  };
 
 return (
 
@@ -290,9 +296,9 @@ return (
     )}
     <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
       <Divider sx={{ flex: 1 }} />
-      <Box sx={{ mx: 2, color: theme.palette.primary.main }}>
-        <RxStar size={22} />
-      </Box>
+      <Box sx={{ mx: 2, cursor: "pointer" }} onClick={handleStarClick}>
+        {isStarFilled ? <RxStarFilled size={22} /> : <RxStar size={22} />}
+       </Box>
       <Divider sx={{ flex: 1 }} />
     </Box>
   </Box>
