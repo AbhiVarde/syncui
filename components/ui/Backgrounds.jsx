@@ -199,13 +199,21 @@ const BackgroundVariants = ({ variant }) => {
           return Array.from({ length: gridSize.cols * gridSize.rows }, () => ({
             opacity: Math.random() * maxOpacity,
           }));
-        }, [gridSize]);
+        }, [gridSize, maxOpacity]);
 
         const flickerControls = useAnimation();
+        const isMounted = useRef(false);
 
         useEffect(() => {
-          const animate = async () => {
-            while (true) {
+          isMounted.current = true;
+          return () => {
+            isMounted.current = false;
+          };
+        }, []);
+
+        useEffect(() => {
+          const animateFlicker = async () => {
+            while (isMounted.current) {
               await flickerControls.start((i) => ({
                 opacity:
                   Math.random() < flickerChance
@@ -216,8 +224,21 @@ const BackgroundVariants = ({ variant }) => {
               await new Promise((resolve) => setTimeout(resolve, 500));
             }
           };
-          animate();
-        }, [flickerControls, squares]);
+
+          if (isMounted.current) {
+            animateFlicker();
+          }
+
+          return () => {
+            flickerControls.stop();
+          };
+        }, [
+          flickerControls,
+          squares,
+          flickerChance,
+          maxOpacity,
+          flickerDuration,
+        ]);
 
         return (
           <MotionBox
