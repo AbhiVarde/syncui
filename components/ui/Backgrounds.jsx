@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { Box, useTheme, Typography } from "@mui/material";
 import {
   motion,
@@ -178,6 +178,83 @@ const BackgroundVariants = ({ variant }) => {
           >
             <Typography variant="h4" sx={{ color: "white" }}>
               Gradient Mesh
+            </Typography>
+          </MotionBox>
+        );
+
+      case "flickeringGrid":
+        const squareSize = 2;
+        const gridGap = 0.5;
+        const flickerChance = 0.3;
+        const maxOpacity = 0.3;
+        const flickerDuration = 0.5;
+
+        const gridSize = useMemo(() => {
+          const cols = Math.floor(100 / (squareSize + gridGap));
+          const rows = Math.floor(100 / (squareSize + gridGap));
+          return { cols, rows };
+        }, []);
+
+        const squares = useMemo(() => {
+          return Array.from({ length: gridSize.cols * gridSize.rows }, () => ({
+            opacity: Math.random() * maxOpacity,
+          }));
+        }, [gridSize]);
+
+        const flickerControls = useAnimation();
+
+        useEffect(() => {
+          const animate = async () => {
+            while (true) {
+              await flickerControls.start((i) => ({
+                opacity:
+                  Math.random() < flickerChance
+                    ? Math.random() * maxOpacity
+                    : squares[i].opacity,
+                transition: { duration: flickerDuration, ease: "easeInOut" },
+              }));
+              await new Promise((resolve) => setTimeout(resolve, 500));
+            }
+          };
+          animate();
+        }, [flickerControls, squares]);
+
+        return (
+          <MotionBox
+            sx={{
+              width: "100%",
+              height: "100%",
+              position: "relative",
+              overflow: "hidden",
+              background: theme.palette.background.default,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {squares.map((square, i) => (
+              <MotionBox
+                key={i}
+                custom={i}
+                animate={flickerControls}
+                initial={{ opacity: square.opacity }}
+                sx={{
+                  position: "absolute",
+                  width: `${squareSize}%`,
+                  height: `${squareSize}%`,
+                  left: `${(i % gridSize.cols) * (squareSize + gridGap)}%`,
+                  top: `${
+                    Math.floor(i / gridSize.cols) * (squareSize + gridGap)
+                  }%`,
+                  backgroundColor: theme.palette.primary.main,
+                }}
+              />
+            ))}
+            <Typography
+              variant="h4"
+              sx={{ color: theme.palette.text.primary, zIndex: 1 }}
+            >
+              Flickering Grid
             </Typography>
           </MotionBox>
         );
