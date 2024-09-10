@@ -138,7 +138,7 @@ const CodeBlock = ({ className, children }) => {
           customStyle={{
             margin: 0,
             padding: isSmallScreen ? "12px" : "16px",
-            fontSize: isSmallScreen ? "12px" : "14px",
+            fontSize: isSmallScreen ? "10px" : "12px",
             lineHeight: 1.5,
           }}
           wrapLines={true}
