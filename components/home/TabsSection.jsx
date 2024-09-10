@@ -49,7 +49,14 @@ const componentVariants = {
     "triadicOrbit",
     "barWave",
   ],
-  backgrounds: ["geminiWave", "movingShapes", "gradientMesh", "dots", "grid"],
+  backgrounds: [
+    "geminiWave",
+    "movingShapes",
+    "gradientMesh",
+    "flickeringGrid",
+    "dots",
+    "grid",
+  ],
   separators: [
     { variant: "dashed", label: "Dashed" },
     { variant: "icon", label: "Icon" },
