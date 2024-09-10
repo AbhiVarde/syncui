@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Divider, Typography, Box, useTheme } from "@mui/material";
 import { styled, keyframes } from "@mui/system";
-import { RxStar, RxPlus } from "react-icons/rx";
+import { RxStar, RxStarFilled, RxPlus } from "react-icons/rx";
 
 const StyledDivider = styled(Divider)(({ theme, variant }) => ({
   width: "100%",
@@ -27,6 +27,12 @@ const shimmer = keyframes`
 
 const SeparatorVariants = ({ variant, label, ...props }) => {
   const theme = useTheme();
+
+  const [isStarFilled, setIsStarFilled] = useState(false);
+
+  const handleStarClick = () => {
+    setIsStarFilled(!isStarFilled);
+  };
 
   const renderSeparator = () => {
     switch (variant) {
@@ -90,8 +96,8 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
         return (
           <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
             <StyledDivider sx={{ flex: 1 }} {...props} />
-            <Box sx={{ mx: 2 }}>
-              <RxStar size={22} />
+            <Box sx={{ mx: 2, cursor: "pointer" }} onClick={handleStarClick}>
+              {isStarFilled ? <RxStarFilled size={22} /> : <RxStar size={22} />}
             </Box>
             <StyledDivider sx={{ flex: 1 }} {...props} />
           </Box>
