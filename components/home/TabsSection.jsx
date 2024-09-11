@@ -11,8 +11,9 @@ import {
 import { motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import ButtonVariants from "../ui/Buttons";
-import CardVariants from "../ui/Cards";
+import CardShowcase from "../ui/Cards";
 import TextVariants from "../ui/Texts";
+import AvatarVariants from "../ui/Avatars";
 import LoaderVariants from "../ui/Loaders";
 import SeparatorVariants from "../ui/Separators";
 import BackgroundVariants from "../ui/Backgrounds";
@@ -75,6 +76,12 @@ const componentVariants = {
     "wordsPullUp",
     "blurIn",
     "textFade",
+  ],
+  avatars: [
+    "overlappingCircles",
+    "animatedTooltip",
+    "statusIndicator",
+    "groupedAvatars",
   ],
 };
 
@@ -228,7 +235,29 @@ const TabsSection = () => {
             >
               {componentVariants.cards.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
-                  <CardVariants variant={variant} />
+                  <CardShowcase variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Versatile Avatars"
+            description="Enhance user profiles and interactions with these animated, eye-catching avatar designs."
+            url="/docs/avatars"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.avatars.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <AvatarVariants variant={variant} />
                 </Box>
               ))}
             </Box>
