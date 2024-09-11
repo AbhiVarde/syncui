@@ -26,6 +26,7 @@ import TextVariants from "./ui/Texts";
 import LoaderVariants from "./ui/Loaders";
 import SeparatorVariants from "./ui/Separators";
 import BackgroundVariants from "./ui/Backgrounds";
+import AvatarVariants from "./ui/Avatars";
 import { GoEye, GoTerminal } from "react-icons/go";
 
 const createHeading = (variant) => {
@@ -233,6 +234,7 @@ export const MDXComponents = {
   TextVariants: TextVariants,
   SeparatorVariants: SeparatorVariants,
   BackgroundVariants: BackgroundVariants,
+  AvatarVariants: AvatarVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
