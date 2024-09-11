@@ -98,7 +98,7 @@ const PagerButton = ({ direction, page }) => {
 const findAdjacentPages = (docsTree, currentSlug) => {
   const flatTree = flattenTree(docsTree);
   const currentIndex = flatTree.findIndex(
-    (item) => item.url === `/docs/${currentSlug}`
+    (item) => item.url === `/docs${currentSlug ? `/${currentSlug}` : ""}`
   );
 
   let prevPage = null;
@@ -112,26 +112,48 @@ const findAdjacentPages = (docsTree, currentSlug) => {
     nextPage = flatTree[currentIndex + 1];
   }
 
-  // Special case for the Setup page
-  if (currentSlug === "" || currentSlug === "setup") {
-    prevPage = null;
-    nextPage = flatTree.find((item) => item.title === "Buttons");
-  }
-
   return { prevPage, nextPage };
 };
 
 const flattenTree = (tree) => {
-  return tree.reduce((acc, node) => {
-    if (node.title === "Setup") {
-      acc.unshift(node);
-    } else if (!node.children) {
-      acc.push(node);
-    } else {
-      acc.push(...flattenTree(node.children));
+  const flattenedTree = [];
+
+  // Add Setup page
+  const setupPage = tree.find((node) => node.title === "Setup");
+  if (setupPage) {
+    flattenedTree.push({ title: "Setup", url: "/docs" });
+  }
+
+  // Add Changelog page
+  const changelogPage = tree.find((node) => node.title === "Changelog");
+  if (changelogPage) {
+    flattenedTree.push({ title: "Changelog", url: "/docs/changelog" });
+  }
+
+  // Add all other pages
+  tree.forEach((node) => {
+    if (node.title !== "Setup" && node.title !== "Changelog") {
+      if (!node.children) {
+        flattenedTree.push({
+          title: node.title,
+          url: `/docs/${
+            node.slug || node.title.toLowerCase().replace(/\s+/g, "-")
+          }`,
+        });
+      } else {
+        node.children.forEach((child) => {
+          flattenedTree.push({
+            title: child.title,
+            url: `/docs/${
+              child.slug || child.title.toLowerCase().replace(/\s+/g, "-")
+            }`,
+          });
+        });
+      }
     }
-    return acc;
-  }, []);
+  });
+
+  return flattenedTree;
 };
 
 export const DocPager = ({ slug, docsTree }) => {
