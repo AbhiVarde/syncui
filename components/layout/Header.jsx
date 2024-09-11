@@ -18,6 +18,13 @@ import {
   Button,
   Chip,
   Slide,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList,
+  MenuItem,
+  styled,
 } from "@mui/material";
 import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 import {
@@ -28,6 +35,7 @@ import {
   RxChevronRight,
   RxCross2,
   RxExternalLink,
+  RxDotsVertical,
 } from "react-icons/rx";
 import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,6 +48,26 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius * 2,
+  boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+  overflow: "hidden",
+}));
+
+const StyledMenuList = styled(MenuList)(({ theme }) => ({
+  padding: theme.spacing(1),
+}));
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  fontSize: "0.875rem",
+  padding: theme.spacing(1, 2),
+  margin: theme.spacing(0.5, 0),
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const router = useRouter();
   const theme = useTheme();
@@ -50,6 +78,73 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const isDocsPage = router.pathname.startsWith("/docs");
   const [activeId, setActiveId] = useState("");
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setMenuOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setMenuOpen(false);
+  };
+
+  const menuItems = [
+    { label: "Templates", href: "#", external: true },
+    { label: "Changelog", href: "/docs/changelog", external: false },
+  ];
+
+  const menuVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: -10 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.95,
+      y: -10,
+      transition: {
+        duration: 0.15,
+        ease: "easeIn",
+      },
+    },
+  };
+
+  const renderMenuItem = (item, index) => {
+    const commonProps = {
+      key: index,
+      onClick: handleClose,
+    };
+
+    if (item.external) {
+      return (
+        <StyledMenuItem
+          {...commonProps}
+          component="a"
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {item.label}
+        </StyledMenuItem>
+      );
+    } else {
+      return (
+        <StyledMenuItem {...commonProps} component={Link} href={item.href}>
+          {item.label}
+        </StyledMenuItem>
+      );
+    }
+  };
 
   const plans = [
     {
@@ -188,7 +283,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         Sync UI Docs
       </Typography>
       <Box>
-        {Object?.entries(groupDocsTree(docsTree)).map(([category, items]) => (
+        {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
           <Box key={category} sx={{ my: 2 }}>
             <Typography
               variant="body2"
@@ -215,6 +310,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     button
                     component={Link}
                     href={item.url}
+                    onClick={() => {
+                      toggleDrawer();
+                      setTimeout(() => router.push(item.url), 500);
+                    }}
                     sx={{
                       mb: 0.5,
                       px: 1.5,
@@ -414,7 +513,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    color: theme.palette.text.primary,
+                    color: "#34D399",
                     transition: "color 0.1s ease",
                   }}
                   onMouseEnter={() => setIsHovered(true)}
@@ -488,22 +587,40 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     gap: 0.5,
                   }}
                 >
-                  <Button
-                    color="inherit"
-                    endIcon={<RxExternalLink size={16} />}
-                    sx={{
-                      fontSize: "15px !important",
-                      padding: "4px 8px !important",
-                      fontWeight: 400,
-                      textTransform: "none",
-                      marginRight: "10px",
-                      "& .MuiButton-endIcon": {
-                        marginLeft: 0.5,
-                      },
-                    }}
-                  >
-                    Templates
-                  </Button>
+                  {isMediumUp && (
+                    <>
+                      <Button
+                        color="inherit"
+                        endIcon={<RxExternalLink size={16} />}
+                        sx={{
+                          fontSize: "15px !important",
+                          padding: "4px 8px !important",
+                          fontWeight: 400,
+                          textTransform: "none",
+                          marginRight: "10px",
+                          "& .MuiButton-endIcon": {
+                            marginLeft: 0.5,
+                          },
+                        }}
+                      >
+                        Templates
+                      </Button>
+                      <Button
+                        color="inherit"
+                        component={Link}
+                        href="/docs/changelog"
+                        sx={{
+                          fontSize: "15px !important",
+                          padding: "4px 8px !important",
+                          fontWeight: 400,
+                          textTransform: "none",
+                          marginRight: "10px",
+                        }}
+                      >
+                        Changelog
+                      </Button>
+                    </>
+                  )}
                   <IconButton
                     href={GITHUB_URL}
                     color="inherit"
@@ -531,6 +648,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       <RxSun size={19} color="inherit" />
                     )}
                   </IconButton>
+                  {!isMediumUp && (
+                    <IconButton
+                      ref={anchorRef}
+                      aria-controls={menuOpen ? "menu-list-grow" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleToggle}
+                    >
+                      <RxDotsVertical size={19} color="inherit" />
+                    </IconButton>
+                  )}
                 </Box>
               </motion.div>
             )}
@@ -555,6 +682,43 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             {renderDocsTree()}
           </Drawer>
         )}
+
+        <Popper
+          open={menuOpen}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          transition
+          disablePortal
+          placement="bottom-end"
+        >
+          {({ TransitionProps }) => (
+            <Grow {...TransitionProps}>
+              <StyledPaper elevation={3}>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <AnimatePresence>
+                    {menuOpen && (
+                      <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        variants={menuVariants}
+                      >
+                        <StyledMenuList
+                          autoFocusItem={menuOpen}
+                          id="menu-list-grow"
+                        >
+                          {menuItems.map((item, index) =>
+                            renderMenuItem(item, index)
+                          )}
+                        </StyledMenuList>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </ClickAwayListener>
+              </StyledPaper>
+            </Grow>
+          )}
+        </Popper>
       </AppBar>
       {isDocsPage && !isMediumUp && (
         <AppBar
@@ -567,6 +731,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             width: "100%",
             borderBottom: `1px solid ${theme.palette.divider}`,
             backgroundColor: "background.default",
+            zIndex: 0,
           }}
         >
           <Toolbar
