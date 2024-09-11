@@ -592,6 +592,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       <Button
                         color="inherit"
                         endIcon={<RxExternalLink size={16} />}
+                        href="/templates"
                         sx={{
                           fontSize: "15px !important",
                           padding: "4px 8px !important",
