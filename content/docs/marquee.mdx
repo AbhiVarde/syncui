@@ -1,0 +1,187 @@
+---
+title: Marquee Animations
+description: Sync UI offers various marquee animation styles to add dynamic content to your user interface.
+---
+
+Sync UI provides several marquee animation styles to add dynamic, scrolling content to your user interface. These marquees can be used to display a continuous stream of information or create engaging visual effects.
+
+#### Horizontal Marquee
+
+A horizontally scrolling marquee that pauses on hover.
+
+<CodePreview
+  preview={<MarqueeVariants variant="horizontal" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, Avatar, Card, CardContent } from "@mui/material";
+import { motion } from "framer-motion";
+
+const HorizontalMarquee = () => {
+  const [isPaused, setIsPaused] = useState(false);
+
+  const handleHoverStart = () => setIsPaused(true);
+  const handleHoverEnd = () => setIsPaused(false);
+
+  return (
+    <Box sx={{ width: "100%", overflow: "hidden", my: 2 }}>
+      <motion.div
+        animate={{ x: isPaused ? 0 : [0, -50 + "%"] }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 40,
+            ease: "linear",
+          },
+        }}
+        onHoverStart={handleHoverStart}
+        onHoverEnd={handleHoverEnd}
+        style={{ display: "flex" }}
+      >
+        {/* Repeat your content here */}
+        {[...Array(3)].flatMap((_, i) =>
+          dummyTweets.map((tweet, index) => (
+            <TweetCard
+              key={\`\${tweet.id}-\${i}-\${index}\`}
+              tweet={tweet}
+              onHoverStart={handleHoverStart}
+              onHoverEnd={handleHoverEnd}
+            />
+          ))
+        )}
+      </motion.div>
+    </Box>
+  );
+};
+
+export default HorizontalMarquee;
+`}
+/>
+
+#### Vertical Marquee
+
+A vertically scrolling marquee that pauses on hover.
+
+<CodePreview
+  preview={<MarqueeVariants variant="vertical" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, Avatar, Card, CardContent } from "@mui/material";
+import { motion } from "framer-motion";
+
+const VerticalMarquee = () => {
+  const [isPaused, setIsPaused] = useState(false);
+
+  const handleHoverStart = () => setIsPaused(true);
+  const handleHoverEnd = () => setIsPaused(false);
+
+  return (
+    <Box sx={{ height: 400, overflow: "hidden", my: 2 }}>
+      <motion.div
+        animate={{ y: isPaused ? 0 : [0, -50 + "%"] }}
+        transition={{
+          y: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 40,
+            ease: "linear",
+          },
+        }}
+        onHoverStart={handleHoverStart}
+        onHoverEnd={handleHoverEnd}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        {/* Repeat your content here */}
+        {[...Array(3)].flatMap((_, i) =>
+          dummyTweets.map((tweet, index) => (
+            <TweetCard
+              key={\`\${tweet.id}-\${i}-\${index}\`}
+              tweet={tweet}
+              onHoverStart={handleHoverStart}
+              onHoverEnd={handleHoverEnd}
+            />
+          ))
+        )}
+      </motion.div>
+    </Box>
+  );
+};
+
+export default VerticalMarquee;
+`}
+/>
+
+#### 3D Marquee
+
+A 3D rotating marquee that pauses on hover.
+
+<CodePreview
+  preview={<MarqueeVariants variant="3D" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, Avatar, Card, CardContent } from "@mui/material";
+import { motion } from "framer-motion";
+
+const ThreeDMarquee = () => {
+  const [isPaused, setIsPaused] = useState(false);
+
+  const handleHoverStart = () => setIsPaused(true);
+  const handleHoverEnd = () => setIsPaused(false);
+
+  return (
+    <Box
+      sx={{
+        perspective: "1000px",
+        height: 300,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <motion.div
+        animate={{
+          rotateY: isPaused ? 0 : [0, 360],
+        }}
+        transition={{
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 20,
+          ease: "linear",
+        }}
+        onHoverStart={handleHoverStart}
+        onHoverEnd={handleHoverEnd}
+        style={{
+          transformStyle: "preserve-3d",
+          width: 250,
+          height: 250,
+          position: "relative",
+        }}
+      >
+        {dummyTweets.map((tweet, index) => (
+          <Box
+            key={tweet.id}
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              backfaceVisibility: "hidden",
+              transform: \`rotateY(\${index * 90}deg) translateZ(125px)\`,
+            }}
+          >
+            <TweetCard
+              tweet={tweet}
+              onHoverStart={handleHoverStart}
+              onHoverEnd={handleHoverEnd}
+            />
+          </Box>
+        ))}
+      </motion.div>
+    </Box>
+  );
+};
+
+export default ThreeDMarquee;
+`}
+/>
+
+
