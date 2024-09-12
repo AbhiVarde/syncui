@@ -7,8 +7,8 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
-import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
+import { RiGithubFill, RiTwitterXLine, RiInstagramLine } from "react-icons/ri";
+import { GITHUB_URL, TWITTER_URL, INSTAGRAM_URL } from "../../utils/constants";
 
 const Footer = () => {
   const theme = useTheme();
@@ -35,22 +35,25 @@ const Footer = () => {
           alignItems="center"
           height="100%"
         >
-          <Typography variant="caption">
-            Brought to you by{" "}
-            <a
-              href="https://abhivarde.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                textDecorationLine: "underline",
-                textUnderlineOffset: "4px",
-                fontWeight: 500,
-                color: "inherit",
-              }}
-            >
-              abhivarde.in.
-            </a>
-          </Typography>
+          <Box display="flex" alignItems="center">
+            <Typography variant="caption">
+              Brought to you by{" "}
+              <a
+                href="https://abhivarde.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  textDecorationLine: "underline",
+                  textUnderlineOffset: "4px",
+                  fontWeight: 500,
+                  color: "inherit",
+                }}
+              >
+                abhivarde.in
+              </a>
+              .
+            </Typography>
+          </Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
             <IconButton
               href={GITHUB_URL}
@@ -60,6 +63,15 @@ const Footer = () => {
               color="inherit"
             >
               <RiGithubFill size={22} />
+            </IconButton>
+            <IconButton
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="small"
+              color="inherit"
+            >
+              <RiInstagramLine size={20} />
             </IconButton>
             <IconButton
               href={TWITTER_URL}
