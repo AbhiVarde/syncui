@@ -41,6 +41,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
       >
         <Typography
           color="text.primary"
+          a
           sx={{
             display: "flex",
             alignItems: "center",
@@ -87,8 +88,15 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           display: { xs: "none", md: "block" },
         }}
       >
-        <Box sx={{ p: 2 }}>
-          <nav>
+        <Box
+          sx={{
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <nav style={{ flexGrow: 1 }}>
             {Object.entries(groupDocsTree(docsTree)).map(
               ([category, items]) => (
                 <Box key={category}>
@@ -154,6 +162,32 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               )
             )}
           </nav>
+          <Box
+            display="flex"
+            alignItems="center"
+            sx={{
+              mt: 2,
+              pt: 2,
+              borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography variant="caption">
+              Brought to you by{" "}
+              <a
+                href="https://abhivarde.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  textDecorationLine: "underline",
+                  textUnderlineOffset: "4px",
+                  fontWeight: 500,
+                  color: "inherit",
+                }}
+              >
+                abhivarde.in
+              </a>
+            </Typography>
+          </Box>
         </Box>
       </Box>
       <Box
