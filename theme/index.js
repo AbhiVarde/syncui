@@ -141,6 +141,22 @@ const baseTheme = {
         },
       ],
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "black",
+          color: "white",
+          fontSize: "12px",
+          padding: "6px",
+          borderRadius: "4px",
+          fontWeight: 500,
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+        },
+        arrow: {
+          color: "black",
+        },
+      },
+    },
   },
 };
 
@@ -148,6 +164,23 @@ const createResponsiveTheme = (palette) => {
   const theme = createTheme({
     ...baseTheme,
     palette,
+    components: {
+      ...baseTheme.components,
+      MuiTooltip: {
+        ...baseTheme.components.MuiTooltip,
+        styleOverrides: {
+          ...baseTheme.components.MuiTooltip.styleOverrides,
+          tooltip: {
+            ...baseTheme.components.MuiTooltip.styleOverrides.tooltip,
+            backgroundColor: palette.mode === "dark" ? "white" : "black",
+            color: palette.mode === "dark" ? "black" : "white",
+          },
+          arrow: {
+            color: palette.mode === "dark" ? "white" : "black",
+          },
+        },
+      },
+    },
   });
   return responsiveFontSizes(theme);
 };
