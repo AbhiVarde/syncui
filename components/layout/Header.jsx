@@ -26,7 +26,7 @@ import {
   MenuItem,
   styled,
 } from "@mui/material";
-import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
+import { GITHUB_URL, TWITTER_URL, INSTAGRAM_URL } from "../../utils/constants";
 import {
   RxSun,
   RxMoon,
@@ -37,7 +37,7 @@ import {
   RxExternalLink,
   RxDotsVertical,
 } from "react-icons/rx";
-import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
+import { RiGithubFill, RiTwitterXLine, RiInstagramLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -93,7 +93,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   };
 
   const menuItems = [
-    { label: "Templates", href: "#", external: true },
+    { label: "Templates", href: "/templates", external: false },
     { label: "Changelog", href: "/docs/changelog", external: false },
   ];
 
@@ -267,7 +267,17 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   };
 
   const renderDocsTree = () => (
-    <Box sx={{ width: 320, py: 4, px: 2, position: "relative" }}>
+    <Box
+      sx={{
+        width: 320,
+        py: 4,
+        px: 2,
+        position: "relative",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <IconButton
         onClick={toggleDrawer}
         sx={{
@@ -282,7 +292,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       <Typography variant="body1" sx={{ mb: 3, fontWeight: 500 }}>
         Sync UI Docs
       </Typography>
-      <Box>
+      <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
         {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
           <Box key={category} sx={{ my: 2 }}>
             <Typography
@@ -343,6 +353,33 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             </List>
           </Box>
         ))}
+      </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        sx={{
+          mt: 2,
+          pt: 2,
+          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        <Typography variant="caption">
+          Brought to you by{" "}
+          <a
+            href="https://abhivarde.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              textDecorationLine: "underline",
+              textUnderlineOffset: "4px",
+              fontWeight: 500,
+              color: "inherit",
+            }}
+          >
+            abhivarde.in
+          </a>
+          .
+        </Typography>
       </Box>
     </Box>
   );
@@ -633,6 +670,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     <RiGithubFill size={22} />
                   </IconButton>
                   <IconButton
+                    href={INSTAGRAM_URL}
+                    color="inherit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="small"
+                    aria-label="GitHub"
+                  >
+                    <RiInstagramLine size={20} />
+                  </IconButton>
+                  <IconButton
                     color="inherit"
                     href={TWITTER_URL}
                     target="_blank"
@@ -685,7 +732,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         )}
 
         <Popper
-          open={menuOpen}
+          open={menuOpen && !isMediumUp}
           anchorEl={anchorRef.current}
           role={undefined}
           transition
