@@ -17,6 +17,7 @@ import AvatarVariants from "../ui/Avatars";
 import LoaderVariants from "../ui/Loaders";
 import SeparatorVariants from "../ui/Separators";
 import BackgroundVariants from "../ui/Backgrounds";
+import MarqueeVariants from "../ui/Marquee";
 import { useRouter } from "next/navigation";
 
 const componentVariants = {
@@ -236,6 +237,35 @@ const TabsSection = () => {
               {componentVariants.cards.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <CardShowcase variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Dynamic Marquees"
+            description="Showcase content with these engaging, animated marquees that add movement and interest to your layouts."
+            url="/docs/marquees"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {["horizontal", "vertical", "3D"].map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MarqueeVariants variant={variant} />
                 </Box>
               ))}
             </Box>
