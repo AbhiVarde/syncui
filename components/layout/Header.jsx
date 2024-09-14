@@ -626,7 +626,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 >
                   {isMediumUp && (
                     <>
-                      <Button
+                      {/* <Button
                         color="inherit"
                         endIcon={<RxExternalLink size={16} />}
                         href="/templates"
@@ -642,10 +642,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         }}
                       >
                         Templates
-                      </Button>
+                      </Button> */}
                       <Button
                         color="inherit"
                         component={Link}
+                        endIcon={<RxExternalLink size={16} />}
                         href="/docs/changelog"
                         sx={{
                           fontSize: "15px !important",
