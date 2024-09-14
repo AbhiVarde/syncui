@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Tooltip, Typography, Avatar, Badge, Paper } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, Tooltip, Typography, Avatar, Badge, Zoom } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 
 const AvatarVariants = ({ variant, totalUsers = 103 }) => {
@@ -59,29 +59,44 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
 
       case "animatedTooltip":
         return (
-          <Box sx={{ display: "flex", gap: 2 }}>
-            {avatarUrls.map((url, index) => (
-              <Tooltip
-                key={index}
-                title={`User ${index + 1}`}
-                arrow
-                placement="top"
-              >
+          <Box sx={{ display: "flex", gap: 2, perspective: "1000px" }}>
+            <AnimatePresence>
+              {avatarUrls.map((url, index) => (
                 <motion.div
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  whileTap={{ scale: 0.9 }}
+                  key={index}
+                  initial={{ opacity: 0, rotateY: -90 }}
+                  animate={{ opacity: 1, rotateY: 0 }}
+                  exit={{ opacity: 0, rotateY: 90 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Avatar
-                    src={url}
-                    sx={{
-                      width: 50,
-                      height: 50,
-                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    }}
-                  />
+                  <Tooltip
+                    title={`User ${index + 1}`}
+                    arrow
+                    placement="top"
+                    TransitionComponent={Zoom}
+                    TransitionProps={{ timeout: 500 }}
+                  >
+                    <motion.div
+                      whileHover={{
+                        scale: 1.2,
+                        rotate: [0, -10, 10, -10, 0],
+                        transition: { duration: 0.5 },
+                      }}
+                      whileTap={{ scale: 0.8 }}
+                    >
+                      <Avatar
+                        src={url}
+                        sx={{
+                          width: 50,
+                          height: 50,
+                          boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                        }}
+                      />
+                    </motion.div>
+                  </Tooltip>
                 </motion.div>
-              </Tooltip>
-            ))}
+              ))}
+            </AnimatePresence>
           </Box>
         );
 
