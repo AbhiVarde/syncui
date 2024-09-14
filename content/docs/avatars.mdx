@@ -67,33 +67,49 @@ Avatars with animated tooltips that appear on hover, providing additional inform
   preview={<AvatarVariants variant="animatedTooltip" />}
   code={`
 import React from "react";
-import { Box, Tooltip, Avatar } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, Tooltip, Avatar, Zoom } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AnimatedTooltip = ({ avatarUrls }) => (
-  <Box sx={{ display: "flex", gap: 2 }}>
+  <Box sx={{ display: "flex", gap: 2, perspective: "1000px" }}>
+   <AnimatePresence>
     {avatarUrls.map((url, index) => (
-      <Tooltip
+      <motion.div
         key={index}
-        title={\`User \${index + 1}\`}
-        arrow
-        placement="top"
+        initial={{ opacity: 0, rotateY: -90 }}
+        animate={{ opacity: 1, rotateY: 0 }}
+        exit={{ opacity: 0, rotateY: 90 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
       >
-        <motion.div
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9 }}
+        <Tooltip
+          key={index}
+          title={\`User \${index + 1}\`}
+          arrow
+          placement="top"
+          TransitionComponent={Zoom}
+          TransitionProps={{ timeout: 500 }}
         >
-          <Avatar
-            src={url}
-            sx={{
-              width: 50,
-              height: 50,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+          <motion.div
+            whileHover={{
+              scale: 1.2,
+              rotate: [0, -10, 10, -10, 0],
+              transition: { duration: 0.5 },
             }}
-          />
-        </motion.div>
-      </Tooltip>
+            whileTap={{ scale: 0.9 }}
+          >
+            <Avatar
+              src={url}
+              sx={{
+                width: 50,
+                height: 50,
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              }}
+            />
+          </motion.div>
+        </Tooltip>
+      </motion.div>
     ))}
+   </AnimatePresence>
   </Box>
 );
 
