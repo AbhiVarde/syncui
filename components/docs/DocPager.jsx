@@ -23,21 +23,13 @@ const PagerButton = ({ direction, page }) => {
           p: isMobile ? 1 : 2,
           height: "100%",
           width: "100%",
-          bgcolor: isMobile ? "transparent !important" : "background.paper",
-          color: isMobile
-            ? "text.primary"
-            : page
-            ? "text.primary"
-            : "text.disabled",
-          border: isMobile ? "none !important" : 1,
+          bgcolor: "background.paper",
+          color: page ? "text.primary" : "text.disabled",
+          border: 1,
           borderColor: "divider",
-          borderRadius: isMobile ? 0 : 1,
+          borderRadius: 1,
           "&:hover": {
-            bgcolor: isMobile
-              ? "transparent !important"
-              : page
-              ? "action.hover"
-              : "background.paper",
+            bgcolor: page ? "action.hover" : "background.paper",
           },
         }}
       >
@@ -51,11 +43,12 @@ const PagerButton = ({ direction, page }) => {
           {isMobile ? (
             <Typography
               variant="body1"
+              display="block"
+              color="text.secondary"
               sx={{
                 display: "flex",
                 alignItems: "center",
                 gap: 0.5,
-                color: "inherit",
               }}
             >
               {direction === "prev" && <RxChevronLeft />}
