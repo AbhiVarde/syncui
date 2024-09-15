@@ -21,6 +21,7 @@ import {
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { RxCheck, RxCopy } from "react-icons/rx";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import CardVariants from "./ui/Cards";
 import ButtonVariants from "./ui/Buttons";
 import TextVariants from "./ui/Texts";
 import LoaderVariants from "./ui/Loaders";
@@ -231,6 +232,7 @@ const CodePreview = ({ preview, code }) => {
 
 export const MDXComponents = {
   ButtonVariants: ButtonVariants,
+  CardVariants: CardVariants,
   LoaderVariants: LoaderVariants,
   TextVariants: TextVariants,
   SeparatorVariants: SeparatorVariants,
