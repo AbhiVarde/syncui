@@ -41,7 +41,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
       >
         <Typography
           color="text.primary"
-          a
+          component="span"
           sx={{
             display: "flex",
             alignItems: "center",
@@ -77,7 +77,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
       <Box
         component="nav"
         sx={{
-          width: 240,
+          width: 260,
           flexShrink: 0,
           height: "calc(100vh - 60px)",
           position: "fixed",
@@ -205,7 +205,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
       </Box>
       <Box
         sx={{
-          width: 240,
+          width: 260,
           flexShrink: 0,
           height: "calc(100vh - 60px)",
           position: "fixed",
