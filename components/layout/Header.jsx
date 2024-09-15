@@ -93,7 +93,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   };
 
   const menuItems = [
-    { label: "Templates", href: "/templates", external: false },
+    // { label: "Templates", href: "/templates", external: false },
     { label: "Changelog", href: "/docs/changelog", external: false },
   ];
 
@@ -285,14 +285,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           right: 10,
           top: 10,
           color: "text.secondary",
+          bgcolor: "background.paper",
+          borderRadius: "8px",
         }}
       >
         <RxCross2 size={22} color="inherit" />
       </IconButton>
-      <Typography variant="body1" sx={{ mb: 3, fontWeight: 500 }}>
+      <Typography variant="body1" sx={{ my: 1, fontWeight: 500 }}>
         Sync UI Docs
       </Typography>
-      <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+      <Box sx={{ flexGrow: 1, overflowY: "auto", px: 0.2 }}>
         {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
           <Box key={category} sx={{ my: 2 }}>
             <Typography
@@ -302,7 +304,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 fontWeight: 500,
                 letterSpacing: 0.5,
                 color: "text.secondary",
-                textTransform: "uppercase",
               }}
             >
               {category}
@@ -529,7 +530,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           }}
         >
           <AnimatePresence mode="wait">
-            {isScrolled ? (
+            {/* {isScrolled ? (
               <motion.div
                 key="scrolled"
                 initial={{ opacity: 0, y: 20 }}
@@ -579,54 +580,54 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   </motion.div>
                 </Typography>
               </motion.div>
-            ) : (
-              <motion.div
-                key="not-scrolled"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  width: "100%",
+            ) : ( */}
+            <motion.div
+              key="not-scrolled"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {isDocsPage && !isMediumUp && (
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    onClick={toggleDrawer}
+                  >
+                    <GoSidebarCollapse />
+                  </IconButton>
+                )}
+                <Typography
+                  variant="body1"
+                  fontWeight={600}
+                  component="div"
+                  sx={{
+                    opacity: 1,
+                    transition: "opacity 0.3s ease",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => router.push("/")}
+                >
+                  Sync UI
+                </Typography>
+              </Box>
+              <Box
+                sx={{
                   display: "flex",
-                  justifyContent: "space-between",
                   alignItems: "center",
+                  gap: 0.5,
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  {isDocsPage && !isMediumUp && (
-                    <IconButton
-                      edge="start"
-                      color="inherit"
-                      onClick={toggleDrawer}
-                    >
-                      <GoSidebarCollapse />
-                    </IconButton>
-                  )}
-                  <Typography
-                    variant="body1"
-                    fontWeight={600}
-                    component="div"
-                    sx={{
-                      opacity: 1,
-                      transition: "opacity 0.3s ease",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => router.push("/")}
-                  >
-                    Sync UI
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                  }}
-                >
-                  {isMediumUp && (
-                    <>
-                      {/* <Button
+                {isMediumUp && (
+                  <>
+                    {/* <Button
                         color="inherit"
                         endIcon={<RxExternalLink size={16} />}
                         href="/templates"
@@ -643,73 +644,73 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       >
                         Templates
                       </Button> */}
-                      <Button
-                        color="inherit"
-                        component={Link}
-                        endIcon={<RxExternalLink size={16} />}
-                        href="/docs/changelog"
-                        sx={{
-                          fontSize: "15px !important",
-                          padding: "4px 8px !important",
-                          fontWeight: 400,
-                          textTransform: "none",
-                          marginRight: "10px",
-                        }}
-                      >
-                        Changelog
-                      </Button>
-                    </>
-                  )}
-                  <IconButton
-                    href={GITHUB_URL}
-                    color="inherit"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="small"
-                    aria-label="GitHub"
-                  >
-                    <RiGithubFill size={22} />
-                  </IconButton>
-                  <IconButton
-                    href={INSTAGRAM_URL}
-                    color="inherit"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="small"
-                    aria-label="GitHub"
-                  >
-                    <RiInstagramLine size={20} />
-                  </IconButton>
-                  <IconButton
-                    color="inherit"
-                    href={TWITTER_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="small"
-                    aria-label="Twitter"
-                  >
-                    <RiTwitterXLine size={17} />
-                  </IconButton>
-                  <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-                    {isDarkMode ? (
-                      <RxMoon size={19} color="inherit" />
-                    ) : (
-                      <RxSun size={19} color="inherit" />
-                    )}
-                  </IconButton>
-                  {!isMediumUp && (
-                    <IconButton
-                      ref={anchorRef}
-                      aria-controls={menuOpen ? "menu-list-grow" : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
+                    <Button
+                      color="inherit"
+                      component={Link}
+                      endIcon={<RxExternalLink size={16} />}
+                      href="/docs/changelog"
+                      sx={{
+                        fontSize: "15px !important",
+                        padding: "4px 8px !important",
+                        fontWeight: 400,
+                        textTransform: "none",
+                        marginRight: "10px",
+                      }}
                     >
-                      <RxDotsVertical size={19} color="inherit" />
-                    </IconButton>
+                      Changelog
+                    </Button>
+                  </>
+                )}
+                <IconButton
+                  href={GITHUB_URL}
+                  color="inherit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="small"
+                  aria-label="GitHub"
+                >
+                  <RiGithubFill size={22} />
+                </IconButton>
+                <IconButton
+                  href={INSTAGRAM_URL}
+                  color="inherit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="small"
+                  aria-label="GitHub"
+                >
+                  <RiInstagramLine size={20} />
+                </IconButton>
+                <IconButton
+                  color="inherit"
+                  href={TWITTER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="small"
+                  aria-label="Twitter"
+                >
+                  <RiTwitterXLine size={17} />
+                </IconButton>
+                <IconButton onClick={toggleTheme} aria-label="Toggle theme">
+                  {isDarkMode ? (
+                    <RxMoon size={19} color="inherit" />
+                  ) : (
+                    <RxSun size={19} color="inherit" />
                   )}
-                </Box>
-              </motion.div>
-            )}
+                </IconButton>
+                {!isMediumUp && (
+                  <IconButton
+                    ref={anchorRef}
+                    aria-controls={menuOpen ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                  >
+                    <RxDotsVertical size={19} color="inherit" />
+                  </IconButton>
+                )}
+              </Box>
+            </motion.div>
+            {/* )} */}
           </AnimatePresence>
         </Toolbar>
         {isDocsPage && (
