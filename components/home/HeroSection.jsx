@@ -18,6 +18,7 @@ import {
   SiJavascript,
   SiMui,
 } from "react-icons/si";
+import { GITHUB_URL } from "../../utils/constants";
 
 const AnimatedButton = ({ children, icon, variant }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -158,12 +159,14 @@ const HeroSection = () => {
                 Docs
               </AnimatedButton>
             </Link>
-            <AnimatedButton
-              variant="outlined"
-              icon={<RiGithubFill size={20} />}
-            >
-              Star on GitHub
-            </AnimatedButton>
+            <Link href={GITHUB_URL} passHref>
+              <AnimatedButton
+                variant="outlined"
+                icon={<RiGithubFill size={20} />}
+              >
+                Star on GitHub
+              </AnimatedButton>
+            </Link>
           </Box>
         </motion.div>
       </Box>
