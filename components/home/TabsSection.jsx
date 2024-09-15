@@ -11,7 +11,7 @@ import {
 import { motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import ButtonVariants from "../ui/Buttons";
-import CardShowcase from "../ui/Cards";
+import CardVariants from "../ui/Cards";
 import TextVariants from "../ui/Texts";
 import AvatarVariants from "../ui/Avatars";
 import LoaderVariants from "../ui/Loaders";
@@ -236,14 +236,35 @@ const TabsSection = () => {
             >
               {componentVariants.cards.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
-                  <CardShowcase variant={variant} />
+                  <CardVariants variant={variant} />
                 </Box>
               ))}
             </Box>
           </SectionContent>
 
           <SectionContent
-            title="Dynamic Marquees"
+            title="Captivating Loaders"
+            description="Engage your users with these unique, smoothly animated loaders that add a touch of sophistication to your loading states."
+            url="/docs/loaders"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.loaders.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <LoaderVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Reactive Marquees"
             description="Showcase content with these engaging, animated marquees that add movement and interest to your layouts."
             url="/docs/marquees"
           >
@@ -288,27 +309,6 @@ const TabsSection = () => {
               {componentVariants.avatars.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <AvatarVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          <SectionContent
-            title="Captivating Loaders"
-            description="Engage your users with these unique, smoothly animated loaders that add a touch of sophistication to your loading states."
-            url="/docs/loaders"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.loaders.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
-                  <LoaderVariants variant={variant} />
                 </Box>
               ))}
             </Box>
