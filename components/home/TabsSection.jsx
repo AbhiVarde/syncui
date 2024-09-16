@@ -18,6 +18,7 @@ import LoaderVariants from "../ui/Loaders";
 import SeparatorVariants from "../ui/Separators";
 import BackgroundVariants from "../ui/Backgrounds";
 import MarqueeVariants from "../ui/Marquee";
+import TabVariants from "../ui/Tabs";
 import { useRouter } from "next/navigation";
 
 const componentVariants = {
@@ -83,6 +84,12 @@ const componentVariants = {
     "animatedTooltip",
     "statusIndicator",
     "groupedAvatars",
+  ],
+  tabs: [
+    "slidingUnderline",
+    "floatingBackground",
+    "elevatedCards",
+    "growingBackground",
   ],
 };
 
@@ -201,27 +208,6 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Interactive Buttons"
-            description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
-            url="/docs/buttons"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.buttons.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
-                  <ButtonVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          <SectionContent
             title="Engaging Cards"
             description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
             url="/docs/cards"
@@ -243,6 +229,27 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
+            title="Interactive Buttons"
+            description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
+            url="/docs/buttons"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.buttons.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <ButtonVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
             title="Captivating Loaders"
             description="Engage your users with these unique, smoothly animated loaders that add a touch of sophistication to your loading states."
             url="/docs/loaders"
@@ -258,6 +265,35 @@ const TabsSection = () => {
               {componentVariants.loaders.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <LoaderVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Transformative Tabs"
+            description="Explore our collection of engaging, animated tab designs that enhance user navigation and content organization."
+            url="/docs/tabs"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.tabs.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TabVariants variant={variant} />
                 </Box>
               ))}
             </Box>
