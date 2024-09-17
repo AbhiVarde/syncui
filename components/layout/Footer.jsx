@@ -7,8 +7,8 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { RiGithubFill, RiTwitterXLine, RiInstagramLine } from "react-icons/ri";
-import { GITHUB_URL, TWITTER_URL, INSTAGRAM_URL } from "../../utils/constants";
+import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
+import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 
 const Footer = () => {
   const theme = useTheme();
@@ -63,15 +63,6 @@ const Footer = () => {
               color="inherit"
             >
               <RiGithubFill size={22} />
-            </IconButton>
-            <IconButton
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-              color="inherit"
-            >
-              <RiInstagramLine size={20} />
             </IconButton>
             <IconButton
               href={TWITTER_URL}
