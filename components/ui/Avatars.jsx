@@ -49,6 +49,7 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
                       border: "2px solid white",
                       marginLeft: index > 0 ? -2 : 0,
                       boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                      cursor: "pointer",
                     }}
                   />
                 </motion.div>
@@ -90,6 +91,7 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
                           width: 50,
                           height: 50,
                           boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                          cursor: "pointer",
                         }}
                       />
                     </motion.div>
@@ -107,7 +109,7 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
             {avatarUrls.map((url, index) => (
               <Tooltip
                 key={index}
-                title={`User ${index + 1} - ${statusColors[index]} status`}
+                title={`User ${index + 1} - ${statusColors[index]}`}
                 arrow
                 placement="top"
               >
@@ -140,6 +142,7 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
                         width: 50,
                         height: 50,
                         boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                        cursor: "pointer",
                       }}
                     />
                   </Badge>
@@ -184,6 +187,7 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
                       border: "2px solid white",
                       marginLeft: index > 0 ? -1.5 : 0,
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      cursor: "pointer",
                     }}
                   />
                 </motion.div>
@@ -219,6 +223,7 @@ const AvatarVariants = ({ variant, totalUsers = 103 }) => {
                       fontWeight: 600,
                       color: "white",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      cursor: "pointer",
                     }}
                   >
                     +{displayCount}
