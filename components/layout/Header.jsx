@@ -26,7 +26,7 @@ import {
   MenuItem,
   styled,
 } from "@mui/material";
-import { GITHUB_URL, TWITTER_URL, INSTAGRAM_URL } from "../../utils/constants";
+import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 import {
   RxSun,
   RxMoon,
@@ -37,7 +37,7 @@ import {
   RxExternalLink,
   RxDotsVertical,
 } from "react-icons/rx";
-import { RiGithubFill, RiTwitterXLine, RiInstagramLine } from "react-icons/ri";
+import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -670,16 +670,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   aria-label="GitHub"
                 >
                   <RiGithubFill size={22} />
-                </IconButton>
-                <IconButton
-                  href={INSTAGRAM_URL}
-                  color="inherit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  size="small"
-                  aria-label="GitHub"
-                >
-                  <RiInstagramLine size={20} />
                 </IconButton>
                 <IconButton
                   color="inherit"
