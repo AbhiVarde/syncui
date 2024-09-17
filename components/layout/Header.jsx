@@ -49,7 +49,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: theme.shape.borderRadius * 1.2,
   boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
   overflow: "hidden",
 }));
@@ -61,8 +61,8 @@ const StyledMenuList = styled(MenuList)(({ theme }) => ({
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   fontSize: "0.875rem",
-  padding: theme.spacing(1, 2),
-  margin: theme.spacing(0.5, 0),
+  padding: theme.spacing(1.5),
+  margin: theme.spacing(0),
   "&:hover": {
     backgroundColor: theme.palette.action.hover,
   },
@@ -730,6 +730,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           transition
           disablePortal
           placement="bottom-end"
+          style={{ zIndex: 999 }}
         >
           {({ TransitionProps }) => (
             <Grow {...TransitionProps}>
@@ -771,7 +772,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             width: "100%",
             borderBottom: `1px solid ${theme.palette.divider}`,
             backgroundColor: "background.default",
-            zIndex: 0,
+            zIndex: 99,
           }}
         >
           <Toolbar
