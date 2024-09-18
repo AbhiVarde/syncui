@@ -19,15 +19,15 @@ function MyApp({ Component, pageProps }) {
       <DefaultSeo
         title="Sync UI"
         description="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion."
-        canonical="https://syncui-prototype.vercel.app"
+        canonical="https://www.syncui.design/"
         openGraph={{
-          url: "https://syncui-prototype.vercel.app",
+          url: "https://www.syncui.design/",
           title: `Sync UI`,
           description:
             "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
           images: [
             {
-              url: `https://syncui-prototype.vercel.app/default-og-image.png`,
+              url: `https://www.syncui.design/default-og-image.png`,
               width: 800,
               height: 420,
               alt: "Sync UI",
@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
         }}
         twitter={{
           cardType: "summary_large_image",
-          site: `https://syncui-prototype.vercel.app`,
+          site: `https://www.syncui.design/`,
         }}
       />
       <ThemeProvider theme={theme}>
