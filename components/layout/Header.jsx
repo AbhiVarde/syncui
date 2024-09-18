@@ -72,6 +72,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const router = useRouter();
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -604,19 +605,37 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     <GoSidebarCollapse />
                   </IconButton>
                 )}
-                <Typography
-                  variant="body1"
-                  fontWeight={600}
-                  component="div"
+                <Box
+                  onClick={() => router.push("/")}
                   sx={{
-                    opacity: 1,
-                    transition: "opacity 0.3s ease",
+                    display: "flex",
+                    alignItems: "center",
                     cursor: "pointer",
                   }}
-                  onClick={() => router.push("/")}
                 >
-                  Sync UI
-                </Typography>
+                  {isMediumUp && (
+                    <img
+                      src="/logo.png"
+                      alt="Logo"
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        marginRight: "8px",
+                      }}
+                    />
+                  )}
+                  <Typography
+                    variant="body1"
+                    fontWeight={600}
+                    component="div"
+                    sx={{
+                      opacity: 1,
+                      transition: "opacity 0.3s ease",
+                    }}
+                  >
+                    Sync UI
+                  </Typography>
+                </Box>
               </Box>
               <Box
                 sx={{
