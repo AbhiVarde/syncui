@@ -186,6 +186,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               >
                 abhivarde.in
               </a>
+              .
             </Typography>
           </Box>
         </Box>
