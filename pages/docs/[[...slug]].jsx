@@ -27,7 +27,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   return (
     <>
       <Head>
-        <title>{frontmatter.title}</title>
+        <title>{frontmatter.title} // Sync UI</title>
       </Head>
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
