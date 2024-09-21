@@ -1,0 +1,280 @@
+---
+title: Avatars
+description: Sync UI offers a variety of avatar styles to enhance your user interface.
+---
+
+Sync UI offers a variety of avatar styles to enhance your user interface and provide visual representations of users or entities.
+
+#### Overlapping Circles
+
+A set of overlapping avatar circles, ideal for displaying group members or collaborators.
+
+<CodePreview
+  preview={<AvatarVariants variant="overlappingCircles" />}
+  code={`
+import React from "react";
+import { Box, Tooltip, Avatar } from "@mui/material";
+import { motion } from "framer-motion";
+
+const OverlappingCircles = ({ avatarUrls }) => (
+  <Box sx={{ display: "flex", alignItems: "center" }}>
+    {avatarUrls.map((url, index) => (
+      <Tooltip
+        key={index}
+        title={\`User \${index + 1}\`}
+        arrow
+        placement="top"
+      >
+        <motion.div
+          initial={{ x: -20 * index, opacity: 0, scale: 0.8 }}
+          animate={{ x: 0, opacity: 1, scale: 1 }}
+          transition={{ delay: index * 0.1, duration: 0.3 }}
+          whileHover={{
+            y: -5,
+            zIndex: 10,
+            transition: { duration: 0.2 },
+          }}
+          style={{
+            zIndex: 1,
+            position: "relative",
+          }}
+        >
+          <Avatar
+            src={url}
+            sx={{
+              width: 50,
+              height: 50,
+              border: "2px solid white",
+              marginLeft: index > 0 ? -2 : 0,
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            }}
+          />
+        </motion.div>
+      </Tooltip>
+    ))}
+  </Box>
+);
+
+export default OverlappingCircles;
+`}
+/>
+
+#### Animated Tooltip
+
+Avatars with animated tooltips that appear on hover, providing additional information about the user.
+
+<CodePreview
+  preview={<AvatarVariants variant="animatedTooltip" />}
+  code={`
+import React from "react";
+import { Box, Tooltip, Avatar, Zoom } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+const AnimatedTooltip = ({ avatarUrls }) => (
+  <Box sx={{ display: "flex", gap: 2, perspective: "1000px" }}>
+   <AnimatePresence>
+    {avatarUrls.map((url, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, rotateY: -90 }}
+        animate={{ opacity: 1, rotateY: 0 }}
+        exit={{ opacity: 0, rotateY: 90 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+      >
+        <Tooltip
+          key={index}
+          title={\`User \${index + 1}\`}
+          arrow
+          placement="top"
+          TransitionComponent={Zoom}
+          TransitionProps={{ timeout: 500 }}
+        >
+          <motion.div
+            whileHover={{
+              scale: 1.2,
+              rotate: [0, -10, 10, -10, 0],
+              transition: { duration: 0.5 },
+            }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Avatar
+              src={url}
+              sx={{
+                width: 50,
+                height: 50,
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              }}
+            />
+          </motion.div>
+        </Tooltip>
+      </motion.div>
+    ))}
+   </AnimatePresence>
+  </Box>
+);
+
+export default AnimatedTooltip;
+`}
+/>
+
+#### Status Indicator
+
+Avatars with status indicators, useful for showing user availability or activity status.
+
+<CodePreview
+  preview={<AvatarVariants variant="statusIndicator" />}
+  code={`
+import React from "react";
+import { Box, Tooltip, Avatar, Badge } from "@mui/material";
+import { motion } from "framer-motion";
+
+const StatusIndicator = ({ avatarUrls }) => {
+  const statusColors = ["success", "warning", "error", "info", "default"];
+  
+  return (
+    <Box sx={{ display: "flex", gap: 2 }}>
+      {avatarUrls.map((url, index) => (
+        <Tooltip
+          key={index}
+          title={\`User \${index + 1} - \${statusColors[index]} status\`}
+          arrow
+          placement="top"
+        >
+          <motion.div
+            whileHover={{ scale: 1.1, rotate: 10 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <Box
+                  component="span"
+                  sx={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    backgroundColor: (theme) =>
+                      statusColors[index] === "default"
+                        ? theme.palette.grey[500]
+                        : theme.palette[statusColors[index]].main,
+                    border: "2px solid white",
+                  }}
+                />
+              }
+            >
+              <Avatar
+                src={url}
+                sx={{
+                  width: 50,
+                  height: 50,
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                }}
+              />
+            </Badge>
+          </motion.div>
+        </Tooltip>
+      ))}
+    </Box>
+  );
+};
+
+export default StatusIndicator;
+`}
+/>
+
+#### Grouped Avatars
+
+A group of avatars with a count indicator for additional users, perfect for displaying team members or participants in a project.
+
+<CodePreview
+  preview={<AvatarVariants variant="groupedAvatars" totalUsers={103} />}
+  code={`
+import React from "react";
+import { Box, Tooltip, Avatar } from "@mui/material";
+import { motion } from "framer-motion";
+
+const GroupedAvatars = ({ avatarUrls, totalUsers }) => {
+  const visibleAvatars = 4;
+  const remainingUsers = totalUsers - visibleAvatars;
+  const displayCount = remainingUsers > 99 ? "99+" : remainingUsers;
+
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      {avatarUrls.slice(0, visibleAvatars).map((url, index) => (
+        <Tooltip
+          key={index}
+          title={\`User \${index + 1}\`}
+          arrow
+          placement="top"
+        >
+          <motion.div
+            initial={{ x: -20 * index, opacity: 0, scale: 0.8 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1, duration: 0.3 }}
+            whileHover={{
+              zIndex: 10,
+              transition: { duration: 0.2 },
+            }}
+            style={{
+              zIndex: visibleAvatars - index,
+              position: "relative",
+            }}
+          >
+            <Avatar
+              src={url}
+              sx={{
+                width: 50,
+                height: 50,
+                border: "2px solid white",
+                marginLeft: index > 0 ? -1.5 : 0,
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              }}
+            />
+          </motion.div>
+        </Tooltip>
+      ))}
+
+      {remainingUsers > 0 && (
+        <Tooltip
+          title={\`\${remainingUsers} more \${
+            remainingUsers === 1 ? "user" : "users"
+          }\`}
+          arrow
+          placement="top"
+        >
+          <motion.div
+            initial={{ x: -80, opacity: 0, scale: 0.8 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.3 }}
+            style={{ zIndex: 1, position: "relative" }}
+            whileHover={{
+              zIndex: 10,
+              transition: { duration: 0.2 },
+            }}
+          >
+            <Avatar
+              sx={{
+                width: 50,
+                height: 50,
+                bgcolor: (theme) => theme.palette.primary.main,
+                border: "2px solid white",
+                marginLeft: -1.5,
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                color: "white",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              }}
+            >
+              +{displayCount}
+            </Avatar>
+          </motion.div>
+        </Tooltip>
+      )}
+    </Box>
+  );
+};
+
+export default GroupedAvatars;
+`}
+/>

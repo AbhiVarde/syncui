@@ -1,0 +1,347 @@
+---
+title: Tabs
+description: Sync UI offers a variety of responsive tab animation styles to enhance your user interface across all device sizes.
+---
+
+Sync UI offers a variety of tab animation styles to enhance your user interface and provide visual feedback during tab transitions. These animations are now fully responsive and work seamlessly across all device sizes.
+
+#### Sliding Underline
+
+A smooth underline that slides to the active tab, adapting to screen size.
+
+<CodePreview
+  preview={<TabVariants variant="slidingUnderline" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "framer-motion";
+
+const SlidingUnderlineTabs = () => {
+  const theme = useTheme();
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = ["Home", "Profile", "Settings", "Contact"];
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        borderBottom: \`1px solid \${
+          theme.palette.mode === "dark"
+            ? "rgba(255,255,255,0.2)"
+            : "rgba(0,0,0,0.2)"
+        }\`,
+        justifyContent: "center",
+      }}
+    >
+      {tabs.map((tab, index) => (
+        <Box
+          key={tab}
+          sx={{
+            padding: isMobile ? "8px 12px" : "10px 20px",
+            cursor: "pointer",
+            position: "relative",
+            color: theme.palette.mode === "dark" ? "#fff" : "#000",
+            transition: "color 0.3s ease",
+            fontSize: isMobile ? "0.875rem" : "1rem",
+          }}
+          onClick={() => setActiveTab(index)}
+        >
+          <Typography sx={{ fontWeight: activeTab === index ? 500 : 400 }}>
+            {tab}
+          </Typography>
+          {activeTab === index && (
+            <motion.div
+              layoutId="underline"
+              style={{
+                position: "absolute",
+                bottom: -1,
+                left: 0,
+                right: 0,
+                height: 2,
+                background: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
+export default SlidingUnderlineTabs;
+`}
+/>
+
+#### Floating Background
+
+A dynamic background that floats behind the active tab, now responsive to screen size.
+
+<CodePreview
+  preview={<TabVariants variant="floatingBackground" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+const FloatingBackgroundTabs = () => {
+  const theme = useTheme();
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = ["Home", "Profile", "Settings", "Contact"];
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: isMobile ? 1 : 2,
+        padding: isMobile ? 1 : 2,
+        background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
+        borderRadius: "12px",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          opacity: 0.5,
+        }}
+        animate={{
+          x: [-20, 20, -20],
+          y: [-20, 20, -20],
+        }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            duration: 20,
+            ease: "easeInOut",
+          },
+          y: {
+            repeat: Infinity,
+            duration: 30,
+            ease: "easeInOut",
+          },
+        }}
+      />
+      {tabs.map((tab, index) => (
+        <motion.div
+          key={tab}
+          style={{
+            padding: isMobile ? "10px 16px" : "12px 24px",
+            cursor: "pointer",
+            borderRadius: "8px",
+            position: "relative",
+            zIndex: 1,
+          }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          onClick={() => setActiveTab(index)}
+        >
+          <Typography
+            sx={{
+              fontWeight: activeTab === index ? 500 : 400,
+              color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              fontSize: isMobile ? "0.875rem" : "1rem",
+            }}
+          >
+            {tab}
+          </Typography>
+          <AnimatePresence>
+            {activeTab === index && (
+              <motion.div
+                layoutId="activeTabBackground"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: theme.palette.mode === "dark" ? "#222" : "#fff",
+                  borderRadius: "8px",
+                  zIndex: -1,
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+      ))}
+    </Box>
+  );
+};
+
+export default FloatingBackgroundTabs;
+`}
+/>
+
+#### Elevated Cards
+
+Tabs that elevate when active, giving a 3D effect, now responsive to different screen sizes.
+
+<CodePreview
+  preview={<TabVariants variant="elevatedCards" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "framer-motion";
+
+const ElevatedCardsTabs = () => {
+  const theme = useTheme();
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = ["Home", "Profile", "Settings", "Contact"];
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: isMobile ? 1 : 2,
+        padding: isMobile ? 1 : 2,
+        background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
+        borderRadius: "12px",
+        justifyContent: "center",
+      }}
+    >
+      {tabs.map((tab, index) => (
+        <motion.div
+          key={tab}
+          style={{
+            padding: isMobile ? "10px 16px" : "12px 24px",
+            cursor: "pointer",
+            backgroundColor: theme.palette.mode === "dark" ? "#222" : "#fff",
+            borderRadius: "8px",
+            boxShadow:
+              activeTab === index
+                ? theme.palette.mode === "dark"
+                  ? "0 10px 20px rgba(255,255,255,0.1)"
+                  : "0 10px 20px rgba(0,0,0,0.1)"
+                : "none",
+          }}
+          whileHover={{ y: -5 }}
+          animate={{
+            y: activeTab === index ? -10 : 0,
+            transition: { type: "spring", stiffness: 300, damping: 20 },
+          }}
+          onClick={() => setActiveTab(index)}
+        >
+          <Typography
+            sx={{
+              fontWeight: activeTab === index ? 500 : 400,
+              color:
+                activeTab === index
+                  ? theme.palette.mode === "dark"
+                    ? "#fff"
+                    : "#000"
+                  : theme.palette.mode === "dark"
+                  ? "#aaa"
+                  : "#666",
+              fontSize: isMobile ? "0.875rem" : "1rem",
+            }}
+          >
+            {tab}
+          </Typography>
+        </motion.div>
+      ))}
+    </Box>
+  );
+};
+
+export default ElevatedCardsTabs;
+`}
+/>
+
+#### Growing Background
+
+A background that grows to highlight the active tab, now fully responsive.
+
+<CodePreview
+  preview={<TabVariants variant="growingBackground" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+const GrowingBackgroundTabs = () => {
+  const theme = useTheme();
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = ["Home", "Profile", "Settings", "Contact"];
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: isMobile ? 1 : 2,
+        padding: isMobile ? 1 : 2,
+        background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
+        justifyContent: "center",
+        borderRadius: "12px",
+      }}
+    >
+      {tabs.map((tab, index) => (
+        <Box
+          key={tab}
+          sx={{
+            padding: isMobile ? "8px 12px" : "10px 20px",
+            cursor: "pointer",
+            position: "relative",
+            color: theme.palette.mode === "dark" ? "#fff" : "#000",
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+          onClick={() => setActiveTab(index)}
+        >
+          <Typography
+            sx={{
+              position: "relative",
+              zIndex: 1,
+              fontWeight: activeTab === index ? 500 : 400,
+              fontSize: isMobile ? "0.875rem" : "1rem",
+            }}
+          >
+            {tab}
+          </Typography>
+          <AnimatePresence>
+            {activeTab === index && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: theme.palette.mode === "dark" ? "#222" : "#fff",
+                  borderRadius: "8px",
+                  zIndex: 0,
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
+export default GrowingBackgroundTabs;
+`}
+/>

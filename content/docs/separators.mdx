@@ -1,0 +1,310 @@
+---
+title: Separators
+description: Sync UI offers a variety of separator styles to enhance your user interface.
+---
+
+Sync UI offers a variety of separator styles to enhance your user interface.
+
+#### Dashed Separator
+
+A dashed line separator with improved visibility.
+
+<CodePreview
+  preview={<SeparatorVariants variant="dashed" label="Dashed Separator" />}
+  code={`
+import React from 'react';
+import { Divider, Typography, Box } from '@mui/material';
+import { styled } from '@mui/system';
+
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  width: '100%',
+  borderStyle: 'dashed',
+  borderWidth: '1.5px',
+}));
+
+const DashedSeparator = ({ label }) => (
+
+  <Box sx={{ width: "100%" }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: "center" }}
+      >
+        {label}
+      </Typography>
+    )}
+    <StyledDivider />
+  </Box>
+);
+
+export default DashedSeparator;
+  `}
+/>
+
+#### Icon Separator
+
+A separator with an icon in the center.
+
+<CodePreview
+  preview={<SeparatorVariants variant="icon" label="Icon Separator" />}
+  code={`
+import React from 'react';
+import { Divider, Typography, Box } from '@mui/material';
+import { styled } from '@mui/system';
+import { RxPlus } from 'react-icons/rx';
+
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  width: '100%',
+}));
+
+const IconWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(1, 2),
+  border: \`1px solid \${theme.palette.divider}\`,
+  borderRadius: '9999px',
+}));
+
+const IconSeparator = ({ label }) => (
+
+  <Box sx={{ width: "100%" }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: "center" }}
+      >
+        {label}
+      </Typography>
+    )}
+    <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+      <StyledDivider sx={{ flex: 1 }} />
+      <IconWrapper>
+        <RxPlus />
+      </IconWrapper>
+      <StyledDivider sx={{ flex: 1 }} />
+    </Box>
+  </Box>
+);
+
+export default IconSeparator;
+  `}
+/>
+
+#### Zigzag Separator
+
+A zigzag pattern separator.
+
+<CodePreview
+  preview={<SeparatorVariants variant="zigzag" label="Zigzag Separator" />}
+  code={`
+import React from 'react';
+import { Typography, Box, useTheme } from '@mui/material';
+
+const ZigzagSeparator = ({ label }) => {
+const theme = useTheme();
+
+return (
+
+  <Box sx={{ width: '100%' }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: 'center' }}
+      >
+        {label}
+      </Typography>
+    )}
+    <Box
+      sx={{
+        width: '100%',
+        height: '10px',
+        backgroundImage: \`linear-gradient(135deg, \${theme.palette.divider} 25%, transparent 25%, transparent 50%, \${theme.palette.divider} 50%, \${theme.palette.divider} 75%, transparent 75%, transparent 100%)\`,
+        backgroundSize: '20px 20px',
+      }}
+    />
+  </Box>
+  );
+};
+
+export default ZigzagSeparator;
+  `}
+/>
+
+#### Gradient Separator
+
+A separator with a smooth gradient transition.
+
+<CodePreview
+  preview={<SeparatorVariants variant="gradient" label="Gradient Separator" />}
+  code={`
+import React from 'react';
+import { Typography, Box, useTheme } from '@mui/material';
+
+const GradientSeparator = ({ label }) => {
+const theme = useTheme();
+
+return (
+
+  <Box sx={{ width: '100%' }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: 'center' }} 
+      >
+        {label}
+      </Typography>
+    )}
+    <Box
+      sx={{
+        width: '100%',
+        height: '2px',
+        background: \`linear-gradient(to right, \${theme.palette.primary.main}, \${theme.palette.secondary.main})\`,
+      }}
+    />
+  </Box>
+  );
+};
+
+export default GradientSeparator;
+  `}
+/>
+
+#### Shimmer Separator
+
+A separator with a shimmering animation effect.
+
+<CodePreview
+  preview={<SeparatorVariants variant="shimmer" label="Shimmer Separator" />}
+  code={`
+import React from 'react';
+import { Typography, Box, useTheme } from '@mui/material';
+import { keyframes } from '@mui/system';
+
+const shimmer = keyframes\`
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+\`;
+
+const ShimmerSeparator = ({ label }) => {
+const theme = useTheme();
+
+return (
+
+  <Box sx={{ width: '100%' }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: 'center' }} 
+      >
+        {label}
+      </Typography>
+    )}
+    <Box
+      sx={{
+        width: '100%',
+        height: '2px',
+        background: \`linear-gradient(to right, \${theme.palette.background.paper}, \${theme.palette.primary.main}, \${theme.palette.background.paper})\`,          backgroundSize: '1000px 100%',
+        animation: \`\${shimmer} 5s infinite linear\`,
+      }}
+    />
+  </Box>
+  );
+};
+
+export default ShimmerSeparator;
+  `}
+/>
+
+#### Dotted Separator
+
+A separator with a dotted pattern.
+
+<CodePreview
+  preview={<SeparatorVariants variant="dotted" label="Dotted Separator" />}
+  code={`
+import React from 'react';
+import { Typography, Box, useTheme } from '@mui/material';
+
+const DottedSeparator = ({ label }) => {
+const theme = useTheme();
+
+return (
+
+  <Box sx={{ width: '100%' }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: 'center' }} 
+      >
+        {label}
+      </Typography>
+    )}
+    <Box
+      sx={{
+        width: '100%',
+        height: '5px',
+        backgroundImage: \`radial-gradient(circle, \${theme.palette.divider} 1.5px, transparent 1.5px)\`,
+        backgroundSize: '10px 10px',
+      }}
+    />
+  </Box>
+  );
+};
+
+export default DottedSeparator;
+`}
+/>
+
+#### Starry Separator
+
+A separator with star icons.
+
+<CodePreview
+  preview={<SeparatorVariants variant="starry" label="Starry Separator" />}
+  code={`
+import React, { useState } from "react";
+import { Divider, Typography, Box, useTheme } from '@mui/material';
+import { RxStarFilled, RxStar } from 'react-icons/rx';
+
+const StarrySeparator = ({ label }) => {
+
+  const theme = useTheme();
+  const [isStarFilled, setIsStarFilled] = useState(false);
+
+  const handleStarClick = () => {
+    setIsStarFilled(!isStarFilled);
+  };
+
+return (
+
+  <Box sx={{ width: "100%" }}>
+    {label && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        sx={{ mb: 1, textAlign: "center" }}
+      >
+        {label}
+      </Typography>
+    )}
+    <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+      <Divider sx={{ flex: 1 }} />
+      <Box sx={{ mx: 2, cursor: "pointer" }} onClick={handleStarClick}>
+        {isStarFilled ? <RxStarFilled size={22} /> : <RxStar size={22} />}
+       </Box>
+      <Divider sx={{ flex: 1 }} />
+    </Box>
+  </Box>
+  ); 
+};
+
+export default StarrySeparator;
+  `}
+/>
