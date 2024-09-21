@@ -15,6 +15,7 @@ const Loader = () => {
   return (
     <Box
       sx={{
+        px: 0.5,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -26,15 +27,15 @@ const Loader = () => {
     >
       {timeoutActive ? (
         <>
-          <Typography variant="h6" fontWeight={500}>
+          <Typography variant="h6" textAlign="center" fontWeight={500}>
             Loading...⏳
           </Typography>
-          <Typography variant="body1" sx={{ mt: 1 }}>
+          <Typography variant="body1" textAlign="center" sx={{ mt: 1 }}>
             Hang tight, we’re almost there! 😅
           </Typography>
         </>
       ) : (
-        <Typography variant="body1" fontWeight={400}>
+        <Typography variant="body1" textAlign="center" fontWeight={400}>
           😅 Oops! Taking longer than expected. Please try again later.
         </Typography>
       )}
