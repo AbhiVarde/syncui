@@ -282,7 +282,7 @@ const OrbitPagination = ({ totalPages = 10 }) => {
             width: itemSize * 1.2,
             height: itemSize * 1.2,
             borderRadius: "50%",
-            backgroundColor: "background.paper",
+            backgroundColor: theme.palette.background.default,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -297,7 +297,11 @@ const OrbitPagination = ({ totalPages = 10 }) => {
             repeatType: "reverse",
           }}
         >
-          <Typography variant="h6" sx={{ color: "text.primary" }}>
+          <Typography
+            variant="h6"
+            fontWeight={500}
+            sx={{ color, fontSize: fontSize * 1.2 }}
+          >
             {currentPage}
           </Typography>
         </motion.div>
