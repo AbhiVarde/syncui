@@ -54,7 +54,7 @@ const HeroSection = () => {
   const theme = useTheme();
 
   return (
-    <Container maxWidth="md" sx={{ py: 20 }}>
+    <Container maxWidth="md" sx={{ py: { md: 20, xs: 10 } }}>
       <Box
         sx={{
           display: "flex",
