@@ -71,7 +71,7 @@ const TabVariants = ({ variant }) => {
               display: "flex",
               gap: 2,
               padding: 2,
-              background: theme.palette.mode === "dark" ? "#111" : "#f0f0f0",
+              background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               justifyContent: "center",
               borderRadius: "12px",
             }}
@@ -128,7 +128,7 @@ const TabVariants = ({ variant }) => {
               display: "flex",
               gap: 2,
               padding: 2,
-              background: theme.palette.mode === "dark" ? "#111" : "#f0f0f0",
+              background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               borderRadius: "12px",
               justifyContent: "center",
             }}
@@ -183,7 +183,7 @@ const TabVariants = ({ variant }) => {
               display: "flex",
               gap: 2,
               padding: 2,
-              background: theme.palette.mode === "dark" ? "#111" : "#f0f0f0",
+              background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               borderRadius: "12px",
               justifyContent: "center",
               position: "relative",
@@ -197,9 +197,6 @@ const TabVariants = ({ variant }) => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: `radial-gradient(circle, ${
-                  theme.palette.mode === "dark" ? "#333" : "#fff"
-                } 0%, transparent 70%)`,
                 opacity: 0.5,
               }}
               animate={{
@@ -257,7 +254,7 @@ const TabVariants = ({ variant }) => {
                         right: 0,
                         bottom: 0,
                         background:
-                          theme.palette.mode === "dark" ? "#333" : "#fff",
+                          theme.palette.mode === "dark" ? "#222" : "#fff",
                         borderRadius: "8px",
                         zIndex: -1,
                       }}
