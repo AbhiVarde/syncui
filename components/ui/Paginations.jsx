@@ -273,7 +273,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                               ? "#000000"
                               : "#FFFFFF"
                             : color,
-                        fontWeight: i + 1 === currentPage ? 600 : 400,
+                        fontWeight: i + 1 === currentPage ? 500 : 400,
                         fontSize: fontSize,
                       }}
                     >
@@ -288,7 +288,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                   width: itemSize * 1.2,
                   height: itemSize * 1.2,
                   borderRadius: "50%",
-                  backgroundColor: theme.palette.background.paper,
+                  backgroundColor: theme.palette.background.default,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -305,6 +305,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
               >
                 <Typography
                   variant="h6"
+                  fontWeight={500}
                   sx={{ color, fontSize: fontSize * 1.2 }}
                 >
                   {currentPage}
