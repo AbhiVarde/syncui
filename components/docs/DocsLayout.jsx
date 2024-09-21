@@ -195,14 +195,15 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          ml: { md: "240px" },
-          mr: { lg: "240px" },
+          py: 3,
+          px: { lg: 3, xs: 2 },
+          ml: { md: "260px" },
+          mr: { lg: "260px" },
           mt: { xs: 3, md: 0 },
         }}
       >
         {renderBreadcrumbs()}
-        <Box sx={{ px: { lg: "20px !important" } }}>{children}</Box>
+        <Box>{children}</Box>
       </Box>
       <Box
         sx={{
