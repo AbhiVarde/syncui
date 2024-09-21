@@ -1,0 +1,341 @@
+---
+title: Pagination Animations
+description: Sync UI offers a variety of pagination styles to enhance your user interface.
+---
+
+Sync UI offers a variety of pagination animation styles to enhance your user interface and provide intuitive navigation through paginated content.
+
+#### Fading Pagination
+
+A fading animation that smoothly transitions between page numbers.
+
+<CodePreview
+  preview={<PaginationVariants variant="fading" />}
+  code={`
+import React, { useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+
+const FadingPagination = ({ totalPages = 10 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <IconButton onClick={handlePrevPage} disabled={currentPage === 1}>
+        <RxChevronLeft />
+      </IconButton>
+      <Box sx={{ position: "relative", width: 40, height: 40 }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "currentColor",
+              fontWeight: 500,
+              fontSize: "20px",
+            }}
+          >
+            {currentPage}
+          </motion.div>
+        </AnimatePresence>
+      </Box>
+      <IconButton onClick={handleNextPage} disabled={currentPage === totalPages}>
+        <RxChevronRight />
+      </IconButton>
+    </Box>
+  );
+};
+
+export default FadingPagination;
+`}
+/>
+
+#### Sliding Pagination
+
+A sliding animation that shows the current page number and adjacent pages.
+
+<CodePreview
+  preview={<PaginationVariants variant="sliding" />}
+  code={`
+import React, { useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { motion } from "framer-motion";
+import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+
+const SlidingPagination = ({ totalPages = 10 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <IconButton onClick={handlePrevPage} disabled={currentPage === 1}>
+        <RxChevronLeft />
+      </IconButton>
+      <Box sx={{ position: "relative", width: 120, height: 30, overflow: "hidden" }}>
+        <motion.div
+          animate={{ x: -((currentPage - 1) * 30) }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          style={{ display: "flex", position: "absolute" }}
+        >
+          {[...Array(totalPages)].map((_, i) => (
+            <motion.div
+              key={i}
+              style={{
+                width: 30,
+                height: 30,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              animate={{
+                color: i + 1 === currentPage ? "currentColor" : "text.secondary",
+                fontWeight: i + 1 === currentPage ? 500 : 400,
+                scale: i + 1 === currentPage ? 1.2 : 1,
+              }}
+            >
+              {i + 1}
+            </motion.div>
+          ))}
+        </motion.div>
+      </Box>
+      <IconButton onClick={handleNextPage} disabled={currentPage === totalPages}>
+        <RxChevronRight />
+      </IconButton>
+    </Box>
+  );
+};
+
+export default SlidingPagination;
+`}
+/>
+
+#### Expanding Pagination
+
+An expanding animation that highlights the current page number.
+
+<CodePreview
+  preview={<PaginationVariants variant="expanding" />}
+  code={`
+import React, { useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+
+const ExpandingPagination = ({ totalPages = 10 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <IconButton onClick={handlePrevPage} disabled={currentPage === 1}>
+        <RxChevronLeft />
+      </IconButton>
+      <Box sx={{ display: "flex", gap: 0.5, height: 30, alignItems: "center" }}>
+        {[...Array(totalPages)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ width: 8, opacity: 0.5 }}
+            animate={{
+              width: i + 1 === currentPage ? 30 : 8,
+              opacity: i + 1 === currentPage ? 1 : 0.5,
+              backgroundColor: i + 1 === currentPage ? "currentColor" : "action.disabled",
+            }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            style={{
+              height: 30,
+              borderRadius: 15,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              overflow: "hidden",
+            }}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            <AnimatePresence mode="wait">
+              {i + 1 === currentPage && (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    color: "background.paper",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                  }}
+                >
+                  {i + 1}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </Box>
+      <IconButton onClick={handleNextPage} disabled={currentPage === totalPages}>
+        <RxChevronRight />
+      </IconButton>
+    </Box>
+  );
+};
+
+export default ExpandingPagination;
+`}
+/>
+
+#### Orbit Pagination
+
+An orbital animation that displays page numbers in a circular layout.
+
+<CodePreview
+  preview={<PaginationVariants variant="orbit" />}
+  code={`
+import React, { useState } from "react";
+import { Box, IconButton, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+
+const OrbitPagination = ({ totalPages = 10 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
+  const size = 200;
+  const radius = size / 2 - 20;
+  const itemSize = 28;
+
+  return (
+    <>
+      <Box
+        sx={{
+          position: "relative",
+          width: size,
+          height: size,
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "50%",
+        }}
+      >
+        {[...Array(totalPages)].map((_, i) => {
+          const angle = (i / totalPages) * Math.PI * 2 - Math.PI / 2;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          return (
+            <motion.div
+              key={i}
+              style={{
+                position: "absolute",
+                width: itemSize,
+                height: itemSize,
+                borderRadius: "50%",
+                x,
+                y,
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              animate={{
+                scale: i + 1 === currentPage ? 1.2 : 1,
+                backgroundColor: i + 1 === currentPage ? "currentColor" : "action.hover",
+              }}
+              whileHover={{ scale: 1.3 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: i + 1 === currentPage ? "background.paper" : "text.primary",
+                  fontWeight: i + 1 === currentPage ? 600 : 400,
+                }}
+              >
+                {i + 1}
+              </Typography>
+            </motion.div>
+          );
+        })}
+        <motion.div
+          style={{
+            position: "absolute",
+            width: itemSize * 1.2,
+            height: itemSize * 1.2,
+            borderRadius: "50%",
+            backgroundColor: "background.paper",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+          }}
+          animate={{
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        >
+          <Typography variant="h6" sx={{ color: "text.primary" }}>
+            {currentPage}
+          </Typography>
+        </motion.div>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2 }}>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <IconButton
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            size="small"
+            sx={{
+              backgroundColor: "background.paper",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              "&:hover": { backgroundColor: "action.hover" },
+            }}
+          >
+            <RxChevronLeft />
+          </IconButton>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <IconButton
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            size="small"
+            sx={{
+              backgroundColor: "background.paper",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              "&:hover": { backgroundColor: "action.hover" },
+            }}
+          >
+            <RxChevronRight />
+          </IconButton>
+        </motion.div>
+      </Box>
+    </>
+  );
+};
+
+export default OrbitPagination;
+`}
+/>
