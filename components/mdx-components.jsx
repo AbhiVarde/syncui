@@ -28,8 +28,9 @@ import LoaderVariants from "./ui/Loaders";
 import SeparatorVariants from "./ui/Separators";
 import BackgroundVariants from "./ui/Backgrounds";
 import AvatarVariants from "./ui/Avatars";
-import MarqueeVariants from "./ui/Marquee";
+import MarqueeVariants from "./ui/Marquees";
 import TabVariants from "./ui/Tabs";
+import PaginationVariants from "./ui/Paginations";
 import { GoEye, GoTerminal } from "react-icons/go";
 
 const createHeading = (variant) => {
@@ -241,6 +242,7 @@ export const MDXComponents = {
   AvatarVariants: AvatarVariants,
   MarqueeVariants: MarqueeVariants,
   TabVariants: TabVariants,
+  PaginationVariants: PaginationVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
