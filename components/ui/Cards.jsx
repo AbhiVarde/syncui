@@ -144,7 +144,7 @@ const CardVariants = ({ variant }) => {
             layout
             initial={{ borderRadius: 20 }}
             animate={{
-              width: isExpanded ? 320 : 250,
+              width: isExpanded ? 300 : 250,
               height: isExpanded ? 200 : 150,
             }}
             transition={{
