@@ -38,7 +38,7 @@ const MeteorShowerCard = () => {
   }, []);
 
   return (
-    <Card sx={{ width: 320, height: 200, overflow: "hidden", position: "relative" }}>
+    <Card sx={{ width: 300, height: 200, overflow: "hidden", position: "relative" }}>
       <CardContent sx={{ position: "relative", zIndex: 2 }}>
         <Typography variant="h5" gutterBottom display="flex" alignItems="center">
           <FaMeteor style={{ marginRight: 8, color: "#FF6B6B" }} />
@@ -100,7 +100,7 @@ const AnimatedBorderCard = () => {
       whileHover={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{
-        width: 320,
+        width: 300,
         height: 200,
         position: "relative",
         overflow: "hidden",
@@ -177,7 +177,7 @@ const MultilayerStack = () => {
   }, [stack.length]);
 
   return (
-    <Box sx={{ width: 320, height: 200, position: "relative" }}>
+    <Box sx={{ width: 300, height: 200, position: "relative" }}>
       <AnimatePresence>
         {stack.map((item, index) => {
           const isCurrent = index === currentIndex;
@@ -248,7 +248,7 @@ const InfoCard = () => {
       layout
       initial={{ borderRadius: 20 }}
       animate={{
-        width: isExpanded ? 320 : 250,
+        width: isExpanded ? 300 : 250,
         height: isExpanded ? 200 : 150,
       }}
       transition={{
@@ -339,7 +339,7 @@ const NeubrutalismCard = () => {
     >
       <Card
         sx={{
-          width: 320,
+          width: 300,
           height: 200,
           color: theme.palette.text.primary,
           boxShadow: "4px 4px 0 currentColor",
@@ -388,7 +388,7 @@ const ThreeDCard = () => (
     whileHover={{ rotateY: 15, rotateX: -15, scale: 1.05 }}
     transition={{ type: "spring", stiffness: 300, damping: 20 }}
     style={{
-      width: 320,
+      width: 300,
       height: 200,
       transformStyle: "preserve-3d",
       cursor: "pointer",
@@ -413,5 +413,4 @@ const ThreeDCard = () => (
 export default ThreeDCard;
 `}
 />
-
 
