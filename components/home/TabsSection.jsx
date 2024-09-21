@@ -17,8 +17,9 @@ import AvatarVariants from "../ui/Avatars";
 import LoaderVariants from "../ui/Loaders";
 import SeparatorVariants from "../ui/Separators";
 import BackgroundVariants from "../ui/Backgrounds";
-import MarqueeVariants from "../ui/Marquee";
+import MarqueeVariants from "../ui/Marquees";
 import TabVariants from "../ui/Tabs";
+import PaginationVariants from "../ui/Paginations";
 import { useRouter } from "next/navigation";
 
 const componentVariants = {
@@ -91,6 +92,7 @@ const componentVariants = {
     "elevatedCards",
     "growingBackground",
   ],
+  paginations: ["fading", "sliding", "expanding", "orbit"],
 };
 
 const SectionContent = ({ title, description, children, url }) => {
@@ -186,14 +188,13 @@ const TabsSection = () => {
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-                gap: 4,
+                gap: 2,
               }}
             >
               {componentVariants.backgrounds.map((variant, index) => (
                 <Box
                   key={index}
                   sx={{
-                    m: 1,
                     width: "100%",
                     height: "200px",
                     overflow: "hidden",
@@ -271,35 +272,6 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Transformative Tabs"
-            description="Explore our collection of engaging, animated tab designs that enhance user navigation and content organization."
-            url="/docs/tabs"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 4,
-              }}
-            >
-              {componentVariants.tabs.map((variant) => (
-                <Box
-                  key={variant}
-                  sx={{
-                    m: 1,
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <TabVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          <SectionContent
             title="Reactive Marquees"
             description="Showcase content with these engaging, animated marquees that add movement and interest to your layouts."
             url="/docs/marquees"
@@ -329,16 +301,78 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
+            title="Transformative Tabs"
+            description="Explore our collection of engaging, animated tab designs that enhance user navigation and content organization."
+            url="/docs/tabs"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.tabs.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    m: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TabVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
+            title="Interactive Paginations"
+            description="Enhance your multi-page layouts with these smooth, animated pagination designs that improve user navigation."
+            url="/docs/paginations"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.paginations.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <PaginationVariants
+                    variant={variant}
+                    currentPage={3}
+                    totalPages={10}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          <SectionContent
             title="Versatile Avatars"
             description="Enhance user profiles and interactions with these animated, eye-catching avatar designs."
             url="/docs/avatars"
           >
             <Box
               sx={{
+                m: 1,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 4,
+                gap: 2,
                 justifyContent: "center",
               }}
             >
@@ -367,7 +401,6 @@ const TabsSection = () => {
                 <Box
                   key={index}
                   sx={{
-                    m: 1,
                     width: "100%",
                     display: "flex",
                     flexDirection: "column",
@@ -391,14 +424,13 @@ const TabsSection = () => {
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-                gap: 2,
+                gap: 4,
               }}
             >
               {componentVariants.texts.map((variant) => (
                 <Box
                   key={variant}
                   sx={{
-                    m: 1,
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
