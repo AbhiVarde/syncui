@@ -7,6 +7,7 @@ import "../styles/globals.css";
 import { DefaultSeo } from "next-seo";
 import Router from "next/router";
 import Loader from "@/components/loader";
+import { Analytics } from "@vercel/analytics/react";
 
 function MyApp({ Component, pageProps }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -76,6 +77,7 @@ function MyApp({ Component, pageProps }) {
       />
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <Analytics />
         {loading ? (
           <Loader />
         ) : (
