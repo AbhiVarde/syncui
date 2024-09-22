@@ -1,4 +1,10 @@
-import React, { useState, useEffect, Fragment, forwardRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Fragment,
+  forwardRef,
+} from "react";
 import {
   AppBar,
   Toolbar,
@@ -21,6 +27,7 @@ import {
   Popper,
   Grow,
   Paper,
+  Stack,
   ClickAwayListener,
   MenuList,
   MenuItem,
@@ -30,7 +37,8 @@ import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 import {
   RxSun,
   RxMoon,
-  RxArrowRight,
+  RxChatBubble,
+  // RxArrowRight,
   RxTextAlignLeft,
   RxChevronRight,
   RxCross2,
@@ -70,17 +78,19 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
 
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const router = useRouter();
+  const { asPath } = router;
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
+  const isMediumDown = useMediaQuery(theme.breakpoints.down("md"));
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
   const isDocsPage = router.pathname.startsWith("/docs");
   const [activeId, setActiveId] = useState("");
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const anchorRef = React.useRef(null);
+  const anchorRef = useRef(null);
 
   const handleToggle = () => {
     setMenuOpen((prevOpen) => !prevOpen);
@@ -94,8 +104,18 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   };
 
   const menuItems = [
-    // { label: "Templates", href: "/templates", external: false },
-    { label: "Changelog", href: "/docs/changelog", external: false },
+    {
+      label: "Guestbook",
+      href: "/guestbook",
+      external: false,
+      icon: <RxChatBubble size={16} />,
+    },
+    {
+      label: "Changelog",
+      href: "/docs/changelog",
+      external: false,
+      icon: <RxExternalLink size={16} />,
+    },
   ];
 
   const menuVariants = {
@@ -126,6 +146,21 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       onClick: handleClose,
     };
 
+    const content = (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          width: "100%",
+          "& > svg": { flexShrink: 0 },
+        }}
+      >
+        {item.icon}
+        <span style={{ whiteSpace: "nowrap" }}>{item.label}</span>
+      </Box>
+    );
+
     if (item.external) {
       return (
         <StyledMenuItem
@@ -135,13 +170,13 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {item.label}
+          {content}
         </StyledMenuItem>
       );
     } else {
       return (
         <StyledMenuItem {...commonProps} component={Link} href={item.href}>
-          {item.label}
+          {content}
         </StyledMenuItem>
       );
     }
@@ -530,7 +565,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             padding: isMediumUp ? "12px 24px" : "16px 12px",
           }}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync">
             {/* {isScrolled ? (
               <motion.div
                 key="scrolled"
@@ -613,17 +648,19 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     cursor: "pointer",
                   }}
                 >
-                  {isMediumUp && (
-                    <img
-                      src="/logo.png"
-                      alt="Logo"
-                      style={{
-                        width: "24px",
-                        height: "24px",
-                        marginRight: "8px",
-                      }}
-                    />
-                  )}
+                  <img
+                    src="/logo.png"
+                    alt="Logo"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      marginRight: "8px",
+                      display:
+                        asPath.startsWith("/docs") && !isMediumUp
+                          ? "none"
+                          : "flex",
+                    }}
+                  />
                   <Typography
                     variant="body1"
                     fontWeight={600}
@@ -645,24 +682,20 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 }}
               >
                 {isMediumUp && (
-                  <>
-                    {/* <Button
-                        color="inherit"
-                        endIcon={<RxExternalLink size={16} />}
-                        href="/templates"
-                        sx={{
-                          fontSize: "15px !important",
-                          padding: "4px 8px !important",
-                          fontWeight: 400,
-                          textTransform: "none",
-                          marginRight: "10px",
-                          "& .MuiButton-endIcon": {
-                            marginLeft: 0.5,
-                          },
-                        }}
-                      >
-                        Templates
-                      </Button> */}
+                  <Stack direction="row" spacing={1} marginRight="10px">
+                    <Button
+                      color="inherit"
+                      endIcon={<RxChatBubble size={16} />}
+                      href="/guestbook"
+                      sx={{
+                        fontSize: "15px !important",
+                        padding: "4px 8px !important",
+                        fontWeight: 400,
+                        textTransform: "none",
+                      }}
+                    >
+                      Guestbook
+                    </Button>
                     <Button
                       color="inherit"
                       component={Link}
@@ -673,12 +706,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         padding: "4px 8px !important",
                         fontWeight: 400,
                         textTransform: "none",
-                        marginRight: "10px",
                       }}
                     >
                       Changelog
                     </Button>
-                  </>
+                  </Stack>
                 )}
                 <IconButton
                   href={GITHUB_URL}
