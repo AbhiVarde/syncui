@@ -1,8 +1,15 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
 
+<div align="center">
+  <h3>✨ Introducing Sync UI 🪄</h3>
+  <p>A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.</p>
+  <a href="https://x.com/syncuidesign"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/syncuidesign"></a>
+  <a href="https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <br /> <br />
+  <img width="1412" alt="default-og-image" src="https://github.com/user-attachments/assets/b1433ae0-cc11-4341-a8c3-51a1e458a8fc" />
+  <br /> <br />
+</div>
 # syncui.design
-
-A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.
 
 - **Library**: [React](https://react.dev/)
 - **Framework**: [Next.js](https://nextjs.org/)
