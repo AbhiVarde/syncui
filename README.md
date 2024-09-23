@@ -1,4 +1,3 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
 
 <div align="center">
   <h3>✨ Introducing Sync UI 🪄</h3>
@@ -9,6 +8,9 @@
   <img width="1412" alt="default-og-image" src="https://github.com/user-attachments/assets/b1433ae0-cc11-4341-a8c3-51a1e458a8fc" />
   <br /> <br />
 </div>
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
+
 # syncui.design
 
 - **Library**: [React](https://react.dev/)
