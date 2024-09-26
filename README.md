@@ -15,10 +15,10 @@
 
 - **Library**: [React](https://react.dev/)
 - **Framework**: [Next.js](https://nextjs.org/)
-- **Deployment**: [Vercel](https://vercel.com)
 - **Styling**: [Material UI](https://mui.com/)
 - **Animation**: [Framer Motion](https://www.framer.com/motion/)
 - **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
+- **Deployment**: [Vercel](https://vercel.com)
 
 ## Features
 
