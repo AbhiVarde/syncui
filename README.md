@@ -1,6 +1,6 @@
 
 <div align="center">
-  <h3>✨ Introducing Sync UI 🪄</h3>
+  <h3>🚀 Introducing Sync UI ✨</h3>
   <p>A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.</p>
   <a href="https://x.com/syncuidesign"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/syncuidesign"></a>
   <a href="https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
