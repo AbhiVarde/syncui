@@ -213,24 +213,25 @@ import { motion } from "framer-motion";
 
 const OrbitalSpin = () => (
 
-  <motion.div
-    style={{
-      width: 40,
-      height: 40,
-      border: \`3px solid currentColor\`,
-      borderTopColor: "transparent",
-      borderRadius: "50%",
-    }}
-    animate={{
-      rotate: 360,
-    }}
-    transition={{
-      duration: 1,
-      ease: "linear",
-      repeat: Infinity,
-      repeatType: "loop",
-    }}
-  />
+    <Box
+      component={motion.div}
+      sx={{
+        width: 40,
+        height: 40,
+        border: `3px solid ${loaderColor}`,
+        borderTopColor: "transparent",
+        borderRadius: "50%",
+      }}
+      animate={{
+        rotate: 360,
+      }}
+      transition={{
+        duration: 1,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop",
+      }}
+    />
 );
 
 export default OrbitalSpin;
