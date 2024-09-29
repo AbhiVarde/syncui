@@ -1,11 +1,12 @@
-"use client";
+"use client"
 
 import React from "react";
 import Giscus from "@giscus/react";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import { useTheme } from "../context/ThemeContext";
 
 const GiscusComponent = () => {
-  const theme = useTheme();
+  const { isDarkMode } = useTheme();
 
   return (
     <Box mt>
@@ -19,7 +20,7 @@ const GiscusComponent = () => {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="top"
-        theme={theme.palette.mode}
+        theme={isDarkMode ? "dark" : "light"}
         lang="en"
         crossorigin="anonymous"
         async
