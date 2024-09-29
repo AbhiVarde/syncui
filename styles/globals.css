@@ -3,6 +3,10 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
+  --light-selection-bg: rgba(39, 39, 42, 0.99);
+  --light-selection-color: rgb(244, 244, 245);
+  --dark-selection-bg: rgba(244, 244, 245, 0.99);
+  --dark-selection-color: rgb(39, 39, 42);
 }
 
 * {
@@ -41,8 +45,14 @@ a {
   background: hsl(0, 0%, 60%);
 }
 
-/* Selection styles */
+/* Selection styles for light mode */
 ::selection {
-  background-color: hsl(220, 100%, 50%, 0.2);
-  color: inherit;
+  background-color: var(--light-selection-bg);
+  color: var(--light-selection-color);
+}
+
+/* Selection styles for dark mode */
+[data-theme="dark"] ::selection {
+  background-color: var(--dark-selection-bg);
+  color: var(--dark-selection-color);
 }
