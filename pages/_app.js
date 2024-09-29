@@ -8,7 +8,7 @@ import { DefaultSeo } from "next-seo";
 import Router from "next/router";
 import Loader from "@/components/loader";
 import { Analytics } from "@vercel/analytics/react";
-import { ThemeProvider, useTheme } from "../context/ThemeContext";
+import { ThemeProvider, useTheme } from '../ThemeContext';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -22,9 +22,13 @@ function AppContent({ Component, pageProps }) {
   const { isDarkMode, toggleTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [currentRoute, setCurrentRoute] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
+    setIsMounted(true);
+    setCurrentRoute(window.location.pathname.split("/")[1]);
+
     const handleStart = (url) => {
       const newRoute = url.split("/")[1];
       if (newRoute !== currentRoute) {
@@ -45,15 +49,17 @@ function AppContent({ Component, pageProps }) {
     Router.events.on("routeChangeComplete", handleComplete);
     Router.events.on("routeChangeError", handleError);
 
-    // Initial load
-    setCurrentRoute(window.location.pathname.split("/")[1]);
-
     return () => {
       Router.events.off("routeChangeStart", handleStart);
       Router.events.off("routeChangeComplete", handleComplete);
       Router.events.off("routeChangeError", handleError);
     };
   }, [currentRoute]);
+
+  // Render a loader or nothing on the server side
+  if (!isMounted) {
+    return null; // or return <Loader /> if you want to show a loading state
+  }
 
   return (
     <>
@@ -94,7 +100,7 @@ function AppContent({ Component, pageProps }) {
             toc={pageProps.toc}
           >
             <AnimatePresence mode="wait" initial={false}>
-              <Component {...pageProps} key={currentRoute} />
+              <Component {...pageProps} key={currentRoute} isDarkMode={isDarkMode} />
             </AnimatePresence>
           </Layout>
         )}
