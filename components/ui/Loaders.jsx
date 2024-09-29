@@ -159,8 +159,9 @@ const LoaderVariants = ({ variant }) => {
 
       case "orbitalSpin":
         return (
-          <motion.div
-            style={{
+          <Box
+            component={motion.div}
+            sx={{
               width: 40,
               height: 40,
               border: `3px solid ${loaderColor}`,
@@ -168,7 +169,7 @@ const LoaderVariants = ({ variant }) => {
               borderRadius: "50%",
             }}
             animate={{
-              rotate: [0, 360],
+              rotate: 360,
             }}
             transition={{
               duration: 1,
