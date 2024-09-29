@@ -44,4 +44,4 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 * You can try running `npm run lint` for style unification
 
 ## License
-By contributing, you agree that your contributions will be licensed under its MIT License.
+By contributing, you agree that your contributions will be licensed under its [MIT License](http://choosealicense.com/licenses/mit/).
