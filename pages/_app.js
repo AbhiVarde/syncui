@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import Layout from "../components/layout/Layout";
 import { lightTheme, darkTheme } from "../theme";
@@ -8,10 +8,19 @@ import { DefaultSeo } from "next-seo";
 import Router from "next/router";
 import Loader from "@/components/loader";
 import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
 
 function MyApp({ Component, pageProps }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [loading, setLoading] = useState(true);
+  return (
+    <ThemeProvider>
+      <AppContent Component={Component} pageProps={pageProps} />
+    </ThemeProvider>
+  );
+}
+
+function AppContent({ Component, pageProps }) {
+  const { isDarkMode, toggleTheme } = useTheme();
+  const [loading, setLoading] = useState(false);
   const [currentRoute, setCurrentRoute] = useState("");
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -38,7 +47,6 @@ function MyApp({ Component, pageProps }) {
 
     // Initial load
     setCurrentRoute(window.location.pathname.split("/")[1]);
-    setLoading(false);
 
     return () => {
       Router.events.off("routeChangeStart", handleStart);
@@ -46,8 +54,6 @@ function MyApp({ Component, pageProps }) {
       Router.events.off("routeChangeError", handleError);
     };
   }, [currentRoute]);
-
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
     <>
@@ -75,7 +81,7 @@ function MyApp({ Component, pageProps }) {
           site: "https://www.syncui.design/",
         }}
       />
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <Analytics />
         {loading ? (
@@ -92,7 +98,7 @@ function MyApp({ Component, pageProps }) {
             </AnimatePresence>
           </Layout>
         )}
-      </ThemeProvider>
+      </MuiThemeProvider>
     </>
   );
 }
