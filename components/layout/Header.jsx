@@ -50,11 +50,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GoSidebarCollapse } from "react-icons/go";
-import { FaCode, FaPalette, FaRocket, FaCheck } from "react-icons/fa";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { FaCheck } from "react-icons/fa";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
@@ -81,14 +77,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const { asPath } = router;
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
-  const isMediumDown = useMediaQuery(theme.breakpoints.down("md"));
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  // const [isHovered, setIsHovered] = useState(false);
   const isDocsPage = router.pathname.startsWith("/docs");
   const [activeId, setActiveId] = useState("");
-  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -180,68 +173,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         </StyledMenuItem>
       );
     }
-  };
-
-  const plans = [
-    {
-      title: "Essential Frontend",
-      price: 1999,
-      features: [
-        "Up to 5 custom React components per month",
-        "React + Next.js implementation",
-        "Single-page website development",
-        "Responsive design implementation",
-        "Basic animations and transitions",
-        "Cross-browser compatibility",
-        "Code review and optimization",
-        "72-hour support response time",
-        "2 rounds of revisions",
-      ],
-      icon: <FaCode size={24} color={theme.palette.primary.main} />,
-    },
-    {
-      title: "Advanced UI/UX",
-      price: 3999,
-      features: [
-        "Up to 10 custom React components per month",
-        "React + Next.js with SEO optimization",
-        "Multi-page website with dynamic routing",
-        "Advanced UI/UX implementations",
-        "Complex animations with Framer Motion",
-        "Performance optimization",
-        "Accessibility (WCAG) compliance",
-        "State management setup (Redux, MobX, etc.)",
-        "48-hour support response time",
-        "3 rounds of revisions",
-      ],
-      icon: <FaPalette size={24} color={theme.palette.secondary.main} />,
-      popular: true,
-    },
-    {
-      title: "Enterprise Frontend",
-      price: 7999,
-      features: [
-        "Unlimited custom React components",
-        "Advanced React + Next.js with custom server",
-        "Complex multi-page application with SEO and SSR optimizations",
-        "Full frontend architecture design",
-        "Micro-frontend implementation",
-        "Server-side rendering optimization",
-        "Progressive Web App (PWA) development",
-        "Custom design system creation",
-        "24/7 priority support",
-        "Unlimited revisions",
-      ],
-      icon: <FaRocket size={24} color={theme.palette.warning.main} />,
-    },
-  ];
-
-  const openSubscriptionDialog = () => {
-    setSubscriptionDialogOpen(true);
-  };
-
-  const closeSubscriptionDialog = () => {
-    setSubscriptionDialogOpen(false);
   };
 
   useEffect(() => {
@@ -566,57 +497,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           }}
         >
           <AnimatePresence mode="sync">
-            {/* {isScrolled ? (
-              <motion.div
-                key="scrolled"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                }}
-                onClick={openSubscriptionDialog}
-              >
-                <Typography
-                  variant="body2"
-                  fontWeight={500}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    color: "#34D399",
-                    transition: "color 0.1s ease",
-                  }}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  Unlock Premium Designs
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      transform: isHovered
-                        ? "translateX(3px)"
-                        : "translateX(0)",
-                    }}
-                    transition={{ duration: 0.1, ease: "easeInOut" }}
-                    style={{
-                      marginLeft: "6px",
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: theme.palette.background.default,
-                      padding: "6px",
-                      border: `1px solid ${theme.palette.divider}`,
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <RxArrowRight size={18} style={{ fontWeight: 500 }} />
-                  </motion.div>
-                </Typography>
-              </motion.div>
-            ) : ( */}
             <motion.div
               key="not-scrolled"
               initial={{ opacity: 0, y: 20 }}
@@ -838,87 +718,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           </Toolbar>
         </AppBar>
       )}
-
-      <Dialog
-        TransitionComponent={Transition}
-        open={subscriptionDialogOpen}
-        onClose={closeSubscriptionDialog}
-        maxWidth="lg"
-        fullWidth
-        scroll="paper"
-        PaperProps={{
-          sx: {
-            bgcolor: "background.paper",
-            overflowX: "hidden",
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-            scrollbarWidth: "none",
-          },
-        }}
-        sx={{
-          "& .MuiDialog-container": {
-            alignItems: "flex-start",
-          },
-        }}
-      >
-        <DialogTitle sx={{ bgcolor: "background.paper", pb: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" fontWeight="bold">
-              Supercharge Your Frontend Game
-            </Typography>
-            <IconButton
-              onClick={closeSubscriptionDialog}
-              sx={{
-                borderRadius: "12px !important",
-                color: "text.primary",
-                bgcolor: "background.paper",
-                "&:hover": {
-                  bgcolor: "background.paper",
-                },
-                transition: "background-color 0.3s",
-              }}
-            >
-              <RxCross2 />
-            </IconButton>
-          </Box>
-          <Typography variant="h6" sx={{ color: "text.secondary" }}>
-            Choose the plan that best fits your frontend development needs and
-            scale as you grow.
-          </Typography>
-        </DialogTitle>
-        <DialogContent sx={{ bgcolor: "background.paper", pt: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "row", md: "row" },
-              overflowX: "auto",
-              gap: 4,
-              pb: 2,
-              "&::-webkit-scrollbar": {
-                display: "none",
-              },
-              scrollbarWidth: "none",
-              "& > *": {
-                flex: { xs: "0 0 80%", sm: "0 0 45%", md: "1 1 0" },
-                minWidth: { xs: "320px", md: "0" },
-              },
-            }}
-          >
-            {plans.map((plan, index) => (
-              <Box key={index} sx={{ height: "800px", mt: 4 }}>
-                <SubscriptionPlan {...plan} />
-              </Box>
-            ))}
-          </Box>
-        </DialogContent>
-      </Dialog>
     </Fragment>
   );
 };
