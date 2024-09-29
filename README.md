@@ -34,7 +34,7 @@ Visit [https://syncui.design/docs](https://syncui.design/docs) to view the full 
 
 ## License
 
-Sync UI is licensed under the MIT License. All rights reserved.
+Sync UI is licensed under the [MIT License](http://choosealicense.com/licenses/mit/). All rights reserved.
 
 ## Let's talk
 
