@@ -32,14 +32,18 @@
 
 Visit [https://syncui.design/docs](https://syncui.design/docs) to view the full documentation and get started with Sync UI.
 
-## License
+## Contributing
 
-Sync UI is licensed under the [MIT License](http://choosealicense.com/licenses/mit/). All rights reserved.
+We truly ❤️ pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](https://github.com/AbhiVarde/syncui/blob/main/CONTRIBUTING.md).
 
 ## Let's talk
 
 - [Twitter](https://x.com/syncuidesign)
 - [GitHub Discussions](https://github.com/AbhiVarde/syncui/discussions)
+
+## License
+
+Sync UI is licensed under the [MIT License](http://choosealicense.com/licenses/mit/). All rights reserved.
 
 ## Authors
 
