@@ -8,7 +8,7 @@ import { DefaultSeo } from "next-seo";
 import Router from "next/router";
 import Loader from "@/components/loader";
 import { Analytics } from "@vercel/analytics/react";
-import { ThemeProvider, useTheme } from '../ThemeContext';
+import { ThemeProvider, useTheme } from '../context/ThemeContext';
 
 function MyApp({ Component, pageProps }) {
   return (
