@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
-import Layout from "../components/layout/Layout";
-import { lightTheme, darkTheme } from "../theme";
-import "../styles/globals.css";
 import { DefaultSeo } from "next-seo";
 import Router from "next/router";
-import Loader from "@/components/loader";
 import { Analytics } from "@vercel/analytics/react";
+
+import Layout from "../components/layout/Layout";
+import Loader from "@/components/loader";
+import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from '../context/ThemeContext';
+
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -23,42 +25,38 @@ function AppContent({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   const [currentRoute, setCurrentRoute] = useState("");
   const [isMounted, setIsMounted] = useState(false);
+
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
     setIsMounted(true);
     setCurrentRoute(window.location.pathname.split("/")[1]);
 
-    const handleStart = (url) => {
+    const handleRouteChange = (url) => {
       const newRoute = url.split("/")[1];
       if (newRoute !== currentRoute) {
         setLoading(true);
       }
     };
 
-    const handleComplete = (url) => {
+    const handleRouteComplete = (url) => {
       setLoading(false);
       setCurrentRoute(url.split("/")[1]);
     };
 
-    const handleError = () => {
-      setLoading(false);
-    };
-
-    Router.events.on("routeChangeStart", handleStart);
-    Router.events.on("routeChangeComplete", handleComplete);
-    Router.events.on("routeChangeError", handleError);
+    Router.events.on("routeChangeStart", handleRouteChange);
+    Router.events.on("routeChangeComplete", handleRouteComplete);
+    Router.events.on("routeChangeError", () => setLoading(false));
 
     return () => {
-      Router.events.off("routeChangeStart", handleStart);
-      Router.events.off("routeChangeComplete", handleComplete);
-      Router.events.off("routeChangeError", handleError);
+      Router.events.off("routeChangeStart", handleRouteChange);
+      Router.events.off("routeChangeComplete", handleRouteComplete);
+      Router.events.off("routeChangeError", () => setLoading(false));
     };
   }, [currentRoute]);
 
-  // Render a loader or nothing on the server side
   if (!isMounted) {
-    return null; // or return <Loader /> if you want to show a loading state
+    return null;
   }
 
   return (
@@ -70,21 +68,21 @@ function AppContent({ Component, pageProps }) {
         openGraph={{
           url: "https://www.syncui.design/",
           title: "Sync UI",
-          description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+          description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
           images: [
             {
-              url: "https://www.syncui.design/default-og-image.png",
-              width: 800,
-              height: 420,
-              alt: "Sync UI",
+              url: "https://www.syncui.design/og-image.png",
+              width: 1200,
+              height: 630,
+              alt: "Sync UI - Sleek UI Library for Design Engineers",
             },
           ],
           siteName: "Sync UI",
         }}
         twitter={{
           cardType: "summary_large_image",
-          site: "https://www.syncui.design/",
+          site: "@syncui",
+          handle: "@syncui",
         }}
       />
       <MuiThemeProvider theme={theme}>
