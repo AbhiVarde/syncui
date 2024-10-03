@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <DefaultSeo
         title="Sync UI"
-        titleTemplate="%s | Sync UI"
         description="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion."
         canonical="https://www.syncui.design/"
         openGraph={{
