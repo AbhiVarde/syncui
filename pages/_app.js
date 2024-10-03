@@ -71,7 +71,7 @@ function AppContent({ Component, pageProps }) {
           description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
           images: [
             {
-              url: "https://www.syncui.design/og-image.png",
+              url: "https://www.syncui.design/default-og-image.png",
               width: 1200,
               height: 630,
               alt: "Sync UI - Sleek UI Library for Design Engineers",
