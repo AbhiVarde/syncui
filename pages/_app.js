@@ -9,23 +9,40 @@ import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from '../context/ThemeContext';
 import "../styles/globals.css";
+import { DefaultSeo } from "next-seo";
+
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.syncui.design/" />
-        <meta property="og:title" content="Sync UI" />
-        <meta property="og:description" content="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion." />
-        <meta property="og:image" content="https://www.syncui.design/default-og-image.png" />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.syncui.design/" />
-        <meta property="twitter:title" content="Sync UI" />
-        <meta property="twitter:description" content="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion." />
-        <meta property="twitter:image" content="https://www.syncui.design/default-og-image.png" />
-      </Head>
+      <DefaultSeo
+        title="Sync UI"
+        description="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion."
+        canonical="https://www.syncui.design/"
+        openGraph={{
+          title: "Sync UI",
+          description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+          siteName: "Sync UI",
+          url: "https://www.syncui.design/",
+          type: "website",
+          locale: 'en_US',
+          images: [
+            {
+              url: "https://www.syncui.design/default-og-image.png",
+              width: 800,
+              height: 600,
+              alt: "Sync UI - Sleek UI Library for Design Engineers",
+            },
+          ],
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+          site: "@syncuidesign",
+          title: "Sync UI",
+          description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+          images: "https://abhivarde.in/default-og-image.png",
+        }}
+      />
       <ThemeProvider>
         <AppContent Component={Component} pageProps={pageProps} />
       </ThemeProvider>
