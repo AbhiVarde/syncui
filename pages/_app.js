@@ -3,39 +3,13 @@ import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import Router from "next/router";
 import { Analytics } from "@vercel/analytics/react";
-
+import { DefaultSeo } from "next-seo";
 import Layout from "../components/layout/Layout";
 import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from '../context/ThemeContext';
 
 import "../styles/globals.css";
-
-export const metadata = {
-  title: "Sync UI",
-  description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
-  openGraph: {
-    type: 'website',
-    url: "https://www.syncui.design/",
-    title: "Sync UI",
-    description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
-    images: [
-      {
-        url: "https://www.syncui.design/default-og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sync UI - Sleek UI Library for Design Engineers",
-      },
-    ],
-    siteName: "Sync UI",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@syncuidesign",
-    creator: "@syncuidesign",
-  },
-  canonical: "https://www.syncui.design/"
-};
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -86,6 +60,30 @@ function AppContent({ Component, pageProps }) {
 
   return (
     <>
+      <DefaultSeo
+        title="Sync UI"
+        description="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion."
+        canonical="https://www.syncui.design/"
+        openGraph={{
+          url: "https://www.syncui.design/",
+          title: "Sync UI",
+          description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+          images: [
+            {
+              url: "https://www.syncui.design/default-og-image.png",
+              width: 1200,
+              height: 630,
+              alt: "Sync UI - Sleek UI Library for Design Engineers",
+            },
+          ],
+          siteName: "Sync UI",
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+          site: "@syncuidesign",
+          handle: "@syncuidesign",
+        }}
+      />
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <Analytics />
