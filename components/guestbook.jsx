@@ -11,7 +11,7 @@ const GiscusComponent = () => {
   }
 
   return (
-    <Box mt>
+    <Box mt={2}>
       <Giscus
         repo="AbhiVarde/syncui"
         repoId="R_kgDOMq_-tA"
@@ -22,10 +22,9 @@ const GiscusComponent = () => {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="bottom"
-        theme={isDarkMode ? "light" : "dark"}
+        theme={isDarkMode ? "dark" : "light"}
         lang="en"
-        loading="lazy"
-        crossOrigin="anonymous"
+        crossorigin="anonymous"
       />
     </Box>
   );
