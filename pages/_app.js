@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }) {
           site: "@syncuidesign",
           title: "Sync UI",
           description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
-          images: "https://abhivarde.in/default-og-image.png",
+          images: "https://www.syncui.design/default-og-image.png",
         }}
       />
       <ThemeProvider>
