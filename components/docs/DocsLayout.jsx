@@ -132,7 +132,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                               mb: 0.5,
                               px: 1.2,
                               py: 0.8,
-                              display: "block",
+                              display: "flex",
+                              alignItems: "center",
                               textDecoration: "none",
                               color: isActive
                                 ? "text.primary"
@@ -152,7 +153,31 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                               }),
                             }}
                           >
-                            {item.title === "Setup" ? "Setup" : item.title}
+                            <span>
+                              {item.title === "Setup" ? "Setup" : item.title}
+                            </span>
+                            {item.title === "Cards" && (
+                              <Box
+                                component="span"
+                                sx={{
+                                  ml: 1,
+                                  px: 0.8,
+                                  py: 0.2,
+                                  bgcolor: "#008080",
+                                  color: "#ffffff",
+                                  borderRadius: "10px",
+                                  fontSize: "0.65rem",
+                                  fontWeight: 500,
+                                  lineHeight: 1,
+                                  letterSpacing: "0.02em",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                New
+                              </Box>
+                            )}
                           </Typography>
                         </Link>
                       );
