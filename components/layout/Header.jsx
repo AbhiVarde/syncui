@@ -305,16 +305,42 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       }),
                     }}
                   >
-                    <ListItemText
-                      primary={item.title}
-                      primaryTypographyProps={{
-                        variant: "body2",
-                        sx: {
-                          fontWeight: isActive ? 500 : 400,
-                          color: isActive ? "text.primary" : "text.secondary",
-                        },
-                      }}
-                    />
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                    >
+                      <ListItemText
+                        primary={item.title}
+                        primaryTypographyProps={{
+                          variant: "body2",
+                          sx: {
+                            fontWeight: isActive ? 500 : 400,
+                            color: isActive ? "text.primary" : "text.secondary",
+                          },
+                        }}
+                      />
+                      {item.title === "Cards" && (
+                        <Box
+                          component="span"
+                          sx={{
+                            ml: 1,
+                            px: 0.8,
+                            py: 0.2,
+                            bgcolor: "#008080",
+                            color: "#ffffff",
+                            borderRadius: "10px",
+                            fontSize: "0.65rem",
+                            fontWeight: 500,
+                            lineHeight: 1,
+                            letterSpacing: "0.02em",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          New
+                        </Box>
+                      )}
+                    </Box>
                   </ListItem>
                 );
               })}
