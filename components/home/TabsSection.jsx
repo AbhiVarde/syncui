@@ -36,6 +36,8 @@ const componentVariants = {
     "magnetic",
   ],
   cards: [
+    "contentOverlay",
+    "contentCard",
     "meteorShower",
     "animatedBorder",
     "multilayerStack",
@@ -222,7 +224,7 @@ const TabsSection = () => {
               }}
             >
               {componentVariants.cards.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
+                <Box key={variant}>
                   <CardVariants variant={variant} />
                 </Box>
               ))}
