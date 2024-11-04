@@ -505,7 +505,7 @@ const CardVariants = ({ variant }) => {
           </MotionCard>
         );
 
-      case "contentOverlay":
+      case "dynamicOverlay":
         return (
           <MotionCard
             whileHover="hover"
