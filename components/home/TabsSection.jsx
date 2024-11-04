@@ -36,7 +36,7 @@ const componentVariants = {
     "magnetic",
   ],
   cards: [
-    "contentOverlay",
+    "dynamicOverlay",
     "contentCard",
     "meteorShower",
     "animatedBorder",
