@@ -1,574 +1,574 @@
-  ---
-  title: Cards
-  description: Sync UI offers a variety of card styles to enhance your user interface.
-  ---
+---
+title: Cards
+description: Sync UI offers a variety of card styles to enhance your user interface.
+---
 
-  Sync UI offers a variety of card styles to enhance your user interface and provide visually appealing components for your applications.
+Sync UI offers a variety of card styles to enhance your user interface and provide visually appealing components for your applications.
 
-  #### Dynamic Overlay
+#### Dynamic Overlay
 
-  A card with dynamic image overlay transitions on hover.
+A card with dynamic image overlay transitions on hover.
 
-  <CodePreview
-    preview={<CardVariants variant="dynamicOverlay" />}
-    code={`
-  import React from "react";
-  import { Card, CardContent, Typography } from "@mui/material";
-  import { motion } from "framer-motion";
-  import { FaAdjust } from "react-icons/fa";
+<CodePreview
+  preview={<CardVariants variant="dynamicOverlay" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaAdjust } from "react-icons/fa";
 
-  const DynamicOverlay = () => (
+const DynamicOverlay = () => (
+  <motion.div
+    whileHover="hover"
+    initial="initial"
+    animate="animate"
+  >
+    <Card
+      sx={{
+        width: 300,
+        height: 200,
+        backgroundImage: "url('/static-image.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        variants={{
+          initial: { opacity: 0 },
+          hover: { opacity: 1 },
+        }}
+        transition={{ duration: 0.5 }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: "url('/animated-overlay.gif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        variants={{
+          initial: { opacity: 0.2 },
+          hover: { opacity: 0.5 },
+        }}
+        transition={{ duration: 0.3 }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 2,
+        }}
+      />
+      <CardContent sx={{ position: "relative", zIndex: 3, color: "white" }}>
+        <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+          <FaAdjust style={{ marginRight: 8 }} />
+          Dynamic Overlay
+        </Typography>
+        <Typography variant="body2">
+          Transform static images with hover-triggered animated overlays.
+        </Typography>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+export default DynamicOverlay;
+`}
+/>
+
+#### Content Card
+
+A card with dynamic image hover effects and interactive content layout.
+
+<CodePreview
+  preview={<CardVariants variant="contentCard" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography, Box, Button } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaImage } from "react-icons/fa";
+
+const ContentCard = () => (
+  <motion.div
+    whileHover={{
+      y: -5,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    }}
+  >
+    <Card sx={{ width: 300, height: 200, overflow: "hidden" }}>
+      <CardContent sx={{ padding: 0, height: "100%", display: "flex", flexDirection: "column" }}>
+        <motion.div
+          style={{
+            position: "relative",
+            height: "160px",
+            backgroundImage: "url('/placeholder-image.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            overflow: "hidden",
+          }}
+          whileHover={{
+            scale: 1.02,
+            transition: {
+              scale: {
+                type: "spring",
+                stiffness: 200,
+                damping: 25,
+                mass: 1,
+              },
+            },
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)",
+            }}
+          />
+        </motion.div>
+
+        <Box sx={{ pt: 1, px: 2, flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+            <Typography variant="body2" fontWeight={500} sx={{ display: "flex", alignItems: "center" }}>
+              <FaImage size={20} style={{ marginRight: 8, color: "#008080" }} />
+              Content Card
+            </Typography>
+            <Button variant="contained" size="small">View</Button>
+          </Box>
+          <Typography variant="caption" sx={{ color: "text.secondary", mt: "auto" }}>
+            Engaging visuals with dynamic interactions.
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+export default ContentCard;
+`}
+/>
+
+#### Meteor Shower
+
+A card with a dynamic meteor shower animation in the background.
+
+<CodePreview
+  preview={<CardVariants variant="meteorShower" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, Typography, Box } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaMeteor } from "react-icons/fa";
+
+const MeteorShowerCard = () => {
+  const [meteors, setMeteors] = useState([]);
+
+  useEffect(() => {
+    const createMeteor = () => {
+      const newMeteor = {
+        id: Math.random(),
+        x: Math.random() * 320,
+        delay: Math.random() * 2,
+      };
+      setMeteors((prev) => [...prev, newMeteor]);
+      setTimeout(() => {
+        setMeteors((prev) => prev.filter((m) => m.id !== newMeteor.id));
+      }, 2000);
+    };
+
+    const interval = setInterval(createMeteor, 300);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <Card sx={{ width: 300, height: 200, overflow: "hidden", position: "relative" }}>
+      <CardContent sx={{ position: "relative", zIndex: 2 }}>
+        <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+          <FaMeteor style={{ marginRight: 8, color: "#FF6B6B" }} />
+          Meteor Shower
+        </Typography>
+        <Typography variant="body2">
+          Watch the meteors streak across the night sky.
+        </Typography>
+      </CardContent>
+      {meteors.map((meteor) => (
+        <Box
+          key={meteor.id}
+          component={motion.div}
+          initial={{ x: meteor.x, y: -20, opacity: 0 }}
+          animate={{
+            y: 220,
+            opacity: [0, 1, 1, 0],
+          }}
+          transition={{
+            duration: 2,
+            delay: meteor.delay,
+            ease: "linear",
+          }}
+          sx={{
+            position: "absolute",
+            width: "2px",
+            height: "20px",
+            background: "linear-gradient(to bottom, #FFFFFF, transparent)",
+            boxShadow: "0 0 10px #FFFFFF",
+            zIndex: 1,
+          }}
+        />
+      ))}
+    </Card>
+  );
+};
+
+export default MeteorShowerCard;
+`}
+/>
+
+#### Animated Border
+
+A card with a sleek animated glowing border effect.
+
+<CodePreview
+  preview={<CardVariants variant="animatedBorder" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaWandMagicSparkles } from "react-icons/fa6";
+
+const AnimatedBorderCard = () => {
+  const theme = useTheme();
+
+  return (
     <motion.div
-      whileHover="hover"
-      initial="initial"
-      animate="animate"
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      style={{
+        width: 300,
+        height: 200,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          inset: -1,
+          overflow: "hidden",
+          borderRadius: 2,
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            inset: "-50%",
+            background:
+              theme.palette.mode === "dark"
+                ? "conic-gradient(from 0deg, transparent 0 340deg, #FFF 360deg)"
+                : "conic-gradient(from 0deg, transparent 0 340deg, #000 360deg)",
+            animation: "rotate 5s linear infinite",
+          },
+          "@keyframes rotate": {
+            from: { transform: "rotate(0deg)" },
+            to: { transform: "rotate(360deg)" },
+          },
+        }}
+      />
+      <Card sx={{
+        height: "100%",
+        position: "relative",
+        zIndex: 1,
+        backgroundColor: theme.palette.background.paper,
+      }}>
+        <CardContent>
+          <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+            <FaWandMagicSparkles style={{ marginRight: 8, color: "deepskyblue" }} />
+            Animated Border
+          </Typography>
+          <Typography variant="body2">
+            Sleek card with animated glowing border effect.
+          </Typography>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
+export default AnimatedBorderCard;
+`}
+/>
+
+#### Multilayer Stack
+
+A stack of cards with a smooth animation effect.
+
+<CodePreview
+  preview={<CardVariants variant="multilayerStack" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, Typography, Box } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaLayerGroup } from "react-icons/fa";
+
+const MultilayerStack = () => {
+  const [stack, setStack] = useState([0, 1, 2]);
+  const [currentIndex, setCurrentIndex] = useState(2);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % stack.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [stack.length]);
+
+  return (
+    <Box sx={{ width: 300, height: 200, position: "relative" }}>
+      <AnimatePresence>
+        {stack.map((item, index) => {
+          const isCurrent = index === currentIndex;
+          const nextIndex = (currentIndex + 1) % stack.length;
+          const isNext = index === nextIndex;
+
+          return (
+            <motion.div
+              key={item}
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{
+                y: isCurrent ? 0 : index * 10,
+                scale: isCurrent ? 1 : 1 - index * 0.05,
+                zIndex: isCurrent ? 4 : 3 - index,
+                opacity: isCurrent ? 1 : isNext ? 0.5 : 0,
+              }}
+              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <Card sx={{ height: "100%" }}>
+                <CardContent>
+                  <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+                    <FaLayerGroup style={{ marginRight: 8, color: "#2196F3" }} />
+                    Stack Card
+                  </Typography>
+                  <Typography variant="body2">
+                    Smooth stack animation in action.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </Box>
+  );
+};
+
+export default MultilayerStack;
+`}
+/>
+
+#### Info Card
+
+An expandable card with smooth animation and interactive content.
+
+<CodePreview
+  preview={<CardVariants variant="infoCard" />}
+  code={`
+import React, { useState } from "react";
+import { Card, CardContent, Typography, Box } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaBolt } from "react-icons/fa";
+import { RxChevronDown } from "react-icons/rx";
+
+const InfoCard = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div
+      layout
+      initial={{ borderRadius: 20 }}
+      animate={{
+        width: isExpanded ? 300 : 250,
+        height: isExpanded ? 200 : 150,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 20,
+        layout: { duration: 0.3 },
+      }}
+      onClick={() => setIsExpanded(!isExpanded)}
+      style={{ cursor: "pointer", overflow: "hidden", position: "relative" }}
+    >
+      <Card sx={{ height: "100%" }}>
+        <CardContent>
+          <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+            <FaBolt style={{ marginRight: 8, color: "#FFD700" }} />
+            Info Card
+          </Typography>
+          {!isExpanded && (
+            <Typography variant="body2" mt={1} display="block">
+              Tap to expand for more details.
+            </Typography>
+          )}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Typography variant="body2">
+                  Expandable card with smooth animation and interactive content.
+                </Typography>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </CardContent>
+        <Box
+          component={motion.div}
+          animate={{
+            rotate: isExpanded ? 180 : 0,
+            scale: isExpanded ? 1.2 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+          sx={{
+            position: "absolute",
+            bottom: 16,
+            right: 16,
+            width: 30,
+            height: 30,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "50%",
+            backgroundColor: "background.paper",
+          }}
+        >
+          <RxChevronDown size={20} />
+        </Box>
+      </Card>
+    </motion.div>
+  );
+};
+
+export default InfoCard;
+`}
+/>
+
+#### Neubrutalism Card
+
+A card with a bold, brutalist design style.
+
+<CodePreview
+  preview={<CardVariants variant="neubrutalism" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaPaintBrush } from "react-icons/fa";
+
+const NeubrutalismCard = () => {
+  const theme = useTheme();
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
       <Card
         sx={{
           width: 300,
           height: 200,
-          backgroundImage: "url('/static-image.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          position: "relative",
-          overflow: "hidden",
+          color: theme.palette.text.primary,
+          boxShadow: "4px 4px 0 currentColor",
+          borderRadius: 0,
+          transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+          cursor: "pointer",
+          "&:hover": {
+            borderColor: theme.palette.divider,
+            boxShadow: "2px 2px 0 currentColor",
+          },
         }}
       >
-        <motion.div
-          variants={{
-            initial: { opacity: 0 },
-            hover: { opacity: 1 },
-          }}
-          transition={{ duration: 0.5 }}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage: "url('/animated-overlay.gif')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            zIndex: 1,
-          }}
-        />
-        <motion.div
-          variants={{
-            initial: { opacity: 0.2 },
-            hover: { opacity: 0.5 },
-          }}
-          transition={{ duration: 0.3 }}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 2,
-          }}
-        />
-        <CardContent sx={{ position: "relative", zIndex: 3, color: "white" }}>
-          <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-            <FaAdjust style={{ marginRight: 8 }} />
-            Dynamic Overlay
-          </Typography>
-          <Typography variant="body2">
-            Transform static images with hover-triggered animated overlays.
-          </Typography>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-
-  export default DynamicOverlay;
-  `}
-  />
-
-  #### Content Card
-
-  A card with dynamic image hover effects and interactive content layout.
-
-  <CodePreview
-    preview={<CardVariants variant="contentCard" />}
-    code={`
-  import React from "react";
-  import { Card, CardContent, Typography, Box, Button } from "@mui/material";
-  import { motion } from "framer-motion";
-  import { FaImage } from "react-icons/fa";
-
-  const ContentCard = () => (
-    <motion.div
-      whileHover={{
-        y: -5,
-        transition: {
-          duration: 0.3,
-          ease: "easeOut",
-        },
-      }}
-    >
-      <Card sx={{ width: 300, height: 200, overflow: "hidden" }}>
-        <CardContent sx={{ padding: 0, height: "100%", display: "flex", flexDirection: "column" }}>
-          <motion.div
-            style={{
-              position: "relative",
-              height: "160px",
-              backgroundImage: "url('/placeholder-image.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              overflow: "hidden",
-            }}
-            whileHover={{
-              scale: 1.02,
-              transition: {
-                scale: {
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 25,
-                  mass: 1,
-                },
-              },
-            }}
-          >
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)",
-              }}
-            />
-          </motion.div>
-
-          <Box sx={{ pt: 1, px: 2, flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
-              <Typography variant="body2" fontWeight={500} sx={{ display: "flex", alignItems: "center" }}>
-                <FaImage size={20} style={{ marginRight: 8, color: "#008080" }} />
-                Content Card
-              </Typography>
-              <Button variant="contained" size="small">View</Button>
-            </Box>
-            <Typography variant="caption" sx={{ color: "text.secondary", mt: "auto" }}>
-              Engaging visuals with dynamic interactions.
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-
-  export default ContentCard;
-  `}
-  />
-
-  #### Meteor Shower
-
-  A card with a dynamic meteor shower animation in the background.
-
-  <CodePreview
-    preview={<CardVariants variant="meteorShower" />}
-    code={`
-  import React, { useState, useEffect } from "react";
-  import { Card, CardContent, Typography, Box } from "@mui/material";
-  import { motion } from "framer-motion";
-  import { FaMeteor } from "react-icons/fa";
-
-  const MeteorShowerCard = () => {
-    const [meteors, setMeteors] = useState([]);
-
-    useEffect(() => {
-      const createMeteor = () => {
-        const newMeteor = {
-          id: Math.random(),
-          x: Math.random() * 320,
-          delay: Math.random() * 2,
-        };
-        setMeteors((prev) => [...prev, newMeteor]);
-        setTimeout(() => {
-          setMeteors((prev) => prev.filter((m) => m.id !== newMeteor.id));
-        }, 2000);
-      };
-
-      const interval = setInterval(createMeteor, 300);
-      return () => clearInterval(interval);
-    }, []);
-
-    return (
-      <Card sx={{ width: 300, height: 200, overflow: "hidden", position: "relative" }}>
-        <CardContent sx={{ position: "relative", zIndex: 2 }}>
-          <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-            <FaMeteor style={{ marginRight: 8, color: "#FF6B6B" }} />
-            Meteor Shower
-          </Typography>
-          <Typography variant="body2">
-            Watch the meteors streak across the night sky.
-          </Typography>
-        </CardContent>
-        {meteors.map((meteor) => (
-          <Box
-            key={meteor.id}
-            component={motion.div}
-            initial={{ x: meteor.x, y: -20, opacity: 0 }}
-            animate={{
-              y: 220,
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 2,
-              delay: meteor.delay,
-              ease: "linear",
-            }}
-            sx={{
-              position: "absolute",
-              width: "2px",
-              height: "20px",
-              background: "linear-gradient(to bottom, #FFFFFF, transparent)",
-              boxShadow: "0 0 10px #FFFFFF",
-              zIndex: 1,
-            }}
-          />
-        ))}
-      </Card>
-    );
-  };
-
-  export default MeteorShowerCard;
-  `}
-  />
-
-  #### Animated Border
-
-  A card with a sleek animated glowing border effect.
-
-  <CodePreview
-    preview={<CardVariants variant="animatedBorder" />}
-    code={`
-  import React from "react";
-  import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
-  import { motion } from "framer-motion";
-  import { FaWandMagicSparkles } from "react-icons/fa6";
-
-  const AnimatedBorderCard = () => {
-    const theme = useTheme();
-
-    return (
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        style={{
-          width: 300,
-          height: 200,
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            inset: -1,
-            overflow: "hidden",
-            borderRadius: 2,
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              inset: "-50%",
-              background:
-                theme.palette.mode === "dark"
-                  ? "conic-gradient(from 0deg, transparent 0 340deg, #FFF 360deg)"
-                  : "conic-gradient(from 0deg, transparent 0 340deg, #000 360deg)",
-              animation: "rotate 5s linear infinite",
-            },
-            "@keyframes rotate": {
-              from: { transform: "rotate(0deg)" },
-              to: { transform: "rotate(360deg)" },
-            },
-          }}
-        />
-        <Card sx={{
-          height: "100%",
-          position: "relative",
-          zIndex: 1,
-          backgroundColor: theme.palette.background.paper,
-        }}>
-          <CardContent>
-            <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-              <FaWandMagicSparkles style={{ marginRight: 8, color: "deepskyblue" }} />
-              Animated Border
-            </Typography>
-            <Typography variant="body2">
-              Sleek card with animated glowing border effect.
-            </Typography>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
-  };
-
-  export default AnimatedBorderCard;
-  `}
-  />
-
-  #### Multilayer Stack
-
-  A stack of cards with a smooth animation effect.
-
-  <CodePreview
-    preview={<CardVariants variant="multilayerStack" />}
-    code={`
-  import React, { useState, useEffect } from "react";
-  import { Card, CardContent, Typography, Box } from "@mui/material";
-  import { motion, AnimatePresence } from "framer-motion";
-  import { FaLayerGroup } from "react-icons/fa";
-
-  const MultilayerStack = () => {
-    const [stack, setStack] = useState([0, 1, 2]);
-    const [currentIndex, setCurrentIndex] = useState(2);
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % stack.length);
-      }, 2000);
-
-      return () => clearInterval(interval);
-    }, [stack.length]);
-
-    return (
-      <Box sx={{ width: 300, height: 200, position: "relative" }}>
-        <AnimatePresence>
-          {stack.map((item, index) => {
-            const isCurrent = index === currentIndex;
-            const nextIndex = (currentIndex + 1) % stack.length;
-            const isNext = index === nextIndex;
-
-            return (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                animate={{
-                  y: isCurrent ? 0 : index * 10,
-                  scale: isCurrent ? 1 : 1 - index * 0.05,
-                  zIndex: isCurrent ? 4 : 3 - index,
-                  opacity: isCurrent ? 1 : isNext ? 0.5 : 0,
-                }}
-                exit={{ opacity: 0, scale: 0.8, y: 50 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
-                <Card sx={{ height: "100%" }}>
-                  <CardContent>
-                    <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-                      <FaLayerGroup style={{ marginRight: 8, color: "#2196F3" }} />
-                      Stack Card
-                    </Typography>
-                    <Typography variant="body2">
-                      Smooth stack animation in action.
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </Box>
-    );
-  };
-
-  export default MultilayerStack;
-  `}
-  />
-
-  #### Info Card
-
-  An expandable card with smooth animation and interactive content.
-
-  <CodePreview
-    preview={<CardVariants variant="infoCard" />}
-    code={`
-  import React, { useState } from "react";
-  import { Card, CardContent, Typography, Box } from "@mui/material";
-  import { motion, AnimatePresence } from "framer-motion";
-  import { FaBolt } from "react-icons/fa";
-  import { RxChevronDown } from "react-icons/rx";
-
-  const InfoCard = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    return (
-      <motion.div
-        layout
-        initial={{ borderRadius: 20 }}
-        animate={{
-          width: isExpanded ? 300 : 250,
-          height: isExpanded ? 200 : 150,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 200,
-          damping: 20,
-          layout: { duration: 0.3 },
-        }}
-        onClick={() => setIsExpanded(!isExpanded)}
-        style={{ cursor: "pointer", overflow: "hidden", position: "relative" }}
-      >
-        <Card sx={{ height: "100%" }}>
-          <CardContent>
-            <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-              <FaBolt style={{ marginRight: 8, color: "#FFD700" }} />
-              Info Card
-            </Typography>
-            {!isExpanded && (
-              <Typography variant="body2" mt={1} display="block">
-                Tap to expand for more details.
-              </Typography>
-            )}
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Typography variant="body2">
-                    Expandable card with smooth animation and interactive content.
-                  </Typography>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </CardContent>
-          <Box
-            component={motion.div}
-            animate={{
-              rotate: isExpanded ? 180 : 0,
-              scale: isExpanded ? 1.2 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-            sx={{
-              position: "absolute",
-              bottom: 16,
-              right: 16,
-              width: 30,
-              height: 30,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "50%",
-              backgroundColor: "background.paper",
-            }}
-          >
-            <RxChevronDown size={20} />
-          </Box>
-        </Card>
-      </motion.div>
-    );
-  };
-
-  export default InfoCard;
-  `}
-  />
-
-  #### Neubrutalism Card
-
-  A card with a bold, brutalist design style.
-
-  <CodePreview
-    preview={<CardVariants variant="neubrutalism" />}
-    code={`
-  import React from "react";
-  import { Card, CardContent, Typography, useTheme } from "@mui/material";
-  import { motion } from "framer-motion";
-  import { FaPaintBrush } from "react-icons/fa";
-
-  const NeubrutalismCard = () => {
-    const theme = useTheme();
-
-    return (
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Card
-          sx={{
-            width: 300,
-            height: 200,
-            color: theme.palette.text.primary,
-            boxShadow: "4px 4px 0 currentColor",
-            borderRadius: 0,
-            transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
-            cursor: "pointer",
-            "&:hover": {
-              borderColor: theme.palette.divider,
-              boxShadow: "2px 2px 0 currentColor",
-            },
-          }}
-        >
-          <CardContent>
-            <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-              <FaPaintBrush style={{ marginRight: 8, color: "#4CAF50" }} />
-              Neubrutalism Card
-            </Typography>
-            <Typography variant="body2">
-              Bold borders and simple design showcase the Neubrutalism style.
-            </Typography>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
-  };
-
-  export default NeubrutalismCard;
-  `}
-  />
-
-
-  #### 3D Card
-
-  A card with a 3D effect on hover.
-
-  <CodePreview
-    preview={<CardVariants variant="3dCard" />}
-    code={`
-  import React from "react";
-  import { Card, CardContent, Typography, Box } from "@mui/material";
-  import { motion } from "framer-motion";
-  import { FaCube } from "react-icons/fa";
-
-  const ThreeDCard = () => (
-    <motion.div
-      whileHover={{ rotateY: 15, rotateX: -15, scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      style={{
-        width: 300,
-        height: 200,
-        transformStyle: "preserve-3d",
-        cursor: "pointer",
-      }}
-    >
-      <Card sx={{ height: "100%" }}>
         <CardContent>
-          <Box sx={{ transform: "translateZ(40px)" }}>
-            <Typography variant="h5" gutterBottom display="flex" alignItems="center">
-              <FaCube style={{ marginRight: 8, color: "#9C27B0" }} />
-              3D Card
-            </Typography>
-            <Typography variant="body2">
-              Enjoy enhanced 3D effect with depth on hover.
-            </Typography>
-          </Box>
+          <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+            <FaPaintBrush style={{ marginRight: 8, color: "#4CAF50" }} />
+            Neubrutalism Card
+          </Typography>
+          <Typography variant="body2">
+            Bold borders and simple design showcase the Neubrutalism style.
+          </Typography>
         </CardContent>
       </Card>
     </motion.div>
   );
+};
 
-  export default ThreeDCard;
-  `}
-  />
+export default NeubrutalismCard;
+`}
+/>
+
+
+#### 3D Card
+
+A card with a 3D effect on hover.
+
+<CodePreview
+  preview={<CardVariants variant="3dCard" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography, Box } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaCube } from "react-icons/fa";
+
+const ThreeDCard = () => (
+  <motion.div
+    whileHover={{ rotateY: 15, rotateX: -15, scale: 1.05 }}
+    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    style={{
+      width: 300,
+      height: 200,
+      transformStyle: "preserve-3d",
+      cursor: "pointer",
+    }}
+  >
+    <Card sx={{ height: "100%" }}>
+      <CardContent>
+        <Box sx={{ transform: "translateZ(40px)" }}>
+          <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+            <FaCube style={{ marginRight: 8, color: "#9C27B0" }} />
+            3D Card
+          </Typography>
+          <Typography variant="body2">
+            Enjoy enhanced 3D effect with depth on hover.
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+export default ThreeDCard;
+`}
+/>
 
