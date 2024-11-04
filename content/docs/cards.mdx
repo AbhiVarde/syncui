@@ -5,6 +5,164 @@ description: Sync UI offers a variety of card styles to enhance your user interf
 
 Sync UI offers a variety of card styles to enhance your user interface and provide visually appealing components for your applications.
 
+#### Content Overlay
+
+A card with dynamic image overlay transitions on hover.
+
+<CodePreview
+  preview={<CardVariants variant="contentOverlay" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaAdjust } from "react-icons/fa";
+
+const ContentOverlay = () => (
+  <motion.div
+    whileHover="hover"
+    initial="initial"
+    animate="animate"
+  >
+    <Card
+      sx={{
+        width: 300,
+        height: 200,
+        backgroundImage: "url('/static-image.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        variants={{
+          initial: { opacity: 0 },
+          hover: { opacity: 1 },
+        }}
+        transition={{ duration: 0.5 }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: "url('/animated-overlay.gif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        variants={{
+          initial: { opacity: 0.2 },
+          hover: { opacity: 0.5 },
+        }}
+        transition={{ duration: 0.3 }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 2,
+        }}
+      />
+      <CardContent sx={{ position: "relative", zIndex: 3, color: "white" }}>
+        <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+          <FaAdjust style={{ marginRight: 8 }} />
+          Dynamic Overlay
+        </Typography>
+        <Typography variant="body2">
+          Transform static images with hover-triggered animated overlays.
+        </Typography>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+export default ContentOverlay;
+`}
+/>
+
+#### Content Card
+
+A card with dynamic image hover effects and interactive content layout.
+
+<CodePreview
+  preview={<CardVariants variant="contentCard" />}
+  code={`
+import React from "react";
+import { Card, CardContent, Typography, Box, Button } from "@mui/material";
+import { motion } from "framer-motion";
+import { FaImage } from "react-icons/fa";
+
+const ContentCard = () => (
+  <motion.div
+    whileHover={{
+      y: -5,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    }}
+  >
+    <Card sx={{ width: 300, height: 200, overflow: "hidden" }}>
+      <CardContent sx={{ padding: 0, height: "100%", display: "flex", flexDirection: "column" }}>
+        <motion.div
+          style={{
+            position: "relative",
+            height: "160px",
+            backgroundImage: "url('/placeholder-image.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            overflow: "hidden",
+          }}
+          whileHover={{
+            scale: 1.02,
+            transition: {
+              scale: {
+                type: "spring",
+                stiffness: 200,
+                damping: 25,
+                mass: 1,
+              },
+            },
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)",
+            }}
+          />
+        </motion.div>
+
+        <Box sx={{ pt: 1, px: 2, flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+            <Typography variant="body2" fontWeight={500} sx={{ display: "flex", alignItems: "center" }}>
+              <FaImage size={20} style={{ marginRight: 8, color: "#008080" }} />
+              Content Card
+            </Typography>
+            <Button variant="contained" size="small">View</Button>
+          </Box>
+          <Typography variant="caption" sx={{ color: "text.secondary", mt: "auto" }}>
+            Engaging visuals with dynamic interactions.
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+export default ContentCard;
+`}
+/>
+
 #### Meteor Shower
 
 A card with a dynamic meteor shower animation in the background.
