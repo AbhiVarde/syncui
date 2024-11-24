@@ -1,0 +1,324 @@
+---
+title: Carousels
+description: Sync UI offers a collection of animated carousel components with various transition effects and interaction patterns for showcasing content.
+---
+
+Sync UI provides a versatile carousel component with multiple animation variants, touch/drag support, and responsive design. These carousels are perfect for showcasing images, products, or any content that benefits from sequential navigation.
+
+#### Scale Animation
+
+A carousel with smooth scaling transitions between slides, featuring overlay content and dot navigation.
+
+<CodePreview
+  preview={<CarouselVariants variant="scale" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, motion, AnimatePresence } from "@/components/ui";
+
+const ScaleCarousel = () => {
+  const [active, setActive] = useState(0);
+
+  return (
+    <Box sx={{ position: "relative", height: 400, overflow: "hidden" }}>
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={active}
+          initial={{ scale: 0.8, opacity: 0, willChange: "transform, opacity" }}
+          animate={{ scale: 1, opacity: 1, willChange: "transform, opacity" }}
+          exit={{ scale: 0.8, opacity: 0, willChange: "transform, opacity" }}
+          transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.6, velocity: 2}}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              width: "90%",
+              height: "90%",
+              left: "5%",
+              top: "5%",
+              backgroundImage: \`url(\${slides[active]?.image})\`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: 2,
+            }}
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                p: 3,
+                background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+                color: "white",
+              }}
+            >
+              <Typography 
+                variant="h5"   
+                component={motion.h5}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }} 
+                gutterBottom
+              >
+                {slides[active]?.title}
+              </Typography>
+              <Typography 
+                variant="body1"   
+                component={motion.p}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }} 
+                gutterBottom
+              >
+                {slides[active]?.description}
+              </Typography>
+            </Box>
+          </Box>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
+  );
+};
+`}
+/>
+
+#### Parallax Effect
+
+A dynamic carousel with parallax scrolling effects and gradient overlays, creating depth and visual interest.
+
+<CodePreview
+  preview={<CarouselVariants variant="parallax" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography, motion, AnimatePresence } from "@/components/ui";
+
+const ParallaxCarousel = () => {
+  const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(0);
+  
+  return (
+    <Box sx={{ position: "relative", height: 400, overflow: "hidden" }}>
+      <AnimatePresence custom={direction}>
+        <motion.div
+          key={active}
+          custom={direction}
+          initial={{ x: direction > 0 ? 1000 : -1000, opacity: 0, willChange: "transform, opacity" }}
+          animate={{ x: 0, opacity: 1,  willChange: "transform, opacity" }}
+          exit={{ x: direction > 0 ? -1000 : 1000, opacity: 0, willChange: "transform, opacity" }}
+          transition={{ 
+            x: { type: "spring", stiffness: 400, damping: 30, damping: 35, velocity: 2 },
+            opacity: { duration: 0.15 },
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              backgroundImage: \`url(\${slides[active]?.image})\`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: "linear-gradient(45deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              p: 6,
+              color: "white",
+            }}
+          >
+             <Typography 
+                variant="h5"   
+                component={motion.h5}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }} 
+                gutterBottom
+              >
+                {slides[active]?.title}
+              </Typography>
+              <Typography 
+                variant="body1"   
+                component={motion.p}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }} 
+                gutterBottom
+              >
+                {slides[active]?.description}
+              </Typography>
+          </Box>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
+  );
+};
+`}
+/>
+
+#### Fade Transition
+
+A simple yet elegant carousel with smooth fade transitions and navigation arrows.
+
+<CodePreview
+  preview={<CarouselVariants variant="fade" />}
+  code={`
+import React, { useState } from "react";
+import { Box, IconButton, Typography, motion, AnimatePresence } from "@/components/ui";
+import { LuChevronLeft, LuChevronRight } from "lucide-react";
+
+const FadeCarousel = () => {
+  const [active, setActive] = useState(0);
+
+  return (
+    <Box sx={{ position: "relative", height: 400, overflow: "hidden" }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, willChange: "opacity" }}
+          animate={{ opacity: 1, willChange: "opacity" }}
+          exit={{ opacity: 0, willChange: "opacity" }}
+          transition={{ duration: 0.3 }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              backgroundImage: \`url(\${slides[active]?.image})\`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                p: 3,
+                background: "rgba(0, 0, 0, 0.5)",
+                color: "white",
+                textAlign: "center",
+                borderRadius: 2,
+              }}
+            >
+              <Typography 
+                variant="h5"   
+                component={motion.h5}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }} 
+                gutterBottom
+              >
+                {slides[active]?.title}
+              </Typography>
+              <Typography 
+                variant="body1"   
+                component={motion.p}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }} 
+                gutterBottom
+              >
+                {slides[active]?.description}
+              </Typography>
+            </Box>
+          </Box>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
+  );
+};
+`}
+/>
+
+#### Card Stack
+
+An interactive card-based carousel with drag support and 3D rotation effects.
+
+<CodePreview
+  preview={<CarouselVariants variant="cards" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Paper, Typography, motion, AnimatePresence } from "@/components/ui";
+
+const CardCarousel = () => {
+  const [active, setActive] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  return (
+    <Box sx={{ position: "relative", height: 400 }}>
+      <AnimatePresence initial={false}>
+        {slides.map((slide, index) => {
+          const offset = (index - active + slides.length) % slides.length;
+          return (
+            <motion.div
+              key={slide.id}
+              style={{
+                position: "absolute",
+                width: "80%",
+                height: "80%"
+              }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{
+                scale: 1 - Math.abs(offset) * 0.1,
+                opacity: 1 - Math.abs(offset) * 0.3,
+                x: offset * 100,
+                rotateY: offset * -5
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+              }}
+              drag="x"
+              dragConstraints={{ left: -100, right: 100 }}
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundImage: \`url(\${slide?.image})\`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  p: 4,
+                  background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+                  color: "white",
+                  borderRadius: "0 0 16px 16px",
+                }}
+              >
+                <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                  {slide?.title}
+                </Typography>
+                <Typography variant="body1" sx={{ opacity: 0.9 }}>
+                  {slide?.description}
+                </Typography>
+              </Box>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </Box>
+  );
+};
+`}
+/>
