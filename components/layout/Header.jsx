@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  Fragment,
-  forwardRef,
-} from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
   AppBar,
   Toolbar,
@@ -18,12 +12,8 @@ import {
   ListItem,
   ListItemText,
   Breadcrumbs,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Button,
   Chip,
-  Slide,
   Popper,
   Grow,
   Paper,
@@ -318,7 +308,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {item.title === "Cards" && (
+                      {(item.title === "Cards" ||
+                        item.title === "Carousels") && (
                         <Box
                           component="span"
                           sx={{
