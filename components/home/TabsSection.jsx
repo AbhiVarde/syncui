@@ -8,10 +8,11 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import ButtonVariants from "../ui/Buttons";
 import CardVariants from "../ui/Cards";
+import CarouselVariants from "../ui/Carousels";
 import TextVariants from "../ui/Texts";
 import AvatarVariants from "../ui/Avatars";
 import LoaderVariants from "../ui/Loaders";
@@ -45,6 +46,7 @@ const componentVariants = {
     "neubrutalism",
     "3dCard",
   ],
+  carousels: ["scale", "parallax", "fade", "cards"],
   loaders: [
     "pulsatingDots",
     "morphingCube",
@@ -123,7 +125,7 @@ const SectionContent = ({ title, description, children, url }) => {
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Box sx={{ p: title === "Interactive Buttons" ? 2.5 : 4 }}>
+        <Box sx={{ px: title === "Responsive Buttons" ? 2.5 : 4, py: 2 }}>
           {children}
         </Box>
         <Divider />
@@ -168,21 +170,21 @@ const TabsSection = () => {
               gutterBottom
               sx={{ fontWeight: 700, mb: 2 }}
             >
-              Elevate Your UI Design
+              Modern UI Components
             </Typography>
             <Typography
               variant="body1"
               color="text.secondary"
               sx={{ maxWidth: "800px", mx: "auto" }}
             >
-              Discover our curated collection of polished, customizable
-              components. Seamlessly integrate and enhance your user interface.
+              A handcrafted collection of responsive, customizable components
+              designed to elevate your next web project.
             </Typography>
           </Box>
 
           <SectionContent
-            title="Dynamic Backgrounds"
-            description="Enhance your UI with these eye-catching, animated background designs that add depth and interactivity to your layouts."
+            title="Fluid Backgrounds"
+            description="Transform your layouts with mesmerizing animated patterns that create depth and visual interest."
             url="/docs/backgrounds"
           >
             <Box
@@ -211,8 +213,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Engaging Cards"
-            description="Discover our range of dynamic card components that add depth and interactivity to your layouts."
+            title="Smart Cards"
+            description="Showcase content elegantly with these responsive card designs featuring smooth hover effects and dynamic layouts."
             url="/docs/cards"
           >
             <Box
@@ -232,8 +234,42 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Interactive Buttons"
-            description="Explore our collection of beautifully designed, interactive buttons that will enhance your user interface."
+            title="Seamless Carousels"
+            description="Present your content in motion with these smooth-sliding galleries, perfect for showcasing products or stories."
+            url="/docs/carousels"
+          >
+            <AnimatePresence mode="wait">
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  width: "100%",
+                }}
+              >
+                {componentVariants.carousels.map((variant) => (
+                  <Box
+                    key={variant}
+                    component={motion.div}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    sx={{
+                      width: "100%",
+                      minHeight: "400px",
+                      position: "relative",
+                    }}
+                  >
+                    <CarouselVariants variant={variant} />
+                  </Box>
+                ))}
+              </Box>
+            </AnimatePresence>
+          </SectionContent>
+
+          <SectionContent
+            title="Responsive Buttons"
+            description="Capture user attention with these beautifully crafted action elements featuring unique hover and click animations."
             url="/docs/buttons"
           >
             <Box
@@ -253,8 +289,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Captivating Loaders"
-            description="Engage your users with these unique, smoothly animated loaders that add a touch of sophistication to your loading states."
+            title="Elegant Loaders"
+            description="Keep users engaged during wait times with these sophisticated animation patterns that reflect your brand's personality."
             url="/docs/loaders"
           >
             <Box
@@ -274,8 +310,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Reactive Marquees"
-            description="Showcase content with these engaging, animated marquees that add movement and interest to your layouts."
+            title="Dynamic Marquees"
+            description="Add natural movement to your content with these smooth-flowing text and element animations."
             url="/docs/marquees"
           >
             <Box
@@ -303,8 +339,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Transformative Tabs"
-            description="Explore our collection of engaging, animated tab designs that enhance user navigation and content organization."
+            title="Intuitive Tabs"
+            description="Guide users through content sections with these smooth-transitioning navigation elements."
             url="/docs/tabs"
           >
             <Box
@@ -332,8 +368,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Interactive Paginations"
-            description="Enhance your multi-page layouts with these smooth, animated pagination designs that improve user navigation."
+            title="Smooth Pagination"
+            description="Navigate through multi-page content effortlessly with these polished page selection components."
             url="/docs/paginations"
           >
             <Box
@@ -364,8 +400,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Versatile Avatars"
-            description="Enhance user profiles and interactions with these animated, eye-catching avatar designs."
+            title="Expressive Avatars"
+            description="Personalize user profiles with these dynamic image containers featuring creative hover states and grouping options."
             url="/docs/avatars"
           >
             <Box
@@ -387,8 +423,8 @@ const TabsSection = () => {
           </SectionContent>
 
           <SectionContent
-            title="Stylish Dividers"
-            description="Add visual interest and structure to your layouts with these unique, theme-adaptive separator designs."
+            title="Creative Dividers"
+            description="Structure your content with these eye-catching separator designs that adapt to your theme seamlessly."
             url="/docs/separators"
           >
             <Box
@@ -418,7 +454,7 @@ const TabsSection = () => {
 
           <SectionContent
             title="Animated Typography"
-            description="Bring your content to life with these eye-catching text animations, perfect for headers, highlights, and more."
+            description="Make your text memorable with these precisely crafted motion effects that enhance readability and impact."
             url="/docs/texts"
           >
             <Box
