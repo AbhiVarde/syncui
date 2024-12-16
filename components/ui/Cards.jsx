@@ -219,12 +219,13 @@ const CardVariants = ({ variant }) => {
           <Box
             sx={{
               position: "relative",
-              width: {
-                xs: "100%",
-                sm: 345,
-              },
+              width: 345,
               height: 245,
               mx: "auto",
+              display: {
+                xs: "none", // Hide on extra small devices
+                sm: "block", // Show on small devices and up
+              },
             }}
           >
             <AnimatePresence>
