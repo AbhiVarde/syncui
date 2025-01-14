@@ -83,118 +83,129 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           position: "fixed",
           top: 60,
           left: 0,
-          overflowY: "auto",
-          borderRight: (theme) => `1px solid ${theme.palette.divider}`,
           display: { xs: "none", md: "block" },
         }}
       >
         <Box
           sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
+            position: "relative",
             height: "100%",
+            borderRight: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
-          <nav style={{ flexGrow: 1 }}>
-            {Object.entries(groupDocsTree(docsTree)).map(
-              ([category, items]) => (
-                <Box key={category}>
-                  <Typography
-                    variant="body2"
-                    gutterBottom
-                    sx={{
-                      fontSize: "0.8rem",
-                      fontWeight: 500,
-                      letterSpacing: 0.5,
-                    }}
-                  >
-                    {category}
-                  </Typography>
-                  <Box sx={{ my: 1 }}>
-                    {items.map((item) => {
-                      const isActive =
-                        (item.title === "Setup" && router.asPath === "/docs") ||
-                        (item.title === "Changelog" &&
-                          router.asPath === "/docs/changelog") ||
-                        router.asPath === item.url;
-                      return (
-                        <Link
-                          key={item.url}
-                          href={item.url}
-                          passHref
-                          legacyBehavior
-                        >
-                          <Typography
-                            component="a"
-                            variant="caption"
-                            sx={{
-                              mb: 0.5,
-                              px: 1.2,
-                              py: 0.8,
-                              display: "flex",
-                              alignItems: "center",
-                              textDecoration: "none",
-                              color: isActive
-                                ? "text.primary"
-                                : "text.secondary",
-                              letterSpacing: 0.2,
-                              borderRadius: 0.75,
-                              transition: "all 0.15s ease-in-out",
-                              fontWeight: isActive ? 500 : 400,
-                              "&:hover": {
-                                bgcolor: "background.paper",
-                                color: "text.primary",
-                              },
-                              ...(isActive && {
-                                bgcolor: "background.paper",
-                                boxShadow: (theme) =>
-                                  `0 0 0 1px ${theme.palette.divider}`,
-                              }),
-                            }}
-                          >
-                            <span>
-                              {item.title === "Setup" ? "Setup" : item.title}
-                            </span>
-                            {(item.title === "Cards" ||
-                              item.title === "Carousels") && (
-                              <Box
-                                component="span"
-                                sx={{
-                                  ml: 1,
-                                  px: 0.8,
-                                  py: 0.2,
-                                  bgcolor: "#008080",
-                                  color: "#ffffff",
-                                  borderRadius: "10px",
-                                  fontSize: "0.65rem",
-                                  fontWeight: 500,
-                                  lineHeight: 1,
-                                  letterSpacing: "0.02em",
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                New
-                              </Box>
-                            )}
-                          </Typography>
-                        </Link>
-                      );
-                    })}
-                  </Box>
-                </Box>
-              )
-            )}
-          </nav>
+          {/* Scrollable content container */}
           <Box
-            display="flex"
-            alignItems="center"
             sx={{
-              mt: 2,
-              pt: 2,
+              height: "calc(100% - 60px)", // Subtract footer height
+              overflowY: "auto",
+              p: 2,
+            }}
+          >
+            <nav>
+              {Object.entries(groupDocsTree(docsTree)).map(
+                ([category, items]) => (
+                  <Box key={category}>
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      sx={{
+                        fontSize: "0.8rem",
+                        fontWeight: 500,
+                        letterSpacing: 0.5,
+                      }}
+                    >
+                      {category}
+                    </Typography>
+                    <Box sx={{ my: 1 }}>
+                      {items.map((item) => {
+                        const isActive =
+                          (item.title === "Setup" &&
+                            router.asPath === "/docs") ||
+                          (item.title === "Changelog" &&
+                            router.asPath === "/docs/changelog") ||
+                          router.asPath === item.url;
+                        return (
+                          <Link
+                            key={item.url}
+                            href={item.url}
+                            passHref
+                            legacyBehavior
+                          >
+                            <Typography
+                              component="a"
+                              variant="caption"
+                              sx={{
+                                mb: 0.5,
+                                px: 1.2,
+                                py: 0.8,
+                                display: "flex",
+                                alignItems: "center",
+                                textDecoration: "none",
+                                color: isActive
+                                  ? "text.primary"
+                                  : "text.secondary",
+                                letterSpacing: 0.2,
+                                borderRadius: 0.75,
+                                transition: "all 0.15s ease-in-out",
+                                fontWeight: isActive ? 500 : 400,
+                                "&:hover": {
+                                  bgcolor: "background.paper",
+                                  color: "text.primary",
+                                },
+                                ...(isActive && {
+                                  bgcolor: "background.paper",
+                                  boxShadow: (theme) =>
+                                    `0 0 0 1px ${theme.palette.divider}`,
+                                }),
+                              }}
+                            >
+                              <span>
+                                {item.title === "Setup" ? "Setup" : item.title}
+                              </span>
+                              {(item.title === "Avatars" ||
+                                item.title === "Docks" ||
+                                item.title === "Tables") && (
+                                <Box
+                                  component="span"
+                                  sx={{
+                                    ml: 1,
+                                    px: 0.8,
+                                    py: 0.2,
+                                    bgcolor: "#008080",
+                                    color: "#ffffff",
+                                    borderRadius: "10px",
+                                    fontSize: "0.65rem",
+                                    fontWeight: 500,
+                                    lineHeight: 1,
+                                    letterSpacing: "0.02em",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  New
+                                </Box>
+                              )}
+                            </Typography>
+                          </Link>
+                        );
+                      })}
+                    </Box>
+                  </Box>
+                )
+              )}
+            </nav>
+          </Box>
+          {/* Fixed footer */}
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
               borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+              p: 1.5,
+              bgcolor: "background.default",
             }}
           >
             <Typography variant="caption">
