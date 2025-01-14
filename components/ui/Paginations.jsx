@@ -366,18 +366,6 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
         gap: theme.spacing(1),
       }}
     >
-      {asPath !== "/docs/paginations" && (
-        <Typography
-          variant={isMobile ? "subtitle1" : "h6"}
-          mb={theme.spacing(1)}
-        >
-          {variant
-            .split(/(?=[A-Z])/)
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")}{" "}
-          Pagination
-        </Typography>
-      )}
       {renderPagination()}
       <Typography variant="body2" sx={{ color: theme.palette.text.secondary }}>
         Page {currentPage} of {totalPages}
