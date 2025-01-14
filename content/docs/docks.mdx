@@ -1,0 +1,570 @@
+---
+title: Docks
+description: Sync UI provides various dock styles to enhance your application's navigation experience.
+---
+
+Sync UI provides various dock styles to enhance your application's navigation experience.
+
+#### Modern Style
+
+A modern dock with smooth animations and gradient effects.
+
+<CodePreview
+  preview={<DockVariants variant="modern" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Tooltip, Paper } from "@mui/material";
+import { motion } from "framer-motion";
+import {
+  FiHome,
+  FiSettings,
+  FiMail,
+  FiCamera,
+  FiGlobe,
+  FiFolder,
+  FiTerminal,
+} from "react-icons/fi";
+
+const ModernDock = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const dockItems = [
+    { icon: FiHome, label: "Home" },
+    { icon: FiFolder, label: "Files" },
+    { icon: FiGlobe, label: "Browser" },
+    { icon: FiMail, label: "Mail" },
+    { icon: FiCamera, label: "Camera" },
+    { icon: FiTerminal, label: "Terminal" },
+    { icon: FiSettings, label: "Settings" },
+  ];
+
+  const config = {
+    iconSize: 22,
+    buttonSize: 45,
+    gapSize: 2,
+    hoverScale: 1.2,
+  };
+
+  return (
+    <Paper
+      elevation={3}
+      sx={{
+        borderRadius: 4,
+        padding: 2,
+        background: "linear-gradient(145deg, #ffffff 0%, #f0f2f5 100%)",
+        border: "1px solid rgba(0, 0, 0, 0.06)",
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <Box sx={{ display: "flex", gap: config.gapSize, position: "relative" }}>
+        {dockItems.map((item, index) => {
+          const Icon = item.icon;
+          const isHovered = hoveredIndex === index;
+          const distance = Math.abs(hoveredIndex - index);
+          const neighborScale = hoveredIndex !== null ? Math.max(1, 1.1 - distance * 0.1) : 1;
+
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 20,
+                delay: index * 0.05,
+              }}
+              onHoverStart={() => setHoveredIndex(index)}
+              onHoverEnd={() => setHoveredIndex(null)}
+            >
+              <Tooltip title={item.label} placement="top" arrow>
+                <motion.div
+                  animate={{
+                    scale: isHovered ? config.hoverScale : neighborScale,
+                    rotate: isHovered ? [0, -10, 10, 0] : 0,
+                    y: isHovered ? -12 : 0,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 17,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: config.buttonSize,
+                      height: config.buttonSize,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 3,
+                      cursor: "pointer",
+                      background: isHovered
+                        ? "linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)"
+                        : "white",
+                      boxShadow: isHovered
+                        ? "0 8px 16px rgba(99, 102, 241, 0.3)"
+                        : "0 2px 8px rgba(0, 0, 0, 0.06)",
+                      color: isHovered ? "white" : "text.primary",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    <Icon size={config.iconSize} />
+                  </Box>
+                </motion.div>
+              </Tooltip>
+            </motion.div>
+          );
+        })}
+      </Box>
+    </Paper>
+  );
+};
+
+export default ModernDock;
+`}
+/>
+
+#### Categorical Style
+
+A structured dock interface with grouped items and visual separators, perfect for organizing related actions and tools.
+
+<CodePreview
+  preview={<DockVariants variant="categorical" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Tooltip, Paper, Divider } from "@mui/material";
+import { motion } from "framer-motion";
+import {
+  FiHome,
+  FiSettings,
+  FiMail,
+  FiCamera,
+  FiGlobe,
+  FiFolder,
+  FiTerminal,
+} from "react-icons/fi";
+
+const CategoricalDock = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const dockItems = [
+    { icon: FiHome, label: "Home", group: "navigation" },
+    { icon: FiFolder, label: "Files", group: "navigation" },
+    { icon: FiGlobe, label: "Browser", group: "navigation" },
+    { icon: FiMail, label: "Mail", group: "communication" },
+    { icon: FiCamera, label: "Camera", group: "media" },
+    { icon: FiTerminal, label: "Terminal", group: "system" },
+    { icon: FiSettings, label: "Settings", group: "system" },
+  ];
+
+  const config = {
+    iconSize: 22,
+    buttonSize: 45,
+    gapSize: 1.5,
+    hoverScale: 1.2,
+    baseAnimation: {
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 20,
+      },
+    },
+  };
+
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        borderRadius: 3,
+        padding: 2,
+        background: "rgba(255, 255, 255, 0.95)",
+        border: "1px solid rgba(0, 0, 0, 0.08)",
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: config.gapSize
+        }}
+      >
+        {dockItems.map((item, index) => {
+          const Icon = item.icon;
+          const isHovered = hoveredIndex === index;
+          const showDivider =
+            index < dockItems.length - 1 &&
+            item.group !== dockItems[index + 1].group;
+
+          return (
+            <Box
+              key={index}
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <motion.div
+                initial={config.baseAnimation.initial}
+                animate={config.baseAnimation.animate}
+                transition={{
+                  ...config.baseAnimation.transition,
+                  delay: index * 0.05,
+                }}
+                onHoverStart={() => setHoveredIndex(index)}
+                onHoverEnd={() => setHoveredIndex(null)}
+              >
+                <Tooltip title={item.label} placement="top" arrow>
+                  <motion.div
+                    animate={{
+                      scale: isHovered ? config.hoverScale : 1,
+                      y: isHovered ? -8 : 0,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 17,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: config.buttonSize,
+                        height: config.buttonSize,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 2,
+                        cursor: "pointer",
+                        color: isHovered ? "#42a5f5" : "text.primary",
+                        transition: "all 0.2s ease",
+                        "&:hover": {
+                          bgcolor: "rgba(0, 0, 0, 0.04)",
+                        },
+                      }}
+                    >
+                      <Icon size={config.iconSize} />
+                    </Box>
+                  </motion.div>
+                </Tooltip>
+              </motion.div>
+
+              {showDivider && (
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{
+                    mx: 2,
+                    height: "32px",
+                    alignSelf: "center",
+                    borderColor: "divider",
+                    opacity: 0.8,
+                  }}
+                />
+              )}
+            </Box>
+          );
+        })}
+      </Box>
+    </Paper>
+  );
+};
+
+export default CategoricalDock;
+`}
+/>
+
+#### Dynamic Style
+
+An interactive dock with smooth animations and scaling effects.
+
+<CodePreview
+  preview={<DockVariants variant="dynamic" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Tooltip, Paper } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FiHome,
+  FiSettings,
+  FiMail,
+  FiCamera,
+  FiGlobe,
+  FiFolder,
+  FiTerminal,
+} from "react-icons/fi";
+
+const DynamicDock = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const dockItems = [
+    { icon: FiHome, label: "Home" },
+    { icon: FiFolder, label: "Files" },
+    { icon: FiGlobe, label: "Browser" },
+    { icon: FiMail, label: "Mail" },
+    { icon: FiCamera, label: "Camera" },
+    { icon: FiTerminal, label: "Terminal" },
+    { icon: FiSettings, label: "Settings" },
+  ];
+
+  const config = {
+    iconSize: 22,
+    buttonSize: 45,
+    gapSize: 2,
+    hoverScale: 1.2,
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+        >
+          <Paper
+            elevation={2}
+            sx={{
+              borderRadius: 3,
+              padding: 2,
+              background: "linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%)",
+              border: "1px solid rgba(0, 0, 0, 0.1)",
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+            }}
+          >
+            <Box sx={{ display: "flex", gap: config.gapSize }}>
+              {dockItems.map((item, index) => {
+                const Icon = item.icon;
+                const isHovered = hoveredIndex === index;
+                const distance = Math.abs(hoveredIndex - index);
+                const scale = isHovered
+                  ? config.hoverScale
+                  : hoveredIndex !== null
+                  ? Math.max(1, config.hoverScale - distance * 0.15)
+                  : 1;
+
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 20,
+                      delay: index * 0.05,
+                    }}
+                    onHoverStart={() => setHoveredIndex(index)}
+                    onHoverEnd={() => setHoveredIndex(null)}
+                  >
+                    <Tooltip title={item.label} placement="top" arrow>
+                      <motion.div
+                        animate={{
+                          scale,
+                          y: isHovered ? -8 : 0,
+                          rotateZ: isHovered ? -8 : 0,
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
+                        <Paper
+                          elevation={isHovered ? 4 : 1}
+                          sx={{
+                            width: config.buttonSize,
+                            height: config.buttonSize,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 2,
+                            cursor: "pointer",
+                            background: isHovered
+                              ? "linear-gradient(135deg, primary.light 0%, primary.main 100%)"
+                              : "white",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              background: "linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)",
+                              color: "white",
+                            },
+                          }}
+                        >
+                          <Icon size={config.iconSize} />
+                        </Paper>
+                      </motion.div>
+                    </Tooltip>
+                  </motion.div>
+                );
+              })}
+            </Box>
+          </Paper>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default DynamicDock;
+`}
+/>
+
+#### Glass Style
+
+A translucent dock with blur effects and smooth animations.
+
+<CodePreview
+  preview={<DockVariants variant="glass" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Tooltip } from "@mui/material";
+import { motion } from "framer-motion";
+import {
+  FiHome,
+  FiSettings,
+  FiMail,
+  FiCamera,
+  FiGlobe,
+  FiFolder,
+  FiTerminal,
+} from "react-icons/fi";
+
+const GlassDock = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const dockItems = [
+    { icon: FiHome, label: "Home" },
+    { icon: FiFolder, label: "Files" },
+    { icon: FiGlobe, label: "Browser" },
+    { icon: FiMail, label: "Mail" },
+    { icon: FiCamera, label: "Camera" },
+    { icon: FiTerminal, label: "Terminal" },
+    { icon: FiSettings, label: "Settings" },
+  ];
+
+  const config = {
+    iconSize: 22,
+    buttonSize: 45,
+    gapSize: 2,
+    hoverScale: 1.2,
+  };
+
+  return (
+    <Box
+      sx={{
+        background: "rgba(255, 255,255, 0.1)",
+        backdropFilter: "blur(12px)",
+        borderRadius: 3,
+        padding: 2,
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        animate={{
+          background: [
+            "linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1))",
+            "linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))",
+            "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1))",
+          ],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderRadius: "12px",
+        }}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          gap: config.gapSize,
+          position: "relative",
+        }}
+      >
+        {dockItems.map((item, index) => {
+          const Icon = item.icon;
+          const isHovered = hoveredIndex === index;
+
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 20,
+                delay: index * 0.05,
+              }}
+              onHoverStart={() => setHoveredIndex(index)}
+              onHoverEnd={() => setHoveredIndex(null)}
+            >
+              <Tooltip title={item.label} placement="top" arrow>
+                <motion.div
+                  animate={{
+                    scale: isHovered ? config.hoverScale : 1,
+                    y: isHovered ? -8 : 0,
+                    rotateY: isHovered ? [0, 180, 360] : 0,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 17,
+                    rotateY: {
+                      duration: 0.8,
+                      ease: "easeInOut",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: config.buttonSize,
+                      height: config.buttonSize,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "50%",
+                      cursor: "pointer",
+                      background: isHovered
+                        ? "rgba(255, 255, 255, 0.2)"
+                        : "rgba(255, 255, 255, 0.1)",
+                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                      boxShadow: isHovered
+                        ? "0 8px 32px rgba(31, 38, 135, 0.15)"
+                        : "none",
+                      color: isHovered ? "#42a5f5" : "text.primary",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        background: "rgba(255, 255, 255, 0.25)",
+                        border: "1px solid rgba(255, 255, 255, 0.4)",
+                      },
+                    }}
+                  >
+                    <Icon size={config.iconSize} />
+                  </Box>
+                </motion.div>
+              </Tooltip>
+            </motion.div>
+          );
+        })}
+      </Box>
+    </Box>
+  );
+};
+
+export default GlassDock;
+`}
+/>

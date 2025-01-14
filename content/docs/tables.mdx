@@ -1,0 +1,381 @@
+---
+title: Tables
+description: Sync UI provides flexible and animated table components with various styles and features.
+---
+
+Sync UI offers sophisticated table components with built-in animations, sorting, pagination, and multiple visual variants.
+
+#### Modern Table
+
+The default table variant with full features including row selection, sorting, and animated transitions.
+
+<CodePreview
+  preview={<TableVariants variant="modern" />}
+  code={`
+import React, { useState, useCallback, useMemo } from "react";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  Typography,
+  Checkbox,
+  useTheme,
+  alpha,
+  CircularProgress,
+} from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import { LuArrowUpDown, LuChevronDown } from "react-icons/lu";
+
+const MotionTableRow = motion(TableRow);
+const MotionPaper = motion(Paper);
+
+const TableVariants = ({ variant = "modern" }) => {
+  const theme = useTheme();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selected, setSelected] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [loading, setLoading] = useState(false);
+
+  const sortedData = useMemo(() => {
+    if (!sortConfig.key) return sampleData;
+    return [...sampleData].sort((a, b) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+      if (typeof aVal === "string") {
+        return sortConfig.direction === "asc"
+          ? aVal.localeCompare(bVal)
+          : bVal.localeCompare(aVal);
+      }
+      return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+    });
+  }, [sortConfig]);
+
+  const handleSort = (key) => {
+    setSortConfig((current) => ({
+      key,
+      direction:
+        current.key === key && current.direction === "asc" ? "desc" : "asc",
+    }));
+  };
+
+  const handleSelectAllClick = useCallback((event) => {
+    setSelected(event.target.checked ? sampleData.map((row) => row.id) : []);
+  }, []);
+
+  const handleSelectClick = useCallback((id) => {
+    setSelected((prev) => {
+      const selectedIndex = prev.indexOf(id);
+      if (selectedIndex === -1) return [...prev, id];
+      return prev.filter((itemId) => itemId !== id);
+    });
+  }, []);
+
+  return (
+    <MotionPaper>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  indeterminate={selected.length > 0 && selected.length < sampleData.length}
+                  checked={selected.length === sampleData.length}
+                  onChange={handleSelectAllClick}
+                />
+              </TableCell>
+              {[
+                { key: "name", label: "Name" },
+                { key: "role", label: "Role" },
+                { key: "status", label: "Status" },
+                { key: "progress", label: "Progress" },
+                { key: "date", label: "Date" },
+              ].map((header) => (
+                <TableCell
+                  key={header.key}
+                  sortDirection={sortConfig.key === header.key ? sortConfig.direction : false}
+                  onClick={() => handleSort(header.key)}
+                >
+                  {header.label}
+                  <LuArrowUpDown size={16} />
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <AnimatePresence mode="wait">
+              {sortedData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => (
+                  <MotionTableRow key={row.id}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selected.indexOf(row.id) !== -1}
+                        onChange={() => handleSelectClick(row.id)}
+                      />
+                    </TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.role}</TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    <TableCell>{row.progress}%</TableCell>
+                    <TableCell>{row.date}</TableCell>
+                  </MotionTableRow>
+                ))}
+            </AnimatePresence>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={sampleData.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(e, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+      />
+    </MotionPaper>
+  );
+};
+
+export default TableVariants;
+`}
+/>
+
+#### Minimal Table
+
+A simplified table variant focused on essential data display with smooth animations.
+
+<CodePreview
+  preview={<TableVariants variant="minimal" />}
+  code={`
+import React, { useState, useMemo } from "react";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  useTheme,
+  alpha,
+} from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+const MotionTableRow = motion(TableRow);
+const MotionPaper = motion(Paper);
+
+const TableVariants = ({ variant = "minimal" }) => {
+  const theme = useTheme();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
+
+  return (
+    <MotionPaper>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell align="right">Progress</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <AnimatePresence mode="wait">
+              {sampleData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => (
+                  <MotionTableRow
+                    key={row.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.role}</TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    <TableCell align="right">{row.progress}%</TableCell>
+                  </MotionTableRow>
+                ))}
+            </AnimatePresence>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={sampleData.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(e, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+      />
+    </MotionPaper>
+  );
+};
+
+export default TableVariants;
+`}
+/>
+
+#### Expandable Table
+
+A table variant with expandable rows for displaying additional details.
+
+<CodePreview
+  preview={<TableVariants variant="expandable" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  Typography,
+  IconButton,
+  Tooltip,
+  Collapse,
+  useTheme,
+  alpha,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { LuChevronDown, LuSearch, LuFilter } from "react-icons/lu";
+
+const MotionTableRow = motion(TableRow);
+const MotionPaper = motion(Paper);
+
+const TableVariants = ({ variant = "expandable" }) => {
+  const theme = useTheme();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
+  const [expandedRow, setExpandedRow] = useState(null);
+
+  return (
+    <MotionPaper>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox" />
+              <TableCell>Name</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell align="right">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sampleData
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => (
+                <React.Fragment key={row.id}>
+                  <MotionTableRow>
+                    <TableCell padding="checkbox">
+                      <IconButton
+                        size="small"
+                        onClick={() => setExpandedRow(expandedRow === row.id ? null : row.id)}
+                      >
+                        <LuChevronDown />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="subtitle2">{row.name}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {row.details.email}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{row.role}</TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    <TableCell>{row.date}</TableCell>
+                    <TableCell align="right">
+                      <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
+                        <Tooltip title="View Details">
+                          <IconButton size="small">
+                            <LuSearch />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Filter">
+                          <IconButton size="small">
+                            <LuFilter />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
+                  </MotionTableRow>
+                  <TableRow>
+                    <TableCell colSpan={6} sx={{ p: 0, border: 0 }}>
+                      <Collapse in={expandedRow === row.id}>
+                        <Box sx={{ p: 3, bgcolor: alpha(theme.palette.primary.main, 0.04) }}>
+                          <Typography variant="h6" gutterBottom>
+                            Additional Details
+                          </Typography>
+                          <Box
+                            sx={{
+                              display: "grid",
+                              gridTemplateColumns: {
+                                xs: "1fr",
+                                sm: "repeat(2, 1fr)",
+                                md: "repeat(3, 1fr)",
+                              },
+                              gap: 3,
+                            }}
+                          >
+                            {Object.entries(row.details).map(([key, value]) => (
+                              <Box key={key}>
+                                <Typography variant="subtitle2" color="text.secondary">
+                                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                                </Typography>
+                                <Typography>
+                                  {Array.isArray(value) ? value.join(", ") : value}
+                                </Typography>
+                              </Box>
+                            ))}
+                          </Box>
+                        </Box>
+                      </Collapse>
+                    </TableCell>
+                  </TableRow>
+                </React.Fragment>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={sampleData.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={(e, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+      />
+    </MotionPaper>
+  );
+};
+
+export default TableVariants;
+`}
+/>
