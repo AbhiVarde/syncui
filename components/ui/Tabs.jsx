@@ -291,14 +291,6 @@ const TabVariants = ({ variant }) => {
         padding: isMobile ? 1 : 2,
       }}
     >
-      {asPath !== "/docs/tabs" && (
-        <Typography variant={isMobile ? "subtitle1" : "h6"}>
-          {variant
-            .split(/(?=[A-Z])/)
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")}
-        </Typography>
-      )}
       {renderTabs()}
     </Box>
   );
