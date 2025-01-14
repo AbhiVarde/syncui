@@ -285,11 +285,6 @@ const MarqueeVariants = ({ variant }) => {
           overflow: "hidden",
         }}
       >
-        {asPath !== "/docs/marquee" && (
-          <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
-            {variant.charAt(0).toUpperCase() + variant.slice(1)} Marquee
-          </Typography>
-        )}
         {renderMarquee()}
       </Box>
     </AnimatePresence>
