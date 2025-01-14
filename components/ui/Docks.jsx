@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Tooltip, Paper, Divider, useTheme } from "@mui/material";
+import {
+  Box,
+  Tooltip,
+  Paper,
+  Divider,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FiHome,
@@ -15,8 +22,10 @@ const DockVariants = ({ variant = "minimal" }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isDark = theme.palette.mode === "dark";
 
+  // Responsive configurations
   const dockItems = [
     { icon: FiHome, label: "Home", group: "main" },
     { icon: FiFolder, label: "Files", group: "main" },
@@ -25,9 +34,8 @@ const DockVariants = ({ variant = "minimal" }) => {
     { icon: FiCamera, label: "Camera", group: "apps" },
     { icon: FiTerminal, label: "Terminal", group: "system" },
     { icon: FiSettings, label: "Settings", group: "system" },
-  ];
+  ].slice(0, isMobile ? 5 : 7); // Show fewer items on mobile
 
-  // Theme-aware color configurations
   const themeColors = {
     background: isDark ? "rgba(30, 32, 35, 0.95)" : "rgba(255, 255, 255, 0.95)",
     paperGradient: isDark
@@ -42,12 +50,12 @@ const DockVariants = ({ variant = "minimal" }) => {
     dividerColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)",
   };
 
-  // Consistent size configurations
+  // Responsive size configurations
   const config = {
-    iconSize: 22,
-    buttonSize: 45,
-    gapSize: 2,
-    hoverScale: 1.2,
+    iconSize: isMobile ? 18 : 22,
+    buttonSize: isMobile ? 35 : 45,
+    gapSize: isMobile ? 1 : 2,
+    hoverScale: isMobile ? 1.1 : 1.2,
     baseAnimation: {
       initial: { opacity: 0, y: 20 },
       animate: { opacity: 1, y: 0 },
@@ -66,8 +74,8 @@ const DockVariants = ({ variant = "minimal" }) => {
           <Paper
             elevation={3}
             sx={{
-              borderRadius: 4,
-              padding: 2,
+              borderRadius: isMobile ? 3 : 4,
+              padding: isMobile ? 1 : 2,
               background: themeColors.paperGradient,
               border: `1px solid ${themeColors.borderColor}`,
               boxShadow: isDark
@@ -107,7 +115,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                         animate={{
                           scale: isHovered ? config.hoverScale : neighborScale,
                           rotate: isHovered ? [0, -10, 10, 0] : 0,
-                          y: isHovered ? -12 : 0,
+                          y: isHovered ? (isMobile ? -8 : -12) : 0,
                         }}
                         transition={{
                           type: "spring",
@@ -126,7 +134,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            borderRadius: 3,
+                            borderRadius: isMobile ? 2 : 3,
                             cursor: "pointer",
                             background: isHovered
                               ? themeColors.iconHoverGradient
@@ -140,7 +148,6 @@ const DockVariants = ({ variant = "minimal" }) => {
                               ? themeColors.iconHoverColor
                               : themeColors.iconColor,
                             transition: "all 0.3s ease",
-                            position: "relative",
                           }}
                         >
                           <Icon size={config.iconSize} />
@@ -159,8 +166,8 @@ const DockVariants = ({ variant = "minimal" }) => {
           <Paper
             elevation={0}
             sx={{
-              borderRadius: 3,
-              padding: 2,
+              borderRadius: isMobile ? 2 : 3,
+              padding: isMobile ? 1 : 2,
               background: themeColors.paperGradient,
               border: `1px solid ${themeColors.borderColor}`,
               backdropFilter: "blur(8px)",
@@ -170,7 +177,7 @@ const DockVariants = ({ variant = "minimal" }) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 1.5,
+                gap: isMobile ? 1 : 1.5,
               }}
             >
               {dockItems.map((item, index) => {
@@ -214,7 +221,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
-                              borderRadius: 2,
+                              borderRadius: isMobile ? 1.5 : 2,
                               cursor: "pointer",
                               color: isHovered
                                 ? !isDark
@@ -235,7 +242,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                       </Tooltip>
                     </motion.div>
 
-                    {showDivider && (
+                    {showDivider && !isMobile && (
                       <Divider
                         orientation="vertical"
                         flexItem
@@ -497,8 +504,8 @@ const DockVariants = ({ variant = "minimal" }) => {
         justifyContent: "center",
         alignItems: "flex-end",
         width: "100%",
-        minHeight: 90,
-        padding: 2,
+        minHeight: isMobile ? 70 : 90,
+        padding: isMobile ? 1 : 2,
       }}
     >
       {renderVariant()}
