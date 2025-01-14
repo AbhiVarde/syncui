@@ -1,8 +1,19 @@
 import React from "react";
-import { Box, Tooltip, Typography, Avatar, Paper } from "@mui/material";
+import {
+  Box,
+  Tooltip,
+  Typography,
+  Avatar,
+  Paper,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AvatarVariants = ({ variant, totalUsers = 60 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const avatarUrls = [
     "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61",
     "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
@@ -18,12 +29,16 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
     "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79",
   ];
 
+  const avatarSize = isMobile ? 35 : 50;
+  const visibleAvatars = isMobile ? 5 : 8;
+  const gridColumns = isMobile ? 3 : 4;
+
   const renderVariant = () => {
     switch (variant) {
       case "overlappingCircles":
         return (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {avatarUrls.slice(0, 8).map((url, index) => (
+            {avatarUrls.slice(0, visibleAvatars).map((url, index) => (
               <Tooltip
                 key={index}
                 title={`User ${index + 1}`}
@@ -47,8 +62,8 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                   <Avatar
                     src={url}
                     sx={{
-                      width: 50,
-                      height: 50,
+                      width: avatarSize,
+                      height: avatarSize,
                       border: "2px solid white",
                       marginLeft: index > 0 ? -2 : 0,
                       boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
@@ -66,12 +81,12 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
+              gridTemplateColumns: `repeat(${gridColumns}, 1fr)`,
               gap: 1,
-              maxWidth: 300,
+              maxWidth: isMobile ? 200 : 300,
             }}
           >
-            {avatarUrls.map((url, index) => (
+            {avatarUrls.slice(0, gridColumns * 3).map((url, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.5 }}
@@ -82,8 +97,8 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                 <Avatar
                   src={url}
                   sx={{
-                    width: 50,
-                    height: 50,
+                    width: avatarSize,
+                    height: avatarSize,
                     border: "2px solid white",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                     cursor: "pointer",
@@ -101,12 +116,12 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
               display: "flex",
               justifyContent: "center",
               flexWrap: "wrap",
-              gap: 2,
-              maxWidth: 400,
+              gap: isMobile ? 1 : 2,
+              maxWidth: isMobile ? 280 : 400,
             }}
           >
             <AnimatePresence>
-              {avatarUrls.slice(0, 10).map((url, index) => (
+              {avatarUrls.slice(0, isMobile ? 6 : 10).map((url, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -128,7 +143,7 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                   <Paper
                     elevation={2}
                     sx={{
-                      p: 1,
+                      p: 0.5,
                       bgcolor: "background.paper",
                       borderRadius: 2,
                     }}
@@ -136,8 +151,8 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                     <Avatar
                       src={url}
                       sx={{
-                        width: 45,
-                        height: 45,
+                        width: avatarSize - 5,
+                        height: avatarSize - 5,
                         border: "2px solid",
                         borderColor: "primary.light",
                         cursor: "pointer",
@@ -157,13 +172,13 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
               sx={{
                 display: "flex",
                 flexWrap: "wrap",
-                gap: 1,
+                gap: isMobile ? 0.5 : 1,
                 justifyContent: "center",
-                maxWidth: 320,
-                mb: 2,
+                maxWidth: isMobile ? 240 : 320,
+                mb: isMobile ? 1 : 2,
               }}
             >
-              {avatarUrls.slice(0, 8).map((url, index) => (
+              {avatarUrls.slice(0, isMobile ? 6 : 8).map((url, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -182,8 +197,8 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                   <Avatar
                     src={url}
                     sx={{
-                      width: 50,
-                      height: 50,
+                      width: avatarSize,
+                      height: avatarSize,
                       border: "2px solid",
                       borderColor: "background.paper",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
@@ -198,7 +213,10 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
             >
-              <Typography variant="h6" sx={{ fontWeight: 500 }}>
+              <Typography
+                variant={isMobile ? "subtitle1" : "h6"}
+                sx={{ fontWeight: 500 }}
+              >
                 {totalUsers}+ Contributors
               </Typography>
             </motion.div>
@@ -216,7 +234,7 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
         display: "flex",
         justifyContent: "center",
         width: "100%",
-        py: 3,
+        py: isMobile ? 2 : 3,
       }}
     >
       {renderVariant()}
