@@ -23,10 +23,7 @@ import {
   MenuItem,
   styled,
 } from "@mui/material";
-import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 import {
-  RxSun,
-  RxMoon,
   RxChatBubble,
   // RxArrowRight,
   RxTextAlignLeft,
@@ -34,6 +31,8 @@ import {
   RxCross2,
   RxExternalLink,
   RxDotsVertical,
+  // RxDashboard,
+  RxCube,
 } from "react-icons/rx";
 import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,11 +40,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { GoSidebarCollapse } from "react-icons/go";
 import { FaCheck } from "react-icons/fa";
+import { useGitHub } from "@/context/GithubContex";
+import HeaderIcons from "../headerIcons";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
   boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
   overflow: "hidden",
+  minWidth: 250,
+  maxWidth: 300,
 }));
 
 const StyledMenuList = styled(MenuList)(({ theme }) => ({
@@ -63,10 +66,11 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
 }));
 
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
-  const router = useRouter();
-  const { asPath } = router;
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
+  const router = useRouter();
+  const { asPath } = router;
+  const { stars, loading } = useGitHub();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -88,16 +92,28 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
   const menuItems = [
     {
+      label: "Templates",
+      href: "/",
+      external: false,
+      icon: <RxCube size={18} />,
+      comingSoon: true,
+      disabled: true,
+    },
+    {
       label: "Guestbook",
       href: "/guestbook",
       external: false,
       icon: <RxChatBubble size={16} />,
+      comingSoon: false,
+      disabled: false,
     },
     {
       label: "Changelog",
       href: "/docs/changelog",
       external: false,
-      icon: <RxExternalLink size={16} />,
+      icon: <RxExternalLink size={18} />,
+      comingSoon: false,
+      disabled: false,
     },
   ];
 
@@ -308,8 +324,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {(item.title === "Cards" ||
-                        item.title === "Carousels") && (
+                      {(item.title === "Avatars" ||
+                        item.title === "Docks" ||
+                        item.title === "Tables") && (
                         <Box
                           component="span"
                           sx={{
@@ -492,6 +509,54 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     </motion.div>
   );
 
+  const renderPopoverMenuItem = (item, index) => (
+    <MenuItem
+      key={index}
+      disabled={item.disabled}
+      component={item.external ? "a" : Link}
+      href={item.href}
+      onClick={item.disabled ? undefined : handleClose}
+      sx={{
+        borderRadius: "10px",
+        fontSize: "0.875rem",
+        padding: 1.5,
+        margin: 0,
+        "&:hover": {
+          backgroundColor: theme.palette.action.hover,
+        },
+      }}
+    >
+      {item.icon && (
+        <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
+          {item.icon}
+        </Box>
+      )}
+      {item.label}
+      {item.comingSoon && (
+        <Box
+          component="span"
+          sx={{
+            ml: 1,
+            px: 0.8,
+            py: 0.2,
+            bgcolor: "#008080",
+            color: "#ffffff",
+            borderRadius: "10px",
+            fontSize: "0.65rem",
+            fontWeight: 500,
+            lineHeight: 1,
+            letterSpacing: "0.02em",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          Coming Soon
+        </Box>
+      )}
+    </MenuItem>
+  );
+
   return (
     <Fragment>
       <AppBar
@@ -582,6 +647,38 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   <Stack direction="row" spacing={1} marginRight="10px">
                     <Button
                       color="inherit"
+                      disabled
+                      sx={{
+                        fontSize: "15px !important",
+                        padding: "4px 8px !important",
+                        fontWeight: 400,
+                        textTransform: "none",
+                      }}
+                    >
+                      Templates
+                      <Box
+                        component="span"
+                        sx={{
+                          ml: 1,
+                          px: 0.8,
+                          py: 0.2,
+                          bgcolor: "#008080",
+                          color: "#ffffff",
+                          borderRadius: "10px",
+                          fontSize: "0.65rem",
+                          fontWeight: 500,
+                          lineHeight: 1,
+                          letterSpacing: "0.02em",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        Coming Soon
+                      </Box>
+                    </Button>
+                    <Button
+                      color="inherit"
                       endIcon={<RxChatBubble size={16} />}
                       href="/guestbook"
                       sx={{
@@ -609,43 +706,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     </Button>
                   </Stack>
                 )}
-                <IconButton
-                  href={GITHUB_URL}
-                  color="inherit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  size="small"
-                  aria-label="GitHub"
-                >
-                  <RiGithubFill size={22} />
-                </IconButton>
-                <IconButton
-                  color="inherit"
-                  href={TWITTER_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  size="small"
-                  aria-label="Twitter"
-                >
-                  <RiTwitterXLine size={17} />
-                </IconButton>
-                <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-                  {isDarkMode ? (
-                    <RxMoon size={19} color="inherit" />
-                  ) : (
-                    <RxSun size={19} color="inherit" />
-                  )}
-                </IconButton>
-                {!isMediumUp && (
-                  <IconButton
-                    ref={anchorRef}
-                    aria-controls={menuOpen ? "menu-list-grow" : undefined}
-                    aria-haspopup="true"
-                    onClick={handleToggle}
-                  >
-                    <RxDotsVertical size={19} color="inherit" />
-                  </IconButton>
-                )}
+                <HeaderIcons
+                  isMediumUp={isMediumUp}
+                  anchorRef={anchorRef}
+                  menuOpen={menuOpen}
+                  stars={stars}
+                  loading={loading}
+                  isDarkMode={isDarkMode}
+                  toggleTheme={toggleTheme}
+                  handleToggle={handleToggle}
+                />
               </Box>
             </motion.div>
             {/* )} */}
@@ -697,7 +767,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           id="menu-list-grow"
                         >
                           {menuItems.map((item, index) =>
-                            renderMenuItem(item, index)
+                            renderPopoverMenuItem(item, index)
                           )}
                         </StyledMenuList>
                       </motion.div>
