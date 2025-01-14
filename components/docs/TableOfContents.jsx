@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, List, ListItem, Button } from "@mui/material";
 import { RxTextAlignLeft, RxStar } from "react-icons/rx";
 import { GITHUB_URL } from "../../utils/constants";
+import { useGitHub } from "@/context/GithubContex";
+import { RiGithubFill } from "react-icons/ri";
 
 export const TableOfContents = ({ toc }) => {
+  const { stars, loading } = useGitHub();
+
   const [activeId, setActiveId] = useState("");
 
   useEffect(() => {
@@ -90,29 +94,58 @@ export const TableOfContents = ({ toc }) => {
           </ListItem>
         ))}
       </List>
-      <Button
-        variant="outlined"
-        sx={{
-          mt: 2,
-          mx: 2,
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          padding: "8px 16px",
-          borderRadius: "8px",
-          borderColor: "inherit",
-          color: "inherit",
-          textTransform: "none",
-        }}
+      <Box
+        component="a"
         href={GITHUB_URL}
         target="_blank"
         rel="noopener noreferrer"
+        sx={{
+          m: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 1.5,
+          py: 1,
+          px: 2,
+          borderRadius: "10px",
+          color: "inherit",
+          textDecoration: "none",
+          bgcolor: (theme) => theme.palette.action.hover,
+          border: "1px solid",
+          borderColor: "divider",
+          transition: "all 0.2s ease-in-out",
+          "&:hover": {
+            bgcolor: (theme) => theme.palette.action.selected,
+            transform: "translateY(-2px)",
+            boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
+          },
+        }}
       >
-        <RxStar size={18} style={{ marginRight: "4px" }} />
-        <Typography variant="caption" fontWeight={500}>
-          Star on GitHub
-        </Typography>
-      </Button>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
+          <RiGithubFill size={20} />
+          <Typography
+            variant="body2"
+            fontWeight={500}
+            sx={{ borderRight: "1px solid", borderColor: "divider", pr: 1.5 }}
+          >
+            Star
+          </Typography>
+        </Box>
+        {!loading ? (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
+            <Typography variant="body2" fontWeight={500}>
+              {stars.toLocaleString()}
+            </Typography>
+            <RxStar size={16} style={{ marginTop: 1 }} />
+          </Box>
+        ) : (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="body2" fontWeight={500}>
+              Star
+            </Typography>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };
