@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import Router from "next/router";
@@ -7,10 +6,10 @@ import { Analytics } from "@vercel/analytics/react";
 import Layout from "../components/layout/Layout";
 import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
-import { ThemeProvider, useTheme } from '../context/ThemeContext';
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import "../styles/globals.css";
 import { DefaultSeo } from "next-seo";
-
+import { GitHubProvider } from "@/context/GithubContex";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -21,11 +20,12 @@ function MyApp({ Component, pageProps }) {
         canonical="https://www.syncui.design/"
         openGraph={{
           title: "Sync UI",
-          description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+          description:
+            "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
           siteName: "Sync UI",
           url: "https://www.syncui.design/",
           type: "website",
-          locale: 'en_US',
+          locale: "en_US",
           images: [
             {
               url: "https://www.syncui.design/default-og-image.png",
@@ -39,12 +39,15 @@ function MyApp({ Component, pageProps }) {
           cardType: "summary_large_image",
           site: "@syncuidesign",
           title: "Sync UI",
-          description: "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+          description:
+            "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
           images: "https://www.syncui.design/default-og-image.png",
         }}
       />
       <ThemeProvider>
-        <AppContent Component={Component} pageProps={pageProps} />
+        <GitHubProvider>
+          <AppContent Component={Component} pageProps={pageProps} />
+        </GitHubProvider>
       </ThemeProvider>
     </>
   );
@@ -98,7 +101,11 @@ function AppContent({ Component, pageProps }) {
           toc={pageProps.toc}
         >
           <AnimatePresence mode="wait" initial={false}>
-            <Component {...pageProps} key={currentRoute} isDarkMode={isDarkMode} />
+            <Component
+              {...pageProps}
+              key={currentRoute}
+              isDarkMode={isDarkMode}
+            />
           </AnimatePresence>
         </Layout>
       )}
