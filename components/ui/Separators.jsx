@@ -109,15 +109,6 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      {label && (
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          sx={{ mb: 1, textAlign: "center" }}
-        >
-          {label}
-        </Typography>
-      )}
       {renderSeparator()}
     </Box>
   );
