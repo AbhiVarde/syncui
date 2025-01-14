@@ -3,7 +3,6 @@ import {
   Box,
   Container,
   Typography,
-  IconButton,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -13,6 +12,26 @@ import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 const Footer = () => {
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  const socialLinkStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 0.8,
+    color: "inherit",
+    textDecoration: "none",
+    bgcolor: (theme) => theme.palette.action.hover,
+    px: 1.4, // Increased padding-x slightly for better balance
+    py: 0.8, // Increased padding-y slightly for better balance
+    borderRadius: "8px",
+    transition: "all 0.2s ease-in-out",
+    border: "1px solid",
+    borderColor: "divider",
+    height: "32px", // Fixed height for consistency
+    "&:hover": {
+      bgcolor: (theme) => theme.palette.action.selected,
+      transform: "translateY(-1px)",
+    },
+  };
 
   return (
     <Box
@@ -54,25 +73,35 @@ const Footer = () => {
               .
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-            <IconButton
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box
+              component="a"
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              size="small"
-              color="inherit"
+              sx={socialLinkStyle}
             >
-              <RiGithubFill size={22} />
-            </IconButton>
-            <IconButton
+              <RiGithubFill size={20} />
+            </Box>
+            <Box
+              component="a"
               href={TWITTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              size="small"
-              color="inherit"
+              sx={socialLinkStyle}
             >
-              <RiTwitterXLine size={17} />
-            </IconButton>
+              <RiTwitterXLine size={16} />
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{
+                  fontWeight: 500,
+                  lineHeight: 1,
+                }}
+              >
+                Follow
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Container>
