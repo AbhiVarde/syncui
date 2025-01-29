@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Tooltip,
@@ -7,12 +7,14 @@ import {
   Paper,
   useTheme,
   useMediaQuery,
+  Skeleton,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AvatarVariants = ({ variant, totalUsers = 60 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [loadedImages, setLoadedImages] = useState({});
 
   const avatarUrls = [
     "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61",
@@ -32,6 +34,45 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
   const avatarSize = isMobile ? 35 : 50;
   const visibleAvatars = isMobile ? 5 : 8;
   const gridColumns = isMobile ? 3 : 4;
+
+  // Preload images
+  useEffect(() => {
+    avatarUrls.forEach((url, index) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        setLoadedImages((prev) => ({
+          ...prev,
+          [index]: true,
+        }));
+      };
+      img.onerror = () => {
+        setLoadedImages((prev) => ({
+          ...prev,
+          [index]: "error",
+        }));
+      };
+    });
+  }, []);
+
+  const AvatarWithFallback = ({ url, index, ...props }) => {
+    if (!loadedImages[index]) {
+      return (
+        <Skeleton
+          variant="circular"
+          width={props.sx?.width || avatarSize}
+          height={props.sx?.height || avatarSize}
+        />
+      );
+    }
+
+    return (
+      <Avatar
+        src={loadedImages[index] === "error" ? undefined : url}
+        {...props}
+      />
+    );
+  };
 
   const renderVariant = () => {
     switch (variant) {
@@ -59,8 +100,9 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                     position: "relative",
                   }}
                 >
-                  <Avatar
-                    src={url}
+                  <AvatarWithFallback
+                    url={url}
+                    index={index}
                     sx={{
                       width: avatarSize,
                       height: avatarSize,
@@ -94,8 +136,9 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                 transition={{ duration: 0.2, delay: index * 0.05 }}
                 whileHover={{ scale: 1.15, zIndex: 1 }}
               >
-                <Avatar
-                  src={url}
+                <AvatarWithFallback
+                  url={url}
+                  index={index}
                   sx={{
                     width: avatarSize,
                     height: avatarSize,
@@ -148,8 +191,9 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                       borderRadius: 2,
                     }}
                   >
-                    <Avatar
-                      src={url}
+                    <AvatarWithFallback
+                      url={url}
+                      index={index}
                       sx={{
                         width: avatarSize - 5,
                         height: avatarSize - 5,
@@ -194,8 +238,9 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <Avatar
-                    src={url}
+                  <AvatarWithFallback
+                    url={url}
+                    index={index}
                     sx={{
                       width: avatarSize,
                       height: avatarSize,
