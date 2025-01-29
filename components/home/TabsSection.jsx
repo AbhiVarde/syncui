@@ -134,7 +134,6 @@ const SectionContent = ({ title, description, children, url }) => {
           sx={{
             px: title === "Responsive Buttons" ? 2.5 : 4,
             py: 2,
-            overflow: "scroll",
           }}
         >
           {children}
