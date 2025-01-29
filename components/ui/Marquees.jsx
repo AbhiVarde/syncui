@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -7,7 +7,7 @@ import {
   CardContent,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { useRouter } from "next/router";
 
 const dummyTweets = [
@@ -138,9 +138,61 @@ const MarqueeVariants = ({ variant }) => {
   const router = useRouter();
   const { asPath } = router;
   const [isPaused, setIsPaused] = useState(false);
+  const controls = useAnimation();
+  const progressRef = useRef(0);
 
-  const handleHoverStart = () => setIsPaused(true);
-  const handleHoverEnd = () => setIsPaused(false);
+  const handleHoverStart = () => {
+    setIsPaused(true);
+    controls.stop();
+  };
+
+  const handleHoverEnd = () => {
+    setIsPaused(false);
+    startAnimation();
+  };
+
+  const startAnimation = async () => {
+    switch (variant) {
+      case "horizontal":
+        await controls.start({
+          x: "-50%",
+          transition: {
+            duration: 40,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+          },
+        });
+        break;
+      case "vertical":
+        await controls.start({
+          y: "-50%",
+          transition: {
+            duration: 40,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+          },
+        });
+        break;
+      case "3D":
+        await controls.start({
+          rotateY: 360,
+          transition: {
+            duration: 20,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+          },
+        });
+        break;
+    }
+  };
+
+  useEffect(() => {
+    startAnimation();
+    return () => controls.stop();
+  }, [variant]);
 
   const commonStyles = {
     display: "flex",
@@ -155,18 +207,10 @@ const MarqueeVariants = ({ variant }) => {
         return (
           <Box sx={{ ...commonStyles, width: "100%", my: 2 }}>
             <motion.div
-              animate={{ x: isPaused ? 0 : [0, -50 + "%"] }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 40,
-                  ease: "linear",
-                },
-              }}
+              animate={controls}
+              style={{ display: "flex" }}
               onHoverStart={handleHoverStart}
               onHoverEnd={handleHoverEnd}
-              style={{ display: "flex" }}
             >
               {[...dummyTweets, ...dummyTweets, ...dummyTweets].map(
                 (tweet, index) => (
@@ -193,18 +237,10 @@ const MarqueeVariants = ({ variant }) => {
             }}
           >
             <motion.div
-              animate={{ y: isPaused ? 0 : [0, -50 + "%"] }}
-              transition={{
-                y: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 40,
-                  ease: "linear",
-                },
-              }}
+              animate={controls}
+              style={{ display: "flex", flexDirection: "column" }}
               onHoverStart={handleHoverStart}
               onHoverEnd={handleHoverEnd}
-              style={{ display: "flex", flexDirection: "column" }}
             >
               {[...dummyTweets, ...dummyTweets, ...dummyTweets].map(
                 (tweet, index) => (
@@ -230,15 +266,7 @@ const MarqueeVariants = ({ variant }) => {
             }}
           >
             <motion.div
-              animate={{
-                rotateY: isPaused ? 0 : [0, 360],
-              }}
-              transition={{
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 20,
-                ease: "linear",
-              }}
+              animate={controls}
               onHoverStart={handleHoverStart}
               onHoverEnd={handleHoverEnd}
               style={{
