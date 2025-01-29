@@ -83,6 +83,8 @@ const DockVariants = ({ variant = "minimal" }) => {
                 : "0 8px 32px rgba(0, 0, 0, 0.12)",
               position: "relative",
               overflow: "hidden",
+              maxWidth: "100%",
+              overflowX: "auto",
             }}
           >
             <Box
@@ -90,6 +92,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                 display: "flex",
                 gap: config.gapSize,
                 position: "relative",
+                width: "max-content",
               }}
             >
               {dockItems.map((item, index) => {
@@ -171,6 +174,8 @@ const DockVariants = ({ variant = "minimal" }) => {
               background: themeColors.paperGradient,
               border: `1px solid ${themeColors.borderColor}`,
               backdropFilter: "blur(8px)",
+              maxWidth: "100%",
+              overflowX: "auto",
             }}
           >
             <Box
@@ -178,6 +183,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                 display: "flex",
                 alignItems: "center",
                 gap: isMobile ? 1 : 1.5,
+                width: "max-content",
               }}
             >
               {dockItems.map((item, index) => {
@@ -282,9 +288,17 @@ const DockVariants = ({ variant = "minimal" }) => {
                     boxShadow: isDark
                       ? "0 4px 20px rgba(0, 0, 0, 0.2)"
                       : "0 4px 20px rgba(0, 0, 0, 0.08)",
+                    maxWidth: "100%",
+                    overflowX: "auto",
                   }}
                 >
-                  <Box sx={{ display: "flex", gap: config.gapSize }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: config.gapSize,
+                      width: "max-content",
+                    }}
+                  >
                     {dockItems.map((item, index) => {
                       const Icon = item.icon;
                       const isHovered = hoveredIndex === index;
@@ -366,6 +380,8 @@ const DockVariants = ({ variant = "minimal" }) => {
               border: `1px solid ${themeColors.borderColor}`,
               position: "relative",
               overflow: "hidden",
+              maxWidth: "100%",
+              overflowX: "auto",
             }}
           >
             <motion.div
@@ -407,6 +423,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                 display: "flex",
                 gap: config.gapSize,
                 position: "relative",
+                width: "max-content",
               }}
             >
               {dockItems.map((item, index) => {
@@ -506,6 +523,7 @@ const DockVariants = ({ variant = "minimal" }) => {
         width: "100%",
         minHeight: isMobile ? 70 : 90,
         padding: isMobile ? 1 : 2,
+        overflowX: "hidden",
       }}
     >
       {renderVariant()}
