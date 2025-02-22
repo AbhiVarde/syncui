@@ -101,7 +101,7 @@ const componentVariants = {
     { variant: "dotted", label: "Dotted" },
     { variant: "starry", label: "Starry" },
   ],
-  marquees: ["horizontal", "vertical", "3D"],
+  marquees: ["horizontal", "vertical", "diagonal"],
 };
 
 const SectionContent = ({ title, description, children, url }) => {
