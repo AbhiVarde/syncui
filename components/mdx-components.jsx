@@ -102,7 +102,7 @@ const CodeBlock = ({ className, children }) => {
         overflow: "hidden",
       }}
     >
-      <Tooltip arrow title={copied ? "Copied!" : "Copy code"}>
+      <Tooltip arrow title={copied ? "Code copied!" : "Copy code"}>
         <IconButton
           onClick={handleCopy}
           className="copy-button"
@@ -113,15 +113,23 @@ const CodeBlock = ({ className, children }) => {
             right: isSmallScreen ? 4 : 8,
             color: "grey.300",
             bgcolor: "rgba(0, 0, 0, 0.3)",
+            width: 32,
+            height: 32,
+            minWidth: 32,
+            minHeight: 32,
             transition: "all 0.2s ease-in-out",
             opacity: 1,
             "&:hover": {
               bgcolor: "rgba(0, 0, 0, 0.5)",
             },
             zIndex: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "8px",
           }}
         >
-          {copied ? <RxCheck size={16} /> : <RxCopy size={16} />}
+          {copied ? <RxCheck size={18} /> : <RxCopy size={18} />}
         </IconButton>
       </Tooltip>
       <Box
