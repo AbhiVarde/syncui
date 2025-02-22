@@ -20,29 +20,17 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for WebKit browsers */
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-/* Custom scrollbar styles */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(0, 0%, 95%);
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(0, 0%, 70%);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(0, 0%, 60%);
 }
 
 /* Selection styles for light mode */
