@@ -10,21 +10,26 @@ import {
   LuArrowRight,
 } from "react-icons/lu";
 
-// Motion components with will-change optimization
+// Motion components with optimized will-change
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
 
-// Optimized preload function with Promise.all
+// Enhanced preload function with cache tracking
 const preloadImages = async (images) => {
-  const loadPromises = images.map((slideData) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = slideData.image;
-    });
-  });
-  return Promise.all(loadPromises);
+  const cache = new Set();
+  await Promise.all(
+    images.map((slideData) => {
+      if (cache.has(slideData.image)) return;
+      cache.add(slideData.image);
+
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = slideData.image;
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    })
+  );
 };
 
 // Slide data
@@ -88,189 +93,96 @@ const imageSlidesContent = [
     description: "Where science meets digital creativity",
   },
 ];
-
-// Animation variants
 const slideAnimations = {
   scale: {
-    initial: { scale: 0.8, opacity: 0, willChange: "transform, opacity" },
-    animate: { scale: 1, opacity: 1, willChange: "transform, opacity" },
-    exit: { scale: 0.8, opacity: 0, willChange: "transform, opacity" },
-    transition: {
-      type: "spring",
-      stiffness: 500,
-      damping: 35,
-      mass: 0.6,
-      velocity: 2,
-    },
+    initial: { scale: 0.85, opacity: 0 },
+    animate: { scale: 1, opacity: 1, transition: { duration: 0.5 } },
+    exit: { scale: 0.85, opacity: 0, transition: { duration: 0.3 } },
   },
   fade: {
-    initial: { opacity: 0, willChange: "opacity" },
-    animate: { opacity: 1, willChange: "opacity" },
-    exit: { opacity: 0, willChange: "opacity" },
-    transition: { duration: 0.2 },
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.5 } },
+    exit: { opacity: 0, transition: { duration: 0.3 } },
   },
   parallax: {
-    initial: (direction) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-      willChange: "transform, opacity",
-    }),
-    animate: {
-      x: 0,
-      opacity: 1,
-      willChange: "transform, opacity",
-    },
+    initial: (direction) => ({ x: direction > 0 ? "100%" : "-100%" }),
+    animate: { x: 0, transition: { duration: 0.6, ease: "easeInOut" } },
     exit: (direction) => ({
-      x: direction > 0 ? -1000 : 1000,
-      opacity: 0,
-      willChange: "transform, opacity",
+      x: direction > 0 ? "-100%" : "100%",
+      transition: { duration: 0.6, ease: "easeInOut" },
     }),
-    transition: {
-      x: { type: "spring", stiffness: 500, damping: 35, velocity: 2 },
-      opacity: { duration: 0.15 },
-    },
   },
 };
 
 const CarouselVariants = ({ variant = "classic" }) => {
   const theme = useTheme();
   const [active, setActive] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Memoize slide data
   const slides = useMemo(() => {
     return variant === "parallax" || variant === "cards"
       ? imageSlidesContent
       : imageSlides;
   }, [variant]);
 
-  // Optimized navigation with debounce
   const handleNext = useCallback(() => {
-    if (!isDragging) {
-      setDirection(1);
-      setActive((prev) => (prev + 1) % slides.length);
-    }
+    if (isDragging) return;
+    setDirection(1);
+    setActive((prev) => (prev + 1) % slides.length);
   }, [slides.length, isDragging]);
 
   const handlePrev = useCallback(() => {
-    if (!isDragging) {
-      setDirection(-1);
-      setActive((prev) => (prev - 1 + slides.length) % slides.length);
-    }
+    if (isDragging) return;
+    setDirection(-1);
+    setActive((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides.length, isDragging]);
 
-  // Optimized image preloading
+  useEffect(() => {
+    let timeout;
+    if (autoplay && !isLoading) {
+      timeout = setTimeout(handleNext, 5000);
+    }
+    return () => clearTimeout(timeout);
+  }, [autoplay, handleNext, isLoading]);
+
   useEffect(() => {
     let mounted = true;
-
-    const loadImages = async () => {
-      try {
-        await preloadImages(slides);
-        if (mounted) setIsLoading(false);
-      } catch (error) {
-        console.error("Error preloading images:", error);
-        if (mounted) setIsLoading(false);
-      }
-    };
-
-    loadImages();
+    preloadImages(slides).finally(() => {
+      if (mounted) setIsLoading(false);
+    });
     return () => {
       mounted = false;
     };
   }, [slides]);
 
-  // Optimized autoplay with RAF
-  useEffect(() => {
-    if (!autoplay || isLoading) return;
-
-    let rafId;
-    let lastTime = 0;
-    const interval = 5000;
-
-    const tick = (timestamp) => {
-      if (!lastTime) lastTime = timestamp;
-
-      const elapsed = timestamp - lastTime;
-
-      if (elapsed >= interval) {
-        handleNext();
-        lastTime = timestamp;
-      }
-
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [autoplay, handleNext, isLoading]);
-
-  // Optimized drag handlers with memoization
-  const dragHandlers = useMemo(
-    () => ({
-      onDragStart: () => setIsDragging(true),
-      onDragEnd: (e, { offset, velocity }) => {
-        const threshold = 100;
-        const velocityThreshold = 500;
-
-        requestAnimationFrame(() => {
-          setIsDragging(false);
-          if (
-            Math.abs(offset.x) > threshold ||
-            Math.abs(velocity.x) > velocityThreshold
-          ) {
-            if (offset.x > 0) {
-              handlePrev();
-            } else {
-              handleNext();
-            }
-          }
-        });
-      },
-    }),
-    [handleNext, handlePrev]
-  );
-
   const renderVariant = () => {
     const commonStyles = {
-      transform: "translate3d(0,0,0)",
-      backfaceVisibility: "hidden",
-      WebkitFontSmoothing: "antialiased",
+      position: "relative",
+      width: "100%",
+      height: 400,
+      overflow: "hidden",
+      borderRadius: 4,
     };
 
     switch (variant) {
       case "scale":
         return (
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              height: 400,
-              overflow: "hidden",
-              borderRadius: 4,
-              bgcolor: theme.palette.background.paper,
-              ...commonStyles,
-            }}
-          >
+          <Box sx={commonStyles}>
             <AnimatePresence initial={false} custom={direction}>
-              <MotionPaper
+              <MotionBox
                 key={active}
                 custom={direction}
                 {...slideAnimations.scale}
                 sx={{
                   position: "absolute",
-                  width: "90%",
-                  height: "90%",
-                  left: "5%",
-                  top: "5%",
+                  width: "100%",
+                  height: "100%",
                   backgroundImage: `url(${slides[active]?.image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  borderRadius: 2,
                 }}
               >
                 <Box
@@ -279,7 +191,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    p: 3,
+                    p: 5,
                     background:
                       "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
                     color: "white",
@@ -306,9 +218,8 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     {slides[active]?.description}
                   </Typography>
                 </Box>
-              </MotionPaper>
+              </MotionBox>
             </AnimatePresence>
-
             <Box
               sx={{
                 position: "absolute",
@@ -344,65 +255,31 @@ const CarouselVariants = ({ variant = "classic" }) => {
 
       case "cards":
         return (
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              height: 400,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden",
-              ...commonStyles,
-            }}
-          >
-            <AnimatePresence initial={false} mode="popLayout">
-              {imageSlidesContent.map((slide, index) => {
-                const offset =
-                  (index - active + imageSlidesContent.length) %
-                  imageSlidesContent.length;
+          <Box sx={{ ...commonStyles, perspective: "1000px" }}>
+            <AnimatePresence>
+              {slides.map((slide, index) => {
+                const cardOffset =
+                  (index - active + slides.length) % slides.length;
+                const isActive = cardOffset === 0;
+
                 return (
                   <MotionPaper
                     key={slide.id}
-                    initial={{ scale: 0.8, opacity: 0 }}
+                    initial={{ scale: 0.9, opacity: 0, x: 300 }}
                     animate={{
-                      scale: 1 - Math.abs(offset) * 0.1,
-                      opacity: 1 - Math.abs(offset) * 0.3,
-                      zIndex: imageSlidesContent.length - Math.abs(offset),
-                      x: offset * 100,
-                      rotateY: offset * -5,
+                      scale: 1 - Math.abs(cardOffset) * 0.1,
+                      opacity: 1 - Math.abs(cardOffset) * 0.3,
+                      x: cardOffset * 100,
+                      zIndex: slides.length - Math.abs(cardOffset),
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 35,
-                      mass: 0.8,
-                      velocity: 2,
-                    }}
-                    drag="x"
-                    dragConstraints={{ left: -100, right: 100 }}
-                    dragElastic={0.15}
-                    dragTransition={{
-                      bounceStiffness: 800,
-                      bounceDamping: 25,
-                      power: 0.5,
-                    }}
-                    whileTap={{ cursor: "grabbing" }}
-                    {...dragHandlers}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     sx={{
                       position: "absolute",
                       width: "80%",
                       height: "80%",
                       borderRadius: "16px",
                       overflow: "hidden",
-                      cursor: "grab",
-                      userSelect: "none",
-                      touchAction: "none",
-                      boxShadow: theme.shadows[8],
-                      mb: 2,
-                      willChange: "transform",
-                      backfaceVisibility: "hidden",
-                      perspective: 1000,
                     }}
                   >
                     <Box
@@ -447,7 +324,6 @@ const CarouselVariants = ({ variant = "classic" }) => {
                 );
               })}
             </AnimatePresence>
-
             <Box
               sx={{
                 position: "absolute",
@@ -491,17 +367,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
 
       case "parallax":
         return (
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              height: 400,
-              overflow: "hidden",
-              borderRadius: 4,
-              bgcolor: theme.palette.background.paper,
-              ...commonStyles,
-            }}
-          >
+          <Box sx={commonStyles}>
             <AnimatePresence initial={false} custom={direction}>
               <MotionBox
                 key={active}
@@ -511,20 +377,11 @@ const CarouselVariants = ({ variant = "classic" }) => {
                   position: "absolute",
                   width: "100%",
                   height: "100%",
+                  backgroundImage: `url(${slides[active]?.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               >
-                <MotionBox
-                  initial={{ scale: 1.2 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.8 }}
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundImage: `url(${slides[active]?.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
                 <Box
                   sx={{
                     position: "absolute",
@@ -562,7 +419,6 @@ const CarouselVariants = ({ variant = "classic" }) => {
                 </Box>
               </MotionBox>
             </AnimatePresence>
-
             <Box
               sx={{
                 position: "absolute",
@@ -611,16 +467,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
 
       case "fade":
         return (
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              height: 400,
-              overflow: "hidden",
-              borderRadius: 4,
-              ...commonStyles,
-            }}
-          >
+          <Box sx={commonStyles}>
             <AnimatePresence mode="wait">
               <MotionBox
                 key={active}
@@ -629,7 +476,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                   position: "absolute",
                   width: "100%",
                   height: "100%",
-                  backgroundImage: `url(${imageSlides[active]?.image})`,
+                  backgroundImage: `url(${slides[active]?.image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -656,7 +503,6 @@ const CarouselVariants = ({ variant = "classic" }) => {
                 </Box>
               </MotionBox>
             </AnimatePresence>
-
             <IconButton
               onClick={handlePrev}
               sx={{
@@ -693,7 +539,24 @@ const CarouselVariants = ({ variant = "classic" }) => {
     }
   };
 
-  return renderVariant();
+  return (
+    <Box sx={{ position: "relative", width: "100%" }}>
+      {isLoading && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.1)",
+            zIndex: 1,
+          }}
+        />
+      )}
+      {renderVariant()}
+    </Box>
+  );
 };
 
 export default CarouselVariants;
