@@ -34,10 +34,10 @@ const componentVariants = {
     "underline",
     "sendIcon",
     "expand",
+    "hoverArrow",
     "glitch",
     "outlineFill",
     "elasticSlide",
-    "magnetic",
   ],
   loaders: [
     "pulsatingDots",
@@ -615,7 +615,7 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          <SectionContent
+           <SectionContent
             title="Dynamic Marquees"
             description="Add natural movement to your content with these smooth-flowing text and element animations."
             url="/docs/marquees"
@@ -642,7 +642,7 @@ const TabsSection = () => {
                     variant="h5"
                     textAlign="center"
                     sx={{
-                      my: 1,
+                      my: 2,
                       textTransform: "capitalize",
                       fontWeight: 500,
                     }}
@@ -655,7 +655,15 @@ const TabsSection = () => {
                       .join(" ")}{" "}
                     Marquee
                   </Typography>
-                  <MarqueeVariants variant={variant} />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MarqueeVariants variant={variant} />
+                  </Box>
                 </Box>
               ))}
             </Box>
