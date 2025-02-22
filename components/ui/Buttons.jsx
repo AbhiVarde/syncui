@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Button, Box, useTheme, Typography } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoSend, IoArrowForward, IoAdd } from "react-icons/io5";
+import { IoSend, IoAdd } from "react-icons/io5";
+import { RxArrowRight, RxPlus } from "react-icons/rx";
 
 const MotionButton = motion(Button);
 
 const ButtonVariants = ({ variant }) => {
   const theme = useTheme();
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
-
-  const handleMouseMove = (e) => {
-    const btn = e.currentTarget;
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    setPosition({ x, y });
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
 
   const renderButton = () => {
     switch (variant) {
@@ -263,7 +252,57 @@ const ButtonVariants = ({ variant }) => {
                     transition={{ duration: 0.2 }}
                     style={{ display: "inline-flex", overflow: "hidden" }}
                   >
-                    <IoAdd size={20} />
+                    <RxPlus size={18} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Box>
+          </MotionButton>
+        );
+
+      case "hoverArrow":
+        return (
+          <MotionButton
+            variant="outlined"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              transition: "0.3s",
+              fontWeight: 500,
+              borderColor: "divider",
+              "&:hover": {
+                borderColor: "divider",
+                outline: "0px !important",
+              },
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0, marginRight: 0 }}
+                    animate={{ opacity: 1, width: "auto", marginRight: 8 }}
+                    exit={{ opacity: 0, width: 0, marginRight: 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ display: "inline-flex", overflow: "hidden" }}
+                  >
+                    <RxArrowRight size={19} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+              Hover Arrow
+              <AnimatePresence>
+                {!isHovered && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0, marginLeft: 0 }}
+                    animate={{ opacity: 1, width: "auto", marginLeft: 8 }}
+                    exit={{ opacity: 0, width: 0, marginLeft: 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ display: "inline-flex", overflow: "hidden" }}
+                  >
+                    <RxArrowRight size={19} />
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -419,30 +458,9 @@ const ButtonVariants = ({ variant }) => {
                   },
                 }}
               >
-                <IoArrowForward />
+                <RxArrowRight size={19} />
               </motion.div>
             </motion.div>
-          </MotionButton>
-        );
-
-      case "magnetic":
-        return (
-          <MotionButton
-            variant="outlined"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            animate={{ x: position.x * 0.3, y: position.y * 0.3 }}
-            transition={{ type: "spring", stiffness: 150, damping: 15 }}
-            sx={{
-              color: "text.primary",
-              borderColor: "divider",
-              "&:hover": {
-                borderColor: "divider",
-                backgroundColor: "transparent",
-              },
-            }}
-          >
-            Magnetic
           </MotionButton>
         );
 
