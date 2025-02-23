@@ -26,7 +26,17 @@ import { useRouter } from "next/navigation";
 import DockVariants from "../ui/Docks";
 
 const componentVariants = {
+  cards: [
+    "lens",
+    "twitterCarousel",
+    "meteorShower",
+    "dynamicOverlay",
+    "contentCard",
+    "animatedBorder",
+  ],
   docks: ["modern", "categorical", "dynamic", "glass"],
+  carousels: ["scale", "parallax", "fade", "cards"],
+  marquees: ["horizontal", "vertical", "diagonal"],
   buttons: [
     "neubrutalism",
     "animatedBorder",
@@ -49,41 +59,6 @@ const componentVariants = {
     "triadicOrbit",
     "barWave",
   ],
-  avatars: [
-    "modernShowcase",
-    "floatingCards",
-    "minimalGrid",
-    "overlappingCircles",
-  ],
-  cards: [
-    "dynamicOverlay",
-    "contentCard",
-    "meteorShower",
-    "animatedBorder",
-    "multilayerStack",
-    "infoCard",
-    "neubrutalism",
-    "3dCard",
-  ],
-  tables: ["modern", "minimal", "expandable"],
-  tabs: [
-    "slidingUnderline",
-    "floatingBackground",
-    "elevatedCards",
-    "growingBackground",
-  ],
-  carousels: ["scale", "parallax", "fade", "cards"],
-  paginations: ["fading", "sliding", "expanding", "orbit"],
-  texts: [
-    "gradualSpacing",
-    "typingEffect",
-    "staggeredFade",
-    "rotateWords",
-    "lettersPullUp",
-    "wordsPullUp",
-    "blurIn",
-    "textFade",
-  ],
   backgrounds: [
     "geminiWave",
     "movingShapes",
@@ -92,6 +67,20 @@ const componentVariants = {
     "dots",
     "grid",
   ],
+  avatars: [
+    "modernShowcase",
+    "floatingCards",
+    "minimalGrid",
+    "overlappingCircles",
+  ],
+  tabs: [
+    "slidingUnderline",
+    "floatingBackground",
+    "elevatedCards",
+    "growingBackground",
+  ],
+  tables: ["modern", "minimal", "expandable"],
+  paginations: ["fading", "sliding", "expanding", "orbit"],
   separators: [
     { variant: "dashed", label: "Dashed" },
     { variant: "icon", label: "Icon" },
@@ -101,7 +90,18 @@ const componentVariants = {
     { variant: "dotted", label: "Dotted" },
     { variant: "starry", label: "Starry" },
   ],
-  marquees: ["horizontal", "vertical", "diagonal"],
+  texts: [
+    "blurIn",
+    "splitReveal",
+    "staggeredScale",
+    "lettersPullUp",
+    "waveEffect",
+    "neonGlow",
+    "wordsPullUp",
+    "typewriter",
+    "rotateWords",
+    "morphingText",
+  ],
 };
 
 const SectionContent = ({ title, description, children, url }) => {
@@ -195,10 +195,11 @@ const TabsSection = () => {
             </Typography>
           </Box>
 
+          {/* Cards Section */}
           <SectionContent
-            title="Elegant Loaders"
-            description="Keep users engaged during wait times with these sophisticated animation patterns that reflect your brand's personality."
-            url="/docs/loaders"
+            title="Smart Cards"
+            description="Showcase content elegantly with these responsive card designs featuring smooth hover effects and dynamic layouts."
+            url="/docs/cards"
           >
             <Box
               sx={{
@@ -208,35 +209,15 @@ const TabsSection = () => {
                 justifyContent: "center",
               }}
             >
-              {componentVariants.loaders.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
-                  <LoaderVariants variant={variant} />
+              {componentVariants.cards.map((variant) => (
+                <Box key={variant}>
+                  <CardVariants variant={variant} />
                 </Box>
               ))}
             </Box>
           </SectionContent>
 
-          <SectionContent
-            title="Responsive Buttons"
-            description="Capture user attention with these beautifully crafted action elements featuring unique hover and click animations."
-            url="/docs/buttons"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.buttons.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
-                  <ButtonVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
+          {/* Docks Section */}
           <SectionContent
             title="Refined Docks"
             description="Explore innovative dock animation patterns designed to enhance user experience and showcase seamless interactions for your projects."
@@ -275,6 +256,170 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
+          {/* Carousels Section */}
+          <SectionContent
+            title="Seamless Carousels"
+            description="Present your content in motion with these smooth-sliding galleries, perfect for showcasing products or stories."
+            url="/docs/carousels"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+                width: "100%",
+              }}
+            >
+              {componentVariants.carousels.map((variant) => (
+                <Box
+                  key={variant}
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  sx={{
+                    width: "100%",
+                    minHeight: "400px",
+                    position: "relative",
+                  }}
+                >
+                  <CarouselVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Marquees Section */}
+          <SectionContent
+            title="Dynamic Marquees"
+            description="Add natural movement to your content with these smooth-flowing text and element animations."
+            url="/docs/marquees"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.marquees.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      my: 2,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}{" "}
+                    Marquee
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MarqueeVariants variant={variant} />
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Buttons Section */}
+          <SectionContent
+            title="Responsive Buttons"
+            description="Capture user attention with these beautifully crafted action elements featuring unique hover and click animations."
+            url="/docs/buttons"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.buttons.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <ButtonVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Loaders Section */}
+          <SectionContent
+            title="Elegant Loaders"
+            description="Keep users engaged during wait times with these sophisticated animation patterns that reflect your brand's personality."
+            url="/docs/loaders"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.loaders.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <LoaderVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Backgrounds Section */}
+          <SectionContent
+            title="Fluid Backgrounds"
+            description="Transform your layouts with mesmerizing animated patterns that create depth and visual interest."
+            url="/docs/backgrounds"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 2,
+              }}
+            >
+              {componentVariants.backgrounds.map((variant, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    width: "100%",
+                    height: "200px",
+                    overflow: "hidden",
+                    borderRadius: 2,
+                    position: "relative",
+                  }}
+                >
+                  <BackgroundVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Avatars Section */}
           <SectionContent
             title="Expressive Avatars"
             description="Personalize user profiles with these dynamic image containers featuring creative hover states and grouping options."
@@ -312,27 +457,53 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
+          {/* Tabs Section */}
           <SectionContent
-            title="Smart Cards"
-            description="Showcase content elegantly with these responsive card designs featuring smooth hover effects and dynamic layouts."
-            url="/docs/cards"
+            title="Intuitive Tabs"
+            description="Guide users through content sections with these smooth-transitioning navigation elements."
+            url="/docs/tabs"
           >
             <Box
               sx={{
                 display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
               }}
             >
-              {componentVariants.cards.map((variant) => (
-                <Box key={variant}>
-                  <CardVariants variant={variant} />
+              {componentVariants.tabs.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      my: 1,
+                      textTransform: "capitalize",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </Typography>
+                  <TabVariants variant={variant} />
                 </Box>
               ))}
             </Box>
           </SectionContent>
 
+          {/* Tables Section */}
           <SectionContent
             title="Content Tables"
             description="Interactive data tables with built-in animations, sorting, and responsive layouts for efficient data presentation."
@@ -383,83 +554,7 @@ const TabsSection = () => {
             </AnimatePresence>
           </SectionContent>
 
-          <SectionContent
-            title="Intuitive Tabs"
-            description="Guide users through content sections with these smooth-transitioning navigation elements."
-            url="/docs/tabs"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 4,
-              }}
-            >
-              {componentVariants.tabs.map((variant) => (
-                <Box
-                  key={variant}
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      my: 1,
-                      textTransform: "capitalize",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}
-                  </Typography>
-                  <TabVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          <SectionContent
-            title="Seamless Carousels"
-            description="Present your content in motion with these smooth-sliding galleries, perfect for showcasing products or stories."
-            url="/docs/carousels"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-                width: "100%",
-              }}
-            >
-              {componentVariants.carousels.map((variant) => (
-                <Box
-                  key={variant}
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  sx={{
-                    width: "100%",
-                    minHeight: "400px",
-                    position: "relative",
-                  }}
-                >
-                  <CarouselVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
+          {/* Paginations Section */}
           <SectionContent
             title="Smooth Pagination"
             description="Navigate through multi-page content effortlessly with these polished page selection components."
@@ -511,65 +606,7 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          <SectionContent
-            title="Animated Typography"
-            description="Make your text memorable with these precisely crafted motion effects that enhance readability and impact."
-            url="/docs/texts"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 4,
-              }}
-            >
-              {componentVariants.texts.map((variant) => (
-                <Box
-                  key={variant}
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  <TextVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          <SectionContent
-            title="Fluid Backgrounds"
-            description="Transform your layouts with mesmerizing animated patterns that create depth and visual interest."
-            url="/docs/backgrounds"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 2,
-              }}
-            >
-              {componentVariants.backgrounds.map((variant, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    width: "100%",
-                    height: "200px",
-                    overflow: "hidden",
-                    borderRadius: 2,
-                    position: "relative",
-                  }}
-                >
-                  <BackgroundVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
+          {/* Separators Section */}
           <SectionContent
             title="Creative Dividers"
             description="Structure your content with these eye-catching separator designs that adapt to your theme seamlessly."
@@ -615,10 +652,11 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-           <SectionContent
-            title="Dynamic Marquees"
-            description="Add natural movement to your content with these smooth-flowing text and element animations."
-            url="/docs/marquees"
+          {/* Typography Section */}
+          <SectionContent
+            title="Animated Typography"
+            description="Make your text memorable with these precisely crafted motion effects that enhance readability and impact."
+            url="/docs/texts"
           >
             <Box
               sx={{
@@ -628,42 +666,17 @@ const TabsSection = () => {
                 gap: 4,
               }}
             >
-              {componentVariants.marquees.map((variant) => (
+              {componentVariants.texts.map((variant) => (
                 <Box
                   key={variant}
                   sx={{
                     width: "100%",
                     display: "flex",
-                    flexDirection: "column",
                     justifyContent: "center",
+                    textAlign: "center",
                   }}
                 >
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      my: 2,
-                      textTransform: "capitalize",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}{" "}
-                    Marquee
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <MarqueeVariants variant={variant} />
-                  </Box>
+                  <TextVariants variant={variant} />
                 </Box>
               ))}
             </Box>
