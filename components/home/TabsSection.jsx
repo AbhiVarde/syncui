@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
-import ButtonVariants from "../ui/Buttons";
+import ButtonVariants from "../ui/Buttons";a
 import CardVariants from "../ui/Cards";
 import CarouselVariants from "../ui/Carousels";
 import TableVariants from "../ui/Tables";
@@ -80,7 +80,16 @@ const componentVariants = {
     "growingBackground",
   ],
   tables: ["modern", "minimal", "expandable"],
-  paginations: ["fading", "sliding", "expanding", "orbit"],
+  paginations: [
+    "simple",
+    "numbered",
+    "compact",
+    "with-dropdown",
+    "rows-per-page",
+    "fading",
+    "sliding",
+    "expanding",
+  ],
   separators: [
     { variant: "dashed", label: "Dashed" },
     { variant: "icon", label: "Icon" },
