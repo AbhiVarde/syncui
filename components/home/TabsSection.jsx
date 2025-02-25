@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
-import ButtonVariants from "../ui/Buttons";a
+import ButtonVariants from "../ui/Buttons";
 import CardVariants from "../ui/Cards";
 import CarouselVariants from "../ui/Carousels";
 import TableVariants from "../ui/Tables";
