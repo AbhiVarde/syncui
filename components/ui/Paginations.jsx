@@ -343,6 +343,35 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
           totalPages * rowsPerPage
         );
 
+        return (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            width="100%"
+          >
+            <Box display="flex" alignItems="center" gap={2}>
+              <Typography variant="body2">Rows per page</Typography>
+              <Select
+                value={rowsPerPage}
+                onChange={handleRowsPerPageChange}
+                size="small"
+                sx={{ minWidth: 100 }}
+                IconComponent={RxChevronDown}
+              >
+                {[10, 25, 50, 100].map((num) => (
+                  <MenuItem key={num} value={num}>
+                    {num}
+                  </MenuItem>
+                ))}
+              </Select>
+              <Typography variant="body2">{`${start}-${end} of ${
+                totalPages * rowsPerPage
+              }`}</Typography>
+            </Box>
+          </Box>
+        );
+
       case "fading":
         return (
           <Box display="flex" alignItems="center" gap={1}>
@@ -516,35 +545,6 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
             >
               <RxChevronRight style={{ color: textColor }} />
             </IconButton>
-          </Box>
-        );
-
-        return (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            width="100%"
-          >
-            <Box display="flex" alignItems="center" gap={2}>
-              <Typography variant="body2">Rows per page</Typography>
-              <Select
-                value={rowsPerPage}
-                onChange={handleRowsPerPageChange}
-                size="small"
-                sx={{ minWidth: 100 }}
-                IconComponent={RxChevronDown}
-              >
-                {[10, 25, 50, 100].map((num) => (
-                  <MenuItem key={num} value={num}>
-                    {num}
-                  </MenuItem>
-                ))}
-              </Select>
-              <Typography variant="body2">{`${start}-${end} of ${
-                totalPages * rowsPerPage
-              }`}</Typography>
-            </Box>
           </Box>
         );
 
