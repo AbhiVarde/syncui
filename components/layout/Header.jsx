@@ -324,9 +324,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {(item.title === "Avatars" ||
-                        item.title === "Docks" ||
-                        item.title === "Tables") && (
+                      {(item.title === "Cards" ||
+                        item.title === "Marquees" ||
+                        item.title === "Texts" ||
+                        item.title === "Paginations") && (
                         <Box
                           component="span"
                           sx={{
