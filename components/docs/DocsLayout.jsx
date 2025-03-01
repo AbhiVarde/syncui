@@ -96,7 +96,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           {/* Scrollable content container */}
           <Box
             sx={{
-              height: "calc(100% - 60px)", // Subtract footer height
+              height: "calc(100% - 60px)",
               overflowY: "auto",
               p: 2,
             }}
@@ -162,9 +162,10 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                               <span>
                                 {item.title === "Setup" ? "Setup" : item.title}
                               </span>
-                              {(item.title === "Avatars" ||
-                                item.title === "Docks" ||
-                                item.title === "Tables") && (
+                              {(item.title === "Cards" ||
+                                item.title === "Marquees" ||
+                                item.title === "Texts" ||
+                                item.title === "Paginations") && (
                                 <Box
                                   component="span"
                                   sx={{
