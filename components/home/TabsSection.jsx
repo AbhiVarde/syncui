@@ -141,8 +141,7 @@ const SectionContent = ({ title, description, children, url }) => {
       >
         <Box
           sx={{
-            px: title === "Responsive Buttons" ? 2.5 : 4,
-            py: 2,
+            p: 2,
           }}
         >
           {children}
@@ -219,7 +218,15 @@ const TabsSection = () => {
               }}
             >
               {componentVariants.cards.map((variant) => (
-                <Box key={variant}>
+                <Box
+                  key={variant}
+                  sx={{
+                    width: { xs: "100%", sm: "auto" },
+                    display: "flex",
+                    justifyContent: "center",
+                    mb: 2,
+                  }}
+                >
                   <CardVariants variant={variant} />
                 </Box>
               ))}
