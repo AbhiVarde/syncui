@@ -237,13 +237,15 @@ const CardVariants = ({ variant }) => {
                     gap: 1,
                   }}
                 >
-                  {twitterImages.map((_, index) => (
+                {twitterImages.map((_, index) => (
                     <Box
                       key={index}
+                      onClick={() => setCurrentImageIndex(index)}
                       sx={{
                         width: 6,
                         height: 6,
                         borderRadius: "50%",
+                        cursor: "pointer",
                         backgroundColor:
                           index === currentImageIndex
                             ? "primary.main"
