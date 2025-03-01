@@ -56,17 +56,17 @@ const CardVariants = ({ variant }) => {
   }, [variant]);
 
   const commonCardStyle = {
-    width: "350px",
+    width: { xs: "100%", sm: "350px" },
+    maxWidth: "350px", 
     height: "300px",
     borderRadius: 2,
     backgroundColor: theme.palette.background.paper,
     boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
     border: "1px solid",
     borderColor: theme.palette.divider,
-    maxWidth: "350px",
     overflow: "hidden",
     position: "relative",
-    mx: 1,
+    // mx: { xs: 0, sm: 1 },
     cursor: "pointer",
     transition: "all 0.3s ease",
   };
