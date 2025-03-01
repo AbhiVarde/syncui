@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Box, Typography, IconButton, useTheme, Paper } from "@mui/material";
+import { Box, Typography, IconButton, Paper } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LuChevronRight,
@@ -115,7 +115,6 @@ const slideAnimations = {
 };
 
 const CarouselVariants = ({ variant = "classic" }) => {
-  const theme = useTheme();
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
@@ -191,7 +190,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    p: 5,
+                    p: { md: 5, xs: 2.5 },
                     background:
                       "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
                     color: "white",
@@ -305,7 +304,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        p: 4,
+                        p: { md: 4, xs: 2 },
                         background:
                           "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
                         color: "white",
@@ -394,7 +393,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    p: 6,
+                    p: { md: 6, xs: 3 },
                     color: "white",
                   }}
                 >
@@ -487,7 +486,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    p: 3,
+                    p: { md: 3, xs: 1.5 },
                     background: "rgba(0, 0, 0, 0.5)",
                     color: "white",
                     textAlign: "center",
