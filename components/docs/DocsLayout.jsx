@@ -123,6 +123,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                             router.asPath === "/docs") ||
                           (item.title === "Changelog" &&
                             router.asPath === "/docs/changelog") ||
+                          (item.title === "Templates" &&
+                            router.asPath === "/templates") ||
                           router.asPath === item.url;
                         return (
                           <Link
@@ -165,7 +167,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                               {(item.title === "Cards" ||
                                 item.title === "Marquees" ||
                                 item.title === "Texts" ||
-                                item.title === "Paginations") && (
+                                item.title === "Paginations" ||
+                                item.title === "Templates") && (
                                 <Box
                                   component="span"
                                   sx={{
@@ -266,6 +269,13 @@ const groupDocsTree = (docsTree) => {
     "Getting Started": [],
   };
 
+  // Add Templates to the Getting Started section
+  grouped["Getting Started"].push({
+    title: "Templates",
+    url: "/templates",
+    slug: "templates",
+  });
+
   docsTree.forEach((item) => {
     if (item.title === "Setup" || item.title === "Changelog") {
       grouped["Getting Started"].push(item);
@@ -278,9 +288,8 @@ const groupDocsTree = (docsTree) => {
   });
 
   grouped["Getting Started"].sort((a, b) => {
-    if (a.title === "Setup") return -1;
-    if (b.title === "Setup") return 1;
-    return 0;
+    const order = { Setup: 1, Changelog: 2, Templates: 3 };
+    return (order[a.title] || 99) - (order[b.title] || 99);
   });
 
   return grouped;
