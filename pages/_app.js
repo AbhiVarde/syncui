@@ -9,7 +9,7 @@ import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import "../styles/globals.css";
 import { DefaultSeo } from "next-seo";
-import { GitHubProvider } from "@/context/GithubContex";
+import { GitHubProvider } from "@/context/GithubContext";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -43,6 +43,26 @@ function MyApp({ Component, pageProps }) {
             "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
           images: "https://www.syncui.design/default-og-image.png",
         }}
+        additionalMetaTags={[
+          {
+            name: "author",
+            content: "Abhi Varde",
+          },
+          {
+            name: "designer",
+            content: "Abhi Varde",
+          },
+          {
+            name: "publisher",
+            content: "Abhi Varde",
+          },
+        ]}
+        additionalLinkTags={[
+          {
+            rel: "author",
+            href: "https://www.abhivarde.in/",
+          },
+        ]}
       />
       <ThemeProvider>
         <GitHubProvider>
