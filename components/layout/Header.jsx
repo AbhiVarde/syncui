@@ -13,7 +13,6 @@ import {
   ListItemText,
   Breadcrumbs,
   Button,
-  Chip,
   Popper,
   Grow,
   Paper,
@@ -25,23 +24,18 @@ import {
 } from "@mui/material";
 import {
   RxChatBubble,
-  // RxArrowRight,
   RxTextAlignLeft,
   RxChevronRight,
   RxCross2,
   RxExternalLink,
-  RxDotsVertical,
-  // RxDashboard,
   RxCube,
 } from "react-icons/rx";
-import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GoSidebarCollapse } from "react-icons/go";
-import { FaCheck } from "react-icons/fa";
-import { useGitHub } from "@/context/GithubContex";
+import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
+import { AnimatePresence, motion } from "framer-motion";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
@@ -93,11 +87,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const menuItems = [
     {
       label: "Templates",
-      href: "/",
+      href: "/templates",
       external: false,
       icon: <RxCube size={18} />,
       comingSoon: true,
-      disabled: true,
+      disabled: false,
     },
     {
       label: "Guestbook",
@@ -139,48 +133,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     },
   };
 
-  const renderMenuItem = (item, index) => {
-    const commonProps = {
-      key: index,
-      onClick: handleClose,
-    };
-
-    const content = (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          width: "100%",
-          "& > svg": { flexShrink: 0 },
-        }}
-      >
-        {item.icon}
-        <span style={{ whiteSpace: "nowrap" }}>{item.label}</span>
-      </Box>
-    );
-
-    if (item.external) {
-      return (
-        <StyledMenuItem
-          {...commonProps}
-          component="a"
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {content}
-        </StyledMenuItem>
-      );
-    } else {
-      return (
-        <StyledMenuItem {...commonProps} component={Link} href={item.href}>
-          {content}
-        </StyledMenuItem>
-      );
-    }
-  };
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -219,6 +171,13 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       "Getting Started": [],
     };
 
+    // Add Templates to the Getting Started section
+    grouped["Getting Started"].push({
+      title: "Templates",
+      url: "/templates",
+      slug: "templates",
+    });
+
     docsTree?.forEach((item) => {
       if (item.title === "Setup" || item.title === "Changelog") {
         grouped["Getting Started"].push(item);
@@ -231,9 +190,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     });
 
     grouped["Getting Started"].sort((a, b) => {
-      if (a.title === "Setup") return -1;
-      if (b.title === "Setup") return 1;
-      return 0;
+      const order = { Setup: 1, Changelog: 2, Templates: 3 };
+      return (order[a.title] || 99) - (order[b.title] || 99);
     });
 
     return grouped;
@@ -287,6 +245,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   (item.title === "Setup" && router.asPath === "/docs") ||
                   (item.title === "Changelog" &&
                     router.asPath === "/docs/changelog") ||
+                  (item.title === "Templates" &&
+                    router.asPath === "/templates") ||
                   router.asPath === item.url;
                 return (
                   <ListItem
@@ -327,7 +287,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       {(item.title === "Cards" ||
                         item.title === "Marquees" ||
                         item.title === "Texts" ||
-                        item.title === "Paginations") && (
+                        item.title === "Paginations" ||
+                        item.title === "Templates") && (
                         <Box
                           component="span"
                           sx={{
@@ -428,88 +389,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     );
   };
 
-  const SubscriptionPlan = ({ title, price, features, icon, popular }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-      style={{ display: "flex", height: "100%", cursor: "pointer" }}
-    >
-      <Box
-        sx={{
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: 2,
-          p: 3,
-          height: "100% !important",
-          minHeight: "650px",
-          display: "flex",
-          flexDirection: "column",
-          transition: "all 0.3s ease",
-          position: "relative",
-          "&:hover": {
-            boxShadow: 6,
-            transform: "translateY(-10px)",
-          },
-        }}
-      >
-        {popular && (
-          <Chip
-            label="Most Popular"
-            size="small"
-            color="primary"
-            sx={{
-              position: "absolute",
-              top: -10,
-              right: 20,
-              fontWeight: "bold",
-            }}
-          />
-        )}
-        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          {icon}
-          <Typography variant="h6" sx={{ ml: 1, fontWeight: "bold" }}>
-            {title}
-          </Typography>
-        </Box>
-        <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>
-          ${price}
-          <Typography variant="caption" sx={{ ml: 0.5, fontSize: "1rem" }}>
-            / month
-          </Typography>
-        </Typography>
-        <List sx={{ flexGrow: 1 }}>
-          {features.map((feature, index) => (
-            <ListItem key={index} disableGutters sx={{ py: 0.5 }}>
-              <FaCheck
-                color={theme.palette.success.main}
-                size={14}
-                style={{ marginRight: "8px", width: "24px" }}
-              />
-              <ListItemText
-                primary={feature}
-                primaryTypographyProps={{ variant: "body2" }}
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          sx={{
-            mt: 2,
-            textTransform: "none",
-            fontWeight: "bold",
-            py: 1.5,
-          }}
-        >
-          Get Started
-        </Button>
-      </Box>
-    </motion.div>
-  );
-
   const renderPopoverMenuItem = (item, index) => (
     <MenuItem
       key={index}
@@ -552,7 +431,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             justifyContent: "center",
           }}
         >
-          Coming Soon
+          New
         </Box>
       )}
     </MenuItem>
@@ -648,7 +527,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   <Stack direction="row" spacing={1} marginRight="10px">
                     <Button
                       color="inherit"
-                      disabled
+                      href="/templates"
                       sx={{
                         fontSize: "15px !important",
                         padding: "4px 8px !important",
@@ -675,7 +554,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           justifyContent: "center",
                         }}
                       >
-                        Coming Soon
+                        New
                       </Box>
                     </Button>
                     <Button
