@@ -45,7 +45,7 @@ const templatesData = [
       "Interactive contact form",
       "Animated custom cursor",
     ],
-    accessUrl: "https://abhivarde.gumroad.com/l/syncui-portfolio-template",
+    accessUrl: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
     demoUrl: "https://portfolio-syncui.vercel.app/",
   },
 ];
