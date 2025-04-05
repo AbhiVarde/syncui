@@ -182,7 +182,7 @@ const TabsSection = () => {
     <Box sx={{ py: 12, backgroundColor: "background.default" }}>
       <Container
         maxWidth="md"
-        sx={{ paddingX: { sm: "0px !important", xs: "16px !important" } }}
+        sx={{ paddingX: { md: "0px !important", xs: "16px !important" } }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <Box sx={{ textAlign: "center" }}>
@@ -248,7 +248,7 @@ const TabsSection = () => {
               }}
             >
               {componentVariants.docks.map((variant) => (
-                <>
+                <Box key={variant}>
                   <Typography
                     variant="h5"
                     textAlign="center"
@@ -267,7 +267,7 @@ const TabsSection = () => {
                     Style
                   </Typography>
                   <DockVariants variant={variant} />
-                </>
+                </Box>
               ))}
             </Box>
           </SectionContent>
@@ -450,7 +450,7 @@ const TabsSection = () => {
               }}
             >
               {componentVariants.avatars.map((variant) => (
-                <>
+                <Box key={variant}>
                   <Typography
                     variant="h5"
                     textAlign="center"
@@ -468,7 +468,7 @@ const TabsSection = () => {
                       .join(" ")}
                   </Typography>
                   <AvatarVariants variant={variant} />
-                </>
+                </Box>
               ))}
             </Box>
           </SectionContent>
