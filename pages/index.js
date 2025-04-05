@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSection from "../components/home/HeroSection";
 import TabsSection from "@/components/home/TabsSection";
+import StargazersSection from "@/components/home/StargazersSection";
 import { motion } from "framer-motion";
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
       transition={{ duration: 0.5 }}
     >
       <HeroSection />
+      <StargazersSection />
       <TabsSection />
     </motion.div>
   );
