@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, List, ListItem, Button } from "@mui/material";
 import { RxTextAlignLeft, RxStar } from "react-icons/rx";
 import { GITHUB_URL } from "../../utils/constants";
-import { useGitHub } from "@/context/GithubContex";
+import { useGitHub } from "@/context/GithubContext";
 import { RiGithubFill } from "react-icons/ri";
 
 export const TableOfContents = ({ toc }) => {
