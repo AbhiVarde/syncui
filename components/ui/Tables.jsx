@@ -18,7 +18,7 @@ import {
   CircularProgress,
   Collapse,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   LuChevronDown,
   LuArrowUpDown,
@@ -96,9 +96,7 @@ const sampleData = [
 const TableVariants = ({ variant = "modern" }) => {
   const theme = useTheme();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(
-    variant === "minimal" ? 3 : variant === "expandable" ? 4 : 5
-  );
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selected, setSelected] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -200,12 +198,10 @@ const TableVariants = ({ variant = "modern" }) => {
             {...animations.table}
             elevation={0}
             sx={{
-              // width: "100%",
               overflow: "hidden",
               backgroundImage:
                 "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)) !important",
               border: `1px solid ${theme.palette.divider}`,
-
               boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
               borderRadius: 2,
             }}
@@ -215,8 +211,8 @@ const TableVariants = ({ variant = "modern" }) => {
                 "&::-webkit-scrollbar": {
                   display: "none",
                 },
-                "-ms-overflow-style": "none",
-                "scrollbar-width": "none",
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
               }}
             >
               <Table>
@@ -229,37 +225,32 @@ const TableVariants = ({ variant = "modern" }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <AnimatePresence mode="wait">
-                    {sortedData
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((row, index) => (
-                        <MotionTableRow
-                          key={row.id}
-                          {...animations.row}
-                          transition={{ delay: index * 0.05 }}
-                          sx={{
-                            "&:hover": {
-                              bgcolor: alpha(theme.palette.primary.main, 0.04),
-                            },
-                          }}
-                        >
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell>{row.role}</TableCell>
-                          <TableCell>
-                            <StatusBadge status={row.status} />
-                          </TableCell>
-                          <TableCell align="right">
-                            <ProgressBar
-                              value={row.progress}
-                              delay={index * 0.05}
-                            />
-                          </TableCell>
-                        </MotionTableRow>
-                      ))}
-                  </AnimatePresence>
+                  {sortedData
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => (
+                      <MotionTableRow
+                        key={row.id}
+                        {...animations.row}
+                        transition={{ delay: index * 0.05 }}
+                        sx={{
+                          "&:hover": {
+                            bgcolor: alpha(theme.palette.primary.main, 0.04),
+                          },
+                        }}
+                      >
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.role}</TableCell>
+                        <TableCell>
+                          <StatusBadge status={row.status} />
+                        </TableCell>
+                        <TableCell align="right">
+                          <ProgressBar
+                            value={row.progress}
+                            delay={index * 0.05}
+                          />
+                        </TableCell>
+                      </MotionTableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -299,7 +290,6 @@ const TableVariants = ({ variant = "modern" }) => {
           <MotionPaper
             {...animations.table}
             sx={{
-              // width: "100%",
               overflow: "hidden",
               bgcolor: "background.paper",
               border: `1px solid ${theme.palette.divider}`,
@@ -312,8 +302,8 @@ const TableVariants = ({ variant = "modern" }) => {
                 "&::-webkit-scrollbar": {
                   display: "none",
                 },
-                "-ms-overflow-style": "none",
-                "scrollbar-width": "none",
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
               }}
             >
               <Table>
@@ -497,7 +487,6 @@ const TableVariants = ({ variant = "modern" }) => {
           <MotionPaper
             {...animations.table}
             sx={{
-              // width: "100%",
               overflow: "hidden",
               bgcolor: "background.paper",
               border: `1px solid ${theme.palette.divider}`,
@@ -510,8 +499,8 @@ const TableVariants = ({ variant = "modern" }) => {
                 "&::-webkit-scrollbar": {
                   display: "none",
                 },
-                "-ms-overflow-style": "none",
-                "scrollbar-width": "none",
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
               }}
             >
               <Table>
@@ -594,77 +583,72 @@ const TableVariants = ({ variant = "modern" }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <AnimatePresence mode="wait">
-                    {loading ? (
-                      <TableRow>
-                        <TableCell colSpan={6} align="center" sx={{ py: 8 }}>
-                          <CircularProgress size={40} />
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      sortedData
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                        .map((row, index) => {
-                          const isSelected = selected.indexOf(row.id) !== -1;
-                          return (
-                            <MotionTableRow
-                              key={row.id}
-                              {...animations.row}
-                              transition={{ delay: index * 0.05 }}
-                              sx={{
+                  {loading ? (
+                    <TableRow>
+                      <TableCell colSpan={6} align="center" sx={{ py: 8 }}>
+                        <CircularProgress size={40} />
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    sortedData
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        const isSelected = selected.indexOf(row.id) !== -1;
+                        return (
+                          <MotionTableRow
+                            key={row.id}
+                            {...animations.row}
+                            transition={{ delay: index * 0.05 }}
+                            sx={{
+                              bgcolor: isSelected
+                                ? alpha(theme.palette.primary.main, 0.08)
+                                : "transparent",
+                              "&:hover": {
                                 bgcolor: isSelected
-                                  ? alpha(theme.palette.primary.main, 0.08)
-                                  : "transparent",
-                                "&:hover": {
-                                  bgcolor: isSelected
-                                    ? alpha(theme.palette.primary.main, 0.12)
-                                    : alpha(theme.palette.primary.main, 0.04),
-                                },
-                              }}
-                            >
-                              <TableCell padding="checkbox">
-                                <Checkbox
-                                  checked={isSelected}
-                                  onChange={() => handleSelectClick(row.id)}
-                                />
-                              </TableCell>
-                              <TableCell>
-                                <Box
-                                  component={motion.div}
-                                  {...animations.cell}
+                                  ? alpha(theme.palette.primary.main, 0.12)
+                                  : alpha(theme.palette.primary.main, 0.04),
+                              },
+                            }}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isSelected}
+                                onChange={() => handleSelectClick(row.id)}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <Box component={motion.div} {...animations.cell}>
+                                <Typography variant="subtitle2">
+                                  {row.name}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
                                 >
-                                  <Typography variant="subtitle2">
-                                    {row.name}
-                                  </Typography>
-                                  <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                  >
-                                    {row.details.email}
-                                  </Typography>
-                                </Box>
-                              </TableCell>
-                              <TableCell>{row.role}</TableCell>
-                              <TableCell>
-                                <StatusBadge status={row.status} />
-                              </TableCell>
-                              <TableCell>
-                                <ProgressBar
-                                  value={row.progress}
-                                  delay={index * 0.05}
-                                />
-                              </TableCell>
-                              <TableCell sx={{ minWidth: "120px" }}>
-                                {row.date}
-                              </TableCell>
-                            </MotionTableRow>
-                          );
-                        })
-                    )}
-                  </AnimatePresence>
+                                  {row.details.email}
+                                </Typography>
+                              </Box>
+                            </TableCell>
+                            <TableCell>{row.role}</TableCell>
+                            <TableCell>
+                              <StatusBadge status={row.status} />
+                            </TableCell>
+                            <TableCell>
+                              <ProgressBar
+                                value={row.progress}
+                                delay={index * 0.05}
+                              />
+                            </TableCell>
+                            <TableCell sx={{ minWidth: "120px" }}>
+                              {row.date}
+                            </TableCell>
+                          </MotionTableRow>
+                        );
+                      })
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
