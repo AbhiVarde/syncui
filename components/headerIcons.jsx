@@ -2,6 +2,7 @@ import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
 import { RxMoon, RxSun, RxDotsVertical } from "react-icons/rx";
 import { Box, IconButton, Typography } from "@mui/material";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
+import AnimatedCounter from "./AnimatedCounter";
 
 const ICON_SIZE = 20;
 const CONTAINER_SIZE = 36;
@@ -56,7 +57,12 @@ const HeaderIcons = ({
         <RiGithubFill size={ICON_SIZE} />
         {!loading && (
           <Typography variant="caption" component="span" fontWeight={500}>
-            {stars.toLocaleString()}
+            <AnimatedCounter
+              value={stars}
+              duration={1.5}
+              formatter={(val) => val.toLocaleString()}
+              delay={0.2}
+            />
           </Typography>
         )}
       </IconContainer>
