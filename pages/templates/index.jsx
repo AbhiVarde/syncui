@@ -121,7 +121,7 @@ const Templates = () => {
       <Head>
         <title>Templates // Sync UI</title>
       </Head>
-      <Container maxWidth="xl" sx={{ px: 0 }}>
+      <Container maxWidth="xl" sx={{ px: "0px !important" }}>
         <MotionBox
           initial="initial"
           animate="animate"
