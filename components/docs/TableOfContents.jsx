@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, List, ListItem, Button } from "@mui/material";
+import { Box, Typography, List, ListItem } from "@mui/material";
 import { RxTextAlignLeft, RxStar } from "react-icons/rx";
 import { GITHUB_URL } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
 import { RiGithubFill } from "react-icons/ri";
+import AnimatedCounter from "../AnimatedCounter";
 
 export const TableOfContents = ({ toc }) => {
   const { stars, loading } = useGitHub();
@@ -134,7 +135,7 @@ export const TableOfContents = ({ toc }) => {
         {!loading ? (
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
             <Typography variant="body2" fontWeight={500}>
-              {stars.toLocaleString()}
+              <AnimatedCounter value={stars || 0} duration={2} />
             </Typography>
             <RxStar size={16} style={{ marginTop: 1 }} />
           </Box>
