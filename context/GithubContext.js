@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import axios from "axios";
 
 const GitHubContext = createContext();
@@ -11,44 +17,68 @@ export function GitHubProvider({ children }) {
     error: null,
   });
 
-  useEffect(() => {
-    const fetchGitHubData = async () => {
-      try {
-        // Get basic repo data first
-        const repoResponse = await axios.get(
-          "https://api.github.com/repos/AbhiVarde/syncui?type=public"
-        );
+  const isInitialLoad = useRef(true);
+  const previousStargazersRef = useRef([]);
 
-        // Then get stargazers data
-        const stargazersResponse = await axios.get(
-          "https://api.github.com/repos/AbhiVarde/syncui/stargazers",
-          {
-            headers: {
-              Accept: "application/vnd.github.v3+json",
-            },
-            params: {
-              per_page: 100,
-            },
-          }
-        );
+  const fetchGitHubData = async () => {
+    try {
+      const repoResponse = await axios.get(
+        "https://api.github.com/repos/AbhiVarde/syncui?type=public"
+      );
 
+      const stargazersResponse = await axios.get(
+        "https://api.github.com/repos/AbhiVarde/syncui/stargazers",
+        {
+          headers: {
+            Accept: "application/vnd.github.v3+json",
+          },
+          params: {
+            per_page: 100,
+          },
+        }
+      );
+
+      const newStargazers = stargazersResponse.data;
+      const newStarsCount = repoResponse.data.stargazers_count;
+
+      if (isInitialLoad.current) {
         setGitHubData({
-          stars: repoResponse.data.stargazers_count,
-          stargazers: stargazersResponse.data,
+          stars: newStarsCount,
+          stargazers: newStargazers,
           loading: false,
           error: null,
         });
-      } catch (error) {
-        setGitHubData({
-          stars: 0,
-          stargazers: [],
-          loading: false,
-          error: error.response?.data?.message || "Failed to fetch GitHub data",
-        });
+        isInitialLoad.current = false;
+        previousStargazersRef.current = newStargazers;
+      } else {
+        // For updates, check if count changed
+        if (newStarsCount !== gitHubData.stars) {
+          setGitHubData({
+            stars: newStarsCount,
+            stargazers: newStargazers,
+            loading: false,
+            error: null,
+          });
+          previousStargazersRef.current = newStargazers;
+        }
       }
-    };
+    } catch (error) {
+      setGitHubData((prevData) => ({
+        ...prevData,
+        loading: false,
+        error: error.response?.data?.message || "Failed to fetch GitHub data",
+      }));
+    }
+  };
 
+  useEffect(() => {
     fetchGitHubData();
+
+    const intervalId = setInterval(() => {
+      fetchGitHubData();
+    }, 30000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
