@@ -9,56 +9,59 @@ const AnimatedCounter = memo(
     delay = 0,
   }) => {
     const [counter, setCounter] = useState(0);
-    const previousValueRef = useRef(null);
+    const previousValueRef = useRef(0);
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
-      if (value <= 0) return;
-
-      const sessionKey = "counter-session-initialized";
-      const isFirstLoad = !sessionStorage.getItem(sessionKey);
-
-      const counterKey = `counter-value-${value}`;
-      const storedValue = parseInt(
-        sessionStorage.getItem(counterKey) || "0",
-        10
-      );
-
-      if (isFirstLoad || value !== storedValue) {
-        const startValue = isFirstLoad ? 0 : storedValue;
-
-        const delayMs = delay * 1000;
-        const delayTimer = setTimeout(() => {
-          const end = Math.floor(value);
-          const steps = Math.max(1, end - startValue);
-          const incrementTime = (duration * 1000) / steps;
-          let current = startValue;
-
-          setCounter(current);
-
-          const timer = setInterval(() => {
-            current += 1;
-            setCounter(current);
-            if (current >= end) {
-              clearInterval(timer);
-              sessionStorage.setItem(counterKey, String(value));
-              if (isFirstLoad) {
-                sessionStorage.setItem(sessionKey, "true");
-              }
-            }
-          }, incrementTime);
-
-          return () => clearInterval(timer);
-        }, delayMs);
-
-        return () => clearTimeout(delayTimer);
-      } else {
+      if (isFirstRender.current) {
         setCounter(value);
+        previousValueRef.current = value;
+        isFirstRender.current = false;
+        return;
       }
 
-      previousValueRef.current = value;
+      if (value === previousValueRef.current) {
+        return;
+      }
+
+      // Animate from previous value to new value
+      const startValue = previousValueRef.current;
+      const endValue = value;
+      const difference = endValue - startValue;
+
+      if (difference === 0) return;
+
+      const steps = Math.abs(difference);
+      const incrementValue = difference / steps;
+      const incrementTime = (duration * 1000) / steps;
+
+      const delayTimer = setTimeout(() => {
+        let current = startValue;
+
+        setCounter(current);
+
+        const timer = setInterval(() => {
+          current += incrementValue;
+
+          if (
+            (incrementValue > 0 && current >= endValue) ||
+            (incrementValue < 0 && current <= endValue)
+          ) {
+            clearInterval(timer);
+            setCounter(endValue);
+            previousValueRef.current = endValue;
+          } else {
+            setCounter(current);
+          }
+        }, incrementTime);
+
+        return () => clearInterval(timer);
+      }, delay * 1000);
+
+      return () => clearTimeout(delayTimer);
     }, [value, duration, delay]);
 
-    return <span className={className}>{formatter(counter)}</span>;
+    return <span className={className}>{formatter(Math.round(counter))}</span>;
   }
 );
 
