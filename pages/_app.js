@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
             {
               url: "https://www.syncui.design/default-og-image.png",
               width: 800,
-              height: 600,
+              height: 420,
               alt: "Sync UI - Sleek UI Library for Design Engineers",
             },
           ],
