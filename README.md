@@ -46,7 +46,7 @@ We truly ❤️ pull requests! If you wish to help, you can learn more about how
 ## Let's talk
 
 - [Twitter](https://x.com/syncuidesign)
-- [GitHub Discussions](https://github.com/AbhiVarde/syncui/discussions)
+- [Guestbook](https://github.com/AbhiVarde/syncui/discussions)
 
 ## License
 
