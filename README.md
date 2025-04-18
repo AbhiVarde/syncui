@@ -31,9 +31,11 @@
 
 Explore our fresh, production-ready templates 🚀
 
-- 🧩 [SaaS Template – $45](abhivarde.gumroad.com/l/saas-template-syncui)  
-- 🎯 [Portfolio Template – $35](abhivarde.gumroad.com/l/portfolio-template-syncui)  
+- 🧩 [SaaS Template – $45](https://abhivarde.gumroad.com/l/saas-template-syncui)  
+- 🎯 [Portfolio Template – $35](https://abhivarde.gumroad.com/l/portfolio-template-syncui)  
 → [See all templates](https://syncui.design/templates)
+
+*Tip: Right-click on links and select "Open in new tab" to keep this page open while browsing templates.*
 
 ## Documentation
 
