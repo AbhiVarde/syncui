@@ -1,4 +1,3 @@
-
 <div align="center">
   <h3>🚀 Introducing Sync UI ✨</h3>
   <p>A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.</p>
@@ -27,7 +26,15 @@
 - ♿ Accessible and customizable
 - 🆓 100% Free and Open Source.
 - 🚀 Ready for your next project
-  
+
+## Templates
+
+Explore our fresh, production-ready templates 🚀
+
+- 🧩 [SaaS Template – $45](abhivarde.gumroad.com/l/saas-template-syncui)  
+- 🎯 [Portfolio Template – $35](abhivarde.gumroad.com/l/portfolio-template-syncui)  
+→ [See all templates](https://syncui.design/templates)
+
 ## Documentation
 
 Visit [https://syncui.design/docs](https://syncui.design/docs) to view the full documentation and get started with Sync UI.
@@ -48,4 +55,3 @@ Sync UI is licensed under the [MIT License](http://choosealicense.com/licenses/m
 ## Authors
 
 Sync UI is created and maintained by [Abhi Varde](https://www.abhivarde.in/).
-
