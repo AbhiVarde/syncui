@@ -22,16 +22,22 @@ export function GitHubProvider({ children }) {
 
   const fetchGitHubData = async () => {
     try {
+      const axiosConfig = {
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+          Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+        },
+      };
+
       const repoResponse = await axios.get(
-        "https://api.github.com/repos/AbhiVarde/syncui?type=public"
+        "https://api.github.com/repos/AbhiVarde/syncui",
+        axiosConfig
       );
 
       const stargazersResponse = await axios.get(
         "https://api.github.com/repos/AbhiVarde/syncui/stargazers",
         {
-          headers: {
-            Accept: "application/vnd.github.v3+json",
-          },
+          ...axiosConfig,
           params: {
             per_page: 100,
           },
@@ -63,8 +69,11 @@ export function GitHubProvider({ children }) {
         }
       }
     } catch (error) {
+      console.error("GitHub API error:", error);
+
       setGitHubData((prevData) => ({
         ...prevData,
+        stars: prevData.stars || 0,
         loading: false,
         error: error.response?.data?.message || "Failed to fetch GitHub data",
       }));
