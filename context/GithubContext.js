@@ -22,22 +22,16 @@ export function GitHubProvider({ children }) {
 
   const fetchGitHubData = async () => {
     try {
-      const axiosConfig = {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-          Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-        },
-      };
-
       const repoResponse = await axios.get(
-        "https://api.github.com/repos/AbhiVarde/syncui",
-        axiosConfig
+        "https://api.github.com/repos/AbhiVarde/syncui"
       );
 
       const stargazersResponse = await axios.get(
         "https://api.github.com/repos/AbhiVarde/syncui/stargazers",
         {
-          ...axiosConfig,
+          headers: {
+            Accept: "application/vnd.github.v3+json",
+          },
           params: {
             per_page: 100,
           },

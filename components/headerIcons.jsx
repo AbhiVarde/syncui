@@ -49,23 +49,25 @@ const HeaderIcons = ({
 }) => {
   return (
     <>
-      <IconContainer
-        href={GITHUB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <RiGithubFill size={ICON_SIZE} />
-        {!loading && (
-          <Typography variant="caption" component="span" fontWeight={500}>
-            <AnimatedCounter
-              value={stars}
-              duration={1.5}
-              formatter={(val) => val.toLocaleString()}
-              delay={0.2}
-            />
-          </Typography>
-        )}
-      </IconContainer>
+      {(typeof stars === "number" || loading) && (
+        <IconContainer
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <RiGithubFill size={ICON_SIZE} />
+          {!loading && stars > 0 && (
+            <Typography variant="caption" component="span" fontWeight={500}>
+              <AnimatedCounter
+                value={stars}
+                duration={1.5}
+                formatter={(val) => val.toLocaleString()}
+                delay={0.2}
+              />
+            </Typography>
+          )}
+        </IconContainer>
+      )}
 
       <IconContainer
         href={TWITTER_URL}
