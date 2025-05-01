@@ -4,8 +4,9 @@
   <a href="https://x.com/syncuidesign"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/syncuidesign"></a>
   <a href="https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
   <br /> <br />
-  <img width="1439" alt="default-og-image" src="https://github.com/user-attachments/assets/82d6e750-6a4c-41dd-9dc3-eed64631460d" />
+  <img width="1428" alt="default-og-image" src="https://github.com/user-attachments/assets/5b8f1c25-d0b4-45f1-bdf6-1d080f06ba3d" />
   <br /> <br />
+
 </div>
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
