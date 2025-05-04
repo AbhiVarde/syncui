@@ -399,12 +399,15 @@ const SplitReveal = ({ text }) => {
 
 const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
   const [alignment, setAlignment] = useState("center");
+  const [width, setWidth] = useState("300px");
 
   useEffect(() => {
     if (window.location.pathname.startsWith("/docs")) {
       setAlignment("flex-start");
+      setWidth("100%");
     } else {
       setAlignment("center");
+      setWidth("300px");
     }
   }, []);
 
@@ -438,7 +441,7 @@ const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
         padding: "0px !important",
         margin: "0px !important",
         position: "relative",
-        width: "100%",
+        width: width,
         height: "60px",
         overflow: "hidden",
       }}

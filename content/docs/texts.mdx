@@ -5,6 +5,109 @@ description: Sync UI offers a variety of text animation styles to enhance your u
 
 Sync UI offers a variety of text animation styles to enhance your user interface.
 
+#### Video Text
+Text with video content visible through text mask.
+
+<CodePreview
+  preview={<TextVariants variant="videoText" />}
+  code={`
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
+  const svgMask = encodeURIComponent(\`
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <text 
+      x="50%" 
+      y="50%" 
+      dominant-baseline="middle" 
+      text-anchor="middle"
+      font-family="Montserrat, sans-serif"
+      font-weight="700"
+      font-size="42px"
+      letter-spacing="8px"
+    >
+      \${text.toUpperCase()}
+    </text>
+  </svg>
+\`);
+
+  return (
+    <Box
+      component={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.5 }}
+      sx={{
+        position: "relative",
+        width: "900px",
+        height: "60px",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          background: "transparent",
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          maskImage: \`url("data:image/svg+xml,\${svgMask}")\`,
+          WebkitMaskImage: \`url("data:image/svg+xml,\${svgMask}")\`,
+          maskSize: "80% auto",
+          WebkitMaskSize: "80% auto",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+        }}
+      >
+        <Box
+          component={motion.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2 }}
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </Box>
+      </Box>
+
+      <Typography
+        variant="h1"
+        sx={{
+          visibility: "hidden",
+          position: "absolute",
+          textAlign: "center",
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: 700,
+          fontSize: "32px !important",
+        }}
+      >
+        {text}
+      </Typography>
+    </Box>
+  );
+};
+`}
+/>
+
 #### Blur In
 Text that cycles through blur states with opacity changes.
 
@@ -384,105 +487,3 @@ const MorphingText = ({ words }) => {
 `}
 />
 
-#### Video Text
-Text with video content visible through text mask.
-
-<CodePreview
-  preview={<TextVariants variant="videoText" />}
-  code={`
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import { motion } from "framer-motion";
-
-const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
-  const svgMask = encodeURIComponent(\`
-  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-    <text 
-      x="50%" 
-      y="50%" 
-      dominant-baseline="middle" 
-      text-anchor="middle"
-      font-family="Montserrat, sans-serif"
-      font-weight="700"
-      font-size="42px"
-      letter-spacing="8px"
-    >
-      \${text.toUpperCase()}
-    </text>
-  </svg>
-\`);
-
-  return (
-    <Box
-      component={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.5 }}
-      sx={{
-        position: "relative",
-        width: "900px",
-        height: "60px",
-        overflow: "hidden",
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          background: "transparent",
-        }}
-      />
-
-      <Box
-        sx={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          maskImage: \`url("data:image/svg+xml,\${svgMask}")\`,
-          WebkitMaskImage: \`url("data:image/svg+xml,\${svgMask}")\`,
-          maskSize: "80% auto",
-          WebkitMaskSize: "80% auto",
-          maskRepeat: "no-repeat",
-          WebkitMaskRepeat: "no-repeat",
-          maskPosition: "center",
-          WebkitMaskPosition: "center",
-        }}
-      >
-        <Box
-          component={motion.video}
-          autoPlay
-          loop
-          muted
-          playsInline
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2 }}
-          sx={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </Box>
-      </Box>
-
-      <Typography
-        variant="h1"
-        sx={{
-          visibility: "hidden",
-          position: "absolute",
-          textAlign: "center",
-          fontFamily: "Montserrat, sans-serif",
-          fontWeight: 700,
-          fontSize: "32px !important",
-        }}
-      >
-        {text}
-      </Typography>
-    </Box>
-  );
-};
-`}
-/>

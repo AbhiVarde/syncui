@@ -100,6 +100,7 @@ const componentVariants = {
     { variant: "starry", label: "Starry" },
   ],
   texts: [
+    "videoText",
     "blurIn",
     "splitReveal",
     "staggeredScale",
@@ -110,7 +111,6 @@ const componentVariants = {
     "typewriter",
     "rotateWords",
     "morphingText",
-    "videoText",
   ],
 };
 
