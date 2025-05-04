@@ -438,7 +438,7 @@ const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
         padding: "0px !important",
         margin: "0px !important",
         position: "relative",
-        width: "900px",
+        width: "100%",
         height: "60px",
         overflow: "hidden",
       }}
