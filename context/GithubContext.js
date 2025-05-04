@@ -20,18 +20,27 @@ export function GitHubProvider({ children }) {
   const isInitialLoad = useRef(true);
   const previousStargazersRef = useRef([]);
 
+  const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+
   const fetchGitHubData = async () => {
     try {
+      const headers = {
+        Accept: "application/vnd.github.v3+json",
+      };
+
+      if (GITHUB_TOKEN) {
+        headers.Authorization = `token ${GITHUB_TOKEN}`;
+      }
+
       const repoResponse = await axios.get(
-        "https://api.github.com/repos/AbhiVarde/syncui"
+        "https://api.github.com/repos/AbhiVarde/syncui",
+        { headers }
       );
 
       const stargazersResponse = await axios.get(
         "https://api.github.com/repos/AbhiVarde/syncui/stargazers",
         {
-          headers: {
-            Accept: "application/vnd.github.v3+json",
-          },
+          headers,
           params: {
             per_page: 100,
           },
@@ -51,7 +60,6 @@ export function GitHubProvider({ children }) {
         isInitialLoad.current = false;
         previousStargazersRef.current = newStargazers;
       } else {
-        // For updates, check if count changed
         if (newStarsCount !== gitHubData.stars) {
           setGitHubData({
             stars: newStarsCount,
@@ -61,6 +69,11 @@ export function GitHubProvider({ children }) {
           });
           previousStargazersRef.current = newStargazers;
         }
+      }
+
+      if (process.env.NODE_ENV === "development") {
+        const rateLimit = repoResponse.headers["x-ratelimit-remaining"];
+        console.log(`GitHub API rate limit remaining: ${rateLimit}`);
       }
     } catch (error) {
       console.error("GitHub API error:", error);
@@ -79,7 +92,7 @@ export function GitHubProvider({ children }) {
 
     const intervalId = setInterval(() => {
       fetchGitHubData();
-    }, 30000);
+    }, 60000);
 
     return () => clearInterval(intervalId);
   }, []);
