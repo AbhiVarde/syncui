@@ -284,10 +284,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {(item.title === "Cards" ||
-                        item.title === "Marquees" ||
-                        item.title === "Texts" ||
-                        item.title === "Paginations" ||
+                      {(item.title === "Texts" ||
                         item.title === "Templates") && (
                         <Box
                           component="span"

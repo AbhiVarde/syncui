@@ -21,12 +21,17 @@ const TextVariants = ({ variant }) => {
     "typewriter",
     "rotateWords",
     "morphingText",
+    "videoText",
   ];
 
   const renderText = () => {
     const index = texts.indexOf(variant);
     if (index === -1) {
-      return <Typography variant="h5">Interactive Text</Typography>;
+      return (
+        <Typography variant="h5" sx={{ fontSize: "32px !important" }}>
+          Interactive Text
+        </Typography>
+      );
     }
 
     const components = [
@@ -43,6 +48,7 @@ const TextVariants = ({ variant }) => {
         words={["Solutions", "Ideas", "Concepts", "Designs"]}
       />,
       <MorphingText words={["Innovate", "Create", "Design", "Develop"]} />,
+      <VideoText text="Waves" />,
     ];
 
     return components[index];
@@ -76,7 +82,11 @@ const RotateWords = ({ text, words }) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Typography variant="h5" fontWeight={500}>
+      <Typography
+        variant="h5"
+        fontWeight={500}
+        sx={{ fontSize: "32px !important" }}
+      >
         {text}
       </Typography>
       <Box flexShrink={0} ml={1}>
@@ -88,7 +98,10 @@ const RotateWords = ({ text, words }) => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <Typography variant="h4" sx={{ fontWeight: 500 }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: 500, fontSize: "32px !important" }}
+            >
               {words[index]}
             </Typography>
           </motion.div>
@@ -98,47 +111,78 @@ const RotateWords = ({ text, words }) => {
   );
 };
 
-const LettersPullUp = ({ text }) => (
-  <motion.div style={{ display: "flex", justifyContent: "center" }}>
-    {text.split("").map((char, index) => (
-      <motion.span
-        key={index}
-        animate={{ y: [10, 0, 0, 10], opacity: [0, 1, 1, 0] }}
-        transition={{ duration: 2, repeat: Infinity, delay: index * 0.1 }}
-      >
-        <Typography variant="h5" sx={{ mx: 0.2 }}>
-          {char}
-        </Typography>
-      </motion.span>
-    ))}
-  </motion.div>
-);
+const LettersPullUp = ({ text }) => {
+  const [alignment, setAlignment] = useState("center");
 
-const WordsPullUp = ({ text }) => (
-  <motion.div
-    style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}
-  >
-    {text.split(" ").map((word, index) => (
-      <motion.span
-        key={index}
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{
-          duration: 2,
-          delay: index * 0.1,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "anticipate",
-        }}
-        style={{ marginRight: "0.4em" }}
-      >
-        <Typography variant="h4" fontWeight={500}>
-          {word}
-        </Typography>
-      </motion.span>
-    ))}
-  </motion.div>
-);
+  useEffect(() => {
+    if (window.location.pathname.startsWith("/docs")) {
+      setAlignment("flex-start");
+    } else {
+      setAlignment("center");
+    }
+  }, []);
+
+  return (
+    <motion.div style={{ display: "flex", justifyContent: alignment }}>
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={index}
+          animate={{ y: [10, 0, 0, 10], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 2, repeat: Infinity, delay: index * 0.1 }}
+        >
+          <Typography
+            variant="h5"
+            sx={{ mx: 0.2, fontSize: "32px !important" }}
+          >
+            {char}
+          </Typography>
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+};
+
+const WordsPullUp = ({ text }) => {
+  const [alignment, setAlignment] = useState("center");
+
+  useEffect(() => {
+    if (window.location.pathname.startsWith("/docs")) {
+      setAlignment("flex-start");
+    } else {
+      setAlignment("center");
+    }
+  }, []);
+
+  return (
+    <motion.div
+      style={{ display: "flex", justifyContent: alignment, flexWrap: "wrap" }}
+    >
+      {text.split(" ").map((word, index) => (
+        <motion.span
+          key={index}
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 2,
+            delay: index * 0.1,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "anticipate",
+          }}
+          style={{ marginRight: "0.4em" }}
+        >
+          <Typography
+            variant="h4"
+            fontWeight={500}
+            sx={{ fontSize: "32px !important" }}
+          >
+            {word}
+          </Typography>
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+};
 
 const BlurIn = ({ text }) => (
   <motion.div
@@ -153,7 +197,10 @@ const BlurIn = ({ text }) => (
       ease: "easeInOut",
     }}
   >
-    <Typography variant="h4" sx={{ fontWeight: 500, letterSpacing: 0.2 }}>
+    <Typography
+      variant="h4"
+      sx={{ fontWeight: 500, letterSpacing: 0.2, fontSize: "32px !important" }}
+    >
       {text}
     </Typography>
   </motion.div>
@@ -179,7 +226,14 @@ const MorphingText = ({ words }) => {
           exit={{ opacity: 0, scale: 1.2 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 500, letterSpacing: 0.2 }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 500,
+              letterSpacing: 0.2,
+              fontSize: "32px !important",
+            }}
+          >
             {words[index]}
           </Typography>
         </motion.div>
@@ -207,7 +261,11 @@ const NeonGlow = ({ text }) => (
       display: "inline-block",
     }}
   >
-    <Typography variant="h4" fontWeight={500}>
+    <Typography
+      variant="h4"
+      fontWeight={500}
+      sx={{ fontSize: "32px !important" }}
+    >
       {text}
     </Typography>
   </motion.div>
@@ -221,7 +279,11 @@ const StaggeredScale = ({ text }) => (
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 1.5, delay: i * 0.1, repeat: Infinity }}
       >
-        <Typography variant="h4" fontWeight={500}>
+        <Typography
+          variant="h4"
+          fontWeight={500}
+          sx={{ fontSize: "32px !important" }}
+        >
           {char}
         </Typography>
       </motion.span>
@@ -237,7 +299,11 @@ const WaveEffect = ({ text }) => (
         animate={{ y: [0, -20, 0] }}
         transition={{ duration: 1.5, delay: i * 0.05, repeat: Infinity }}
       >
-        <Typography variant="h4" fontWeight={500}>
+        <Typography
+          variant="h4"
+          fontWeight={500}
+          sx={{ fontSize: "32px !important" }}
+        >
           {char}
         </Typography>
       </motion.span>
@@ -268,7 +334,11 @@ const TypewriterEffect = ({ text }) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Typography variant="h4" fontWeight={500}>
+      <Typography
+        variant="h4"
+        fontWeight={500}
+        sx={{ fontSize: "32px !important" }}
+      >
         {displayText}
         <motion.span
           animate={{ opacity: [1, 0] }}
@@ -304,6 +374,7 @@ const SplitReveal = ({ text }) => {
             display: "flex",
             flexWrap: "wrap",
             gap: "0.2rem",
+            fontSize: "32px !important",
           }}
         >
           {text.split("").map((char, index) => (
@@ -322,6 +393,112 @@ const SplitReveal = ({ text }) => {
           ))}
         </Typography>
       </motion.div>
+    </Box>
+  );
+};
+
+const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
+  const [alignment, setAlignment] = useState("center");
+
+  useEffect(() => {
+    if (window.location.pathname.startsWith("/docs")) {
+      setAlignment("flex-start");
+    } else {
+      setAlignment("center");
+    }
+  }, []);
+
+  const textAnchor = alignment === "center" ? "middle" : "start";
+  const xPosition = alignment === "center" ? "50%" : "10%";
+
+  const svgMask = encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <text 
+      x="${xPosition}" 
+      y="50%" 
+      dominant-baseline="middle" 
+      text-anchor="${textAnchor}"
+      font-family="Montserrat, sans-serif"
+      font-weight="700"
+      font-size="42px"
+      letter-spacing="8px"
+    >
+      ${text.toUpperCase()}
+    </text>
+  </svg>
+`);
+
+  return (
+    <Box
+      component={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.5 }}
+      sx={{
+        padding: "0px !important",
+        margin: "0px !important",
+        position: "relative",
+        width: "900px",
+        height: "60px",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          background: "transparent",
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          maskImage: `url("data:image/svg+xml,${svgMask}")`,
+          WebkitMaskImage: `url("data:image/svg+xml,${svgMask}")`,
+          maskSize: "80% auto",
+          WebkitMaskSize: "80% auto",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: alignment === "center" ? "center" : "left",
+          WebkitMaskPosition: alignment === "center" ? "center" : "left",
+        }}
+      >
+        <Box
+          component={motion.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2 }}
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </Box>
+      </Box>
+
+      <Typography
+        variant="h1"
+        sx={{
+          visibility: "hidden",
+          position: "absolute",
+          textAlign: alignment,
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: 700,
+          fontSize: "32px !important",
+        }}
+      >
+        {text}
+      </Typography>
     </Box>
   );
 };

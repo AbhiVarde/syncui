@@ -164,10 +164,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                               <span>
                                 {item.title === "Setup" ? "Setup" : item.title}
                               </span>
-                              {(item.title === "Cards" ||
-                                item.title === "Marquees" ||
-                                item.title === "Texts" ||
-                                item.title === "Paginations" ||
+                              {(item.title === "Texts" ||
                                 item.title === "Templates") && (
                                 <Box
                                   component="span"

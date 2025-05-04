@@ -27,7 +27,7 @@ const BlurIn = ({ text }) => (
       ease: "easeInOut",
     }}
   >
-    <Typography variant="h4" sx={{ fontWeight: 500, letterSpacing: 0.2 }}>
+    <Typography variant="h4" sx={{ fontWeight: 500, letterSpacing: 0.2, fontSize: "32px !important" }}>
       {text}
     </Typography>
   </motion.div>
@@ -63,7 +63,12 @@ const SplitReveal = ({ text }) => {
         <Typography
           variant="h4"
           fontWeight={500}
-          sx={{ display: "flex", flexWrap: "wrap", gap: "0.2rem" }}
+          sx={{ 
+            display: "flex", 
+            flexWrap: "wrap", 
+            gap: "0.2rem",
+            fontSize: "32px !important" 
+          }}
         >
           {text.split("").map((char, index) => (
             <motion.span
@@ -104,7 +109,7 @@ const StaggeredScale = ({ text }) => (
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 1.5, delay: i * 0.1, repeat: Infinity }}
       >
-        <Typography variant="h4" fontWeight={500}>
+        <Typography variant="h4" fontWeight={500} sx={{ fontSize: "32px !important" }}>
           {char}
         </Typography>
       </motion.span>
@@ -131,7 +136,7 @@ const LettersPullUp = ({ text }) => (
         animate={{ y: [10, 0, 0, 10], opacity: [0, 1, 1, 0] }}
         transition={{ duration: 2, repeat: Infinity, delay: index * 0.1 }}
       >
-        <Typography variant="h5" sx={{ mx: 0.2 }}>
+        <Typography variant="h5" sx={{ mx: 0.2, fontSize: "32px !important" }}>
           {char}
         </Typography>
       </motion.span>
@@ -158,7 +163,7 @@ const WaveEffect = ({ text }) => (
         animate={{ y: [0, -20, 0] }}
         transition={{ duration: 1.5, delay: i * 0.05, repeat: Infinity }}
       >
-        <Typography variant="h4" fontWeight={500}>
+        <Typography variant="h4" fontWeight={500} sx={{ fontSize: "32px !important" }}>
           {char}
         </Typography>
       </motion.span>
@@ -167,6 +172,8 @@ const WaveEffect = ({ text }) => (
 );
 `}
 />
+
+## Advanced Text Animations
 
 #### Neon Glow
 Text with pulsating neon effect in national colors.
@@ -196,7 +203,7 @@ const NeonGlow = ({ text }) => (
       display: "inline-block", 
     }}
   >
-    <Typography variant="h4" fontWeight={500}>
+    <Typography variant="h4" fontWeight={500} sx={{ fontSize: "32px !important" }}>
       {text}
     </Typography>
   </motion.div>
@@ -231,7 +238,7 @@ const WordsPullUp = ({ text }) => (
         }}
         style={{ marginRight: "0.4em" }}
       >
-        <Typography variant="h4" fontWeight={500}>
+        <Typography variant="h4" fontWeight={500} sx={{ fontSize: "32px !important" }}>
           {word}
         </Typography>
       </motion.span>
@@ -274,7 +281,7 @@ const TypewriterEffect = ({ text }) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Typography variant="h4" fontWeight={500}>
+      <Typography variant="h4" fontWeight={500} sx={{ fontSize: "32px !important" }}>
         {displayText}
         <motion.span
           animate={{ opacity: [1, 0] }}
@@ -312,7 +319,7 @@ const RotateWords = ({ text, words }) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Typography variant="h5" fontWeight={500}>
+      <Typography variant="h5" fontWeight={500} sx={{ fontSize: "32px !important" }}>
         {text}
       </Typography>
       <Box flexShrink={0} ml={1}>
@@ -324,7 +331,7 @@ const RotateWords = ({ text, words }) => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <Typography variant="h4" sx={{ fontWeight: 500 }}>
+            <Typography variant="h4" sx={{ fontWeight: 500, fontSize: "32px !important" }}>
               {words[index]}
             </Typography>
           </motion.div>
@@ -366,11 +373,114 @@ const MorphingText = ({ words }) => {
           exit={{ opacity: 0, scale: 1.2 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 500, letterSpacing: 0.2 }}>
+          <Typography variant="h4" sx={{ fontWeight: 500, letterSpacing: 0.2, fontSize: "32px !important" }}>
             {words[index]}
           </Typography>
         </motion.div>
       </AnimatePresence>
+    </Box>
+  );
+};
+`}
+/>
+
+#### Video Text
+Text with video content visible through text mask.
+
+<CodePreview
+  preview={<TextVariants variant="videoText" />}
+  code={`
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
+  const svgMask = encodeURIComponent(\`
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <text 
+      x="50%" 
+      y="50%" 
+      dominant-baseline="middle" 
+      text-anchor="middle"
+      font-family="Montserrat, sans-serif"
+      font-weight="700"
+      font-size="42px"
+      letter-spacing="8px"
+    >
+      \${text.toUpperCase()}
+    </text>
+  </svg>
+\`);
+
+  return (
+    <Box
+      component={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.5 }}
+      sx={{
+        position: "relative",
+        width: "900px",
+        height: "60px",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          background: "transparent",
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          maskImage: \`url("data:image/svg+xml,\${svgMask}")\`,
+          WebkitMaskImage: \`url("data:image/svg+xml,\${svgMask}")\`,
+          maskSize: "80% auto",
+          WebkitMaskSize: "80% auto",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+        }}
+      >
+        <Box
+          component={motion.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2 }}
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </Box>
+      </Box>
+
+      <Typography
+        variant="h1"
+        sx={{
+          visibility: "hidden",
+          position: "absolute",
+          textAlign: "center",
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: 700,
+          fontSize: "32px !important",
+        }}
+      >
+        {text}
+      </Typography>
     </Box>
   );
 };

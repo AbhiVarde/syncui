@@ -110,6 +110,7 @@ const componentVariants = {
     "typewriter",
     "rotateWords",
     "morphingText",
+    "videoText",
   ],
 };
 
