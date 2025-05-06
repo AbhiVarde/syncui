@@ -10,6 +10,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { RxArrowRight } from "react-icons/rx";
 import Link from "next/link";
+import Image from "next/image";
 import {
   SiReact,
   SiNextdotjs,
@@ -167,7 +168,7 @@ const HeroSection = () => {
           </Box>
         </motion.div>
 
-        {/* Single Get Started Button */}
+        {/* Modified Button Section with Peerlist Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -177,9 +178,12 @@ const HeroSection = () => {
             sx={{
               display: "flex",
               alignItems: "center",
+              gap: 2,
               mt: 3,
+              flexWrap: "wrap",
             }}
           >
+            {/* What's New Button */}
             <Link href="/docs/changelog" passHref>
               <MotionButton
                 variant="contained"
@@ -191,6 +195,7 @@ const HeroSection = () => {
                   display: "flex",
                   alignItems: "center",
                   transition: "0.3s",
+                  flexShrink: 0,
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -207,7 +212,7 @@ const HeroSection = () => {
                       </motion.span>
                     )}
                   </AnimatePresence>
-                  What’s New
+                  What's New
                   <AnimatePresence>
                     {!isHovered && (
                       <motion.span
@@ -224,6 +229,62 @@ const HeroSection = () => {
                 </Box>
               </MotionButton>
             </Link>
+
+            {/* Peerlist Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.8 }}
+              whileInView={{
+                scale: [1, 1.05, 1],
+                transition: {
+                  scale: {
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    duration: 2,
+                    ease: "easeInOut",
+                  },
+                },
+              }}
+            >
+              <Link
+                href="https://peerlist.io/abhivarde/project/sync-ui"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MotionButton
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  sx={{
+                    px: 2,
+                    py: 1,
+                    borderRadius: "8px",
+                    background: "#FFFFFF !important",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    backdropFilter: "blur(4px)",
+                    "&:hover": {
+                      background: "#FFFFFF !important",
+                    },
+                  }}
+                >
+                  <Image
+                    src="/peerlistBadge.svg"
+                    alt="Featured on Peerlist"
+                    width={120}
+                    height={28}
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                      filter:
+                        theme.palette.mode === "dark"
+                          ? "brightness(0.95)"
+                          : "none",
+                    }}
+                  />
+                </MotionButton>
+              </Link>
+            </motion.div>
           </Box>
         </motion.div>
       </Box>
