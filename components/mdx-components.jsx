@@ -34,6 +34,7 @@ import PaginationVariants from "./ui/Paginations";
 import CarouselVariants from "./ui/Carousels";
 import TableVariants from "./ui/Tables";
 import DockVariants from "./ui/Docks";
+import PointerVariants from "./ui/Pointers";
 import { GoEye, GoTerminal } from "react-icons/go";
 
 const createHeading = (variant) => {
@@ -257,6 +258,7 @@ export const MDXComponents = {
   CarouselVariants: CarouselVariants,
   TableVariants: TableVariants,
   DockVariants: DockVariants,
+  PointerVariants: PointerVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),

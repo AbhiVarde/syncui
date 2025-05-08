@@ -10,6 +10,9 @@ import {
 } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
+import { useRouter } from "next/navigation";
+import DockVariants from "../ui/Docks";
+
 import ButtonVariants from "../ui/Buttons";
 import CardVariants from "../ui/Cards";
 import CarouselVariants from "../ui/Carousels";
@@ -22,8 +25,7 @@ import BackgroundVariants from "../ui/Backgrounds";
 import MarqueeVariants from "../ui/Marquees";
 import TabVariants from "../ui/Tabs";
 import PaginationVariants from "../ui/Paginations";
-import { useRouter } from "next/navigation";
-import DockVariants from "../ui/Docks";
+import PointerVariants from "../ui/Pointers";
 
 const componentVariants = {
   cards: [
@@ -35,6 +37,14 @@ const componentVariants = {
     "animatedBorder",
   ],
   docks: ["modern", "categorical", "dynamic", "glass"],
+  pointers: [
+    "glowingDot",
+    "followingRing",
+    "magneticArrow",
+    "trailingDots",
+    "emojiFollower",
+    "gradientBlob",
+  ],
   carousels: ["scale", "parallax", "fade", "cards"],
   marquees: ["horizontal", "vertical", "diagonal"],
   buttons: [
@@ -268,6 +278,54 @@ const TabsSection = () => {
                     Style
                   </Typography>
                   <DockVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Pointers Section */}
+          <SectionContent
+            title="Interactive Pointers"
+            description="Elevate user engagement with these captivating cursor effects that respond intelligently to movements and interactions."
+            url="/docs/pointers"
+          >
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, 1fr)",
+                  md: "repeat(3, 1fr)",
+                },
+                gap: 4,
+                justifyItems: "center",
+              }}
+            >
+              {componentVariants.pointers.map((variant) => (
+                <Box key={variant} sx={{ width: "100%" }}>
+                  <Typography
+                    variant="h6"
+                    textAlign="center"
+                    sx={{
+                      mb: 2,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </Typography>
+                  <Box
+                    sx={{
+                      height: 250,
+                      position: "relative",
+                      borderRadius: 2,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <PointerVariants variant={variant} />
+                  </Box>
                 </Box>
               ))}
             </Box>

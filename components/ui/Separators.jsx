@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, Typography, Box, useTheme } from "@mui/material";
+import { Divider, Box, useTheme } from "@mui/material";
 import { styled, keyframes } from "@mui/system";
 import { RxStar, RxStarFilled, RxPlus } from "react-icons/rx";
 
@@ -107,11 +107,7 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
     }
   };
 
-  return (
-    <Box sx={{ width: "100%" }}>
-      {renderSeparator()}
-    </Box>
-  );
+  return <Box sx={{ width: "100%" }}>{renderSeparator()}</Box>;
 };
 
 export default SeparatorVariants;

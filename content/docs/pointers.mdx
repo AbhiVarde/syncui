@@ -1,0 +1,599 @@
+---
+title: Pointers
+description: Sync UI offers a variety of custom pointer styles to enhance user interaction and provide engaging feedback.
+---
+
+Sync UI offers a variety of custom pointer styles to enhance user interaction and provide engaging feedback when users hover over interactive elements.
+
+#### Glowing Dot
+
+A simple glowing dot that follows the cursor with a subtle glow effect.
+
+<CodePreview
+  preview={<PointerVariants variant="glowingDot" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const GlowingDot = ({ position }) => {
+  return (
+    <motion.div
+      style={{
+        position: "absolute",
+        left: position.x,
+        top: position.y,
+        x: -15,
+        y: -15,
+        width: 30,
+        height: 30,
+        borderRadius: "50%",
+        background: "rgba(255, 255, 255, 0.8)",
+        boxShadow: "0 0 15px 5px rgba(255, 255, 255, 0.5)",
+        pointerEvents: "none",
+      }}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+    />
+  );
+};
+
+const PointerDemo = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <Box
+      sx={{
+        height: 300,
+        width: 300,
+        position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        cursor: "none",
+        background: "linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        p: 2,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <Typography variant="body2" color="white" textAlign="center">
+        Move your cursor here
+      </Typography>
+
+      {isHovering && <GlowingDot position={mousePosition} />}
+    </Box>
+  );
+};
+
+export default PointerDemo;
+`}
+/>
+
+#### Following Ring
+
+A ring that follows the cursor with spring physics for smooth movement.
+
+<CodePreview
+  preview={<PointerVariants variant="followingRing" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+
+const FollowingRing = ({ position }) => {
+  // Create spring for smoother movement
+  const springConfig = { damping: 25, stiffness: 200 };
+  const x = useMotionValue(position.x);
+  const y = useMotionValue(position.y);
+  const xSpring = useSpring(x, springConfig);
+  const ySpring = useSpring(y, springConfig);
+
+  useEffect(() => {
+    x.set(position.x);
+    y.set(position.y);
+  }, [position, x, y]);
+
+  return (
+    <motion.div
+      style={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        x: xSpring,
+        y: ySpring,
+        translateX: "-50%",
+        translateY: "-50%",
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        border: "2px solid white",
+        pointerEvents: "none",
+      }}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", duration: 0.2 }}
+    />
+  );
+};
+
+const PointerDemo = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <Box
+      sx={{
+        height: "250px",
+        width: "300px",
+        position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        cursor: "none",
+        background: "linear-gradient(135deg, #4E65FF 0%, #92EFFD 100%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        p: 2,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <Typography variant="body2" color="white" textAlign="center">
+        Move your cursor here
+      </Typography>
+
+      {isHovering && <FollowingRing position={mousePosition} />}
+    </Box>
+  );
+};
+
+export default PointerDemo;
+`}
+/>
+
+#### Magnetic Arrow
+
+A rotating arrow that magnetically points and animates with a drawn path effect.
+
+<CodePreview
+  preview={<PointerVariants variant="magneticArrow" />}
+  code={`
+import React, { useState } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MagneticArrow = ({ position }) => {
+  return (
+    <motion.div
+      style={{
+        position: "absolute",
+        left: position.x,
+        top: position.y,
+        x: -12,
+        y: -12,
+        pointerEvents: "none",
+      }}
+      initial={{ rotate: 0 }}
+      animate={{ rotate: 45 }}
+      transition={{ duration: 0.2 }}
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <motion.path
+          d="M7 17L17 7M17 7H7M17 7V17"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.5 }}
+        />
+      </svg>
+    </motion.div>
+  );
+};
+
+const PointerDemo = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <Box
+      sx={{
+        height: "250px",
+        width: "300px",
+        position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        cursor: "none",
+        background: "linear-gradient(135deg, #1FA2FF 0%, #12D8FA 50%, #A6FFCB 100%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        p: 2,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <Typography variant="body2" color="white" textAlign="center">
+        Move your cursor here
+      </Typography>
+      {isHovering && <MagneticArrow position={mousePosition} />}
+    </Box>
+  );
+};
+
+export default PointerDemo;
+`}
+/>
+
+#### Trailing Dots
+
+A series of dots that create a trail behind the cursor.
+
+<CodePreview
+  preview={<PointerVariants variant="trailingDots" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const TrailingDots = ({ position }) => {
+  const [trail, setTrail] = useState([]);
+
+  useEffect(() => {
+    // Add position to trail
+    setTrail((prevTrail) => {
+      const newTrail = [
+        ...prevTrail,
+        { x: position.x, y: position.y, id: Date.now() },
+      ];
+      // Keep only the last 5 positions
+      return newTrail.slice(-5);
+    });
+  }, [position]);
+
+  return (
+    <>
+      {trail.map((dot, index) => {
+        const size = 12 - index * 2;
+        const opacity = 1 - index * 0.2;
+
+        return (
+          <motion.div
+            key={dot.id}
+            style={{
+              position: "absolute",
+              left: dot.x,
+              top: dot.y,
+              x: -size / 2,
+              y: -size / 2,
+              width: size,
+              height: size,
+              borderRadius: "50%",
+              backgroundColor: "white",
+              opacity,
+              pointerEvents: "none",
+            }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.2 }}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+const PointerDemo = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <Box
+      sx={{
+        height: "250px",
+        width: "300px",
+        position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        cursor: "none",
+        background: "linear-gradient(135deg, #9D50BB 0%, #6E48AA 100%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        p: 2,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <Typography variant="body2" color="white" textAlign="center">
+        Move your cursor here
+      </Typography>
+
+      {isHovering && <TrailingDots position={mousePosition} />}
+    </Box>
+  );
+};
+
+export default PointerDemo;
+`}
+/>
+
+#### Emoji Follower
+
+An animated emoji that follows the cursor and changes randomly.
+
+<CodePreview
+  preview={<PointerVariants variant="emojiFollower" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const EmojiFollower = ({ position }) => {
+  const emojis = ["✨", "🎯", "👆", "👀", "🔥"];
+  const [currentEmoji, setCurrentEmoji] = useState(emojis[0]);
+
+  useEffect(() => {
+    // Change emoji every second
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * emojis.length);
+      setCurrentEmoji(emojis[randomIndex]);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div
+      style={{
+        position: "absolute",
+        left: position.x,
+        top: position.y,
+        x: -15,
+        y: -15,
+        fontSize: "24px",
+        pointerEvents: "none",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      initial={{ scale: 0, rotate: 0 }}
+      animate={{ scale: 1, rotate: 360 }}
+      transition={{ duration: 0.3 }}
+    >
+      {currentEmoji}
+    </motion.div>
+  );
+};
+
+const PointerDemo = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <Box
+      sx={{
+        height: "250px",
+        width: "300px",
+        position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        cursor: "none",
+        background: "linear-gradient(135deg, #FF4B2B 0%, #FF416C 100%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        p: 2,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <Typography variant="body2" color="white" textAlign="center">
+        Move your cursor here
+      </Typography>
+
+      {isHovering && <EmojiFollower position={mousePosition} />}
+    </Box>
+  );
+};
+
+export default PointerDemo;
+`}
+/>
+
+#### Gradient Blob
+
+A soft gradient blob that follows the cursor with a subtle pulsating animation.
+
+<CodePreview
+  preview={<PointerVariants variant="gradientBlob" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+
+const GradientBlob = ({ position }) => {
+  // Create spring for smoother movement
+  const springConfig = { damping: 25, stiffness: 200 };
+  const x = useMotionValue(position.x);
+  const y = useMotionValue(position.y);
+  const xSpring = useSpring(x, springConfig);
+  const ySpring = useSpring(y, springConfig);
+
+  useEffect(() => {
+    x.set(position.x);
+    y.set(position.y);
+  }, [position, x, y]);
+
+  return (
+    <motion.div
+      style={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        x: xSpring,
+        y: ySpring,
+        translateX: "-50%",
+        translateY: "-50%",
+        width: 60,
+        height: 60,
+        borderRadius: "50%",
+        background:
+          "radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%)",
+        pointerEvents: "none",
+      }}
+      animate={{
+        scale: [1, 1.1, 1],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "reverse",
+      }}
+    />
+  );
+};
+
+const PointerDemo = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <Box
+      sx={{
+        height: "250px",
+        width: "300px",
+        position: "relative",
+        borderRadius: 2,
+        overflow: "hidden",
+        cursor: "none",
+        background: "linear-gradient(135deg, #36D1DC 0%, #5B86E5 100%)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        p: 2,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <Typography variant="body2" color="white" textAlign="center">
+        Move your cursor here
+      </Typography>
+
+      {isHovering && <GradientBlob position={mousePosition} />}
+    </Box>
+  );
+};
+
+export default PointerDemo;
+`}
+/>
