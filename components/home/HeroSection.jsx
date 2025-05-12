@@ -184,7 +184,7 @@ const HeroSection = () => {
             }}
           >
             {/* What's New Button */}
-            <Link href="/docs/changelog" passHref>
+            <Link href="/docs" passHref>
               <MotionButton
                 variant="contained"
                 color="primary"
@@ -212,7 +212,7 @@ const HeroSection = () => {
                       </motion.span>
                     )}
                   </AnimatePresence>
-                  What's New
+                  Get Started
                   <AnimatePresence>
                     {!isHovered && (
                       <motion.span
