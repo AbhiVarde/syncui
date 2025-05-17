@@ -216,6 +216,37 @@ const TabsSection = () => {
             </Typography>
           </Box>
 
+          {/* Backgrounds Section */}
+          <SectionContent
+            title="Fluid Backgrounds"
+            description="Transform your layouts with mesmerizing animated patterns that create depth and visual interest."
+            url="/docs/backgrounds"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 2,
+              }}
+            >
+              {componentVariants.backgrounds.map((variant, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    width: "100%",
+                    height: "200px",
+                    overflow: "hidden",
+                    borderRadius: 2,
+                    position: "relative",
+                  }}
+                >
+                  <BackgroundVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
           {/* Cards Section */}
           <SectionContent
             title="Smart Cards"
@@ -241,45 +272,6 @@ const TabsSection = () => {
                   }}
                 >
                   <CardVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Docks Section */}
-          <SectionContent
-            title="Refined Docks"
-            description="Explore innovative dock animation patterns designed to enhance user experience and showcase seamless interactions for your projects."
-            url="/docs/docks"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.docks.map((variant) => (
-                <Box key={variant}>
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      mt: 1,
-                      textTransform: "capitalize",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}{" "}
-                    Style
-                  </Typography>
-                  <DockVariants variant={variant} />
                 </Box>
               ))}
             </Box>
@@ -328,6 +320,45 @@ const TabsSection = () => {
                   >
                     <PointerVariants variant={variant} />
                   </Box>
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Docks Section */}
+          <SectionContent
+            title="Refined Docks"
+            description="Explore innovative dock animation patterns designed to enhance user experience and showcase seamless interactions for your projects."
+            url="/docs/docks"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.docks.map((variant) => (
+                <Box key={variant}>
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      mt: 1,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}{" "}
+                    Style
+                  </Typography>
+                  <DockVariants variant={variant} />
                 </Box>
               ))}
             </Box>
@@ -460,37 +491,6 @@ const TabsSection = () => {
               {componentVariants.loaders.map((variant) => (
                 <Box key={variant} sx={{ m: 1 }}>
                   <LoaderVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Backgrounds Section */}
-          <SectionContent
-            title="Fluid Backgrounds"
-            description="Transform your layouts with mesmerizing animated patterns that create depth and visual interest."
-            url="/docs/backgrounds"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 2,
-              }}
-            >
-              {componentVariants.backgrounds.map((variant, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    width: "100%",
-                    height: "200px",
-                    overflow: "hidden",
-                    borderRadius: 2,
-                    position: "relative",
-                  }}
-                >
-                  <BackgroundVariants variant={variant} />
                 </Box>
               ))}
             </Box>
