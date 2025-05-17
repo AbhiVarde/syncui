@@ -71,11 +71,13 @@ const componentVariants = {
   ],
   backgrounds: [
     "geminiWave",
-    "movingShapes",
     "gradientMesh",
+    "movingShapes",
     "flickeringGrid",
-    "dots",
+    "interactiveGrid",
     "grid",
+    "magneticConnections",
+    "dots",
   ],
   avatars: [
     "modernShowcase",

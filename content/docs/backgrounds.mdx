@@ -21,7 +21,7 @@ const GeminiWave = () => (
     sx={{
       width: "100%",
       height: "100%",
-      background: "linear-gradient(135deg, #1e3a8a, #5b21b6)",
+      background: "linear-gradient(135deg, #92EFFD, #4E65FF)",
       position: "relative",
       overflow: "hidden",
       display: "flex",
@@ -88,69 +88,6 @@ export default GeminiWave;
 `}
 />
 
-#### Moving Shapes
-
-Animated geometric shapes moving across a gradient background.
-
-<CodePreview
-  preview={<BackgroundVariants variant="movingShapes" />}
-  code={`
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import { motion } from "framer-motion";
-
-const MovingShapes = () => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      background: "linear-gradient(45deg, #f0f0f0, #e0e0e0)",
-      position: "relative",
-      overflow: "hidden",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    {[...Array(8)].map((_, index) => (
-      <motion.div
-        key={index}
-        sx={{
-          position: "absolute",
-          width: ["60px", "80px", "100px", "120px"][index % 4],
-          height: ["60px", "80px", "100px", "120px"][index % 4],
-          borderRadius: index % 2 === 0 ? "50%" : "30%",
-          background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-          opacity: 0.2,
-          filter: "blur(4px)",
-        }}
-        animate={{
-          x: ["-20%", "120%"],
-          y: ["-20%", "120%"],
-          rotate: [0, 360],
-        }}
-        transition={{
-          duration: 15 + index * 2,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "linear",
-        }}
-        style={{
-          left: \`\${(index * 25) % 100}%\`,
-          top: \`\${(index * 35) % 100}%\`,
-        }}
-      />
-    ))}
-    <Typography variant="h4" sx={{ color: "white", zIndex: 1 }}>
-      Moving Shapes
-    </Typography>
-  </Box>
-);
-
-export default MovingShapes;
-`}
-/>
-
 #### Gradient Mesh
 
 A dynamic gradient background with multiple color focal points.
@@ -174,12 +111,10 @@ const GradientMesh = () => (
       width: "100%",
       height: "100%",
       background: \`
-        radial-gradient(at 40% 20%, #93c5fd 0px, transparent 50%),
-        radial-gradient(at 80% 0%, #ddd6fe 0px, transparent 50%),
-        radial-gradient(at 0% 50%, #60a5fa 0px, transparent 50%),
-        radial-gradient(at 80% 50%, #a78bfa 0px, transparent 50%),
-        radial-gradient(at 0% 100%, #3b82f6 0px, transparent 50%),
-        radial-gradient(at 80% 100%, #8b5cf6 0px, transparent 50%)
+        radial-gradient(at 30% 10%, #6EE7B7 0px, transparent 50%),
+        radial-gradient(at 80% 0%, #3B82F6 0px, transparent 50%),
+        radial-gradient(at 10% 90%, #F87171 0px, transparent 50%),
+        radial-gradient(at 90% 80%, #C084FC 0px, transparent 55%)
       \`,
       backgroundSize: "100% 100%",
       animation: "gradientShift 15s ease infinite",
@@ -202,6 +137,89 @@ export default GradientMesh;
 `}
 />
 
+#### Moving Shapes
+
+Animated geometric shapes moving across a gradient background.
+
+<CodePreview
+  preview={<BackgroundVariants variant="movingShapes" />}
+  code={`
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MovingShapes = () => {
+  const gradients = [
+    { start: "#00C853", end: "#B2FF59" },
+    { start: "#FF4B2B", end: "#FF416C" },
+    { start: "#36D1DC", end: "#5B86E5" },
+  ];
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(45deg, #4E65FF, #92EFFD)",
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {[...Array(8)].map((_, index) => {
+        const gradient = gradients[index % gradients.length];
+        return (
+          <motion.div
+            key={index}
+            sx={{
+              position: "absolute",
+              width: ["60px", "80px", "100px", "120px"][index % 4],
+              height: ["60px", "80px", "100px", "120px"][index % 4],
+              borderRadius: index % 2 === 0 ? "50%" : "30%",
+              background: \`linear-gradient(135deg, \${gradient.start}, \${gradient.end})\`,
+              opacity: 0.4,
+              filter: "blur(4px)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.1)",
+            }}
+            animate={{
+              x: ["-20%", "120%"],
+              y: ["-20%", "120%"],
+              rotate: [0, 360],
+            }}
+            transition={{
+              duration: 15 + index * 2,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear",
+            }}
+            style={{
+              left: \`\${(index * 25) % 100}%\`,
+              top: \`\${(index * 35) % 100}%\`,
+            }}
+          />
+        );
+      })}
+      <Typography
+        variant="h4"
+        sx={{
+          color: "white",
+          zIndex: 1,
+          textShadow: "0 2px 10px rgba(0,0,0,0.2)",
+          fontWeight: "bold",
+        }}
+      >
+        Moving Shapes
+      </Typography>
+    </Box>
+  );
+};
+
+export default MovingShapes;
+`}
+/>
+
 #### Flickering Grid
 
 A grid of squares with random flickering effects.
@@ -209,11 +227,12 @@ A grid of squares with random flickering effects.
 <CodePreview
   preview={<BackgroundVariants variant="flickeringGrid" />}
   code={`
-import React, { useEffect, useMemo } from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useEffect, useMemo, useRef } from "react";
+import { Box, Typography, useTheme } from "@mui/material";
 import { motion, useAnimation } from "framer-motion";
 
 const FlickeringGrid = () => {
+  const theme = useTheme();
   const squareSize = 2;
   const gridGap = 0.5;
   const flickerChance = 0.3;
@@ -233,11 +252,19 @@ const FlickeringGrid = () => {
   }, [gridSize]);
 
   const flickerControls = useAnimation();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     const animateFlicker = async () => {
-      while (true) {
-        await flickerControls?.start((i) => ({
+      while (isMounted.current) {
+        await flickerControls.start((i) => ({
           opacity:
             Math.random() < flickerChance
               ? Math.random() * maxOpacity
@@ -248,7 +275,13 @@ const FlickeringGrid = () => {
       }
     };
 
-    animateFlicker();
+    if (isMounted.current) {
+      animateFlicker();
+    }
+
+    return () => {
+      flickerControls.stop();
+    };
   }, [flickerControls, squares, flickerChance, maxOpacity, flickerDuration]);
 
   return (
@@ -258,7 +291,7 @@ const FlickeringGrid = () => {
         height: "100%",
         position: "relative",
         overflow: "hidden",
-        background: "#f0f0f0",
+        background: theme.palette.background.default,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -282,7 +315,10 @@ const FlickeringGrid = () => {
           }}
         />
       ))}
-      <Typography variant="h4" sx={{ color: "#1f2937", zIndex: 1 }}>
+      <Typography
+        variant="h4"
+        sx={{ color: theme.palette.text.primary, zIndex: 1 }}
+      >
         Flickering Grid
       </Typography>
     </Box>
@@ -293,34 +329,102 @@ export default FlickeringGrid;
 `}
 />
 
-#### Dots
+#### Interactive Grid
 
-A simple dotted background pattern.
+A grid of squares that respond to hover interactions.
 
 <CodePreview
-  preview={<BackgroundVariants variant="dots" />}
+  preview={<BackgroundVariants variant="interactiveGrid" />}
   code={`
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
 
-const Dots = () => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      background: "#f0f0f0",
-      backgroundImage: "radial-gradient(#9ca3af 1px, transparent 1px)",
-      backgroundSize: "20px 20px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <Typography variant="h4">Dots</Typography>
-  </Box>
-);
+const InteractiveGrid = () => {
+  const theme = useTheme();
+  const squareWidth = 30;
+  const squareHeight = 30;
+  const horizontalSquares = 40;
+  const verticalSquares = 20;
+  const totalSquares = horizontalSquares * verticalSquares;
+  const [hoveredSquare, setHoveredSquare] = useState(null);
 
-export default Dots;
+  const containerWidth = squareWidth * horizontalSquares;
+  const containerHeight = squareHeight * verticalSquares;
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          width: \`\${containerWidth}px\`,
+          height: \`\${containerHeight}px\`,
+          maxWidth: "100%",
+          maxHeight: "100%",
+          borderColor: "rgba(128, 128, 128, 0.3)",
+          borderWidth: 0.5,
+          borderStyle: "solid",
+        }}
+      >
+        {Array.from({ length: totalSquares }).map((_, index) => {
+          const x = (index % horizontalSquares) * squareWidth;
+          const y = Math.floor(index / horizontalSquares) * squareHeight;
+
+          return (
+            <motion.div
+              key={index}
+              sx={{
+                cursor: "pointer",
+                position: "absolute",
+                top: \`\${y}px\`,
+                left: \`\${x}px\`,
+                width: \`\${squareWidth}px\`,
+                height: \`\${squareHeight}px\`,
+                borderColor: "rgba(128, 128, 128, 0.3)",
+                borderWidth: 0.5,
+                borderStyle: "solid",
+              }}
+              onMouseEnter={() => setHoveredSquare(index)}
+              onMouseLeave={() => setHoveredSquare(null)}
+              whileHover={{ scale: 1.05 }}
+              animate={{
+                backgroundColor:
+                  hoveredSquare === index ? "#FF416C" : "transparent",
+                transition: {
+                  duration: 0.05,
+                  ease: "easeOut",
+                },
+              }}
+            />
+          );
+        })}
+      </Box>
+      <Typography
+        variant="h4"
+        sx={{
+          color: theme.palette.text.primary,
+          position: "absolute",
+          zIndex: 1,
+        }}
+      >
+        Interactive Grid
+      </Typography>
+    </Box>
+  );
+};
+
+export default InteractiveGrid;
 `}
 />
 
@@ -332,27 +436,258 @@ A simple grid background pattern.
   preview={<BackgroundVariants variant="grid" />}
   code={`
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 
-const Grid = () => (
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      background: "#f0f0f0",
-      backgroundImage: \`linear-gradient(#e5e7eb 1px, transparent 1px),
-                         linear-gradient(90deg, #e5e7eb 1px, transparent 1px)\`,
-      backgroundSize: "20px 20px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <Typography variant="h4">Grid</Typography>
-  </Box>
-);
+const Grid = () => {
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        backgroundImage: \`linear-gradient(\${theme.palette.divider} 1px, transparent 1px),
+                           linear-gradient(90deg, \${theme.palette.divider} 1px, transparent 1px)\`,
+        backgroundSize: "20px 20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4">Grid</Typography>
+    </Box>
+  );
+};
 
 export default Grid;
 `}
 />
 
+#### Magnetic Connections
+
+Interactive dots that connect to the mouse cursor with magnetic effects.
+
+<CodePreview
+  preview={<BackgroundVariants variant="magneticConnections" />}
+  code={`
+import React, { useState, useEffect, useCallback } from "react";
+import { Box, Typography, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MagneticConnections = () => {
+  const theme = useTheme();
+  const [mousePos, setMousePos] = useState(null);
+  const [dots, setDots] = useState([]);
+  const dotSize = 3;
+  const spacing = 40;
+  const connectDistance = 80;
+  const lineOpacity = 0.6;
+  const extraColumns = 4;
+  const ref = React.useRef(null);
+
+  function distance(pos1, pos2) {
+    const dx = pos1.x - pos2.x;
+    const dy = pos1.y - pos2.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  useEffect(() => {
+    if (ref.current) {
+      const width = ref.current.offsetWidth;
+      const height = ref.current.offsetHeight;
+
+      const cols = Math.floor(width / spacing) + extraColumns;
+      const rows = Math.floor(height / spacing);
+
+      const offsetX =
+        (width - (cols - extraColumns) * spacing) / 2 -
+        (extraColumns * spacing) / 2;
+      const offsetY = (height - rows * spacing) / 2;
+
+      const dots = [];
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          dots.push({
+            id: \`\${col}-\${row}\`,
+            x: offsetX + col * spacing,
+            y: offsetY + row * spacing,
+          });
+        }
+      }
+      setDots(dots);
+    }
+
+    const handleResize = () => {
+      if (ref.current) {
+        const width = ref.current.offsetWidth;
+        const height = ref.current.offsetHeight;
+
+        const cols = Math.floor(width / spacing) + extraColumns;
+        const rows = Math.floor(height / spacing);
+
+        const offsetX =
+          (width - (cols - extraColumns) * spacing) / 2 -
+          (extraColumns * spacing) / 2;
+        const offsetY = (height - rows * spacing) / 2;
+
+        const newDots = [];
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            newDots.push({
+              id: \`\${col}-\${row}\`,
+              x: offsetX + col * spacing,
+              y: offsetY + row * spacing,
+            });
+          }
+        }
+        setDots(newDots);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [ref]);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => setMousePos(null), []);
+
+  return (
+    <Box
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        position: "relative",
+        overflow: "hidden",
+        cursor: "pointer",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <svg
+        width="100%"
+        height="100%"
+        style={{
+          position: "absolute",
+          pointerEvents: "none",
+        }}
+      >
+        {mousePos &&
+          dots.map((dot) => {
+            const dx = mousePos.x - dot.x;
+            const dy = mousePos.y - dot.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < connectDistance) {
+              const opacity = lineOpacity * (1 - dist / connectDistance);
+              return (
+                <line
+                  key={\`line-\${dot.id}\`}
+                  x1={dot.x}
+                  y1={dot.y}
+                  x2={mousePos.x}
+                  y2={mousePos.y}
+                  stroke={theme.palette.text.primary}
+                  strokeWidth={0.6}
+                  opacity={opacity}
+                />
+              );
+            }
+            return null;
+          })}
+      </svg>
+
+      {dots.map((dot) => (
+        <motion.div
+          key={dot.id}
+          style={{
+            position: "absolute",
+            left: dot.x - dotSize / 2,
+            top: dot.y - dotSize / 2,
+            width: dotSize,
+            height: dotSize,
+            borderRadius: "50%",
+            background: theme.palette.text.primary,
+            zIndex: 1,
+          }}
+          animate={{
+            scale: mousePos
+              ? 1 +
+                0.5 *
+                  (1 - Math.min(1, distance(mousePos, dot) / connectDistance)
+              : 1,
+            opacity: mousePos
+              ? 0.8 +
+                0.2 *
+                  (1 - Math.min(1, distance(mousePos, dot) / connectDistance)
+              : 0.8,
+          }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+        />
+      ))}
+
+      <Typography
+        variant="h4"
+        sx={{
+          position: "relative",
+          zIndex: 2,
+          color: theme.palette.text.primary,
+          pointerEvents: "none",
+        }}
+      >
+        Magnetic Connections
+      </Typography>
+    </Box>
+  );
+};
+
+export default MagneticConnections;
+`}
+/>
+
+
+#### Dots
+
+A simple dotted background pattern.
+
+<CodePreview
+  preview={<BackgroundVariants variant="dots" />}
+  code={`
+import React from "react";
+import { Box, Typography, useTheme } from "@mui/material";
+
+const Dots = () => {
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        backgroundImage: \`radial-gradient(\${theme.palette.text.secondary} 1px, transparent 1px)\`,
+        backgroundSize: "20px 20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4">Dots</Typography>
+    </Box>
+  );
+};
+
+export default Dots;
+`}
+/>
