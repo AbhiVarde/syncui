@@ -1,9 +1,92 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { LiaTelegramPlane } from "react-icons/lia";
+
+const getRandomInt = (max) => Math.floor(Math.random() * max);
+
+const DEFAULT_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+const NUMBER_CHARACTER_SET = "0123456789".split("");
+
+const ScrambleText = ({
+  text,
+  duration = 1200,
+  delay = 0,
+  characterSet = DEFAULT_CHARACTER_SET,
+}) => {
+  const [displayText, setDisplayText] = useState(() => text.split(""));
+  const iterationCount = useRef(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      setIsAnimating(true);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!isAnimating) return;
+
+    const maxIterations = text.length;
+    const startTime = performance.now();
+    let animationFrameId;
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      iterationCount.current = progress * maxIterations;
+
+      setDisplayText((currentText) =>
+        currentText.map((letter, index) =>
+          letter === " "
+            ? letter
+            : index <= iterationCount.current
+            ? text[index]
+            : characterSet[getRandomInt(characterSet.length)]
+        )
+      );
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [text, duration, isAnimating, characterSet]);
+
+  return (
+    <Box component="span" sx={{ display: "inline-block" }}>
+      {displayText.map((letter, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2, delay: index * 0.05 }}
+          style={{ display: "inline-block" }}
+        >
+          {letter === " " ? "\u00A0" : letter}
+        </motion.span>
+      ))}
+    </Box>
+  );
+};
+
+const ScrambleNumber = ({ number, duration = 1500, delay = 200 }) => {
+  return (
+    <ScrambleText
+      text={number.toString()}
+      duration={duration}
+      delay={delay}
+      characterSet={NUMBER_CHARACTER_SET}
+    />
+  );
+};
 
 const NotFound = () => {
   const theme = useTheme();
@@ -15,8 +98,8 @@ const NotFound = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.3,
+        delayChildren: 0.5,
       },
     },
   };
@@ -30,37 +113,31 @@ const NotFound = () => {
         type: "spring",
         stiffness: 100,
         damping: 10,
+        duration: 0.8,
       },
     },
   };
 
-  // Enhanced plane animation with multiple effects
   const planeVariants = {
-    animate: {
-      y: [-10, 10, -10],
-      rotate: [-5, 5, -5],
-      scale: [1, 1.05, 1],
+    hidden: { y: -20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
       transition: {
-        duration: 4,
+        duration: 1,
+        ease: "easeOut",
+      },
+    },
+    animate: {
+      y: [-5, 5, -5],
+      rotate: [-3, 3, -3],
+      scale: [1, 1.03, 1],
+      transition: {
+        duration: 5,
         repeat: Infinity,
         ease: "easeInOut",
       },
     },
-  };
-
-  // Trail effect for the plane
-  const trailVariants = {
-    initial: { opacity: 0, x: 0 },
-    animate: (index) => ({
-      opacity: [0.7, 0],
-      x: [-10 * index, -25 * index],
-      transition: {
-        duration: 1.5,
-        repeat: Infinity,
-        delay: index * 0.2,
-        ease: "easeOut",
-      },
-    }),
   };
 
   return (
@@ -100,10 +177,16 @@ const NotFound = () => {
           }}
         >
           <Box sx={{ mb: 1 }}>
-            <LiaTelegramPlane
-              size={72}
-              color={theme.palette.mode === "dark" ? "#ffffff" : "#000000"}
-            />
+            <motion.div
+              variants={planeVariants}
+              initial="hidden"
+              animate={["visible", "animate"]}
+            >
+              <LiaTelegramPlane
+                size={72}
+                color={theme.palette.mode === "dark" ? "#ffffff" : "#000000"}
+              />
+            </motion.div>
           </Box>
 
           {/* 404 Heading */}
@@ -117,11 +200,11 @@ const NotFound = () => {
                 color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
               }}
             >
-              404
+              <ScrambleNumber number={404} />
             </Typography>
           </motion.div>
 
-          {/* Subheading */}
+          {/* Subheading with scramble animation */}
           <motion.div variants={itemVariants}>
             <Typography
               variant="h6"
@@ -129,9 +212,16 @@ const NotFound = () => {
                 fontWeight: 500,
                 mb: 1,
                 color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
+                height: "1.5em",
+                display: "flex",
+                justifyContent: "center",
               }}
             >
-              Oops! Page took flight!
+              <ScrambleText
+                text="Oops! Page took flight!"
+                delay={800}
+                duration={1500}
+              />
             </Typography>
           </motion.div>
 
