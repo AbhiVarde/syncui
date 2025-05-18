@@ -284,7 +284,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {(item.title === "Pointers" ||
+                      {(item.title === "Backgrounds" ||
+                        item.title === "Pointers" ||
                         item.title === "Texts" ||
                         item.title === "Templates") && (
                         <Box
