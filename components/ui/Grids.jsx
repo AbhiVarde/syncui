@@ -1,11 +1,14 @@
 import React from "react";
 import { Typography, useTheme, Box } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const MotionBox = motion(Box);
 
 const GridVariants = ({ variant = "masonry" }) => {
   const theme = useTheme();
+  const pathname = usePathname();
+  const shouldShowHeading = pathname !== "/docs/grids";
 
   const unsplashImages = [
     "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=2940", // Mountain landscape
@@ -437,18 +440,20 @@ const GridVariants = ({ variant = "masonry" }) => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography
-        variant="h4"
-        component="h2"
-        sx={{
-          mb: 2,
-          fontWeight: 500,
-          color: theme.palette.text.primary,
-          textAlign: "center",
-        }}
-      >
-        {getVariantName(variant)}
-      </Typography>
+      {shouldShowHeading && (
+        <Typography
+          variant="h4"
+          component="h2"
+          sx={{
+            mb: 2,
+            fontWeight: 500,
+            color: theme.palette.text.primary,
+            textAlign: "center",
+          }}
+        >
+          {getVariantName(variant)}
+        </Typography>
+      )}
 
       <AnimatePresence mode="wait">{renderVariant()}</AnimatePresence>
     </Box>

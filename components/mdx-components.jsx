@@ -37,7 +37,7 @@ import CarouselVariants from "./ui/Carousels";
 import TableVariants from "./ui/Tables";
 import DockVariants from "./ui/Docks";
 import PointerVariants from "./ui/Pointers";
-import GridVariants from "./ui/GridVariants";
+import GridVariants from "./ui/Grids";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {

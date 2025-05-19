@@ -26,7 +26,7 @@ import MarqueeVariants from "../ui/Marquees";
 import TabVariants from "../ui/Tabs";
 import PaginationVariants from "../ui/Paginations";
 import PointerVariants from "../ui/Pointers";
-import GridVariants from "../ui/GridVariants";
+import GridVariants from "../ui/Grids";
 
 const componentVariants = {
   cards: [
