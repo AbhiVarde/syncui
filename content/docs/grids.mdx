@@ -1,0 +1,397 @@
+---
+title: Grids
+description: Sync UI offers a variety of grid layout styles to enhance your content presentation.
+---
+
+Sync UI provides multiple grid layout variants to beautifully organize your content with smooth animations.
+
+#### Masonry Grid
+A cascading grid layout with items of varying heights.
+
+<CodePreview
+  preview={<GridVariants variant="masonry" />}
+  code={`
+import React from "react";
+import { Typography, useTheme, Box } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const MasonryGrid = () => {
+  const theme = useTheme();
+
+  const unsplashImages = [
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=2940",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2940",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2940",
+  ];
+
+  const items = Array.from({ length: 9 }, (_, i) => ({
+    id: i + 1,
+    imageUrl: unsplashImages[i % unsplashImages.length],
+  }));
+
+  const getMasonryHeight = (index) => {
+    const baseHeights = [280, 350, 320, 400, 360, 430, 300, 380, 340];
+    const baseHeight = baseHeights[index % baseHeights.length];
+    const variation = ((index * 7) % 60) - 30;
+    return Math.max(250, baseHeight + variation);
+  };
+
+  const getColumnCount = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 600) return 1;
+      if (window.innerWidth < 900) return 2;
+      return 3;
+    }
+    return 3;
+  };
+
+  const columnCount = getColumnCount();
+  const gap = 16;
+
+  const columns = Array.from({ length: columnCount }, () => []);
+  const columnHeights = Array(columnCount).fill(0);
+
+  items.forEach((item, index) => {
+    const height = getMasonryHeight(index);
+    const shortestColumnIndex = columnHeights.reduce(
+      (minIndex, height, currentIndex) =>
+        height < columnHeights[minIndex] ? currentIndex : minIndex,
+      0
+    );
+    columns[shortestColumnIndex].push({
+      ...item,
+      originalIndex: index,
+      height,
+    });
+    columnHeights[shortestColumnIndex] += height + gap;
+  });
+
+  return (
+    <MotionBox
+      sx={{
+        display: "flex",
+        gap: "\${gap}px\",
+        width: "100%",
+        padding: 2,
+        alignItems: "flex-start",
+      }}
+    >
+      {columns.map((column, columnIndex) => (
+        <Box
+          key={\`column-\${columnIndex}\`}
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: \`\${gap}px\`,
+          }}
+        >
+          {column.map((item, itemIndex) => (
+            <MotionBox
+              key={]\`item-\${item.originalIndex}-\${itemIndex}\`}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                delay: item.originalIndex * 0.03,
+                duration: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              whileHover={{ scale: 1.02 }}
+              sx={{
+                height: \`\${item.height}px\`,
+                width: "100%",
+                borderRadius: 2,
+                overflow: "hidden",
+                position: "relative",
+                cursor: "pointer",
+                boxShadow: theme.shadows[2],
+                "&:hover": { boxShadow: theme.shadows[6] },
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  backgroundImage: \`url(\${item.imageUrl})\`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            </MotionBox>
+          ))}
+        </Box>
+      ))}
+    </MotionBox>
+  );
+};
+`}
+/>
+
+#### Bento Grid
+A Japanese-style compartmentalized grid with featured areas.
+
+<CodePreview
+  preview={<GridVariants variant="bento" />}
+  code={`
+import React from "react";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const BentoGrid = () => {
+  const theme = useTheme();
+  const unsplashImages = [
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    "https://images.unsplash.com/photo-1439066615861-d1af74d74000",
+  ];
+
+  return (
+    <MotionBox
+      sx={{
+        padding: 2,
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", md: "2fr 1fr" },
+        gridTemplateRows: "auto auto auto",
+        gap: 2,
+        minHeight: "70vh",
+      }}
+    >
+      <MotionBox
+        sx={{
+          gridColumn: { xs: "1", md: "1" },
+          gridRow: { xs: "1", md: "1 / 3" },
+          minHeight: { xs: 300, md: 500 },
+          backgroundImage: \`url(\${unsplashImages[0]})\`,
+          backgroundSize: "cover",
+          borderRadius: 3,
+          boxShadow: \`0 0 0 1px \${theme.palette.divider}\`,
+        }}
+      />
+
+      <MotionBox
+        sx={{
+          gridColumn: { xs: "1", md: "2" },
+          gridRow: { xs: "2", md: "1" },
+          minHeight: { xs: 150, md: 240 },
+          backgroundImage: \`url(\${unsplashImages[1]})\`,
+          backgroundSize: "cover",
+          borderRadius: 3,
+          boxShadow: \`0 0 0 1px \${theme.palette.divider}\`,
+        }}
+      />
+
+      <MotionBox
+        sx={{
+          gridColumn: { xs: "1", md: "2" },
+          gridRow: { xs: "3", md: "2" },
+          minHeight: { xs: 150, md: 240 },
+          backgroundImage: \`url(\${unsplashImages[2]})\`,
+          backgroundSize: "cover",
+          borderRadius: 3,
+          boxShadow: \`0 0 0 1px \${theme.palette.divider}\`,
+        }}
+      />
+
+      {[3, 4].map((imageIndex, index) => (
+        <MotionBox
+          key={index}
+          sx={{
+            gridColumn: { xs: "1", md: index === 0 ? "1" : "2" },
+            gridRow: { xs: \`\${4 + index}\`, md: "3" },
+            height: 200,
+            backgroundImage: \`url(\${unsplashImages[imageIndex]})\`,
+            backgroundSize: "cover",
+            borderRadius: 3,
+            boxShadow: \`0 0 0 1px \${theme.palette.divider}\`,
+          }}
+        />
+      ))}
+    </MotionBox>
+  );
+};
+`}
+/>
+
+#### Glassmorphism Grid
+A grid with frosted glass effect cards.
+
+<CodePreview
+  preview={<GridVariants variant="glassmorphism" />}
+  code={`
+import React from "react";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const GlassmorphismGrid = () => {
+  const theme = useTheme();
+  const unsplashImages = [
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+  ];
+
+  return (
+    <MotionBox
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+        },
+        gap: 2,
+        padding: 2,
+      }}
+    >
+      {Array.from({ length: 6 }).map((_, index) => (
+        <MotionBox
+          key={index}
+          sx={{
+            height: 280,
+            backdropFilter: "blur(10px)",
+            backgroundColor: "rgba(255,255,255,0.1)",
+            borderRadius: 4,
+            border: "1px solid rgba(255,255,255,0.2)",
+            boxShadow: "0 4px 30px rgba(0,0,0,0.1)",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            sx={{
+              height: "90%",
+              width: "90%",
+              borderRadius: 3,
+              backgroundImage: \`url(\${unsplashImages[index % unsplashImages.length]})\`,
+              backgroundSize: "cover",
+            }}
+          />
+        </MotionBox>
+      ))}
+    </MotionBox>
+  );
+};
+`}
+/>
+
+#### Organic Shapes Grid
+A grid with items featuring organic, irregular shapes.
+
+<CodePreview
+  preview={<GridVariants variant="organicShapes" />}
+  code={`
+import React from "react";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const OrganicShapesGrid = () => {
+  const theme = useTheme();
+  const unsplashImages = [
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+  ];
+
+  return (
+    <MotionBox
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+        },
+        gap: 2,
+        padding: 2,
+      }}
+    >
+      {Array.from({ length: 6 }).map((_, index) => {
+        const topLeft = Math.floor(Math.random() * 30) + 20;
+        const topRight = Math.floor(Math.random() * 30) + 20;
+        const bottomRight = Math.floor(Math.random() * 30) + 20;
+        const bottomLeft = Math.floor(Math.random() * 30) + 20;
+
+        return (
+          <MotionBox
+            key={index}
+            sx={{
+              height: 280,
+              borderRadius: \`\${topLeft}px \${topRight}px \${bottomRight}px \${bottomLeft}px\`,
+              backgroundImage: \`url(\${unsplashImages[index % unsplashImages.length]})\`,
+              backgroundSize: "cover",
+              boxShadow: \`0 0 0 1px \${theme.palette.divider}\`,
+            }}
+          />
+        );
+      })}
+    </MotionBox>
+  );
+};
+`}
+/>
+
+#### Minimal Cards Grid
+A clean grid with subtle shadows and rounded corners.
+
+<CodePreview
+  preview={<GridVariants variant="minimalCards" />}
+  code={`
+import React from "react";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const MinimalCardsGrid = () => {
+  const theme = useTheme();
+  const unsplashImages = [
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+  ];
+
+  return (
+    <MotionBox
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+        },
+        gap: 2,
+        padding: 2,
+      }}
+    >
+      {Array.from({ length: 6 }).map((_, index) => (
+        <MotionBox
+          key={index}
+          sx={{
+            height: 280,
+            borderRadius: 2,
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: \`0 0 0 1px \${theme.palette.divider}\`,
+            overflow: "hidden",
+            backgroundImage: \`url(\${unsplashImages[index % unsplashImages.length]})\`,
+            backgroundSize: "cover",
+          }}
+        />
+      ))}
+    </MotionBox>
+  );
+};
+`}
+/>

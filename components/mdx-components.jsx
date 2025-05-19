@@ -21,6 +21,8 @@ import {
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { RxCheck, RxCopy } from "react-icons/rx";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { GoEye, GoTerminal } from "react-icons/go";
+
 import CardVariants from "./ui/Cards";
 import ButtonVariants from "./ui/Buttons";
 import TextVariants from "./ui/Texts";
@@ -35,7 +37,7 @@ import CarouselVariants from "./ui/Carousels";
 import TableVariants from "./ui/Tables";
 import DockVariants from "./ui/Docks";
 import PointerVariants from "./ui/Pointers";
-import { GoEye, GoTerminal } from "react-icons/go";
+import GridVariants from "./ui/GridVariants";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -259,6 +261,7 @@ export const MDXComponents = {
   TableVariants: TableVariants,
   DockVariants: DockVariants,
   PointerVariants: PointerVariants,
+  GridVariants: GridVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
