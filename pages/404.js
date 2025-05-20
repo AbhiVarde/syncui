@@ -176,18 +176,16 @@ const NotFound = () => {
             alignItems: "center",
           }}
         >
-          <Box sx={{ mb: 1 }}>
-            <motion.div
-              variants={planeVariants}
-              initial="hidden"
-              animate={["visible", "animate"]}
-            >
-              <LiaTelegramPlane
-                size={72}
-                color={theme.palette.mode === "dark" ? "#ffffff" : "#000000"}
-              />
-            </motion.div>
-          </Box>
+          <motion.div
+            variants={planeVariants}
+            initial="hidden"
+            animate={["visible", "animate"]}
+          >
+            <LiaTelegramPlane
+              size={100}
+              color={theme.palette.mode === "dark" ? "#ffffff" : "#000000"}
+            />
+          </motion.div>
 
           {/* 404 Heading */}
           <motion.div variants={itemVariants}>
