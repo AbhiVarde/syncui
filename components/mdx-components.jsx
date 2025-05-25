@@ -38,6 +38,7 @@ import TableVariants from "./ui/Tables";
 import DockVariants from "./ui/Docks";
 import PointerVariants from "./ui/Pointers";
 import GridVariants from "./ui/Grids";
+import AccordionVariants from "./ui/Accordions";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -262,6 +263,7 @@ export const MDXComponents = {
   DockVariants: DockVariants,
   PointerVariants: PointerVariants,
   GridVariants: GridVariants,
+  AccordionVariants: AccordionVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),

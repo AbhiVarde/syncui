@@ -27,8 +27,10 @@ import TabVariants from "../ui/Tabs";
 import PaginationVariants from "../ui/Paginations";
 import PointerVariants from "../ui/Pointers";
 import GridVariants from "../ui/Grids";
+import AccordionVariants from "../ui/Accordions";
 
 const componentVariants = {
+  accordions: ["brutalist", "dashed", "minimal", "modern"],
   cards: [
     "lens",
     "twitterCarousel",
@@ -218,10 +220,32 @@ const TabsSection = () => {
             </Typography>
           </Box>
 
-          {/* Cards Section  */}
+          {/* Buttons Section - Primary interaction elements first */}
           <SectionContent
-            title="Smart Cards"
-            description="Showcase content elegantly with these responsive card designs featuring smooth hover effects and dynamic layouts."
+            title="Interactive Buttons"
+            description="Captivating action elements with unique hover animations and tactile feedback."
+            url="/docs/buttons"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.buttons.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <ButtonVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Cards Section - Content containers */}
+          <SectionContent
+            title="Elegant Cards"
+            description="Sophisticated content containers with smooth hover effects and adaptive layouts."
             url="/docs/cards"
           >
             <Box
@@ -248,41 +272,10 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Backgrounds Section  */}
+          {/* Pointers Section */}
           <SectionContent
-            title="Fluid Backgrounds"
-            description="Transform your layouts with mesmerizing animated patterns that create depth and visual interest."
-            url="/docs/backgrounds"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 2,
-              }}
-            >
-              {componentVariants.backgrounds.map((variant, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    width: "100%",
-                    height: "200px",
-                    overflow: "hidden",
-                    borderRadius: 2,
-                    position: "relative",
-                  }}
-                >
-                  <BackgroundVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Pointers Section  */}
-          <SectionContent
-            title="Interactive Pointers"
-            description="Elevate user engagement with these captivating cursor effects that respond intelligently to movements and interactions."
+            title="Magnetic Pointers"
+            description="Captivating cursor effects that respond intelligently to user movements and interactions."
             url="/docs/pointers"
           >
             <Box
@@ -327,10 +320,63 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Grid Section - */}
+          {/* Backgrounds Section */}
           <SectionContent
-            title="Dynamic Grids"
-            description="Elevate your content presentation with beautifully animated grid layouts that adapt to your content."
+            title="Immersive Backgrounds"
+            description="Mesmerizing animated patterns that create depth and visual interest in your layouts."
+            url="/docs/backgrounds"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 2,
+              }}
+            >
+              {componentVariants.backgrounds.map((variant, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    width: "100%",
+                    height: "200px",
+                    overflow: "hidden",
+                    borderRadius: 2,
+                    position: "relative",
+                  }}
+                >
+                  <BackgroundVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Loaders Section */}
+          <SectionContent
+            title="Sophisticated Loaders"
+            description="Engaging wait-time animations that reflect your brand's personality and style."
+            url="/docs/loaders"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.loaders.map((variant) => (
+                <Box key={variant} sx={{ m: 1 }}>
+                  <LoaderVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Grids Section */}
+          <SectionContent
+            title="Responsive Grids"
+            description="Beautifully animated layouts that adapt and transform with your content."
             url="/docs/grids"
           >
             <Box
@@ -349,10 +395,269 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Docks Section  */}
+          {/* Accordions Section */}
+          <SectionContent
+            title="Collapsible Accordions"
+            description="Versatile content organizers with elegant transitions and interactive states."
+            url="/docs/accordions"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.accordions.map((variant) => (
+                <Box key={variant}>
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      my: 1,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}{" "}
+                    Style
+                  </Typography>
+                  <AccordionVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Tabs Section - Navigation elements */}
+          <SectionContent
+            title="Seamless Tabs"
+            description="Intuitive navigation elements with graceful transitions between content sections."
+            url="/docs/tabs"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.tabs.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      my: 1,
+                      textTransform: "capitalize",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </Typography>
+                  <TabVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Tables Section - Data display */}
+          <SectionContent
+            title="Adaptive Tables"
+            description="Responsive data grids with built-in animations and intelligent sorting capabilities."
+            url="/docs/tables"
+          >
+            <AnimatePresence mode="wait">
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  width: "100%",
+                }}
+              >
+                {componentVariants.tables.map((variant) => (
+                  <Box
+                    key={variant}
+                    component={motion.div}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    sx={{
+                      width: "100%",
+                      minHeight: "400px",
+                      position: "relative",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      textAlign="center"
+                      sx={{
+                        mb: 2,
+                        textTransform: "capitalize",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {variant === "modern" &&
+                        "Modern Table - Full-Featured Data Grid"}
+                      {variant === "minimal" &&
+                        "Minimal Table - Streamlined Design"}
+                      {variant === "expandable" &&
+                        "Expandable Table - Collapsible Details"}
+                    </Typography>
+                    <TableVariants variant={variant} />
+                  </Box>
+                ))}
+              </Box>
+            </AnimatePresence>
+          </SectionContent>
+
+          {/* Carousels Section */}
+          <SectionContent
+            title="Cinematic Carousels"
+            description="Immersive content galleries with smooth-sliding transitions for stunning showcases."
+            url="/docs/carousels"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+                width: "100%",
+              }}
+            >
+              {componentVariants.carousels.map((variant) => (
+                <Box
+                  key={variant}
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  sx={{
+                    width: "100%",
+                    minHeight: "400px",
+                    position: "relative",
+                  }}
+                >
+                  <CarouselVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Paginations Section */}
+          <SectionContent
+            title="Intuitive Pagination"
+            description="Effortless page navigation with polished selection components and smooth transitions."
+            url="/docs/paginations"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 4,
+              }}
+            >
+              {componentVariants.paginations.map((variant) => (
+                <Box
+                  key={variant}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      my: 1,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}{" "}
+                    Pagination
+                  </Typography>
+
+                  <PaginationVariants
+                    variant={variant}
+                    currentPage={3}
+                    totalPages={10}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Avatars Section */}
+          <SectionContent
+            title="Expressive Avatars"
+            description="Personalized profile containers with creative hover states and grouping options."
+            url="/docs/avatars"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.avatars.map((variant) => (
+                <Box key={variant}>
+                  <Typography
+                    variant="h5"
+                    textAlign="center"
+                    sx={{
+                      my: 1.5,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </Typography>
+                  <AvatarVariants variant={variant} />
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Docks Section */}
           <SectionContent
             title="Refined Docks"
-            description="Explore innovative dock animation patterns designed to enhance user experience and showcase seamless interactions for your projects."
+            description="Innovative navigation patterns with seamless interactions and smooth scaling effects."
             url="/docs/docks"
           >
             <Box
@@ -388,54 +693,10 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Buttons Section  */}
+          {/* Animated Typography Section */}
           <SectionContent
-            title="Responsive Buttons"
-            description="Capture user attention with these beautifully crafted action elements featuring unique hover and click animations."
-            url="/docs/buttons"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.buttons.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
-                  <ButtonVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Loaders Section  */}
-          <SectionContent
-            title="Elegant Loaders"
-            description="Keep users engaged during wait times with these sophisticated animation patterns that reflect your brand's personality."
-            url="/docs/loaders"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.loaders.map((variant) => (
-                <Box key={variant} sx={{ m: 1 }}>
-                  <LoaderVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Text Section  */}
-          <SectionContent
-            title="Animated Typography"
-            description="Make your text memorable with these precisely crafted motion effects that enhance readability and impact."
+            title="Kinetic Typography"
+            description="Memorable text animations with precise motion effects that enhance readability."
             url="/docs/texts"
           >
             <Box
@@ -464,8 +725,8 @@ const TabsSection = () => {
 
           {/* Marquees Section */}
           <SectionContent
-            title="Dynamic Marquees"
-            description="Add natural movement to your content with these smooth-flowing text and element animations."
+            title="Flowing Marquees"
+            description="Natural content movement with smooth-scrolling text and element animations."
             url="/docs/marquees"
           >
             <Box
@@ -517,230 +778,10 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Avatars Section  */}
-          <SectionContent
-            title="Expressive Avatars"
-            description="Personalize user profiles with these dynamic image containers featuring creative hover states and grouping options."
-            url="/docs/avatars"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.avatars.map((variant) => (
-                <Box key={variant}>
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      my: 1.5,
-                      textTransform: "capitalize",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}
-                  </Typography>
-                  <AvatarVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Tabs Section */}
-          <SectionContent
-            title="Intuitive Tabs"
-            description="Guide users through content sections with these smooth-transitioning navigation elements."
-            url="/docs/tabs"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 4,
-              }}
-            >
-              {componentVariants.tabs.map((variant) => (
-                <Box
-                  key={variant}
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      my: 1,
-                      textTransform: "capitalize",
-                      fontWeight: 400,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}
-                  </Typography>
-                  <TabVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Carousels Section */}
-          <SectionContent
-            title="Seamless Carousels"
-            description="Present your content in motion with these smooth-sliding galleries, perfect for showcasing products or stories."
-            url="/docs/carousels"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-                width: "100%",
-              }}
-            >
-              {componentVariants.carousels.map((variant) => (
-                <Box
-                  key={variant}
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  sx={{
-                    width: "100%",
-                    minHeight: "400px",
-                    position: "relative",
-                  }}
-                >
-                  <CarouselVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Tables Section */}
-          <SectionContent
-            title="Content Tables"
-            description="Interactive data tables with built-in animations, sorting, and responsive layouts for efficient data presentation."
-            url="/docs/tables"
-          >
-            <AnimatePresence mode="wait">
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 4,
-                  width: "100%",
-                }}
-              >
-                {componentVariants.tables.map((variant) => (
-                  <Box
-                    key={variant}
-                    component={motion.div}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    sx={{
-                      width: "100%",
-                      minHeight: "400px",
-                      position: "relative",
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      textAlign="center"
-                      sx={{
-                        mb: 2,
-                        textTransform: "capitalize",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {variant === "modern" &&
-                        "Modern Table - Full-Featured Data Grid"}
-                      {variant === "minimal" &&
-                        "Minimal Table - Streamlined Design"}
-                      {variant === "expandable" &&
-                        "Expandable Table - Collapsible Details"}
-                    </Typography>
-                    <TableVariants variant={variant} />
-                  </Box>
-                ))}
-              </Box>
-            </AnimatePresence>
-          </SectionContent>
-
-          {/* Paginations Section */}
-          <SectionContent
-            title="Smooth Pagination"
-            description="Navigate through multi-page content effortlessly with these polished page selection components."
-            url="/docs/paginations"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                gap: 4,
-              }}
-            >
-              {componentVariants.paginations.map((variant) => (
-                <Box
-                  key={variant}
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      my: 1,
-                      textTransform: "capitalize",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}{" "}
-                    Pagination
-                  </Typography>
-
-                  <PaginationVariants
-                    variant={variant}
-                    currentPage={3}
-                    totalPages={10}
-                  />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
           {/* Separators Section */}
           <SectionContent
-            title="Creative Dividers"
-            description="Structure your content with these eye-catching separator designs that adapt to your theme seamlessly."
+            title="Artistic Dividers"
+            description="Eye-catching separator designs that structure content and adapt to your theme."
             url="/docs/separators"
           >
             <Box
