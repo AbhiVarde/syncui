@@ -6,7 +6,6 @@
   <br /> <br />
   <img width="1428" alt="default-og-image" src="https://github.com/user-attachments/assets/5b8f1c25-d0b4-45f1-bdf6-1d080f06ba3d" />
   <br /> <br />
-
 </div>
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
@@ -27,6 +26,14 @@
 - ♿ Accessible and customizable
 - 🆓 100% Free and Open Source.
 - 🚀 Ready for your next project
+
+---
+
+💖 **Love Sync UI? Support with a one-time gift!**  
+From ☕ **$9** to keep development rolling, to 🚀 **$999** for a full promo of your work.  
+[Become a Sponsor →](https://github.com/sponsors/AbhiVarde)
+
+---
 
 ## Templates
 
