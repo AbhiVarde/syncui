@@ -22,10 +22,12 @@
 ## Features
 
 - 🎨 Beautifully designed components
+- 📁 Ready-made templates for faster builds
 - 🛠️ Built with MUI and Framer Motion
 - ♿ Accessible and customizable
 - 🆓 100% Free and Open Source.
-- 🚀 Ready for your next project
+- 🚀 Perfect for your next project
+
 
 ---
 
