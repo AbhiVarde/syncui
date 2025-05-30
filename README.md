@@ -4,7 +4,7 @@
   <a href="https://x.com/syncuidesign"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/syncuidesign"></a>
   <a href="https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
   <br /> <br />
-  <img src="/default-og-image.png" alt="default-og-image" width={1428} />
+  <img width="1440" alt="default-og-image" src="https://github.com/user-attachments/assets/56c782b7-d98d-4849-b5e5-c8a59871513e" />
   <br /> <br />
 </div>
 
