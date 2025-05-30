@@ -1,15 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, List, ListItem } from "@mui/material";
-import { RxTextAlignLeft, RxStar } from "react-icons/rx";
-import { GITHUB_URL } from "../../utils/constants";
+import { RxTextAlignLeft, RxStar, RxStarFilled } from "react-icons/rx";
+import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
-import { RiGithubFill } from "react-icons/ri";
+import { RiGithubFill, RiHeartFill, RiHeartLine } from "react-icons/ri";
 import AnimatedCounter from "../AnimatedCounter";
+import { AnimatePresence, motion } from "framer-motion";
+
+const buttonStyles = {
+  mt: 1,
+  mx: 1,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 1.5,
+  width: "100%",
+  height: 40,
+  borderRadius: "10px",
+  color: "inherit",
+  textDecoration: "none",
+  bgcolor: (theme) => theme.palette.action.hover,
+  border: "1px solid",
+  borderColor: "divider",
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    bgcolor: (theme) => theme.palette.action.selected,
+    transform: "translateY(-2px)",
+    boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
+  },
+};
 
 export const TableOfContents = ({ toc }) => {
   const { stars, loading } = useGitHub();
-
   const [activeId, setActiveId] = useState("");
+  const [isHeartHovered, setIsHeartHovered] = useState(false);
+  const [isStarHovered, setIsStarHovered] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -95,36 +120,45 @@ export const TableOfContents = ({ toc }) => {
           </ListItem>
         ))}
       </List>
+
       <Box
         component="a"
-        href="https://github.com/sponsors/AbhiVarde"
+        href={SPONSOR_URL}
         target="_blank"
         rel="noopener noreferrer"
-        sx={{
-          mt: 1,
-          mx: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 1.5,
-          py: 1,
-          px: 2,
-          borderRadius: "10px",
-          color: "inherit",
-          textDecoration: "none",
-          bgcolor: (theme) => theme.palette.action.hover,
-          border: "1px solid",
-          borderColor: "divider",
-          transition: "all 0.2s ease-in-out",
-          "&:hover": {
-            bgcolor: (theme) => theme.palette.action.selected,
-            transform: "translateY(-2px)",
-            boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
-          },
-        }}
+        onMouseEnter={() => setIsHeartHovered(true)}
+        onMouseLeave={() => setIsHeartHovered(false)}
+        sx={buttonStyles}
       >
-        <Typography variant="body2" fontWeight={500}>
-          💚 Support Sync UI
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <AnimatePresence mode="wait">
+            {isHeartHovered ? (
+              <motion.div
+                key="filled-heart"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <RiHeartFill size={18} color="#e91e63" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="outline-heart"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <RiHeartLine size={18} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Box>
+        <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
+          Support Sync UI
         </Typography>
       </Box>
 
@@ -133,49 +167,69 @@ export const TableOfContents = ({ toc }) => {
         href={GITHUB_URL}
         target="_blank"
         rel="noopener noreferrer"
-        sx={{
-          mt: 1,
-          mx: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 1.5,
-          py: 1,
-          px: 2,
-          borderRadius: "10px",
-          color: "inherit",
-          textDecoration: "none",
-          bgcolor: (theme) => theme.palette.action.hover,
-          border: "1px solid",
-          borderColor: "divider",
-          transition: "all 0.2s ease-in-out",
-          "&:hover": {
-            bgcolor: (theme) => theme.palette.action.selected,
-            transform: "translateY(-2px)",
-            boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
-          },
-        }}
+        onMouseEnter={() => setIsStarHovered(true)}
+        onMouseLeave={() => setIsStarHovered(false)}
+        sx={buttonStyles}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
-          <RiGithubFill size={20} />
-          <Typography
-            variant="body2"
-            fontWeight={500}
-            sx={{ borderRight: "1px solid", borderColor: "divider", pr: 1.5 }}
-          >
-            Star
-          </Typography>
-        </Box>
         {!loading ? (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.8 }}>
-            <Typography variant="body2" fontWeight={500}>
-              <AnimatedCounter value={stars || 0} duration={2} />
-            </Typography>
-            <RxStar size={16} style={{ marginTop: 1 }} />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {/* Left side: GitHub icon + Star label */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+              <RiGithubFill size={17} />
+              <Typography
+                variant="body2"
+                fontWeight={500}
+                sx={{
+                  borderRight: "1px solid",
+                  borderColor: "divider",
+                  pr: 1.2,
+                  lineHeight: 1,
+                }}
+              >
+                Star
+              </Typography>
+            </Box>
+
+            {/* Right side: Counter + Star animation */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                lineHeight: 1,
+              }}
+            >
+              <Typography variant="body2" fontWeight={500}>
+                <AnimatedCounter value={stars || 0} duration={2} />
+              </Typography>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isStarHovered ? "filled-star" : "outline-star"}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 18,
+                  }}
+                >
+                  {isStarHovered ? (
+                    <RxStarFilled size={19} color="#fbc02d" />
+                  ) : (
+                    <RxStar size={19} />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Box>
           </Box>
         ) : (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="body2" fontWeight={500}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+            <RiGithubFill size={17} />
+            <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
               Star
             </Typography>
           </Box>

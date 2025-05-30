@@ -23,7 +23,6 @@ import {
   styled,
 } from "@mui/material";
 import {
-  RxChatBubble,
   RxTextAlignLeft,
   RxChevronRight,
   RxCross2,
@@ -91,14 +90,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       external: false,
       icon: <RxCube size={18} />,
       comingSoon: true,
-      disabled: false,
-    },
-    {
-      label: "Guestbook",
-      href: "/guestbook",
-      external: false,
-      icon: <RxChatBubble size={16} />,
-      comingSoon: false,
       disabled: false,
     },
     {
@@ -556,19 +547,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       >
                         New
                       </Box>
-                    </Button>
-                    <Button
-                      color="inherit"
-                      endIcon={<RxChatBubble size={16} />}
-                      href="/guestbook"
-                      sx={{
-                        fontSize: "15px !important",
-                        padding: "4px 8px !important",
-                        fontWeight: 400,
-                        textTransform: "none",
-                      }}
-                    >
-                      Guestbook
                     </Button>
                     <Button
                       color="inherit"

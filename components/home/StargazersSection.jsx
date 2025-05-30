@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Typography,
   useTheme,
   Container,
@@ -9,29 +8,48 @@ import {
   Skeleton,
   alpha,
 } from "@mui/material";
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useGitHub } from "@/context/GithubContext";
-import Link from "next/link";
-import { RiGithubFill, RiStarFill } from "react-icons/ri";
-import { useState, useEffect, memo } from "react";
-import { GITHUB_URL } from "../../utils/constants";
+import {
+  RiGithubFill,
+  RiStarFill,
+  RiHeartFill,
+  RiHeartLine,
+} from "react-icons/ri";
+import { useState, memo } from "react";
+import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
 
 const MotionBox = motion(Box);
-const MotionButton = motion(Button);
+
+const buttonStyles = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 1,
+  width: 180,
+  height: 40,
+  borderRadius: "10px",
+  color: "inherit",
+  textDecoration: "none",
+  bgcolor: (theme) => theme.palette.action.hover,
+  border: "1px solid",
+  borderColor: "divider",
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    bgcolor: (theme) => theme.palette.action.selected,
+    transform: "translateY(-2px)",
+    boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
+  },
+};
 
 const ContributorAvatar = memo(({ user, index, theme }) => (
   <Tooltip title={user?.login || `Contributor ${index + 1}`} arrow>
     <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
+      initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3, delay: index * 0.1, type: "spring" }}
-      whileHover={{ scale: 1.1, rotate: 5, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.2, delay: index * 0.05 }}
+      whileHover={{ scale: 1.05 }}
     >
       <Avatar
         src={user?.avatar_url}
@@ -57,18 +75,7 @@ ContributorAvatar.displayName = "ContributorAvatar";
 const StargazersSection = () => {
   const { stars, stargazers, loading, error } = useGitHub();
   const theme = useTheme();
-  const [isInView, setIsInView] = useState(false);
-  const [isGithubButtonHovered, setIsGithubButtonHovered] = useState(false);
-
-  const starOpacity = useMotionValue(0.5);
-  const starScale = useTransform(starOpacity, [0.5, 1], [1, 1.2]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      starOpacity.set(Math.random() * 0.5 + 0.5);
-    }, 1500);
-    return () => clearInterval(interval);
-  }, [starOpacity]);
+  const [isHeartHovered, setIsHeartHovered] = useState(false);
 
   if (error) return null;
 
@@ -79,19 +86,18 @@ const StargazersSection = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8, overflow: "hidden" }}>
       <MotionBox
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        onViewportEnter={() => setIsInView(true)}
-        transition={{ duration: 0.8 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
       >
         <MotionBox
           textAlign="center"
           mb={5}
-          initial={{ y: 40, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
           <Typography
             variant="h3"
@@ -135,10 +141,10 @@ const StargazersSection = () => {
           justifyContent="center"
           alignItems="center"
           gap={1}
-          mb={6}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
+          mb={4}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
         >
           <Box
             sx={{
@@ -151,7 +157,7 @@ const StargazersSection = () => {
               py: 3,
               px: { xs: 3, md: 5 },
               width: "100%",
-              maxWidth: "800px",
+              maxWidth: "900px",
               background:
                 theme.palette.mode === "dark"
                   ? alpha(theme.palette.common.white, 0.04)
@@ -163,23 +169,25 @@ const StargazersSection = () => {
               }`,
             }}
           >
-            <Box sx={{ textAlign: "center" }}>
+            {/* Stars Section */}
+            <Box
+              sx={{
+                textAlign: "center",
+                order: { xs: 3, md: 1 }, // Stars section appears third on mobile, first on desktop
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  mb: 1,
+                  mb: 2,
                 }}
               >
-                <motion.div style={{ scale: starScale }}>
-                  <RiStarFill
-                    size={28}
-                    color={
-                      theme.palette.mode === "dark" ? "#FFD700" : "#FFB700"
-                    }
-                  />
-                </motion.div>
+                <RiStarFill
+                  size={28}
+                  color={theme.palette.mode === "dark" ? "#FFD700" : "#FFB700"}
+                />
                 <Typography
                   variant="h4"
                   component="span"
@@ -200,73 +208,101 @@ const StargazersSection = () => {
                   )}
                 </Typography>
               </Box>
-              <Link href={GITHUB_URL} passHref>
-                <MotionButton
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  onMouseEnter={() => setIsGithubButtonHovered(true)}
-                  onMouseLeave={() => setIsGithubButtonHovered(false)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    transition: "0.3s",
-                    border: "1px solid",
-                    borderRadius: 4,
-                  }}
+
+              {/* Action Buttons */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1.5,
+                  alignItems: "center",
+                }}
+              >
+                {/* Support Button */}
+                <Box
+                  component="a"
+                  href={SPONSOR_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseEnter={() => setIsHeartHovered(true)}
+                  onMouseLeave={() => setIsHeartHovered(false)}
+                  sx={buttonStyles}
                 >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <AnimatePresence>
-                      {isGithubButtonHovered && (
-                        <motion.span
-                          initial={{ opacity: 0, width: 0, marginRight: 0 }}
-                          animate={{
-                            opacity: 1,
-                            width: "auto",
-                            marginRight: 8,
-                          }}
-                          exit={{ opacity: 0, width: 0, marginRight: 0 }}
-                          transition={{ duration: 0.2 }}
-                          style={{ display: "inline-flex", overflow: "hidden" }}
-                        >
-                          <RiGithubFill size={22} />
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                    Star on Github
-                    <AnimatePresence>
-                      {!isGithubButtonHovered && (
-                        <motion.span
-                          initial={{ opacity: 0, width: 0, marginLeft: 0 }}
-                          animate={{ opacity: 1, width: "auto", marginLeft: 8 }}
-                          exit={{ opacity: 0, width: 0, marginLeft: 0 }}
-                          transition={{ duration: 0.2 }}
-                          style={{ display: "inline-flex", overflow: "hidden" }}
-                        >
-                          <RiGithubFill size={22} />
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </Box>
-                </MotionButton>
-              </Link>
+                  <AnimatePresence mode="wait">
+                    {isHeartHovered ? (
+                      <motion.div
+                        key="filled"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <RiHeartFill size={18} color="#e91e63" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="outline"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <RiHeartLine size={18} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    sx={{ lineHeight: 1 }}
+                  >
+                    Support Sync UI
+                  </Typography>
+                </Box>
+
+                {/* Star Button */}
+                <Box
+                  component="a"
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={buttonStyles}
+                >
+                  <RiGithubFill size={18} />
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    sx={{ lineHeight: 1 }}
+                  >
+                    Star on GitHub
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
 
+            {/* Divider */}
             <Box
               sx={{
                 width: { xs: "100%", md: "1px" },
-                height: { xs: "1px", md: 50 },
+                height: { xs: "1px", md: 120 },
                 background:
                   theme.palette.mode === "dark"
                     ? alpha(theme.palette.common.white, 0.1)
                     : alpha(theme.palette.common.black, 0.1),
                 display: { xs: "block", md: "block" },
+                order: { xs: 2, md: 2 }, // Divider appears between sections on both mobile and desktop
               }}
             />
 
-            <Box sx={{ textAlign: "center" }}>
+            {/* Contributors Section */}
+            <Box
+              sx={{
+                textAlign: "center",
+                order: { xs: 1, md: 3 }, // Contributors section appears first on mobile, third on desktop
+              }}
+            >
               {loading ? (
                 <Box
                   sx={{
@@ -322,18 +358,13 @@ const StargazersSection = () => {
                         arrow
                       >
                         <motion.div
-                          initial={{ opacity: 0, scale: 0.5 }}
+                          initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{
-                            duration: 0.3,
-                            delay: displayCount * 0.05,
-                            type: "spring",
+                            duration: 0.2,
+                            delay: displayCount * 0.03,
                           }}
-                          whileHover={{
-                            scale: 1.1,
-                            rotate: 5,
-                            transition: { duration: 0.2 },
-                          }}
+                          whileHover={{ scale: 1.05 }}
                         >
                           <Avatar
                             sx={{
@@ -356,24 +387,18 @@ const StargazersSection = () => {
                       </Tooltip>
                     )}
                   </Box>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8 }}
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 500,
+                      color:
+                        theme.palette.mode === "dark"
+                          ? "text.secondary"
+                          : "text.primary",
+                    }}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: 500,
-                        color:
-                          theme.palette.mode === "dark"
-                            ? "text.secondary"
-                            : "text.primary",
-                      }}
-                    >
-                      Be part of our community!
-                    </Typography>
-                  </motion.div>
+                    Be part of our community!
+                  </Typography>
                 </Box>
               )}
             </Box>
