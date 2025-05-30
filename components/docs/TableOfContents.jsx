@@ -97,11 +97,45 @@ export const TableOfContents = ({ toc }) => {
       </List>
       <Box
         component="a"
+        href="https://github.com/sponsors/AbhiVarde"
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{
+          mt: 1,
+          mx: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 1.5,
+          py: 1,
+          px: 2,
+          borderRadius: "10px",
+          color: "inherit",
+          textDecoration: "none",
+          bgcolor: (theme) => theme.palette.action.hover,
+          border: "1px solid",
+          borderColor: "divider",
+          transition: "all 0.2s ease-in-out",
+          "&:hover": {
+            bgcolor: (theme) => theme.palette.action.selected,
+            transform: "translateY(-2px)",
+            boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
+          },
+        }}
+      >
+        <Typography variant="body2" fontWeight={500}>
+          💚 Support Sync UI
+        </Typography>
+      </Box>
+
+      <Box
+        component="a"
         href={GITHUB_URL}
         target="_blank"
         rel="noopener noreferrer"
         sx={{
-          m: 2,
+          mt: 1,
+          mx: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
