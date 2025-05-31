@@ -58,7 +58,6 @@ We truly ❤️ pull requests! If you wish to help, you can learn more about how
 ## Let's talk
 
 - [Twitter](https://x.com/syncuidesign)
-- [Guestbook](https://github.com/AbhiVarde/syncui/discussions)
 
 ## License
 
