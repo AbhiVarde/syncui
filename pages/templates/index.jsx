@@ -257,6 +257,7 @@ const Templates = () => {
               </MotionTypography>
 
               {/* Offer Chip */}
+            
               <MotionBox
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
