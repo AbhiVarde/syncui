@@ -7,26 +7,46 @@ import {
   Button,
   useTheme,
   alpha,
+  Chip,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { LuExternalLink, LuShoppingCart, LuCheck } from "react-icons/lu";
+import { RxCube } from "react-icons/rx";
 import Head from "next/head";
 
-// Template data
 const templatesData = [
+  {
+    id: "startup-template",
+    title: "Startup Template",
+    src: "/videos/Startup-Template.mov",
+    price: 29,
+    isNew: true,
+    description:
+      "All-in-one startup landing page with essential sections. Get a solid head start without building from scratch.",
+    features: [
+      "Hero, About, Process, Pricing, FAQ, CTA",
+      "Top bar for offers or announcements",
+      "Legal pages: Terms & Privacy",
+      "Polished, ready-to-ship components",
+      "Structure tailored for clarity and flow",
+    ],
+    accessUrl: "https://abhivarde.gumroad.com/l/startup-template-syncui",
+    demoUrl: "https://startup-syncui.vercel.app/",
+  },
   {
     id: "saas-template",
     title: "SaaS Template",
     src: "/videos/SaaS-Template.mp4",
-    price: 45,
+    price: 29,
+    isNew: false,
     description:
-      "A modern, conversion-focused SaaS landing page with smooth animations. Fully responsive, highly customizable, and optimized for performance and lead generation.",
+      "Launch your SaaS faster with a polished layout and smart sections built for conversion. Save 24+ hours of work.",
     features: [
-      "Built for enterprise-level scalability",
-      "Component-based architecture",
-      "Feature, Pricing (Monthly/Yearly), and Contact pages",
-      "Full policy set: Terms, Cookie, Privacy",
-      "Engaging micro-interactions",
+      "Conversion-first layout with smooth transitions",
+      "Ready-to-use sections: Features, Pricing, Contact",
+      "Full policy pages included",
+      "Scalable structure for product growth",
+      "Clean, modular code built for easy edits",
     ],
     accessUrl: "https://abhivarde.gumroad.com/l/saas-template-syncui",
     demoUrl: "https://saas-syncui.vercel.app/",
@@ -35,15 +55,16 @@ const templatesData = [
     id: "portfolio-template",
     title: "Portfolio Template",
     src: "/videos/Portfolio-Template.mov",
-    price: 35,
+    price: 29,
+    isNew: false,
     description:
-      "Sleek portfolio template with micro-animations, dark mode, and smooth UX. Perfect for showcasing work, skills, and professional journey.",
+      "Showcase your work with a sleek, animated portfolio. Designed to impress and ready to deploy, no setup hassle.",
     features: [
-      "Three pages: Home, Work, Contact",
-      "Dark/Light theme toggle",
-      "Project showcase system",
-      "Interactive contact form",
-      "Animated custom cursor",
+      "Home, Work, and Contact pages",
+      "Dark/light toggle with fluid UX",
+      "Project display with interactive cards",
+      "Custom cursor and subtle effects",
+      "Responsive layout with easy updates",
     ],
     accessUrl: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
     demoUrl: "https://portfolio-syncui.vercel.app/",
@@ -188,7 +209,8 @@ const Templates = () => {
                     borderColor: "divider",
                     backdropFilter: "blur(4px)",
                     textTransform: "none",
-                    color: "#008080",
+                    color:
+                      theme.palette.mode === "light" ? "#008080" : "#00B5AD",
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                     pointerEvents: "none",
                   }}
@@ -233,6 +255,55 @@ const Templates = () => {
                   Enhance your project's look instantly.
                 </Box>
               </MotionTypography>
+
+              {/* Offer Chip */}
+              <MotionBox
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                onClick={() =>
+                  window.open(
+                    "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
+                    "_blank"
+                  )
+                }
+                sx={{
+                  mt: 2,
+                  px: 2,
+                  py: 1,
+                  borderRadius: 2,
+                  background: "linear-gradient(135deg, #007B83, #00B5AD)",
+                  color: "#fff",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 1,
+                  cursor: "pointer",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  transition: "box-shadow 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 4px 14px rgba(0, 181, 173, 0.4)",
+                  },
+                }}
+              >
+                <RxCube size={18} style={{ color: "#fff" }} />
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{
+                    display: { xs: "none", sm: "block" },
+                  }}
+                >
+                  Bundle Offer: All 3 Templates for $79 (Save $8)
+                </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{
+                    display: { xs: "block", sm: "none" },
+                  }}
+                >
+                  Bundle Offer: $79 (Save $8)
+                </Typography>
+              </MotionBox>
             </MotionBox>
           </Container>
         </MotionBox>
@@ -275,13 +346,40 @@ const Templates = () => {
                       gap: 2,
                     }}
                   >
-                    <MotionTypography
-                      variant="h4"
-                      sx={{ fontWeight: 700 }}
+                    <MotionBox
                       variants={animations.item}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                      }}
                     >
-                      {template.title}
-                    </MotionTypography>
+                      <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                        {template.title}
+                      </Typography>
+                      {template.isNew && (
+                        <Box
+                          component="span"
+                          sx={{
+                            ml: 1,
+                            px: 1,
+                            py: 0.3,
+                            bgcolor: "#008080",
+                            color: "#ffffff",
+                            borderRadius: "12px",
+                            fontSize: "0.78rem",
+                            fontWeight: 500,
+                            lineHeight: 1.25,
+                            letterSpacing: "0.02em",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          New
+                        </Box>
+                      )}
+                    </MotionBox>
 
                     <MotionTypography
                       variant="body1"
@@ -465,7 +563,7 @@ const Templates = () => {
                         },
                       }}
                     >
-                      Get Access - ${template.price} USD
+                      Get Template - ${template.price}
                     </MotionButton>
 
                     {/* Live Preview Button */}
