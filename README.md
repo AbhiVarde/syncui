@@ -39,10 +39,13 @@ From ☕ **$9** to keep development rolling, to 🚀 **$999** for a full promo o
 
 ## Templates
 
-Explore our fresh, production-ready templates 🚀
+Explore our fresh, production-ready templates 🚀  
 
-- 🧩 [SaaS Template – $45](https://abhivarde.gumroad.com/l/saas-template-syncui)  
-- 🎯 [Portfolio Template – $35](https://abhivarde.gumroad.com/l/portfolio-template-syncui)  
+- 🚀 [Startup Template – $29](https://abhivarde.gumroad.com/l/startup-template-syncui)  
+- 🧩 [SaaS Template – $29](https://abhivarde.gumroad.com/l/saas-template-syncui)  
+- 🎯 [Portfolio Template – $29](https://abhivarde.gumroad.com/l/portfolio-template-syncui)  
+- 🧃 [Bundle (All 3 Templates) – $79](https://abhivarde.gumroad.com/l/syncui-templates-bundle)  
+
 → [See all templates](https://syncui.design/templates)
 
 *Tip: Right-click on links and select "Open in new tab" to keep this page open while browsing templates.*
