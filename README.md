@@ -28,15 +28,6 @@
 - 🆓 100% Free and Open Source.
 - 🚀 Perfect for your next project
 
-
----
-
-💖 **Love Sync UI? Support with a one-time gift!**  
-From ☕ **$9** to keep development rolling, to 🚀 **$999** for a full promo of your work.  
-[Become a Sponsor →](https://github.com/sponsors/AbhiVarde)
-
----
-
 ## Templates
 
 Explore our fresh, production-ready templates 🚀  
@@ -49,6 +40,14 @@ Explore our fresh, production-ready templates 🚀
 → [See all templates](https://syncui.design/templates)
 
 *Tip: Right-click on links and select "Open in new tab" to keep this page open while browsing templates.*
+
+---
+
+💖 **Love Sync UI? Support with a one-time gift!**  
+From ☕ **$9** to keep development rolling, to 🚀 **$999** for a full promo of your work.  
+[Become a Sponsor →](https://github.com/sponsors/AbhiVarde)
+
+---
 
 ## Documentation
 
