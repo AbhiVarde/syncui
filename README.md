@@ -41,6 +41,10 @@ Explore our fresh, production-ready templates 🚀
 
 *Tip: Right-click on links and select "Open in new tab" to keep this page open while browsing templates.*
 
+## Documentation
+
+Visit [https://syncui.design/docs](https://syncui.design/docs) to view the full documentation and get started with Sync UI.
+
 ---
 
 💖 **Love Sync UI? Support with a one-time gift!**  
@@ -48,10 +52,6 @@ From ☕ **$9** to keep development rolling, to 🚀 **$999** for a full promo o
 [Become a Sponsor →](https://github.com/sponsors/AbhiVarde)
 
 ---
-
-## Documentation
-
-Visit [https://syncui.design/docs](https://syncui.design/docs) to view the full documentation and get started with Sync UI.
 
 ## Contributing
 
