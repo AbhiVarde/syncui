@@ -141,7 +141,7 @@ export const TableOfContents = ({ toc }) => {
                 transition={{ duration: 0.15 }}
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <RiHeartFill size={18} color="#e91e63" />
+                <RiHeartFill size={20} color="#e91e63" />
               </motion.div>
             ) : (
               <motion.div
@@ -152,7 +152,7 @@ export const TableOfContents = ({ toc }) => {
                 transition={{ duration: 0.15 }}
                 style={{ display: "flex", alignItems: "center" }}
               >
-                <RiHeartLine size={18} />
+                <RiHeartLine size={20} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -175,7 +175,7 @@ export const TableOfContents = ({ toc }) => {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             {/* Left side: GitHub icon + Star label */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-              <RiGithubFill size={17} />
+              <RiGithubFill size={20} />
               <Typography
                 variant="body2"
                 fontWeight={500}
@@ -218,9 +218,9 @@ export const TableOfContents = ({ toc }) => {
                   }}
                 >
                   {isStarHovered ? (
-                    <RxStarFilled size={19} color="#fbc02d" />
+                    <RxStarFilled size={20} color="#fbc02d" />
                   ) : (
-                    <RxStar size={19} />
+                    <RxStar size={20} />
                   )}
                 </motion.div>
               </AnimatePresence>
@@ -228,7 +228,7 @@ export const TableOfContents = ({ toc }) => {
           </Box>
         ) : (
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-            <RiGithubFill size={17} />
+            <RiGithubFill size={24} />
             <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
               Star
             </Typography>

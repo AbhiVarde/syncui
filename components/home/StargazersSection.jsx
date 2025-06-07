@@ -173,7 +173,7 @@ const StargazersSection = () => {
             <Box
               sx={{
                 textAlign: "center",
-                order: { xs: 3, md: 1 }, // Stars section appears third on mobile, first on desktop
+                order: { xs: 3, md: 1 },
               }}
             >
               <Box
@@ -238,7 +238,7 @@ const StargazersSection = () => {
                         transition={{ duration: 0.15 }}
                         style={{ display: "flex", alignItems: "center" }}
                       >
-                        <RiHeartFill size={18} color="#e91e63" />
+                        <RiHeartFill size={20} color="#e91e63" />
                       </motion.div>
                     ) : (
                       <motion.div
@@ -249,7 +249,7 @@ const StargazersSection = () => {
                         transition={{ duration: 0.15 }}
                         style={{ display: "flex", alignItems: "center" }}
                       >
-                        <RiHeartLine size={18} />
+                        <RiHeartLine size={20} />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -270,7 +270,7 @@ const StargazersSection = () => {
                   rel="noopener noreferrer"
                   sx={buttonStyles}
                 >
-                  <RiGithubFill size={18} />
+                  <RiGithubFill size={20} />
                   <Typography
                     variant="body2"
                     fontWeight={500}
@@ -292,7 +292,7 @@ const StargazersSection = () => {
                     ? alpha(theme.palette.common.white, 0.1)
                     : alpha(theme.palette.common.black, 0.1),
                 display: { xs: "block", md: "block" },
-                order: { xs: 2, md: 2 }, // Divider appears between sections on both mobile and desktop
+                order: { xs: 2, md: 2 },
               }}
             />
 
@@ -300,7 +300,7 @@ const StargazersSection = () => {
             <Box
               sx={{
                 textAlign: "center",
-                order: { xs: 1, md: 3 }, // Contributors section appears first on mobile, third on desktop
+                order: { xs: 1, md: 3 },
               }}
             >
               {loading ? (
