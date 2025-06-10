@@ -8,6 +8,43 @@ import { RxChevronRight, RxTextAlignLeft } from "react-icons/rx";
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [activeId, setActiveId] = useState("");
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
+
+  useEffect(() => {
+    const checkAnnouncement = () => {
+      const isDismissed =
+        localStorage.getItem("announcementDismissed") === "true";
+      setShowAnnouncement(!isDismissed);
+    };
+
+    checkAnnouncement();
+
+    const handleStorageChange = (e) => {
+      if (e.key === "announcementDismissed") {
+        checkAnnouncement();
+      }
+    };
+
+    const handleAnnouncementChange = () => {
+      checkAnnouncement();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("announcementChanged", handleAnnouncementChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener(
+        "announcementChanged",
+        handleAnnouncementChange
+      );
+    };
+  }, []);
+
+  const topPosition = showAnnouncement ? 100 : 60;
+  const heightCalc = showAnnouncement
+    ? "calc(100vh - 100px)"
+    : "calc(100vh - 60px)";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -79,9 +116,9 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         sx={{
           width: 260,
           flexShrink: 0,
-          height: "calc(100vh - 60px)",
+          height: heightCalc,
           position: "fixed",
-          top: 60,
+          top: topPosition,
           left: 0,
           display: { xs: "none", md: "block" },
         }}
@@ -240,7 +277,10 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           px: { lg: 3, xs: 2 },
           ml: { md: "260px" },
           mr: { lg: "260px" },
-          mt: { xs: 3, md: 0 },
+          mt: {
+            xs: showAnnouncement ? 8 : 3,
+            md: showAnnouncement ? 2 : 0,
+          },
         }}
       >
         {renderBreadcrumbs()}
@@ -250,9 +290,9 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         sx={{
           width: 260,
           flexShrink: 0,
-          height: "calc(100vh - 60px)",
           position: "fixed",
-          top: 60,
+          top: topPosition,
+          height: heightCalc,
           right: 0,
           overflowY: "auto",
           display: { xs: "none", lg: "block" },

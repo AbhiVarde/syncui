@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
+  Container,
   AppBar,
   Toolbar,
   Typography,
@@ -48,22 +49,14 @@ const StyledMenuList = styled(MenuList)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
-  fontSize: "0.875rem",
-  padding: theme.spacing(1.5),
-  margin: theme.spacing(0),
-  "&:hover": {
-    backgroundColor: theme.palette.action.hover,
-  },
-}));
-
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
   const router = useRouter();
   const { asPath } = router;
   const { stars, loading } = useGitHub();
+
+  const [showAnnouncement, setShowAnnouncement] = useState(true);
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -152,6 +145,20 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const announcementDismissed = localStorage.getItem("announcementDismissed");
+    if (announcementDismissed === "true") {
+      setShowAnnouncement(false);
+    }
+  }, []);
+
+  const handleAnnouncementClose = () => {
+    setShowAnnouncement(false);
+    localStorage.setItem("announcementDismissed", "true");
+
+    window.dispatchEvent(new CustomEvent("announcementChanged"));
+  };
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -430,6 +437,110 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
   return (
     <Fragment>
+      <AnimatePresence>
+        {showAnnouncement && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1200,
+              backgroundColor: "#000",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+            }}
+          >
+            <Box
+              sx={{
+                py: { xs: 0.8, md: 1 },
+                px: { xs: "2px !important", sm: 1.5, md: 3 },
+                textAlign: "center",
+                position: "relative",
+              }}
+            >
+              <Container
+                maxWidth="lg"
+                sx={{
+                  px: { xs: "0px !important" },
+                  "&.MuiContainer-root": {
+                    px: { xs: "0px !important" },
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: { xs: "flex-start", md: "center" },
+                    gap: { xs: 0.5, sm: 1, md: 1.5 },
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: { xs: "0.75rem", md: "0.8rem" },
+                      fontWeight: 500,
+                      letterSpacing: "0.01em",
+                      color: "#fff",
+                    }}
+                  >
+                    🎉 We're live on Product Hunt - show your support!
+                  </Typography>
+                  <Button
+                    component="a"
+                    href="https://www.producthunt.com/products/sync-ui-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="small"
+                    variant="outlined"
+                    sx={{
+                      backgroundColor: "#fff",
+                      color: "#000",
+                      fontWeight: 500,
+                      fontSize: { xs: "0.7rem", md: "0.75rem" },
+                      textTransform: "none",
+                      px: 1.5,
+                      py: 0.5,
+                      borderRadius: "20px",
+                      borderColor: "#000",
+                      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                      transition: "all 0.25s ease",
+                      "&:hover": {
+                        backgroundColor: "#fff",
+                        color: "#000",
+                        borderColor: "#000",
+                        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                  >
+                    Vote Now
+                  </Button>
+                </Box>
+              </Container>
+              <IconButton
+                onClick={handleAnnouncementClose}
+                sx={{
+                  position: "absolute",
+                  right: { xs: "2px !important", sm: 8, md: 16 },
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#fff",
+                  "&:hover": {
+                    color: "#fff",
+                  },
+                }}
+              >
+                <RxCross2 size="17px" />
+              </IconButton>
+            </Box>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <AppBar
         position="fixed"
         color="transparent"
@@ -437,10 +548,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         sx={{
           height: "60px",
           width: "100%",
+          top: showAnnouncement ? 40 : 0,
           borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: "blur(10px)",
-          transition: "background-color 0.3s ease",
+          transition: "all 0.3s ease",
           backgroundColor: isScrolled ? "transparent" : "background.default",
+          zIndex: 1100,
         }}
       >
         <Toolbar
@@ -576,7 +689,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 />
               </Box>
             </motion.div>
-            {/* )} */}
           </AnimatePresence>
         </Toolbar>
         {isDocsPage && (
@@ -637,18 +749,19 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           )}
         </Popper>
       </AppBar>
+
       {isDocsPage && !isMediumUp && (
         <AppBar
           position="fixed"
           color="transparent"
           elevation={0}
           sx={{
-            top: 60,
+            top: showAnnouncement ? 100 : 60,
             height: "40px !important",
             width: "100%",
             borderBottom: `1px solid ${theme.palette.divider}`,
             backgroundColor: "background.default",
-            zIndex: 99,
+            zIndex: 1050,
           }}
         >
           <Toolbar
