@@ -450,7 +450,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
               left: 0,
               right: 0,
               zIndex: 1200,
-              backgroundColor: "#000",
+              backgroundImage: "linear-gradient(to right, #f97316, #ef4444)",
               borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
@@ -507,14 +507,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       px: 1.5,
                       py: 0.5,
                       borderRadius: "20px",
-                      borderColor: "#000",
-                      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                      border: "1px solid #fff",
                       transition: "all 0.25s ease",
                       "&:hover": {
                         backgroundColor: "#fff",
                         color: "#000",
-                        borderColor: "#000",
-                        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
                       },
                     }}
                   >
