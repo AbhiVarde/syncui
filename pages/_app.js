@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import Router from "next/router";
-import { Analytics } from "@vercel/analytics/react";
+import Head from "next/head";
 import Layout from "../components/layout/Layout";
 import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
@@ -14,14 +14,23 @@ import { GitHubProvider } from "@/context/GithubContext";
 function MyApp({ Component, pageProps }) {
   return (
     <>
+      <Head>
+        {/* Umami Analytics */}
+        <script
+          defer
+          src="https://analytics.umami.is/script.js"
+          data-website-id="47d79797-9fe5-4ccc-b84f-e38d955f2684"
+        />
+      </Head>
       <DefaultSeo
-        title="Sync UI"
-        description="A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion."
+        title="Sync UI - Sleek UI Library for Design Engineers"
+        titleTemplate="%s | Sync UI"
+        description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 150+ free components, templates, and comprehensive documentation."
         canonical="https://www.syncui.design/"
         openGraph={{
-          title: "Sync UI",
+          title: "Sync UI - Sleek UI Library for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
+            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 150+ free components, templates, and comprehensive documentation.",
           siteName: "Sync UI",
           url: "https://www.syncui.design/",
           type: "website",
@@ -29,19 +38,21 @@ function MyApp({ Component, pageProps }) {
           images: [
             {
               url: "https://www.syncui.design/default-og-image.png",
-              width: 800,
-              height: 420,
-              alt: "Sync UI - Sleek UI Library for Design Engineers",
+              width: 1200,
+              height: 630,
+              alt: "Sync UI - Sleek UI Library for Design Engineers with Components and Templates",
+              type: "image/png",
             },
           ],
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
-          title: "Sync UI",
+          creator: "@abhivarde",
+          title: "Sync UI - Sleek UI Library for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.",
-          images: "https://www.syncui.design/default-og-image.png",
+            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 150+ free components, templates, and comprehensive documentation.",
+          images: ["https://www.syncui.design/default-og-image.png"],
         }}
         additionalMetaTags={[
           {
@@ -56,11 +67,78 @@ function MyApp({ Component, pageProps }) {
             name: "publisher",
             content: "Abhi Varde",
           },
+          {
+            name: "keywords",
+            content:
+              "UI library, React components, Design Engineers, MUI, Framer Motion, UI templates, component library, design system, web components, React UI, modern UI, responsive components",
+          },
+          {
+            name: "robots",
+            content:
+              "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+          },
+          {
+            name: "googlebot",
+            content: "index, follow",
+          },
+          {
+            property: "og:site_name",
+            content: "Sync UI",
+          },
+          {
+            property: "og:locale",
+            content: "en_US",
+          },
+          {
+            name: "theme-color",
+            content: "#000000",
+          },
+          {
+            name: "msapplication-TileColor",
+            content: "#000000",
+          },
+          {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1, shrink-to-fit=no",
+          },
         ]}
         additionalLinkTags={[
           {
             rel: "author",
             href: "https://www.abhivarde.in/",
+          },
+          {
+            rel: "canonical",
+            href: "https://www.syncui.design/",
+          },
+          {
+            rel: "icon",
+            href: "/favicon.ico",
+          },
+          {
+            rel: "apple-touch-icon",
+            href: "/apple-touch-icon.png",
+            sizes: "180x180",
+          },
+          {
+            rel: "preconnect",
+            href: "https://fonts.googleapis.com",
+          },
+          {
+            rel: "preconnect",
+            href: "https://fonts.gstatic.com",
+            crossOrigin: "anonymous",
+          },
+          {
+            rel: "sitemap",
+            type: "application/xml",
+            href: "/sitemap.xml",
+          },
+        ]}
+        languageAlternates={[
+          {
+            hrefLang: "en",
+            href: "https://www.syncui.design/",
           },
         ]}
       />
@@ -110,7 +188,6 @@ function AppContent({ Component, pageProps }) {
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <Analytics />
       {loading ? (
         <Loader />
       ) : (
