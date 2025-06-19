@@ -115,7 +115,7 @@ export const TableOfContents = ({ toc }) => {
                 my: 0.5,
               }}
             >
-              {item.text}
+              {item.text.split("–")[0].trim()}
             </Typography>
           </ListItem>
         ))}
