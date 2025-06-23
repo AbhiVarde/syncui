@@ -534,7 +534,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                     "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                     "& .MuiSelect-select": {
                       color: colors.text,
-                      fontSize: "0.875rem",
+                      fontSize: "14px",
                       fontWeight: 500,
                       backgroundColor: colors.addon,
                       borderRadius: "8px",
@@ -559,7 +559,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                       key={model.value}
                       value={model.value}
                       sx={{
-                        fontSize: "0.875rem",
+                        fontSize: "15px !important",
                         minHeight: "36px",
                         "&.Mui-selected": {
                           backgroundColor: isDark ? "#2a2a2a" : "#f5f5f5",
