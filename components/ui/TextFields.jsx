@@ -481,6 +481,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 "& .MuiInputBase-input": {
                   color: colors.text,
                   fontSize: "14px",
+                  px: 1,
                 },
               }}
             />
@@ -644,7 +645,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   alignItems: "flex-start",
                   px: 1,
                   pt: 1,
-                  pb: 0,
+                  pb: 6,
                   "& fieldset": {
                     borderColor: colors.border,
                   },
@@ -666,7 +667,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 },
                 "& .MuiInputBase-inputMultiline": {
                   padding: 0,
-                  mb: 3.5,
+                  mb: 0,
                 },
               }}
             />
