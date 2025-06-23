@@ -28,6 +28,7 @@ import PaginationVariants from "../ui/Paginations";
 import PointerVariants from "../ui/Pointers";
 import GridVariants from "../ui/Grids";
 import AccordionVariants from "../ui/Accordions";
+import TextFieldVariants from "../ui/TextFields";
 
 const componentVariants = {
   accordions: ["brutalist", "dashed", "minimal", "modern"],
@@ -128,6 +129,7 @@ const componentVariants = {
     "rotateWords",
     "morphingText",
   ],
+  textfields: ["endIcon", "startInline", "endInline", "currency", "aiPrompt"],
 };
 
 const SectionContent = ({ title, description, children, url }) => {
@@ -219,6 +221,16 @@ const TabsSection = () => {
               designed to elevate your next web project.
             </Typography>
           </Box>
+
+          <SectionContent
+            title="Interactive Buttons"
+            description="Captivating action elements with unique hover animations and tactile feedback."
+            url="/docs/buttons"
+          >
+            {componentVariants.textfields.map((variant, index) => (
+              <TextFieldVariants key={index} variant={variant} />
+            ))}
+          </SectionContent>
 
           {/* Buttons Section - Primary interaction elements first */}
           <SectionContent
