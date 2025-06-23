@@ -283,9 +283,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         }}
                       />
                       {(item.title === "Accordions" ||
-                        item.title === "Backgrounds" ||
                         item.title === "Pointers" ||
                         item.title === "Grids" ||
+                        item.title === "Text Fields" ||
                         item.title === "Templates") && (
                         <Box
                           component="span"

@@ -222,17 +222,35 @@ const TabsSection = () => {
             </Typography>
           </Box>
 
+          {/* TextFields Section  */}
           <SectionContent
-            title="Interactive Buttons"
-            description="Captivating action elements with unique hover animations and tactile feedback."
-            url="/docs/buttons"
+            title="Echo Inputs"
+            description="Each interaction leaves a trace - input styles that echo intention and enhance flow."
+            url="/docs/textfields"
           >
-            {componentVariants.textfields.map((variant, index) => (
-              <TextFieldVariants key={index} variant={variant} />
+            {componentVariants.textfields.map((variant) => (
+              <Box key={variant}>
+                <Typography
+                  variant="h6"
+                  textAlign="center"
+                  sx={{
+                    mt: 0.5,
+                    textTransform: "capitalize",
+                    fontWeight: 500,
+                  }}
+                >
+                  {variant
+                    .split(/(?=[A-Z])/)
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}{" "}
+                  Style
+                </Typography>
+                <TextFieldVariants variant={variant} />
+              </Box>
             ))}
           </SectionContent>
 
-          {/* Buttons Section - Primary interaction elements first */}
+          {/* Buttons Section  */}
           <SectionContent
             title="Interactive Buttons"
             description="Captivating action elements with unique hover animations and tactile feedback."
@@ -254,7 +272,7 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Cards Section - Content containers */}
+          {/* Cards Section */}
           <SectionContent
             title="Elegant Cards"
             description="Sophisticated content containers with smooth hover effects and adaptive layouts."
@@ -327,6 +345,45 @@ const TabsSection = () => {
                   >
                     <PointerVariants variant={variant} />
                   </Box>
+                </Box>
+              ))}
+            </Box>
+          </SectionContent>
+
+          {/* Docks Section */}
+          <SectionContent
+            title="Refined Docks"
+            description="Innovative navigation patterns with seamless interactions and smooth scaling effects."
+            url="/docs/docks"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              {componentVariants.docks.map((variant) => (
+                <Box key={variant}>
+                  <Typography
+                    variant="h6"
+                    textAlign="center"
+                    sx={{
+                      my: 1,
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {variant
+                      .split(/(?=[A-Z])/)
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}{" "}
+                    Style
+                  </Typography>
+                  <DockVariants variant={variant} />
                 </Box>
               ))}
             </Box>
@@ -424,10 +481,10 @@ const TabsSection = () => {
               {componentVariants.accordions.map((variant) => (
                 <Box key={variant}>
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     textAlign="center"
                     sx={{
-                      my: 1,
+                      my: 1.5,
                       textTransform: "capitalize",
                       fontWeight: 500,
                     }}
@@ -446,7 +503,7 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Tabs Section - Navigation elements */}
+          {/* Tabs Section */}
           <SectionContent
             title="Seamless Tabs"
             description="Intuitive navigation elements with graceful transitions between content sections."
@@ -471,10 +528,10 @@ const TabsSection = () => {
                   }}
                 >
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     textAlign="center"
                     sx={{
-                      my: 1,
+                      mt: 1,
                       textTransform: "capitalize",
                       fontWeight: 400,
                     }}
@@ -492,7 +549,7 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Tables Section - Data display */}
+          {/* Tables Section */}
           <SectionContent
             title="Adaptive Tables"
             description="Responsive data grids with built-in animations and intelligent sorting capabilities."
@@ -521,7 +578,7 @@ const TabsSection = () => {
                     }}
                   >
                     <Typography
-                      variant="h5"
+                      variant="h6"
                       textAlign="center"
                       sx={{
                         mb: 2,
@@ -601,10 +658,10 @@ const TabsSection = () => {
                   }}
                 >
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     textAlign="center"
                     sx={{
-                      my: 1,
+                      mt: 1,
                       textTransform: "capitalize",
                       fontWeight: 500,
                     }}
@@ -645,10 +702,10 @@ const TabsSection = () => {
               {componentVariants.avatars.map((variant) => (
                 <Box key={variant}>
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     textAlign="center"
                     sx={{
-                      my: 1.5,
+                      mt: 2,
                       textTransform: "capitalize",
                       fontWeight: 500,
                     }}
@@ -666,46 +723,7 @@ const TabsSection = () => {
             </Box>
           </SectionContent>
 
-          {/* Docks Section */}
-          <SectionContent
-            title="Refined Docks"
-            description="Innovative navigation patterns with seamless interactions and smooth scaling effects."
-            url="/docs/docks"
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              {componentVariants.docks.map((variant) => (
-                <Box key={variant}>
-                  <Typography
-                    variant="h5"
-                    textAlign="center"
-                    sx={{
-                      mt: 1,
-                      textTransform: "capitalize",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {variant
-                      .split(/(?=[A-Z])/)
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ")}{" "}
-                    Style
-                  </Typography>
-                  <DockVariants variant={variant} />
-                </Box>
-              ))}
-            </Box>
-          </SectionContent>
-
-          {/* Animated Typography Section */}
+          {/* Typography Section */}
           <SectionContent
             title="Kinetic Typography"
             description="Memorable text animations with precise motion effects that enhance readability."
@@ -760,7 +778,7 @@ const TabsSection = () => {
                   }}
                 >
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     textAlign="center"
                     sx={{
                       my: 2,
@@ -816,7 +834,7 @@ const TabsSection = () => {
                   }}
                 >
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     textAlign="center"
                     sx={{
                       textTransform: "capitalize",

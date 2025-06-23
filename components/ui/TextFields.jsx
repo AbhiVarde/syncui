@@ -466,8 +466,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   height: "42px",
                   borderRadius: "10px",
                   backgroundColor: colors.background,
-                  pl: 0,
-                  pr: 0,
+                  px: 0,
                   "& fieldset": {
                     borderColor: colors.border,
                   },
