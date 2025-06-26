@@ -7,6 +7,7 @@
   --light-selection-color: rgb(244, 244, 245);
   --dark-selection-bg: rgba(244, 244, 245, 0.99);
   --dark-selection-color: rgb(39, 39, 42);
+  --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -44,4 +45,44 @@ a {
 [data-theme="dark"] ::selection {
   background-color: var(--dark-selection-bg);
   color: var(--dark-selection-color);
+}
+
+/* View Transition Styles */
+::view-transition-group(root) {
+  animation-duration: 0.7s;
+  animation-timing-function: var(--expo-out);
+}
+
+::view-transition-new(root) {
+  animation-name: reveal-light;
+}
+
+::view-transition-old(root),
+.dark::view-transition-old(root) {
+  animation: none;
+  z-index: -1;
+}
+
+.dark::view-transition-new(root) {
+  animation-name: reveal-dark;
+}
+
+@keyframes reveal-dark {
+  from {
+    clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%);
+  }
+
+  to {
+    clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%);
+  }
+}
+
+@keyframes reveal-light {
+  from {
+    clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%);
+  }
+
+  to {
+    clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%);
+  }
 }
