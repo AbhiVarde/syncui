@@ -8,43 +8,9 @@ import { RxChevronRight, RxTextAlignLeft } from "react-icons/rx";
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [activeId, setActiveId] = useState("");
-  const [showAnnouncement, setShowAnnouncement] = useState(false);
 
-  useEffect(() => {
-    const checkAnnouncement = () => {
-      const isDismissed =
-        localStorage.getItem("announcementDismissed") === "true";
-      setShowAnnouncement(!isDismissed);
-    };
-
-    checkAnnouncement();
-
-    const handleStorageChange = (e) => {
-      if (e.key === "announcementDismissed") {
-        checkAnnouncement();
-      }
-    };
-
-    const handleAnnouncementChange = () => {
-      checkAnnouncement();
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("announcementChanged", handleAnnouncementChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener(
-        "announcementChanged",
-        handleAnnouncementChange
-      );
-    };
-  }, []);
-
-  const topPosition = showAnnouncement ? 100 : 60;
-  const heightCalc = showAnnouncement
-    ? "calc(100vh - 100px)"
-    : "calc(100vh - 60px)";
+  const topPosition = 60;
+  const heightCalc = "calc(100vh - 60px)";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -278,8 +244,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           ml: { md: "260px" },
           mr: { lg: "260px" },
           mt: {
-            xs: showAnnouncement ? 8 : 3,
-            md: showAnnouncement ? 2 : 0,
+            xs: 3,
+            md: 0,
           },
         }}
       >
