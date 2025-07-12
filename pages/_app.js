@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
+import { Toaster } from "sonner";
 import Router from "next/router";
 import Head from "next/head";
 import Layout from "../components/layout/Layout";
@@ -188,6 +189,13 @@ function AppContent({ Component, pageProps }) {
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
+      <Toaster
+        theme={isDarkMode ? "dark" : "light"}
+        position="top-right"
+        expand={false}
+        richColors
+        closeButton
+      />
       {loading ? (
         <Loader />
       ) : (

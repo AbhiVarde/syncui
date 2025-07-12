@@ -212,7 +212,7 @@ export const darkTheme = createResponsiveTheme({
   mode: "dark",
   background: {
     default: "#000000",
-    paper: "#111111",
+    paper: "#080808",
   },
   text: {
     primary: "#FFFFFF",

@@ -27,6 +27,8 @@
     "react-icons": "^5.2.1",
     "react-syntax-highlighter": "^15.5.0",
     "recharts": "^2.15.0",
-    "remark-gfm": "^4.0.0"
+    "remark-gfm": "^4.0.0",
+    "resend": "^4.6.0",
+    "sonner": "^2.0.6"
   }
 }
