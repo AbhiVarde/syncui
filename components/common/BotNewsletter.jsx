@@ -229,6 +229,62 @@ const BotNewsletter = ({ isDarkMode }) => {
                     {status === "loading" ? "Subscribing..." : "Subscribe"}
                   </Button>
                 </form>
+
+                {/* Powered by Resend footer */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mt: 2,
+                    pt: 1.5,
+                    borderTop: `1px solid ${isDarkMode ? "#333333" : "#e0e0e0"}`,
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontWeight: 500,
+                      color: isDarkMode ? "#ffffff" : "#000000",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 0.5,
+                    }}
+                  >
+                    Powered by
+                    <Box
+                      component="img"
+                      src="https://resend.com/static/favicons/favicon.ico"
+                      alt="Resend"
+                      onClick={() =>
+                        window.open("https://resend.com", "_blank")
+                      }
+                      sx={{
+                        width: 18,
+                        height: 18,
+                        ml: 0.5,
+                        cursor: "pointer",
+                      }}
+                    />
+                    <Box
+                      component="span"
+                      onClick={() =>
+                        window.open("https://resend.com", "_blank")
+                      }
+                      sx={{
+                        cursor: "pointer",
+                        textDecoration: "none",
+                        paddingBottom: "2px",
+                        "&:hover": {
+                          textDecoration: "underline",
+                          textUnderlineOffset: "2px",
+                        },
+                      }}
+                    >
+                      Resend
+                    </Box>
+                  </Typography>
+                </Box>
               </Box>
             </Paper>
           </motion.div>
