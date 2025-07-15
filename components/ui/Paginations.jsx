@@ -175,6 +175,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                     />
                     <motion.span
                       animate={{
+                        cursor: "pointer",
                         color: textColor,
                         fontWeight: page === currentPage ? 600 : 400,
                       }}
@@ -264,6 +265,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                     >
                       <motion.span
                         animate={{
+                          cursor: "pointer",
                           fontWeight: page === currentPage ? 600 : 400,
                           color: textColor,
                         }}
