@@ -5,33 +5,29 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Divider,
+  IconButton,
 } from "@mui/material";
 import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
 import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
+import LinkPreview from "../common/LinkPreview";
 
 const Footer = () => {
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
 
-  const socialLinkStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 0.8,
-    color: "inherit",
-    textDecoration: "none",
-    bgcolor: (theme) => theme.palette.action.hover,
-    px: 1.4, // Increased padding-x slightly for better balance
-    py: 0.8, // Increased padding-y slightly for better balance
-    borderRadius: "8px",
-    transition: "all 0.2s ease-in-out",
-    border: "1px solid",
-    borderColor: "divider",
-    height: "32px", // Fixed height for consistency
-    "&:hover": {
-      bgcolor: (theme) => theme.palette.action.selected,
-      transform: "translateY(-1px)",
-    },
-  };
+  const renderDivider = () => (
+    <Divider
+      orientation="vertical"
+      flexItem
+      sx={{
+        alignSelf: "center",
+        height: 20,
+        mx: 0.5,
+        borderColor: "divider",
+      }}
+    />
+  );
 
   return (
     <Box
@@ -39,6 +35,7 @@ const Footer = () => {
       sx={{
         height: "60px",
         borderTop: `1px solid ${theme.palette.divider}`,
+        position: "relative",
       }}
     >
       <Container
@@ -54,54 +51,49 @@ const Footer = () => {
           alignItems="center"
           height="100%"
         >
-          <Box display="flex" alignItems="center">
-            <Typography variant="caption">
-              Brought to you by{" "}
-              <a
-                href="https://abhivarde.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecorationLine: "underline",
-                  textUnderlineOffset: "4px",
-                  fontWeight: 500,
-                  color: "inherit",
-                }}
-              >
-                abhivarde.in
-              </a>
-              .
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Box
+          <Typography variant="caption">
+            Brought to you by{" "}
+            <LinkPreview url="https://abhivarde.in">abhivarde.in</LinkPreview>.
+          </Typography>
+
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
               component="a"
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              sx={socialLinkStyle}
+              sx={{
+                color: "text.primary",
+                p: 0.5,
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  opacity: 0.7,
+                },
+              }}
             >
-              <RiGithubFill size={20} />
-            </Box>
-            <Box
+              <RiGithubFill size={20} style={{ cursor: "pointer" }} />
+            </IconButton>
+
+            {renderDivider()}
+
+            <IconButton
               component="a"
               href={TWITTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              sx={socialLinkStyle}
+              sx={{
+                color: "text.primary",
+                p: 0.5,
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  opacity: 0.7,
+                },
+              }}
             >
-              <RiTwitterXLine size={16} />
-              <Typography
-                variant="caption"
-                component="span"
-                sx={{
-                  fontWeight: 500,
-                  lineHeight: 1,
-                }}
-              >
-                Follow
-              </Typography>
-            </Box>
+              <RiTwitterXLine size={18} style={{ cursor: "pointer" }} />
+            </IconButton>
           </Box>
         </Box>
       </Container>
