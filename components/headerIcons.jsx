@@ -1,105 +1,143 @@
 import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
-import { RxMoon, RxSun, RxDotsVertical } from "react-icons/rx";
-import { Box, IconButton, Typography } from "@mui/material";
+import { RxDotsVertical } from "react-icons/rx";
+import { WiMoonAltThirdQuarter } from "react-icons/wi";
+import { Box, IconButton, Typography, Divider } from "@mui/material";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
 import AnimatedCounter from "./AnimatedCounter";
-
-const ICON_SIZE = 20;
-const CONTAINER_SIZE = 36;
-
-const IconContainer = ({ component = "a", children, ...props }) => (
-  <Box
-    component={component}
-    sx={{
-      cursor: "pointer",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      color: "inherit",
-      textDecoration: "none",
-      bgcolor: (theme) => theme.palette.action.hover,
-      height: CONTAINER_SIZE,
-      minWidth: CONTAINER_SIZE,
-      borderRadius: "8px",
-      transition: "all 0.2s ease-in-out",
-      border: "1px solid",
-      borderColor: "divider",
-      gap: 1,
-      px: 1.5,
-      "&:hover": {
-        bgcolor: (theme) => theme.palette.action.selected,
-        transform: "translateY(-1px)",
-      },
-    }}
-    {...props}
-  >
-    {children}
-  </Box>
-);
 
 const HeaderIcons = ({
   stars,
   loading,
-  isDarkMode,
   toggleTheme,
   isMediumUp,
   handleToggle,
   anchorRef,
   menuOpen,
 }) => {
+  const renderDivider = () => (
+    <Divider
+      orientation="vertical"
+      flexItem
+      sx={{
+        alignSelf: "center",
+        mx: 0.5,
+        height: 24,
+        borderColor: "divider",
+      }}
+    />
+  );
+
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+      }}
+    >
+      {/* GitHub Icon with Stars */}
       {(typeof stars === "number" || loading) && (
-        <IconContainer
-          href={GITHUB_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <RiGithubFill size={ICON_SIZE} />
-          {!loading && stars > 0 && (
-            <Typography variant="caption" component="span" fontWeight={500}>
-              <AnimatedCounter
-                value={stars}
-                duration={1.5}
-                formatter={(val) => val.toLocaleString()}
-                delay={0.2}
-              />
-            </Typography>
-          )}
-        </IconContainer>
+        <>
+          <Box
+            component="a"
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+              color: "text.primary",
+              textDecoration: "none",
+              cursor: "pointer",
+              transition: "opacity 0.1s ease",
+              "&:hover": {
+                opacity: 0.7,
+              },
+            }}
+          >
+            <RiGithubFill size={20} style={{ cursor: "pointer" }} />
+            {!loading && stars > 0 && (
+              <Typography
+                variant="body2"
+                component="span"
+                fontWeight={500}
+                sx={{ fontSize: 14 }}
+              >
+                <AnimatedCounter
+                  value={stars}
+                  duration={1}
+                  formatter={(val) => val.toLocaleString()}
+                  delay={0}
+                />
+              </Typography>
+            )}
+          </Box>
+
+          {renderDivider()}
+        </>
       )}
 
-      <IconContainer
+      <IconButton
+        component="a"
         href={TWITTER_URL}
         target="_blank"
         rel="noopener noreferrer"
+        sx={{
+          color: "text.primary",
+          p: 0.5,
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "transparent",
+            opacity: 0.7,
+          },
+        }}
       >
-        <RiTwitterXLine size={16} />
-      </IconContainer>
+        <RiTwitterXLine size={18} style={{ cursor: "pointer" }} />
+      </IconButton>
 
-      <IconContainer
-        component="button"
+      {renderDivider()}
+
+      <IconButton
         onClick={toggleTheme}
         aria-label="Toggle theme"
+        sx={{
+          color: "text.primary",
+          p: 0.5,
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "transparent",
+            opacity: 0.7,
+          },
+        }}
       >
-        {isDarkMode ? <RxMoon size={17} /> : <RxSun size={17} />}
-      </IconContainer>
+        <WiMoonAltThirdQuarter size={24} style={{ cursor: "pointer" }} />
+      </IconButton>
 
       {!isMediumUp && (
-        <IconButton
-          ref={anchorRef}
-          aria-controls={menuOpen ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-          sx={{
-            width: CONTAINER_SIZE,
-            height: CONTAINER_SIZE,
-          }}
-        >
-          <RxDotsVertical size={ICON_SIZE} />
-        </IconButton>
+        <>
+          {renderDivider()}
+
+          <IconButton
+            ref={anchorRef}
+            aria-controls={menuOpen ? "menu-list-grow" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+            sx={{
+              color: "text.primary",
+              p: 0.5,
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: "transparent",
+                opacity: 0.7,
+              },
+            }}
+          >
+            <RxDotsVertical size={20} style={{ cursor: "pointer" }} />
+          </IconButton>
+        </>
       )}
-    </>
+    </Box>
   );
 };
 

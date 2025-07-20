@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
-  Container,
   AppBar,
   Toolbar,
   Typography,
@@ -15,13 +14,12 @@ import {
   Breadcrumbs,
   Button,
   Popper,
-  Grow,
   Paper,
-  Stack,
   ClickAwayListener,
   MenuList,
   MenuItem,
   styled,
+  Divider,
 } from "@mui/material";
 import {
   RxTextAlignLeft,
@@ -41,8 +39,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
   boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
   overflow: "hidden",
-  minWidth: 250,
-  maxWidth: 300,
+  minWidth: 200,
+  maxWidth: 200,
 }));
 
 const StyledMenuList = styled(MenuList)(({ theme }) => ({
@@ -94,26 +92,39 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   ];
 
   const menuVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: -10 },
+    hidden: { opacity: 0, scale: 0.98, y: -4 },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
       transition: {
-        duration: 0.2,
+        duration: 0.15,
         ease: "easeOut",
       },
     },
     exit: {
       opacity: 0,
-      scale: 0.95,
-      y: -10,
+      scale: 0.98,
+      y: -4,
       transition: {
-        duration: 0.15,
+        duration: 0.1,
         ease: "easeIn",
       },
     },
   };
+
+  const renderDivider = () => (
+    <Divider
+      orientation="vertical"
+      flexItem
+      sx={{
+        alignSelf: "center",
+        mx: 0.5,
+        height: 24,
+        borderColor: "divider",
+      }}
+    />
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -379,43 +390,67 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       href={item.href}
       onClick={item.disabled ? undefined : handleClose}
       sx={{
-        borderRadius: "10px",
-        fontSize: "0.875rem",
-        padding: 1.5,
-        margin: 0,
+        borderRadius: "8px",
+        fontSize: "14px",
+        px: "10px",
+        py: "4px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        gap: 1,
         "&:hover": {
           backgroundColor: theme.palette.action.hover,
         },
       }}
     >
-      {item.icon && (
-        <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
-          {item.icon}
-        </Box>
-      )}
-      {item.label}
-      {item.comingSoon && (
-        <Box
-          component="span"
+      {/* Icon */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 20,
+          height: 20,
+        }}
+      >
+        {item.icon}
+      </Box>
+
+      {/* Label and Badge */}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Typography
           sx={{
-            ml: 1,
-            px: 0.8,
-            py: 0.2,
-            bgcolor: "#008080",
-            color: "#ffffff",
-            borderRadius: "10px",
-            fontSize: "0.65rem",
-            fontWeight: 500,
-            lineHeight: 1,
-            letterSpacing: "0.02em",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
+            color: "text.primary",
+            fontSize: "15px",
+            fontWeight: 400,
           }}
         >
-          New
-        </Box>
-      )}
+          {item.label}
+        </Typography>
+
+        {item.comingSoon && (
+          <Box
+            component="span"
+            sx={{
+              px: "8px",
+              py: "2px",
+              bgcolor: "#008080",
+              color: "#ffffff",
+              borderRadius: 1,
+              fontSize: "12px",
+              fontWeight: 500,
+              lineHeight: "16px",
+              letterSpacing: "0.3px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "20px",
+            }}
+          >
+            New
+          </Box>
+        )}
+      </Box>
     </MenuItem>
   );
 
@@ -431,7 +466,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           top: 0,
           borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: "blur(10px)",
-          transition: "all 0.3s ease",
+          transition: "all 0.2s ease",
           backgroundColor: isScrolled ? "transparent" : "background.default",
           zIndex: 1100,
         }}
@@ -445,10 +480,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           <AnimatePresence mode="sync">
             <motion.div
               key="not-scrolled"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
               style={{
                 width: "100%",
                 display: "flex",
@@ -471,29 +506,35 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   sx={{
                     display: "flex",
                     alignItems: "center",
+                    gap: "8px",
                     cursor: "pointer",
+                    textDecoration: "none",
+                    minWidth: 0,
                   }}
                 >
-                  <img
+                  <Box
+                    component="img"
                     src="/logo.png"
                     alt="Logo"
-                    style={{
-                      width: "24px",
-                      height: "24px",
-                      marginRight: "8px",
+                    sx={{
+                      width: 24,
+                      height: 24,
                       display:
                         asPath.startsWith("/docs") && !isMediumUp
                           ? "none"
-                          : "flex",
+                          : "inline-block",
                     }}
                   />
                   <Typography
-                    variant="body1"
+                    variant="h6"
                     fontWeight={600}
-                    component="div"
+                    noWrap
                     sx={{
-                      opacity: 1,
-                      transition: "opacity 0.3s ease",
+                      color: "text.primary",
+                      lineHeight: 1,
+                      transition: "opacity 0.2s ease",
+                      opacity:
+                        asPath.startsWith("/docs") && !isMediumUp ? 0 : 1,
                     }}
                   >
                     Sync UI
@@ -508,54 +549,80 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 }}
               >
                 {isMediumUp && (
-                  <Stack direction="row" spacing={1} marginRight="10px">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      mr: 1,
+                    }}
+                  >
                     <Button
-                      color="inherit"
+                      component={Link}
                       href="/templates"
                       sx={{
-                        fontSize: "15px !important",
-                        padding: "4px 8px !important",
+                        color: "text.primary",
+                        fontSize: "15px",
                         fontWeight: 400,
                         textTransform: "none",
+                        padding: "4px 8px",
+                        minWidth: "auto",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                          opacity: 0.7,
+                        },
                       }}
                     >
                       Templates
                       <Box
                         component="span"
                         sx={{
-                          ml: 1,
-                          px: 0.8,
-                          py: 0.2,
+                          px: "8px",
+                          py: "2px",
                           bgcolor: "#008080",
                           color: "#ffffff",
-                          borderRadius: "10px",
-                          fontSize: "0.65rem",
+                          borderRadius: 1,
+                          fontSize: "12px",
                           fontWeight: 500,
-                          lineHeight: 1,
-                          letterSpacing: "0.02em",
+                          lineHeight: "16px",
+                          letterSpacing: "0.3px",
                           display: "inline-flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          minHeight: "20px",
                         }}
                       >
                         New
                       </Box>
                     </Button>
+
+                    {renderDivider()}
+
                     <Button
-                      color="inherit"
                       component={Link}
-                      endIcon={<RxExternalLink size={16} />}
                       href="/docs/changelog"
+                      endIcon={<RxExternalLink size={16} />}
                       sx={{
-                        fontSize: "15px !important",
-                        padding: "4px 8px !important",
+                        color: "text.primary",
+                        fontSize: "15px",
                         fontWeight: 400,
                         textTransform: "none",
+                        padding: "4px 8px",
+                        minWidth: "auto",
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                          opacity: 0.7,
+                        },
                       }}
                     >
                       Changelog
                     </Button>
-                  </Stack>
+
+                    {renderDivider()}
+                  </Box>
                 )}
                 <HeaderIcons
                   isMediumUp={isMediumUp}
@@ -594,39 +661,31 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         <Popper
           open={menuOpen && !isMediumUp}
           anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal
           placement="bottom-end"
-          style={{ zIndex: 999 }}
+          disablePortal
+          sx={{ zIndex: 999 }}
         >
-          {({ TransitionProps }) => (
-            <Grow {...TransitionProps}>
-              <StyledPaper elevation={3}>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <AnimatePresence>
-                    {menuOpen && (
-                      <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={menuVariants}
-                      >
-                        <StyledMenuList
-                          autoFocusItem={menuOpen}
-                          id="menu-list-grow"
-                        >
-                          {menuItems.map((item, index) =>
-                            renderPopoverMenuItem(item, index)
-                          )}
-                        </StyledMenuList>
-                      </motion.div>
+          <StyledPaper elevation={3}>
+            <ClickAwayListener onClickAway={handleClose}>
+              <StyledMenuList dense>
+                {menuItems.map((item, index) => (
+                  <React.Fragment key={index}>
+                    {renderPopoverMenuItem(item, index)}
+
+                    {index < menuItems.length - 1 && (
+                      <Divider
+                        sx={{
+                          mx: 1.5,
+                          my: 0.5,
+                          borderColor: "divider",
+                        }}
+                      />
                     )}
-                  </AnimatePresence>
-                </ClickAwayListener>
-              </StyledPaper>
-            </Grow>
-          )}
+                  </React.Fragment>
+                ))}
+              </StyledMenuList>
+            </ClickAwayListener>
+          </StyledPaper>
         </Popper>
       </AppBar>
 
