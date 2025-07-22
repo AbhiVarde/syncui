@@ -234,11 +234,13 @@ const BotNewsletter = ({ isDarkMode }) => {
                 <Box
                   sx={{
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
                     mt: 2,
                     pt: 1.5,
                     borderTop: `1px solid ${isDarkMode ? "#333333" : "#e0e0e0"}`,
+                    gap: 0.5,
                   }}
                 >
                   <Typography
@@ -246,44 +248,95 @@ const BotNewsletter = ({ isDarkMode }) => {
                     sx={{
                       fontWeight: 500,
                       color: isDarkMode ? "#ffffff" : "#000000",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 0.5,
+                      fontSize: "0.75rem",
                     }}
                   >
                     Powered by
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* Appwrite */}
                     <Box
-                      component="img"
-                      src="https://resend.com/static/favicons/favicon.ico"
-                      alt="Resend"
-                      onClick={() =>
-                        window.open("https://resend.com", "_blank")
-                      }
                       sx={{
-                        width: 18,
-                        height: 18,
-                        ml: 0.5,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.5,
                         cursor: "pointer",
                       }}
-                    />
-                    <Box
-                      component="span"
                       onClick={() =>
-                        window.open("https://resend.com", "_blank")
+                        window.open("https://appwrite.io", "_blank")
                       }
+                    >
+                      <Box
+                        component="img"
+                        src="https://appwrite.io/images/logos/logo.svg"
+                        alt="Appwrite"
+                        sx={{ width: 16, height: 16 }}
+                      />
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontWeight: 500,
+                          color: isDarkMode ? "#ffffff" : "#000000",
+                          textDecoration: "none",
+                          "&:hover": {
+                            textDecoration: "underline",
+                            textUnderlineOffset: "2px",
+                          },
+                        }}
+                      >
+                        Appwrite
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="caption"
                       sx={{
-                        cursor: "pointer",
-                        textDecoration: "none",
-                        paddingBottom: "2px",
-                        "&:hover": {
-                          textDecoration: "underline",
-                          textUnderlineOffset: "2px",
-                        },
+                        fontWeight: 500,
+                        color: isDarkMode ? "#ffffff" : "#000000",
+                        mx: 0.5,
                       }}
                     >
-                      Resend
+                      &
+                    </Typography>
+                    {/* Resend */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.5,
+                        cursor: "pointer",
+                      }}
+                      onClick={() =>
+                        window.open("https://resend.com", "_blank")
+                      }
+                    >
+                      <Box
+                        component="img"
+                        src="https://resend.com/static/favicons/favicon.ico"
+                        alt="Resend"
+                        sx={{ width: 16, height: 16 }}
+                      />
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontWeight: 500,
+                          color: isDarkMode ? "#ffffff" : "#000000",
+                          textDecoration: "none",
+                          "&:hover": {
+                            textDecoration: "underline",
+                            textUnderlineOffset: "2px",
+                          },
+                        }}
+                      >
+                        Resend
+                      </Typography>
                     </Box>
-                  </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Paper>
