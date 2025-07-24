@@ -5,26 +5,12 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Divider,
 } from "@mui/material";
 import LinkPreview from "../common/LinkPreview";
 
 const Footer = () => {
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
-
-  const renderDivider = () => (
-    <Divider
-      orientation="vertical"
-      flexItem
-      sx={{
-        alignSelf: "center",
-        height: 20,
-        mx: 0.5,
-        borderColor: "divider",
-      }}
-    />
-  );
 
   return (
     <Box
