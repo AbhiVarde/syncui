@@ -53,9 +53,11 @@ const Footer = () => {
         >
           <Typography variant="caption">
             Brought to you by{" "}
-            <LinkPreview url="https://abhivarde.in">abhivarde.in</LinkPreview>.
+            <LinkPreview url="https://abhivarde.in" placement="top">
+              abhivarde.in
+            </LinkPreview>
+            .
           </Typography>
-
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               component="a"

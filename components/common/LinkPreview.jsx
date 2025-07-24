@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Box, useTheme, Portal } from "@mui/material";
+import { Box, useTheme, Portal, Typography } from "@mui/material";
 import {
   motion,
   AnimatePresence,
@@ -14,6 +14,8 @@ const LinkPreview = ({
   width = 200,
   height = 125,
   staticImage = null,
+  placement = "top",
+  description = null,
   sx = {},
   ...props
 }) => {
@@ -53,8 +55,13 @@ const LinkPreview = ({
       const scrollLeft =
         window.pageXOffset || document.documentElement.scrollLeft;
 
+      const topPosition =
+        placement === "top"
+          ? rect.top + scrollTop - height - 20
+          : rect.bottom + scrollTop + 20;
+
       setPosition({
-        top: rect.top + scrollTop - height - 20,
+        top: topPosition,
         left: rect.left + scrollLeft + rect.width / 2 - width / 2,
       });
     }
@@ -81,6 +88,19 @@ const LinkPreview = ({
       x.set(offsetFromCenter);
     }
   };
+
+  const animationProps =
+    placement === "top"
+      ? {
+          initial: { opacity: 0, y: 15, scale: 0.8, rotateX: -10 },
+          animate: { opacity: 1, y: 0, scale: 1, rotateX: 0 },
+          exit: { opacity: 0, y: 15, scale: 0.85, rotateX: -10 },
+        }
+      : {
+          initial: { opacity: 0, y: -15, scale: 0.8, rotateX: 10 },
+          animate: { opacity: 1, y: 0, scale: 1, rotateX: 0 },
+          exit: { opacity: 0, y: -15, scale: 0.85, rotateX: 10 },
+        };
 
   return (
     <>
@@ -123,12 +143,9 @@ const LinkPreview = ({
           <AnimatePresence>
             {isOpen && (
               <motion.div
-                initial={{ opacity: 0, y: 15, scale: 0.8, rotateX: -10 }}
+                initial={animationProps.initial}
                 animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  rotateX: 0,
+                  ...animationProps.animate,
                   transition: {
                     type: "spring",
                     stiffness: 300,
@@ -136,7 +153,7 @@ const LinkPreview = ({
                     mass: 0.8,
                   },
                 }}
-                exit={{ opacity: 0, y: 15, scale: 0.85, rotateX: -10 }}
+                exit={animationProps.exit}
                 style={{
                   x: translateX,
                   transformStyle: "preserve-3d",
@@ -149,7 +166,6 @@ const LinkPreview = ({
                   rel="noopener noreferrer"
                   sx={{
                     display: "block",
-                    p: 1,
                     bgcolor: "background.paper",
                     boxShadow: `0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)`,
                     textDecoration: "none",
@@ -164,19 +180,39 @@ const LinkPreview = ({
                         : "rgba(0, 0, 0, 0.12)",
                   }}
                 >
-                  <Box
-                    component="img"
-                    src={imageSrc}
-                    alt="Link preview"
-                    sx={{
-                      width,
-                      height,
-                      borderRadius: 1,
-                      display: "block",
-                      objectFit: "cover",
-                      filter: "brightness(1.02) contrast(1.05)",
-                    }}
-                  />
+                  {description && (
+                    <Box sx={{ p: 1.5, pb: 1 }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontSize: "12px !important",
+                          color: "text.primary",
+                          fontWeight: 500,
+                          display: "block",
+                          wordBreak: "break-word",
+                          overflowWrap: "anywhere",
+                          maxWidth: `${width - 24}px`,
+                        }}
+                      >
+                        {description}
+                      </Typography>
+                    </Box>
+                  )}
+                  <Box sx={{ p: description ? "0 12px 12px 12px" : 1 }}>
+                    <Box
+                      component="img"
+                      src={imageSrc}
+                      alt="Link preview"
+                      sx={{
+                        width: description ? width - 24 : width,
+                        height,
+                        borderRadius: 1,
+                        display: "block",
+                        objectFit: "cover",
+                        filter: "brightness(1.02) contrast(1.05)",
+                      }}
+                    />
+                  </Box>
                 </Box>
               </motion.div>
             )}
