@@ -6,10 +6,7 @@ import {
   useTheme,
   useMediaQuery,
   Divider,
-  IconButton,
 } from "@mui/material";
-import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
-import { GITHUB_URL, TWITTER_URL } from "../../utils/constants";
 import LinkPreview from "../common/LinkPreview";
 
 const Footer = () => {
@@ -58,45 +55,6 @@ const Footer = () => {
             </LinkPreview>
             .
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-              component="a"
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                color: "text.primary",
-                p: 0.5,
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "transparent",
-                  opacity: 0.7,
-                },
-              }}
-            >
-              <RiGithubFill size={20} style={{ cursor: "pointer" }} />
-            </IconButton>
-
-            {renderDivider()}
-
-            <IconButton
-              component="a"
-              href={TWITTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                color: "text.primary",
-                p: 0.5,
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "transparent",
-                  opacity: 0.7,
-                },
-              }}
-            >
-              <RiTwitterXLine size={18} style={{ cursor: "pointer" }} />
-            </IconButton>
-          </Box>
         </Box>
       </Container>
     </Box>
