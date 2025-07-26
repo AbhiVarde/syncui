@@ -34,6 +34,7 @@ import { GoSidebarCollapse } from "react-icons/go";
 import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
 import { AnimatePresence, motion } from "framer-motion";
+import TemplatesPreview from "../common/TemplatesPreview";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
@@ -90,28 +91,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       disabled: false,
     },
   ];
-
-  const menuVariants = {
-    hidden: { opacity: 0, scale: 0.98, y: -4 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.15,
-        ease: "easeOut",
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.98,
-      y: -4,
-      transition: {
-        duration: 0.1,
-        ease: "easeIn",
-      },
-    },
-  };
 
   const renderDivider = () => (
     <Divider
@@ -557,47 +536,58 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       mr: 1,
                     }}
                   >
-                    <Button
-                      component={Link}
-                      href="/templates"
+                    <TemplatesPreview
+                      width={400}
+                      height={180}
+                      placement="bottom"
                       sx={{
                         color: "text.primary",
                         fontSize: "15px",
                         fontWeight: 400,
                         textTransform: "none",
-                        padding: "4px 8px",
+                        px: "6px",
+                        py: "4px",
                         minWidth: "auto",
                         display: "flex",
                         alignItems: "center",
-                        gap: 1,
+                        gap: 0.75,
+                        textDecoration: "none",
                         "&:hover": {
                           backgroundColor: "transparent",
-                          opacity: 0.7,
+                          opacity: 0.75,
                         },
                       }}
                     >
-                      Templates
                       <Box
-                        component="span"
                         sx={{
-                          px: "8px",
-                          py: "2px",
-                          bgcolor: "#008080",
-                          color: "#ffffff",
-                          borderRadius: 1,
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          lineHeight: "16px",
-                          letterSpacing: "0.3px",
-                          display: "inline-flex",
+                          display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
-                          minHeight: "20px",
+                          gap: 0.75,
                         }}
                       >
-                        New
+                        Templates
+                        <Box
+                          component="span"
+                          sx={{
+                            px: "6px",
+                            py: "1px",
+                            bgcolor: "#008080",
+                            color: "#ffffff",
+                            borderRadius: "6px",
+                            fontSize: "11px",
+                            fontWeight: 500,
+                            lineHeight: "14px",
+                            letterSpacing: "0.25px",
+                            minHeight: "18px",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          New
+                        </Box>
                       </Box>
-                    </Button>
+                    </TemplatesPreview>
 
                     {renderDivider()}
 
