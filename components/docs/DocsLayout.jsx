@@ -1,9 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Breadcrumbs } from "@mui/material";
 import Link from "next/link";
 import { TableOfContents } from "./TableOfContents";
 import { useRouter } from "next/router";
 import { RxChevronRight, RxTextAlignLeft } from "react-icons/rx";
+import LinkPreview from "../common/LinkPreview";
 
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
@@ -217,19 +218,9 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           >
             <Typography variant="caption">
               Brought to you by{" "}
-              <a
-                href="https://abhivarde.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecorationLine: "underline",
-                  textUnderlineOffset: "4px",
-                  fontWeight: 500,
-                  color: "inherit",
-                }}
-              >
+              <LinkPreview url="https://abhivarde.in" placement="top">
                 abhivarde.in
-              </a>
+              </LinkPreview>
               .
             </Typography>
           </Box>
