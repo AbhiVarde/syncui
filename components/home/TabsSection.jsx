@@ -30,7 +30,7 @@ import PointerVariants from "../ui/Pointers";
 import GridVariants from "../ui/Grids";
 import AccordionVariants from "../ui/Accordions";
 import TextFieldVariants from "../ui/TextFields";
-import DialogVariants from "../ui/dialogs";
+import DialogVariants from "../ui/Dialogs";
 
 const componentVariants = {
   accordions: ["brutalist", "dashed", "minimal", "modern"],
