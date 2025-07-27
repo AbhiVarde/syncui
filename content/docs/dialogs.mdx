@@ -5,6 +5,70 @@ description: Sync UI offers a variety of dialog styles to enhance your user inte
 
 Sync UI offers a variety of dialog styles to enhance your user interface interactions.
 
+#### Default
+
+A clean and minimal dialog design with consistent spacing and typography.
+
+<CodePreview
+  preview={<DialogVariants variant="default" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+  Box,
+  Fade,
+} from "@mui/material";
+
+const TransitionFade = React.forwardRef(function Transition(props, ref) {
+  return <Fade ref={ref} {...props} />;
+});
+
+const DefaultDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Default</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={TransitionFade}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ pb: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box sx={{ fontSize: "1.2rem" }}>💬</Box>
+            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+              Simple Dialog
+            </Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent sx={{ pb: 2 }}>
+          <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
+            Clean and minimal dialog design with consistent spacing and
+            typography. Perfect for simple interactions.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button onClick={() => setOpen(false)} variant="contained">
+            Understood
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default DefaultDialog;
+`}
+/>
+
 #### Slide Up
 
 A smooth slide-up animation perfect for mobile-first interactions.
