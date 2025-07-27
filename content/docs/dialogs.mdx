@@ -1,0 +1,593 @@
+---
+title: Dialogs
+description: Sync UI offers a variety of dialog styles to enhance your user interface interactions.
+---
+
+Sync UI offers a variety of dialog styles to enhance your user interface interactions.
+
+#### Slide Up
+
+A smooth slide-up animation perfect for mobile-first interactions.
+
+<CodePreview
+  preview={<DialogVariants variant="slideUp" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+  Box,
+  Slide,
+} from "@mui/material";
+
+const TransitionSlide = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const SlideUpDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Slide Up</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={TransitionSlide}
+        keepMounted
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ pb: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box sx={{ fontSize: "1.2rem" }}>🚀</Box>
+            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+              Slide Up Animation
+            </Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent sx={{ pb: 2 }}>
+          <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
+            Experience smooth slide-up transitions that feel natural and
+            engaging. Perfect for mobile-first interactions.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button onClick={() => setOpen(false)} variant="contained">
+            Got it
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default SlideUpDialog;
+`}
+/>
+
+#### Blur Modal
+
+Beautiful glassmorphism effect with backdrop blur for a modern look.
+
+<CodePreview
+  preview={<DialogVariants variant="blur" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+  Box,
+  Fade,
+  IconButton,
+} from "@mui/material";
+import { RxCross2 } from "react-icons/rx";
+
+const TransitionFade = React.forwardRef(function Transition(props, ref) {
+  return <Fade ref={ref} {...props} />;
+});
+
+const BlurModal = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Blur Modal</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={TransitionFade}
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            backdropFilter: "blur(8px)",
+            backgroundColor: "rgba(255,255,255,0.85)",
+            boxShadow: "0 5px 20px rgba(0,0,0,0.15)",
+          },
+        }}
+        BackdropProps={{
+          sx: {
+            backdropFilter: "blur(6px)",
+            backgroundColor: "rgba(0,0,0,0.2)",
+          },
+        }}
+      >
+        <DialogTitle sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box sx={{ fontSize: "1.2rem" }}>✨</Box>
+            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+              Glassmorphism Effect
+            </Typography>
+          </Box>
+          <IconButton onClick={() => setOpen(false)} size="small">
+            <RxCross2 size={16} />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
+            Beautiful frosted glass effect with a clean, fast-loading UI.
+            Optimized for instant rendering.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} variant="contained">
+            Amazing
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default BlurModal;
+`}
+/>
+
+#### Form Dialog
+
+An interactive form dialog with grow animation and styled inputs.
+
+<CodePreview
+  preview={<DialogVariants variant="form" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+  Box,
+  TextField,
+  Grow,
+} from "@mui/material";
+
+const TransitionGrow = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
+
+const FormDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Form Dialog</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={TransitionGrow}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box sx={{ fontSize: "1.2rem" }}>📝</Box>
+            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+              Contact Form
+            </Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2.5, pt: 2 }}>
+          <TextField
+            placeholder="Full Name"
+            fullWidth
+            size="small"
+            sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+          />
+          <TextField
+            placeholder="Email Address"
+            type="email"
+            fullWidth
+            size="small"
+            sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+          />
+          <TextField
+            placeholder="Your Message"
+            multiline
+            rows={3}
+            fullWidth
+            size="small"
+            sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+          />
+        </DialogContent>
+        <DialogActions sx={{ gap: 1 }}>
+          <Button onClick={() => setOpen(false)} variant="outlined">
+            Cancel
+          </Button>
+          <Button onClick={() => setOpen(false)} variant="contained">
+            Send Message
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default FormDialog;
+`}
+/>
+
+#### Info Dialog
+
+A centered info dialog with auto-close functionality and clean design.
+
+<CodePreview
+  preview={<DialogVariants variant="info" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  Slide,
+} from "@mui/material";
+import { RxCross2 } from "react-icons/rx";
+
+const TransitionSlide = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const InfoDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => setOpen(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Info Dialog</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={TransitionSlide}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogContent sx={{ textAlign: "center", py: 4, position: "relative" }}>
+          <IconButton
+            onClick={() => setOpen(false)}
+            sx={{ position: "absolute", top: 8, right: 8 }}
+          >
+            <RxCross2 size={16} />
+          </IconButton>
+          <Box sx={{ fontSize: "3rem", mb: 2 }}>💡</Box>
+          <Typography variant="h6" sx={{ fontWeight: 500, mb: 2 }}>
+            Quick Tip
+          </Typography>
+          <Typography variant="body2" sx={{ lineHeight: 1.6, mb: 3 }}>
+            Did you know? You can use keyboard shortcuts to navigate faster.
+            Press Ctrl+K to open quick search.
+          </Typography>
+          <Button onClick={() => setOpen(false)} variant="contained">
+            Thanks!
+          </Button>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+export default InfoDialog;
+`}
+/>
+
+#### Fullscreen
+
+An immersive fullscreen dialog perfect for presentations and detailed views.
+
+<CodePreview
+  preview={<DialogVariants variant="fullscreen" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Dialog,
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  Slide,
+} from "@mui/material";
+import { RxCross2 } from "react-icons/rx";
+
+const TransitionSlide = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const FullscreenDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Fullscreen</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullScreen
+        TransitionComponent={TransitionSlide}
+      >
+        <Box
+          sx={{
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            textAlign: "center",
+            position: "relative",
+          }}
+        >
+          <IconButton
+            onClick={() => setOpen(false)}
+            sx={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              width: 40,
+              height: 40,
+            }}
+          >
+            <RxCross2 size={20} />
+          </IconButton>
+          <Box sx={{ fontSize: "62px", mb: 2 }}>🎯</Box>
+          <Typography variant="h2" sx={{ fontWeight: 500, mb: 1 }}>
+            Focus Mode
+          </Typography>
+          <Typography variant="h6" sx={{ maxWidth: 500, lineHeight: 1.6 }}>
+            Perfect for presentations, forms, or detailed views.
+          </Typography>
+        </Box>
+      </Dialog>
+    </>
+  );
+};
+
+export default FullscreenDialog;
+`}
+/>
+
+#### Sidebar
+
+A slide-in sidebar dialog with navigation list and settings.
+
+<CodePreview
+  preview={<DialogVariants variant="sidebar" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Dialog,
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Slide,
+} from "@mui/material";
+import {
+  RxGear,
+  RxDashboard,
+  RxPerson,
+  RxBell,
+  RxChevronRight,
+  RxCross2,
+} from "react-icons/rx";
+
+const TransitionSlide = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const SidebarDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Sidebar</Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={TransitionSlide}
+        sx={{
+          "& .MuiDialog-container": {
+            justifyContent: "flex-start",
+            alignItems: "stretch",
+          },
+        }}
+        PaperProps={{
+          sx: {
+            width: 300,
+            height: "100vh",
+            borderRadius: 2,
+          },
+        }}
+      >
+        <Box sx={{ p: 2, height: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 2,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <RxGear size={20} />
+              <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                Settings
+              </Typography>
+            </Box>
+            <IconButton onClick={() => setOpen(false)}>
+              <RxCross2 size={16} />
+            </IconButton>
+          </Box>
+
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <RxDashboard size={18} />
+              </ListItemIcon>
+              <ListItemText
+                primary="Dashboard"
+                secondary="Main overview"
+              />
+              <RxChevronRight size={16} />
+            </ListItem>
+            <Divider />
+            <ListItem button>
+              <ListItemIcon>
+                <RxPerson size={18} />
+              </ListItemIcon>
+              <ListItemText
+                primary="Profile"
+                secondary="Personal settings"
+              />
+              <RxChevronRight size={16} />
+            </ListItem>
+            <Divider />
+            <ListItem button>
+              <ListItemIcon>
+                <RxBell size={18} />
+              </ListItemIcon>
+              <ListItemText
+                primary="Notifications"
+                secondary="Manage alerts"
+              />
+              <RxChevronRight size={16} />
+            </ListItem>
+          </List>
+        </Box>
+      </Dialog>
+    </>
+  );
+};
+
+export default SidebarDialog;
+`}
+/>
+
+#### Notification
+
+An animated toast notification with auto-dismiss and spring animations.
+
+<CodePreview
+  preview={<DialogVariants variant="notification" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import { Button, Typography, Box, IconButton } from "@mui/material";
+import { RxCheck, RxCross2 } from "react-icons/rx";
+import { motion, AnimatePresence } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+const NotificationDialog = () => {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => setOpen(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Notification</Button>
+      <AnimatePresence>
+        {open && (
+          <MotionBox
+            initial={{ opacity: 0, y: -100, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -100, scale: 0.95 }}
+            transition={{
+              type: "spring",
+              stiffness: 500,
+              damping: 30,
+              mass: 1,
+            }}
+            sx={{
+              position: "fixed",
+              top: 20,
+              right: 20,
+              zIndex: 9999,
+              width: 420,
+              maxWidth: "calc(100vw - 40px)",
+              backgroundColor: "background.paper",
+              borderRadius: 2,
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              p: 2,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+              <Box
+                sx={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  backgroundColor: "#10b981",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <RxCheck size={20} color="white" />
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
+                  Successfully saved! 🎉
+                </Typography>
+                <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
+                  Your changes have been saved and will take effect immediately.
+                </Typography>
+              </Box>
+              <IconButton onClick={() => setOpen(false)} size="small">
+                <RxCross2 size={16} />
+              </IconButton>
+            </Box>
+          </MotionBox>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+export default NotificationDialog;
+`}
+/>

@@ -41,7 +41,7 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
         {children}
       </Box>
       {!isDocsPage && !is404Page && <Footer />}
-      <BotNewsletter isDarkMode={isDarkMode} />
+      {!is404Page && <BotNewsletter isDarkMode={isDarkMode} />}
     </Box>
   );
 };

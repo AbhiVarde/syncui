@@ -256,9 +256,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {(item.title === "Accordions" ||
-                        item.title === "Pointers" ||
-                        item.title === "Grids" ||
+                      {(item.title === "Dialogs" ||
                         item.title === "Text Fields" ||
                         item.title === "Templates") && (
                         <Box
