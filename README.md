@@ -6,6 +6,19 @@
   <br /> <br />
   <img width="1440" height="714" alt="default-og-image" src="https://github.com/user-attachments/assets/36fc6047-cf5e-4721-92e6-1d5ed2a35830" />
   <br /> <br />
+  <div align="center">
+  <br />
+  <p> 📬 Go to <a href="https://syncui.design">syncui.design</a> - Subscribe to the newsletter for updates, templates, and tips.</p>
+  <p>
+    Powered by
+    <img src="https://cloud.appwrite.io/console/logos/appwrite-icon.svg" alt="Appwrite" width="16" />
+    <strong>Appwrite</strong> &
+    <img src="https://resend.com/static/favicons/favicon.ico" alt="Resend" width="16" />
+    <strong>Resend</strong>
+  </p>
+  <br /><br />
+</div>
+
 </div>
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
@@ -21,12 +34,12 @@
 
 ## Features
 
-- 🎨 Beautifully designed components
-- 📁 Ready-made templates for faster builds
-- 🛠️ Built with MUI and Framer Motion
-- ♿ Accessible and customizable
-- 🆓 100% Free and Open Source.
-- 🚀 Perfect for your next project
+- 🎨 Beautifully designed components  
+- 📁 Ready-made templates for faster builds  
+- 🛠️ Built with MUI and Framer Motion  
+- ♿ Accessible and customizable  
+- 🆓 100% Free and Open Source  
+- 🚀 Perfect for your next project  
 
 ## Templates
 
