@@ -497,6 +497,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     sx={{
                       width: 24,
                       height: 24,
+                      display:
+                        asPath.startsWith("/docs") && !isMediumUp
+                          ? "none"
+                          : "inline-block",
                     }}
                   />
                   <Typography
