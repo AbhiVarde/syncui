@@ -83,11 +83,20 @@ const HeaderIcons = ({
         href={TWITTER_URL}
         target="_blank"
         rel="noopener noreferrer"
+        onMouseLeave={(e) => e.target.blur()}
         sx={{
           color: "text.primary",
           p: 0.5,
           cursor: "pointer",
           "&:hover": {
+            backgroundColor: "transparent",
+            opacity: 0.7,
+          },
+          "&:focus": {
+            backgroundColor: "transparent",
+            opacity: 1,
+          },
+          "&:active": {
             backgroundColor: "transparent",
             opacity: 0.7,
           },
@@ -100,12 +109,21 @@ const HeaderIcons = ({
 
       <IconButton
         onClick={toggleTheme}
+        onMouseLeave={(e) => e.target.blur()}
         aria-label="Toggle theme"
         sx={{
           color: "text.primary",
           p: 0.5,
           cursor: "pointer",
           "&:hover": {
+            backgroundColor: "transparent",
+            opacity: 0.7,
+          },
+          "&:focus": {
+            backgroundColor: "transparent",
+            opacity: 1,
+          },
+          "&:active": {
             backgroundColor: "transparent",
             opacity: 0.7,
           },
@@ -123,11 +141,20 @@ const HeaderIcons = ({
             aria-controls={menuOpen ? "menu-list-grow" : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
+            onMouseLeave={(e) => e.target.blur()}
             sx={{
               color: "text.primary",
               p: 0.5,
               cursor: "pointer",
               "&:hover": {
+                backgroundColor: "transparent",
+                opacity: 0.7,
+              },
+              "&:focus": {
+                backgroundColor: "transparent",
+                opacity: 1,
+              },
+              "&:active": {
                 backgroundColor: "transparent",
                 opacity: 0.7,
               },
