@@ -249,6 +249,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 "& .MuiInputBase-input": {
                   color: colors.text,
                   fontSize: "14px",
+                  pl: 1,
                 },
               }}
             />
