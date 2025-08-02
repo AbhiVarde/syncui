@@ -34,7 +34,9 @@ import { GoSidebarCollapse } from "react-icons/go";
 import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
 import { AnimatePresence, motion } from "framer-motion";
+import LinkPreview from "../common/LinkPreview";
 import TemplatesPreview from "../common/TemplatesPreview";
+import Image from "next/image";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
@@ -192,11 +194,20 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           borderRadius: "8px",
         }}
       >
-        <RxCross2 size={22} color="inherit" />
+        <RxCross2 size={18} color="inherit" />
       </IconButton>
-      <Typography variant="body1" sx={{ my: 1, fontWeight: 500 }}>
-        Sync UI Docs
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, my: 1 }}>
+        <Image
+          src="/logo.png"
+          alt="Sync UI Logo"
+          width={28}
+          height={28}
+          style={{ borderRadius: "4px" }}
+        />
+        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+          Sync UI Docs
+        </Typography>
+      </Box>
       <Box sx={{ flexGrow: 1, overflowY: "auto", px: 0.2 }}>
         {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
           <Box key={category} sx={{ my: 2 }}>
@@ -299,19 +310,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       >
         <Typography variant="caption">
           Brought to you by{" "}
-          <a
-            href="https://abhivarde.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              textDecorationLine: "underline",
-              textUnderlineOffset: "4px",
-              fontWeight: 500,
-              color: "inherit",
-            }}
-          >
+          <LinkPreview url="https://abhivarde.in" placement="top">
             abhivarde.in
-          </a>
+          </LinkPreview>
           .
         </Typography>
       </Box>
@@ -496,10 +497,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     sx={{
                       width: 24,
                       height: 24,
-                      display:
-                        asPath.startsWith("/docs") && !isMediumUp
-                          ? "none"
-                          : "inline-block",
                     }}
                   />
                   <Typography
@@ -510,8 +507,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       color: "text.primary",
                       lineHeight: 1,
                       transition: "opacity 0.2s ease",
-                      opacity:
-                        asPath.startsWith("/docs") && !isMediumUp ? 0 : 1,
                     }}
                   >
                     Sync UI
