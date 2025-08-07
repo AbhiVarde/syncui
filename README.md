@@ -8,13 +8,16 @@
   <br /> <br />
   <div align="center">
   <br />
-  <p> 📬 Go to <a href="https://syncui.design">syncui.design</a> - Subscribe to the newsletter for updates, templates, and tips.</p>
+  <p> 📬 Go to <a href="https://syncui.design">syncui.design</a> — Subscribe to the newsletter for updates, templates, and tips.</p>
   <p>
     Powered by
     <img src="https://cloud.appwrite.io/console/logos/appwrite-icon.svg" alt="Appwrite" width="16" />
     <strong>Appwrite</strong> &
     <img src="https://resend.com/static/favicons/favicon.ico" alt="Resend" width="16" />
     <strong>Resend</strong>
+  </p>
+  <p>
+    💬 Featured on the <a href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039">Vercel Community Showcase</a>
   </p>
   <br /><br />
 </div>
@@ -38,7 +41,7 @@
 - 📁 Ready-made templates for faster builds  
 - 🛠️ Built with MUI and Framer Motion  
 - ♿ Accessible and customizable  
-- 🆓 100% Free and Open Source  
+- 🤂 100% Free and Open Source  
 - 🚀 Perfect for your next project  
 
 ## Templates
@@ -46,11 +49,11 @@
 Explore our fresh, production-ready templates 🚀  
 
 - 🚀 [Startup Template – $29](https://abhivarde.gumroad.com/l/startup-template-syncui)  
-- 🧩 [SaaS Template – $29](https://abhivarde.gumroad.com/l/saas-template-syncui)  
-- 🎯 [Portfolio Template – $29](https://abhivarde.gumroad.com/l/portfolio-template-syncui)  
-- 🧃 [Bundle (All 3 Templates) – $79](https://abhivarde.gumroad.com/l/syncui-templates-bundle)  
+- 🧹 [SaaS Template – $29](https://abhivarde.gumroad.com/l/saas-template-syncui)  
+- 🌟 [Portfolio Template – $29](https://abhivarde.gumroad.com/l/portfolio-template-syncui)  
+- 🧓 [Bundle (All 3 Templates) – $79](https://abhivarde.gumroad.com/l/syncui-templates-bundle)  
 
-→ [See all templates](https://syncui.design/templates)
+️→ [See all templates](https://syncui.design/templates)
 
 *Tip: Right-click on links and select "Open in new tab" to keep this page open while browsing templates.*
 
