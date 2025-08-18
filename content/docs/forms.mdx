@@ -1,0 +1,586 @@
+---
+title: Forms
+description: Sync UI offers a variety of form styles and interactive elements to enhance your user experience.
+---
+
+Sync UI provides a collection of beautifully designed form components with smooth animations and intuitive interactions.
+
+#### Multi-Step Form
+
+A progressive form that breaks down complex inputs into manageable steps.
+
+<CodePreview
+  preview={<FormVariants variant="multi-step" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  IconButton,
+  InputAdornment,
+  Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+  LinearProgress,
+} from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  IoEyeOutline,
+  IoEyeOffOutline,
+  IoArrowForward,
+  IoArrowBack,
+  IoCheckmark,
+} from "react-icons/io5";
+import { LuChevronDown } from "react-icons/lu";
+
+const MotionPaper = motion(Paper);
+const MotionBox = motion(Box);
+const MotionButton = motion(Button);
+
+const MultiStepForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [formData, setFormData] = useState({});
+
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleNext = () => {
+    setActiveStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prev) => prev - 1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
+  const steps = ["Personal", "Contact", "Preferences"];
+
+  const stepContent = [
+    // Step 1: Personal Info
+    <MotionBox
+      key="step1"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.3 }}
+      sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+    >
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <TextField
+          fullWidth
+          label="First Name"
+          variant="outlined"
+          size="small"
+          onChange={(e) => handleInputChange("firstName", e.target.value)}
+        />
+        <TextField
+          fullWidth
+          label="Last Name"
+          variant="outlined"
+          size="small"
+          onChange={(e) => handleInputChange("lastName", e.target.value)}
+        />
+      </Box>
+      <TextField
+        fullWidth
+        label="Email address"
+        type="email"
+        variant="outlined"
+        size="small"
+        onChange={(e) => handleInputChange("email", e.target.value)}
+      />
+      <TextField
+        fullWidth
+        label="Create password"
+        type={showPassword ? "text" : "password"}
+        variant="outlined"
+        size="small"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => setShowPassword(!showPassword)}
+                edge="end"
+                size="small"
+              >
+                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        onChange={(e) => handleInputChange("password", e.target.value)}
+      />
+    </MotionBox>,
+
+    // Step 2: Contact Details
+    <MotionBox
+      key="step2"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.3 }}
+      sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+    >
+      <TextField
+        fullWidth
+        label="Phone Number"
+        variant="outlined"
+        size="small"
+        onChange={(e) => handleInputChange("phone", e.target.value)}
+      />
+      <TextField
+        fullWidth
+        label="Address"
+        variant="outlined"
+        size="small"
+        multiline
+        rows={2}
+        onChange={(e) => handleInputChange("address", e.target.value)}
+      />
+      <FormControl fullWidth size="small">
+        <InputLabel>Country</InputLabel>
+        <Select
+          value={formData.country || ""}
+          label="Country"
+          onChange={(e) => handleInputChange("country", e.target.value)}
+          IconComponent={LuChevronDown}
+        >
+          <MenuItem value="us">United States</MenuItem>
+          <MenuItem value="uk">United Kingdom</MenuItem>
+          <MenuItem value="ca">Canada</MenuItem>
+          <MenuItem value="au">Australia</MenuItem>
+        </Select>
+      </FormControl>
+    </MotionBox>,
+
+    // Step 3: Preferences
+    <MotionBox
+      key="step3"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.3 }}
+      sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              size="small"
+              onChange={(e) =>
+                handleInputChange("emailNotifications", e.target.checked)
+              }
+            />
+          }
+          label="Email notifications"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              size="small"
+              onChange={(e) =>
+                handleInputChange("smsNotifications", e.target.checked)
+              }
+            />
+          }
+          label="SMS notifications"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              size="small"
+              onChange={(e) =>
+                handleInputChange("newsletter", e.target.checked)
+              }
+            />
+          }
+          label="Newsletter subscription"
+        />
+      </Box>
+      <TextField
+        fullWidth
+        label="Additional comments"
+        multiline
+        rows={3}
+        variant="outlined"
+        size="small"
+        placeholder="Tell us how we can help you..."
+        onChange={(e) => handleInputChange("comments", e.target.value)}
+      />
+    </MotionBox>,
+  ];
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      sx={{ p: 4, maxWidth: 420 }}
+    >
+      <Typography variant="h5" sx={{ fontWeight: 500, mb: 1, textAlign: "center" }}>
+        Create Account
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: "center" }}>
+        Complete all steps to create your account
+      </Typography>
+
+      <Box sx={{ mb: 3 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            Step {activeStep + 1} / {steps.length}
+          </Typography>
+          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            {steps[activeStep]}
+          </Typography>
+        </Box>
+        <LinearProgress
+          variant="determinate"
+          value={((activeStep + 1) / steps.length) * 100}
+          sx={{ height: 6, borderRadius: 3 }}
+        />
+      </Box>
+
+      <form onSubmit={handleSubmit}>
+        <AnimatePresence mode="wait">
+          {stepContent[activeStep]}
+        </AnimatePresence>
+
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4, gap: 2 }}>
+          <MotionButton
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            startIcon={<IoArrowBack />}
+            variant="outlined"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Back
+          </MotionButton>
+
+          <MotionButton
+            variant="contained"
+            onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+            endIcon={activeStep === steps.length - 1 ? <IoCheckmark /> : <IoArrowForward />}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {activeStep === steps.length - 1 ? "Complete" : "Continue"}
+          </MotionButton>
+        </Box>
+      </form>
+    </MotionPaper>
+  );
+};
+
+export default MultiStepForm;
+`}
+/>
+
+#### Login Form
+
+A clean login form with password visibility toggle.
+
+<CodePreview
+  preview={<FormVariants variant="login" />}
+  code={`
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  IconButton,
+  InputAdornment,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+
+const MotionPaper = motion(Paper);
+const MotionButton = motion(Button);
+
+const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      sx={{ p: 4, maxWidth: 420 }}
+    >
+      <Typography variant="h5" sx={{ fontWeight: 500, textAlign: "center", mb: 1 }}>
+        Welcome back
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mb: 4 }}>
+        Sign in to your account
+      </Typography>
+
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <TextField
+          fullWidth
+          label="Email address"
+          type="email"
+          variant="outlined"
+          size="small"
+        />
+        <TextField
+          fullWidth
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          variant="outlined"
+          size="small"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                  size="small"
+                >
+                  {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="Remember me"
+          />
+          <Button variant="text" size="small">
+            Forgot password?
+          </Button>
+        </Box>
+        <MotionButton
+          variant="contained"
+          fullWidth
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          sx={{ mt: 1 }}
+        >
+          Sign In
+        </MotionButton>
+      </Box>
+
+      <Typography variant="body2" textAlign="center" color="text.secondary" sx={{ mt: 3 }}>
+        Don't have an account? <Button variant="text" size="small">Sign up</Button>
+      </Typography>
+    </MotionPaper>
+  );
+};
+
+export default LoginForm;
+`}
+/>
+
+#### Registration Form
+
+A simple registration form with social login option.
+
+<CodePreview
+  preview={<FormVariants variant="register" />}
+  code={`
+import React from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  Divider,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { IoLogoGithub } from "react-icons/io5";
+
+const MotionPaper = motion(Paper);
+const MotionButton = motion(Button);
+
+const RegistrationForm = () => {
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      sx={{ p: 4, maxWidth: 420 }}
+    >
+      <Box sx={{ textAlign: "center", mb: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 500, mb: 1 }}>
+          Create an account
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Enter your email below to create your account
+        </Typography>
+      </Box>
+
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <TextField
+          fullWidth
+          placeholder="name@example.com"
+          variant="outlined"
+          size="medium"
+        />
+        <MotionButton
+          variant="contained"
+          fullWidth
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          sx={{ fontSize: "16px" }}
+        >
+          Sign In with Email
+        </MotionButton>
+
+        <Box sx={{ position: "relative", my: 1 }}>
+          <Divider>
+            <Typography variant="body2" color="text.secondary" sx={{ px: 0.5, fontWeight: 500 }}>
+              OR CONTINUE WITH
+            </Typography>
+          </Divider>
+        </Box>
+
+        <MotionButton
+          variant="outlined"
+          fullWidth
+          startIcon={<IoLogoGithub />}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          sx={{ fontSize: "16px" }}
+        >
+          GitHub
+        </MotionButton>
+
+        <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 1, lineHeight: 1.6 }}>
+          By clicking continue, you agree to our{" "}
+          <Typography component="a" variant="body2" sx={{ textDecoration: "underline", color: "text.primary" }}>
+            Terms of Service
+          </Typography>{" "}
+          and{" "}
+          <Typography component="a" variant="body2" sx={{ textDecoration: "underline", color: "text.primary" }}>
+            Privacy Policy
+          </Typography>
+          .
+        </Typography>
+      </Box>
+    </MotionPaper>
+  );
+};
+
+export default RegistrationForm;
+`}
+/>
+
+#### Contact Form
+
+A contact form with message field and subject selection.
+
+<CodePreview
+  preview={<FormVariants variant="contact" />}
+  code={`
+import React from "react";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { IoSend } from "react-icons/io5";
+import { LuChevronDown } from "react-icons/lu";
+
+const MotionPaper = motion(Paper);
+const MotionButton = motion(Button);
+
+const ContactForm = () => {
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      sx={{ p: 4, maxWidth: 420 }}
+    >
+      <Typography variant="h5" sx={{ fontWeight: 500, mb: 1, textAlign: "center" }}>
+        Get in touch
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: "center" }}>
+        Send us a message and we'll reply shortly.
+      </Typography>
+
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            fullWidth
+            label="Name"
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            variant="outlined"
+            size="small"
+          />
+        </Box>
+
+        <FormControl fullWidth size="small">
+          <InputLabel>Subject</InputLabel>
+          <Select
+            label="Subject"
+            IconComponent={LuChevronDown}
+          >
+            <MenuItem value="general">General Inquiry</MenuItem>
+            <MenuItem value="support">Support</MenuItem>
+            <MenuItem value="business">Business</MenuItem>
+            <MenuItem value="feedback">Feedback</MenuItem>
+          </Select>
+        </FormControl>
+
+        <TextField
+          fullWidth
+          label="Message"
+          multiline
+          rows={4}
+          variant="outlined"
+          size="small"
+          placeholder="Tell us how we can help you..."
+        />
+
+        <MotionButton
+          variant="contained"
+          fullWidth
+          endIcon={<IoSend />}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          sx={{ mt: 1 }}
+        >
+          Send Message
+        </MotionButton>
+      </Box>
+    </MotionPaper>
+  );
+};
+
+export default ContactForm;
+`}
+/>

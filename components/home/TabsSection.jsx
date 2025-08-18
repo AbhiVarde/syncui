@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -7,6 +7,8 @@ import {
   useTheme,
   Button,
   Divider,
+  Tab,
+  Tabs,
 } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
@@ -31,6 +33,7 @@ import GridVariants from "../ui/Grids";
 import AccordionVariants from "../ui/Accordions";
 import TextFieldVariants from "../ui/TextFields";
 import DialogVariants from "../ui/Dialogs";
+import FormVariants from "../ui/Forms";
 
 const componentVariants = {
   accordions: ["brutalist", "dashed", "minimal", "modern"],
@@ -142,16 +145,18 @@ const componentVariants = {
     "sidebar",
     "notification",
   ],
+  forms: ["multi-step", "login", "register", "contact"],
 };
 
 const sectionConfig = {
+  forms: { title: "Adaptive Forms", layout: "tabs" },
   dialogs: { title: "Overlay Dialogs", layout: "flex-wrap" },
-  textfields: { title: "Echo Inputs", layout: "column" },
   buttons: { title: "Interactive Buttons", layout: "flex-wrap" },
   cards: { title: "Dynamic Cards", layout: "flex-wrap" },
   pointers: { title: "Magnetic Pointers", layout: "grid" },
   docks: { title: "Navigation Docks", layout: "flex-wrap" },
   loaders: { title: "Loading Animations", layout: "flex-wrap" },
+  textfields: { title: "Echo Inputs", layout: "column" },
   marquees: { title: "Scrolling Marquees", layout: "column" },
   tabs: { title: "Tabbed Navigation", layout: "column" },
   grids: { title: "Responsive Grids", layout: "column" },
@@ -172,6 +177,96 @@ const formatVariantName = (variant) => {
       .replace(/^./, (str) => str.toUpperCase());
   }
   return variant.label;
+};
+
+const FormsTabContent = ({ variants, ComponentVariant }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const theme = useTheme();
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const tabLabels = {
+    "multi-step": "Multi Step",
+    login: "Login",
+    register: "Register",
+    contact: "Contact",
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      {/* Tabs Header */}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          mb: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          sx={{
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: { xs: "14px", sm: "16px" },
+              minWidth: { xs: "auto", sm: "120px" },
+              px: { xs: 2, sm: 3 },
+            },
+            "& .MuiTabs-indicator": {
+              backgroundColor: theme.palette.text.primary,
+              height: 2,
+            },
+            "& .Mui-selected": {
+              color: `${theme.palette.text.primary} !important`,
+            },
+          }}
+        >
+          {variants.map((variant, index) => (
+            <Tab
+              key={variant}
+              label={tabLabels[variant] || formatVariantName(variant)}
+              id={`form-tab-${index}`}
+              aria-controls={`form-tabpanel-${index}`}
+            />
+          ))}
+        </Tabs>
+      </Box>
+
+      {/* Tab Content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <Box
+            role="tabpanel"
+            id={`form-tabpanel-${activeTab}`}
+            aria-labelledby={`form-tab-${activeTab}`}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: { xs: "500px", sm: "600px" },
+              width: "100%",
+            }}
+          >
+            <ComponentVariant variant={variants[activeTab]} />
+          </Box>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
+  );
 };
 
 const SectionContent = ({ title, children, url }) => {
@@ -242,6 +337,16 @@ const SectionContent = ({ title, children, url }) => {
 
 const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
   const config = sectionConfig[sectionKey];
+
+  // Special handling for forms with tabs layout
+  if (sectionKey === "forms" && config.layout === "tabs") {
+    return (
+      <FormsTabContent
+        variants={variants}
+        ComponentVariant={ComponentVariant}
+      />
+    );
+  }
 
   const baseStyles = {
     "flex-wrap": {
@@ -541,6 +646,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 };
 
 const componentMap = {
+  forms: FormVariants,
   dialogs: DialogVariants,
   textfields: TextFieldVariants,
   buttons: ButtonVariants,
