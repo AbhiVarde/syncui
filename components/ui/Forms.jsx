@@ -256,6 +256,15 @@ const FormVariants = ({ variant = "register" }) => {
             label="Country"
             onChange={(e) => handleInputChange("country", e.target.value)}
             IconComponent={LuChevronDown}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  padding: "0px !important",
+                  width: "auto",
+                  minWidth: 200,
+                },
+              },
+            }}
           >
             <MenuItem value="us">United States</MenuItem>
             <MenuItem value="uk">United Kingdom</MenuItem>
@@ -758,6 +767,15 @@ const FormVariants = ({ variant = "register" }) => {
               label="Subject"
               onChange={(e) => handleInputChange("subject", e.target.value)}
               IconComponent={LuChevronDown}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    padding: "0px !important",
+                    width: "auto",
+                    minWidth: 200,
+                  },
+                },
+              }}
             >
               <MenuItem value="general">General Inquiry</MenuItem>
               <MenuItem value="support">Support</MenuItem>
