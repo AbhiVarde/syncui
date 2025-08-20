@@ -34,44 +34,89 @@ const HeroSection = () => {
           textAlign: "left",
         }}
       >
-        {/* Introducing Button */}
+        {/* Badge Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <Link href="/templates" passHref>
-            <MotionButton
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              sx={{
-                px: 2,
-                py: 0.5,
-                borderRadius: "12px",
-                fontSize: 14,
-                fontWeight: 500,
-                background:
-                  theme.palette.mode === "light"
-                    ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                    : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
-                border: "1px solid",
-                borderColor: "divider",
-                backdropFilter: "blur(4px)",
-                textTransform: "none",
-                color: "text.primary",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-              }}
+          <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 1 }}>
+            {/* Introducing Templates Badge */}
+            <Link href="/templates" passHref>
+              <MotionButton
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                sx={{
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: "12px",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  background:
+                    theme.palette.mode === "light"
+                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
+                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backdropFilter: "blur(4px)",
+                  textTransform: "none",
+                  color: "text.primary",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <IoSparkles size={16} />
+                  Introducing Templates
+                </Box>
+              </MotionButton>
+            </Link>
+
+            {/* Vercel Community Badge */}
+            <Box
+              component="a"
+              href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ textDecoration: "none" }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <IoSparkles size={16} />
-                Introducing Templates
-              </Box>
-            </MotionButton>
-          </Link>
+              <MotionButton
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                sx={{
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: "12px",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  background:
+                    theme.palette.mode === "light"
+                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
+                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backdropFilter: "blur(4px)",
+                  textTransform: "none",
+                  color: "text.primary",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <img
+                    src="https://vercel.com/favicon.ico"
+                    alt="Vercel"
+                    width="16"
+                    height="16"
+                    style={{ borderRadius: "2px" }}
+                  />
+                  Community Showcase
+                </Box>
+              </MotionButton>
+            </Box>
+          </Box>
         </motion.div>
 
         {/* Main Heading */}
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 1 }}>
           <motion.div
             initial={{ opacity: 0, y: 10, filter: "blur(12px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -167,7 +212,7 @@ const HeroSection = () => {
           </Box>
         </motion.div>
 
-        {/* Modified Button Section with Peerlist Badge */}
+        {/* Get Started Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -182,7 +227,6 @@ const HeroSection = () => {
               flexWrap: "wrap",
             }}
           >
-            {/* What's New Button */}
             <Link href="/docs" passHref>
               <MotionButton
                 variant="contained"
