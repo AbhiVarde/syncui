@@ -5,6 +5,237 @@ description: Sync UI offers a variety of text field styles with animated placeho
 
 Sync UI offers a variety of text field styles with animated placeholders and modern designs to enhance your user interface.
 
+#### OTP
+
+A responsive OTP input with 6 individual fields, auto-focus navigation, and visual progress indicators.
+
+<CodePreview
+  preview={<TextFieldVariants variant="otp" />}
+  code={`
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+const OTPTextField = () => {
+  const [otpValues, setOtpValues] = useState(Array(6).fill(""));
+  const [isFocused, setIsFocused] = useState(false);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const placeholders = [
+    "Enter verification code",
+    "6-digit code",
+    "Security code",
+  ];
+
+  const colors = {
+    background: isDark ? "#121212" : "#ffffff",
+    border: isDark ? "#333333" : "#e0e0e0",
+    text: isDark ? "#ffffff" : "#212121",
+    textSecondary: isDark ? "#b0b0b0" : "#757575",
+    addon: isDark ? "#1e1e1e" : "#f5f5f5",
+  };
+
+  useEffect(() => {
+    if (!otpValues.some(val => val)) {
+      const interval = setInterval(() => {
+        setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [otpValues]);
+
+  return (
+    <Box sx={{ position: "relative", width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: { xs: 1, sm: 1.5 },
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {otpValues.map((digit, index) => (
+          <React.Fragment key={index}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, delay: index * 0.05 }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <TextField
+                inputProps={{
+                  maxLength: 1,
+                  style: {
+                    textAlign: "center",
+                    fontSize: "16px",
+                    fontWeight: 500,
+                    padding: "10px 0",
+                  },
+                }}
+                value={digit}
+                onChange={(e) => {
+                  const newValue = e.target.value.replace(/[^0-9]/g, "");
+                  if (newValue.length <= 1) {
+                    const newOtpValues = [...otpValues];
+                    newOtpValues[index] = newValue;
+                    setOtpValues(newOtpValues);
+
+                    if (newValue && index < 5) {
+                      document
+                        .querySelector(\`input[data-index="\${index + 1}"]\`)
+                        ?.focus();
+                    }
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace" && !digit && index > 0) {
+                    document
+                      .querySelector(\`input[data-index="\${index - 1}"]\`)
+                      ?.focus();
+                  }
+                  if (e.key === "v" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    navigator.clipboard.readText().then((text) => {
+                      const digits = text
+                        .replace(/[^0-9]/g, "")
+                        .slice(0, 6)
+                        .split("");
+                      setOtpValues([
+                        ...digits,
+                        ...Array(6 - digits.length).fill(""),
+                      ]);
+                    });
+                  }
+                }}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                sx={{
+                  width: { xs: 40, sm: 46 },
+                  height: { xs: 40, sm: 46 },
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                    backgroundColor: digit ? colors.addon : colors.background,
+                    "& fieldset": {
+                      borderColor: colors.border,
+                      borderWidth: "1px",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: colors.border,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: colors.border,
+                      borderWidth: "1px",
+                    },
+                  },
+                  "& .MuiInputBase-input": { color: colors.text },
+                }}
+                inputRef={(input) => input?.setAttribute("data-index", index)}
+              />
+            </motion.div>
+
+            {/* Separator after 3rd digit */}
+            {index === 2 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: { xs: 40, sm: 46 },
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 1.5,
+                    backgroundColor: colors.textSecondary,
+                    borderRadius: 1,
+                    opacity: 0.4,
+                  }}
+                />
+              </Box>
+            )}
+          </React.Fragment>
+        ))}
+      </Box>
+
+      {/* Progress dots */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mt: 2,
+          gap: 0.5,
+        }}
+      >
+        {otpValues.map((digit, index) => (
+          <motion.div
+            key={index}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.15 }}
+          >
+            <Box
+              sx={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                backgroundColor: digit
+                  ? isDark ? "#ffffff" : "#000000"
+                  : isDark ? "#333333" : "#e0e0e0",
+              }}
+            />
+          </motion.div>
+        ))}
+      </Box>
+
+      {/* Animated placeholder */}
+      {!otpValues.some(val => val) && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: -30,
+            left: "50%",
+            transform: "translateX(-50%)",
+            pointerEvents: "none",
+          }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={placeholderIndex}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: colors.textSecondary,
+                  textAlign: "center",
+                  fontSize: "14px",
+                }}
+              >
+                {placeholders[placeholderIndex]}
+              </Typography>
+            </motion.div>
+          </AnimatePresence>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+export default OTPTextField;
+`}
+/>
+
 #### End Icon
 
 A text field with an animated icon addon on the right side, perfect for email inputs.

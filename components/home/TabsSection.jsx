@@ -134,7 +134,14 @@ const componentVariants = {
     "rotateWords",
     "morphingText",
   ],
-  textfields: ["endIcon", "startInline", "endInline", "currency", "aiPrompt"],
+  textfields: [
+    "otp",
+    "endIcon",
+    "startInline",
+    "endInline",
+    "currency",
+    "aiPrompt",
+  ],
   dialogs: [
     "default",
     "slideUp",

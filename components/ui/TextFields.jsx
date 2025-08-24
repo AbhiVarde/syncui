@@ -3,7 +3,6 @@ import {
   Box,
   TextField,
   InputAdornment,
-  Button,
   Select,
   MenuItem,
   FormControl,
@@ -12,22 +11,17 @@ import {
   IconButton,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FiMail,
-  FiSend,
-  FiImage,
-  FiChevronDown,
-  FiPaperclip,
-  FiArrowUp,
-} from "react-icons/fi";
+import { FiMail, FiChevronDown, FiPaperclip, FiArrowUp } from "react-icons/fi";
 
 const TextFieldVariants = ({ variant = "endIcon" }) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [value, setValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [selectedModel, setSelectedModel] = useState("gpt-4");
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const [otpValues, setOtpValues] = useState(Array(6).fill(""));
 
   const placeholderSets = {
     endIcon: [
@@ -44,6 +38,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
       "How can I assist you?",
       "Type your question...",
     ],
+    otp: ["Enter verification code", "6-digit code", "Security code"],
   };
 
   const aiModels = [
@@ -701,6 +696,160 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 </AnimatePresence>
               </Box>
             )}
+          </Box>
+        );
+
+      case "otp":
+        return (
+          <Box sx={{ position: "relative", width: "100%" }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: { xs: 1, sm: 1.5 },
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {otpValues.map((digit, index) => (
+                <React.Fragment key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: index * 0.05 }}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <TextField
+                      inputProps={{
+                        maxLength: 1,
+                        style: {
+                          textAlign: "center",
+                          fontSize: "16px",
+                          fontWeight: 500,
+                          padding: "10px 0",
+                        },
+                      }}
+                      value={digit}
+                      onChange={(e) => {
+                        const newValue = e.target.value.replace(/[^0-9]/g, "");
+                        if (newValue.length <= 1) {
+                          const newOtpValues = [...otpValues];
+                          newOtpValues[index] = newValue;
+                          setOtpValues(newOtpValues);
+
+                          if (newValue && index < 5) {
+                            document
+                              .querySelector(`input[data-index="${index + 1}"]`)
+                              ?.focus();
+                          }
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace" && !digit && index > 0) {
+                          document
+                            .querySelector(`input[data-index="${index - 1}"]`)
+                            ?.focus();
+                        }
+                        if (e.key === "v" && (e.ctrlKey || e.metaKey)) {
+                          e.preventDefault();
+                          navigator.clipboard.readText().then((text) => {
+                            const digits = text
+                              .replace(/[^0-9]/g, "")
+                              .slice(0, 6)
+                              .split("");
+                            setOtpValues([
+                              ...digits,
+                              ...Array(6 - digits.length).fill(""),
+                            ]);
+                          });
+                        }
+                      }}
+                      onFocus={() => setIsFocused(true)}
+                      onBlur={() => setIsFocused(false)}
+                      sx={{
+                        width: { xs: 40, sm: 46 },
+                        height: { xs: 40, sm: 46 },
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                          backgroundColor: digit
+                            ? colors.addon
+                            : colors.background,
+                          "& fieldset": {
+                            borderColor: colors.border,
+                            borderWidth: "1px",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: colors.border,
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: colors.border,
+                            borderWidth: "1px",
+                          },
+                        },
+                        "& .MuiInputBase-input": { color: colors.text },
+                      }}
+                      inputRef={(input) =>
+                        input?.setAttribute("data-index", index)
+                      }
+                    />
+                  </motion.div>
+
+                  {index === 2 && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        height: { xs: 40, sm: 46 },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 1.5,
+                          backgroundColor: colors.textSecondary,
+                          borderRadius: 1,
+                          opacity: 0.4,
+                        }}
+                      />
+                    </Box>
+                  )}
+                </React.Fragment>
+              ))}
+            </Box>
+
+            {/* Simple dots progress */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mt: 2,
+                gap: 0.5,
+              }}
+            >
+              {otpValues.map((digit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <Box
+                    sx={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      backgroundColor: digit
+                        ? isDark
+                          ? "#ffffff"
+                          : "#000000"
+                        : isDark
+                          ? "#333333"
+                          : "#e0e0e0",
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </Box>
           </Box>
         );
 
