@@ -124,11 +124,14 @@ const FormVariants = ({ variant = "register" }) => {
             }`,
             backgroundColor: theme.palette.background.paper,
             width: "100%",
-            minWidth: 400,
+            minWidth: { xs: "auto", sm: 400 },
             maxWidth: 420,
             padding: theme.spacing(4),
+            margin: { xs: theme.spacing(1), sm: 0 },
             [theme.breakpoints.down("sm")]: {
               padding: theme.spacing(2),
+              minWidth: "auto",
+              margin: theme.spacing(1),
             },
           }),
         },
@@ -519,6 +522,8 @@ const FormVariants = ({ variant = "register" }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 2, sm: 0 },
             }}
           >
             <FormControlLabel
