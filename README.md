@@ -17,7 +17,7 @@
     <strong>Resend</strong>
   </p>
   <p>
-    💬 Featured on the <a href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039">Vercel Community Showcase</a>
+    Featured on the <a href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039">Vercel Community Showcase</a>
   </p>
   <br /><br />
 </div>
