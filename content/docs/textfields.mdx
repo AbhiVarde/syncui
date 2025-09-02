@@ -79,6 +79,7 @@ const OTPTextField = () => {
                     fontWeight: 500,
                     padding: "10px 0",
                   },
+                  autoComplete: "one-time-code",
                 }}
                 value={digit}
                 onChange={(e) => {
@@ -114,6 +115,15 @@ const OTPTextField = () => {
                       ]);
                     });
                   }
+                }}
+                onPaste={(e) => {
+                  e.preventDefault();
+                  const text = e.clipboardData.getData("text");
+                  const digits = text.replace(/[^0-9]/g, "").slice(0, 6).split("");
+                  setOtpValues([
+                    ...digits,
+                    ...Array(6 - digits.length).fill(""),
+                  ]);
                 }}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}

@@ -728,6 +728,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                           fontWeight: 500,
                           padding: "10px 0",
                         },
+                        autoComplete: "one-time-code",
                       }}
                       value={digit}
                       onChange={(e) => {
@@ -742,6 +743,19 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                               .querySelector(`input[data-index="${index + 1}"]`)
                               ?.focus();
                           }
+                        }
+                      }}
+                      onPaste={(e) => {
+                        e.preventDefault();
+                        const paste = e.clipboardData
+                          .getData("text")
+                          .replace(/[^0-9]/g, "");
+                        if (paste) {
+                          const digits = paste.slice(0, 6).split("");
+                          setOtpValues([
+                            ...digits,
+                            ...Array(6 - digits.length).fill(""),
+                          ]);
                         }
                       }}
                       onKeyDown={(e) => {
