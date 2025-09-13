@@ -82,11 +82,7 @@ const RotateWords = ({ text, words }) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Typography
-        variant="h5"
-        fontWeight={500}
-        sx={{ fontSize: "32px !important" }}
-      >
+      <Typography variant="h3" fontWeight={500}>
         {text}
       </Typography>
       <Box flexShrink={0} ml={1}>
@@ -98,10 +94,7 @@ const RotateWords = ({ text, words }) => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: 500, fontSize: "32px !important" }}
-            >
+            <Typography variant="h3" sx={{ fontWeight: 500 }}>
               {words[index]}
             </Typography>
           </motion.div>
@@ -130,10 +123,7 @@ const LettersPullUp = ({ text }) => {
           animate={{ y: [10, 0, 0, 10], opacity: [0, 1, 1, 0] }}
           transition={{ duration: 2, repeat: Infinity, delay: index * 0.1 }}
         >
-          <Typography
-            variant="h5"
-            sx={{ mx: 0.2, fontSize: "32px !important" }}
-          >
+          <Typography variant="h3" sx={{ fontWeight: 500, mx: 0.2 }}>
             {char}
           </Typography>
         </motion.span>
@@ -171,11 +161,7 @@ const WordsPullUp = ({ text }) => {
           }}
           style={{ marginRight: "0.4em" }}
         >
-          <Typography
-            variant="h4"
-            fontWeight={500}
-            sx={{ fontSize: "32px !important" }}
-          >
+          <Typography variant="h3" fontWeight={500}>
             {word}
           </Typography>
         </motion.span>
@@ -197,10 +183,7 @@ const BlurIn = ({ text }) => (
       ease: "easeInOut",
     }}
   >
-    <Typography
-      variant="h4"
-      sx={{ fontWeight: 500, letterSpacing: 0.2, fontSize: "32px !important" }}
-    >
+    <Typography variant="h3" sx={{ fontWeight: 500, letterSpacing: 0.2 }}>
       {text}
     </Typography>
   </motion.div>
@@ -227,11 +210,10 @@ const MorphingText = ({ words }) => {
           transition={{ duration: 0.5 }}
         >
           <Typography
-            variant="h4"
+            variant="h3"
             sx={{
               fontWeight: 500,
               letterSpacing: 0.2,
-              fontSize: "32px !important",
             }}
           >
             {words[index]}
@@ -261,11 +243,7 @@ const NeonGlow = ({ text }) => (
       display: "inline-block",
     }}
   >
-    <Typography
-      variant="h4"
-      fontWeight={500}
-      sx={{ fontSize: "32px !important" }}
-    >
+    <Typography variant="h3" fontWeight={500}>
       {text}
     </Typography>
   </motion.div>
@@ -279,11 +257,7 @@ const StaggeredScale = ({ text }) => (
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 1.5, delay: i * 0.1, repeat: Infinity }}
       >
-        <Typography
-          variant="h4"
-          fontWeight={500}
-          sx={{ fontSize: "32px !important" }}
-        >
+        <Typography variant="h3" fontWeight={500}>
           {char}
         </Typography>
       </motion.span>
@@ -299,11 +273,7 @@ const WaveEffect = ({ text }) => (
         animate={{ y: [0, -20, 0] }}
         transition={{ duration: 1.5, delay: i * 0.05, repeat: Infinity }}
       >
-        <Typography
-          variant="h4"
-          fontWeight={500}
-          sx={{ fontSize: "32px !important" }}
-        >
+        <Typography variant="h3" fontWeight={500}>
           {char}
         </Typography>
       </motion.span>
@@ -334,11 +304,7 @@ const TypewriterEffect = ({ text }) => {
 
   return (
     <Box display="flex" alignItems="center">
-      <Typography
-        variant="h4"
-        fontWeight={500}
-        sx={{ fontSize: "32px !important" }}
-      >
+      <Typography variant="h3" fontWeight={500}>
         {displayText}
         <motion.span
           animate={{ opacity: [1, 0] }}
@@ -368,13 +334,12 @@ const SplitReveal = ({ text }) => {
         }}
       >
         <Typography
-          variant="h4"
+          variant="h3"
           fontWeight={500}
           sx={{
             display: "flex",
             flexWrap: "wrap",
             gap: "0.2rem",
-            fontSize: "32px !important",
           }}
         >
           {text.split("").map((char, index) => (
@@ -423,7 +388,7 @@ const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
       text-anchor="${textAnchor}"
       font-family="Montserrat, sans-serif"
       font-weight="700"
-      font-size="42px"
+      font-size="36px"
       letter-spacing="8px"
     >
       ${text.toUpperCase()}
@@ -490,14 +455,13 @@ const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
       </Box>
 
       <Typography
-        variant="h1"
+        variant="h3"
         sx={{
           visibility: "hidden",
           position: "absolute",
           textAlign: alignment,
           fontFamily: "Montserrat, sans-serif",
           fontWeight: 700,
-          fontSize: "32px !important",
         }}
       >
         {text}

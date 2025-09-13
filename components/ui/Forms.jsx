@@ -37,7 +37,6 @@ const MotionButton = motion(Button);
 
 const FormVariants = ({ variant = "register" }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -187,13 +186,24 @@ const FormVariants = ({ variant = "register" }) => {
             variant="outlined"
             size="small"
             onChange={(e) => handleInputChange("firstName", e.target.value)}
+            sx={{
+              "& .MuiInputLabel-root": {
+                fontSize: "16px",
+              },
+            }}
           />
+
           <TextField
             fullWidth
             label="Last Name"
             variant="outlined"
             size="small"
             onChange={(e) => handleInputChange("lastName", e.target.value)}
+            sx={{
+              "& .MuiInputLabel-root": {
+                fontSize: "16px",
+              },
+            }}
           />
         </Box>
         <TextField
@@ -203,6 +213,11 @@ const FormVariants = ({ variant = "register" }) => {
           variant="outlined"
           size="small"
           onChange={(e) => handleInputChange("email", e.target.value)}
+          sx={{
+            "& .MuiInputLabel-root": {
+              fontSize: "16px",
+            },
+          }}
         />
         <TextField
           fullWidth
@@ -224,6 +239,11 @@ const FormVariants = ({ variant = "register" }) => {
             ),
           }}
           onChange={(e) => handleInputChange("password", e.target.value)}
+          sx={{
+            "& .MuiInputLabel-root": {
+              fontSize: "16px",
+            },
+          }}
         />
       </MotionBox>,
 
@@ -242,6 +262,11 @@ const FormVariants = ({ variant = "register" }) => {
           variant="outlined"
           size="small"
           onChange={(e) => handleInputChange("phone", e.target.value)}
+          sx={{
+            "& .MuiInputLabel-root": {
+              fontSize: "16px",
+            },
+          }}
         />
         <TextField
           fullWidth
@@ -251,20 +276,39 @@ const FormVariants = ({ variant = "register" }) => {
           multiline
           rows={2}
           onChange={(e) => handleInputChange("address", e.target.value)}
+          sx={{
+            "& .MuiInputLabel-root": {
+              fontSize: "16px",
+            },
+          }}
         />
         <FormControl fullWidth size="small">
-          <InputLabel>Country</InputLabel>
+          <InputLabel
+            sx={{
+              fontSize: "16px !important",
+            }}
+          >
+            Country
+          </InputLabel>
           <Select
             value={formData.country || ""}
             label="Country"
             onChange={(e) => handleInputChange("country", e.target.value)}
             IconComponent={LuChevronDown}
+            sx={{
+              "& .MuiSelect-select": {
+                fontSize: "16px",
+              },
+            }}
             MenuProps={{
               PaperProps: {
                 sx: {
                   padding: "0px !important",
                   width: "auto",
                   minWidth: 200,
+                  "& .MuiMenuItem-root": {
+                    fontSize: "16px",
+                  },
                 },
               },
             }}
@@ -303,7 +347,13 @@ const FormVariants = ({ variant = "register" }) => {
               />
             }
             label="Email notifications"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "16px",
+              },
+            }}
           />
+
           <FormControlLabel
             control={
               <Checkbox
@@ -320,7 +370,13 @@ const FormVariants = ({ variant = "register" }) => {
               />
             }
             label="SMS notifications"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "16px",
+              },
+            }}
           />
+
           <FormControlLabel
             control={
               <Checkbox
@@ -337,6 +393,11 @@ const FormVariants = ({ variant = "register" }) => {
               />
             }
             label="Newsletter subscription"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "16px",
+              },
+            }}
           />
         </Box>
         <TextField
@@ -348,6 +409,11 @@ const FormVariants = ({ variant = "register" }) => {
           size="small"
           placeholder="Tell us how we can help you..."
           onChange={(e) => handleInputChange("comments", e.target.value)}
+          sx={{
+            "& .MuiInputLabel-root": {
+              fontSize: "16px",
+            },
+          }}
         />
       </MotionBox>,
     ];
@@ -380,7 +446,7 @@ const FormVariants = ({ variant = "register" }) => {
           Complete all steps to create your account
         </Typography>
 
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ mb: 2 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
             <Typography variant="body2" sx={{ fontWeight: 500 }}>
               Step {activeStep + 1} / {steps.length}
@@ -493,6 +559,11 @@ const FormVariants = ({ variant = "register" }) => {
             variant="outlined"
             size="small"
             onChange={(e) => handleInputChange("email", e.target.value)}
+            sx={{
+              "& .MuiInputLabel-root": {
+                fontSize: "16px",
+              },
+            }}
           />
 
           <TextField
@@ -515,6 +586,11 @@ const FormVariants = ({ variant = "register" }) => {
               ),
             }}
             onChange={(e) => handleInputChange("password", e.target.value)}
+            sx={{
+              "& .MuiInputLabel-root": {
+                fontSize: "16px",
+              },
+            }}
           />
 
           <Box
@@ -625,6 +701,14 @@ const FormVariants = ({ variant = "register" }) => {
             variant="outlined"
             size="medium"
             onChange={(e) => handleInputChange("email", e.target.value)}
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: "16px",
+              },
+              "& .MuiInputBase-input::placeholder": {
+                fontSize: "16px",
+              },
+            }}
           />
 
           <MotionButton
@@ -634,7 +718,7 @@ const FormVariants = ({ variant = "register" }) => {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             sx={{
-              fontSize: "16px",
+              fontSize: "15px !important",
             }}
           >
             Sign In with Email
@@ -668,7 +752,7 @@ const FormVariants = ({ variant = "register" }) => {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             sx={{
-              fontSize: "16px",
+              fontSize: "15px !important",
             }}
           >
             GitHub
@@ -754,6 +838,11 @@ const FormVariants = ({ variant = "register" }) => {
               variant="outlined"
               size="small"
               onChange={(e) => handleInputChange("name", e.target.value)}
+              sx={{
+                "& .MuiInputLabel-root": {
+                  fontSize: "16px",
+                },
+              }}
             />
             <TextField
               fullWidth
@@ -762,22 +851,41 @@ const FormVariants = ({ variant = "register" }) => {
               variant="outlined"
               size="small"
               onChange={(e) => handleInputChange("email", e.target.value)}
+              sx={{
+                "& .MuiInputLabel-root": {
+                  fontSize: "16px",
+                },
+              }}
             />
           </Box>
 
           <FormControl fullWidth size="small">
-            <InputLabel>Subject</InputLabel>
+            <InputLabel
+              sx={{
+                fontSize: "16px !important",
+              }}
+            >
+              Subject
+            </InputLabel>
             <Select
               value={formData.subject || ""}
               label="Subject"
               onChange={(e) => handleInputChange("subject", e.target.value)}
               IconComponent={LuChevronDown}
+              sx={{
+                "& .MuiSelect-select": {
+                  fontSize: "16px",
+                },
+              }}
               MenuProps={{
                 PaperProps: {
                   sx: {
                     padding: "0px !important",
                     width: "auto",
                     minWidth: 200,
+                    "& .MuiMenuItem-root": {
+                      fontSize: "16px",
+                    },
                   },
                 },
               }}
@@ -796,8 +904,12 @@ const FormVariants = ({ variant = "register" }) => {
             rows={4}
             variant="outlined"
             size="small"
-            placeholder="Tell us how we can help you..."
             onChange={(e) => handleInputChange("message", e.target.value)}
+            sx={{
+              "& .MuiInputLabel-root": {
+                fontSize: "16px",
+              },
+            }}
           />
 
           <MotionButton

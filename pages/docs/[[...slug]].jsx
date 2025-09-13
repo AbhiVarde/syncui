@@ -6,6 +6,7 @@ import { MDXComponents } from "../../components/mdx-components";
 import { DocPager } from "../../components/docs/DocPager";
 import Head from "next/head";
 import { MDXProvider } from "@mdx-js/react";
+import { Typography } from "@mui/material";
 
 export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   const Component = React.useMemo(() => {
@@ -31,7 +32,9 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
       </Head>
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
-          <h1>{frontmatter.title}</h1>
+          <Typography variant="h3" fontWeight={500}>
+            {frontmatter.title}
+          </Typography>
           <MDXProvider>
             <Component components={MDXComponents} />
           </MDXProvider>

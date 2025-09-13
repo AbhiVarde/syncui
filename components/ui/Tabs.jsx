@@ -44,7 +44,9 @@ const TabVariants = ({ variant }) => {
                 onClick={() => setActiveTab(index)}
               >
                 <Typography
-                  sx={{ fontWeight: activeTab === index ? 500 : 400 }}
+                  sx={{
+                    fontWeight: activeTab === index ? 500 : 400,
+                  }}
                 >
                   {tab}
                 </Typography>
@@ -74,7 +76,7 @@ const TabVariants = ({ variant }) => {
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              gap: isMobile ? 1 : 2,
+              gap: 1.5,
               padding: 1,
               background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               justifyContent: "center",
@@ -86,6 +88,7 @@ const TabVariants = ({ variant }) => {
                 key={tab}
                 sx={{
                   ...getTabStyle(index),
+                  padding: "6px 12px",
                   borderRadius: "8px",
                   overflow: "hidden",
                 }}
@@ -132,7 +135,7 @@ const TabVariants = ({ variant }) => {
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              gap: isMobile ? 1 : 2,
+              gap: 1.5,
               padding: 1,
               background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               borderRadius: "12px",
@@ -144,7 +147,7 @@ const TabVariants = ({ variant }) => {
                 key={tab}
                 style={{
                   ...getTabStyle(index),
-                  padding: isMobile ? "10px 16px" : "12px 24px",
+                  padding: "6px 12px",
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#222" : "#fff",
                   borderRadius: "8px",
@@ -157,7 +160,7 @@ const TabVariants = ({ variant }) => {
                 }}
                 whileHover={{ y: -5 }}
                 animate={{
-                  y: activeTab === index ? -10 : 0,
+                  y: activeTab === index ? -8 : 0,
                   transition: { type: "spring", stiffness: 300, damping: 20 },
                 }}
                 onClick={() => setActiveTab(index)}
@@ -171,8 +174,8 @@ const TabVariants = ({ variant }) => {
                           ? "#fff"
                           : "#000"
                         : theme.palette.mode === "dark"
-                        ? "#aaa"
-                        : "#666",
+                          ? "#aaa"
+                          : "#666",
                   }}
                 >
                   {tab}
@@ -188,7 +191,7 @@ const TabVariants = ({ variant }) => {
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              gap: isMobile ? 1 : 2,
+              gap: 1.5,
               padding: 1,
               background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               borderRadius: "12px",
@@ -228,8 +231,8 @@ const TabVariants = ({ variant }) => {
                 key={tab}
                 style={{
                   ...getTabStyle(index),
-                  padding: isMobile ? "10px 16px" : "12px 24px",
-                  borderRadius: "8px",
+                  padding: "6px 12px",
+                  borderRadius: 2,
                   position: "relative",
                   zIndex: 1,
                 }}

@@ -84,7 +84,7 @@ const StargazersSection = () => {
   const remainingCount = Math.max(0, stargazers.length - displayCount);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8, overflow: "hidden" }}>
+    <Container maxWidth="lg">
       <MotionBox
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -103,7 +103,7 @@ const StargazersSection = () => {
             variant="h3"
             component="h2"
             sx={{
-              fontWeight: 800,
+              fontWeight: 500,
               mb: 1,
               letterSpacing: "-0.02em",
               background:

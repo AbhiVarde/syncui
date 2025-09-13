@@ -27,7 +27,7 @@ const PagerButton = ({ direction, page }) => {
           color: page ? "text.primary" : "text.disabled",
           border: 1,
           borderColor: "divider",
-          borderRadius: 1,
+          borderRadius: 2,
           "&:hover": {
             bgcolor: page ? "action.hover" : "background.paper",
           },

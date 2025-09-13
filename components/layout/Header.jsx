@@ -268,7 +268,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         }}
                       />
                       {(item.title === "Forms" ||
-                        item.title === "Dialogs" ||
+                        item.title === "Autocompletes" ||
                         item.title === "Text Fields" ||
                         item.title === "Templates") && (
                         <Box

@@ -179,7 +179,7 @@ const BotNewsletter = ({ isDarkMode }) => {
                   variant="h6"
                   sx={{
                     fontSize: "1rem",
-                    fontWeight: 600,
+                    fontWeight: 500,
                     color: isDarkMode ? "#ffffff" : "#000000",
                   }}
                 >

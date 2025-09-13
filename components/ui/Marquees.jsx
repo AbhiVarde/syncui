@@ -167,14 +167,7 @@ const MarqueeVariants = ({ variant }) => {
               }}
             />
             <Box sx={{ flex: 1 }}>
-              <Typography
-                variant="subtitle1"
-                fontWeight={600}
-                sx={{
-                  fontSize: { xs: "0.85rem", md: "0.95rem" },
-                  color: theme.palette.text.primary,
-                }}
-              >
+              <Typography variant="body2" fontWeight={500}>
                 {tweet.name}
               </Typography>
               <Typography

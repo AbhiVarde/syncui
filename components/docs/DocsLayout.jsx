@@ -169,7 +169,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                                 {item.title === "Setup" ? "Setup" : item.title}
                               </span>
                               {(item.title === "Forms" ||
-                                item.title === "Dialogs" ||
+                                item.title === "Autocompletes" ||
                                 item.title === "Text Fields" ||
                                 item.title === "Templates") && (
                                 <Box
