@@ -42,6 +42,7 @@ import AccordionVariants from "./ui/Accordions";
 import TextFieldVariants from "./ui/TextFields";
 import DialogVariants from "./ui/Dialogs";
 import FormVariants from "./ui/Forms";
+import AutocompleteVariants from "./ui/Autocompletes";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -56,16 +57,33 @@ const createHeading = (variant) => {
         ref={ref}
         id={id}
         sx={{
-          mt: 3,
-          mb: 2,
-          fontWeight: 600,
+          my: 1.5,
+          fontWeight: 500,
           letterSpacing: "-0.01em",
-          ...(variant === "h1" && { fontSize: "1.75rem", lineHeight: 1.2 }),
-          ...(variant === "h2" && { fontSize: "1.35rem", lineHeight: 1.3 }),
-          ...(variant === "h3" && { fontSize: "1.15rem", lineHeight: 1.4 }),
-          ...(variant === "h4" && { fontSize: "1rem", lineHeight: 1.5 }),
-          ...(variant === "h5" && { fontSize: "0.95rem", lineHeight: 1.6 }),
-          ...(variant === "h6" && { fontSize: "0.9rem", lineHeight: 1.6 }),
+          ...(variant === "h1" && {
+            fontSize: "32px !important",
+            lineHeight: 1.2,
+          }),
+          ...(variant === "h2" && {
+            fontSize: "26px !important",
+            lineHeight: 1.3,
+          }),
+          ...(variant === "h3" && {
+            fontSize: "22px !important",
+            lineHeight: 1.4,
+          }),
+          ...(variant === "h4" && {
+            fontSize: "18px !important",
+            lineHeight: 1.5,
+          }),
+          ...(variant === "h5" && {
+            fontSize: "16px !important",
+            lineHeight: 1.6,
+          }),
+          ...(variant === "h6" && {
+            fontSize: "14px !important",
+            lineHeight: 1.6,
+          }),
         }}
         {...props}
       >
@@ -222,9 +240,9 @@ const CodePreview = ({ preview, code }) => {
       variant="outlined"
       sx={{
         mb: 4,
-        overflow: "hidden",
-        borderRadius: 1,
-        boxShadow: 3,
+        overflow: "visible",
+        borderRadius: 2,
+        boxShadow: 0.5,
       }}
     >
       <StyledTabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
@@ -270,6 +288,7 @@ export const MDXComponents = {
   TextFieldVariants: TextFieldVariants,
   DialogVariants: DialogVariants,
   FormVariants: FormVariants,
+  AutocompleteVariants: AutocompleteVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
@@ -287,8 +306,7 @@ export const MDXComponents = {
       <Typography
         component="p"
         sx={{
-          mb: 2,
-          mt: 2,
+          mb: 3,
           lineHeight: 1.6,
           fontSize: "0.95rem",
           color: "text.primary",
@@ -305,6 +323,10 @@ export const MDXComponents = {
       <img {...props} style={{ maxWidth: "100%", borderRadius: "4px" }} />
     </Box>
   ),
+  strong: (props) => (
+    <Typography component="strong" sx={{ fontWeight: 500 }} {...props} />
+  ),
+
   blockquote: (props) => (
     <Box
       component="blockquote"

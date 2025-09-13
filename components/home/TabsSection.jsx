@@ -34,8 +34,10 @@ import AccordionVariants from "../ui/Accordions";
 import TextFieldVariants from "../ui/TextFields";
 import DialogVariants from "../ui/Dialogs";
 import FormVariants from "../ui/Forms";
+import AutocompleteVariants from "../ui/Autocompletes";
 
 const componentVariants = {
+  autocompletes: ["basic", "multi-select", "async", "grouped", "custom-render"],
   accordions: ["brutalist", "dashed", "minimal", "modern"],
   cards: [
     "lens",
@@ -156,6 +158,7 @@ const componentVariants = {
 };
 
 const sectionConfig = {
+  autocompletes: { title: "Smart Autocomplete", layout: "tabs" },
   forms: { title: "Adaptive Forms", layout: "tabs" },
   dialogs: { title: "Overlay Dialogs", layout: "flex-wrap" },
   buttons: { title: "Interactive Buttons", layout: "flex-wrap" },
@@ -276,6 +279,96 @@ const FormsTabContent = ({ variants, ComponentVariant }) => {
   );
 };
 
+const AutocompleteTabContent = ({ variants, ComponentVariant }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const theme = useTheme();
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const tabLabels = {
+    basic: "Basic Search",
+    "multi-select": "Multi Select",
+    async: "Async Loading",
+    grouped: "Grouped Options",
+    "custom-render": "Custom Render",
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      {/* Tabs Header */}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          mb: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          sx={{
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: { xs: "14px", sm: "16px" },
+              minWidth: { xs: "auto", sm: "120px" },
+              px: { xs: 2, sm: 3 },
+            },
+            "& .MuiTabs-indicator": {
+              backgroundColor: theme.palette.text.primary,
+              height: 2,
+            },
+            "& .Mui-selected": {
+              color: `${theme.palette.text.primary} !important`,
+            },
+          }}
+        >
+          {variants.map((variant, index) => (
+            <Tab
+              key={variant}
+              label={tabLabels[variant] || formatVariantName(variant)}
+              id={`autocomplete-tab-${index}`}
+              aria-controls={`autocomplete-tabpanel-${index}`}
+            />
+          ))}
+        </Tabs>
+      </Box>
+
+      {/* Tab Content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <Box
+            role="tabpanel"
+            id={`autocomplete-tabpanel-${activeTab}`}
+            aria-labelledby={`autocomplete-tab-${activeTab}`}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <ComponentVariant variant={variants[activeTab]} />
+          </Box>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
+  );
+};
+
 const SectionContent = ({ title, children, url }) => {
   const theme = useTheme();
   const router = useRouter();
@@ -293,7 +386,7 @@ const SectionContent = ({ title, children, url }) => {
             xs: "20px !important",
             sm: "24px !important",
           },
-          fontWeight: 600,
+          fontWeight: 500,
           mb: 2,
         }}
       >
@@ -303,11 +396,11 @@ const SectionContent = ({ title, children, url }) => {
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 1,
-          overflow: "hidden",
+          borderRadius: 2,
+          overflow: "visible",
           backgroundColor: "background.paper",
           border: `1px solid ${theme.palette.divider}`,
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          boxShadow: 0.5,
         }}
       >
         <Box sx={{ p: 2 }}>{children}</Box>
@@ -315,7 +408,6 @@ const SectionContent = ({ title, children, url }) => {
         <Box
           sx={{
             p: 1,
-            backgroundColor: "background.paper",
             display: "flex",
             justifyContent: "flex-end",
           }}
@@ -345,16 +437,6 @@ const SectionContent = ({ title, children, url }) => {
 const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
   const config = sectionConfig[sectionKey];
 
-  // Special handling for forms with tabs layout
-  if (sectionKey === "forms" && config.layout === "tabs") {
-    return (
-      <FormsTabContent
-        variants={variants}
-        ComponentVariant={ComponentVariant}
-      />
-    );
-  }
-
   const baseStyles = {
     "flex-wrap": {
       display: "flex",
@@ -379,8 +461,25 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
       justifyItems: "center",
     },
   };
-
   const containerStyle = baseStyles[config.layout];
+
+  if (sectionKey === "autocompletes" && config.layout === "tabs") {
+    return (
+      <AutocompleteTabContent
+        variants={variants}
+        ComponentVariant={ComponentVariant}
+      />
+    );
+  }
+
+  if (sectionKey === "forms" && config.layout === "tabs") {
+    return (
+      <FormsTabContent
+        variants={variants}
+        ComponentVariant={ComponentVariant}
+      />
+    );
+  }
 
   if (
     sectionKey === "textfields" ||
@@ -653,6 +752,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 };
 
 const componentMap = {
+  autocompletes: AutocompleteVariants,
   forms: FormVariants,
   dialogs: DialogVariants,
   textfields: TextFieldVariants,
@@ -681,12 +781,12 @@ const TabsSection = () => {
         maxWidth="md"
         sx={{ paddingX: { md: "0px !important", xs: "16px !important" } }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 5 }}>
           <Box sx={{ textAlign: "center" }}>
             <Typography
               variant="h2"
               gutterBottom
-              sx={{ fontWeight: 700, mb: 2 }}
+              sx={{ fontWeight: 500, mb: 1.5 }}
             >
               Modern UI Components
             </Typography>
