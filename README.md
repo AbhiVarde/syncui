@@ -77,10 +77,10 @@ Premium support with **extra visibility**: README + Portfolio + **promotion on S
 
 **Development Guidelines:**
 
-- Follow existing code patterns
-- Test idea management scenarios thoroughly
-- Maintain responsive design
-- Keep commits focused and descriptive
+- Follow existing code style
+- Test all main features
+- Make sure design works on all devices
+- Write clear, focused commits 
 
 We truly ❤️ pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](https://github.com/AbhiVarde/syncui/blob/main/CONTRIBUTING.md).
 
