@@ -38,7 +38,13 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
           }),
         }}
       >
-        {children}
+        <Box
+          sx={{
+            overflow: "hidden",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
       {!isDocsPage && !is404Page && <Footer />}
       {!is404Page && <BotNewsletter isDarkMode={isDarkMode} />}
