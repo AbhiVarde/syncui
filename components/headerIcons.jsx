@@ -32,7 +32,7 @@ const HeaderIcons = ({
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: 1,
+        gap: { xs: 0.5, sm: 1 },
       }}
     >
       {/* GitHub Icon with Stars */}

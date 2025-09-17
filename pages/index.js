@@ -1,10 +1,11 @@
 import React from "react";
-import HeroSection from "../components/home/HeroSection";
+import HeroSection from "@/components/home/HeroSection";
 import TabsSection from "@/components/home/TabsSection";
 import StargazersSection from "@/components/home/StargazersSection";
 import { motion } from "framer-motion";
+import { getAllDocsSlugs } from "@/lib/docs";
 
-const Home = () => {
+const Home = ({ docsTree }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -20,3 +21,13 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getStaticProps() {
+  const docsTree = await getAllDocsSlugs();
+
+  return {
+    props: {
+      docsTree,
+    },
+  };
+}

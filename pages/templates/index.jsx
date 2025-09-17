@@ -7,12 +7,12 @@ import {
   Button,
   useTheme,
   alpha,
-  Chip,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { LuExternalLink, LuShoppingCart, LuCheck } from "react-icons/lu";
 import { RxCube } from "react-icons/rx";
 import Head from "next/head";
+import { getAllDocsSlugs } from "@/lib/docs";
 
 const templatesData = [
   {
@@ -75,7 +75,7 @@ const MotionBox = motion(Box);
 const MotionButton = motion(Button);
 const MotionTypography = motion(Typography);
 
-const Templates = () => {
+const Templates = ({ docsTree }) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
@@ -596,3 +596,13 @@ const Templates = () => {
 };
 
 export default Templates;
+
+export async function getStaticProps() {
+  const docsTree = await getAllDocsSlugs();
+
+  return {
+    props: {
+      docsTree,
+    },
+  };
+}

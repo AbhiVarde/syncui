@@ -239,9 +239,13 @@ const HeroSection = () => {
                   alignItems: "center",
                   transition: "0.3s",
                   flexShrink: 0,
+                  padding: "6px 20px",
+                  minHeight: "38px",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", lineHeight: 1 }}
+                >
                   <AnimatePresence>
                     {isHovered && (
                       <motion.span

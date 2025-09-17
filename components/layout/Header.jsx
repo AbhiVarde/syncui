@@ -37,6 +37,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import LinkPreview from "../common/LinkPreview";
 import TemplatesPreview from "../common/TemplatesPreview";
 import Image from "next/image";
+import Search from "../common/Search";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
@@ -47,7 +48,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledMenuList = styled(MenuList)(({ theme }) => ({
-  padding: theme.spacing(1),
+  padding: theme.spacing("4px 8px"),
 }));
 
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
@@ -369,10 +370,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       href={item.href}
       onClick={item.disabled ? undefined : handleClose}
       sx={{
-        borderRadius: "8px",
+        borderRadius: "6px",
         fontSize: "14px",
-        px: "10px",
-        py: "4px",
+        p: "4px !important",
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-start",
@@ -395,12 +395,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         {item.icon}
       </Box>
 
-      {/* Label and Badge */}
+      {/* Label + Badge */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Typography
           sx={{
             color: "text.primary",
-            fontSize: "15px",
+            fontSize: "14px",
             fontWeight: 400,
           }}
         >
@@ -411,19 +411,14 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           <Box
             component="span"
             sx={{
-              px: "8px",
+              px: "6px",
               py: "2px",
               bgcolor: "#008080",
-              color: "#ffffff",
-              borderRadius: 1,
-              fontSize: "12px",
+              color: "#fff",
+              borderRadius: "6px",
+              fontSize: "11px",
               fontWeight: 500,
-              lineHeight: "16px",
-              letterSpacing: "0.3px",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: "20px",
+              lineHeight: "14px",
             }}
           >
             New
@@ -470,7 +465,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 alignItems: "center",
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 {isDocsPage && !isMediumUp && (
                   <IconButton
                     edge="start"
@@ -517,21 +512,14 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     Sync UI
                   </Typography>
                 </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 0.5,
-                }}
-              >
+
                 {isMediumUp && (
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
                       gap: 1,
-                      mr: 1,
+                      ml: 2,
                     }}
                   >
                     <TemplatesPreview
@@ -608,10 +596,21 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     >
                       Changelog
                     </Button>
-
-                    {renderDivider()}
                   </Box>
                 )}
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: { xs: 0.5, sm: 1 },
+                }}
+              >
+                <Search docsTree={docsTree} isMediumUp={isMediumUp} />
+
+                {renderDivider()}
+
                 <HeaderIcons
                   isMediumUp={isMediumUp}
                   anchorRef={anchorRef}
@@ -626,6 +625,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             </motion.div>
           </AnimatePresence>
         </Toolbar>
+
         {isDocsPage && (
           <Drawer
             anchor="left"
@@ -651,7 +651,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           anchorEl={anchorRef.current}
           placement="bottom-end"
           disablePortal
-          sx={{ zIndex: 999 }}
+          sx={{ zIndex: 999, mt: "8px !important", boxShadow: "revert" }}
         >
           <StyledPaper elevation={3}>
             <ClickAwayListener onClickAway={handleClose}>
@@ -663,8 +663,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     {index < menuItems.length - 1 && (
                       <Divider
                         sx={{
-                          mx: 1.5,
-                          my: 0.5,
+                          mx: "0px !important",
+                          my: 0.25,
                           borderColor: "divider",
                         }}
                       />
