@@ -73,9 +73,12 @@ export async function getStaticProps({ params }) {
 export async function getStaticPaths() {
   const slugs = await getAllDocsSlugs();
 
-  const paths = slugs.map((item) => ({
-    params: { slug: item.slug === "" ? [] : item.slug.split("/") },
-  }));
+  const paths = [
+    { params: { slug: [] } },
+    ...slugs.map((item) => ({
+      params: { slug: item.slug === "" ? [] : item.slug.split("/") },
+    })),
+  ];
 
   return {
     paths,
