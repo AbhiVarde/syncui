@@ -45,22 +45,6 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   );
 }
 
-export async function getStaticPaths() {
-  const slugs = await getAllDocsSlugs();
-
-  const paths = [
-    { params: { slug: [] } },
-    ...slugs.map((item) => ({
-      params: { slug: item.slug === "" ? [] : item.slug.split("/") },
-    })),
-  ];
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
 export async function getStaticProps({ params }) {
   const slug = params.slug?.join("/") || "";
 
@@ -83,5 +67,21 @@ export async function getStaticProps({ params }) {
       docsTree,
       slug,
     },
+  };
+}
+
+export async function getStaticPaths() {
+  const slugs = await getAllDocsSlugs();
+
+  const paths = [
+    { params: { slug: [] } },
+    ...slugs.map((item) => ({
+      params: { slug: item.slug === "" ? [] : item.slug.split("/") },
+    })),
+  ];
+
+  return {
+    paths,
+    fallback: false,
   };
 }
