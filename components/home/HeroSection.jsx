@@ -10,6 +10,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { RxArrowRight } from "react-icons/rx";
 import Link from "next/link";
+import DocsLink from "../common/DocsLink";
 import {
   SiReact,
   SiNextdotjs,
@@ -227,7 +228,8 @@ const HeroSection = () => {
               flexWrap: "wrap",
             }}
           >
-            <Link href="/docs" passHref>
+            {/* Use DocsLink instead of regular Link for /docs */}
+            <DocsLink href="/docs" passHref>
               <MotionButton
                 variant="contained"
                 color="primary"
@@ -275,7 +277,7 @@ const HeroSection = () => {
                   </AnimatePresence>
                 </Box>
               </MotionButton>
-            </Link>
+            </DocsLink>
           </Box>
         </motion.div>
       </Box>
