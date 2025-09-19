@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Breadcrumbs } from "@mui/material";
-import DocsLink from "../common/DocsLink";
+import Link from "next/link";
 import { TableOfContents } from "./TableOfContents";
 import { useRouter } from "next/router";
 import { RxChevronRight, RxTextAlignLeft } from "react-icons/rx";
 import LinkPreview from "../common/LinkPreview";
-import Link from "next/link";
 
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
@@ -98,6 +97,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             borderRight: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
+          {/* Scrollable content container */}
           <Box
             sx={{
               height: "calc(100% - 60px)",
@@ -130,14 +130,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                           (item.title === "Templates" &&
                             router.asPath === "/templates") ||
                           router.asPath === item.url;
-
-                        // Use DocsLink for docs URLs, regular Link for templates
-                        const LinkComponent = item.url.startsWith("/docs")
-                          ? DocsLink
-                          : Link;
-
                         return (
-                          <LinkComponent
+                          <Link
                             key={item.url}
                             href={item.url}
                             passHref
@@ -200,7 +194,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                                 </Box>
                               )}
                             </Typography>
-                          </LinkComponent>
+                          </Link>
                         );
                       })}
                     </Box>
@@ -209,6 +203,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               )}
             </nav>
           </Box>
+          {/* Fixed footer */}
           <Box
             sx={{
               position: "absolute",
@@ -271,6 +266,7 @@ const groupDocsTree = (docsTree) => {
     "Getting Started": [],
   };
 
+  // Add Templates to the Getting Started section
   grouped["Getting Started"].push({
     title: "Templates",
     url: "/templates",
