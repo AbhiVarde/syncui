@@ -5,6 +5,7 @@ import { TableOfContents } from "./TableOfContents";
 import { useRouter } from "next/router";
 import { RxChevronRight, RxTextAlignLeft } from "react-icons/rx";
 import LinkPreview from "../common/LinkPreview";
+import Link from "next/link";
 
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
