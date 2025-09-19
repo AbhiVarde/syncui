@@ -476,7 +476,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   </IconButton>
                 )}
                 <Box
-                  onClick={() => router.push("/")}
+                  onClick={() => {
+                    const isDocsSubdomain =
+                      typeof window !== "undefined" &&
+                      window.location.hostname === "docs.syncui.design";
+                    router.push(isDocsSubdomain ? "/" : "/");
+                  }}
                   sx={{
                     display: "flex",
                     alignItems: "center",
