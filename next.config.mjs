@@ -23,44 +23,8 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "docs.syncui.design",
-          },
-        ],
+        has: [{ type: "host", value: "docs.syncui.design" }],
         destination: "/docs/:path*",
-      },
-    ];
-  },
-
-  async redirects() {
-    return [
-      // Redirect www.syncui.design/docs/* to docs.syncui.design/*
-      {
-        source: "/docs/:path*",
-        has: [
-          {
-            type: "host",
-            value: "www.syncui.design",
-          },
-        ],
-        destination: "https://docs.syncui.design/:path*",
-        permanent: true,
-        statusCode: 301,
-      },
-      // Also handle syncui.design/docs/* (without www)
-      {
-        source: "/docs/:path*",
-        has: [
-          {
-            type: "host",
-            value: "syncui.design",
-          },
-        ],
-        destination: "https://docs.syncui.design/:path*",
-        permanent: true,
-        statusCode: 301,
       },
     ];
   },
