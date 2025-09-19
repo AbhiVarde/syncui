@@ -21,8 +21,20 @@ const nextConfig = {
 
   async rewrites() {
     return [
+      // Handle docs.syncui.design root
       {
-        source: "/:path*",
+        source: "/",
+        has: [
+          {
+            type: "host",
+            value: "docs.syncui.design",
+          },
+        ],
+        destination: "/docs",
+      },
+      // Handle docs.syncui.design/* paths
+      {
+        source: "/:path+",
         has: [
           {
             type: "host",
