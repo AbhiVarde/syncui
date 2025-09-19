@@ -45,43 +45,16 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   );
 }
 
-export async function getStaticProps({ params }) {
-  const slug = params.slug?.join("/") || "";
-
-  const docData = await getDocBySlug(slug);
-
-  if (!docData) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const { code, frontmatter, toc } = docData;
-  const docsTree = await getAllDocsSlugs();
-
-  return {
-    props: {
-      code,
-      frontmatter,
-      toc,
-      docsTree,
-      slug,
-    },
-  };
-}
-
 export async function getStaticPaths() {
   const slugs = await getAllDocsSlugs();
-  console.log("Generated slugs:", slugs); // Debug log
 
   const paths = [
-    { params: { slug: [] } }, // Explicitly include root path
+    { params: { slug: [] } },
     ...slugs.map((item) => ({
       params: { slug: item.slug === "" ? [] : item.slug.split("/") },
     })),
   ];
 
-  console.log("Generated paths:", paths);
   return {
     paths,
     fallback: false,
@@ -90,7 +63,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const slug = params.slug?.join("/") || "";
-  console.log("Fetching doc for slug:", slug);
 
   const docData = await getDocBySlug(slug);
 

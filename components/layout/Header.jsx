@@ -476,12 +476,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   </IconButton>
                 )}
                 <Box
-                  onClick={() => {
-                    const isDocsSubdomain =
-                      typeof window !== "undefined" &&
-                      window.location.hostname === "docs.syncui.design";
-                    router.push(isDocsSubdomain ? "/" : "/");
-                  }}
+                  onClick={() => router.push("https://syncui.design")} // Change from "/" to absolute URL
                   sx={{
                     display: "flex",
                     alignItems: "center",
