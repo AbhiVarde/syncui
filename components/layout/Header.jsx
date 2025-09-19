@@ -38,6 +38,7 @@ import LinkPreview from "../common/LinkPreview";
 import TemplatesPreview from "../common/TemplatesPreview";
 import Image from "next/image";
 import Search from "../common/Search";
+import DocsLink from "../common/DocsLink";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 1.2,
@@ -236,11 +237,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   <ListItem
                     key={item.url}
                     button
-                    component={Link}
+                    component={DocsLink}
                     href={item.url}
                     onClick={() => {
                       toggleDrawer();
-                      setTimeout(() => router.push(item.url), 500);
                     }}
                     sx={{
                       mb: 0.5,
@@ -578,7 +578,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     {renderDivider()}
 
                     <Button
-                      component={Link}
+                      component={DocsLink}
                       href="/docs/changelog"
                       endIcon={<RxExternalLink size={16} />}
                       sx={{
