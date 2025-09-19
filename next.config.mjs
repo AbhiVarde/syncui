@@ -21,9 +21,8 @@ const nextConfig = {
 
   async rewrites() {
     return [
-      // Handle other docs paths (not root)
       {
-        source: "/:path+", // :path+ requires at least one segment
+        source: "/:path*",
         has: [
           {
             type: "host",
@@ -37,35 +36,9 @@ const nextConfig = {
 
   async redirects() {
     return [
-      // Redirect docs.syncui.design/ (root) to main site docs
-      {
-        source: "/",
-        has: [
-          {
-            type: "host",
-            value: "docs.syncui.design",
-          },
-        ],
-        destination: "https://syncui.design/docs",
-        permanent: true,
-        statusCode: 301,
-      },
-      // Redirect www.syncui.design/docs to docs.syncui.design
-      {
-        source: "/docs",
-        has: [
-          {
-            type: "host",
-            value: "www.syncui.design",
-          },
-        ],
-        destination: "https://docs.syncui.design/",
-        permanent: true,
-        statusCode: 301,
-      },
       // Redirect www.syncui.design/docs/* to docs.syncui.design/*
       {
-        source: "/docs/:path+",
+        source: "/docs/:path*",
         has: [
           {
             type: "host",
@@ -76,21 +49,9 @@ const nextConfig = {
         permanent: true,
         statusCode: 301,
       },
-      // Same for syncui.design (without www)
+      // Also handle syncui.design/docs/* (without www)
       {
-        source: "/docs",
-        has: [
-          {
-            type: "host",
-            value: "syncui.design",
-          },
-        ],
-        destination: "https://docs.syncui.design/",
-        permanent: true,
-        statusCode: 301,
-      },
-      {
-        source: "/docs/:path+",
+        source: "/docs/:path*",
         has: [
           {
             type: "host",
