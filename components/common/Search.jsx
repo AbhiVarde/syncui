@@ -80,9 +80,14 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
   };
 
   const handleSelectDoc = (doc) => {
-    const url = `/docs/${
-      doc.slug || doc.title.toLowerCase().replace(/\s+/g, "-")
-    }`;
+    const isDocsSubdomain =
+      typeof window !== "undefined" &&
+      window.location.hostname === "docs.syncui.design";
+
+    const url = isDocsSubdomain
+      ? `/${doc.slug || doc.title.toLowerCase().replace(/\s+/g, "-")}`
+      : `/docs/${doc.slug || doc.title.toLowerCase().replace(/\s+/g, "-")}`;
+
     router.push(url);
     setSearchQuery("");
     setIsOpen(false);

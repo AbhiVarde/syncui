@@ -578,7 +578,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     {renderDivider()}
 
                     <Button
-                      component={DocsLink}
+                      component={Link}
                       href="/docs/changelog"
                       endIcon={<RxExternalLink size={16} />}
                       sx={{

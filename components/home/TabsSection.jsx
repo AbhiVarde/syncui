@@ -373,6 +373,21 @@ const SectionContent = ({ title, children, url }) => {
   const theme = useTheme();
   const router = useRouter();
 
+  const handleGetCode = () => {
+    // Check if we're on main domain or docs subdomain
+    const isMainDomain =
+      typeof window !== "undefined" &&
+      window.location.hostname === "syncui.design";
+
+    if (isMainDomain) {
+      // Redirect to docs subdomain
+      window.location.href = `https://docs.syncui.design${url}`;
+    } else {
+      // Already on docs subdomain, navigate directly
+      router.push(url);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -415,7 +430,7 @@ const SectionContent = ({ title, children, url }) => {
           <Button
             variant="text"
             startIcon={<RiCodeSSlashLine />}
-            onClick={() => router.push(url)}
+            onClick={handleGetCode}
             sx={{
               color: theme.palette.mode === "light" ? "black" : "white",
               "&:hover": {
