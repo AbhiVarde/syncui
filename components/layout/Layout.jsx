@@ -40,6 +40,7 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
       >
         <Box
           sx={{
+            flexGrow: 1,
             overflow: "hidden",
           }}
         >
