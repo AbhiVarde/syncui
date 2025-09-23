@@ -22,6 +22,87 @@ function MyApp({ Component, pageProps }) {
           src="https://analytics.umami.is/script.js"
           data-website-id="47d79797-9fe5-4ccc-b84f-e38d955f2684"
         />
+
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Sync UI",
+              description:
+                "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion.",
+              url: "https://www.syncui.design/",
+              author: {
+                "@type": "Person",
+                name: "Abhi Varde",
+                url: "https://www.abhivarde.in/",
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Sync UI",
+                url: "https://www.syncui.design/",
+              },
+              potentialAction: {
+                "@type": "SearchAction",
+                target:
+                  "https://www.syncui.design/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+              mainEntity: {
+                "@type": "SoftwareApplication",
+                name: "Sync UI",
+                applicationCategory: "DeveloperApplication",
+                operatingSystem: "Web",
+                description:
+                  "A sleek UI library for Design Engineers with 45+ free components and templates",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "USD",
+                },
+              },
+            }),
+          }}
+        />
+
+        {/* Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://www.syncui.design/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Documentation",
+                  item: "https://www.syncui.design/docs",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: "Components",
+                  item: "https://www.syncui.design/docs/accordions",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 4,
+                  name: "Templates",
+                  item: "https://www.syncui.design/templates",
+                },
+              ],
+            }),
+          }}
+        />
       </Head>
       <DefaultSeo
         title="Sync UI - Sleek UI Library for Design Engineers"
