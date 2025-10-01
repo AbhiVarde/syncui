@@ -123,9 +123,25 @@ const flattenTree = (tree) => {
     flattenedTree.push({ title: "Changelog", url: "/docs/changelog" });
   }
 
-  // Add all other pages
+  // Add Templates page
+  flattenedTree.push({ title: "Templates", url: "/templates" });
+
+  // Add The Story of Sync UI page
+  const storyPage = tree.find((node) => node.title === "The Story of Sync UI");
+  if (storyPage) {
+    flattenedTree.push({
+      title: "The Story of Sync UI",
+      url: "/docs/story", // ✅ corrected URL
+    });
+  }
+
+  // Add all other pages (Components, etc.)
   tree.forEach((node) => {
-    if (node.title !== "Setup" && node.title !== "Changelog") {
+    if (
+      node.title !== "Setup" &&
+      node.title !== "Changelog" &&
+      node.title !== "The Story of Sync UI"
+    ) {
       if (!node.children) {
         flattenedTree.push({
           title: node.title,
