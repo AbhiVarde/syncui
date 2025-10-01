@@ -266,15 +266,12 @@ const groupDocsTree = (docsTree) => {
     "Getting Started": [],
   };
 
-  // Add Templates to the Getting Started section
-  grouped["Getting Started"].push({
-    title: "Templates",
-    url: "/templates",
-    slug: "templates",
-  });
-
   docsTree.forEach((item) => {
-    if (item.title === "Setup" || item.title === "Changelog") {
+    if (
+      item.title === "Setup" ||
+      item.title === "Changelog" ||
+      item.title === "The Story of Sync UI"
+    ) {
       grouped["Getting Started"].push(item);
     } else {
       if (!grouped["Components"]) {
@@ -284,8 +281,20 @@ const groupDocsTree = (docsTree) => {
     }
   });
 
+  // Add Templates to the Getting Started section
+  grouped["Getting Started"].push({
+    title: "Templates",
+    url: "/templates",
+    slug: "templates",
+  });
+
   grouped["Getting Started"].sort((a, b) => {
-    const order = { Setup: 1, Changelog: 2, Templates: 3 };
+    const order = {
+      Setup: 1,
+      Changelog: 2,
+      Templates: 3,
+      "The Story of Sync UI": 4,
+    };
     return (order[a.title] || 99) - (order[b.title] || 99);
   });
 

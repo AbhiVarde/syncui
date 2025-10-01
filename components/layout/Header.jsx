@@ -141,36 +141,45 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const groupDocsTree = (docsTree) => {
-    const grouped = {
-      "Getting Started": [],
-    };
-
-    // Add Templates to the Getting Started section
-    grouped["Getting Started"].push({
-      title: "Templates",
-      url: "/templates",
-      slug: "templates",
-    });
-
-    docsTree?.forEach((item) => {
-      if (item.title === "Setup" || item.title === "Changelog") {
-        grouped["Getting Started"].push(item);
-      } else {
-        if (!grouped["Components"]) {
-          grouped["Components"] = [];
-        }
-        grouped["Components"].push(item);
-      }
-    });
-
-    grouped["Getting Started"].sort((a, b) => {
-      const order = { Setup: 1, Changelog: 2, Templates: 3 };
-      return (order[a.title] || 99) - (order[b.title] || 99);
-    });
-
-    return grouped;
+const groupDocsTree = (docsTree) => {
+  const grouped = {
+    "Getting Started": [],
   };
+
+  // Add Templates to the Getting Started section
+  grouped["Getting Started"].push({
+    title: "Templates",
+    url: "/templates",
+    slug: "templates",
+  });
+
+  docsTree?.forEach((item) => {
+    if (
+      item.title === "Setup" ||
+      item.title === "Changelog" ||
+      item.title === "The Story of Sync UI"
+    ) {
+      grouped["Getting Started"].push(item);
+    } else {
+      if (!grouped["Components"]) {
+        grouped["Components"] = [];
+      }
+      grouped["Components"].push(item);
+    }
+  });
+
+  grouped["Getting Started"].sort((a, b) => {
+    const order = {
+      Setup: 1,
+      Changelog: 2,
+      Templates: 3,
+      "The Story of Sync UI": 4,
+    };
+    return (order[a.title] || 99) - (order[b.title] || 99);
+  });
+
+  return grouped;
+};
 
   const renderDocsTree = () => (
     <Box
