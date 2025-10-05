@@ -43,6 +43,7 @@ import TextFieldVariants from "./ui/TextFields";
 import DialogVariants from "./ui/Dialogs";
 import FormVariants from "./ui/Forms";
 import AutocompleteVariants from "./ui/Autocompletes";
+import DatePickerVariants from "./ui/DatePickers";
 
 const createHeading = (variant) => {
   return forwardRef(({ children, ...props }, ref) => {
@@ -289,6 +290,7 @@ export const MDXComponents = {
   DialogVariants: DialogVariants,
   FormVariants: FormVariants,
   AutocompleteVariants: AutocompleteVariants,
+  DatePickerVariants: DatePickerVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),

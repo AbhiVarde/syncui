@@ -35,8 +35,10 @@ import TextFieldVariants from "../ui/TextFields";
 import DialogVariants from "../ui/Dialogs";
 import FormVariants from "../ui/Forms";
 import AutocompleteVariants from "../ui/Autocompletes";
+import DatePickerVariants from "../ui/DatePickers";
 
 const componentVariants = {
+  datepickers: ["single", "range", "presets", "with-time"],
   autocompletes: ["basic", "multi-select", "async", "grouped", "custom-render"],
   accordions: ["brutalist", "dashed", "minimal", "modern"],
   cards: [
@@ -158,6 +160,7 @@ const componentVariants = {
 };
 
 const sectionConfig = {
+  datepickers: { title: "Date Pickers", layout: "tabs" },
   autocompletes: { title: "Smart Autocomplete", layout: "tabs" },
   forms: { title: "Adaptive Forms", layout: "tabs" },
   dialogs: { title: "Overlay Dialogs", layout: "flex-wrap" },
@@ -189,7 +192,7 @@ const formatVariantName = (variant) => {
   return variant.label;
 };
 
-const FormsTabContent = ({ variants, ComponentVariant }) => {
+const DatePickerTabContent = ({ variants, ComponentVariant }) => {
   const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
 
@@ -198,15 +201,15 @@ const FormsTabContent = ({ variants, ComponentVariant }) => {
   };
 
   const tabLabels = {
-    "multi-step": "Multi Step",
-    login: "Login",
-    register: "Register",
-    contact: "Contact",
+    single: "Single Date",
+    range: "Date Range",
+    inline: "Inline Calendar",
+    presets: "With Presets",
+    "with-time": "Date & Time",
   };
 
   return (
     <Box sx={{ width: "100%" }}>
-      {/* Tabs Header */}
       <Box
         sx={{
           borderBottom: 1,
@@ -243,14 +246,13 @@ const FormsTabContent = ({ variants, ComponentVariant }) => {
             <Tab
               key={variant}
               label={tabLabels[variant] || formatVariantName(variant)}
-              id={`form-tab-${index}`}
-              aria-controls={`form-tabpanel-${index}`}
+              id={`datepicker-tab-${index}`}
+              aria-controls={`datepicker-tabpanel-${index}`}
             />
           ))}
         </Tabs>
       </Box>
 
-      {/* Tab Content */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
@@ -261,13 +263,12 @@ const FormsTabContent = ({ variants, ComponentVariant }) => {
         >
           <Box
             role="tabpanel"
-            id={`form-tabpanel-${activeTab}`}
-            aria-labelledby={`form-tab-${activeTab}`}
+            id={`datepicker-tabpanel-${activeTab}`}
+            aria-labelledby={`datepicker-tab-${activeTab}`}
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              minHeight: { xs: "500px", sm: "600px" },
               width: "100%",
             }}
           >
@@ -358,6 +359,96 @@ const AutocompleteTabContent = ({ variants, ComponentVariant }) => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <ComponentVariant variant={variants[activeTab]} />
+          </Box>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
+  );
+};
+
+const FormsTabContent = ({ variants, ComponentVariant }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const theme = useTheme();
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const tabLabels = {
+    "multi-step": "Multi Step",
+    login: "Login",
+    register: "Register",
+    contact: "Contact",
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      {/* Tabs Header */}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          mb: 3,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          sx={{
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: { xs: "14px", sm: "16px" },
+              minWidth: { xs: "auto", sm: "120px" },
+              px: { xs: 2, sm: 3 },
+            },
+            "& .MuiTabs-indicator": {
+              backgroundColor: theme.palette.text.primary,
+              height: 2,
+            },
+            "& .Mui-selected": {
+              color: `${theme.palette.text.primary} !important`,
+            },
+          }}
+        >
+          {variants.map((variant, index) => (
+            <Tab
+              key={variant}
+              label={tabLabels[variant] || formatVariantName(variant)}
+              id={`form-tab-${index}`}
+              aria-controls={`form-tabpanel-${index}`}
+            />
+          ))}
+        </Tabs>
+      </Box>
+
+      {/* Tab Content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <Box
+            role="tabpanel"
+            id={`form-tabpanel-${activeTab}`}
+            aria-labelledby={`form-tab-${activeTab}`}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: { xs: "500px", sm: "600px" },
               width: "100%",
             }}
           >
@@ -477,6 +568,15 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
     },
   };
   const containerStyle = baseStyles[config.layout];
+
+  if (sectionKey === "datepickers" && config.layout === "tabs") {
+    return (
+      <DatePickerTabContent
+        variants={variants}
+        ComponentVariant={ComponentVariant}
+      />
+    );
+  }
 
   if (sectionKey === "autocompletes" && config.layout === "tabs") {
     return (
@@ -767,6 +867,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 };
 
 const componentMap = {
+  datepickers: DatePickerVariants,
   autocompletes: AutocompleteVariants,
   forms: FormVariants,
   dialogs: DialogVariants,

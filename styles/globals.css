@@ -86,3 +86,15 @@ a {
     clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%);
   }
 }
+
+/* Add this to your CSS or global stylesheet */
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-arrows {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Standard */
+}
