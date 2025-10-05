@@ -34,7 +34,8 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
       (item) =>
         item.title !== "Setup" &&
         item.title !== "Changelog" &&
-        item.title !== "Templates"
+        item.title !== "Templates" &&
+        item.title !== "The Story of Sync UI"
     );
 
   const getDefaultSuggestions = () => {
