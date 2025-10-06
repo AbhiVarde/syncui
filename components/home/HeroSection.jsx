@@ -26,22 +26,51 @@ const HeroSection = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Container maxWidth="md" sx={{ py: { md: 15, xs: 8 } }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          textAlign: "left",
-        }}
-      >
-        {/* Badge Section */}
+    <Container maxWidth="md" sx={{ py: { md: 12, xs: 8 } }}>
+      <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
+          <Link href="/docs/datepickers" passHref>
+            <Box
+              component="button"
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 1,
+                px: 1.25,
+                py: 0.75,
+                mb: 1.5,
+                borderRadius: theme.shape.borderRadius * 2,
+                fontSize: 14,
+                fontWeight: 500,
+                backgroundColor:
+                  theme.palette.mode === "light"
+                    ? "rgba(0,0,0,0.05)"
+                    : "rgba(255,255,255,0.08)",
+                border: "none",
+                color:
+                  theme.palette.mode === "light"
+                    ? theme.palette.text.primary
+                    : "rgba(255,255,255,0.9)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  backgroundColor:
+                    theme.palette.mode === "light"
+                      ? "rgba(0,0,0,0.1)"
+                      : "rgba(255,255,255,0.12)",
+                },
+              }}
+            >
+              🗓️ New: Date Picker Components
+              <RxArrowRight size={16} />
+            </Box>
+          </Link>
+
           <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 1 }}>
-            {/* Introducing Templates Badge */}
             <Link href="/templates" passHref>
               <MotionButton
                 whileHover={{ scale: 1.05 }}
@@ -71,7 +100,6 @@ const HeroSection = () => {
               </MotionButton>
             </Link>
 
-            {/* Vercel Community Badge */}
             <Box
               component="a"
               href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039"
@@ -115,7 +143,6 @@ const HeroSection = () => {
           </Box>
         </motion.div>
 
-        {/* Main Heading */}
         <Box sx={{ mt: 1 }}>
           <motion.div
             initial={{ opacity: 0, y: 10, filter: "blur(12px)" }}
@@ -168,7 +195,6 @@ const HeroSection = () => {
           </motion.div>
         </Box>
 
-        {/* Tech Stack Icons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -212,7 +238,6 @@ const HeroSection = () => {
           </Box>
         </motion.div>
 
-        {/* Get Started Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
