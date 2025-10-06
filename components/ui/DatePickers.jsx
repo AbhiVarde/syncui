@@ -30,7 +30,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
         getValue: () => {
           const d = new Date();
           d.setHours(0, 0, 0, 0);
-          return d;
+          return { start: d, end: new Date(d) };
         },
       },
       {
@@ -39,41 +39,55 @@ const DatePickerVariants = ({ variant = "single" }) => {
           const d = new Date();
           d.setDate(d.getDate() - 1);
           d.setHours(0, 0, 0, 0);
-          return d;
+          const end = new Date(d);
+          end.setHours(23, 59, 59, 999);
+          return { start: d, end };
         },
       },
-
       {
         label: "This Week",
         getValue: () => {
           const date = new Date();
           const day = date.getDay();
-          const diff = date.getDate() - day;
-          return { start: new Date(date.setDate(diff)), end: new Date() };
+          const start = new Date(date);
+          start.setDate(date.getDate() - day);
+          start.setHours(0, 0, 0, 0);
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          return { start, end };
         },
       },
       {
         label: "Last 7 Days",
-        getValue: () => ({
-          start: new Date(Date.now() - 7 * 86400000),
-          end: new Date(),
-        }),
+        getValue: () => {
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          const start = new Date();
+          start.setDate(end.getDate() - 6);
+          start.setHours(0, 0, 0, 0);
+          return { start, end };
+        },
       },
       {
         label: "Last 30 Days",
-        getValue: () => ({
-          start: new Date(Date.now() - 30 * 86400000),
-          end: new Date(),
-        }),
+        getValue: () => {
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          const start = new Date();
+          start.setDate(end.getDate() - 29);
+          start.setHours(0, 0, 0, 0);
+          return { start, end };
+        },
       },
       {
         label: "This Month",
         getValue: () => {
           const date = new Date();
-          return {
-            start: new Date(date.getFullYear(), date.getMonth(), 1),
-            end: new Date(),
-          };
+          const start = new Date(date.getFullYear(), date.getMonth(), 1);
+          start.setHours(0, 0, 0, 0);
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          return { start, end };
         },
       },
     ],
@@ -119,16 +133,22 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    d1.setHours(0, 0, 0, 0);
+    d2.setHours(0, 0, 0, 0);
+    return d1.getTime() === d2.getTime();
   };
 
   const isInRange = (date) => {
     if (!startDate || !endDate) return false;
-    return date >= startDate && date <= endDate;
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0);
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+    return checkDate >= start && checkDate <= end;
   };
 
   const isToday = (date) => isSameDay(date, new Date());
