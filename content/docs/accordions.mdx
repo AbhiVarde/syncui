@@ -71,13 +71,15 @@ const BrutalistAccordion = () => {
             backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
             border: "2px solid",
             borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
-            boxShadow: `4px 4px 0 ${theme.palette.mode === "dark" ? "#FFF" : "#111"}`,
+            boxShadow: \`4px 4px 0 \${
+              theme.palette.mode === "dark" ? "#FFF" : "#111"
+            }\`,
             borderRadius: 0,
             mb: 2,
             "&::before": { display: "none" },
             "&.Mui-expanded": {
               margin: "0 0 16px 0",
-              boxShadow: `2px 2px 0 ${theme.palette.mode === "dark" ? "#FFF" : "#111"}`,
+              boxShadow: \`2px 2px 0 \${theme.palette.mode === "dark" ? "#FFF" : "#111"}\`,
             },
           }}
         >
