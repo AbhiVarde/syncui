@@ -285,6 +285,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
     const isEnd = isSameDay(day.date, endDate);
     const inRange = isInRange(day.date);
     const isCurrentDay = isToday(day.date);
+    const shouldShowDate = day.isCurrentMonth || inRange || isStart || isEnd;
 
     return {
       aspectRatio: "1",
@@ -294,8 +295,8 @@ const DatePickerVariants = ({ variant = "single" }) => {
       fontSize: "14px",
       fontWeight: isCurrentDay ? "500" : "400",
       borderRadius: "8px",
-      cursor: day.isCurrentMonth ? "pointer" : "default",
-      color: !day.isCurrentMonth
+      cursor: shouldShowDate ? "pointer" : "default",
+      color: !shouldShowDate
         ? isDark
           ? "#333"
           : "#ccc"
@@ -531,7 +532,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
           <div
             key={`${day.date.getTime()}-${index}`}
             style={getDayStyle(day)}
-            onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
+            onClick={() => handleDateClick(day.date)}
             onMouseEnter={(e) => {
               if (
                 day.isCurrentMonth &&
