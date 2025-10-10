@@ -11,7 +11,7 @@
 
 ## 🏆 Featured on Vercel Community Showcase
 
-Thrilled to be featured on the [official Vercel Community Showcase](https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039) for Sync UI.
+Grateful to be featured on the [official Vercel Community Showcase](https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039) for Sync UI.
 
 
 ## 🎯 Problem
