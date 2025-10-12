@@ -8,23 +8,15 @@ import {
   useTheme,
   Paper,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { RxChevronDown, RxChevronRight, RxPlus, RxMinus } from "react-icons/rx";
-
-const MotionAccordion = motion(Accordion);
-const MotionPaper = motion(Paper);
-const MotionBox = motion(Box);
 
 const AccordionVariants = ({ variant = "modern" }) => {
   const theme = useTheme();
   const [expandedPanels, setExpandedPanels] = useState({});
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpandedPanels((prev) => ({
-      ...prev,
-      [panel]: isExpanded,
-    }));
-  };
+  const handleChange = (panel) => (event, isExpanded) =>
+    setExpandedPanels((prev) => ({ ...prev, [panel]: isExpanded }));
 
   const accordionData = [
     {
@@ -44,168 +36,28 @@ const AccordionVariants = ({ variant = "modern" }) => {
     },
   ];
 
+  const baseContainerStyle = {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  };
+
+  const baseInnerStyle = {
+    width: "100%",
+    maxWidth: 700,
+  };
+
+  const transition = { duration: 0.15, ease: "easeInOut" };
+
   const renderAccordion = () => {
     switch (variant) {
       case "brutalist":
         return (
-          <Box sx={{ width: "100%", maxWidth: 600 }}>
-            {accordionData.map((item, index) => (
-              <MotionAccordion
-                key={item.id}
-                expanded={expandedPanels[item.id] || false}
-                onChange={handleChange(item.id)}
-                disableGutters
-                elevation={0}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                sx={{
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#111" : "#FFF",
-                  border: "2px solid",
-                  borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  boxShadow: `4px 4px 0 ${
-                    theme.palette.mode === "dark" ? "#FFF" : "#111"
-                  }`,
-                  borderRadius: 0,
-                  mb: 2,
-                  "&::before": { display: "none" },
-                  "&.Mui-expanded": {
-                    margin: "0 0 16px 0",
-                    boxShadow: `2px 2px 0 ${
-                      theme.palette.mode === "dark" ? "#FFF" : "#111"
-                    }`,
-                  },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={
-                    <motion.div
-                      initial={false}
-                      animate={{ rotate: expandedPanels[item.id] ? 180 : 0 }}
-                      transition={{ type: "tween", duration: 0.25 }}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                      }}
-                    >
-                      <RxChevronDown size={22} />
-                    </motion.div>
-                  }
-                  sx={{
-                    backgroundColor: "transparent",
-                    minHeight: 56,
-                    color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                    "& .MuiAccordionSummary-content": { margin: "12px 0" },
-                  }}
-                >
-                  <Typography variant="h6" fontWeight={500}>
-                    {item.title}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    borderTop: "1px solid",
-                    borderColor:
-                      theme.palette.mode === "dark" ? "#FFF" : "#111",
-                    backgroundColor: "transparent",
-                    color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  }}
-                >
-                  <Typography variant="body2">{item.content}</Typography>
-                </AccordionDetails>
-              </MotionAccordion>
-            ))}
-          </Box>
-        );
-
-      case "dashed":
-        return (
-          <Box sx={{ width: "100%", maxWidth: 600 }}>
-            {accordionData.map((item, index) => (
-              <MotionAccordion
-                key={item.id}
-                expanded={expandedPanels[item.id] || false}
-                onChange={handleChange(item.id)}
-                disableGutters
-                elevation={0}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                sx={{
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#111" : "#FFF",
-                  border: "2px dashed",
-                  borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  borderRadius: 1,
-                  mb: 2,
-                  color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  "&::before": { display: "none" },
-                  "&.Mui-expanded": {
-                    margin: "0 0 16px 0",
-                    borderStyle: "solid",
-                  },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={
-                    <MotionBox
-                      animate={{
-                        rotate: expandedPanels[item.id] ? 90 : 0,
-                        scale: expandedPanels[item.id] ? 1.1 : 1,
-                      }}
-                      transition={{ duration: 0.2 }}
-                      sx={{
-                        color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                      }}
-                    >
-                      <RxChevronRight size={22} />
-                    </MotionBox>
-                  }
-                  sx={{
-                    backgroundColor: "transparent",
-                    minHeight: 56,
-                    "& .MuiAccordionSummary-content": { margin: "12px 0" },
-                  }}
-                >
-                  <Typography variant="h6" fontWeight={500}>
-                    {item.title}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    backgroundColor: "transparent",
-                    borderTop: "1px dashed",
-                    borderColor:
-                      theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  }}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Typography variant="body2">{item.content}</Typography>
-                  </motion.div>
-                </AccordionDetails>
-              </MotionAccordion>
-            ))}
-          </Box>
-        );
-
-      case "minimal":
-        return (
-          <Box sx={{ width: "100%", maxWidth: 600 }}>
-            {accordionData.map((item, index) => (
-              <MotionBox
-                key={item.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08, duration: 0.3 }}
-              >
-                <MotionAccordion
+          <Box sx={baseContainerStyle}>
+            <Box sx={baseInnerStyle}>
+              {accordionData.map((item) => (
+                <Accordion
+                  key={item.id}
                   expanded={expandedPanels[item.id] || false}
                   onChange={handleChange(item.id)}
                   disableGutters
@@ -213,37 +65,149 @@ const AccordionVariants = ({ variant = "modern" }) => {
                   sx={{
                     backgroundColor:
                       theme.palette.mode === "dark" ? "#111" : "#FFF",
-                    color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                    "&::before": { display: "none" },
-                    "&.Mui-expanded": { margin: 0 },
-                    borderBottom: "1px solid",
+                    border: "2px solid",
                     borderColor:
                       theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    boxShadow: `3px 3px 0 ${
+                      theme.palette.mode === "dark" ? "#FFF" : "#111"
+                    }`,
                     borderRadius: 0,
+                    mb: 2,
+                    "&::before": { display: "none" },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={
+                      <motion.div
+                        animate={{ rotate: expandedPanels[item.id] ? 180 : 0 }}
+                        transition={transition}
+                      >
+                        <RxChevronDown
+                          size={20}
+                          color={
+                            theme.palette.mode === "dark" ? "#FFF" : "#111"
+                          }
+                        />
+                      </motion.div>
+                    }
+                    sx={{
+                      color: theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    }}
+                  >
+                    <Typography variant="h6">{item.title}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails
+                    sx={{
+                      borderTop: "1px solid",
+                      borderColor:
+                        theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    }}
+                  >
+                    <Typography variant="body2">{item.content}</Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </Box>
+          </Box>
+        );
+
+      case "dashed":
+        return (
+          <Box sx={baseContainerStyle}>
+            <Box sx={baseInnerStyle}>
+              {accordionData.map((item) => (
+                <Accordion
+                  key={item.id}
+                  expanded={expandedPanels[item.id] || false}
+                  onChange={handleChange(item.id)}
+                  disableGutters
+                  elevation={0}
+                  sx={{
+                    border: "2px dashed",
+                    borderColor:
+                      theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    borderRadius: 1,
+                    mb: 2,
+                    backgroundColor:
+                      theme.palette.mode === "dark" ? "#111" : "#FFF",
                   }}
                 >
                   <AccordionSummary
                     expandIcon={
                       <motion.div
                         animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
-                        transition={{ duration: 0.15 }}
-                        style={{
-                          color:
-                            theme.palette.mode === "dark" ? "#FFF" : "#111",
-                        }}
+                        transition={transition}
                       >
-                        <RxChevronRight size={22} />
+                        <RxChevronRight
+                          size={20}
+                          color={
+                            theme.palette.mode === "dark" ? "#FFF" : "#111"
+                          }
+                        />
+                      </motion.div>
+                    }
+                  >
+                    <Typography variant="h6">{item.title}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails
+                    sx={{
+                      borderTop: "1px dashed",
+                      borderColor:
+                        theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    }}
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, y: -3 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={transition}
+                    >
+                      <Typography variant="body2">{item.content}</Typography>
+                    </motion.div>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </Box>
+          </Box>
+        );
+
+      case "minimal":
+        return (
+          <Box sx={baseContainerStyle}>
+            <Box sx={baseInnerStyle}>
+              {accordionData.map((item) => (
+                <Accordion
+                  key={item.id}
+                  expanded={expandedPanels[item.id] || false}
+                  onChange={handleChange(item.id)}
+                  disableGutters
+                  elevation={0}
+                  sx={{
+                    borderBottom: "1px solid",
+                    borderColor:
+                      theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={
+                      <motion.div
+                        animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
+                        transition={transition}
+                      >
+                        <RxChevronRight
+                          size={20}
+                          color={
+                            theme.palette.mode === "dark" ? "#FFF" : "#111"
+                          }
+                        />
                       </motion.div>
                     }
                     sx={{
-                      backgroundColor: "transparent",
-                      minHeight: 48,
-                      "& .MuiAccordionSummary-content": { margin: "12px 0" },
                       "&:hover": {
                         backgroundColor:
                           theme.palette.mode === "dark"
-                            ? "rgba(255, 255, 255, 0.05)"
-                            : "rgba(17, 17, 17, 0.05)",
+                            ? "rgba(255,255,255,0.05)"
+                            : "rgba(17,17,17,0.05)",
                       },
                     }}
                   >
@@ -251,139 +215,103 @@ const AccordionVariants = ({ variant = "modern" }) => {
                       {item.title}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails
-                    sx={{ backgroundColor: "transparent", pt: 0 }}
-                  >
+                  <AccordionDetails>
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ duration: 0.2 }}
+                      transition={transition}
                     >
                       <Typography variant="body2">{item.content}</Typography>
                     </motion.div>
                   </AccordionDetails>
-                </MotionAccordion>
-              </MotionBox>
-            ))}
+                </Accordion>
+              ))}
+            </Box>
           </Box>
         );
 
       case "modern":
       default:
         return (
-          <Box sx={{ width: "100%", maxWidth: 600 }}>
-            {accordionData.map((item, index) => (
-              <MotionPaper
-                key={item.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                whileHover={{ y: -1 }}
-                sx={{
-                  mb: 2,
-                  borderRadius: 2,
-                  overflow: "hidden",
-                  border: "1px solid",
-                  borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#111" : "#FFF",
-                  color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-                  boxShadow:
-                    theme.palette.mode === "dark"
-                      ? "0 2px 8px rgba(0, 0, 0, 0.3)"
-                      : "0 2px 8px rgba(0, 0, 0, 0.08)",
-                }}
-              >
-                <MotionAccordion
-                  expanded={expandedPanels[item.id] || false}
-                  onChange={handleChange(item.id)}
-                  disableGutters
-                  elevation={0}
+          <Box sx={baseContainerStyle}>
+            <Box sx={baseInnerStyle}>
+              {accordionData.map((item) => (
+                <Paper
+                  key={item.id}
                   sx={{
-                    backgroundColor: "transparent",
-                    "&::before": { display: "none" },
-                    "&.Mui-expanded": { margin: 0 },
+                    mb: 2,
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor:
+                      theme.palette.mode === "dark" ? "#FFF" : "#111",
+                    backgroundColor:
+                      theme.palette.mode === "dark" ? "#111" : "#FFF",
                   }}
                 >
-                  <AccordionSummary
-                    expandIcon={
-                      <MotionBox
-                        animate={{
-                          backgroundColor: expandedPanels[item.id]
-                            ? theme.palette.mode === "dark"
-                              ? "#FFF"
-                              : "#111"
-                            : "transparent",
-                          color: expandedPanels[item.id]
-                            ? theme.palette.mode === "dark"
-                              ? "#111"
-                              : "#FFF"
-                            : theme.palette.mode === "dark"
-                            ? "#FFF"
-                            : "#111",
-                        }}
-                        transition={{ duration: 0.2 }}
-                        sx={{
-                          borderRadius: "50%",
-                          width: 20,
-                          height: 20,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {expandedPanels[item.id] ? (
-                          <RxMinus size={22} />
+                  <Accordion
+                    expanded={expandedPanels[item.id] || false}
+                    onChange={handleChange(item.id)}
+                    disableGutters
+                    elevation={0}
+                    sx={{
+                      backgroundColor: "transparent",
+                      "&::before": { display: "none" },
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={
+                        expandedPanels[item.id] ? (
+                          <RxMinus
+                            size={20}
+                            color={
+                              theme.palette.mode === "dark" ? "#FFF" : "#111"
+                            }
+                          />
                         ) : (
-                          <RxPlus size={22} />
-                        )}
-                      </MotionBox>
-                    }
-                    sx={{
-                      backgroundColor: "transparent",
-                      minHeight: 56,
-                      "& .MuiAccordionSummary-content": { margin: "14px 0" },
-                    }}
-                  >
-                    <Typography variant="h6" fontWeight={500}>
-                      {item.title}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      backgroundColor: "transparent",
-                      borderTop: "1px solid",
-                      borderColor:
-                        theme.palette.mode === "dark" ? "#FFF" : "#111",
-                    }}
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25 }}
+                          <RxPlus
+                            size={20}
+                            color={
+                              theme.palette.mode === "dark" ? "#FFF" : "#111"
+                            }
+                          />
+                        )
+                      }
                     >
-                      <Typography variant="body2">{item.content}</Typography>
-                    </motion.div>
-                  </AccordionDetails>
-                </MotionAccordion>
-              </MotionPaper>
-            ))}
+                      <Typography variant="h6">{item.title}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        borderTop: "1px solid",
+                        borderColor:
+                          theme.palette.mode === "dark" ? "#FFF" : "#111",
+                      }}
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: -3 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={transition}
+                      >
+                        <Typography variant="body2">{item.content}</Typography>
+                      </motion.div>
+                    </AccordionDetails>
+                  </Accordion>
+                </Paper>
+              ))}
+            </Box>
           </Box>
         );
     }
   };
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        style={{ width: "100%" }}
-      >
-        {renderAccordion()}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={transition}
+      style={{ width: "100%" }}
+    >
+      {renderAccordion()}
+    </motion.div>
   );
 };
 
