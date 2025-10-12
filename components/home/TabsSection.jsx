@@ -428,7 +428,6 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 
   if (config.layout === "tabs") {
     const minHeights = {
-      forms: { xs: "500px", sm: "600px" },
       tables: "400px",
       carousels: "400px",
     };
