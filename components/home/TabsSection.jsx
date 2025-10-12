@@ -10,11 +10,10 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
-// Import all component variants
 import DockVariants from "../ui/Docks";
 import ButtonVariants from "../ui/Buttons";
 import CardVariants from "../ui/Cards";
@@ -163,22 +162,22 @@ const sectionConfig = {
   datepickers: { title: "Date Pickers", layout: "tabs" },
   autocompletes: { title: "Smart Autocomplete", layout: "tabs" },
   forms: { title: "Adaptive Forms", layout: "tabs" },
+  textfields: { title: "Echo Inputs", layout: "tabs" },
   dialogs: { title: "Overlay Dialogs", layout: "flex-wrap" },
   buttons: { title: "Interactive Buttons", layout: "flex-wrap" },
   cards: { title: "Dynamic Cards", layout: "flex-wrap" },
   pointers: { title: "Magnetic Pointers", layout: "grid" },
-  docks: { title: "Navigation Docks", layout: "flex-wrap" },
+  docks: { title: "Navigation Docks", layout: "tabs" },
   loaders: { title: "Loading Animations", layout: "flex-wrap" },
-  textfields: { title: "Echo Inputs", layout: "column" },
-  marquees: { title: "Scrolling Marquees", layout: "column" },
+  grids: { title: "Responsive Grids", layout: "tabs" },
+  marquees: { title: "Scrolling Marquees", layout: "tabs" },
+  tables: { title: "Data Tables", layout: "tabs" },
+  avatars: { title: "Profile Avatars", layout: "tabs" },
+  accordions: { title: "Collapsible Panels", layout: "tabs" },
+  carousels: { title: "Content Carousels", layout: "tabs" },
   tabs: { title: "Tabbed Navigation", layout: "column" },
-  grids: { title: "Responsive Grids", layout: "column" },
-  avatars: { title: "Profile Avatars", layout: "column" },
-  accordions: { title: "Collapsible Panels", layout: "flex-wrap" },
   texts: { title: "Animated Typography", layout: "column" },
   separators: { title: "Visual Dividers", layout: "column" },
-  tables: { title: "Data Tables", layout: "column" },
-  carousels: { title: "Content Carousels", layout: "column" },
   paginations: { title: "Page Navigation", layout: "column" },
   backgrounds: { title: "Animated Backgrounds", layout: "column" },
 };
@@ -192,7 +191,13 @@ const formatVariantName = (variant) => {
   return variant.label;
 };
 
-const DatePickerTabContent = ({ variants, ComponentVariant }) => {
+const TabContent = ({
+  variants,
+  ComponentVariant,
+  tabLabels = {},
+  sectionKey,
+  minHeight,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
 
@@ -200,13 +205,17 @@ const DatePickerTabContent = ({ variants, ComponentVariant }) => {
     setActiveTab(newValue);
   };
 
-  const tabLabels = {
-    single: "Single Date",
-    range: "Date Range",
-    inline: "Inline Calendar",
-    presets: "With Presets",
-    "with-time": "Date & Time",
-  };
+  const needsFullWidth = [
+    "datepickers",
+    "autocompletes",
+    "forms",
+    "tables",
+    "accordions",
+    "grids",
+    "carousels",
+    "docks",
+    "textfields",
+  ].includes(sectionKey);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -246,216 +255,29 @@ const DatePickerTabContent = ({ variants, ComponentVariant }) => {
             <Tab
               key={variant}
               label={tabLabels[variant] || formatVariantName(variant)}
-              id={`datepicker-tab-${index}`}
-              aria-controls={`datepicker-tabpanel-${index}`}
+              id={`${sectionKey}-tab-${index}`}
+              aria-controls={`${sectionKey}-tabpanel-${index}`}
             />
           ))}
         </Tabs>
       </Box>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          <Box
-            role="tabpanel"
-            id={`datepicker-tabpanel-${activeTab}`}
-            aria-labelledby={`datepicker-tab-${activeTab}`}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <ComponentVariant variant={variants[activeTab]} />
-          </Box>
-        </motion.div>
-      </AnimatePresence>
-    </Box>
-  );
-};
-
-const AutocompleteTabContent = ({ variants, ComponentVariant }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const theme = useTheme();
-
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
-
-  const tabLabels = {
-    basic: "Basic Search",
-    "multi-select": "Multi Select",
-    async: "Async Loading",
-    grouped: "Grouped Options",
-    "custom-render": "Custom Render",
-  };
-
-  return (
-    <Box sx={{ width: "100%" }}>
-      {/* Tabs Header */}
       <Box
+        role="tabpanel"
+        id={`${sectionKey}-tabpanel-${activeTab}`}
+        aria-labelledby={`${sectionKey}-tab-${activeTab}`}
         sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          mb: 3,
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
+          minHeight: minHeight || "auto",
+          width: "100%",
         }}
       >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          allowScrollButtonsMobile
-          sx={{
-            "& .MuiTab-root": {
-              textTransform: "none",
-              fontWeight: 500,
-              fontSize: { xs: "14px", sm: "16px" },
-              minWidth: { xs: "auto", sm: "120px" },
-              px: { xs: 2, sm: 3 },
-            },
-            "& .MuiTabs-indicator": {
-              backgroundColor: theme.palette.text.primary,
-              height: 2,
-            },
-            "& .Mui-selected": {
-              color: `${theme.palette.text.primary} !important`,
-            },
-          }}
-        >
-          {variants.map((variant, index) => (
-            <Tab
-              key={variant}
-              label={tabLabels[variant] || formatVariantName(variant)}
-              id={`autocomplete-tab-${index}`}
-              aria-controls={`autocomplete-tabpanel-${index}`}
-            />
-          ))}
-        </Tabs>
+        <Box sx={{ width: needsFullWidth ? "100%" : "auto" }}>
+          <ComponentVariant variant={variants[activeTab]} />
+        </Box>
       </Box>
-
-      {/* Tab Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          <Box
-            role="tabpanel"
-            id={`autocomplete-tabpanel-${activeTab}`}
-            aria-labelledby={`autocomplete-tab-${activeTab}`}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <ComponentVariant variant={variants[activeTab]} />
-          </Box>
-        </motion.div>
-      </AnimatePresence>
-    </Box>
-  );
-};
-
-const FormsTabContent = ({ variants, ComponentVariant }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const theme = useTheme();
-
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
-
-  const tabLabels = {
-    "multi-step": "Multi Step",
-    login: "Login",
-    register: "Register",
-    contact: "Contact",
-  };
-
-  return (
-    <Box sx={{ width: "100%" }}>
-      {/* Tabs Header */}
-      <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          mb: 3,
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          allowScrollButtonsMobile
-          sx={{
-            "& .MuiTab-root": {
-              textTransform: "none",
-              fontWeight: 500,
-              fontSize: { xs: "14px", sm: "16px" },
-              minWidth: { xs: "auto", sm: "120px" },
-              px: { xs: 2, sm: 3 },
-            },
-            "& .MuiTabs-indicator": {
-              backgroundColor: theme.palette.text.primary,
-              height: 2,
-            },
-            "& .Mui-selected": {
-              color: `${theme.palette.text.primary} !important`,
-            },
-          }}
-        >
-          {variants.map((variant, index) => (
-            <Tab
-              key={variant}
-              label={tabLabels[variant] || formatVariantName(variant)}
-              id={`form-tab-${index}`}
-              aria-controls={`form-tabpanel-${index}`}
-            />
-          ))}
-        </Tabs>
-      </Box>
-
-      {/* Tab Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          <Box
-            role="tabpanel"
-            id={`form-tabpanel-${activeTab}`}
-            aria-labelledby={`form-tab-${activeTab}`}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: { xs: "500px", sm: "600px" },
-              width: "100%",
-            }}
-          >
-            <ComponentVariant variant={variants[activeTab]} />
-          </Box>
-        </motion.div>
-      </AnimatePresence>
     </Box>
   );
 };
@@ -465,26 +287,19 @@ const SectionContent = ({ title, children, url }) => {
   const router = useRouter();
 
   const handleGetCode = () => {
-    // Check if we're on main domain or docs subdomain
     const isMainDomain =
       typeof window !== "undefined" &&
       window.location.hostname === "syncui.design";
 
     if (isMainDomain) {
-      // Redirect to docs subdomain
       window.location.href = `https://docs.syncui.design${url}`;
     } else {
-      // Already on docs subdomain, navigate directly
       router.push(url);
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <Box>
       <Typography
         gutterBottom
         sx={{
@@ -536,13 +351,12 @@ const SectionContent = ({ title, children, url }) => {
           </Button>
         </Box>
       </Paper>
-    </motion.div>
+    </Box>
   );
 };
 
 const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
   const config = sectionConfig[sectionKey];
-
   const baseStyles = {
     "flex-wrap": {
       display: "flex",
@@ -569,65 +383,64 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
   };
   const containerStyle = baseStyles[config.layout];
 
-  if (sectionKey === "datepickers" && config.layout === "tabs") {
+  // Tab layouts with specific labels
+  const tabLayouts = {
+    datepickers: {
+      single: "Single Date",
+      range: "Date Range",
+      inline: "Inline Calendar",
+      presets: "With Presets",
+      "with-time": "Date & Time",
+    },
+    autocompletes: {
+      basic: "Basic Search",
+      "multi-select": "Multi Select",
+      async: "Async Loading",
+      grouped: "Grouped Options",
+      "custom-render": "Custom Render",
+    },
+    forms: {
+      "multi-step": "Multi Step",
+      login: "Login",
+      register: "Register",
+      contact: "Contact",
+    },
+    tables: {
+      modern: "Modern",
+      minimal: "Minimal",
+      expandable: "Expandable",
+    },
+    textfields: {
+      otp: "OTP Input",
+      endIcon: "End Icon",
+      startInline: "Start Inline",
+      endInline: "End Inline",
+      currency: "Currency",
+      aiPrompt: "AI Prompt",
+    },
+    docks: {
+      modern: "Modern",
+      categorical: "Categorical",
+      dynamic: "Dynamic",
+      glass: "Glass",
+    },
+  };
+
+  if (config.layout === "tabs") {
+    const minHeights = {
+      forms: { xs: "500px", sm: "600px" },
+      tables: "400px",
+      carousels: "400px",
+    };
+
     return (
-      <DatePickerTabContent
+      <TabContent
         variants={variants}
         ComponentVariant={ComponentVariant}
+        tabLabels={tabLayouts[sectionKey] || {}}
+        sectionKey={sectionKey}
+        minHeight={minHeights[sectionKey]}
       />
-    );
-  }
-
-  if (sectionKey === "autocompletes" && config.layout === "tabs") {
-    return (
-      <AutocompleteTabContent
-        variants={variants}
-        ComponentVariant={ComponentVariant}
-      />
-    );
-  }
-
-  if (sectionKey === "forms" && config.layout === "tabs") {
-    return (
-      <FormsTabContent
-        variants={variants}
-        ComponentVariant={ComponentVariant}
-      />
-    );
-  }
-
-  if (
-    sectionKey === "textfields" ||
-    sectionKey === "accordions" ||
-    sectionKey === "docks"
-  ) {
-    return (
-      <Box sx={containerStyle}>
-        {variants.map((variant) => (
-          <Box key={variant}>
-            <Typography
-              variant="h6"
-              textAlign="center"
-              sx={{
-                mt:
-                  sectionKey === "textfields"
-                    ? 0.5
-                    : sectionKey === "accordions"
-                      ? 1.5
-                      : 1,
-                mb: sectionKey === "docks" ? 0 : "auto",
-                textTransform: "capitalize",
-                fontWeight: 500,
-              }}
-            >
-              {formatVariantName(variant)} Style
-            </Typography>
-            <ComponentVariant
-              variant={typeof variant === "string" ? variant : variant.variant}
-            />
-          </Box>
-        ))}
-      </Box>
     );
   }
 
@@ -659,7 +472,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
     );
   }
 
-  if (sectionKey === "backgrounds" || sectionKey === "grids") {
+  if (sectionKey === "backgrounds") {
     return (
       <Box sx={containerStyle}>
         {variants.map((variant, index) => (
@@ -667,11 +480,10 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
             key={index}
             sx={{
               width: "100%",
-              height: sectionKey === "backgrounds" ? "200px" : "auto",
+              height: "200px",
               overflow: "hidden",
               borderRadius: 2,
               position: "relative",
-              m: sectionKey === "grids" ? 1 : 0,
             }}
           >
             <ComponentVariant variant={variant} />
@@ -681,50 +493,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
     );
   }
 
-  if (sectionKey === "tables" || sectionKey === "carousels") {
-    return (
-      <AnimatePresence mode="wait">
-        <Box sx={containerStyle}>
-          {variants.map((variant) => (
-            <Box
-              key={variant}
-              component={motion.div}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              sx={{
-                width: "100%",
-                minHeight: "400px",
-                position: "relative",
-              }}
-            >
-              {sectionKey === "tables" && (
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  sx={{ mb: 2, textTransform: "capitalize", fontWeight: 500 }}
-                >
-                  {variant === "modern" &&
-                    "Modern Table - Full-Featured Data Grid"}
-                  {variant === "minimal" &&
-                    "Minimal Table - Streamlined Design"}
-                  {variant === "expandable" &&
-                    "Expandable Table - Collapsible Details"}
-                </Typography>
-              )}
-              <ComponentVariant variant={variant} />
-            </Box>
-          ))}
-        </Box>
-      </AnimatePresence>
-    );
-  }
-
-  if (
-    sectionKey === "tabs" ||
-    sectionKey === "paginations" ||
-    sectionKey === "marquees"
-  ) {
+  if (sectionKey === "tabs" || sectionKey === "paginations") {
     return (
       <Box sx={containerStyle}>
         {variants.map((variant) => (
@@ -742,30 +511,15 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
               textAlign="center"
               sx={{
                 mt: 1,
-                mb: sectionKey === "marquees" ? 0 : "auto",
-                my: sectionKey === "marquees" ? 2 : "auto",
+                mb: "auto",
                 textTransform: "capitalize",
                 fontWeight: sectionKey === "tabs" ? 400 : 500,
               }}
             >
               {formatVariantName(variant)}
-              {sectionKey === "paginations"
-                ? " Pagination"
-                : sectionKey === "marquees"
-                  ? " Marquee"
-                  : ""}
+              {sectionKey === "paginations" ? " Pagination" : ""}
             </Typography>
-            {sectionKey === "marquees" ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <ComponentVariant variant={variant} />
-              </Box>
-            ) : sectionKey === "paginations" ? (
+            {sectionKey === "paginations" ? (
               <ComponentVariant
                 variant={variant}
                 currentPage={3}
@@ -774,32 +528,6 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
             ) : (
               <ComponentVariant variant={variant} />
             )}
-          </Box>
-        ))}
-      </Box>
-    );
-  }
-
-  if (sectionKey === "avatars") {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {variants.map((variant) => (
-          <Box key={variant}>
-            <Typography
-              variant="h6"
-              textAlign="center"
-              sx={{ mt: 2, textTransform: "capitalize", fontWeight: 500 }}
-            >
-              {formatVariantName(variant)}
-            </Typography>
-            <ComponentVariant variant={variant} />
           </Box>
         ))}
       </Box>
@@ -854,7 +582,6 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
     );
   }
 
-  // Default layout for dialogs, buttons, cards, loaders
   return (
     <Box sx={containerStyle}>
       {variants.map((variant) => (
@@ -915,7 +642,6 @@ const TabsSection = () => {
               designed to elevate your next web project.
             </Typography>
           </Box>
-
           {Object.entries(sectionConfig).map(([sectionKey, config]) => (
             <SectionContent
               key={sectionKey}
