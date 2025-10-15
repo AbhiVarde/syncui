@@ -1,6 +1,13 @@
 import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Typography, useTheme } from "@mui/material";
+import {
+  Typography,
+  useTheme,
+  Box,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import {
   LuCalendar,
   LuChevronLeft,
@@ -186,7 +193,6 @@ const DatePickerVariants = ({ variant = "single" }) => {
   };
 
   const handleTimeChange = (field, value) => {
-    // Allow empty string while typing
     if (value === "") {
       setSelectedTime({
         ...selectedTime,
@@ -198,7 +204,6 @@ const DatePickerVariants = ({ variant = "single" }) => {
     let numValue = value.replace(/\D/g, "");
 
     if (field === "hour") {
-      // Allow typing without immediate constraint
       let num = parseInt(numValue);
       if (num > 12) {
         numValue = "12";
@@ -206,7 +211,6 @@ const DatePickerVariants = ({ variant = "single" }) => {
         numValue = "01";
       }
     } else {
-      // For minutes
       let num = parseInt(numValue);
       if (num > 59) {
         numValue = "59";
@@ -292,22 +296,24 @@ const DatePickerVariants = ({ variant = "single" }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px",
-      fontWeight: isCurrentDay ? "500" : "400",
+      fontSize: "14px !important",
+      fontWeight: isCurrentDay ? "500 !important" : "400 !important",
       borderRadius: "8px",
       cursor: shouldShowDate ? "pointer" : "default",
-      color: !shouldShowDate
-        ? isDark
-          ? "#333"
-          : "#ccc"
-        : isSelected || isStart || isEnd
+      color: `${
+        !shouldShowDate
           ? isDark
-            ? "#000"
-            : "#fff"
-          : isDark
-            ? "#fff"
-            : "#000",
-      backgroundColor:
+            ? "#333"
+            : "#ccc"
+          : isSelected || isStart || isEnd
+            ? isDark
+              ? "#000"
+              : "#fff"
+            : isDark
+              ? "#fff"
+              : "#000"
+      } !important`,
+      backgroundColor: `${
         isSelected || isStart || isEnd
           ? isDark
             ? "#fff"
@@ -316,12 +322,14 @@ const DatePickerVariants = ({ variant = "single" }) => {
             ? isDark
               ? "rgba(255,255,255,0.1)"
               : "rgba(0,0,0,0.06)"
-            : "transparent",
-      border:
+            : "transparent"
+      } !important`,
+      border: `${
         isCurrentDay && !isSelected && !isStart && !isEnd
           ? `1px solid ${isDark ? "#666" : "#999"}`
-          : "1px solid transparent",
-      transition: "all 0.15s ease",
+          : "1px solid transparent"
+      } !important`,
+      transition: "all 0.15s ease !important",
     };
   };
 
@@ -330,208 +338,156 @@ const DatePickerVariants = ({ variant = "single" }) => {
     year: "numeric",
   });
 
-  const containerStyle = {
-    width: "100%",
-    maxWidth: "320px",
-    margin: "0 auto",
-    position: "relative",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    height: "44px",
-    padding: "0 12px 0 36px",
-    border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
-    borderRadius: "10px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-    color: isDark ? "#fff" : "#000",
-    fontSize: "14px",
-    fontWeight: "400",
-    outline: "none",
-    cursor: "pointer",
-    transition: "all 0.15s ease",
-  };
-
-  const calendarStyle = {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    marginTop: "6px",
-    backgroundColor: isDark ? "#1a1a1a" : "#fff",
-    border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
-    borderRadius: "12px",
-    padding: "12px",
-    boxShadow: "0 6px 24px rgba(0,0,0,0.1)",
-    zIndex: 1000,
-  };
-
   const renderCalendar = () => (
-    <motion.div
-      initial={{ opacity: 0, y: -6 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -6 }}
-      transition={{ duration: 0.15 }}
-      style={calendarStyle}
+    <Box
+      sx={{
+        position: "absolute !important",
+        top: "100% !important",
+        left: "0 !important",
+        right: "0 !important",
+        mt: "6px !important",
+        bgcolor: `${isDark ? "#1a1a1a" : "#fff"} !important`,
+        border: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
+        borderRadius: "12px !important",
+        p: "12px !important",
+        boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
+        zIndex: "1000 !important",
+      }}
     >
       {variant === "presets" && (
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "4px",
-            marginBottom: "12px",
-            paddingBottom: "12px",
-            borderBottom: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+        <Box
+          sx={{
+            display: "flex !important",
+            flexWrap: "wrap !important",
+            gap: "4px !important",
+            mb: "12px !important",
+            pb: "12px !important",
+            borderBottom: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
           }}
         >
           {presets.map((preset) => (
-            <button
+            <Button
               key={preset.label}
-              style={{
-                padding: "6px",
-                fontSize: "12px",
-                fontWeight: "400",
-                color: isDark ? "#fff" : "#000",
-                backgroundColor: isDark
-                  ? "rgba(255,255,255,0.05)"
-                  : "rgba(0,0,0,0.04)",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "all 0.15s ease",
-                whiteSpace: "nowrap",
-              }}
               onClick={() => handlePresetClick(preset)}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = isDark
-                  ? "rgba(255,255,255,0.1)"
-                  : "rgba(0,0,0,0.08)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = isDark
-                  ? "rgba(255,255,255,0.05)"
-                  : "rgba(0,0,0,0.04)";
+              disableRipple
+              disableElevation
+              sx={{
+                p: "6px !important",
+                minWidth: "auto !important",
+                minHeight: "auto !important",
+                fontSize: "12px !important",
+                fontWeight: "400 !important",
+                color: `${isDark ? "#fff" : "#000"} !important`,
+                bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
+                borderRadius: "6px !important",
+                textTransform: "none !important",
+                transition: "all 0.15s ease !important",
+                whiteSpace: "nowrap !important",
+                "&:hover": {
+                  bgcolor: `${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important`,
+                },
               }}
             >
               {preset.label}
-            </button>
+            </Button>
           ))}
-        </div>
+        </Box>
       )}
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "12px",
+      <Box
+        sx={{
+          display: "flex !important",
+          justifyContent: "space-between !important",
+          alignItems: "center !important",
+          mb: "12px !important",
         }}
       >
-        <button
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "4px",
-            borderRadius: "6px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: isDark ? "#fff" : "#000",
-            transition: "background-color 0.15s ease",
-          }}
+        <IconButton
           onClick={() =>
             setCurrentMonth(
               new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
             )
           }
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = isDark
-              ? "rgba(255,255,255,0.05)"
-              : "rgba(0,0,0,0.04)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
+          disableRipple
+          sx={{
+            p: "4px !important",
+            borderRadius: "6px !important",
+            color: `${isDark ? "#fff" : "#000"} !important`,
+            bgcolor: "transparent !important",
+            transition: "background-color 0.15s ease !important",
+            "&:hover": {
+              bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
+            },
           }}
         >
           <LuChevronLeft size={16} />
-        </button>
-        <div
-          style={{
-            fontSize: "14px",
-            fontWeight: "500",
-            color: isDark ? "#fff" : "#000",
+        </IconButton>
+        <Typography
+          sx={{
+            fontSize: "14px !important",
+            fontWeight: "500 !important",
+            color: `${isDark ? "#fff" : "#000"} !important`,
           }}
         >
           {monthYear}
-        </div>
-        <button
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "4px",
-            borderRadius: "6px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: isDark ? "#fff" : "#000",
-            transition: "background-color 0.15s ease",
-          }}
+        </Typography>
+        <IconButton
           onClick={() =>
             setCurrentMonth(
               new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
             )
           }
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = isDark
-              ? "rgba(255,255,255,0.05)"
-              : "rgba(0,0,0,0.04)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
+          disableRipple
+          sx={{
+            p: "4px !important",
+            borderRadius: "6px !important",
+            color: `${isDark ? "#fff" : "#000"} !important`,
+            bgcolor: "transparent !important",
+            transition: "background-color 0.15s ease !important",
+            "&:hover": {
+              bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
+            },
           }}
         >
           <LuChevronRight size={16} />
-        </button>
-      </div>
+        </IconButton>
+      </Box>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          gap: "2px",
-          marginBottom: "6px",
+      <Box
+        sx={{
+          display: "grid !important",
+          gridTemplateColumns: "repeat(7, 1fr) !important",
+          gap: "2px !important",
+          mb: "6px !important",
         }}
       >
         {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-          <div
+          <Typography
             key={day}
-            style={{
-              fontSize: "14px",
-              fontWeight: "500",
-              color: isDark ? "#666" : "#999",
-              textAlign: "center",
-              padding: "6px 0",
+            sx={{
+              fontSize: "14px !important",
+              fontWeight: "500 !important",
+              color: `${isDark ? "#666" : "#999"} !important`,
+              textAlign: "center !important",
+              py: "6px !important",
             }}
           >
             {day}
-          </div>
+          </Typography>
         ))}
-      </div>
+      </Box>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          gap: "4px",
+      <Box
+        sx={{
+          display: "grid !important",
+          gridTemplateColumns: "repeat(7, 1fr) !important",
+          gap: "4px !important",
         }}
       >
         {days.map((day, index) => (
-          <div
+          <Box
             key={`${day.date.getTime()}-${index}`}
-            style={getDayStyle(day)}
+            sx={getDayStyle(day)}
             onClick={() => handleDateClick(day.date)}
             onMouseEnter={(e) => {
               if (
@@ -558,28 +514,25 @@ const DatePickerVariants = ({ variant = "single" }) => {
             }}
           >
             {day.day}
-          </div>
+          </Box>
         ))}
-      </div>
+      </Box>
 
       {variant === "with-time" && selectedDate && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "6px",
-            marginTop: "12px",
-            padding: "10px",
-            backgroundColor: isDark
-              ? "rgba(255,255,255,0.03)"
-              : "rgba(0,0,0,0.02)",
-            borderRadius: "10px",
+        <Box
+          sx={{
+            display: "flex !important",
+            alignItems: "center !important",
+            justifyContent: "center !important",
+            gap: "6px !important",
+            mt: "12px !important",
+            p: "10px !important",
+            bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)"} !important`,
+            borderRadius: "10px !important",
           }}
         >
           <LuClock size={14} color={isDark ? "#666" : "#999"} />
-          <input
-            type="text"
+          <TextField
             value={selectedTime.hour}
             onChange={(e) => handleTimeChange("hour", e.target.value)}
             onBlur={(e) => {
@@ -593,26 +546,42 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 });
               }
             }}
-            maxLength="2"
-            style={{
-              width: "42px",
-              height: "32px",
-              padding: "0 6px",
-              border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
-              borderRadius: "6px",
-              backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-              color: isDark ? "#fff" : "#000",
-              fontSize: "14px",
-              fontWeight: "400",
-              textAlign: "center",
-              outline: "none",
+            inputProps={{ maxLength: 2 }}
+            sx={{
+              width: "42px !important",
+              "& .MuiOutlinedInput-root": {
+                height: "32px !important",
+                bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
+                borderRadius: "6px !important",
+                "& fieldset": {
+                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                },
+                "&:hover fieldset": {
+                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderWidth: "1px !important",
+                },
+              },
+              "& .MuiOutlinedInput-input": {
+                p: "0 6px !important",
+                textAlign: "center !important",
+                color: `${isDark ? "#fff" : "#000"} !important`,
+                fontSize: "14px !important",
+                fontWeight: "400 !important",
+              },
             }}
           />
-          <span style={{ color: isDark ? "#666" : "#999", fontSize: "12px" }}>
+          <Typography
+            sx={{
+              color: `${isDark ? "#666" : "#999"} !important`,
+              fontSize: "12px !important",
+            }}
+          >
             :
-          </span>
-          <input
-            type="text"
+          </Typography>
+          <TextField
             value={selectedTime.minute}
             onChange={(e) => handleTimeChange("minute", e.target.value)}
             onBlur={(e) => {
@@ -626,114 +595,187 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 });
               }
             }}
-            maxLength="2"
-            style={{
-              width: "42px",
-              height: "32px",
-              padding: "0 6px",
-              border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
-              borderRadius: "6px",
-              backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-              color: isDark ? "#fff" : "#000",
-              fontSize: "14px",
-              fontWeight: "400",
-              textAlign: "center",
-              outline: "none",
+            inputProps={{ maxLength: 2 }}
+            sx={{
+              width: "42px !important",
+              "& .MuiOutlinedInput-root": {
+                height: "32px !important",
+                bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
+                borderRadius: "6px !important",
+                "& fieldset": {
+                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                },
+                "&:hover fieldset": {
+                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderWidth: "1px !important",
+                },
+              },
+              "& .MuiOutlinedInput-input": {
+                p: "0 6px !important",
+                textAlign: "center !important",
+                color: `${isDark ? "#fff" : "#000"} !important`,
+                fontSize: "14px !important",
+                fontWeight: "400 !important",
+              },
             }}
           />
-          <div style={{ display: "flex", gap: "3px" }}>
-            <button
-              style={{
-                padding: "6px 10px",
-                fontSize: "14px",
-                fontWeight: "500",
+          <Box sx={{ display: "flex !important", gap: "3px !important" }}>
+            <Button
+              onClick={() => setSelectedTime({ ...selectedTime, period: "AM" })}
+              disableRipple
+              disableElevation
+              sx={{
+                p: "6px 10px !important",
+                minWidth: "auto !important",
+                minHeight: "auto !important",
+                fontSize: "14px !important",
+                fontWeight: "500 !important",
                 color:
                   selectedTime.period === "AM"
-                    ? isDark
-                      ? "#000"
-                      : "#fff"
-                    : isDark
-                      ? "#999"
-                      : "#666",
-                backgroundColor:
+                    ? `${isDark ? "#000" : "#fff"} !important`
+                    : `${isDark ? "#999" : "#666"} !important`,
+                bgcolor: `${
                   selectedTime.period === "AM"
                     ? isDark
                       ? "#fff"
                       : "#000"
-                    : "transparent",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "all 0.15s ease",
+                    : "transparent"
+                } !important`,
+                border: "none !important",
+                borderRadius: "6px !important",
+                textTransform: "none !important",
+                transition: "all 0.15s ease !important",
+                "&:hover": {
+                  bgcolor: `${
+                    selectedTime.period === "AM"
+                      ? isDark
+                        ? "#fff"
+                        : "#000"
+                      : "transparent"
+                  } !important`,
+                },
               }}
-              onClick={() => setSelectedTime({ ...selectedTime, period: "AM" })}
             >
               AM
-            </button>
-            <button
-              style={{
-                padding: "6px 10px",
-                fontSize: "14px",
-                fontWeight: "500",
+            </Button>
+            <Button
+              onClick={() => setSelectedTime({ ...selectedTime, period: "PM" })}
+              disableRipple
+              disableElevation
+              sx={{
+                p: "6px 10px !important",
+                minWidth: "auto !important",
+                minHeight: "auto !important",
+                fontSize: "14px !important",
+                fontWeight: "500 !important",
                 color:
                   selectedTime.period === "PM"
-                    ? isDark
-                      ? "#000"
-                      : "#fff"
-                    : isDark
-                      ? "#999"
-                      : "#666",
-                backgroundColor:
+                    ? `${isDark ? "#000" : "#fff"} !important`
+                    : `${isDark ? "#999" : "#666"} !important`,
+                bgcolor: `${
                   selectedTime.period === "PM"
                     ? isDark
                       ? "#fff"
                       : "#000"
-                    : "transparent",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "all 0.15s ease",
+                    : "transparent"
+                } !important`,
+                border: "none !important",
+                borderRadius: "6px !important",
+                textTransform: "none !important",
+                transition: "all 0.15s ease !important",
+                "&:hover": {
+                  bgcolor: `${
+                    selectedTime.period === "PM"
+                      ? isDark
+                        ? "#fff"
+                        : "#000"
+                      : "transparent"
+                  } !important`,
+                },
               }}
-              onClick={() => setSelectedTime({ ...selectedTime, period: "PM" })}
             >
               PM
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Box>
+        </Box>
       )}
-    </motion.div>
+    </Box>
   );
 
   return (
-    <div style={containerStyle}>
+    <Box
+      sx={{
+        width: "100% !important",
+        maxWidth: "320px !important",
+        margin: "0 auto !important",
+        position: "relative !important",
+      }}
+    >
       <Typography
         variant="body2"
-        sx={{ mb: 0.75, textAlign: "center", fontSize: "13px" }}
+        sx={{
+          mb: "6px !important",
+          textAlign: "center !important",
+          fontSize: "13px !important",
+        }}
       >
         {getDescription()}
       </Typography>
-      <div style={{ position: "relative" }}>
-        <LuCalendar
-          style={{
-            position: "absolute",
-            left: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: "16px",
-            color: isDark ? "#666" : "#999",
-            pointerEvents: "none",
-          }}
-        />
-        <input
-          style={inputStyle}
+      <Box sx={{ position: "relative !important" }}>
+        <TextField
+          fullWidth
           placeholder={getPlaceholder()}
           value={getInputValue()}
-          readOnly
           onClick={() => setIsOpen(!isOpen)}
+          InputProps={{
+            readOnly: true,
+            startAdornment: (
+              <InputAdornment
+                position="start"
+                sx={{ ml: "0 !important", mr: "0 !important" }}
+              >
+                <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              height: "44px !important",
+              bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
+              borderRadius: "10px !important",
+              cursor: "pointer !important",
+              transition: "all 0.15s ease !important",
+              "& fieldset": {
+                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+              },
+              "&:hover fieldset": {
+                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                borderWidth: "1px !important",
+              },
+            },
+            "& .MuiOutlinedInput-input": {
+              cursor: "pointer !important",
+              color: `${isDark ? "#fff" : "#000"} !important`,
+              fontSize: "14px !important",
+              fontWeight: "400 !important",
+              pl: "36px !important",
+              pr: "12px !important",
+            },
+            "& .MuiInputAdornment-root": {
+              position: "absolute !important",
+              left: "12px !important",
+            },
+          }}
         />
-        <AnimatePresence>{isOpen && renderCalendar()}</AnimatePresence>
-      </div>
-    </div>
+        {isOpen && renderCalendar()}
+      </Box>
+    </Box>
   );
 };
 

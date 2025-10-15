@@ -12,8 +12,7 @@ A standard calendar date picker for selecting a single date.
 <CodePreview
   preview={<DatePickerVariants variant="single" />}
   code={`import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "@mui/material";
+import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import {
   LuCalendar,
   LuChevronLeft,
@@ -67,11 +66,11 @@ const SingleDatePicker = () => {
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    d1.setHours(0, 0, 0, 0);
+    d2.setHours(0, 0, 0, 0);
+    return d1.getTime() === d2.getTime();
   };
 
   const isToday = (date) => isSameDay(date, new Date());
@@ -99,11 +98,11 @@ const SingleDatePicker = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px",
-      fontWeight: isCurrentDay ? "500" : "400",
+      fontSize: "14px !important",
+      fontWeight: isCurrentDay ? "500 !important" : "400 !important",
       borderRadius: "8px",
       cursor: day.isCurrentMonth ? "pointer" : "default",
-      color: !day.isCurrentMonth
+      color: \`\${!day.isCurrentMonth
         ? isDark
           ? "#333"
           : "#ccc"
@@ -113,17 +112,17 @@ const SingleDatePicker = () => {
             : "#fff"
           : isDark
             ? "#fff"
-            : "#000",
-      backgroundColor: isSelected
+            : "#000"} !important\`,
+      backgroundColor: \`\${isSelected
         ? isDark
           ? "#fff"
           : "#000"
-        : "transparent",
-      border:
+        : "transparent"} !important\`,
+      border: \`\${
         isCurrentDay && !isSelected
           ? \`1px solid \${isDark ? "#666" : "#999"}\`
-          : "1px solid transparent",
-      transition: "all 0.15s ease",
+          : "1px solid transparent"} !important\`,
+      transition: "all 0.15s ease !important",
     };
   };
 
@@ -132,214 +131,193 @@ const SingleDatePicker = () => {
     year: "numeric",
   });
 
-  const containerStyle = {
-    width: "100%",
-    maxWidth: "320px",
-    margin: "0 auto",
-    position: "relative",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    height: "44px",
-    padding: "0 12px 0 36px",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "10px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-    color: isDark ? "#fff" : "#000",
-    fontSize: "14px",
-    fontWeight: "400",
-    outline: "none",
-    cursor: "pointer",
-    transition: "all 0.15s ease",
-  };
-
-  const calendarStyle = {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    marginTop: "6px",
-    backgroundColor: isDark ? "#1a1a1a" : "#fff",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "12px",
-    padding: "12px",
-    boxShadow: "0 6px 24px rgba(0,0,0,0.1)",
-    zIndex: 1000,
-  };
-
   return (
-    <div style={containerStyle}>
-      <div style={{ position: "relative" }}>
-        <LuCalendar
-          style={{
-            position: "absolute",
-            left: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: "16px",
-            color: isDark ? "#666" : "#999",
-            pointerEvents: "none",
-          }}
-        />
-        <input
-          style={inputStyle}
+    <Box sx={{ width: "100% !important", maxWidth: "320px !important", margin: "0 auto !important", position: "relative !important" }}>
+      <Box sx={{ position: "relative !important" }}>
+        <TextField
+          fullWidth
           placeholder="Select date..."
           value={formatDate(selectedDate)}
-          readOnly
           onClick={() => setIsOpen(!isOpen)}
+          InputProps={{
+            readOnly: true,
+            startAdornment: (
+              <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
+                <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              height: "44px !important",
+              bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
+              borderRadius: "10px !important",
+              cursor: "pointer !important",
+              transition: "all 0.15s ease !important",
+              "& fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&:hover fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                borderWidth: "1px !important",
+              },
+            },
+            "& .MuiOutlinedInput-input": {
+              cursor: "pointer !important",
+              color: \`\${isDark ? "#fff" : "#000"} !important\`,
+              fontSize: "14px !important",
+              fontWeight: "400 !important",
+              pl: "36px !important",
+              pr: "12px !important",
+            },
+            "& .MuiInputAdornment-root": {
+              position: "absolute !important",
+              left: "12px !important",
+            },
+          }}
         />
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-              style={calendarStyle}
+        {isOpen && (
+          <Box
+            sx={{
+              position: "absolute !important",
+              top: "100% !important",
+              left: "0 !important",
+              right: "0 !important",
+              mt: "6px !important",
+              bgcolor: \`\${isDark ? "#1a1a1a" : "#fff"} !important\`,
+              border: \`1px solid \${isDark ? "#333" : "#e0e0e0"} !important\`,
+              borderRadius: "12px !important",
+              p: "12px !important",
+              boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
+              zIndex: "1000 !important",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex !important",
+                justifyContent: "space-between !important",
+                alignItems: "center !important",
+                mb: "12px !important",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "12px",
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
                 }}
               >
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
+                <LuChevronLeft size={16} />
+              </IconButton>
+              <Typography
+                sx={{
+                  fontSize: "14px !important",
+                  fontWeight: "500 !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                }}
+              >
+                {monthYear}
+              </Typography>
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
+                }}
+              >
+                <LuChevronRight size={16} />
+              </IconButton>
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "2px !important",
+                mb: "6px !important",
+              }}
+            >
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                <Typography
+                  key={day}
+                  sx={{
+                    fontSize: "14px !important",
+                    fontWeight: "500 !important",
+                    color: \`\${isDark ? "#666" : "#999"} !important\`,
+                    textAlign: "center !important",
+                    py: "6px !important",
                   }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-                    )
-                  }
+                >
+                  {day}
+                </Typography>
+              ))}
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "4px !important",
+              }}
+            >
+              {days.map((day, index) => (
+                <Box
+                  key={\`\${day.date.getTime()}-\${index}\`}
+                  sx={getDayStyle(day)}
+                  onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, selectedDate)
+                    ) {
+                      e.currentTarget.style.backgroundColor = isDark
+                        ? "rgba(255,255,255,0.08)"
+                        : "rgba(0,0,0,0.04)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, selectedDate)
+                    ) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }
                   }}
                 >
-                  <LuChevronLeft size={16} />
-                </button>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: isDark ? "#fff" : "#000",
-                  }}
-                >
-                  {monthYear}
-                </div>
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
-                  }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-                    )
-                  }
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  <LuChevronRight size={16} />
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "2px",
-                  marginBottom: "6px",
-                }}
-              >
-                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-                  <div
-                    key={day}
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: isDark ? "#666" : "#999",
-                      textAlign: "center",
-                      padding: "6px 0",
-                    }}
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "4px",
-                }}
-              >
-                {days.map((day, index) => (
-                  <div
-                    key={\`\${day.date.getTime()}-\${index}\`}
-                    style={getDayStyle(day)}
-                    onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
-                    onMouseEnter={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, selectedDate)
-                      ) {
-                        e.currentTarget.style.backgroundColor = isDark
-                          ? "rgba(255,255,255,0.08)"
-                          : "rgba(0,0,0,0.04)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, selectedDate)
-                      ) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }
-                    }}
-                  >
-                    {day.day}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
+                  {day.day}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 };
 
@@ -353,8 +331,7 @@ Select start and end dates for a date range.
 <CodePreview
   preview={<DatePickerVariants variant="range" />}
   code={`import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "@mui/material";
+import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import {
   LuCalendar,
   LuChevronLeft,
@@ -409,16 +386,22 @@ const RangeDatePicker = () => {
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    d1.setHours(0, 0, 0, 0);
+    d2.setHours(0, 0, 0, 0);
+    return d1.getTime() === d2.getTime();
   };
 
   const isInRange = (date) => {
     if (!startDate || !endDate) return false;
-    return date >= startDate && date <= endDate;
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0);
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+    return checkDate >= start && checkDate <= end;
   };
 
   const isToday = (date) => isSameDay(date, new Date());
@@ -457,17 +440,18 @@ const RangeDatePicker = () => {
     const isEnd = isSameDay(day.date, endDate);
     const inRange = isInRange(day.date);
     const isCurrentDay = isToday(day.date);
+    const shouldShowDate = day.isCurrentMonth || inRange || isStart || isEnd;
 
     return {
       aspectRatio: "1",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px",
-      fontWeight: isCurrentDay ? "500" : "400",
+      fontSize: "14px !important",
+      fontWeight: isCurrentDay ? "500 !important" : "400 !important",
       borderRadius: "8px",
-      cursor: day.isCurrentMonth ? "pointer" : "default",
-      color: !day.isCurrentMonth
+      cursor: shouldShowDate ? "pointer" : "default",
+      color: \`\${!shouldShowDate
         ? isDark
           ? "#333"
           : "#ccc"
@@ -477,8 +461,8 @@ const RangeDatePicker = () => {
             : "#fff"
           : isDark
             ? "#fff"
-            : "#000",
-      backgroundColor:
+            : "#000"} !important\`,
+      backgroundColor: \`\${
         isStart || isEnd
           ? isDark
             ? "#fff"
@@ -487,12 +471,12 @@ const RangeDatePicker = () => {
             ? isDark
               ? "rgba(255,255,255,0.1)"
               : "rgba(0,0,0,0.06)"
-            : "transparent",
-      border:
+            : "transparent"} !important\`,
+      border: \`\${
         isCurrentDay && !isStart && !isEnd
           ? \`1px solid \${isDark ? "#666" : "#999"}\`
-          : "1px solid transparent",
-      transition: "all 0.15s ease",
+          : "1px solid transparent"} !important\`,
+      transition: "all 0.15s ease !important",
     };
   };
 
@@ -501,217 +485,196 @@ const RangeDatePicker = () => {
     year: "numeric",
   });
 
-  const containerStyle = {
-    width: "100%",
-    maxWidth: "320px",
-    margin: "0 auto",
-    position: "relative",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    height: "44px",
-    padding: "0 12px 0 36px",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "10px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-    color: isDark ? "#fff" : "#000",
-    fontSize: "14px",
-    fontWeight: "400",
-    outline: "none",
-    cursor: "pointer",
-    transition: "all 0.15s ease",
-  };
-
-  const calendarStyle = {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    marginTop: "6px",
-    backgroundColor: isDark ? "#1a1a1a" : "#fff",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "12px",
-    padding: "12px",
-    boxShadow: "0 6px 24px rgba(0,0,0,0.1)",
-    zIndex: 1000,
-  };
-
   return (
-    <div style={containerStyle}>
-      <div style={{ position: "relative" }}>
-        <LuCalendar
-          style={{
-            position: "absolute",
-            left: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: "16px",
-            color: isDark ? "#666" : "#999",
-            pointerEvents: "none",
-          }}
-        />
-        <input
-          style={inputStyle}
+    <Box sx={{ width: "100% !important", maxWidth: "320px !important", margin: "0 auto !important", position: "relative !important" }}>
+      <Box sx={{ position: "relative !important" }}>
+        <TextField
+          fullWidth
           placeholder="Select date range..."
           value={formatDateRange()}
-          readOnly
           onClick={() => setIsOpen(!isOpen)}
+          InputProps={{
+            readOnly: true,
+            startAdornment: (
+              <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
+                <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              height: "44px !important",
+              bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
+              borderRadius: "10px !important",
+              cursor: "pointer !important",
+              transition: "all 0.15s ease !important",
+              "& fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&:hover fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                borderWidth: "1px !important",
+              },
+            },
+            "& .MuiOutlinedInput-input": {
+              cursor: "pointer !important",
+              color: \`\${isDark ? "#fff" : "#000"} !important\`,
+              fontSize: "14px !important",
+              fontWeight: "400 !important",
+              pl: "36px !important",
+              pr: "12px !important",
+            },
+            "& .MuiInputAdornment-root": {
+              position: "absolute !important",
+              left: "12px !important",
+            },
+          }}
         />
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-              style={calendarStyle}
+        {isOpen && (
+          <Box
+            sx={{
+              position: "absolute !important",
+              top: "100% !important",
+              left: "0 !important",
+              right: "0 !important",
+              mt: "6px !important",
+              bgcolor: \`\${isDark ? "#1a1a1a" : "#fff"} !important\`,
+              border: \`1px solid \${isDark ? "#333" : "#e0e0e0"} !important\`,
+              borderRadius: "12px !important",
+              p: "12px !important",
+              boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
+              zIndex: "1000 !important",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex !important",
+                justifyContent: "space-between !important",
+                alignItems: "center !important",
+                mb: "12px !important",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "12px",
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
                 }}
               >
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
+                <LuChevronLeft size={16} />
+              </IconButton>
+              <Typography
+                sx={{
+                  fontSize: "14px !important",
+                  fontWeight: "500 !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                }}
+              >
+                {monthYear}
+              </Typography>
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
+                }}
+              >
+                <LuChevronRight size={16} />
+              </IconButton>
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "2px !important",
+                mb: "6px !important",
+              }}
+            >
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                <Typography
+                  key={day}
+                  sx={{
+                    fontSize: "14px !important",
+                    fontWeight: "500 !important",
+                    color: \`\${isDark ? "#666" : "#999"} !important\`,
+                    textAlign: "center !important",
+                    py: "6px !important",
                   }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-                    )
-                  }
+                >
+                  {day}
+                </Typography>
+              ))}
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "4px !important",
+              }}
+            >
+              {days.map((day, index) => (
+                <Box
+                  key={\`\${day.date.getTime()}-\${index}\`}
+                  sx={getDayStyle(day)}
+                  onClick={() => handleDateClick(day.date)}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, startDate) &&
+                      !isSameDay(day.date, endDate)
+                    ) {
+                      e.currentTarget.style.backgroundColor = isDark
+                        ? "rgba(255,255,255,0.08)"
+                        : "rgba(0,0,0,0.04)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, startDate) &&
+                      !isSameDay(day.date, endDate) &&
+                      !isInRange(day.date)
+                    ) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }
                   }}
                 >
-                  <LuChevronLeft size={16} />
-                </button>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: isDark ? "#fff" : "#000",
-                  }}
-                >
-                  {monthYear}
-                </div>
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
-                  }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-                    )
-                  }
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  <LuChevronRight size={16} />
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "2px",
-                  marginBottom: "6px",
-                }}
-              >
-                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-                  <div
-                    key={day}
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: isDark ? "#666" : "#999",
-                      textAlign: "center",
-                      padding: "6px 0",
-                    }}
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "4px",
-                }}
-              >
-                {days.map((day, index) => (
-                  <div
-                    key={\`\${day.date.getTime()}-\${index}\`}
-                    style={getDayStyle(day)}
-                    onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
-                    onMouseEnter={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, startDate) &&
-                        !isSameDay(day.date, endDate)
-                      ) {
-                        e.currentTarget.style.backgroundColor = isDark
-                          ? "rgba(255,255,255,0.08)"
-                          : "rgba(0,0,0,0.04)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, startDate) &&
-                        !isSameDay(day.date, endDate) &&
-                        !isInRange(day.date)
-                      ) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }
-                    }}
-                  >
-                    {day.day}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
+                  {day.day}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 };
 
@@ -725,8 +688,7 @@ Quick select with preset date range options.
 <CodePreview
   preview={<DatePickerVariants variant="presets" />}
   code={`import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "@mui/material";
+import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import { LuCalendar, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 const PresetsDatePicker = () => {
@@ -738,43 +700,76 @@ const PresetsDatePicker = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const presets = useMemo(() => [
-    { label: "Today", getValue: () => new Date() },
-    { label: "Yesterday", getValue: () => new Date(Date.now() - 86400000) },
-    {
-      label: "This Week",
-      getValue: () => {
-        const date = new Date();
-        const day = date.getDay();
-        const diff = date.getDate() - day;
-        return { start: new Date(date.setDate(diff)), end: new Date() };
+  const presets = useMemo(
+    () => [
+      {
+        label: "Today",
+        getValue: () => {
+          const d = new Date();
+          d.setHours(0, 0, 0, 0);
+          return { start: d, end: new Date(d) };
+        },
       },
-    },
-    {
-      label: "Last 7 Days",
-      getValue: () => ({
-        start: new Date(Date.now() - 7 * 86400000),
-        end: new Date(),
-      }),
-    },
-    {
-      label: "Last 30 Days",
-      getValue: () => ({
-        start: new Date(Date.now() - 30 * 86400000),
-        end: new Date(),
-      }),
-    },
-    {
-      label: "This Month",
-      getValue: () => {
-        const date = new Date();
-        return {
-          start: new Date(date.getFullYear(), date.getMonth(), 1),
-          end: new Date(),
-        };
+      {
+        label: "Yesterday",
+        getValue: () => {
+          const d = new Date();
+          d.setDate(d.getDate() - 1);
+          d.setHours(0, 0, 0, 0);
+          const end = new Date(d);
+          end.setHours(23, 59, 59, 999);
+          return { start: d, end };
+        },
       },
-    },
-  ], []);
+      {
+        label: "This Week",
+        getValue: () => {
+          const date = new Date();
+          const day = date.getDay();
+          const start = new Date(date);
+          start.setDate(date.getDate() - day);
+          start.setHours(0, 0, 0, 0);
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          return { start, end };
+        },
+      },
+      {
+        label: "Last 7 Days",
+        getValue: () => {
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          const start = new Date();
+          start.setDate(end.getDate() - 6);
+          start.setHours(0, 0, 0, 0);
+          return { start, end };
+        },
+      },
+      {
+        label: "Last 30 Days",
+        getValue: () => {
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          const start = new Date();
+          start.setDate(end.getDate() - 29);
+          start.setHours(0, 0, 0, 0);
+          return { start, end };
+        },
+      },
+      {
+        label: "This Month",
+        getValue: () => {
+          const date = new Date();
+          const start = new Date(date.getFullYear(), date.getMonth(), 1);
+          start.setHours(0, 0, 0, 0);
+          const end = new Date();
+          end.setHours(23, 59, 59, 999);
+          return { start, end };
+        },
+      },
+    ],
+    []
+  );
 
   const days = useMemo(() => {
     const year = currentMonth.getFullYear();
@@ -815,16 +810,22 @@ const PresetsDatePicker = () => {
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    d1.setHours(0, 0, 0, 0);
+    d2.setHours(0, 0, 0, 0);
+    return d1.getTime() === d2.getTime();
   };
 
   const isInRange = (date) => {
     if (!startDate || !endDate) return false;
-    return date >= startDate && date <= endDate;
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0);
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+    return checkDate >= start && checkDate <= end;
   };
 
   const isToday = (date) => isSameDay(date, new Date());
@@ -854,7 +855,7 @@ const PresetsDatePicker = () => {
   const formatDate = (date) => {
     if (!date) return "";
     return date.toLocaleDateString("en-US", {
-      month: "short",
+    month: "short",
       day: "numeric",
       year: "numeric",
     });
@@ -871,17 +872,18 @@ const PresetsDatePicker = () => {
     const isEnd = isSameDay(day.date, endDate);
     const inRange = isInRange(day.date);
     const isCurrentDay = isToday(day.date);
+    const shouldShowDate = day.isCurrentMonth || inRange || isStart || isEnd;
 
     return {
       aspectRatio: "1",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px",
-      fontWeight: isCurrentDay ? "500" : "400",
+      fontSize: "14px !important",
+      fontWeight: isCurrentDay ? "500 !important" : "400 !important",
       borderRadius: "8px",
-      cursor: day.isCurrentMonth ? "pointer" : "default",
-      color: !day.isCurrentMonth
+      cursor: shouldShowDate ? "pointer" : "default",
+      color: \`\${!shouldShowDate
         ? isDark
           ? "#333"
           : "#ccc"
@@ -891,8 +893,8 @@ const PresetsDatePicker = () => {
           : "#fff"
         : isDark
         ? "#fff"
-        : "#000",
-      backgroundColor: isStart || isEnd
+        : "#000"} !important\`,
+      backgroundColor: \`\${isStart || isEnd
         ? isDark
           ? "#fff"
           : "#000"
@@ -900,11 +902,11 @@ const PresetsDatePicker = () => {
         ? isDark
           ? "rgba(255,255,255,0.1)"
           : "rgba(0,0,0,0.06)"
-        : "transparent",
-      border: isCurrentDay && !isStart && !isEnd
+        : "transparent"} !important\`,
+      border: \`\${isCurrentDay && !isStart && !isEnd
         ? \`1px solid \${isDark ? "#666" : "#999"}\`
-        : "1px solid transparent",
-      transition: "all 0.15s ease",
+        : "1px solid transparent"} !important\`,
+      transition: "all 0.15s ease !important",
     };
   };
 
@@ -913,257 +915,230 @@ const PresetsDatePicker = () => {
     year: "numeric",
   });
 
-  const containerStyle = {
-    width: "100%",
-    maxWidth: "320px",
-    margin: "0 auto",
-    position: "relative",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    height: "44px",
-    padding: "0 12px 0 36px",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "10px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-    color: isDark ? "#fff" : "#000",
-    fontSize: "14px",
-    fontWeight: "400",
-    outline: "none",
-    cursor: "pointer",
-    transition: "all 0.15s ease",
-  };
-
-  const calendarStyle = {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    marginTop: "6px",
-    backgroundColor: isDark ? "#1a1a1a" : "#fff",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "12px",
-    padding: "12px",
-    boxShadow: "0 6px 24px rgba(0,0,0,0.1)",
-    zIndex: 1000,
-  };
-
   return (
-    <div style={containerStyle}>
-      <div style={{ position: "relative" }}>
-        <LuCalendar
-          style={{
-            position: "absolute",
-            left: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: "16px",
-            color: isDark ? "#666" : "#999",
-            pointerEvents: "none",
-          }}
-        />
-        <input
-          style={inputStyle}
+    <Box sx={{ width: "100% !important", maxWidth: "320px !important", margin: "0 auto !important", position: "relative !important" }}>
+      <Box sx={{ position: "relative !important" }}>
+        <TextField
+          fullWidth
           placeholder="Select or choose preset..."
           value={formatDateRange()}
-          readOnly
           onClick={() => setIsOpen(!isOpen)}
+          InputProps={{
+            readOnly: true,
+            startAdornment: (
+              <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
+                <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              height: "44px !important",
+              bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
+              borderRadius: "10px !important",
+              cursor: "pointer !important",
+              transition: "all 0.15s ease !important",
+              "& fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&:hover fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                borderWidth: "1px !important",
+              },
+            },
+            "& .MuiOutlinedInput-input": {
+              cursor: "pointer !important",
+              color: \`\${isDark ? "#fff" : "#000"} !important\`,
+              fontSize: "14px !important",
+              fontWeight: "400 !important",
+              pl: "36px !important",
+              pr: "12px !important",
+            },
+            "& .MuiInputAdornment-root": {
+              position: "absolute !important",
+              left: "12px !important",
+            },
+          }}
         />
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-              style={calendarStyle}
+        {isOpen && (
+          <Box
+            sx={{
+              position: "absolute !important",
+              top: "100% !important",
+              left: "0 !important",
+              right: "0 !important",
+              mt: "6px !important",
+              bgcolor: \`\${isDark ? "#1a1a1a" : "#fff"} !important\`,
+              border: \`1px solid \${isDark ? "#333" : "#e0e0e0"} !important\`,
+              borderRadius: "12px !important",
+              p: "12px !important",
+              boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
+              zIndex: "1000 !important",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex !important",
+                flexWrap: "wrap !important",
+                gap: "4px !important",
+                mb: "12px !important",
+                pb: "12px !important",
+                borderBottom: \`1px solid \${isDark ? "#333" : "#e0e0e0"} !important\`,
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "4px",
-                  marginBottom: "12px",
-                  paddingBottom: "12px",
-                  borderBottom: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
+              {presets.map((preset) => (
+                <Button
+                  key={preset.label}
+                  onClick={() => handlePresetClick(preset)}
+                  disableRipple
+                  disableElevation
+                  sx={{
+                    p: "6px !important",
+                    minWidth: "auto !important",
+                    minHeight: "auto !important",
+                    fontSize: "12px !important",
+                    fontWeight: "400 !important",
+                    color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                    borderRadius: "6px !important",
+                    textTransform: "none !important",
+                    transition: "all 0.15s ease !important",
+                    whiteSpace: "nowrap !important",
+                    "&:hover": {
+                      bgcolor: \`\${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important\`,
+                    },
+                  }}
+                >
+                  {preset.label}
+                </Button>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex !important",
+                justifyContent: "space-between !important",
+                alignItems: "center !important",
+                mb: "12px !important",
+              }}
+            >
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
                 }}
               >
-                {presets.map((preset) => (
-                  <button
-                    key={preset.label}
-                    style={{
-                      padding: "6px",
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      color: isDark ? "#fff" : "#000",
-                      backgroundColor: isDark
-                        ? "rgba(255,255,255,0.05)"
-                        : "rgba(0,0,0,0.04)",
-                      border: "none",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      transition: "all 0.15s ease",
-                      whiteSpace: "nowrap",
-                    }}
-                    onClick={() => handlePresetClick(preset)}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = isDark
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(0,0,0,0.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = isDark
-                        ? "rgba(255,255,255,0.05)"
+                <LuChevronLeft size={16} />
+              </IconButton>
+              <Typography
+                sx={{
+                  fontSize: "14px !important",
+                  fontWeight: "500 !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                }}
+              >
+                {monthYear}
+              </Typography>
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
+                }}
+              >
+                <LuChevronRight size={16} />
+              </IconButton>
+            </Box>
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "2px !important",
+                mb: "6px !important",
+              }}
+            >
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                <Typography
+                  key={day}
+                  sx={{
+                    fontSize: "14px !important",
+                    fontWeight: "500 !important",
+                    color: \`\${isDark ? "#666" : "#999"} !important\`,
+                    textAlign: "center !important",
+                    py: "6px !important",
+                  }}
+                >
+                  {day}
+                </Typography>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "4px !important",
+              }}
+            >
+              {days.map((day, index) => (
+                <Box
+                  key={\`\${day.date.getTime()}-\${index}\`}
+                  sx={getDayStyle(day)}
+                  onClick={() => handleDateClick(day.date)}
+                  onMouseEnter={(e) => {
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, startDate) &&
+                      !isSameDay(day.date, endDate)
+                    ) {
+                      e.currentTarget.style.backgroundColor = isDark
+                        ? "rgba(255,255,255,0.08)"
                         : "rgba(0,0,0,0.04)";
-                    }}
-                  >
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "12px",
-                }}
-              >
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
-                  }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-                    )
-                  }
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, startDate) &&
+                      !isSameDay(day.date, endDate) &&
+                      !isInRange(day.date)
+                    ) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }
                   }}
                 >
-                  <LuChevronLeft size={16} />
-                </button>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: isDark ? "#fff" : "#000",
-                  }}
-                >
-                  {monthYear}
-                </div>
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
-                  }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-                    )
-                  }
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  <LuChevronRight size={16} />
-                </button>
-              </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "2px",
-                  marginBottom: "6px",
-                }}
-              >
-                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-                  <div
-                    key={day}
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: isDark ? "#666" : "#999",
-                      textAlign: "center",
-                      padding: "6px 0",
-                    }}
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "4px",
-                }}
-              >
-                {days.map((day, index) => (
-                  <div
-                    key={\`\${day.date.getTime()}-\${index}\`}
-                    style={getDayStyle(day)}
-                    onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
-                    onMouseEnter={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, startDate) &&
-                        !isSameDay(day.date, endDate)
-                      ) {
-                        e.currentTarget.style.backgroundColor = isDark
-                          ? "rgba(255,255,255,0.08)"
-                          : "rgba(0,0,0,0.04)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, startDate) &&
-                        !isSameDay(day.date, endDate) &&
-                        !isInRange(day.date)
-                      ) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }
-                    }}
-                  >
-                    {day.day}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
+                  {day.day}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 };
 
@@ -1178,8 +1153,7 @@ Combined date and time selection with hours, minutes, and AM/PM.
 <CodePreview
   preview={<DatePickerVariants variant="with-time" />}
   code={`import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "@mui/material";
+import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import {
   LuCalendar,
   LuChevronLeft,
@@ -1239,11 +1213,11 @@ const DateTimePicker = () => {
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    d1.setHours(0, 0, 0, 0);
+    d2.setHours(0, 0, 0, 0);
+    return d1.getTime() === d2.getTime();
   };
 
   const isToday = (date) => isSameDay(date, new Date());
@@ -1306,11 +1280,11 @@ const DateTimePicker = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px",
-      fontWeight: isCurrentDay ? "500" : "400",
+      fontSize: "14px !important",
+      fontWeight: isCurrentDay ? "500 !important" : "400 !important",
       borderRadius: "8px",
       cursor: day.isCurrentMonth ? "pointer" : "default",
-      color: !day.isCurrentMonth
+      color: \`\${!day.isCurrentMonth
         ? isDark
           ? "#333"
           : "#ccc"
@@ -1320,17 +1294,17 @@ const DateTimePicker = () => {
             : "#fff"
           : isDark
             ? "#fff"
-            : "#000",
-      backgroundColor: isSelected
+            : "#000"} !important\`,
+      backgroundColor: \`\${isSelected
         ? isDark
           ? "#fff"
           : "#000"
-        : "transparent",
-      border:
+        : "transparent"} !important\`,
+      border: \`\${
         isCurrentDay && !isSelected
           ? \`1px solid \${isDark ? "#666" : "#999"}\`
-          : "1px solid transparent",
-      transition: "all 0.15s ease",
+          : "1px solid transparent"} !important\`,
+      transition: "all 0.15s ease !important",
     };
   };
 
@@ -1339,354 +1313,361 @@ const DateTimePicker = () => {
     year: "numeric",
   });
 
-  const containerStyle = {
-    width: "100%",
-    maxWidth: "320px",
-    margin: "0 auto",
-    position: "relative",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    height: "44px",
-    padding: "0 12px 0 36px",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "10px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-    color: isDark ? "#fff" : "#000",
-    fontSize: "14px",
-    fontWeight: "400",
-    outline: "none",
-    cursor: "pointer",
-    transition: "all 0.15s ease",
-  };
-
-  const calendarStyle = {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    marginTop: "6px",
-    backgroundColor: isDark ? "#1a1a1a" : "#fff",
-    border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-    borderRadius: "12px",
-    padding: "12px",
-    boxShadow: "0 6px 24px rgba(0,0,0,0.1)",
-    zIndex: 1000,
-  };
-
   return (
-    <div style={containerStyle}>
-      <div style={{ position: "relative" }}>
-        <LuCalendar
-          style={{
-            position: "absolute",
-            left: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: "16px",
-            color: isDark ? "#666" : "#999",
-            pointerEvents: "none",
-          }}
-        />
-        <input
-          style={inputStyle}
+    <Box sx={{ width: "100% !important", maxWidth: "320px !important", margin: "0 auto !important", position: "relative !important" }}>
+      <Box sx={{ position: "relative !important" }}>
+        <TextField
+          fullWidth
           placeholder="Select date and time..."
           value={formatDateTime()}
-          readOnly
           onClick={() => setIsOpen(!isOpen)}
+          InputProps={{
+            readOnly: true,
+            startAdornment: (
+              <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
+                <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              height: "44px !important",
+              bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
+              borderRadius: "10px !important",
+              cursor: "pointer !important",
+              transition: "all 0.15s ease !important",
+              "& fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&:hover fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                borderWidth: "1px !important",
+              },
+            },
+            "& .MuiOutlinedInput-input": {
+              cursor: "pointer !important",
+              color: \`\${isDark ? "#fff" : "#000"} !important\`,
+              fontSize: "14px !important",
+              fontWeight: "400 !important",
+              pl: "36px !important",
+              pr: "12px !important",
+            },
+            "& .MuiInputAdornment-root": {
+              position: "absolute !important",
+              left: "12px !important",
+            },
+          }}
         />
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15 }}
-              style={calendarStyle}
+        {isOpen && (
+          <Box
+            sx={{
+              position: "absolute !important",
+              top: "100% !important",
+              left: "0 !important",
+              right: "0 !important",
+              mt: "6px !important",
+              bgcolor: \`\${isDark ? "#1a1a1a" : "#fff"} !important\`,
+              border: \`1px solid \${isDark ? "#333" : "#e0e0e0"} !important\`,
+              borderRadius: "12px !important",
+              p: "12px !important",
+              boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
+              zIndex: "1000 !important",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex !important",
+                justifyContent: "space-between !important",
+                alignItems: "center !important",
+                mb: "12px !important",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "12px",
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
                 }}
               >
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
+                <LuChevronLeft size={16} />
+              </IconButton>
+              <Typography
+                sx={{
+                  fontSize: "14px !important",
+                  fontWeight: "500 !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                }}
+              >
+                {monthYear}
+              </Typography>
+              <IconButton
+                onClick={() =>
+                  setCurrentMonth(
+                    new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+                  )
+                }
+                disableRipple
+                sx={{
+                  p: "4px !important",
+                  borderRadius: "6px !important",
+                  color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                  bgcolor: "transparent !important",
+                  transition: "background-color 0.15s ease !important",
+                  "&:hover": {
+                    bgcolor: \`\${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important\`,
+                  },
+                }}
+              >
+                <LuChevronRight size={16} />
+              </IconButton>
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "2px !important",
+                mb: "6px !important",
+              }}
+            >
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                <Typography
+                  key={day}
+                  sx={{
+                    fontSize: "14px !important",
+                    fontWeight: "500 !important",
+                    color: \`\${isDark ? "#666" : "#999"} !important\`,
+                    textAlign: "center !important",
+                    py: "6px !important",
                   }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-                    )
-                  }
+                >
+                  {day}
+                </Typography>
+              ))}
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid !important",
+                gridTemplateColumns: "repeat(7, 1fr) !important",
+                gap: "4px !important",
+              }}
+            >
+              {days.map((day, index) => (
+                <Box
+                  key={\`\${day.date.getTime()}-\${index}\`}
+                  sx={getDayStyle(day)}
+                  onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, selectedDate)
+                    ) {
+                      e.currentTarget.style.backgroundColor = isDark
+                        ? "rgba(255,255,255,0.08)"
+                        : "rgba(0,0,0,0.04)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
+                    if (
+                      day.isCurrentMonth &&
+                      !isSameDay(day.date, selectedDate)
+                    ) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }
                   }}
                 >
-                  <LuChevronLeft size={16} />
-                </button>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: isDark ? "#fff" : "#000",
-                  }}
-                >
-                  {monthYear}
-                </div>
-                <button
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isDark ? "#fff" : "#000",
-                    transition: "background-color 0.15s ease",
-                  }}
-                  onClick={() =>
-                    setCurrentMonth(
-                      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-                    )
-                  }
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.04)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  <LuChevronRight size={16} />
-                </button>
-              </div>
+                  {day.day}
+                </Box>
+              ))}
+            </Box>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "2px",
-                  marginBottom: "6px",
+            {selectedDate && (
+              <Box
+                sx={{
+                  display: "flex !important",
+                  alignItems: "center !important",
+                  justifyContent: "center !important",
+                  gap: "6px !important",
+                  mt: "12px !important",
+                  p: "10px !important",
+                  bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)"} !important\`,
+                  borderRadius: "10px !important",
                 }}
               >
-                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-                  <div
-                    key={day}
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: isDark ? "#666" : "#999",
-                      textAlign: "center",
-                      padding: "6px 0",
-                    }}
-                  >
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(7, 1fr)",
-                  gap: "4px",
-                }}
-              >
-                {days.map((day, index) => (
-                  <div
-                    key={\`\${day.date.getTime()}-\${index}\`}
-                    style={getDayStyle(day)}
-                    onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
-                    onMouseEnter={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, selectedDate)
-                      ) {
-                        e.currentTarget.style.backgroundColor = isDark
-                          ? "rgba(255,255,255,0.08)"
-                          : "rgba(0,0,0,0.04)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (
-                        day.isCurrentMonth &&
-                        !isSameDay(day.date, selectedDate)
-                      ) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }
-                    }}
-                  >
-                    {day.day}
-                  </div>
-                ))}
-              </div>
-
-              {selectedDate && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                    marginTop: "12px",
-                    padding: "10px",
-                    backgroundColor: isDark
-                      ? "rgba(255,255,255,0.03)"
-                      : "rgba(0,0,0,0.02)",
-                    borderRadius: "10px",
+                <LuClock size={14} color={isDark ? "#666" : "#999"} />
+                <TextField
+                  value={selectedTime.hour}
+                  onChange={(e) => handleTimeChange("hour", e.target.value)}
+                  onBlur={(e) => {
+                    let value = e.target.value;
+                    if (value === "" || parseInt(value) < 1 || parseInt(value) > 12) {
+                      handleTimeChange("hour", "12");
+                    } else if (value.length === 1) {
+                      setSelectedTime({
+                        ...selectedTime,
+                        hour: value.padStart(2, "0"),
+                      });
+                    }
                   }}
-                >
-                  <LuClock size={14} color={isDark ? "#666" : "#999"} />
-                  <input
-                    type="text"
-                    value={selectedTime.hour}
-                    onChange={(e) => handleTimeChange("hour", e.target.value)}
-                    onBlur={(e) => {
-                      let value = e.target.value;
-                      if (value === "" || parseInt(value) < 1 || parseInt(value) > 12) {
-                        handleTimeChange("hour", "12");
-                      } else if (value.length === 1) {
-                        setSelectedTime({
-                          ...selectedTime,
-                          hour: value.padStart(2, "0"),
-                        });
-                      }
-                    }}
-                    maxLength="2"
-                    style={{
-                      width: "42px",
-                      height: "32px",
-                      padding: "0 6px",
-                      border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-                      borderRadius: "6px",
-                      backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-                      color: isDark ? "#fff" : "#000",
-                      fontSize: "14px",
-                      fontWeight: "400",
-                      textAlign: "center",
-                      outline: "none",
-                    }}
-                  />
-                  <span style={{ color: isDark ? "#666" : "#999", fontSize: "12px" }}>
-                    :
-                  </span>
-                  <input
-                    type="text"
-                    value={selectedTime.minute}
-                    onChange={(e) => handleTimeChange("minute", e.target.value)}
-                    onBlur={(e) => {
-                      let value = e.target.value;
-                      if (value === "" || parseInt(value) > 59) {
-                        handleTimeChange("minute", "00");
-                      } else if (value.length === 1) {
-                        setSelectedTime({
-                          ...selectedTime,
-                          minute: value.padStart(2, "0"),
-                        });
-                      }
-                    }}
-                    maxLength="2"
-                    style={{
-                      width: "42px",
-                      height: "32px",
-                      padding: "0 6px",
-                      border: \`1px solid \${isDark ? "#333" : "#e0e0e0"}\`,
-                      borderRadius: "6px",
-                      backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-                      color: isDark ? "#fff" : "#000",
-                      fontSize: "14px",
-                      fontWeight: "400",
-                      textAlign: "center",
-                      outline: "none",
-                    }}
-                  />
-                  <div style={{ display: "flex", gap: "3px" }}>
-                    <button
-                      style={{
-                        padding: "6px 10px",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color:
+                  inputProps={{ maxLength: 2 }}
+                  sx={{
+                    width: "42px !important",
+                    "& .MuiOutlinedInput-root": {
+                      height: "32px !important",
+                      bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
+                      borderRadius: "6px !important",
+                      "& fieldset": {
+                        borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                      },
+                      "&:hover fieldset": {
+                        borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                        borderWidth: "1px !important",
+                      },
+                    },
+                    "& .MuiOutlinedInput-input": {
+                      p: "0 6px !important",
+                      textAlign: "center !important",
+                      color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                      fontSize: "14px !important",
+                      fontWeight: "400 !important",
+                    },
+                  }}
+                />
+                <Typography sx={{ color: \`\${isDark ? "#666" : "#999"} !important\`, fontSize: "12px !important" }}>
+                  :
+                </Typography>
+                <TextField
+                  value={selectedTime.minute}
+                  onChange={(e) => handleTimeChange("minute", e.target.value)}
+                  onBlur={(e) => {
+                    let value = e.target.value;
+                    if (value === "" || parseInt(value) > 59) {
+                      handleTimeChange("minute", "00");
+                    } else if (value.length === 1) {
+                      setSelectedTime({
+                        ...selectedTime,
+                        minute: value.padStart(2, "0"),
+                      });
+                    }
+                  }}
+                  inputProps={{ maxLength: 2 }}
+                  sx={{
+                    width: "42px !important",
+                    "& .MuiOutlinedInput-root": {
+                      height: "32px !important",
+                      bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
+                      borderRadius: "6px !important",
+                      "& fieldset": {
+                        borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                      },
+                      "&:hover fieldset": {
+                        borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: \`\${isDark ? "#333" : "#e0e0e0"} !important\`,
+                        borderWidth: "1px !important",
+                      },
+                    },
+                    "& .MuiOutlinedInput-input": {
+                      p: "0 6px !important",
+                      textAlign: "center !important",
+                      color: \`\${isDark ? "#fff" : "#000"} !important\`,
+                      fontSize: "14px !important",
+                      fontWeight: "400 !important",
+                    },
+                  }}
+                />
+                <Box sx={{ display: "flex !important", gap: "3px !important" }}>
+                  <Button
+                    onClick={() => setSelectedTime({ ...selectedTime, period: "AM" })}
+                    disableRipple
+                    disableElevation
+                    sx={{
+                      p: "6px 10px !important",
+                      minWidth: "auto !important",
+                      minHeight: "auto !important",
+                      fontSize: "14px !important",
+                      fontWeight: "500 !important",
+                      color:
+                        selectedTime.period === "AM"
+                          ? \`\${isDark ? "#000" : "#fff"} !important\`
+                          : \`\${isDark ? "#999" : "#666"} !important\`,
+                      bgcolor: \`\${
+                        selectedTime.period === "AM"
+                          ? isDark ? "#fff" : "#000"
+                          : "transparent"} !important\`,
+                      border: "none !important",
+                      borderRadius: "6px !important",
+                      textTransform: "none !important",
+                      transition: "all 0.15s ease !important",
+                      "&:hover": {
+                        bgcolor: \`\${
                           selectedTime.period === "AM"
-                            ? isDark
-                              ? "#000"
-                              : "#fff"
-                            : isDark
-                              ? "#999"
-                              : "#666",
-                        backgroundColor:
-                          selectedTime.period === "AM"
-                            ? isDark
-                              ? "#fff"
-                              : "#000"
-                            : "transparent",
-                        border: "none",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        transition: "all 0.15s ease",
-                      }}
-                      onClick={() => setSelectedTime({ ...selectedTime, period: "AM" })}
-                    >
-                      AM
-                    </button>
-                    <button
-                      style={{
-                        padding: "6px 10px",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color:
+                            ? isDark ? "#fff" : "#000"
+                            : "transparent"} !important\`,
+                      },
+                    }}
+                  >
+                    AM
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedTime({ ...selectedTime, period: "PM" })}
+                    disableRipple
+                    disableElevation
+                    sx={{
+                      p: "6px 10px !important",
+                      minWidth: "auto !important",
+                      minHeight: "auto !important",
+                      fontSize: "14px !important",
+                      fontWeight: "500 !important",
+                      color:
+                        selectedTime.period === "PM"
+                          ? \`\${isDark ? "#000" : "#fff"} !important\`
+                          : \`\${isDark ? "#999" : "#666"} !important\`,
+                      bgcolor: \`\${
+                        selectedTime.period === "PM"
+                          ? isDark ? "#fff" : "#000"
+                          : "transparent"} !important\`,
+                      border: "none !important",
+                      borderRadius: "6px !important",
+                      textTransform: "none !important",
+                      transition: "all 0.15s ease !important",
+                      "&:hover": {
+                        bgcolor: \`\${
                           selectedTime.period === "PM"
-                            ? isDark
-                              ? "#000"
-                              : "#fff"
-                            : isDark
-                              ? "#999"
-                              : "#666",
-                        backgroundColor:
-                          selectedTime.period === "PM"
-                            ? isDark
-                              ? "#fff"
-                              : "#000"
-                            : "transparent",
-                        border: "none",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        transition: "all 0.15s ease",
-                      }}
-                      onClick={() => setSelectedTime({ ...selectedTime, period: "PM" })}
-                    >
-                      PM
-                    </button>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
+                            ? isDark ? "#fff" : "#000"
+                            : "transparent"} !important\`,
+                      },
+                    }}
+                  >
+                    PM
+                  </Button>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 };
 
