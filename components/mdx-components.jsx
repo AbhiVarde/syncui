@@ -19,9 +19,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { RxCheck, RxCopy } from "react-icons/rx";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { GoEye, GoTerminal } from "react-icons/go";
+import { LuCheck, LuCopy } from "react-icons/lu";
 
 import CardVariants from "./ui/Cards";
 import ButtonVariants from "./ui/Buttons";
@@ -128,36 +128,59 @@ const CodeBlock = ({ className, children }) => {
         overflow: "hidden",
       }}
     >
-      <Tooltip arrow title={copied ? "Code copied!" : "Copy code"}>
+      <Tooltip
+        title={copied ? "Copied!" : "Copy"}
+        placement="left"
+        slotProps={{
+          tooltip: {
+            sx: (theme) => ({
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(30, 30, 30, 0.95)"
+                  : "rgba(255, 255, 255, 0.95)",
+              color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              fontSize: "12px",
+              fontWeight: 500,
+              px: 1.5,
+              py: 0.75,
+              borderRadius: "6px",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 2px 10px rgba(0,0,0,0.4)"
+                  : "0 2px 10px rgba(0,0,0,0.08)",
+              transition: "all 0.15s ease",
+            }),
+          },
+        }}
+      >
         <IconButton
           onClick={handleCopy}
-          className="copy-button"
           size="small"
           sx={{
             position: "absolute",
-            top: isSmall ? 4 : 8,
-            right: isSmall ? 4 : 8,
-            color: "grey.300",
-            bgcolor: "rgba(0, 0, 0, 0.3)",
+            top: isSmall ? 8 : 12,
+            right: isSmall ? 8 : 12,
+            color: copied ? "rgb(34,197,94)" : "rgba(255,255,255,0.8)",
+            bgcolor: "rgba(0,0,0,0.35)",
             width: 32,
             height: 32,
-            minWidth: 32,
-            minHeight: 32,
+            borderRadius: "6px",
             transition: "all 0.2s ease-in-out",
-            opacity: 1,
+            backdropFilter: "blur(6px)",
             "&:hover": {
-              bgcolor: "rgba(0, 0, 0, 0.5)",
+              bgcolor: "rgba(0,0,0,0.55)",
+              color: copied ? "rgb(34,197,94)" : "#fff",
+            },
+            "&:active": {
+              transform: "scale(0.96)",
             },
             zIndex: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "8px",
           }}
         >
-          {copied ? <RxCheck size={18} /> : <RxCopy size={18} />}
+          {copied ? <LuCheck size={16} /> : <LuCopy size={16} />}
         </IconButton>
       </Tooltip>
+
       <Box
         sx={{
           position: "relative",
