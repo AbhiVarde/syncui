@@ -203,37 +203,43 @@ const Preview = ({ children }) => <Box p={3}>{children}</Box>;
 
 const CodePreview = ({ preview, code }) => {
   const StyledTabs = styled(Tabs)(({ theme }) => ({
+    minHeight: "40px",
     borderBottom: `1px solid ${
       theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, 0.2)"
-        : "rgba(0, 0, 0, 0.2)"
+        ? "rgba(255, 255, 255, 0.12)"
+        : "rgba(0, 0, 0, 0.12)"
     }`,
     "& .MuiTabs-indicator": {
       backgroundColor: theme.palette.mode === "dark" ? "white" : "black",
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      height: "2px",
+      transition: "all 0.2s ease",
     },
   }));
 
   const StyledTab = styled(Tab)(({ theme }) => ({
     color:
       theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, 0.7)"
-        : "rgba(0, 0, 0, 0.7)",
+        ? "rgba(255, 255, 255, 0.6)"
+        : "rgba(0, 0, 0, 0.6)",
     "&.Mui-selected": {
       color: theme.palette.mode === "dark" ? "white" : "black",
     },
     "&:hover": {
       color: theme.palette.mode === "dark" ? "white" : "black",
-      opacity: 1,
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? "rgba(255, 255, 255, 0.05)"
+          : "rgba(0, 0, 0, 0.05)",
     },
-    minHeight: "36px",
+    minHeight: "40px",
+    padding: "8px 16px",
     fontWeight: 500,
-    fontSize: theme.typography.pxToRem(14),
+    fontSize: "13px",
     textTransform: "none",
     display: "flex",
     alignItems: "center",
-    gap: "4px",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    gap: "6px",
+    transition: "all 0.2s ease",
   }));
 
   const [tab, setTab] = useState(0);
@@ -243,29 +249,57 @@ const CodePreview = ({ preview, code }) => {
       variant="outlined"
       sx={{
         mb: 4,
-        overflow: "visible",
+        overflow: "hidden",
         borderRadius: 2,
         boxShadow: 0.5,
       }}
     >
       <StyledTabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
         <StyledTab
-          icon={<GoEye size={20} />}
+          icon={<GoEye size={18} />}
           label="Preview"
           iconPosition="start"
         />
         <StyledTab
-          icon={<GoTerminal size={20} />}
+          icon={<GoTerminal size={18} />}
           label="Code"
           iconPosition="start"
         />
       </StyledTabs>
-      <Box p={1} sx={{ borderRadius: "0px !important" }}>
-        {tab === 0 ? (
+      <Box
+        sx={{
+          position: "relative",
+          minHeight: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            opacity: tab === 0 ? 1 : 0,
+            visibility: tab === 0 ? "visible" : "hidden",
+            position: tab === 0 ? "relative" : "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            transition: "opacity 0.15s ease",
+          }}
+        >
           <Preview>{preview}</Preview>
-        ) : (
-          <DynamicCodeBlock className="language-jsx">{code}</DynamicCodeBlock>
-        )}
+        </Box>
+        <Box
+          sx={{
+            opacity: tab === 1 ? 1 : 0,
+            visibility: tab === 1 ? "visible" : "hidden",
+            position: tab === 1 ? "relative" : "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            transition: "opacity 0.15s ease",
+          }}
+        >
+          <Box p={1}>
+            <DynamicCodeBlock className="language-jsx">{code}</DynamicCodeBlock>
+          </Box>
+        </Box>
       </Box>
     </Paper>
   );
