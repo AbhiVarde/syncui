@@ -98,20 +98,7 @@ const CodeBlock = ({ className, children }) => {
   const [copied, setCopied] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const theme = useTheme();
-
-  // Define breakpoints
-  const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMedium = useMediaQuery(theme.breakpoints.down("md"));
-  const isLarge = useMediaQuery(theme.breakpoints.down("lg"));
-
-  const fontSize = isXSmall
-    ? "12px"
-    : isSmall
-      ? "13px"
-      : isMedium
-        ? "14px"
-        : "15px";
 
   useEffect(() => {
     setIsMounted(true);
@@ -192,14 +179,14 @@ const CodeBlock = ({ className, children }) => {
           style={atomDark}
           customStyle={{
             margin: 0,
-            padding: isSmall || isXSmall ? "14px" : "18px",
-            fontSize: fontSize,
+            padding: isSmall ? "14px" : "18px",
+            fontSize: "14px",
             lineHeight: 1.6,
             borderRadius: "8px",
             overflowX: "auto",
           }}
-          wrapLines={true}
-          wrapLongLines={true}
+          wrapLines={false}
+          wrapLongLines={false}
         >
           {codeString}
         </SyntaxHighlighter>
