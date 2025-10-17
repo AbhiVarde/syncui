@@ -272,7 +272,7 @@ const CodePreview = ({ preview, code }) => {
       variant="outlined"
       sx={{
         mb: 4,
-        overflow: "hidden",
+        overflow: "visible",
         borderRadius: 2,
         boxShadow: 0.5,
       }}

@@ -351,7 +351,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
         borderRadius: "12px !important",
         p: "12px !important",
         boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
-        zIndex: "1000 !important",
+        zIndex: "9999 !important",
       }}
     >
       {variant === "presets" && (
