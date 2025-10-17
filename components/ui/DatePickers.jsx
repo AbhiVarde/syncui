@@ -26,11 +26,71 @@ const DatePickerVariants = ({ variant = "single" }) => {
     minute: "00",
     period: "PM",
   });
-  const [dropdownPosition, setDropdownPosition] = useState("bottom");
-  const inputRef = useRef(null);
+  const [calendarPosition, setCalendarPosition] = useState("bottom");
+
+  const containerRef = useRef(null);
+  const calendarRef = useRef(null);
 
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const calendarHeight = 400;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < calendarHeight && spaceAbove > calendarHeight) {
+      setCalendarPosition("top");
+    } else {
+      setCalendarPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isOpen]);
 
   const presets = useMemo(
     () => [
@@ -139,46 +199,6 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
     return result;
   }, [currentMonth]);
-
-  const calculateDropdownPosition = () => {
-    if (!inputRef.current) return;
-
-    const rect = inputRef.current.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const spaceAbove = rect.top;
-    const dropdownHeight = 400;
-
-    if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
-      setDropdownPosition("top");
-    } else {
-      setDropdownPosition("bottom");
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      calculateDropdownPosition();
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        const calendar = document.querySelector('[data-calendar="true"]');
-        if (calendar && !calendar.contains(event.target)) {
-          setIsOpen(false);
-        }
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
@@ -371,7 +391,8 @@ const DatePickerVariants = ({ variant = "single" }) => {
           ? `1px solid ${isDark ? "#666" : "#999"}`
           : "1px solid transparent"
       } !important`,
-      transition: "all 0.15s ease !important",
+      transition:
+        "background-color 0.15s ease, transform 0.15s ease !important",
     };
   };
 
@@ -382,35 +403,24 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
   const renderCalendar = () => (
     <Box
-      data-calendar="true"
+      ref={calendarRef}
       sx={{
         position: "absolute !important",
-        top:
-          dropdownPosition === "bottom" ? "100% !important" : "auto !important",
-        bottom:
-          dropdownPosition === "top" ? "100% !important" : "auto !important",
+        ...(calendarPosition === "top"
+          ? {
+              bottom: "calc(100% + 6px) !important",
+            }
+          : {
+              top: "calc(100% + 6px) !important",
+            }),
         left: "0 !important",
         right: "0 !important",
-        mt: dropdownPosition === "bottom" ? "6px !important" : "0 !important",
-        mb: dropdownPosition === "top" ? "6px !important" : "0 !important",
         bgcolor: `${isDark ? "#1a1a1a" : "#fff"} !important`,
         border: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
         borderRadius: "12px !important",
         p: "12px !important",
-        boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
-        zIndex: "9999 !important",
-        opacity: 0,
-        transform:
-          dropdownPosition === "bottom"
-            ? "translateY(-8px)"
-            : "translateY(8px)",
-        animation: "fadeSlideIn 0.2s ease forwards",
-        "@keyframes fadeSlideIn": {
-          to: {
-            opacity: 1,
-            transform: "translateY(0)",
-          },
-        },
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12) !important",
+        zIndex: "1000 !important",
       }}
     >
       {variant === "presets" && (
@@ -431,7 +441,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
               disableRipple
               disableElevation
               sx={{
-                p: "6px !important",
+                p: "6px 10px !important",
                 minWidth: "auto !important",
                 minHeight: "auto !important",
                 fontSize: "12px !important",
@@ -440,7 +450,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
                 borderRadius: "6px !important",
                 textTransform: "none !important",
-                transition: "all 0.15s ease !important",
+                transition: "background-color 0.15s ease !important",
                 whiteSpace: "nowrap !important",
                 "&:hover": {
                   bgcolor: `${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important`,
@@ -469,13 +479,13 @@ const DatePickerVariants = ({ variant = "single" }) => {
           }
           disableRipple
           sx={{
-            p: "4px !important",
+            p: "6px !important",
             borderRadius: "6px !important",
             color: `${isDark ? "#fff" : "#000"} !important`,
             bgcolor: "transparent !important",
             transition: "background-color 0.15s ease !important",
             "&:hover": {
-              bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
+              bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
             },
           }}
         >
@@ -498,13 +508,13 @@ const DatePickerVariants = ({ variant = "single" }) => {
           }
           disableRipple
           sx={{
-            p: "4px !important",
+            p: "6px !important",
             borderRadius: "6px !important",
             color: `${isDark ? "#fff" : "#000"} !important`,
             bgcolor: "transparent !important",
             transition: "background-color 0.15s ease !important",
             "&:hover": {
-              bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
+              bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
             },
           }}
         >
@@ -524,7 +534,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
           <Typography
             key={day}
             sx={{
-              fontSize: "14px !important",
+              fontSize: "12px !important",
               fontWeight: "500 !important",
               color: `${isDark ? "#666" : "#999"} !important`,
               textAlign: "center !important",
@@ -558,6 +568,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 e.currentTarget.style.backgroundColor = isDark
                   ? "rgba(255,255,255,0.08)"
                   : "rgba(0,0,0,0.04)";
+                e.currentTarget.style.transform = "scale(1.05)";
               }
             }}
             onMouseLeave={(e) => {
@@ -569,6 +580,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 !isInRange(day.date)
               ) {
                 e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.transform = "scale(1)";
               }
             }}
           >
@@ -612,14 +624,15 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 height: "32px !important",
                 bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
                 borderRadius: "6px !important",
+                transition: "border-color 0.15s ease !important",
                 "& fieldset": {
                   borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
                 },
                 "&:hover fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: `${isDark ? "#555" : "#bbb"} !important`,
                   borderWidth: "1px !important",
                 },
               },
@@ -661,14 +674,15 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 height: "32px !important",
                 bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
                 borderRadius: "6px !important",
+                transition: "border-color 0.15s ease !important",
                 "& fieldset": {
                   borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
                 },
                 "&:hover fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: `${isDark ? "#555" : "#bbb"} !important`,
                   borderWidth: "1px !important",
                 },
               },
@@ -690,7 +704,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 p: "6px 10px !important",
                 minWidth: "auto !important",
                 minHeight: "auto !important",
-                fontSize: "14px !important",
+                fontSize: "12px !important",
                 fontWeight: "500 !important",
                 color:
                   selectedTime.period === "AM"
@@ -706,14 +720,16 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 border: "none !important",
                 borderRadius: "6px !important",
                 textTransform: "none !important",
-                transition: "all 0.15s ease !important",
+                transition: "background-color 0.15s ease !important",
                 "&:hover": {
                   bgcolor: `${
                     selectedTime.period === "AM"
                       ? isDark
                         ? "#fff"
                         : "#000"
-                      : "transparent"
+                      : isDark
+                        ? "rgba(255,255,255,0.05)"
+                        : "rgba(0,0,0,0.04)"
                   } !important`,
                 },
               }}
@@ -728,7 +744,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 p: "6px 10px !important",
                 minWidth: "auto !important",
                 minHeight: "auto !important",
-                fontSize: "14px !important",
+                fontSize: "12px !important",
                 fontWeight: "500 !important",
                 color:
                   selectedTime.period === "PM"
@@ -744,14 +760,16 @@ const DatePickerVariants = ({ variant = "single" }) => {
                 border: "none !important",
                 borderRadius: "6px !important",
                 textTransform: "none !important",
-                transition: "all 0.15s ease !important",
+                transition: "background-color 0.15s ease !important",
                 "&:hover": {
                   bgcolor: `${
                     selectedTime.period === "PM"
                       ? isDark
                         ? "#fff"
                         : "#000"
-                      : "transparent"
+                      : isDark
+                        ? "rgba(255,255,255,0.05)"
+                        : "rgba(0,0,0,0.04)"
                   } !important`,
                 },
               }}
@@ -766,12 +784,12 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         width: "100% !important",
         maxWidth: "320px !important",
         margin: "0 auto !important",
         position: "relative !important",
-        overflow: "visible !important",
       }}
     >
       <Typography
@@ -780,19 +798,20 @@ const DatePickerVariants = ({ variant = "single" }) => {
           mb: "6px !important",
           textAlign: "center !important",
           fontSize: "13px !important",
+          color: `${isDark ? "#999" : "#666"} !important`,
         }}
       >
         {getDescription()}
       </Typography>
-      <Box
-        sx={{ position: "relative !important", overflow: "visible !important" }}
-      >
+      <Box sx={{ position: "relative !important" }}>
         <TextField
-          ref={inputRef}
           fullWidth
           placeholder={getPlaceholder()}
           value={getInputValue()}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            calculatePosition();
+            setIsOpen(!isOpen);
+          }}
           InputProps={{
             readOnly: true,
             startAdornment: (
@@ -810,15 +829,15 @@ const DatePickerVariants = ({ variant = "single" }) => {
               bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
               borderRadius: "10px !important",
               cursor: "pointer !important",
-              transition: "all 0.15s ease !important",
+              transition: "border-color 0.15s ease !important",
               "& fieldset": {
                 borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
               },
               "&:hover fieldset": {
-                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
               },
               "&.Mui-focused fieldset": {
-                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                borderColor: `${isDark ? "#555" : "#bbb"} !important`,
                 borderWidth: "1px !important",
               },
             },
