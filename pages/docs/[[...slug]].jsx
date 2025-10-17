@@ -1,84 +1,84 @@
-  import React from "react";
-  import { getMDXComponent } from "mdx-bundler/client";
-  import { getAllDocsSlugs, getDocBySlug } from "../../lib/docs";
-  import DocsLayout from "../../components/docs/DocsLayout";
-  import { MDXComponents } from "../../components/mdx-components";
-  import { DocPager } from "../../components/docs/DocPager";
-  import Head from "next/head";
-  import { MDXProvider } from "@mdx-js/react";
-  import { Typography } from "@mui/material";
+import React from "react";
+import { getMDXComponent } from "mdx-bundler/client";
+import { getAllDocsSlugs, getDocBySlug } from "../../lib/docs";
+import DocsLayout from "../../components/docs/DocsLayout";
+import { MDXComponents } from "../../components/mdx-components";
+import { DocPager } from "../../components/docs/DocPager";
+import Head from "next/head";
+import { MDXProvider } from "@mdx-js/react";
+import { Typography } from "@mui/material";
 
-  export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
-    const Component = React.useMemo(() => {
-      if (code) {
-        try {
-          return getMDXComponent(code);
-        } catch (error) {
-          console.error("Error in getMDXComponent:", error);
-          return null;
-        }
+export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
+  const Component = React.useMemo(() => {
+    if (code) {
+      try {
+        return getMDXComponent(code);
+      } catch (error) {
+        console.error("Error in getMDXComponent:", error);
+        return null;
       }
-      return null;
-    }, [code]);
-
-    if (!Component) {
-      return <div>Error: Could not load the document.</div>;
     }
+    return null;
+  }, [code]);
 
-    return (
-      <>
-        <Head>
-          <title>{frontmatter.title} // Sync UI</title>
-        </Head>
-        <DocsLayout toc={toc} docsTree={docsTree}>
-          <article>
-            <Typography variant="h3" fontWeight={500}>
-              {frontmatter.title}
-            </Typography>
-            <MDXProvider>
-              <Component components={MDXComponents} />
-            </MDXProvider>
-          </article>
-          <DocPager slug={slug} docsTree={docsTree} />
-        </DocsLayout>
-      </>
-    );
+  if (!Component) {
+    return <div>Error: Could not load the document.</div>;
   }
 
-  export async function getStaticProps({ params }) {
-    const slug = params.slug?.join("/") || "";
+  return (
+    <>
+      <Head>
+        <title>{frontmatter.title} // Sync UI</title>
+      </Head>
+      <DocsLayout toc={toc} docsTree={docsTree}>
+        <article>
+          <Typography variant="h3" fontWeight={500}>
+            {frontmatter.title}
+          </Typography>
+          <MDXProvider>
+            <Component components={MDXComponents} />
+          </MDXProvider>
+        </article>
+        <DocPager slug={slug} docsTree={docsTree} />
+      </DocsLayout>
+    </>
+  );
+}
 
-    const docData = await getDocBySlug(slug);
+export async function getStaticProps({ params }) {
+  const slug = params.slug?.join("/") || "";
 
-    if (!docData) {
-      return {
-        notFound: true,
-      };
-    }
+  const docData = await getDocBySlug(slug);
 
-    const { code, frontmatter, toc } = docData;
-    const docsTree = await getAllDocsSlugs();
-
+  if (!docData) {
     return {
-      props: {
-        code,
-        frontmatter,
-        toc,
-        docsTree,
-        slug,
-      },
+      notFound: true,
     };
   }
 
-  export async function getStaticPaths() {
-    const slugs = await getAllDocsSlugs();
+  const { code, frontmatter, toc } = docData;
+  const docsTree = await getAllDocsSlugs();
 
-    const paths = slugs.map((item) => ({
-      params: { slug: item.slug === "" ? [] : item.slug.split("/") },
-    }));
+  return {
+    props: {
+      code,
+      frontmatter,
+      toc,
+      docsTree,
+      slug,
+    },
+  };
+}
 
-    return {
-      paths,
-      fallback: false,
-    };
-  }
+export async function getStaticPaths() {
+  const slugs = await getAllDocsSlugs();
+
+  const paths = slugs.map((item) => ({
+    params: { slug: item.slug === "" ? [] : item.slug.split("/") },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+}

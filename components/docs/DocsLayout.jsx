@@ -97,7 +97,6 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             borderRight: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
-          {/* Scrollable content container */}
           <Box
             sx={{
               height: "calc(100% - 60px)",
@@ -152,7 +151,6 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                                   : "text.secondary",
                                 letterSpacing: 0.2,
                                 borderRadius: 0.75,
-                                transition: "all 0.15s ease-in-out",
                                 fontWeight: isActive ? 500 : 400,
                                 "&:hover": {
                                   bgcolor: "background.paper",
@@ -203,7 +201,6 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               )}
             </nav>
           </Box>
-          {/* Fixed footer */}
           <Box
             sx={{
               position: "absolute",
@@ -282,7 +279,6 @@ const groupDocsTree = (docsTree) => {
     }
   });
 
-  // Add Templates to the Getting Started section
   grouped["Getting Started"].push({
     title: "Templates",
     url: "/templates",

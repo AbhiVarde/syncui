@@ -5,7 +5,6 @@ import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
 import { RiGithubFill, RiHeartFill, RiHeartLine } from "react-icons/ri";
 import AnimatedCounter from "../AnimatedCounter";
-import { AnimatePresence, motion } from "framer-motion";
 
 const buttonStyles = {
   mt: 1,
@@ -22,11 +21,8 @@ const buttonStyles = {
   bgcolor: (theme) => theme.palette.action.hover,
   border: "1px solid",
   borderColor: "divider",
-  transition: "all 0.2s ease-in-out",
   "&:hover": {
     bgcolor: (theme) => theme.palette.action.selected,
-    transform: "translateY(-2px)",
-    boxShadow: (theme) => `0 4px 8px ${theme.palette.divider}`,
   },
 };
 
@@ -99,7 +95,6 @@ export const TableOfContents = ({ toc }) => {
               borderLeft: 1,
               borderColor: activeId === item.id ? "" : "divider",
               pl: item.level > 1 ? (item.level - 1) * 0.5 : 0.5,
-              transition: "all 0.3s ease-in-out",
               "&:hover": {
                 backgroundColor: "transparent",
               },
@@ -110,7 +105,6 @@ export const TableOfContents = ({ toc }) => {
               fontWeight={activeId === item.id ? 500 : 400}
               color={activeId === item.id ? "" : "text.secondary"}
               sx={{
-                transition: "all 0.3s ease-in-out",
                 pl: 1,
                 my: 0.5,
               }}
@@ -131,31 +125,11 @@ export const TableOfContents = ({ toc }) => {
         sx={buttonStyles}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <AnimatePresence mode="wait">
-            {isHeartHovered ? (
-              <motion.div
-                key="filled-heart"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <RiHeartFill size={20} color="#e91e63" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="outline-heart"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <RiHeartLine size={20} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {isHeartHovered ? (
+            <RiHeartFill size={20} color="#e91e63" />
+          ) : (
+            <RiHeartLine size={20} />
+          )}
         </Box>
         <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
           Support Sync UI
@@ -173,7 +147,6 @@ export const TableOfContents = ({ toc }) => {
       >
         {!loading ? (
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            {/* Left side: GitHub icon + Star label */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
               <RiGithubFill size={20} />
               <Typography
@@ -190,7 +163,6 @@ export const TableOfContents = ({ toc }) => {
               </Typography>
             </Box>
 
-            {/* Right side: Counter + Star animation */}
             <Box
               sx={{
                 display: "flex",
@@ -203,27 +175,11 @@ export const TableOfContents = ({ toc }) => {
                 <AnimatedCounter value={stars || 0} duration={2} />
               </Typography>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={isStarHovered ? "filled-star" : "outline-star"}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: 18,
-                  }}
-                >
-                  {isStarHovered ? (
-                    <RxStarFilled size={20} color="#fbc02d" />
-                  ) : (
-                    <RxStar size={20} />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              {isStarHovered ? (
+                <RxStarFilled size={20} color="#fbc02d" />
+              ) : (
+                <RxStar size={20} />
+              )}
             </Box>
           </Box>
         ) : (
