@@ -228,7 +228,6 @@ const DocsLayout = ({ children, toc, docsTree }) => {
       <Box
         component="main"
         sx={{
-          overflow: "auto",
           flexGrow: 1,
           py: 3,
           px: { lg: 3, xs: 2 },

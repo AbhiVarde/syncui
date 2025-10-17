@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import {
   Typography,
   useTheme,
@@ -26,6 +26,8 @@ const DatePickerVariants = ({ variant = "single" }) => {
     minute: "00",
     period: "PM",
   });
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const inputRef = useRef(null);
 
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -137,6 +139,46 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
     return result;
   }, [currentMonth]);
+
+  const calculateDropdownPosition = () => {
+    if (!inputRef.current) return;
+
+    const rect = inputRef.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    const dropdownHeight = 400;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      calculateDropdownPosition();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        const calendar = document.querySelector('[data-calendar="true"]');
+        if (calendar && !calendar.contains(event.target)) {
+          setIsOpen(false);
+        }
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
@@ -340,18 +382,35 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
   const renderCalendar = () => (
     <Box
+      data-calendar="true"
       sx={{
         position: "absolute !important",
-        top: "100% !important",
+        top:
+          dropdownPosition === "bottom" ? "100% !important" : "auto !important",
+        bottom:
+          dropdownPosition === "top" ? "100% !important" : "auto !important",
         left: "0 !important",
         right: "0 !important",
-        mt: "6px !important",
+        mt: dropdownPosition === "bottom" ? "6px !important" : "0 !important",
+        mb: dropdownPosition === "top" ? "6px !important" : "0 !important",
         bgcolor: `${isDark ? "#1a1a1a" : "#fff"} !important`,
         border: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
         borderRadius: "12px !important",
         p: "12px !important",
         boxShadow: "0 6px 24px rgba(0,0,0,0.1) !important",
         zIndex: "9999 !important",
+        opacity: 0,
+        transform:
+          dropdownPosition === "bottom"
+            ? "translateY(-8px)"
+            : "translateY(8px)",
+        animation: "fadeSlideIn 0.2s ease forwards",
+        "@keyframes fadeSlideIn": {
+          to: {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
       }}
     >
       {variant === "presets" && (
@@ -712,6 +771,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
         maxWidth: "320px !important",
         margin: "0 auto !important",
         position: "relative !important",
+        overflow: "visible !important",
       }}
     >
       <Typography
@@ -724,8 +784,11 @@ const DatePickerVariants = ({ variant = "single" }) => {
       >
         {getDescription()}
       </Typography>
-      <Box sx={{ position: "relative !important" }}>
+      <Box
+        sx={{ position: "relative !important", overflow: "visible !important" }}
+      >
         <TextField
+          ref={inputRef}
           fullWidth
           placeholder={getPlaceholder()}
           value={getInputValue()}
