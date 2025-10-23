@@ -83,13 +83,9 @@ Love Sync UI? Help me keep building!
 
 Sync UI is licensed under the [MIT License](http://choosealicense.com/licenses/mit/).
 
----
-
 ## 👨‍💻 Authors
 
 Created and maintained by [Abhi Varde](https://www.abhivarde.in/).
-
----
 
 ## ⭐ Star History
 
