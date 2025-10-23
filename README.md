@@ -9,6 +9,8 @@
 
 ![Sync UI Preview](https://github.com/user-attachments/assets/36fc6047-cf5e-4721-92e6-1d5ed2a35830)
 
+⭐ **If you like this project, please give it a star!** It helps more developers discover Sync UI 💚
+
 ## 🏆 Featured on Vercel Community Showcase
 
 Grateful to be featured on the [official Vercel Community Showcase](https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039) for Sync UI.
@@ -77,14 +79,18 @@ Love Sync UI? Help me keep building!
 
 [Contribution Guide](https://github.com/AbhiVarde/syncui/blob/main/CONTRIBUTING.md)
 
-## License
+## 📜 License
 
 Sync UI is licensed under the [MIT License](http://choosealicense.com/licenses/mit/).
 
-## Authors
+---
+
+## 👨‍💻 Authors
 
 Created and maintained by [Abhi Varde](https://www.abhivarde.in/).
 
 ---
 
-⭐ **Found this helpful? Give it a star!**
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=AbhiVarde/syncui&type=date&legend=top-left)](https://www.star-history.com/#AbhiVarde/syncui&type=date&legend=top-left)
