@@ -182,7 +182,7 @@ const MagneticArrow = ({ position }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={{ pathLength: 0 }}
+          style={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 0.5 }}
         />
