@@ -246,25 +246,25 @@ function AppContent({ Component, pageProps }) {
 
     // Console ASCII Art
     console.log(
-      "%c   _____                    _    _ _____ \n" +
-        "  / ____|                  | |  | |_   _|\n" +
-        " | (___  _   _ _ __   ___  | |  | | | |  \n" +
-        "  \\___ \\| | | | '_ \\ / __| | |  | | | |  \n" +
-        "  ____) | |_| | | | | (__  | |__| |_| |_ \n" +
-        " |_____/ \\__, |_| |_|\\___|  \\____/|_____|\n" +
-        "          __/ |                           \n" +
-        "         |___/                            ",
-      "color: #ffffff; font-family: monospace; font-size: 12px; line-height: 1.2;"
+      "%c                                  .__         .___            .__               \n" +
+        "  _________.__. ____   ____  __ __|__|      __| _/____   _____|__| ____   ____  \n" +
+        " /  ___<   |  |/    \\_/ ___\\|  |  \\  |     / __ |/ __ \\ /  ___/  |/ ___\\ /    \\ \n" +
+        " \\___ \\ \\___  |   |  \\  \\___|  |  /  |    / /_/ \\  ___/ \\___ \\|  / /_/  >   |  \\\n" +
+        "/____  >/ ____|___|  /\\___  >____/|__| /\\ \\____ |\\___  >____  >__\\___  /|___|  /\n" +
+        "     \\/ \\/         \\/     \\/           \\/      \\/    \\/     \\/  /_____/      \\/ \n",
+      "color: #ffffff; font-family: monospace; font-size: 11px; font-weight: bold;"
     );
 
     console.log(
-      "%c⭐ Like what you see? Give Sync UI a star on GitHub → https://github.com/AbhiVarde/syncui",
-      "color: #00bcd4; font-family: monospace; font-size: 13px; font-weight: bold;"
+      "%c🚀 Sync UI: trusted by creators in 80+ countries 🌍\n" +
+        "⭐ 75+ GitHub stars and growing fast\n" +
+        "🐦 Follow updates → https://x.com/syncuidesign",
+      "color: #ffffff; font-family: monospace; font-size: 12px; font-weight: bold;"
     );
 
     console.log(
       "%cBrought to you by https://abhivarde.in",
-      "color: #ffffff; font-family: monospace; font-size: 14px; font-weight: bold; margin-top: 10px;"
+      "color: #ffffff; font-family: monospace; font-size: 13px; font-weight: bold; margin-top: 8px;"
     );
 
     const handleRouteChange = (url) => {
