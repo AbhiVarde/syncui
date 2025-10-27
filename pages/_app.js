@@ -257,6 +257,16 @@ function AppContent({ Component, pageProps }) {
       "color: #ffffff; font-family: monospace; font-size: 12px; line-height: 1.2;"
     );
 
+    console.log(
+      "%c⭐ Like what you see? Give Sync UI a star on GitHub → https://github.com/AbhiVarde/syncui",
+      "color: #00bcd4; font-family: monospace; font-size: 13px; font-weight: bold;"
+    );
+
+    console.log(
+      "%cBrought to you by https://abhivarde.in",
+      "color: #ffffff; font-family: monospace; font-size: 14px; font-weight: bold; margin-top: 10px;"
+    );
+
     const handleRouteChange = (url) => {
       const newRoute = url.split("/")[1];
       if (newRoute !== currentRoute) {

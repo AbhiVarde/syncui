@@ -12,18 +12,17 @@ const NUMBER_CHARACTER_SET = "0123456789".split("");
 
 const ScrambleText = ({
   text,
-  duration = 800, // Reduced duration for subtler animation
+  duration = 800,
   delay = 0,
   characterSet = DEFAULT_CHARACTER_SET,
-  monospace = false, // Added monospace option
-  animate = true, // Option to disable animation
+  monospace = false,
+  animate = true,
 }) => {
   const [displayText, setDisplayText] = useState(() => text.split(""));
   const iterationCount = useRef(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    // Skip animation setup if animate is false
     if (!animate) {
       setDisplayText(text.split(""));
       return;
@@ -45,8 +44,6 @@ const ScrambleText = ({
     const animateFrame = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-
-      // Smoother easing function for more subtle animation
       const easedProgress = Math.pow(progress, 1.5);
 
       iterationCount.current = easedProgress * maxIterations;
@@ -56,8 +53,8 @@ const ScrambleText = ({
           letter === " "
             ? letter
             : index <= iterationCount.current
-            ? text[index]
-            : characterSet[getRandomInt(characterSet.length)]
+              ? text[index]
+              : characterSet[getRandomInt(characterSet.length)]
         )
       );
 
@@ -76,7 +73,7 @@ const ScrambleText = ({
       component="span"
       sx={{
         display: "inline-block",
-        fontFamily: monospace ? "'Roboto Mono', monospace" : "inherit", 
+        fontFamily: monospace ? "'Roboto Mono', monospace" : "inherit",
       }}
     >
       {displayText.map((letter, index) => (
@@ -84,7 +81,7 @@ const ScrambleText = ({
           key={index}
           initial={{ opacity: animate ? 0 : 1 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.1, delay: index * 0.02 }} 
+          transition={{ duration: 0.1, delay: index * 0.02 }}
           style={{ display: "inline-block" }}
         >
           {letter === " " ? "\u00A0" : letter}
@@ -101,7 +98,7 @@ const ScrambleNumber = ({ number, duration = 1000, delay = 100 }) => {
       duration={duration}
       delay={delay}
       characterSet={NUMBER_CHARACTER_SET}
-      monospace={true} 
+      monospace={true}
     />
   );
 };
@@ -122,35 +119,35 @@ const NotFound = () => {
   };
 
   const itemVariants = {
-    hidden: { y: 10, opacity: 0 }, 
+    hidden: { y: 10, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         type: "spring",
         stiffness: 70,
-        damping: 12, 
+        damping: 12,
         duration: 0.6,
       },
     },
   };
 
   const planeVariants = {
-    hidden: { y: -10, opacity: 0 }, // Reduced from y: -20
+    hidden: { y: -10, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.8, // Reduced from 1
+        duration: 0.8,
         ease: "easeOut",
       },
     },
     animate: {
-      y: [-3, 3, -3], // Reduced from [-5, 5, -5]
-      rotate: [-2, 2, -2], // Reduced from [-3, 3, -3]
-      scale: [1, 1.02, 1], // Reduced scale change from 1.03
+      y: [-3, 3, -3],
+      rotate: [-2, 2, -2],
+      scale: [1, 1.02, 1],
       transition: {
-        duration: 6, // Slower for subtler movement
+        duration: 6,
         repeat: Infinity,
         ease: "easeInOut",
       },
@@ -165,7 +162,6 @@ const NotFound = () => {
           name="description"
           content="The page you're looking for doesn't exist or has moved."
         />
-        {/* Add Google Fonts link for Roboto Mono */}
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap"
           rel="stylesheet"
@@ -209,7 +205,6 @@ const NotFound = () => {
             />
           </motion.div>
 
-          {/* 404 Heading */}
           <motion.div variants={itemVariants}>
             <Typography
               variant="h1"
@@ -218,14 +213,13 @@ const NotFound = () => {
                 fontWeight: 800,
                 mb: 1,
                 color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
-                fontFamily: "'Roboto Mono', monospace", 
+                fontFamily: "'Roboto Mono', monospace",
               }}
             >
               <ScrambleNumber number={404} />
             </Typography>
           </motion.div>
 
-          {/* Subheading with NO scramble animation */}
           <motion.div variants={itemVariants}>
             <Typography
               variant="h6"
@@ -238,12 +232,10 @@ const NotFound = () => {
                 justifyContent: "center",
               }}
             >
-              {/* Removed animation for this text */}
               Oops! Page took flight!
             </Typography>
           </motion.div>
 
-          {/* Description */}
           <motion.div variants={itemVariants}>
             <Typography
               variant="body1"
@@ -259,7 +251,6 @@ const NotFound = () => {
             </Typography>
           </motion.div>
 
-          {/* Action buttons */}
           <motion.div variants={itemVariants}>
             <Box
               sx={{
