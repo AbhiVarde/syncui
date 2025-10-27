@@ -20,7 +20,7 @@ import { useState, memo } from "react";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const buttonStyles = {
   display: "flex",

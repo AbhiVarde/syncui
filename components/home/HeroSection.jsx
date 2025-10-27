@@ -19,7 +19,7 @@ import {
 } from "react-icons/si";
 import { IoSparkles } from "react-icons/io5";
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 const HeroSection = () => {
   const theme = useTheme();

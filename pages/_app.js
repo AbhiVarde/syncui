@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { Toaster } from "sonner";
 import Router from "next/router";
 import Head from "next/head";
+import Script from "next/script";
 import Layout from "../components/layout/Layout";
 import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
@@ -15,14 +16,13 @@ import { GitHubProvider } from "@/context/GithubContext";
 function MyApp({ Component, pageProps }) {
   return (
     <>
+      <Script
+        defer
+        src="https://analytics.umami.is/script.js"
+        data-website-id="47d79797-9fe5-4ccc-b84f-e38d955f2684"
+        strategy="afterInteractive"
+      />
       <Head>
-        {/* Umami Analytics */}
-        <script
-          defer
-          src="https://analytics.umami.is/script.js"
-          data-website-id="47d79797-9fe5-4ccc-b84f-e38d955f2684"
-        />
-
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -243,6 +243,20 @@ function AppContent({ Component, pageProps }) {
   useEffect(() => {
     setIsMounted(true);
     setCurrentRoute(window.location.pathname.split("/")[1]);
+
+    // Console ASCII Art
+    console.log(
+      "%c   _____                    _    _ _____ \n" +
+        "  / ____|                  | |  | |_   _|\n" +
+        " | (___  _   _ _ __   ___  | |  | | | |  \n" +
+        "  \\___ \\| | | | '_ \\ / __| | |  | | | |  \n" +
+        "  ____) | |_| | | | | (__  | |__| |_| |_ \n" +
+        " |_____/ \\__, |_| |_|\\___|  \\____/|_____|\n" +
+        "          __/ |                           \n" +
+        "         |___/                            ",
+      "color: #ffffff; font-family: monospace; font-size: 12px; line-height: 1.2;"
+    );
+
     const handleRouteChange = (url) => {
       const newRoute = url.split("/")[1];
       if (newRoute !== currentRoute) {

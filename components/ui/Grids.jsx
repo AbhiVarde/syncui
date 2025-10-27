@@ -3,7 +3,7 @@ import { Typography, useTheme, Box } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const GridVariants = ({ variant = "masonry" }) => {
   const theme = useTheme();

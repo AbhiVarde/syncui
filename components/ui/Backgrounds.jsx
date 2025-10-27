@@ -14,7 +14,7 @@ import {
 } from "framer-motion";
 import { useRouter } from "next/router";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const BackgroundVariants = ({ variant }) => {
   const theme = useTheme();

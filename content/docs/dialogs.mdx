@@ -579,7 +579,7 @@ import { Button, Typography, Box, IconButton } from "@mui/material";
 import { RxCheck, RxCross2 } from "react-icons/rx";
 import { motion, AnimatePresence } from "framer-motion";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const NotificationDialog = () => {
   const [open, setOpen] = useState(false);

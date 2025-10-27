@@ -71,9 +71,9 @@ const templatesData = [
   },
 ];
 
-const MotionBox = motion(Box);
-const MotionButton = motion(Button);
-const MotionTypography = motion(Typography);
+const MotionBox = motion.create(Box);
+const MotionButton = motion.create(Button);
+const MotionTypography = motion.create(Typography);
 
 const Templates = ({ docsTree }) => {
   const theme = useTheme();

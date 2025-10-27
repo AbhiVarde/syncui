@@ -11,8 +11,8 @@ import {
 } from "react-icons/lu";
 
 // Motion components with optimized will-change
-const MotionBox = motion(Box);
-const MotionPaper = motion(Paper);
+const MotionBox = motion.create(Box);
+const MotionPaper = motion.create(Paper);
 
 // Enhanced preload function with cache tracking
 const preloadImages = async (images) => {

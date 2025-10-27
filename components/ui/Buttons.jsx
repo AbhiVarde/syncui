@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { IoSend, IoAdd } from "react-icons/io5";
 import { RxArrowRight, RxPlus } from "react-icons/rx";
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 const ButtonVariants = ({ variant }) => {
   const theme = useTheme();

@@ -73,7 +73,6 @@ export function GitHubProvider({ children }) {
 
       if (process.env.NODE_ENV === "development") {
         const rateLimit = repoResponse.headers["x-ratelimit-remaining"];
-        console.log(`GitHub API rate limit remaining: ${rateLimit}`);
       }
     } catch (error) {
       console.error("GitHub API error:", error);

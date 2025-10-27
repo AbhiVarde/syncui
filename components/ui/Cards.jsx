@@ -13,8 +13,8 @@ import { RxImage } from "react-icons/rx";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
 
-const MotionCard = motion(Card);
-const MotionBox = motion(Box);
+const MotionCard = motion.create(Card);
+const MotionBox = motion.create(Box);
 
 const twitterImages = [
   "https://images.unsplash.com/photo-1511497584788-876760111969",

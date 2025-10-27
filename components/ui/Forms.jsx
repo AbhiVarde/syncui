@@ -31,9 +31,9 @@ import {
 } from "react-icons/io5";
 import { LuChevronDown } from "react-icons/lu";
 
-const MotionPaper = motion(Paper);
-const MotionBox = motion(Box);
-const MotionButton = motion(Button);
+const MotionPaper = motion.create(Paper);
+const MotionBox = motion.create(Box);
+const MotionButton = motion.create(Button);
 
 const FormVariants = ({ variant = "register" }) => {
   const [showPassword, setShowPassword] = useState(false);

@@ -26,8 +26,8 @@ import {
   LuFilter,
 } from "react-icons/lu";
 
-const MotionTableRow = motion(TableRow);
-const MotionPaper = motion(Paper);
+const MotionTableRow = motion.create(TableRow);
+const MotionPaper = motion.create(Paper);
 
 const animations = {
   table: {

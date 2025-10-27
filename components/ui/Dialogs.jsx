@@ -43,7 +43,7 @@ const TransitionGrow = React.forwardRef(function Transition(props, ref) {
   return <Grow ref={ref} {...props} />;
 });
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const DialogVariants = ({ variant }) => {
   const [open, setOpen] = useState(false);

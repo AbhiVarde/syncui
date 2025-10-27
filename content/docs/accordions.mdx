@@ -28,61 +28,58 @@ import {
 import { motion } from "framer-motion";
 import { RxChevronDown } from "react-icons/rx";
 
-const MotionAccordion = motion(Accordion);
+const MotionAccordion = motion.create(Accordion);
 
 const BrutalistAccordion = () => {
-  const theme = useTheme();
-  const [expandedPanels, setExpandedPanels] = useState({});
-  const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick introduction to our platform with essential setup steps." },
-    { id: "panel2", title: "Key Features", content: "Explore powerful tools designed to enhance your workflow." },
-    { id: "panel3", title: "Best Practices", content: "Learn proven strategies for optimal performance and results." },
-  ];
+const theme = useTheme();
+const [expandedPanels, setExpandedPanels] = useState({});
+const accordionData = [
+{ id: "panel1", title: "Getting Started", content: "Quick introduction to our platform with essential setup steps." },
+{ id: "panel2", title: "Key Features", content: "Explore powerful tools designed to enhance your workflow." },
+{ id: "panel3", title: "Best Practices", content: "Learn proven strategies for optimal performance and results." },
+];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+const handleChange = (panel) => (\_, isExpanded) => {
+setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
+};
 
-  return (
-    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
-        {accordionData.map((item) => (
-          <MotionAccordion
-            key={item.id}
-            expanded={expandedPanels[item.id] || false}
-            onChange={handleChange(item.id)}
-            disableGutters
-            elevation={0}
-            sx={{
+return (
+<Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+<Box sx={{ width: "100%", maxWidth: 600 }}>
+{accordionData.map((item) => (
+<MotionAccordion
+key={item.id}
+expanded={expandedPanels[item.id] || false}
+onChange={handleChange(item.id)}
+disableGutters
+elevation={0}
+sx={{
               backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
               border: "2px solid",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
               boxShadow: theme.palette.mode === "dark" ? "3px 3px 0 #FFF" : "3px 3px 0 #111",
               mb: 2,
               "&::before": { display: "none" },
-            }}
-          >
-            <AccordionSummary
-              expandIcon={
-                <motion.div
-                  animate={{ rotate: expandedPanels[item.id] ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{ color: theme.palette.mode === "dark" ? "#FFF" : "#111" }}
-                >
-                  <RxChevronDown size={20} />
-                </motion.div>
-              }
-            >
-              <Typography variant="h6">{item.title}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant="body2">{item.content}</Typography>
-            </AccordionDetails>
-          </MotionAccordion>
-        ))}
-      </Box>
-    </Box>
-  );
+            }} >
+<AccordionSummary
+expandIcon={
+<motion.div
+animate={{ rotate: expandedPanels[item.id] ? 180 : 0 }}
+transition={{ duration: 0.2 }}
+style={{ color: theme.palette.mode === "dark" ? "#FFF" : "#111" }} >
+<RxChevronDown size={20} />
+</motion.div>
+} >
+<Typography variant="h6">{item.title}</Typography>
+</AccordionSummary>
+<AccordionDetails>
+<Typography variant="body2">{item.content}</Typography>
+</AccordionDetails>
+</MotionAccordion>
+))}
+</Box>
+</Box>
+);
 };
 `}
 />
@@ -108,32 +105,32 @@ import {
 import { motion } from "framer-motion";
 import { RxChevronRight } from "react-icons/rx";
 
-const MotionAccordion = motion(Accordion);
+const MotionAccordion = motion.create(Accordion);
 
 const DashedAccordion = () => {
-  const theme = useTheme();
-  const [expandedPanels, setExpandedPanels] = useState({});
-  const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick introduction to our platform." },
-    { id: "panel2", title: "Key Features", content: "Explore powerful tools." },
-    { id: "panel3", title: "Best Practices", content: "Learn proven strategies." },
-  ];
+const theme = useTheme();
+const [expandedPanels, setExpandedPanels] = useState({});
+const accordionData = [
+{ id: "panel1", title: "Getting Started", content: "Quick introduction to our platform." },
+{ id: "panel2", title: "Key Features", content: "Explore powerful tools." },
+{ id: "panel3", title: "Best Practices", content: "Learn proven strategies." },
+];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+const handleChange = (panel) => (\_, isExpanded) => {
+setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
+};
 
-  return (
-    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
-        {accordionData.map((item) => (
-          <MotionAccordion
-            key={item.id}
-            expanded={expandedPanels[item.id] || false}
-            onChange={handleChange(item.id)}
-            disableGutters
-            elevation={0}
-            sx={{
+return (
+<Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+<Box sx={{ width: "100%", maxWidth: 600 }}>
+{accordionData.map((item) => (
+<MotionAccordion
+key={item.id}
+expanded={expandedPanels[item.id] || false}
+onChange={handleChange(item.id)}
+disableGutters
+elevation={0}
+sx={{
               backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
               border: "2px dashed",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
@@ -141,28 +138,25 @@ const DashedAccordion = () => {
               mb: 2,
               "&::before": { display: "none" },
               "&.Mui-expanded": { borderStyle: "solid" },
-            }}
-          >
-            <AccordionSummary
-              expandIcon={
-                <motion.div
-                  animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <RxChevronRight size={20} />
-                </motion.div>
-              }
-            >
-              <Typography variant="h6">{item.title}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant="body2">{item.content}</Typography>
-            </AccordionDetails>
-          </MotionAccordion>
-        ))}
-      </Box>
-    </Box>
-  );
+            }} >
+<AccordionSummary
+expandIcon={
+<motion.div
+animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
+transition={{ duration: 0.15 }} >
+<RxChevronRight size={20} />
+</motion.div>
+} >
+<Typography variant="h6">{item.title}</Typography>
+</AccordionSummary>
+<AccordionDetails>
+<Typography variant="body2">{item.content}</Typography>
+</AccordionDetails>
+</MotionAccordion>
+))}
+</Box>
+</Box>
+);
 };
 `}
 />
@@ -188,68 +182,65 @@ import {
 import { motion } from "framer-motion";
 import { RxChevronRight } from "react-icons/rx";
 
-const MotionAccordion = motion(Accordion);
+const MotionAccordion = motion.create(Accordion);
 
 const MinimalAccordion = () => {
-  const theme = useTheme();
-  const [expandedPanels, setExpandedPanels] = useState({});
-  const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick setup guide." },
-    { id: "panel2", title: "Key Features", content: "Enhance your workflow." },
-    { id: "panel3", title: "Best Practices", content: "Optimize performance." },
-  ];
+const theme = useTheme();
+const [expandedPanels, setExpandedPanels] = useState({});
+const accordionData = [
+{ id: "panel1", title: "Getting Started", content: "Quick setup guide." },
+{ id: "panel2", title: "Key Features", content: "Enhance your workflow." },
+{ id: "panel3", title: "Best Practices", content: "Optimize performance." },
+];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+const handleChange = (panel) => (\_, isExpanded) => {
+setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
+};
 
-  return (
-    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
-        {accordionData.map((item) => (
-          <MotionAccordion
-            key={item.id}
-            expanded={expandedPanels[item.id] || false}
-            onChange={handleChange(item.id)}
-            disableGutters
-            elevation={0}
-            sx={{
+return (
+<Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+<Box sx={{ width: "100%", maxWidth: 600 }}>
+{accordionData.map((item) => (
+<MotionAccordion
+key={item.id}
+expanded={expandedPanels[item.id] || false}
+onChange={handleChange(item.id)}
+disableGutters
+elevation={0}
+sx={{
               borderBottom: "1px solid",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
               backgroundColor: "transparent",
               "&::before": { display: "none" },
-            }}
-          >
-            <AccordionSummary
-              expandIcon={
-                <motion.div
-                  animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <RxChevronRight size={20} />
-                </motion.div>
-              }
-              sx={{
+            }} >
+<AccordionSummary
+expandIcon={
+<motion.div
+animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
+transition={{ duration: 0.15 }} >
+<RxChevronRight size={20} />
+</motion.div>
+}
+sx={{
                 "&:hover": {
                   backgroundColor:
                     theme.palette.mode === "dark"
                       ? "rgba(255,255,255,0.05)"
                       : "rgba(17,17,17,0.05)",
                 },
-              }}
-            >
-              <Typography variant="body1" fontWeight={500}>
-                {item.title}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant="body2">{item.content}</Typography>
-            </AccordionDetails>
-          </MotionAccordion>
-        ))}
-      </Box>
-    </Box>
-  );
+              }} >
+<Typography variant="body1" fontWeight={500}>
+{item.title}
+</Typography>
+</AccordionSummary>
+<AccordionDetails>
+<Typography variant="body2">{item.content}</Typography>
+</AccordionDetails>
+</MotionAccordion>
+))}
+</Box>
+</Box>
+);
 };
 `}
 />
@@ -276,29 +267,29 @@ import {
 import { motion } from "framer-motion";
 import { RxPlus, RxMinus } from "react-icons/rx";
 
-const MotionAccordion = motion(Accordion);
-const MotionPaper = motion(Paper);
+const MotionAccordion = motion.create(Accordion);
+const MotionPaper = motion.create(Paper);
 
 const ModernAccordion = () => {
-  const theme = useTheme();
-  const [expandedPanels, setExpandedPanels] = useState({});
-  const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick setup steps." },
-    { id: "panel2", title: "Key Features", content: "Powerful workflow tools." },
-    { id: "panel3", title: "Best Practices", content: "Tips for efficiency." },
-  ];
+const theme = useTheme();
+const [expandedPanels, setExpandedPanels] = useState({});
+const accordionData = [
+{ id: "panel1", title: "Getting Started", content: "Quick setup steps." },
+{ id: "panel2", title: "Key Features", content: "Powerful workflow tools." },
+{ id: "panel3", title: "Best Practices", content: "Tips for efficiency." },
+];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+const handleChange = (panel) => (\_, isExpanded) => {
+setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
+};
 
-  return (
-    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
-        {accordionData.map((item) => (
-          <MotionPaper
-            key={item.id}
-            sx={{
+return (
+<Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+<Box sx={{ width: "100%", maxWidth: 600 }}>
+{accordionData.map((item) => (
+<MotionPaper
+key={item.id}
+sx={{
               mb: 2,
               borderRadius: 2,
               border: "1px solid",
@@ -309,19 +300,17 @@ const ModernAccordion = () => {
                 theme.palette.mode === "dark"
                   ? "0 2px 6px rgba(0,0,0,0.3)"
                   : "0 2px 6px rgba(0,0,0,0.1)",
-            }}
-          >
-            <MotionAccordion
-              expanded={expandedPanels[item.id] || false}
-              onChange={handleChange(item.id)}
-              disableGutters
-              elevation={0}
-              sx={{ "&::before": { display: "none" } }}
-            >
-              <AccordionSummary
-                expandIcon={
-                  <motion.div
-                    animate={{
+            }} >
+<MotionAccordion
+expanded={expandedPanels[item.id] || false}
+onChange={handleChange(item.id)}
+disableGutters
+elevation={0}
+sx={{ "&::before": { display: "none" } }} >
+<AccordionSummary
+expandIcon={
+<motion.div
+animate={{
                       color: expandedPanels[item.id]
                         ? theme.palette.mode === "dark"
                           ? "#111"
@@ -335,31 +324,29 @@ const ModernAccordion = () => {
                           : "#111"
                         : "transparent",
                     }}
-                    transition={{ duration: 0.2 }}
-                    style={{
+transition={{ duration: 0.2 }}
+style={{
                       borderRadius: "50%",
                       width: 20,
                       height: 20,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                    }}
-                  >
-                    {expandedPanels[item.id] ? <RxMinus size={20} /> : <RxPlus size={20} />}
-                  </motion.div>
-                }
-              >
-                <Typography variant="h6">{item.title}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body2">{item.content}</Typography>
-              </AccordionDetails>
-            </MotionAccordion>
-          </MotionPaper>
-        ))}
-      </Box>
-    </Box>
-  );
+                    }} >
+{expandedPanels[item.id] ? <RxMinus size={20} /> : <RxPlus size={20} />}
+</motion.div>
+} >
+<Typography variant="h6">{item.title}</Typography>
+</AccordionSummary>
+<AccordionDetails>
+<Typography variant="body2">{item.content}</Typography>
+</AccordionDetails>
+</MotionAccordion>
+</MotionPaper>
+))}
+</Box>
+</Box>
+);
 };
 `}
 />
