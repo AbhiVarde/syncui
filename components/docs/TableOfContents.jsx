@@ -35,13 +35,21 @@ export const TableOfContents = ({ toc }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
+        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+
+        if (visibleEntries.length > 0) {
+          const mostVisible = visibleEntries.reduce((prev, current) => {
+            return current.intersectionRatio > prev.intersectionRatio
+              ? current
+              : prev;
+          });
+          setActiveId(mostVisible.target.id);
+        }
       },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 }
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
+      }
     );
 
     toc.forEach((item) => {
@@ -56,7 +64,15 @@ export const TableOfContents = ({ toc }) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      const offset = 80;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
       setActiveId(id);
     }
   };
