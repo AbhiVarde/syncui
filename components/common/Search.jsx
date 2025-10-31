@@ -40,7 +40,7 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
 
   const getDefaultSuggestions = () => {
     const filtered = getFilteredDocsTree(docsTree);
-    const latestNames = ["Date Pickers", "Autocompletes", "Forms"];
+    const latestNames = ["Time Pickers", "Date Pickers", "Autocompletes"];
     const latest = [];
     const others = [];
     filtered.forEach((item) => {

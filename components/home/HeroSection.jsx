@@ -33,7 +33,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <Link href="/docs/datepickers" passHref>
+          <Link href="/docs/timepickers" passHref>
             <Box
               component="button"
               sx={{
@@ -65,7 +65,7 @@ const HeroSection = () => {
                 },
               }}
             >
-              🗓️ New: Date Picker Components
+              ⏰ New: Time Picker Components
               <RxArrowRight size={16} />
             </Box>
           </Link>

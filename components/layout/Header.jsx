@@ -277,9 +277,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           },
                         }}
                       />
-                      {(item.title === "Date Pickers" ||
+                      {(item.title === "Time Pickers" ||
+                        item.title === "Date Pickers" ||
                         item.title === "Autocompletes" ||
-                        item.title === "Forms" ||
                         item.title === "Templates") && (
                         <Box
                           component="span"
