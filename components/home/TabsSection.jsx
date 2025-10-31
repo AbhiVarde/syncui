@@ -10,7 +10,7 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion, time } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
@@ -35,8 +35,10 @@ import DialogVariants from "../ui/Dialogs";
 import FormVariants from "../ui/Forms";
 import AutocompleteVariants from "../ui/Autocompletes";
 import DatePickerVariants from "../ui/DatePickers";
+import TimePickerVariants from "../ui/TimePickers";
 
 const componentVariants = {
+  timepickers: ["12hour", "24hour", "with-seconds", "presets"],
   datepickers: ["single", "range", "presets", "with-time"],
   autocompletes: ["basic", "multi-select", "async", "grouped", "custom-render"],
   accordions: ["brutalist", "dashed", "minimal", "modern"],
@@ -159,6 +161,7 @@ const componentVariants = {
 };
 
 const sectionConfig = {
+  timepickers: { title: "Time Pickers", layout: "tabs" },
   datepickers: { title: "Date Pickers", layout: "tabs" },
   autocompletes: { title: "Smart Autocomplete", layout: "tabs" },
   forms: { title: "Adaptive Forms", layout: "tabs" },
@@ -385,6 +388,12 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 
   // Tab layouts with specific labels
   const tabLayouts = {
+    timepickers: {
+      "12hour": "12 Hour",
+      "24hour": "24 Hour",
+      "with-seconds": "With Seconds",
+      presets: "With Presets",
+    },
     datepickers: {
       single: "Single Date",
       range: "Date Range",
@@ -593,6 +602,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 };
 
 const componentMap = {
+  timepickers: TimePickerVariants,
   datepickers: DatePickerVariants,
   autocompletes: AutocompleteVariants,
   forms: FormVariants,
