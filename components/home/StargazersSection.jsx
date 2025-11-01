@@ -106,12 +106,7 @@ const StargazersSection = () => {
               fontWeight: 500,
               mb: 1,
               letterSpacing: "-0.02em",
-              background:
-                theme.palette.mode === "dark"
-                  ? "linear-gradient(180deg, #fff 30%, rgba(255,255,255,0.7) 100%)"
-                  : "linear-gradient(180deg, #000 30%, rgba(0,0,0,0.8) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              color: theme.palette.mode === "dark" ? "#fff" : "#000",
               textAlign: "center",
             }}
           >
