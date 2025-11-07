@@ -321,7 +321,7 @@ const SectionContent = ({ title, children, url }) => {
         elevation={0}
         sx={{
           borderRadius: 2,
-          overflow: "visible",
+          overflow: "hidden",
           backgroundColor: "background.paper",
           border: `1px solid ${theme.palette.divider}`,
           boxShadow: 0.5,
