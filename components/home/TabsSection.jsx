@@ -321,14 +321,13 @@ const SectionContent = ({ title, children, url }) => {
         elevation={0}
         sx={{
           borderRadius: 2,
-          overflow: "hidden",
+          overflow: "visible",
           backgroundColor: "background.paper",
           border: `1px solid ${theme.palette.divider}`,
           boxShadow: 0.5,
         }}
       >
-        <Box sx={{ p: 2 }}>{children}</Box>
-        <Divider />
+        <Box sx={{ p: 2 }}>{children}</Box> <Divider />
         <Box
           sx={{
             p: 1,
