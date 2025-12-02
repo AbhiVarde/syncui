@@ -35,7 +35,6 @@ import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
 import { AnimatePresence, motion } from "framer-motion";
 import LinkPreview from "../common/LinkPreview";
-import TemplatesPreview from "../common/TemplatesPreview";
 import Image from "next/image";
 import Search from "../common/Search";
 
@@ -531,10 +530,53 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       ml: 2,
                     }}
                   >
-                    <TemplatesPreview
-                      width={400}
-                      height={180}
-                      placement="bottom"
+                    <Button
+                      disabled
+                      sx={{
+                        color: "text.secondary",
+                        fontSize: "15px",
+                        fontWeight: 400,
+                        textTransform: "none",
+                        px: "6px",
+                        py: "4px",
+                        minWidth: "auto",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.75,
+                        cursor: "not-allowed",
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                        },
+                      }}
+                    >
+                      Blocks
+                      <Box
+                        component="span"
+                        sx={{
+                          px: "6px",
+                          py: "1px",
+                          bgcolor: "#FFA500",
+                          color: "#ffffff",
+                          borderRadius: "6px",
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          lineHeight: "14px",
+                          letterSpacing: "0.25px",
+                          minHeight: "18px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        Soon
+                      </Box>
+                    </Button>
+
+                    {renderDivider()}
+
+                    <Button
+                      component={Link}
+                      href="/templates"
                       sx={{
                         color: "text.primary",
                         fontSize: "15px",
@@ -546,43 +588,14 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         display: "flex",
                         alignItems: "center",
                         gap: 0.75,
-                        textDecoration: "none",
                         "&:hover": {
                           backgroundColor: "transparent",
                           opacity: 0.75,
                         },
                       }}
                     >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 0.75,
-                        }}
-                      >
-                        Templates
-                        <Box
-                          component="span"
-                          sx={{
-                            px: "6px",
-                            py: "1px",
-                            bgcolor: "#008080",
-                            color: "#ffffff",
-                            borderRadius: "6px",
-                            fontSize: "11px",
-                            fontWeight: 500,
-                            lineHeight: "14px",
-                            letterSpacing: "0.25px",
-                            minHeight: "18px",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          New
-                        </Box>
-                      </Box>
-                    </TemplatesPreview>
+                      Templates
+                    </Button>
 
                     {renderDivider()}
 
