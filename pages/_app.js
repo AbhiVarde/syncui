@@ -105,12 +105,12 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <DefaultSeo
-        title="Sync UI - Sleek UI Library for Design Engineers"
+        title="Sync UI // Sleek UI Library for Design Engineers"
         titleTemplate="%s | Sync UI"
         description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 45+ free components, templates, and comprehensive documentation."
         canonical="https://www.syncui.design/"
         openGraph={{
-          title: "Sync UI - Sleek UI Library for Design Engineers",
+          title: "Sync UI // Sleek UI Library for Design Engineers",
           description:
             "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 45+ free components, templates, and comprehensive documentation.",
           siteName: "Sync UI",
@@ -122,7 +122,7 @@ function MyApp({ Component, pageProps }) {
               url: "https://www.syncui.design/default-og-image.png",
               width: 1200,
               height: 630,
-              alt: "Sync UI - Sleek UI Library for Design Engineers with Components and Templates",
+              alt: "Sync UI // Sleek UI Library for Design Engineers with Components and Templates",
               type: "image/png",
             },
           ],
@@ -131,7 +131,7 @@ function MyApp({ Component, pageProps }) {
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
-          title: "Sync UI - Sleek UI Library for Design Engineers",
+          title: "Sync UI // Sleek UI Library for Design Engineers",
           description:
             "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 150+ free components, templates, and comprehensive documentation.",
           images: ["https://www.syncui.design/default-og-image.png"],

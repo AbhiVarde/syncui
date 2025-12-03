@@ -11,8 +11,9 @@ import {
 import { motion } from "framer-motion";
 import { LuExternalLink, LuShoppingCart, LuCheck } from "react-icons/lu";
 import { RxCube } from "react-icons/rx";
-import Head from "next/head";
 import { getAllDocsSlugs } from "@/lib/docs";
+import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 const templatesData = [
   {
@@ -139,6 +140,31 @@ const Templates = ({ docsTree }) => {
 
   return (
     <>
+      <NextSeo
+        title="Templates // Sync UI"
+        description="Professional UI templates built with MUI & Framer Motion. Get startup, SaaS, and portfolio templates for your next project."
+        canonical="https://www.syncui.design/templates"
+        openGraph={{
+          url: "https://www.syncui.design/templates",
+          title: "Templates // Sync UI",
+          description:
+            "Professional UI templates built with MUI & Framer Motion. Get startup, SaaS, and portfolio templates for your next project.",
+          images: [
+            {
+              url: "https://www.syncui.design/default-og-image.png",
+              width: 1200,
+              height: 630,
+              alt: "Sync UI Templates",
+            },
+          ],
+          siteName: "Sync UI",
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+          site: "@syncuidesign",
+          creator: "@abhivarde",
+        }}
+      />
       <Head>
         <title>Templates // Sync UI</title>
       </Head>

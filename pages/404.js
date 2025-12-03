@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Box, Typography, Button, useTheme } from "@mui/material";
+import { LiaTelegramPlane } from "react-icons/lia";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { LiaTelegramPlane } from "react-icons/lia";
+import { NextSeo } from "next-seo";
 
 const getRandomInt = (max) => Math.floor(Math.random() * max);
 
@@ -156,6 +157,12 @@ const NotFound = () => {
 
   return (
     <>
+      <NextSeo
+        title="404 // Page Not Found"
+        description="The page you're looking for doesn't exist or has moved."
+        noindex={true}
+        nofollow={true}
+      />
       <Head>
         <title>Page Not Found // Sync UI</title>
         <meta

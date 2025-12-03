@@ -4,9 +4,10 @@ import { getAllDocsSlugs, getDocBySlug } from "../../lib/docs";
 import DocsLayout from "../../components/docs/DocsLayout";
 import { MDXComponents } from "../../components/mdx-components";
 import { DocPager } from "../../components/docs/DocPager";
+import { Typography } from "@mui/material";
 import Head from "next/head";
 import { MDXProvider } from "@mdx-js/react";
-import { Typography } from "@mui/material";
+import { NextSeo } from "next-seo";
 
 export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   const Component = React.useMemo(() => {
@@ -27,6 +28,34 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
 
   return (
     <>
+      <NextSeo
+        title={`${frontmatter.title} // Sync UI`}
+        description={
+          frontmatter.description ||
+          `Documentation for ${frontmatter.title} in Sync UI`
+        }
+        canonical={`https://www.syncui.design/docs/${slug}`}
+        openGraph={{
+          url: `https://www.syncui.design/docs/${slug}`,
+          title: `${frontmatter.title} // Sync UI`,
+          description:
+            frontmatter.description || `Documentation for ${frontmatter.title}`,
+          images: [
+            {
+              url: "https://www.syncui.design/default-og-image.png",
+              width: 1200,
+              height: 630,
+              alt: `${frontmatter.title} // Sync UI Documentation`,
+            },
+          ],
+          siteName: "Sync UI",
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+          site: "@syncuidesign",
+          creator: "@abhivarde",
+        }}
+      />
       <Head>
         <title>{frontmatter.title} // Sync UI</title>
       </Head>
