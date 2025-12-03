@@ -151,7 +151,10 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                                   : "text.secondary",
                                 letterSpacing: 0.2,
                                 borderRadius: 0.75,
-                                fontWeight: isActive ? 500 : 400,
+                                fontWeight: 400,
+                                textShadow: isActive
+                                  ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                  : "none",
                                 "&:hover": {
                                   bgcolor: "background.paper",
                                   color: "text.primary",

@@ -283,7 +283,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         primaryTypographyProps={{
                           variant: "body2",
                           sx: {
-                            fontWeight: isActive ? 500 : 400,
+                            fontWeight: 400,
+                            textShadow: isActive
+                              ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                              : "none",
                             color: isActive ? "text.primary" : "text.secondary",
                           },
                         }}
