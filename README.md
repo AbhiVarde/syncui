@@ -7,14 +7,13 @@
 
 **A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.**
 
-![Sync UI Preview](https://github.com/user-attachments/assets/36fc6047-cf5e-4721-92e6-1d5ed2a35830)
+![Sync UI Preview](https://github.com/user-attachments/assets/a0e55177-2bfe-40bb-83d4-295dcbc366df)
 
 ⭐ **If you like this project, please give it a star!** It helps more developers discover Sync UI 💚
 
 ## 🏆 Featured on Vercel Community Showcase
 
 Grateful to be featured on the [official Vercel Community Showcase](https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039) for Sync UI.
-
 
 ## 🎯 Problem
 
