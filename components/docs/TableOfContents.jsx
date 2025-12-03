@@ -74,6 +74,7 @@ export const TableOfContents = ({ toc }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [toc]);
+
   const handleClick = (e, id) => {
     e.preventDefault();
     const element = document.getElementById(id);

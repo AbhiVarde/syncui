@@ -26,7 +26,8 @@ import {
   RxChevronRight,
   RxCross2,
   RxExternalLink,
-  RxCube,
+  RxComponent2,
+  RxLayers,
 } from "react-icons/rx";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -38,16 +39,47 @@ import LinkPreview from "../common/LinkPreview";
 import Image from "next/image";
 import Search from "../common/Search";
 
+const menuItems = [
+  {
+    label: "Blocks",
+    href: "/blocks",
+    external: false,
+    icon: <RxComponent2 size={18} />,
+    comingSoon: true,
+    disabled: true,
+  },
+  {
+    label: "Templates",
+    href: "/templates",
+    external: false,
+    icon: <RxLayers size={18} />,
+    comingSoon: false,
+    disabled: false,
+  },
+  {
+    label: "Changelog",
+    href: "/docs/changelog",
+    external: false,
+    icon: <RxExternalLink size={18} />,
+    comingSoon: false,
+    disabled: false,
+  },
+];
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius * 1.2,
-  boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+  borderRadius: theme.shape.borderRadius * 1.5,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "0 4px 20px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1)"
+      : "0 4px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)",
   overflow: "hidden",
-  minWidth: 200,
-  maxWidth: 200,
+  minWidth: 180,
+  maxWidth: 180,
+  border: `1px solid ${theme.palette.divider}`,
 }));
 
 const StyledMenuList = styled(MenuList)(({ theme }) => ({
-  padding: theme.spacing("4px 8px"),
+  padding: theme.spacing(0.5),
 }));
 
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
@@ -74,25 +106,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     }
     setMenuOpen(false);
   };
-
-  const menuItems = [
-    {
-      label: "Templates",
-      href: "/templates",
-      external: false,
-      icon: <RxCube size={18} />,
-      comingSoon: true,
-      disabled: false,
-    },
-    {
-      label: "Changelog",
-      href: "/docs/changelog",
-      external: false,
-      icon: <RxExternalLink size={18} />,
-      comingSoon: false,
-      disabled: false,
-    },
-  ];
 
   const renderDivider = () => (
     <Divider
@@ -145,7 +158,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       "Getting Started": [],
     };
 
-    // Add Templates to the Getting Started section
     grouped["Getting Started"].push({
       title: "Templates",
       url: "/templates",
@@ -374,19 +386,24 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     <MenuItem
       key={index}
       disabled={item.disabled}
-      component={item.external ? "a" : Link}
-      href={item.href}
+      component={item.disabled ? "div" : item.external ? "a" : Link}
+      href={item.disabled ? undefined : item.href}
       onClick={item.disabled ? undefined : handleClose}
       sx={{
-        borderRadius: "6px",
+        borderRadius: "8px",
         fontSize: "14px",
-        p: "4px !important",
+        px: 1.25,
+        py: 0.5,
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-start",
-        gap: 1,
+        gap: 1.25,
+        cursor: item.disabled ? "not-allowed" : "pointer",
+        transition: "all 0.15s ease",
         "&:hover": {
-          backgroundColor: theme.palette.action.hover,
+          backgroundColor: item.disabled
+            ? "transparent"
+            : theme.palette.action.hover,
         },
       }}
     >
@@ -396,20 +413,19 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: 20,
-          height: 20,
+          color: item.disabled ? "text.secondary" : "text.primary",
+          opacity: item.disabled ? 0.5 : 1,
         }}
       >
         {item.icon}
       </Box>
 
-      {/* Label + Badge */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, flex: 1 }}>
         <Typography
           sx={{
-            color: "text.primary",
+            color: item.disabled ? "text.secondary" : "text.primary",
             fontSize: "14px",
-            fontWeight: 400,
+            fontWeight: item.disabled ? 400 : 450,
           }}
         >
           {item.label}
@@ -419,17 +435,19 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           <Box
             component="span"
             sx={{
-              px: "6px",
-              py: "2px",
-              bgcolor: "#008080",
+              px: 0.75,
+              py: 0.25,
+              bgcolor: "#FFA500",
               color: "#fff",
-              borderRadius: "6px",
-              fontSize: "11px",
-              fontWeight: 500,
-              lineHeight: "14px",
+              borderRadius: "5px",
+              fontSize: "10px",
+              fontWeight: 600,
+              lineHeight: 1.2,
+              letterSpacing: "0.3px",
+              textTransform: "uppercase",
             }}
           >
-            New
+            Soon
           </Box>
         )}
       </Box>
