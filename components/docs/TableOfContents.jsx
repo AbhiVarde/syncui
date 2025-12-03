@@ -118,9 +118,14 @@ export const TableOfContents = ({ toc }) => {
           >
             <Typography
               variant="caption"
-              fontWeight={activeId === item.id ? 500 : 400}
               color={activeId === item.id ? "" : "text.secondary"}
               sx={{
+                fontWeight: 400,
+                textShadow:
+                  activeId === item.id
+                    ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                    : "none",
+                pr: "1px",
                 pl: 1,
                 my: 0.5,
               }}
