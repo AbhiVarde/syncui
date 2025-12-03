@@ -57,9 +57,23 @@ export const TableOfContents = ({ toc }) => {
       if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
-  }, [toc]);
+    const handleScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 100;
 
+      if (scrolledToBottom && toc.length > 0) {
+        setActiveId(toc[toc.length - 1].id);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [toc]);
   const handleClick = (e, id) => {
     e.preventDefault();
     const element = document.getElementById(id);
