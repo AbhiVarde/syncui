@@ -8,7 +8,7 @@ import {
   useTheme,
   alpha,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { LuExternalLink, LuShoppingCart, LuCheck } from "react-icons/lu";
 import { RxCube } from "react-icons/rx";
 import { getAllDocsSlugs } from "@/lib/docs";
@@ -72,71 +72,9 @@ const templatesData = [
   },
 ];
 
-const MotionBox = motion.create(Box);
-const MotionButton = motion.create(Button);
-const MotionTypography = motion.create(Typography);
-
 const Templates = ({ docsTree }) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
-
-  const animations = {
-    container: {
-      initial: { opacity: 0 },
-      animate: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.15,
-          duration: 0.8,
-        },
-      },
-    },
-    item: {
-      initial: { y: 30, opacity: 0 },
-      animate: {
-        y: 0,
-        opacity: 1,
-        transition: { duration: 0.7 },
-      },
-    },
-    card: {
-      initial: { y: 50, opacity: 0 },
-      animate: (i) => ({
-        y: 0,
-        opacity: 1,
-        transition: {
-          type: "spring",
-          bounce: 0.4,
-          duration: 0.8,
-          delay: i * 0.2,
-        },
-      }),
-    },
-    feature: {
-      initial: { opacity: 0, x: -15 },
-      animate: (i) => ({
-        opacity: 1,
-        x: 0,
-        transition: { delay: 0.2 + i * 0.1, duration: 0.6 },
-      }),
-    },
-    video: {
-      initial: { opacity: 0, scale: 0.92 },
-      animate: {
-        opacity: 1,
-        scale: 1,
-        transition: { delay: 0.3, duration: 0.9 },
-      },
-    },
-    button: {
-      initial: { opacity: 0, y: 15 },
-      animate: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.5, delay: 0.6 },
-      },
-    },
-  };
 
   return (
     <>
@@ -169,10 +107,7 @@ const Templates = ({ docsTree }) => {
         <title>Templates // Sync UI</title>
       </Head>
       <Container maxWidth="xl" sx={{ px: "0px !important" }}>
-        <MotionBox
-          initial="initial"
-          animate="animate"
-          variants={animations.container}
+        <Box
           sx={{
             width: "100%",
             height: "100%",
@@ -206,8 +141,7 @@ const Templates = ({ docsTree }) => {
               textAlign: "center",
             }}
           >
-            <MotionBox
-              variants={animations.container}
+            <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -215,46 +149,38 @@ const Templates = ({ docsTree }) => {
                 p: { md: 2, xs: 0 },
               }}
             >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+              <Button
+                sx={{
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: "12px",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  background:
+                    theme.palette.mode === "light"
+                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
+                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backdropFilter: "blur(4px)",
+                  textTransform: "none",
+                  color: theme.palette.mode === "light" ? "#008080" : "#00B5AD",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                  pointerEvents: "none",
+                }}
               >
-                <MotionButton
-                  sx={{
-                    px: 2,
-                    py: 0.5,
-                    borderRadius: "12px",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    background:
-                      theme.palette.mode === "light"
-                        ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                        : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
-                    border: "1px solid",
-                    borderColor: "divider",
-                    backdropFilter: "blur(4px)",
-                    textTransform: "none",
-                    color:
-                      theme.palette.mode === "light" ? "#008080" : "#00B5AD",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                    pointerEvents: "none",
-                  }}
-                >
-                  Sync UI Templates
-                </MotionButton>
-              </motion.div>
+                Sync UI Templates
+              </Button>
 
-              <MotionTypography
+              <Typography
                 variant="h2"
                 component="h1"
                 sx={{ fontWeight: 700, mt: 1 }}
-                variants={animations.item}
               >
                 Premium UI templates for web applications
-              </MotionTypography>
+              </Typography>
 
-              <MotionTypography
+              <Typography
                 variant="h6"
                 sx={{
                   fontWeight: 400,
@@ -262,7 +188,6 @@ const Templates = ({ docsTree }) => {
                   mt: 2,
                   lineHeight: 1.6,
                 }}
-                variants={animations.item}
               >
                 <Box
                   component="span"
@@ -280,81 +205,77 @@ const Templates = ({ docsTree }) => {
                   Professional UI templates built with MUI & Framer Motion.
                   Enhance your project's look instantly.
                 </Box>
-              </MotionTypography>
+              </Typography>
 
-              {/* Offer Chip */}
-              <MotionBox
+              <motion.div
                 whileHover={{ scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{
+                  duration: 0.2,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 onClick={() =>
                   window.open(
                     "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
                     "_blank"
                   )
                 }
-                sx={{
-                  mt: 2,
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  background: "linear-gradient(135deg, #007B83, #00B5AD)",
-                  color: "#fff",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 1,
+                style={{
+                  marginTop: "16px",
                   cursor: "pointer",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                  transition: "box-shadow 0.3s ease",
-                  "&:hover": {
-                    boxShadow: "0 4px 14px rgba(0, 181, 173, 0.4)",
-                  },
                 }}
               >
-                <RxCube size={18} style={{ color: "#fff" }} />
-                <Typography
-                  variant="body2"
-                  fontWeight={500}
+                <Box
                   sx={{
-                    display: { xs: "none", sm: "block" },
+                    px: 2,
+                    py: 1,
+                    borderRadius: 2,
+                    background: "linear-gradient(135deg, #007B83, #00B5AD)",
+                    color: "#fff",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 1,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    transition: "box-shadow 0.3s ease",
+                    "&:hover": {
+                      boxShadow: "0 4px 14px rgba(0, 181, 173, 0.4)",
+                    },
                   }}
                 >
-                  Bundle Offer: All 3 Templates for $79 (Save $8)
-                </Typography>
-                <Typography
-                  variant="body2"
-                  fontWeight={500}
-                  sx={{
-                    display: { xs: "block", sm: "none" },
-                  }}
-                >
-                  Bundle Offer: $79 (Save $8)
-                </Typography>
-              </MotionBox>
-            </MotionBox>
+                  <RxCube size={18} style={{ color: "#fff" }} />
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    sx={{
+                      display: { xs: "none", sm: "block" },
+                    }}
+                  >
+                    Bundle Offer: All 3 Templates for $79 (Save $8)
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    sx={{
+                      display: { xs: "block", sm: "none" },
+                    }}
+                  >
+                    Bundle Offer: $79 (Save $8)
+                  </Typography>
+                </Box>
+              </motion.div>
+            </Box>
           </Container>
-        </MotionBox>
+        </Box>
 
         <Container maxWidth="md" sx={{ px: { lg: 0 } }}>
           {templatesData.map((template, index) => (
-            <MotionBox
-              key={template.id}
-              initial="initial"
-              whileInView="animate"
-              viewport={{
-                once: false,
-                amount: 0.2,
-                margin: "100px 0px 0px 0px",
-              }}
-              custom={index}
-              variants={animations.card}
-            >
+            <Box key={template.id}>
               <Grid
                 container
                 spacing={6}
                 alignItems="center"
                 sx={{ my: { md: 5, sm: 3, xs: 2 } }}
               >
-                {/* Template Info */}
                 <Grid
                   item
                   xs={12}
@@ -364,16 +285,14 @@ const Templates = ({ docsTree }) => {
                     md: index % 2 === 0 ? 1 : 2,
                   }}
                 >
-                  <MotionBox
-                    variants={animations.container}
+                  <Box
                     sx={{
                       display: "flex",
                       flexDirection: "column",
                       gap: 2,
                     }}
                   >
-                    <MotionBox
-                      variants={animations.item}
+                    <Box
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -405,22 +324,19 @@ const Templates = ({ docsTree }) => {
                           New
                         </Box>
                       )}
-                    </MotionBox>
+                    </Box>
 
-                    <MotionTypography
+                    <Typography
                       variant="body1"
                       sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
-                      variants={animations.item}
                     >
                       {template.description}
-                    </MotionTypography>
+                    </Typography>
 
-                    <MotionBox variants={animations.container} sx={{ my: 2 }}>
+                    <Box sx={{ my: 2 }}>
                       {template.features.map((feature, i) => (
-                        <MotionBox
+                        <Box
                           key={i}
-                          custom={i}
-                          variants={animations.feature}
                           sx={{
                             display: "flex",
                             alignItems: "flex-start",
@@ -443,13 +359,12 @@ const Templates = ({ docsTree }) => {
                           >
                             {feature}
                           </Typography>
-                        </MotionBox>
+                        </Box>
                       ))}
-                    </MotionBox>
-                  </MotionBox>
+                    </Box>
+                  </Box>
                 </Grid>
 
-                {/* Video & Buttons */}
                 <Grid
                   item
                   xs={12}
@@ -459,8 +374,7 @@ const Templates = ({ docsTree }) => {
                     md: index % 2 === 0 ? 2 : 1,
                   }}
                 >
-                  <MotionBox
-                    variants={animations.video}
+                  <Box
                     sx={{
                       position: "relative",
                       borderRadius: 3,
@@ -470,7 +384,6 @@ const Templates = ({ docsTree }) => {
                       aspectRatio: "16/9",
                     }}
                   >
-                    {/* Border Animation */}
                     <Box
                       sx={{
                         position: "absolute",
@@ -500,7 +413,6 @@ const Templates = ({ docsTree }) => {
                       }}
                     />
 
-                    {/* Background */}
                     <Box
                       sx={{
                         position: "absolute",
@@ -514,7 +426,6 @@ const Templates = ({ docsTree }) => {
                       }}
                     />
 
-                    {/* Video Container */}
                     <Box
                       sx={{
                         position: "relative",
@@ -547,56 +458,44 @@ const Templates = ({ docsTree }) => {
                         />
                       </Box>
                     </Box>
-                  </MotionBox>
+                  </Box>
 
-                  {/* Action Buttons */}
                   <Box
                     sx={{
                       display: "flex",
                       gap: 2,
                       mt: 3,
+                      alignItems: "center",
                       flexDirection: { xs: "column", sm: "row" },
+                      width: "100%",
                     }}
                   >
-                    {/* Get Access Button */}
-                    <MotionButton
-                      variants={animations.button}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    <Button
                       variant="contained"
-                      startIcon={<LuShoppingCart />}
                       component="a"
                       href={template.accessUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       sx={{
+                        width: { xs: "100%", sm: "50%" },
+                        padding: "6px 20px",
+                        borderRadius: "12px",
                         background: (theme) =>
                           theme.palette.mode !== "light"
                             ? "linear-gradient(110deg, #fff 45%, #e4e4e7 55%, #fff)"
                             : "linear-gradient(110deg, #000 45%, #333 55%, #000)",
                         backgroundSize: "200% 100%",
                         animation: "shine 3s linear infinite",
-                        color: theme.palette.mode !== "light" ? "#000" : "#FFF",
+                        color: (theme) =>
+                          theme.palette.mode !== "light" ? "#000" : "#fff",
                         border: "1px solid",
                         borderColor: "divider",
-                        "&:hover": {
-                          borderColor: "divider",
-                          backgroundSize: "200% 100%",
-                        },
-                        "@keyframes shine": {
-                          "0%": { backgroundPosition: "200% 0" },
-                          "100%": { backgroundPosition: "-200% 0" },
-                        },
                       }}
                     >
-                      Get Template - ${template.price}
-                    </MotionButton>
+                      Get Access ${template.price}
+                    </Button>
 
-                    {/* Live Preview Button */}
-                    <MotionButton
-                      variants={animations.button}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    <Button
                       variant="outlined"
                       startIcon={<LuExternalLink />}
                       component="a"
@@ -604,16 +503,20 @@ const Templates = ({ docsTree }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       sx={{
+                        width: { xs: "100%", sm: "50%" },
+                        padding: "6px 20px",
+                        borderRadius: "12px",
+                        border: "1px solid",
+                        borderColor: "divider",
                         color: "text.primary",
-                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       }}
                     >
                       Live Preview
-                    </MotionButton>
+                    </Button>
                   </Box>
                 </Grid>
               </Grid>
-            </MotionBox>
+            </Box>
           ))}
         </Container>
       </Container>

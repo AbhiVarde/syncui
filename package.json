@@ -20,6 +20,7 @@
     "framer-motion": "^11.18.2",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^10.0.2",
+    "motion": "^12.23.25",
     "next": "^16.0.0",
     "next-mdx-remote": "^5.0.0",
     "next-seo": "^6.8.0",
