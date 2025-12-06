@@ -7,7 +7,7 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { RxArrowRight } from "react-icons/rx";
 import Link from "next/link";
 import {
@@ -21,6 +21,11 @@ import { IoSparkles } from "react-icons/io5";
 
 const MotionButton = motion.create(Button);
 
+const fastTransition = {
+  duration: 0.25,
+  ease: [0.16, 1, 0.3, 1],
+};
+
 const HeroSection = () => {
   const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
@@ -29,9 +34,9 @@ const HeroSection = () => {
     <Container maxWidth="md" sx={{ py: { md: 12, xs: 8 } }}>
       <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, filter: "blur(6px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={fastTransition}
         >
           <Link href="/docs/timepickers" passHref>
             <Box
@@ -56,7 +61,7 @@ const HeroSection = () => {
                     ? theme.palette.text.primary
                     : "rgba(255,255,255,0.9)",
                 cursor: "pointer",
-                transition: "all 0.2s ease",
+                transition: "background-color 0.12s ease",
                 "&:hover": {
                   backgroundColor:
                     theme.palette.mode === "light"
@@ -73,8 +78,14 @@ const HeroSection = () => {
           <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 1 }}>
             <Link href="/templates" passHref>
               <MotionButton
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 700,
+                  damping: 40,
+                  mass: 0.3,
+                }}
                 sx={{
                   px: 2,
                   py: 0.5,
@@ -90,7 +101,8 @@ const HeroSection = () => {
                   backdropFilter: "blur(4px)",
                   textTransform: "none",
                   color: "text.primary",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                  willChange: "transform",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -108,8 +120,14 @@ const HeroSection = () => {
               sx={{ textDecoration: "none" }}
             >
               <MotionButton
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 700,
+                  damping: 40,
+                  mass: 0.3,
+                }}
                 sx={{
                   px: 2,
                   py: 0.5,
@@ -125,7 +143,8 @@ const HeroSection = () => {
                   backdropFilter: "blur(4px)",
                   textTransform: "none",
                   color: "text.primary",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                  willChange: "transform",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -143,69 +162,54 @@ const HeroSection = () => {
           </Box>
         </motion.div>
 
-        <Box sx={{ mt: 1 }}>
-          <motion.div
-            initial={{ opacity: 0, y: 10, filter: "blur(12px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
+        <motion.div
+          initial={{ opacity: 0, filter: "blur(6px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ ...fastTransition, delay: 0.03 }}
+        >
+          <Box sx={{ mt: 1 }}>
             <Typography
               variant="h1"
               sx={{
                 fontWeight: 800,
                 letterSpacing: "-0.05em",
-                mb: "0px !important",
+                mb: 2,
               }}
             >
-              <motion.span
-                style={{ display: "inline-block" }}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-              >
-                Beautifully designed components
-              </motion.span>
+              Beautifully designed components
               <br />
-              <motion.span
-                style={{ display: "inline-block" }}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
-              >
-                built with MUI and Framer Motion
-              </motion.span>
+              built with MUI and Framer Motion
             </Typography>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <Typography
-              mt
-              variant="body1"
-              sx={{ fontWeight: 400, color: "text.secondary" }}
-            >
-              Accessible and customizable components that you can copy and paste
-              into your apps. Built with MUI and Framer Motion for seamless
-              integration and stunning animations. Free. Open Source. Ready for
-              your next project.
-            </Typography>
-          </motion.div>
-        </Box>
+          </Box>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          initial={{ opacity: 0, filter: "blur(6px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ ...fastTransition, delay: 0.06 }}
+        >
+          <Typography
+            variant="body1"
+            sx={{ fontWeight: 400, color: "text.secondary", mb: 3 }}
+          >
+            Accessible and customizable components that you can copy and paste
+            into your apps. Built with MUI and Framer Motion for seamless
+            integration and stunning animations. Free. Open Source. Ready for
+            your next project.
+          </Typography>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, filter: "blur(6px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ ...fastTransition, delay: 0.09 }}
         >
           <Box
             sx={{
               display: "flex",
               flexWrap: "wrap",
               gap: 3,
-              mt: 2,
+              mb: 3,
               alignItems: "center",
             }}
           >
@@ -224,9 +228,7 @@ const HeroSection = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
                     alignItems: "center",
-                    gap: 1,
                     cursor: "pointer",
                     color,
                   }}
@@ -239,16 +241,15 @@ const HeroSection = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          initial={{ opacity: 0, filter: "blur(6px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ ...fastTransition, delay: 0.12 }}
         >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               gap: 2,
-              mt: 3,
               flexWrap: "wrap",
             }}
           >
@@ -259,13 +260,21 @@ const HeroSection = () => {
                 size="large"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 700,
+                  damping: 40,
+                  mass: 0.3,
+                }}
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  transition: "0.3s",
                   flexShrink: 0,
                   padding: "6px 20px",
                   minHeight: "38px",
+                  willChange: "transform",
                 }}
               >
                 <Box
@@ -277,28 +286,46 @@ const HeroSection = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <AnimatePresence>
+                  <AnimatePresence initial={false} mode="wait">
                     {isHovered && (
                       <motion.span
+                        key="left-arrow"
                         initial={{ opacity: 0, width: 0, marginRight: 0 }}
                         animate={{ opacity: 1, width: "auto", marginRight: 8 }}
                         exit={{ opacity: 0, width: 0, marginRight: 0 }}
-                        transition={{ duration: 0.2 }}
-                        style={{ display: "inline-flex", overflow: "hidden" }}
+                        transition={{
+                          duration: 0.1,
+                          ease: [0.16, 1, 0.3, 1],
+                          opacity: { duration: 0.06 },
+                        }}
+                        style={{
+                          display: "inline-flex",
+                          overflow: "hidden",
+                          willChange: "width, opacity",
+                        }}
                       >
                         <RxArrowRight size={19} />
                       </motion.span>
                     )}
                   </AnimatePresence>
                   Get Started
-                  <AnimatePresence>
+                  <AnimatePresence initial={false} mode="wait">
                     {!isHovered && (
                       <motion.span
+                        key="right-arrow"
                         initial={{ opacity: 0, width: 0, marginLeft: 0 }}
                         animate={{ opacity: 1, width: "auto", marginLeft: 8 }}
                         exit={{ opacity: 0, width: 0, marginLeft: 0 }}
-                        transition={{ duration: 0.2 }}
-                        style={{ display: "inline-flex", overflow: "hidden" }}
+                        transition={{
+                          duration: 0.1,
+                          ease: [0.16, 1, 0.3, 1],
+                          opacity: { duration: 0.06 },
+                        }}
+                        style={{
+                          display: "inline-flex",
+                          overflow: "hidden",
+                          willChange: "width, opacity",
+                        }}
                       >
                         <RxArrowRight size={19} />
                       </motion.span>
