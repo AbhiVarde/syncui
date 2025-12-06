@@ -269,7 +269,13 @@ const HeroSection = () => {
                 }}
               >
                 <Box
-                  sx={{ display: "flex", alignItems: "center", lineHeight: 1 }}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    lineHeight: 1,
+                    minWidth: "130px",
+                    justifyContent: "center",
+                  }}
                 >
                   <AnimatePresence>
                     {isHovered && (
