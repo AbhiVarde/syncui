@@ -23,7 +23,6 @@ function MyApp({ Component, pageProps }) {
         strategy="afterInteractive"
       />
       <Head>
-        {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -242,9 +241,7 @@ function AppContent({ Component, pageProps }) {
 
   useEffect(() => {
     setIsMounted(true);
-    setCurrentRoute(window.location.pathname.split("/")[1]);
 
-    // Console ASCII Art
     console.log(
       "%c                                  .__         .___            .__               \n" +
         "  _________.__. ____   ____  __ __|__|      __| _/____   _____|__| ____   ____  \n" +
@@ -266,6 +263,10 @@ function AppContent({ Component, pageProps }) {
       "%cBrought to you by https://abhivarde.in",
       "color: #ffffff; font-family: monospace; font-size: 13px; font-weight: bold; margin-top: 8px;"
     );
+  }, []);
+
+  useEffect(() => {
+    setCurrentRoute(window.location.pathname.split("/")[1]);
 
     const handleRouteChange = (url) => {
       const newRoute = url.split("/")[1];
@@ -273,13 +274,16 @@ function AppContent({ Component, pageProps }) {
         setLoading(true);
       }
     };
+
     const handleRouteComplete = (url) => {
       setLoading(false);
       setCurrentRoute(url.split("/")[1]);
     };
+
     Router.events.on("routeChangeStart", handleRouteChange);
     Router.events.on("routeChangeComplete", handleRouteComplete);
     Router.events.on("routeChangeError", () => setLoading(false));
+
     return () => {
       Router.events.off("routeChangeStart", handleRouteChange);
       Router.events.off("routeChangeComplete", handleRouteComplete);
