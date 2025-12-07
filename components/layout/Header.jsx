@@ -28,13 +28,14 @@ import {
   RxExternalLink,
   RxComponent2,
   RxLayers,
+  RxChevronDown,
 } from "react-icons/rx";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GoSidebarCollapse } from "react-icons/go";
 import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import LinkPreview from "../common/LinkPreview";
 import Image from "next/image";
 import Search from "../common/Search";
@@ -94,6 +95,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const isDocsPage = router.pathname.startsWith("/docs");
   const [activeId, setActiveId] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isComponentsOpen, setIsComponentsOpen] = useState(true);
   const anchorRef = useRef(null);
 
   const handleToggle = () => {
@@ -129,7 +131,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           }
         });
       },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 }
+      { rootMargin: "-20% 0px -60% 0px" }
     );
 
     toc?.forEach((item) => {
@@ -232,95 +234,244 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       <Box sx={{ flexGrow: 1, overflowY: "auto", px: 0.2 }}>
         {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
           <Box key={category} sx={{ my: 2 }}>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{
-                fontWeight: 500,
-                letterSpacing: 0.5,
-                color: "text.secondary",
-              }}
-            >
-              {category}
-            </Typography>
-            <List disablePadding>
-              {items.map((item) => {
-                const isActive =
-                  (item.title === "Setup" && router.asPath === "/docs") ||
-                  (item.title === "Changelog" &&
-                    router.asPath === "/docs/changelog") ||
-                  (item.title === "Templates" &&
-                    router.asPath === "/templates") ||
-                  router.asPath === item.url;
-                return (
-                  <ListItem
-                    key={item.url}
-                    button
-                    component={Link}
-                    href={item.url}
-                    onClick={() => {
-                      toggleDrawer();
-                      setTimeout(() => router.push(item.url), 500);
-                    }}
+            {category === "Components" ? (
+              <>
+                <Box
+                  onClick={() => setIsComponentsOpen(!isComponentsOpen)}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    cursor: "pointer",
+                    mb: 1,
+                    userSelect: "none",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
                     sx={{
-                      mb: 0.5,
-                      px: 1.5,
-                      py: 0.5,
-                      borderRadius: 0.75,
-                      transition: "all 0.15s ease-in-out",
-                      ...(isActive && {
-                        bgcolor: "background.paper",
-                        boxShadow: (theme) =>
-                          `0 0 0 1px ${theme.palette.divider}`,
-                      }),
+                      fontWeight: 500,
+                      letterSpacing: 0.5,
+                      color: "text.secondary",
                     }}
                   >
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                    {category}
+                  </Typography>
+                  <motion.div
+                    animate={{ rotate: isComponentsOpen ? 0 : -90 }}
+                    transition={{
+                      duration: 0.2,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                  >
+                    <RxChevronDown size={16} />
+                  </motion.div>
+                </Box>
+                <AnimatePresence initial={false}>
+                  {isComponentsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        duration: 0.25,
+                        ease: [0.4, 0, 0.2, 1],
+                      }}
+                      style={{ overflow: "hidden" }}
                     >
-                      <ListItemText
-                        primary={item.title}
-                        primaryTypographyProps={{
-                          variant: "body2",
-                          sx: {
-                            fontWeight: 400,
-                            textShadow: isActive
-                              ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                              : "none",
-                            color: isActive ? "text.primary" : "text.secondary",
-                          },
+                      <List disablePadding>
+                        {items.map((item) => {
+                          const isActive = router.asPath === item.url;
+                          return (
+                            <ListItem
+                              key={item.url}
+                              button
+                              component={Link}
+                              href={item.url}
+                              onClick={() => {
+                                toggleDrawer();
+                                setTimeout(() => router.push(item.url), 500);
+                              }}
+                              sx={{
+                                mb: 0.5,
+                                px: 1.5,
+                                py: 0.4,
+                                borderRadius: 1.2,
+                                display: "flex",
+                                alignItems: "center",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                                letterSpacing: 0.2,
+                                color: isActive
+                                  ? "text.primary"
+                                  : "text.secondary",
+                                textShadow: isActive
+                                  ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                  : "none",
+                                border: "1px solid transparent",
+                                transition:
+                                  "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease",
+                                "&:hover": {
+                                  bgcolor: "action.hover",
+                                  color: "text.primary",
+                                },
+                                ...(isActive && {
+                                  bgcolor: "action.hover",
+                                  borderColor: "divider",
+                                }),
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 0.5,
+                                }}
+                              >
+                                <ListItemText
+                                  primary={item.title}
+                                  primaryTypographyProps={{
+                                    variant: "body2",
+                                    sx: {
+                                      fontWeight: 400,
+                                      textShadow: isActive
+                                        ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                        : "none",
+                                      color: isActive
+                                        ? "text.primary"
+                                        : "text.secondary",
+                                    },
+                                  }}
+                                />
+                                {(item.title === "Time Pickers" ||
+                                  item.title === "Date Pickers" ||
+                                  item.title === "Autocompletes") && (
+                                  <Box
+                                    component="span"
+                                    sx={{
+                                      ml: 1,
+                                      px: 0.8,
+                                      py: 0.2,
+                                      bgcolor: "#008080",
+                                      color: "#ffffff",
+                                      borderRadius: "10px",
+                                      fontSize: "0.65rem",
+                                      fontWeight: 500,
+                                      lineHeight: 1,
+                                      letterSpacing: "0.02em",
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    New
+                                  </Box>
+                                )}
+                              </Box>
+                            </ListItem>
+                          );
+                        })}
+                      </List>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            ) : (
+              <>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 500,
+                    letterSpacing: 0.5,
+                    color: "text.secondary",
+                    mb: 1,
+                  }}
+                >
+                  {category}
+                </Typography>
+                <List disablePadding>
+                  {items.map((item) => {
+                    const isActive =
+                      (item.title === "Setup" && router.asPath === "/docs") ||
+                      (item.title === "Changelog" &&
+                        router.asPath === "/docs/changelog") ||
+                      (item.title === "Templates" &&
+                        router.asPath === "/templates") ||
+                      router.asPath === item.url;
+                    return (
+                      <ListItem
+                        key={item.url}
+                        button
+                        component={Link}
+                        href={item.url}
+                        onClick={() => {
+                          toggleDrawer();
+                          setTimeout(() => router.push(item.url), 500);
                         }}
-                      />
-                      {(item.title === "Time Pickers" ||
-                        item.title === "Date Pickers" ||
-                        item.title === "Autocompletes" ||
-                        item.title === "Templates") && (
+                        sx={{
+                          mb: 0.5,
+                          px: 1.5,
+                          py: 0.5,
+                          borderRadius: 1.2,
+                          transition: "all 0.15s",
+                          ...(isActive && {
+                            bgcolor: "background.paper",
+                            boxShadow: (theme) =>
+                              `0 0 0 1px ${theme.palette.divider}`,
+                          }),
+                        }}
+                      >
                         <Box
-                          component="span"
                           sx={{
-                            ml: 1,
-                            px: 0.8,
-                            py: 0.2,
-                            bgcolor: "#008080",
-                            color: "#ffffff",
-                            borderRadius: "10px",
-                            fontSize: "0.65rem",
-                            fontWeight: 500,
-                            lineHeight: 1,
-                            letterSpacing: "0.02em",
-                            display: "inline-flex",
+                            display: "flex",
                             alignItems: "center",
-                            justifyContent: "center",
+                            gap: 0.5,
                           }}
                         >
-                          New
+                          <ListItemText
+                            primary={item.title}
+                            primaryTypographyProps={{
+                              variant: "body2",
+                              sx: {
+                                fontWeight: 400,
+                                textShadow: isActive
+                                  ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                  : "none",
+                                color: isActive
+                                  ? "text.primary"
+                                  : "text.secondary",
+                              },
+                            }}
+                          />
+                          {item.title === "Templates" && (
+                            <Box
+                              component="span"
+                              sx={{
+                                ml: 1,
+                                px: 0.8,
+                                py: 0.2,
+                                bgcolor: "#008080",
+                                color: "#ffffff",
+                                borderRadius: "10px",
+                                fontSize: "0.65rem",
+                                fontWeight: 500,
+                                lineHeight: 1,
+                                letterSpacing: "0.02em",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              New
+                            </Box>
+                          )}
                         </Box>
-                      )}
-                    </Box>
-                  </ListItem>
-                );
-              })}
-            </List>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </>
+            )}
           </Box>
         ))}
       </Box>
@@ -402,7 +553,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         justifyContent: "flex-start",
         gap: 1.25,
         cursor: item.disabled ? "not-allowed" : "pointer",
-        transition: "all 0.15s ease",
+        transition: "all 0.15s",
         "&:hover": {
           backgroundColor: item.disabled
             ? "transparent"
@@ -410,7 +561,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         },
       }}
     >
-      {/* Icon */}
       <Box
         sx={{
           display: "flex",
@@ -469,7 +619,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           top: 0,
           borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: "blur(10px)",
-          transition: "all 0.2s ease",
+          transition: "all 0.2s",
           backgroundColor: isScrolled ? "transparent" : "background.default",
           zIndex: 1100,
         }}
@@ -535,7 +685,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     sx={{
                       color: "text.primary",
                       lineHeight: 1,
-                      transition: "opacity 0.2s ease",
+                      transition: "opacity 0.2s",
                     }}
                   >
                     Sync UI

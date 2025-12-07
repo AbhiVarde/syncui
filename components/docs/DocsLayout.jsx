@@ -3,12 +3,14 @@ import { Box, Typography, Breadcrumbs } from "@mui/material";
 import Link from "next/link";
 import { TableOfContents } from "./TableOfContents";
 import { useRouter } from "next/router";
-import { RxChevronRight, RxTextAlignLeft } from "react-icons/rx";
+import { RxChevronRight, RxTextAlignLeft, RxChevronDown } from "react-icons/rx";
 import LinkPreview from "../common/LinkPreview";
+import { motion, AnimatePresence } from "motion/react";
 
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [activeId, setActiveId] = useState("");
+  const [isComponentsOpen, setIsComponentsOpen] = useState(true);
 
   const topPosition = 60;
   const heightCalc = "calc(100vh - 60px)";
@@ -22,7 +24,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           }
         });
       },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0.1 }
+      { rootMargin: "-20% 0px -60% 0px" }
     );
 
     toc.forEach((item) => {
@@ -58,12 +60,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           On this page
         </Typography>
         {activeText && (
-          <Typography
-            color="text.secondary"
-            sx={{
-              fontSize: "0.8rem",
-            }}
-          >
+          <Typography color="text.secondary" sx={{ fontSize: "0.8rem" }}>
             {activeText}
           </Typography>
         )}
@@ -71,13 +68,70 @@ const DocsLayout = ({ children, toc, docsTree }) => {
     );
   };
 
+  const renderNavigationItem = (item, isActive) => (
+    <Link key={item.url} href={item.url} passHref legacyBehavior>
+      <Typography
+        component="a"
+        variant="caption"
+        sx={{
+          mb: 0.5,
+          px: 1.2,
+          py: 0.8,
+          display: "flex",
+          alignItems: "center",
+          textDecoration: "none",
+          color: isActive ? "text.primary" : "text.secondary",
+          letterSpacing: 0.2,
+          borderRadius: 1.2,
+          fontWeight: 400,
+          textShadow: isActive
+            ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+            : "none",
+          border: "1px solid transparent",
+          transition:
+            "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease",
+          "&:hover": {
+            bgcolor: "action.hover",
+            color: "text.primary",
+          },
+          ...(isActive && {
+            bgcolor: "action.hover",
+            borderColor: "divider",
+          }),
+        }}
+      >
+        <span>{item.title}</span>
+        {(item.title === "Time Pickers" ||
+          item.title === "Date Pickers" ||
+          item.title === "Autocompletes" ||
+          item.title === "Templates") && (
+          <Box
+            component="span"
+            sx={{
+              ml: 1,
+              px: 0.8,
+              py: 0.2,
+              bgcolor: "#008080",
+              color: "#ffffff",
+              borderRadius: "10px",
+              fontSize: "0.65rem",
+              fontWeight: 500,
+              lineHeight: 1,
+              letterSpacing: "0.02em",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            New
+          </Box>
+        )}
+      </Typography>
+    </Link>
+  );
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexGrow: 1,
-      }}
-    >
+    <Box sx={{ display: "flex", flexGrow: 1 }}>
       <Box
         component="nav"
         sx={{
@@ -107,98 +161,90 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             <nav>
               {Object.entries(groupDocsTree(docsTree)).map(
                 ([category, items]) => (
-                  <Box key={category}>
-                    <Typography
-                      variant="body2"
-                      gutterBottom
-                      sx={{
-                        fontSize: "0.8rem",
-                        fontWeight: 500,
-                        letterSpacing: 0.5,
-                      }}
-                    >
-                      {category}
-                    </Typography>
-                    <Box sx={{ my: 1 }}>
-                      {items.map((item) => {
-                        const isActive =
-                          (item.title === "Setup" &&
-                            router.asPath === "/docs") ||
-                          (item.title === "Changelog" &&
-                            router.asPath === "/docs/changelog") ||
-                          (item.title === "Templates" &&
-                            router.asPath === "/templates") ||
-                          router.asPath === item.url;
-                        return (
-                          <Link
-                            key={item.url}
-                            href={item.url}
-                            passHref
-                            legacyBehavior
+                  <Box key={category} sx={{ mb: 2 }}>
+                    {category === "Components" ? (
+                      <>
+                        <Box
+                          onClick={() => setIsComponentsOpen(!isComponentsOpen)}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            cursor: "pointer",
+                            mb: 1,
+                            userSelect: "none",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontSize: "0.8rem",
+                              fontWeight: 500,
+                              letterSpacing: 0.5,
+                            }}
                           >
-                            <Typography
-                              component="a"
-                              variant="caption"
-                              sx={{
-                                mb: 0.5,
-                                px: 1.2,
-                                py: 0.8,
-                                display: "flex",
-                                alignItems: "center",
-                                textDecoration: "none",
-                                color: isActive
-                                  ? "text.primary"
-                                  : "text.secondary",
-                                letterSpacing: 0.2,
-                                borderRadius: 0.75,
-                                fontWeight: 400,
-                                textShadow: isActive
-                                  ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                                  : "none",
-                                "&:hover": {
-                                  bgcolor: "background.paper",
-                                  color: "text.primary",
-                                },
-                                ...(isActive && {
-                                  bgcolor: "background.paper",
-                                  boxShadow: (theme) =>
-                                    `0 0 0 1px ${theme.palette.divider}`,
-                                }),
+                            {category}
+                          </Typography>
+                          <motion.div
+                            animate={{ rotate: isComponentsOpen ? 0 : -90 }}
+                            transition={{
+                              duration: 0.2,
+                              ease: [0.4, 0, 0.2, 1],
+                            }}
+                          >
+                            <RxChevronDown size={16} />
+                          </motion.div>
+                        </Box>
+                        <AnimatePresence initial={false}>
+                          {isComponentsOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{
+                                duration: 0.25,
+                                ease: [0.4, 0, 0.2, 1],
                               }}
+                              style={{ overflow: "hidden" }}
                             >
-                              <span>
-                                {item.title === "Setup" ? "Setup" : item.title}
-                              </span>
-                              {(item.title === "Time Pickers" ||
-                                item.title === "Date Pickers" ||
-                                item.title === "Autocompletes" ||
-                                item.title === "Templates") && (
-                                <Box
-                                  component="span"
-                                  sx={{
-                                    ml: 1,
-                                    px: 0.8,
-                                    py: 0.2,
-                                    bgcolor: "#008080",
-                                    color: "#ffffff",
-                                    borderRadius: "10px",
-                                    fontSize: "0.65rem",
-                                    fontWeight: 500,
-                                    lineHeight: 1,
-                                    letterSpacing: "0.02em",
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                  }}
-                                >
-                                  New
-                                </Box>
-                              )}
-                            </Typography>
-                          </Link>
-                        );
-                      })}
-                    </Box>
+                              <Box>
+                                {items.map((item) => {
+                                  const isActive = router.asPath === item.url;
+                                  return renderNavigationItem(item, isActive);
+                                })}
+                              </Box>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    ) : (
+                      <>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: "0.8rem",
+                            fontWeight: 500,
+                            letterSpacing: 0.5,
+                            mb: 1,
+                          }}
+                        >
+                          {category}
+                        </Typography>
+                        <Box>
+                          {items.map((item) => {
+                            const isActive =
+                              (item.title === "Setup" &&
+                                router.asPath === "/docs") ||
+                              (item.title === "Changelog" &&
+                                router.asPath === "/docs/changelog") ||
+                              (item.title === "Templates" &&
+                                router.asPath === "/templates") ||
+                              router.asPath === item.url;
+                            return renderNavigationItem(item, isActive);
+                          })}
+                        </Box>
+                      </>
+                    )}
                   </Box>
                 )
               )}
@@ -225,6 +271,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           </Box>
         </Box>
       </Box>
+
       <Box
         component="main"
         sx={{
@@ -235,15 +282,13 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           px: { lg: 3, xs: 2 },
           ml: { md: "260px" },
           mr: { lg: "260px" },
-          mt: {
-            xs: 3,
-            md: 0,
-          },
+          mt: { xs: 3, md: 0 },
         }}
       >
         {renderBreadcrumbs()}
         <Box>{children}</Box>
       </Box>
+
       <Box
         sx={{
           width: 260,
