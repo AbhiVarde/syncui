@@ -22,7 +22,6 @@ import { motion } from "motion/react";
 const HeroSection = () => {
   const theme = useTheme();
 
-  // Common motion props for fade + upward movement
   const fadeUpProps = {
     initial: { opacity: 0, y: 10 },
     animate: { opacity: 1, y: 0 },
@@ -32,7 +31,6 @@ const HeroSection = () => {
   return (
     <Container maxWidth="md" sx={{ py: { md: 12, xs: 8 } }}>
       <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
-        {/* New Feature Link */}
         <Box
           component={motion.div}
           {...fadeUpProps}
@@ -76,7 +74,6 @@ const HeroSection = () => {
           </Link>
         </Box>
 
-        {/* Buttons */}
         <Box
           component={motion.div}
           {...fadeUpProps}
@@ -100,11 +97,38 @@ const HeroSection = () => {
                 backdropFilter: "blur(4px)",
                 textTransform: "none",
                 color: "text.primary",
-                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.05)",
+                boxShadow:
+                  theme.palette.mode === "light"
+                    ? "0 1px 3px rgba(0,0,0,0.06)"
+                    : "0 2px 8px rgba(0,0,0,0.3)",
+                transition:
+                  "transform 0.12s cubic-bezier(.2,0,.2,1), box-shadow 0.12s cubic-bezier(.2,0,.2,1)",
+                "&:hover": {
+                  transform: "translateY(-1px)",
+                  boxShadow:
+                    theme.palette.mode === "light"
+                      ? "0 4px 12px rgba(0,0,0,0.12)"
+                      : "0 4px 14px rgba(0,0,0,0.45)",
+                },
+
+                "&:active": {
+                  transform: "translateY(0px) scale(0.99)",
+                },
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <IoSparkles size={16} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    transition: "transform 0.12s cubic-bezier(.2,0,.2,1)",
+                    ".MuiButton-root:hover &": {
+                      transform: "scale(1.05)",
+                    },
+                  }}
+                >
+                  <IoSparkles size={16} />
+                </Box>
                 Introducing Templates
               </Box>
             </Button>
@@ -133,24 +157,52 @@ const HeroSection = () => {
                 backdropFilter: "blur(4px)",
                 textTransform: "none",
                 color: "text.primary",
-                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.05)",
+                boxShadow:
+                  theme.palette.mode === "light"
+                    ? "0 1px 3px rgba(0,0,0,0.06)"
+                    : "0 2px 8px rgba(0,0,0,0.3)",
+                transition:
+                  "transform 0.12s cubic-bezier(.2,0,.2,1), box-shadow 0.12s cubic-bezier(.2,0,.2,1)",
+                "&:hover": {
+                  transform: "translateY(-1px)",
+                  boxShadow:
+                    theme.palette.mode === "light"
+                      ? "0 4px 12px rgba(0,0,0,0.12)"
+                      : "0 4px 14px rgba(0,0,0,0.45)",
+                },
+                "&:active": {
+                  transform: "translateY(0px) scale(0.99)",
+                },
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <img
-                  src="https://vercel.com/favicon.ico"
-                  alt="Vercel"
-                  width="16"
-                  height="16"
-                  style={{ borderRadius: "2px" }}
-                />
+                <Box
+                  sx={{
+                    width: 16,
+                    height: 16,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "transform 0.12s cubic-bezier(.2,0,.2,1)",
+                    ".MuiButton-root:hover &": {
+                      transform: "scale(1.05)",
+                    },
+                  }}
+                >
+                  <img
+                    src="https://vercel.com/favicon.ico"
+                    alt="Vercel"
+                    width="16"
+                    height="16"
+                    style={{ borderRadius: "2px" }}
+                  />
+                </Box>
                 Community Showcase
               </Box>
             </Button>
           </Box>
         </Box>
 
-        {/* Heading */}
         <Box
           component={motion.div}
           {...fadeUpProps}
@@ -167,7 +219,6 @@ const HeroSection = () => {
           </Typography>
         </Box>
 
-        {/* Description */}
         <Box
           component={motion.div}
           {...fadeUpProps}
@@ -183,7 +234,6 @@ const HeroSection = () => {
           </Typography>
         </Box>
 
-        {/* Icons */}
         <Box
           component={motion.div}
           {...fadeUpProps}
@@ -222,7 +272,6 @@ const HeroSection = () => {
           ))}
         </Box>
 
-        {/* CTA Button */}
         <Box
           component={motion.div}
           {...fadeUpProps}
@@ -245,6 +294,19 @@ const HeroSection = () => {
                 flexShrink: 0,
                 padding: "6px 20px",
                 minHeight: "38px",
+                borderRadius: "12px",
+                textTransform: "none",
+                transition: "box-shadow 0.12s cubic-bezier(.2,0,.2,1)",
+                boxShadow:
+                  theme.palette.mode === "light"
+                    ? "0 2px 6px rgba(0,0,0,0.12)"
+                    : "0 4px 12px rgba(0,0,0,0.4)",
+                "&:hover": {
+                  boxShadow:
+                    theme.palette.mode === "light"
+                      ? "0 6px 16px rgba(0,0,0,0.18)"
+                      : "0 6px 18px rgba(0,0,0,0.5)",
+                },
               }}
             >
               <Box
@@ -255,6 +317,12 @@ const HeroSection = () => {
                   minWidth: "120px",
                   justifyContent: "center",
                   gap: 1,
+                  "& svg": {
+                    transition: "transform 0.18s cubic-bezier(.2,0,.2,1)",
+                  },
+                  ".MuiButton-root:hover & svg": {
+                    transform: "translateX(6px)",
+                  },
                 }}
               >
                 Get Started <RxArrowRight size={19} />
