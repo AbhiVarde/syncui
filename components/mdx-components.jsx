@@ -46,8 +46,17 @@ import AutocompleteVariants from "./ui/Autocompletes";
 import DatePickerVariants from "./ui/DatePickers";
 import TimePickerVariants from "./ui/TimePickers";
 
-const createHeading = (variant) => {
-  return forwardRef(({ children, ...props }, ref) => {
+const headingSizes = {
+  h1: { fontSize: "32px", lineHeight: 1.2 },
+  h2: { fontSize: "26px", lineHeight: 1.3 },
+  h3: { fontSize: "22px", lineHeight: 1.4 },
+  h4: { fontSize: "18px", lineHeight: 1.5 },
+  h5: { fontSize: "16px", lineHeight: 1.6 },
+  h6: { fontSize: "14px", lineHeight: 1.6 },
+};
+
+const createHeading = (variant) =>
+  forwardRef(({ children, ...props }, ref) => {
     const id =
       typeof children === "string"
         ? children.toLowerCase().replace(/[^\w]+/g, "-")
@@ -62,30 +71,7 @@ const createHeading = (variant) => {
           my: 1.5,
           fontWeight: 500,
           letterSpacing: "-0.01em",
-          ...(variant === "h1" && {
-            fontSize: "32px !important",
-            lineHeight: 1.2,
-          }),
-          ...(variant === "h2" && {
-            fontSize: "26px !important",
-            lineHeight: 1.3,
-          }),
-          ...(variant === "h3" && {
-            fontSize: "22px !important",
-            lineHeight: 1.4,
-          }),
-          ...(variant === "h4" && {
-            fontSize: "18px !important",
-            lineHeight: 1.5,
-          }),
-          ...(variant === "h5" && {
-            fontSize: "16px !important",
-            lineHeight: 1.6,
-          }),
-          ...(variant === "h6" && {
-            fontSize: "14px !important",
-            lineHeight: 1.6,
-          }),
+          ...headingSizes[variant],
         }}
         {...props}
       >
@@ -93,7 +79,6 @@ const createHeading = (variant) => {
       </Typography>
     );
   });
-};
 
 const CodeBlock = ({ className, children }) => {
   const [copied, setCopied] = useState(false);
@@ -105,58 +90,36 @@ const CodeBlock = ({ className, children }) => {
     setIsMounted(true);
   }, []);
 
-  const language = className ? className.replace(/language-/, "") : "jsx";
+  const language = className?.replace(/language-/, "") || "jsx";
   const codeString =
     typeof children === "string" ? children.trim() : String(children).trim();
 
   const handleCopy = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(codeString);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+    navigator.clipboard.writeText(codeString);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) {
-    return null;
-  }
+  if (!isMounted) return null;
 
   return (
     <Box
       sx={{
         position: "relative",
-        borderRadius: "0px !important",
+        borderRadius: 2,
         overflow: "hidden",
+        maxHeight: 300,
       }}
     >
       <Tooltip
         title={copied ? "Copied!" : "Copy"}
         placement="left"
-        slotProps={{
-          tooltip: {
-            sx: (theme) => ({
-              bgcolor:
-                theme.palette.mode === "dark"
-                  ? "rgba(30, 30, 30, 0.95)"
-                  : "rgba(255, 255, 255, 0.95)",
-              color: theme.palette.mode === "dark" ? "#fff" : "#000",
-              fontSize: "12px",
-              fontWeight: 500,
-              px: 1.5,
-              py: 0.75,
-              borderRadius: "6px",
-              boxShadow:
-                theme.palette.mode === "dark"
-                  ? "0 2px 10px rgba(0,0,0,0.4)"
-                  : "0 2px 10px rgba(0,0,0,0.08)",
-              transition: "all 0.15s ease",
-            }),
-          },
-        }}
+        disableInteractive
       >
         <IconButton
           onClick={handleCopy}
           size="small"
+          disableRipple
           sx={{
             position: "absolute",
             top: isSmall ? 8 : 12,
@@ -165,17 +128,17 @@ const CodeBlock = ({ className, children }) => {
             bgcolor: "rgba(0,0,0,0.35)",
             width: 32,
             height: 32,
-            borderRadius: "6px",
-            transition: "all 0.2s ease-in-out",
+            borderRadius: 1.5,
             backdropFilter: "blur(6px)",
+            transition:
+              "background-color 0.15s ease, color 0.15s ease, transform 0.1s ease",
+            zIndex: 2,
+            willChange: "transform",
             "&:hover": {
               bgcolor: "rgba(0,0,0,0.55)",
               color: copied ? "rgb(34,197,94)" : "#fff",
             },
-            "&:active": {
-              transform: "scale(0.96)",
-            },
-            zIndex: 2,
+            "&:active": { transform: "scale(0.95)" },
           }}
         >
           {copied ? <LuCheck size={16} /> : <LuCopy size={16} />}
@@ -184,17 +147,22 @@ const CodeBlock = ({ className, children }) => {
 
       <Box
         sx={{
-          position: "relative",
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: "20px",
-            background:
-              "linear-gradient(to right, transparent, rgba(0,0,0,0.1))",
-            zIndex: 1,
+          maxHeight: 300,
+          overflowY: "auto",
+          overflowX: "auto",
+          scrollBehavior: "smooth",
+          WebkitOverflowScrolling: "touch",
+          willChange: "scroll-position",
+          "&::-webkit-scrollbar": { width: 8, height: 8 },
+          "&::-webkit-scrollbar-track": {
+            background: "rgba(0,0,0,0.1)",
+            borderRadius: 1,
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "rgba(255,255,255,0.3)",
+            borderRadius: 1,
+            transition: "background 0.15s ease",
+            "&:hover": { background: "rgba(255,255,255,0.4)" },
           },
         }}
       >
@@ -203,11 +171,11 @@ const CodeBlock = ({ className, children }) => {
           style={atomDark}
           customStyle={{
             margin: 0,
-            padding: isSmall ? "14px" : "18px",
-            fontSize: "14px",
+            padding: isSmall ? 14 : 18,
+            fontSize: 14,
             lineHeight: 1.6,
-            borderRadius: "8px",
-            overflowX: "auto",
+            borderRadius: 8,
+            background: "#1d1f21",
           }}
           wrapLines={false}
           wrapLongLines={false}
@@ -225,60 +193,49 @@ const DynamicCodeBlock = dynamic(() => Promise.resolve(CodeBlock), {
 
 const Preview = ({ children }) => <Box p={3}>{children}</Box>;
 
+const StyledTabs = styled(Tabs)(({ theme }) => ({
+  minHeight: 40,
+  borderBottom: `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
+  "& .MuiTabs-indicator": {
+    backgroundColor: theme.palette.mode === "dark" ? "white" : "black",
+    height: 2,
+    transition: "all 0.2s",
+  },
+}));
+
+const StyledTab = styled(Tab)(({ theme }) => ({
+  color:
+    theme.palette.mode === "dark" ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)",
+  minHeight: 40,
+  padding: "8px 16px",
+  fontWeight: 500,
+  fontSize: 13,
+  textTransform: "none",
+  display: "flex",
+  alignItems: "center",
+  gap: 6,
+  transition: "all 0.2s",
+  "&.Mui-selected": {
+    color: theme.palette.mode === "dark" ? "white" : "black",
+  },
+  "&:hover": {
+    color: theme.palette.mode === "dark" ? "white" : "black",
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,0.05)"
+        : "rgba(0,0,0,0.05)",
+  },
+}));
+
 const CodePreview = ({ preview, code }) => {
-  const StyledTabs = styled(Tabs)(({ theme }) => ({
-    minHeight: "40px",
-    borderBottom: `1px solid ${
-      theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, 0.12)"
-        : "rgba(0, 0, 0, 0.12)"
-    }`,
-    "& .MuiTabs-indicator": {
-      backgroundColor: theme.palette.mode === "dark" ? "white" : "black",
-      height: "2px",
-      transition: "all 0.2s ease",
-    },
-  }));
-
-  const StyledTab = styled(Tab)(({ theme }) => ({
-    color:
-      theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, 0.6)"
-        : "rgba(0, 0, 0, 0.6)",
-    "&.Mui-selected": {
-      color: theme.palette.mode === "dark" ? "white" : "black",
-    },
-    "&:hover": {
-      color: theme.palette.mode === "dark" ? "white" : "black",
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? "rgba(255, 255, 255, 0.05)"
-          : "rgba(0, 0, 0, 0.05)",
-    },
-    minHeight: "40px",
-    padding: "8px 16px",
-    fontWeight: 500,
-    fontSize: "13px",
-    textTransform: "none",
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-    transition: "all 0.2s ease",
-  }));
-
   const [tab, setTab] = useState(0);
 
   return (
     <Paper
       variant="outlined"
-      sx={{
-        mb: 4,
-        overflow: "visible",
-        borderRadius: 2,
-        boxShadow: 0.5,
-      }}
+      sx={{ mb: 4, overflow: "visible", borderRadius: 2, boxShadow: 0.5 }}
     >
-      <StyledTabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
+      <StyledTabs value={tab} onChange={(e, v) => setTab(v)}>
         <StyledTab
           icon={<GoEye size={18} />}
           label="Preview"
@@ -290,21 +247,14 @@ const CodePreview = ({ preview, code }) => {
           iconPosition="start"
         />
       </StyledTabs>
-      <Box
-        sx={{
-          position: "relative",
-          minHeight: "100%",
-        }}
-      >
+      <Box sx={{ position: "relative", minHeight: "100%" }}>
         <Box
           sx={{
             opacity: tab === 0 ? 1 : 0,
             visibility: tab === 0 ? "visible" : "hidden",
             position: tab === 0 ? "relative" : "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            transition: "opacity 0.15s ease",
+            inset: 0,
+            transition: "opacity 0.15s",
           }}
         >
           <Preview>{preview}</Preview>
@@ -314,10 +264,8 @@ const CodePreview = ({ preview, code }) => {
             opacity: tab === 1 ? 1 : 0,
             visibility: tab === 1 ? "visible" : "hidden",
             position: tab === 1 ? "relative" : "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            transition: "opacity 0.15s ease",
+            inset: 0,
+            transition: "opacity 0.15s",
           }}
         >
           <Box p={1}>
@@ -330,66 +278,56 @@ const CodePreview = ({ preview, code }) => {
 };
 
 export const MDXComponents = {
-  ButtonVariants: ButtonVariants,
-  CardVariants: CardVariants,
-  LoaderVariants: LoaderVariants,
-  TextVariants: TextVariants,
-  SeparatorVariants: SeparatorVariants,
-  BackgroundVariants: BackgroundVariants,
-  AvatarVariants: AvatarVariants,
-  MarqueeVariants: MarqueeVariants,
-  TabVariants: TabVariants,
-  PaginationVariants: PaginationVariants,
-  CarouselVariants: CarouselVariants,
-  TableVariants: TableVariants,
-  DockVariants: DockVariants,
-  PointerVariants: PointerVariants,
-  GridVariants: GridVariants,
-  AccordionVariants: AccordionVariants,
-  TextFieldVariants: TextFieldVariants,
-  DialogVariants: DialogVariants,
-  FormVariants: FormVariants,
-  AutocompleteVariants: AutocompleteVariants,
-  DatePickerVariants: DatePickerVariants,
-  TimePickerVariants: TimePickerVariants,
+  ButtonVariants,
+  CardVariants,
+  LoaderVariants,
+  TextVariants,
+  SeparatorVariants,
+  BackgroundVariants,
+  AvatarVariants,
+  MarqueeVariants,
+  TabVariants,
+  PaginationVariants,
+  CarouselVariants,
+  TableVariants,
+  DockVariants,
+  PointerVariants,
+  GridVariants,
+  AccordionVariants,
+  TextFieldVariants,
+  DialogVariants,
+  FormVariants,
+  AutocompleteVariants,
+  DatePickerVariants,
+  TimePickerVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
   h4: createHeading("h4"),
   h5: createHeading("h5"),
   h6: createHeading("h6"),
-  p: (props) => {
-    if (
-      typeof props.children === "object" &&
-      props.children.type === DynamicCodeBlock
-    ) {
-      return props.children;
-    }
-    return (
+  p: (props) =>
+    typeof props.children === "object" &&
+    props.children.type === DynamicCodeBlock ? (
+      props.children
+    ) : (
       <Typography
         component="p"
-        sx={{
-          mb: 3,
-          lineHeight: 1.6,
-          fontSize: "0.95rem",
-          color: "text.primary",
-        }}
+        sx={{ mb: 3, lineHeight: 1.6, fontSize: "0.95rem" }}
         {...props}
       />
-    );
-  },
+    ),
   a: (props) => <MuiLink color="primary" {...props} />,
   code: DynamicCodeBlock,
   pre: (props) => <div {...props} />,
   img: (props) => (
     <Box component="figure" sx={{ my: 4 }}>
-      <img {...props} style={{ maxWidth: "100%", borderRadius: "4px" }} />
+      <img {...props} style={{ maxWidth: "100%", borderRadius: 4 }} />
     </Box>
   ),
   strong: (props) => (
     <Typography component="strong" sx={{ fontWeight: 500 }} {...props} />
   ),
-
   blockquote: (props) => (
     <Box
       component="blockquote"
@@ -408,34 +346,31 @@ export const MDXComponents = {
   ),
   CodePreview,
   table: (props) => (
-    <Box sx={{ overflowX: "auto", marginBottom: 2, width: "100%" }}>
+    <Box sx={{ overflowX: "auto", mb: 2, width: "100%" }}>
       <Table
         {...props}
         sx={{
           minWidth: { xs: "100%", sm: 650 },
-          border: "1px solid rgba(224, 224, 224, 1)",
+          border: "1px solid rgba(224,224,224,1)",
         }}
       />
     </Box>
   ),
   thead: (props) => (
-    <TableHead {...props} sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }} />
+    <TableHead {...props} sx={{ bgcolor: "rgba(0,0,0,0.04)" }} />
   ),
   tbody: TableBody,
   tr: TableRow,
   td: (props) => (
     <TableCell
       {...props}
-      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+      sx={{ borderBottom: "1px solid rgba(224,224,224,1)" }}
     />
   ),
   th: (props) => (
     <TableCell
       {...props}
-      sx={{
-        fontWeight: "bold",
-        borderBottom: "1px solid rgba(224, 224, 224, 1)",
-      }}
+      sx={{ fontWeight: "bold", borderBottom: "1px solid rgba(224,224,224,1)" }}
     />
   ),
 };
