@@ -9,7 +9,7 @@ import {
   alpha,
 } from "@mui/material";
 import { motion } from "motion/react";
-import { LuExternalLink, LuShoppingCart, LuCheck } from "react-icons/lu";
+import { LuExternalLink, LuCheck } from "react-icons/lu";
 import { RxCube } from "react-icons/rx";
 import { getAllDocsSlugs } from "@/lib/docs";
 import Head from "next/head";
@@ -142,6 +142,10 @@ const Templates = ({ docsTree }) => {
             }}
           >
             <Box
+              component={motion.div}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -149,71 +153,92 @@ const Templates = ({ docsTree }) => {
                 p: { md: 2, xs: 0 },
               }}
             >
-              <Button
-                sx={{
-                  px: 2,
-                  py: 0.5,
-                  borderRadius: "12px",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  background:
-                    theme.palette.mode === "light"
-                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  backdropFilter: "blur(4px)",
-                  textTransform: "none",
-                  color: theme.palette.mode === "light" ? "#008080" : "#00B5AD",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                  pointerEvents: "none",
-                }}
+              <Box
+                component={motion.div}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
               >
-                Sync UI Templates
-              </Button>
-
-              <Typography
-                variant="h2"
-                component="h1"
-                sx={{ fontWeight: 700, mt: 1 }}
-              >
-                Premium UI templates for web applications
-              </Typography>
-
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 400,
-                  maxWidth: "700px",
-                  mt: 2,
-                  lineHeight: 1.6,
-                }}
-              >
-                <Box
-                  component="span"
-                  sx={{ display: { xs: "none", sm: "inline" } }}
+                <Button
+                  sx={{
+                    px: 2,
+                    py: 0.5,
+                    borderRadius: "12px",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    background:
+                      theme.palette.mode === "light"
+                        ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
+                        : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    backdropFilter: "blur(4px)",
+                    textTransform: "none",
+                    color:
+                      theme.palette.mode === "light" ? "#008080" : "#00B5AD",
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                    pointerEvents: "none",
+                  }}
                 >
-                  Professionally designed, fully responsive, and highly
-                  customizable UI templates built with MUI and Framer Motion.
-                  Get started quickly and enhance your project's look and feel
-                  instantly.
-                </Box>
-                <Box
-                  component="span"
-                  sx={{ display: { xs: "inline", sm: "none" } }}
+                  Sync UI Templates
+                </Button>
+              </Box>
+
+              <Box
+                component={motion.div}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <Typography
+                  variant="h2"
+                  component="h1"
+                  sx={{ fontWeight: 700, mt: 1 }}
                 >
-                  Professional UI templates built with MUI & Framer Motion.
-                  Enhance your project's look instantly.
-                </Box>
-              </Typography>
+                  Premium UI templates for web applications
+                </Typography>
+              </Box>
+
+              <Box
+                component={motion.div}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 400,
+                    maxWidth: "700px",
+                    mt: 2,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <Box
+                    component="span"
+                    sx={{ display: { xs: "none", sm: "inline" } }}
+                  >
+                    Professionally designed, fully responsive UI templates built
+                    with MUI and Framer Motion. Customize easily and enhance
+                    your project instantly.
+                  </Box>
+
+                  <Box
+                    component="span"
+                    sx={{ display: { xs: "inline", sm: "none" } }}
+                  >
+                    Responsive UI templates built with MUI & Framer Motion.
+                    Customize and enhance your project instantly.
+                  </Box>
+                </Typography>
+              </Box>
 
               <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                transition={{
-                  duration: 0.2,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
                 onClick={() =>
                   window.open(
                     "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
@@ -246,18 +271,14 @@ const Templates = ({ docsTree }) => {
                   <Typography
                     variant="body2"
                     fontWeight={500}
-                    sx={{
-                      display: { xs: "none", sm: "block" },
-                    }}
+                    sx={{ display: { xs: "none", sm: "block" } }}
                   >
                     Bundle Offer: All 3 Templates for $79 (Save $8)
                   </Typography>
                   <Typography
                     variant="body2"
                     fontWeight={500}
-                    sx={{
-                      display: { xs: "block", sm: "none" },
-                    }}
+                    sx={{ display: { xs: "block", sm: "none" } }}
                   >
                     Bundle Offer: $79 (Save $8)
                   </Typography>
@@ -286,6 +307,15 @@ const Templates = ({ docsTree }) => {
                   }}
                 >
                   <Box
+                    component={motion.div}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: 0.1,
+                    }}
                     sx={{
                       display: "flex",
                       flexDirection: "column",
@@ -293,6 +323,11 @@ const Templates = ({ docsTree }) => {
                     }}
                   >
                     <Box
+                      component={motion.div}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.35, delay: 0.15 }}
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -302,9 +337,14 @@ const Templates = ({ docsTree }) => {
                       <Typography variant="h4" sx={{ fontWeight: 700 }}>
                         {template.title}
                       </Typography>
+
                       {template.isNew && (
                         <Box
-                          component="span"
+                          component={motion.span}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: 0.25 }}
                           sx={{
                             ml: 1,
                             px: 1,
@@ -327,6 +367,11 @@ const Templates = ({ docsTree }) => {
                     </Box>
 
                     <Typography
+                      component={motion.p}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.35, delay: 0.25 }}
                       variant="body1"
                       sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
                     >
@@ -336,7 +381,15 @@ const Templates = ({ docsTree }) => {
                     <Box sx={{ my: 2 }}>
                       {template.features.map((feature, i) => (
                         <Box
+                          component={motion.div}
                           key={i}
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{
+                            duration: 0.35,
+                            delay: 0.3 + i * 0.08,
+                          }}
                           sx={{
                             display: "flex",
                             alignItems: "flex-start",
@@ -344,12 +397,7 @@ const Templates = ({ docsTree }) => {
                           }}
                         >
                           <Box sx={{ mt: 0.5, flexShrink: 0, mr: 1 }}>
-                            <LuCheck
-                              size={18}
-                              style={{
-                                color: "teal",
-                              }}
-                            />
+                            <LuCheck size={18} style={{ color: "teal" }} />
                           </Box>
                           <Typography
                             variant="body2"
@@ -375,6 +423,15 @@ const Templates = ({ docsTree }) => {
                   }}
                 >
                   <Box
+                    component={motion.div}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: 0.15,
+                    }}
                     sx={{
                       position: "relative",
                       borderRadius: 3,
@@ -461,6 +518,15 @@ const Templates = ({ docsTree }) => {
                   </Box>
 
                   <Box
+                    component={motion.div}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: 0.25,
+                    }}
                     sx={{
                       display: "flex",
                       gap: 2,
