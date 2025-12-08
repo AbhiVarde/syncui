@@ -4,6 +4,7 @@
 
 [![Follow on Twitter](https://img.shields.io/twitter/follow/syncuidesign?style=social)](https://x.com/syncuidesign)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
+![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)
 
 **A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.**
 
@@ -49,7 +50,7 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 
 ## 📖 Documentation
 
-Visit [https://syncui.design/docs](https://syncui.design/docs) to get started with Sync UI.
+Visit **https://syncui.design/docs** to get started with Sync UI.
 
 ## 💖 Support
 
