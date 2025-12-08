@@ -32,23 +32,20 @@ export const TableOfContents = ({ toc }) => {
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isStarHovered, setIsStarHovered] = useState(false);
 
+  const minLevel = Math.min(...toc.map((item) => item.level));
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-
-        if (visibleEntries.length > 0) {
-          const mostVisible = visibleEntries.reduce((prev, current) => {
-            return current.intersectionRatio > prev.intersectionRatio
-              ? current
-              : prev;
-          });
-          setActiveId(mostVisible.target.id);
-        }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
-        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
+        rootMargin: "-100px 0px -66% 0px",
+        threshold: 0.1,
       }
     );
 
@@ -57,7 +54,22 @@ export const TableOfContents = ({ toc }) => {
       if (element) observer.observe(element);
     });
 
+    if (toc.length > 0) {
+      const firstElement = document.getElementById(toc[0].id);
+      if (firstElement) {
+        const rect = firstElement.getBoundingClientRect();
+        if (rect.top < 200) {
+          setActiveId(toc[0].id);
+        }
+      }
+    }
+
     const handleScroll = () => {
+      if (window.scrollY < 100 && toc.length > 0) {
+        setActiveId(toc[0].id);
+        return;
+      }
+
       const scrolledToBottom =
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 100;
@@ -68,6 +80,7 @@ export const TableOfContents = ({ toc }) => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
 
     return () => {
       observer.disconnect();
@@ -125,7 +138,7 @@ export const TableOfContents = ({ toc }) => {
             sx={{
               borderLeft: 1,
               borderColor: activeId === item.id ? "" : "divider",
-              pl: item.level > 1 ? (item.level - 1) * 0.5 : 0.5,
+              pl: (item.level - minLevel) * 0.5 + 0.5,
               "&:hover": {
                 backgroundColor: "transparent",
               },
