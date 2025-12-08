@@ -5,6 +5,7 @@ import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
 import { RiGithubFill, RiHeartFill, RiHeartLine } from "react-icons/ri";
 import AnimatedCounter from "../AnimatedCounter";
+import { usePathname } from "next/navigation";
 
 const buttonStyles = {
   mt: 1,
@@ -31,6 +32,9 @@ export const TableOfContents = ({ toc }) => {
   const [activeId, setActiveId] = useState("");
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isStarHovered, setIsStarHovered] = useState(false);
+  const pathname = usePathname();
+
+  const isChangelogPage = pathname === "/docs/changelog";
 
   const minLevel = Math.min(...toc.map((item) => item.level));
 
@@ -167,82 +171,90 @@ export const TableOfContents = ({ toc }) => {
         ))}
       </List>
 
-      <Box
-        component="a"
-        href={SPONSOR_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setIsHeartHovered(true)}
-        onMouseLeave={() => setIsHeartHovered(false)}
-        sx={buttonStyles}
-      >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {isHeartHovered ? (
-            <RiHeartFill size={20} color="#e91e63" />
-          ) : (
-            <RiHeartLine size={20} />
-          )}
-        </Box>
-        <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
-          Support Sync UI
-        </Typography>
-      </Box>
-
-      <Box
-        component="a"
-        href={GITHUB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setIsStarHovered(true)}
-        onMouseLeave={() => setIsStarHovered(false)}
-        sx={buttonStyles}
-      >
-        {!loading ? (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-              <RiGithubFill size={20} />
-              <Typography
-                variant="body2"
-                fontWeight={500}
-                sx={{
-                  borderRight: "1px solid",
-                  borderColor: "divider",
-                  pr: 1.2,
-                  lineHeight: 1,
-                }}
-              >
-                Star
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                lineHeight: 1,
-              }}
-            >
-              <Typography variant="body2" fontWeight={500}>
-                <AnimatedCounter value={stars || 0} duration={2} />
-              </Typography>
-
-              {isStarHovered ? (
-                <RxStarFilled size={20} color="#fbc02d" />
+      {!isChangelogPage && (
+        <>
+          <Box
+            component="a"
+            href={SPONSOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => setIsHeartHovered(true)}
+            onMouseLeave={() => setIsHeartHovered(false)}
+            sx={buttonStyles}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {isHeartHovered ? (
+                <RiHeartFill size={20} color="#e91e63" />
               ) : (
-                <RxStar size={20} />
+                <RiHeartLine size={20} />
               )}
             </Box>
-          </Box>
-        ) : (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-            <RiGithubFill size={24} />
             <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
-              Star
+              Support Sync UI
             </Typography>
           </Box>
-        )}
-      </Box>
+
+          <Box
+            component="a"
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => setIsStarHovered(true)}
+            onMouseLeave={() => setIsStarHovered(false)}
+            sx={buttonStyles}
+          >
+            {!loading ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+                  <RiGithubFill size={20} />
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    sx={{
+                      borderRight: "1px solid",
+                      borderColor: "divider",
+                      pr: 1.2,
+                      lineHeight: 1,
+                    }}
+                  >
+                    Star
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    lineHeight: 1,
+                  }}
+                >
+                  <Typography variant="body2" fontWeight={500}>
+                    <AnimatedCounter value={stars || 0} duration={2} />
+                  </Typography>
+
+                  {isStarHovered ? (
+                    <RxStarFilled size={20} color="#fbc02d" />
+                  ) : (
+                    <RxStar size={20} />
+                  )}
+                </Box>
+              </Box>
+            ) : (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+                <RiGithubFill size={24} />
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{ lineHeight: 1 }}
+                >
+                  Star
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
