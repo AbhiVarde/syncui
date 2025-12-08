@@ -231,9 +231,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   <Typography
                     variant="body2"
                     sx={{
+                      fontSize: "0.8rem",
                       fontWeight: 500,
                       letterSpacing: 0.5,
-                      color: "text.secondary",
                     }}
                   >
                     {category}
