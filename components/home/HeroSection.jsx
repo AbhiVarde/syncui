@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Typography,
   Button,
@@ -17,24 +17,33 @@ import {
   SiMui,
 } from "react-icons/si";
 import { IoSparkles } from "react-icons/io5";
-import { motion } from "motion/react";
 
 const HeroSection = () => {
   const theme = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const fadeUpProps = {
-    initial: { opacity: 0, y: 10 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Container maxWidth="md" sx={{ py: { md: 12, xs: 8 } }}>
-      <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(10px)",
+          transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
+        }}
+      >
         <Box
-          component={motion.div}
-          {...fadeUpProps}
-          transition={{ ...fadeUpProps.transition, delay: 0.05 }}
+          sx={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transition:
+              "opacity 0.3s ease-out 0.05s, transform 0.3s ease-out 0.05s",
+          }}
         >
           <Link href="/docs/timepickers" passHref>
             <Box
@@ -59,7 +68,7 @@ const HeroSection = () => {
                     ? theme.palette.text.primary
                     : "rgba(255,255,255,0.9)",
                 cursor: "pointer",
-                transition: "background-color 0.12s ease",
+                transition: "background-color 0.15s ease",
                 "&:hover": {
                   backgroundColor:
                     theme.palette.mode === "light"
@@ -75,120 +84,98 @@ const HeroSection = () => {
         </Box>
 
         <Box
-          component={motion.div}
-          {...fadeUpProps}
-          transition={{ ...fadeUpProps.transition, delay: 0.15 }}
-          sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 1 }}
+          sx={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transition:
+              "opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s",
+          }}
         >
-          <Link href="/templates" passHref>
-            <Button
-              sx={{
-                px: 2,
-                py: 0.5,
-                borderRadius: "12px",
-                fontSize: 14,
-                fontWeight: 500,
-                background:
-                  theme.palette.mode === "light"
-                    ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                    : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
-                border: "1px solid",
-                borderColor: "divider",
-                backdropFilter: "blur(4px)",
-                textTransform: "none",
-                color: "text.primary",
-                boxShadow:
-                  theme.palette.mode === "light"
-                    ? "0 1px 3px rgba(0,0,0,0.06)"
-                    : "0 2px 8px rgba(0,0,0,0.3)",
-                transition:
-                  "transform 0.12s cubic-bezier(.2,0,.2,1), box-shadow 0.12s cubic-bezier(.2,0,.2,1)",
-                "&:hover": {
-                  transform: "translateY(-1px)",
+          <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 1 }}>
+            <Link href="/templates" passHref>
+              <Button
+                sx={{
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: "12px",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  background:
+                    theme.palette.mode === "light"
+                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
+                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backdropFilter: "blur(4px)",
+                  textTransform: "none",
+                  color: "text.primary",
                   boxShadow:
                     theme.palette.mode === "light"
-                      ? "0 4px 12px rgba(0,0,0,0.12)"
-                      : "0 4px 14px rgba(0,0,0,0.45)",
-                },
-
-                "&:active": {
-                  transform: "translateY(0px) scale(0.99)",
-                },
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    transition: "transform 0.12s cubic-bezier(.2,0,.2,1)",
-                    ".MuiButton-root:hover &": {
-                      transform: "scale(1.05)",
-                    },
-                  }}
-                >
+                      ? "0 1px 3px rgba(0,0,0,0.06)"
+                      : "0 2px 8px rgba(0,0,0,0.3)",
+                  transition:
+                    "transform 0.15s cubic-bezier(.2,0,.2,1), box-shadow 0.15s cubic-bezier(.2,0,.2,1)",
+                  "&:hover": {
+                    transform: "translateY(-1px)",
+                    boxShadow:
+                      theme.palette.mode === "light"
+                        ? "0 4px 12px rgba(0,0,0,0.12)"
+                        : "0 4px 14px rgba(0,0,0,0.45)",
+                  },
+                  "&:active": {
+                    transform: "translateY(0px) scale(0.99)",
+                  },
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <IoSparkles size={16} />
+                  Introducing Templates
                 </Box>
-                Introducing Templates
-              </Box>
-            </Button>
-          </Link>
+              </Button>
+            </Link>
 
-          <Box
-            component="a"
-            href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ textDecoration: "none" }}
-          >
-            <Button
-              sx={{
-                px: 2,
-                py: 0.5,
-                borderRadius: "12px",
-                fontSize: 14,
-                fontWeight: 500,
-                background:
-                  theme.palette.mode === "light"
-                    ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                    : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
-                border: "1px solid",
-                borderColor: "divider",
-                backdropFilter: "blur(4px)",
-                textTransform: "none",
-                color: "text.primary",
-                boxShadow:
-                  theme.palette.mode === "light"
-                    ? "0 1px 3px rgba(0,0,0,0.06)"
-                    : "0 2px 8px rgba(0,0,0,0.3)",
-                transition:
-                  "transform 0.12s cubic-bezier(.2,0,.2,1), box-shadow 0.12s cubic-bezier(.2,0,.2,1)",
-                "&:hover": {
-                  transform: "translateY(-1px)",
+            <Box
+              component="a"
+              href="https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ textDecoration: "none" }}
+            >
+              <Button
+                sx={{
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: "12px",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  background:
+                    theme.palette.mode === "light"
+                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
+                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backdropFilter: "blur(4px)",
+                  textTransform: "none",
+                  color: "text.primary",
                   boxShadow:
                     theme.palette.mode === "light"
-                      ? "0 4px 12px rgba(0,0,0,0.12)"
-                      : "0 4px 14px rgba(0,0,0,0.45)",
-                },
-                "&:active": {
-                  transform: "translateY(0px) scale(0.99)",
-                },
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box
-                  sx={{
-                    width: 16,
-                    height: 16,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "transform 0.12s cubic-bezier(.2,0,.2,1)",
-                    ".MuiButton-root:hover &": {
-                      transform: "scale(1.05)",
-                    },
-                  }}
-                >
+                      ? "0 1px 3px rgba(0,0,0,0.06)"
+                      : "0 2px 8px rgba(0,0,0,0.3)",
+                  transition:
+                    "transform 0.15s cubic-bezier(.2,0,.2,1), box-shadow 0.15s cubic-bezier(.2,0,.2,1)",
+                  "&:hover": {
+                    transform: "translateY(-1px)",
+                    boxShadow:
+                      theme.palette.mode === "light"
+                        ? "0 4px 12px rgba(0,0,0,0.12)"
+                        : "0 4px 14px rgba(0,0,0,0.45)",
+                  },
+                  "&:active": {
+                    transform: "translateY(0px) scale(0.99)",
+                  },
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <img
                     src="https://vercel.com/favicon.ico"
                     alt="Vercel"
@@ -196,18 +183,20 @@ const HeroSection = () => {
                     height="16"
                     style={{ borderRadius: "2px" }}
                   />
+                  Community Showcase
                 </Box>
-                Community Showcase
-              </Box>
-            </Button>
+              </Button>
+            </Box>
           </Box>
         </Box>
 
         <Box
-          component={motion.div}
-          {...fadeUpProps}
-          transition={{ ...fadeUpProps.transition, delay: 0.25 }}
-          sx={{ mt: 1 }}
+          sx={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transition:
+              "opacity 0.3s ease-out 0.15s, transform 0.3s ease-out 0.15s",
+          }}
         >
           <Typography
             variant="h1"
@@ -220,9 +209,12 @@ const HeroSection = () => {
         </Box>
 
         <Box
-          component={motion.div}
-          {...fadeUpProps}
-          transition={{ ...fadeUpProps.transition, delay: 0.35 }}
+          sx={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transition:
+              "opacity 0.3s ease-out 0.2s, transform 0.3s ease-out 0.2s",
+          }}
         >
           <Typography
             variant="body1"
@@ -235,52 +227,60 @@ const HeroSection = () => {
         </Box>
 
         <Box
-          component={motion.div}
-          {...fadeUpProps}
-          transition={{ ...fadeUpProps.transition, delay: 0.45 }}
           sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 3,
-            mb: 3,
-            alignItems: "center",
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transition:
+              "opacity 0.3s ease-out 0.25s, transform 0.3s ease-out 0.25s",
           }}
         >
-          {[
-            { Icon: SiMui, title: "MUI", color: "#007FFF" },
-            { Icon: SiJavascript, title: "JavaScript", color: "#F7DF1E" },
-            { Icon: SiReact, title: "React", color: "#61DAFB" },
-            {
-              Icon: SiNextdotjs,
-              title: "Next.js",
-              color: theme.palette.mode === "dark" ? "#FFFFFF" : "#000000",
-            },
-            { Icon: SiFramer, title: "Framer Motion", color: "#FF0050" },
-          ].map(({ Icon, title, color }) => (
-            <Tooltip arrow key={title} title={title} placement="top">
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  color,
-                }}
-              >
-                <Icon size={32} />
-              </Box>
-            </Tooltip>
-          ))}
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 3,
+              mb: 3,
+              alignItems: "center",
+            }}
+          >
+            {[
+              { Icon: SiMui, title: "MUI", color: "#007FFF" },
+              { Icon: SiJavascript, title: "JavaScript", color: "#F7DF1E" },
+              { Icon: SiReact, title: "React", color: "#61DAFB" },
+              {
+                Icon: SiNextdotjs,
+                title: "Next.js",
+                color: theme.palette.mode === "dark" ? "#FFFFFF" : "#000000",
+              },
+              { Icon: SiFramer, title: "Framer Motion", color: "#FF0050" },
+            ].map(({ Icon, title, color }) => (
+              <Tooltip arrow key={title} title={title} placement="top">
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    color,
+                    transition: "transform 0.2s ease, opacity 0.2s ease",
+                    "&:hover": {
+                      transform: "translateY(-2px)",
+                      opacity: 0.8,
+                    },
+                  }}
+                >
+                  <Icon size={32} />
+                </Box>
+              </Tooltip>
+            ))}
+          </Box>
         </Box>
 
         <Box
-          component={motion.div}
-          {...fadeUpProps}
-          transition={{ ...fadeUpProps.transition, delay: 0.55 }}
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-            flexWrap: "wrap",
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transition:
+              "opacity 0.3s ease-out 0.3s, transform 0.3s ease-out 0.3s",
           }}
         >
           <Link href="/docs" passHref>
@@ -296,16 +296,24 @@ const HeroSection = () => {
                 minHeight: "38px",
                 borderRadius: "12px",
                 textTransform: "none",
-                transition: "box-shadow 0.12s cubic-bezier(.2,0,.2,1)",
+                transition:
+                  "box-shadow 0.15s cubic-bezier(.2,0,.2,1), transform 0.15s cubic-bezier(.2,0,.2,1)",
                 boxShadow:
                   theme.palette.mode === "light"
                     ? "0 2px 6px rgba(0,0,0,0.12)"
                     : "0 4px 12px rgba(0,0,0,0.4)",
                 "&:hover": {
+                  transform: "translateY(-1px)",
                   boxShadow:
                     theme.palette.mode === "light"
                       ? "0 6px 16px rgba(0,0,0,0.18)"
                       : "0 6px 18px rgba(0,0,0,0.5)",
+                  "& svg": {
+                    transform: "translateX(4px)",
+                  },
+                },
+                "&:active": {
+                  transform: "translateY(0px) scale(0.98)",
                 },
               }}
             >
@@ -318,10 +326,7 @@ const HeroSection = () => {
                   justifyContent: "center",
                   gap: 1,
                   "& svg": {
-                    transition: "transform 0.18s cubic-bezier(.2,0,.2,1)",
-                  },
-                  ".MuiButton-root:hover & svg": {
-                    transform: "translateX(6px)",
+                    transition: "transform 0.2s cubic-bezier(.2,0,.2,1)",
                   },
                 }}
               >

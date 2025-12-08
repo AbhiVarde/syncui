@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -10,7 +10,6 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { motion, time } from "framer-motion";
 import { RiCodeSSlashLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
@@ -244,10 +243,12 @@ const TabContent = ({
               fontSize: { xs: "14px", sm: "16px" },
               minWidth: { xs: "auto", sm: "120px" },
               px: { xs: 2, sm: 3 },
+              transition: "color 0.15s ease",
             },
             "& .MuiTabs-indicator": {
               backgroundColor: theme.palette.text.primary,
               height: 2,
+              transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
             },
             "& .Mui-selected": {
               color: `${theme.palette.text.primary} !important`,
@@ -285,9 +286,29 @@ const TabContent = ({
   );
 };
 
-const SectionContent = ({ title, children, url }) => {
+const SectionContent = ({ title, children, url, index }) => {
   const theme = useTheme();
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleGetCode = () => {
     const isMainDomain =
@@ -302,7 +323,14 @@ const SectionContent = ({ title, children, url }) => {
   };
 
   return (
-    <Box>
+    <Box
+      ref={sectionRef}
+      sx={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(15px)",
+        transition: `opacity 0.25s ease-out ${index * 0.03}s, transform 0.25s ease-out ${index * 0.03}s`,
+      }}
+    >
       <Typography
         gutterBottom
         sx={{
@@ -321,13 +349,22 @@ const SectionContent = ({ title, children, url }) => {
         elevation={0}
         sx={{
           borderRadius: 2,
-          overflow: "visible",
+          overflowX: "hidden",
           backgroundColor: "background.paper",
           border: `1px solid ${theme.palette.divider}`,
           boxShadow: 0.5,
+          transition: "box-shadow 0.15s ease",
+          "&:hover": {
+            boxShadow: `0 4px 12px ${
+              theme.palette.mode === "dark"
+                ? "rgba(0,0,0,0.3)"
+                : "rgba(0,0,0,0.08)"
+            }`,
+          },
         }}
       >
-        <Box sx={{ p: 2 }}>{children}</Box> <Divider />
+        <Box sx={{ p: 2 }}>{children}</Box>
+        <Divider />
         <Box
           sx={{
             p: 1,
@@ -341,11 +378,13 @@ const SectionContent = ({ title, children, url }) => {
             onClick={handleGetCode}
             sx={{
               color: theme.palette.mode === "light" ? "black" : "white",
+              transition: "all 0.15s ease",
               "&:hover": {
                 backgroundColor:
                   theme.palette.mode === "light"
                     ? "rgba(0, 0, 0, 0.04)"
                     : "rgba(255, 255, 255, 0.08)",
+                transform: "translateX(2px)",
               },
             }}
           >
@@ -385,7 +424,6 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
   };
   const containerStyle = baseStyles[config.layout];
 
-  // Tab layouts with specific labels
   const tabLayouts = {
     timepickers: {
       "12hour": "12 Hour",
@@ -626,6 +664,27 @@ const componentMap = {
 };
 
 const TabsSection = () => {
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeaderVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Box sx={{ py: 12, backgroundColor: "background.default" }}>
       <Container
@@ -633,7 +692,15 @@ const TabsSection = () => {
         sx={{ paddingX: { md: "0px !important", xs: "16px !important" } }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 5 }}>
-          <Box sx={{ textAlign: "center" }}>
+          <Box
+            ref={headerRef}
+            sx={{
+              textAlign: "center",
+              opacity: headerVisible ? 1 : 0,
+              transform: headerVisible ? "translateY(0)" : "translateY(15px)",
+              transition: "opacity 0.25s ease-out, transform 0.25s ease-out",
+            }}
+          >
             <Typography
               variant="h2"
               gutterBottom
@@ -650,11 +717,12 @@ const TabsSection = () => {
               designed to elevate your next web project.
             </Typography>
           </Box>
-          {Object.entries(sectionConfig).map(([sectionKey, config]) => (
+          {Object.entries(sectionConfig).map(([sectionKey, config], index) => (
             <SectionContent
               key={sectionKey}
               title={config.title}
               url={`/docs/${sectionKey}`}
+              index={index}
             >
               {renderComponentLayout(
                 sectionKey,

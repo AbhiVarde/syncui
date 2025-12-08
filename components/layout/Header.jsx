@@ -35,7 +35,6 @@ import { useRouter } from "next/router";
 import { GoSidebarCollapse } from "react-icons/go";
 import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
-import { AnimatePresence, motion } from "motion/react";
 import LinkPreview from "../common/LinkPreview";
 import Image from "next/image";
 import Search from "../common/Search";
@@ -83,6 +82,19 @@ const StyledMenuList = styled(MenuList)(({ theme }) => ({
   padding: theme.spacing(0.5),
 }));
 
+const RotatingChevron = ({ isOpen }) => (
+  <Box
+    component="span"
+    sx={{
+      display: "inline-flex",
+      transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
+      transition: "transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+    }}
+  >
+    <RxChevronDown size={16} />
+  </Box>
+);
+
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const theme = useTheme();
   const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -96,70 +108,44 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const [activeId, setActiveId] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isComponentsOpen, setIsComponentsOpen] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const anchorRef = useRef(null);
 
-  const handleToggle = () => {
-    setMenuOpen((prevOpen) => !prevOpen);
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+  const handleToggle = () => setMenuOpen((prev) => !prev);
   const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
+    if (anchorRef.current?.contains(event.target)) return;
     setMenuOpen(false);
   };
 
-  const renderDivider = () => (
-    <Divider
-      orientation="vertical"
-      flexItem
-      sx={{
-        alignSelf: "center",
-        mx: 0.5,
-        height: 24,
-        borderColor: "divider",
-      }}
-    />
-  );
-
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries) =>
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
+          if (entry.isIntersecting) setActiveId(entry.target.id);
+        }),
       { rootMargin: "-20% 0px -60% 0px" }
     );
-
     toc?.forEach((item) => {
       const element = document.getElementById(item.id);
       if (element) observer.observe(element);
     });
-
     return () => observer.disconnect();
   }, [isDocsPage, toc]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+  const toggleDrawer = () => setDrawerOpen((prev) => !prev);
 
   const groupDocsTree = (docsTree) => {
-    const grouped = {
-      "Getting Started": [],
-    };
-
+    const grouped = { "Getting Started": [] };
     grouped["Getting Started"].push({
       title: "Templates",
       url: "/templates",
@@ -167,30 +153,23 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     });
 
     docsTree?.forEach((item) => {
-      if (
-        item.title === "Setup" ||
-        item.title === "Changelog" ||
-        item.title === "The Story of Sync UI"
-      ) {
+      if (["Setup", "Changelog", "The Story of Sync UI"].includes(item.title)) {
         grouped["Getting Started"].push(item);
       } else {
-        if (!grouped["Components"]) {
-          grouped["Components"] = [];
-        }
+        grouped["Components"] = grouped["Components"] || [];
         grouped["Components"].push(item);
       }
     });
 
-    grouped["Getting Started"].sort((a, b) => {
-      const order = {
-        Setup: 1,
-        Changelog: 2,
-        Templates: 3,
-        "The Story of Sync UI": 4,
-      };
-      return (order[a.title] || 99) - (order[b.title] || 99);
-    });
-
+    grouped["Getting Started"].sort(
+      (a, b) =>
+        ({ Setup: 1, Changelog: 2, Templates: 3, "The Story of Sync UI": 4 })[
+          a.title
+        ] -
+          { Setup: 1, Changelog: 2, Templates: 3, "The Story of Sync UI": 4 }[
+            b.title
+          ] || 0
+    );
     return grouped;
   };
 
@@ -217,8 +196,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           borderRadius: "8px",
         }}
       >
-        <RxCross2 size={18} color="inherit" />
+        <RxCross2 size={18} />
       </IconButton>
+
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, my: 1 }}>
         <Image
           src="/logo.png"
@@ -231,6 +211,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           Sync UI Docs
         </Typography>
       </Box>
+
       <Box sx={{ flexGrow: 1, overflowY: "auto", px: 0.2 }}>
         {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
           <Box key={category} sx={{ my: 2 }}>
@@ -257,124 +238,103 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   >
                     {category}
                   </Typography>
-                  <motion.div
-                    animate={{ rotate: isComponentsOpen ? 0 : -90 }}
-                    transition={{
-                      duration: 0.2,
-                      ease: [0.4, 0, 0.2, 1],
-                    }}
-                  >
-                    <RxChevronDown size={16} />
-                  </motion.div>
+                  <RotatingChevron isOpen={isComponentsOpen} />
                 </Box>
-                <AnimatePresence initial={false}>
-                  {isComponentsOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{
-                        duration: 0.25,
-                        ease: [0.4, 0, 0.2, 1],
-                      }}
-                      style={{ overflow: "hidden" }}
-                    >
-                      <List disablePadding>
-                        {items.map((item) => {
-                          const isActive = router.asPath === item.url;
-                          return (
-                            <ListItem
-                              key={item.url}
-                              button
-                              component={Link}
-                              href={item.url}
-                              onClick={() => {
-                                toggleDrawer();
-                                setTimeout(() => router.push(item.url), 500);
-                              }}
-                              sx={{
-                                mb: 0.5,
-                                px: 1.5,
-                                py: 0.4,
-                                borderRadius: 1.2,
-                                display: "flex",
-                                alignItems: "center",
-                                textDecoration: "none",
-                                cursor: "pointer",
-                                letterSpacing: 0.2,
-                                color: isActive
-                                  ? "text.primary"
-                                  : "text.secondary",
-                                textShadow: isActive
-                                  ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                                  : "none",
-                                border: "1px solid transparent",
-                                transition:
-                                  "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease",
-                                "&:hover": {
-                                  bgcolor: "action.hover",
-                                  color: "text.primary",
+                {isComponentsOpen && (
+                  <List disablePadding>
+                    {items.map((item) => {
+                      const isActive = router.asPath === item.url;
+                      return (
+                        <ListItem
+                          key={item.url}
+                          button
+                          component={Link}
+                          href={item.url}
+                          onClick={() => {
+                            toggleDrawer();
+                            setTimeout(() => router.push(item.url), 500);
+                          }}
+                          sx={{
+                            mb: 0.5,
+                            px: 1.5,
+                            py: 0.4,
+                            borderRadius: 1.2,
+                            display: "flex",
+                            alignItems: "center",
+                            textDecoration: "none",
+                            cursor: "pointer",
+                            letterSpacing: 0.2,
+                            color: isActive ? "text.primary" : "text.secondary",
+                            textShadow: isActive
+                              ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                              : "none",
+                            border: "1px solid transparent",
+                            transition:
+                              "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease",
+                            "&:hover": {
+                              bgcolor: "action.hover",
+                              color: "text.primary",
+                            },
+                            ...(isActive && {
+                              bgcolor: "action.hover",
+                              borderColor: "divider",
+                            }),
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 0.5,
+                            }}
+                          >
+                            <ListItemText
+                              primary={item.title}
+                              primaryTypographyProps={{
+                                variant: "body2",
+                                sx: {
+                                  fontWeight: 400,
+                                  textShadow: isActive
+                                    ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                    : "none",
+                                  color: isActive
+                                    ? "text.primary"
+                                    : "text.secondary",
                                 },
-                                ...(isActive && {
-                                  bgcolor: "action.hover",
-                                  borderColor: "divider",
-                                }),
                               }}
-                            >
+                            />
+                            {[
+                              "Time Pickers",
+                              "Date Pickers",
+                              "Autocompletes",
+                            ].includes(item.title) && (
                               <Box
+                                component="span"
                                 sx={{
-                                  display: "flex",
+                                  ml: 1,
+                                  px: 0.8,
+                                  py: 0.2,
+                                  bgcolor: "#008080",
+                                  color: "#ffffff",
+                                  borderRadius: "10px",
+                                  fontSize: "0.65rem",
+                                  fontWeight: 500,
+                                  lineHeight: 1,
+                                  letterSpacing: "0.02em",
+                                  display: "inline-flex",
                                   alignItems: "center",
-                                  gap: 0.5,
+                                  justifyContent: "center",
                                 }}
                               >
-                                <ListItemText
-                                  primary={item.title}
-                                  primaryTypographyProps={{
-                                    variant: "body2",
-                                    sx: {
-                                      fontWeight: 400,
-                                      textShadow: isActive
-                                        ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                                        : "none",
-                                      color: isActive
-                                        ? "text.primary"
-                                        : "text.secondary",
-                                    },
-                                  }}
-                                />
-                                {(item.title === "Time Pickers" ||
-                                  item.title === "Date Pickers" ||
-                                  item.title === "Autocompletes") && (
-                                  <Box
-                                    component="span"
-                                    sx={{
-                                      ml: 1,
-                                      px: 0.8,
-                                      py: 0.2,
-                                      bgcolor: "#008080",
-                                      color: "#ffffff",
-                                      borderRadius: "10px",
-                                      fontSize: "0.65rem",
-                                      fontWeight: 500,
-                                      lineHeight: 1,
-                                      letterSpacing: "0.02em",
-                                      display: "inline-flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                    }}
-                                  >
-                                    New
-                                  </Box>
-                                )}
+                                New
                               </Box>
-                            </ListItem>
-                          );
-                        })}
-                      </List>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                            )}
+                          </Box>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
               </>
             ) : (
               <>
@@ -475,6 +435,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           </Box>
         ))}
       </Box>
+
       <Box
         display="flex"
         alignItems="center"
@@ -515,8 +476,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             fontWeight: 500,
           }}
         >
-          <RxTextAlignLeft size={20} color="inherit" />
-          On this page
+          <RxTextAlignLeft size={20} color="inherit" /> On this page
         </Typography>
         {activeText && (
           <Typography
@@ -572,7 +532,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       >
         {item.icon}
       </Box>
-
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, flex: 1 }}>
         <Typography
           sx={{
@@ -583,7 +542,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         >
           {item.label}
         </Typography>
-
         {item.comingSoon && (
           <Box
             component="span"
@@ -619,7 +577,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           top: 0,
           borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: "blur(10px)",
-          transition: "all 0.2s",
+          transition: "background-color 0.15s ease",
           backgroundColor: isScrolled ? "transparent" : "background.default",
           zIndex: 1100,
         }}
@@ -630,193 +588,197 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             padding: isMediumUp ? "12px 24px" : "16px 12px",
           }}
         >
-          <AnimatePresence mode="sync">
-            <motion.div
-              key="not-scrolled"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                {isDocsPage && !isMediumUp && (
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={toggleDrawer}
-                  >
-                    <GoSidebarCollapse />
-                  </IconButton>
-                )}
-                <Box
-                  onClick={() => router.push("/")}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    cursor: "pointer",
-                    textDecoration: "none",
-                    minWidth: 0,
-                  }}
-                >
-                  <Box
-                    component="img"
-                    src="/logo.png"
-                    alt="Logo"
-                    sx={{
-                      width: 24,
-                      height: 24,
-                      display:
-                        asPath.startsWith("/docs") && !isMediumUp
-                          ? "none"
-                          : "inline-block",
-                    }}
-                  />
-                  <Typography
-                    variant="h6"
-                    fontWeight={600}
-                    noWrap
-                    sx={{
-                      color: "text.primary",
-                      lineHeight: 1,
-                      transition: "opacity 0.2s",
-                    }}
-                  >
-                    Sync UI
-                  </Typography>
-                </Box>
-
-                {isMediumUp && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      ml: 2,
-                    }}
-                  >
-                    <Button
-                      disabled
-                      sx={{
-                        color: "text.secondary",
-                        fontSize: "15px",
-                        fontWeight: 400,
-                        textTransform: "none",
-                        px: "6px",
-                        py: "4px",
-                        minWidth: "auto",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 0.75,
-                        cursor: "not-allowed",
-                        "&:hover": {
-                          backgroundColor: "transparent",
-                        },
-                      }}
-                    >
-                      Blocks
-                      <Box
-                        component="span"
-                        sx={{
-                          px: "6px",
-                          py: "1px",
-                          bgcolor: "#FFA500",
-                          color: "#ffffff",
-                          borderRadius: "6px",
-                          fontSize: "11px",
-                          fontWeight: 500,
-                          lineHeight: "14px",
-                          letterSpacing: "0.25px",
-                          minHeight: "18px",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        Soon
-                      </Box>
-                    </Button>
-
-                    {renderDivider()}
-
-                    <Button
-                      component={Link}
-                      href="/templates"
-                      sx={{
-                        color: "text.primary",
-                        fontSize: "15px",
-                        fontWeight: 400,
-                        textTransform: "none",
-                        px: "6px",
-                        py: "4px",
-                        minWidth: "auto",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 0.75,
-                        "&:hover": {
-                          backgroundColor: "transparent",
-                          opacity: 0.75,
-                        },
-                      }}
-                    >
-                      Templates
-                    </Button>
-
-                    {renderDivider()}
-
-                    <Button
-                      component={Link}
-                      href="/docs/changelog"
-                      endIcon={<RxExternalLink size={16} />}
-                      sx={{
-                        color: "text.primary",
-                        fontSize: "15px",
-                        fontWeight: 400,
-                        textTransform: "none",
-                        padding: "4px 8px",
-                        minWidth: "auto",
-                        "&:hover": {
-                          backgroundColor: "transparent",
-                          opacity: 0.7,
-                        },
-                      }}
-                    >
-                      Changelog
-                    </Button>
-                  </Box>
-                )}
-              </Box>
-
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              opacity: mounted ? 1 : 0,
+              transition: "opacity 0.1s ease-out",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              {isDocsPage && !isMediumUp && (
+                <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+                  <GoSidebarCollapse />
+                </IconButton>
+              )}
               <Box
+                onClick={() => router.push("/")}
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: { xs: 0.5, sm: 1 },
+                  gap: "8px",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  minWidth: 0,
                 }}
               >
-                <Search docsTree={docsTree} isMediumUp={isMediumUp} />
-
-                {renderDivider()}
-
-                <HeaderIcons
-                  isMediumUp={isMediumUp}
-                  anchorRef={anchorRef}
-                  menuOpen={menuOpen}
-                  stars={stars}
-                  loading={loading}
-                  isDarkMode={isDarkMode}
-                  toggleTheme={toggleTheme}
-                  handleToggle={handleToggle}
+                <Box
+                  component="img"
+                  src="/logo.png"
+                  alt="Logo"
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    display:
+                      asPath.startsWith("/docs") && !isMediumUp
+                        ? "none"
+                        : "inline-block",
+                  }}
                 />
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  noWrap
+                  sx={{
+                    color: "text.primary",
+                    lineHeight: 1,
+                  }}
+                >
+                  Sync UI
+                </Typography>
               </Box>
-            </motion.div>
-          </AnimatePresence>
+
+              {isMediumUp && (
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 }}
+                >
+                  <Button
+                    disabled
+                    sx={{
+                      color: "text.secondary",
+                      fontSize: "15px",
+                      fontWeight: 400,
+                      textTransform: "none",
+                      px: "6px",
+                      py: "4px",
+                      minWidth: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 0.75,
+                      cursor: "not-allowed",
+                      "&:hover": { backgroundColor: "transparent" },
+                    }}
+                  >
+                    Blocks
+                    <Box
+                      component="span"
+                      sx={{
+                        px: "6px",
+                        py: "1px",
+                        bgcolor: "#FFA500",
+                        color: "#fff",
+                        borderRadius: "6px",
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        lineHeight: "14px",
+                        letterSpacing: "0.25px",
+                        minHeight: "18px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      Soon
+                    </Box>
+                  </Button>
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{
+                      alignSelf: "center",
+                      mx: 0.5,
+                      height: 24,
+                      borderColor: "divider",
+                    }}
+                  />
+                  <Button
+                    component={Link}
+                    href="/templates"
+                    sx={{
+                      color: "text.primary",
+                      fontSize: "15px",
+                      fontWeight: 400,
+                      textTransform: "none",
+                      px: "6px",
+                      py: "4px",
+                      minWidth: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 0.75,
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        opacity: 0.75,
+                      },
+                    }}
+                  >
+                    Templates
+                  </Button>
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{
+                      alignSelf: "center",
+                      mx: 0.5,
+                      height: 24,
+                      borderColor: "divider",
+                    }}
+                  />
+                  <Button
+                    component={Link}
+                    href="/docs/changelog"
+                    endIcon={<RxExternalLink size={16} />}
+                    sx={{
+                      color: "text.primary",
+                      fontSize: "15px",
+                      fontWeight: 400,
+                      textTransform: "none",
+                      padding: "4px 8px",
+                      minWidth: "auto",
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        opacity: 0.7,
+                      },
+                    }}
+                  >
+                    Changelog
+                  </Button>
+                </Box>
+              )}
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: { xs: 0.5, sm: 1 },
+              }}
+            >
+              <Search docsTree={docsTree} isMediumUp={isMediumUp} />
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{
+                  alignSelf: "center",
+                  mx: 0.5,
+                  height: 24,
+                  borderColor: "divider",
+                }}
+              />
+              <HeaderIcons
+                isMediumUp={isMediumUp}
+                anchorRef={anchorRef}
+                menuOpen={menuOpen}
+                stars={stars}
+                loading={loading}
+                isDarkMode={isDarkMode}
+                toggleTheme={toggleTheme}
+                handleToggle={handleToggle}
+              />
+            </Box>
+          </Box>
         </Toolbar>
 
         {isDocsPage && (
@@ -824,9 +786,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             anchor="left"
             open={!isMediumUp && drawerOpen}
             onClose={toggleDrawer}
-            ModalProps={{
-              keepMounted: true,
-            }}
+            ModalProps={{ keepMounted: true }}
             PaperProps={{
               sx: {
                 width: 320,
@@ -850,9 +810,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             <ClickAwayListener onClickAway={handleClose}>
               <StyledMenuList dense>
                 {menuItems.map((item, index) => (
-                  <React.Fragment key={index}>
+                  <Fragment key={index}>
                     {renderPopoverMenuItem(item, index)}
-
                     {index < menuItems.length - 1 && (
                       <Divider
                         sx={{
@@ -862,7 +821,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         }}
                       />
                     )}
-                  </React.Fragment>
+                  </Fragment>
                 ))}
               </StyledMenuList>
             </ClickAwayListener>

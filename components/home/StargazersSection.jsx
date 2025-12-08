@@ -8,7 +8,6 @@ import {
   Skeleton,
   alpha,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
 import { useGitHub } from "@/context/GithubContext";
 import {
   RiGithubFill,
@@ -16,11 +15,9 @@ import {
   RiHeartFill,
   RiHeartLine,
 } from "react-icons/ri";
-import { useState, memo } from "react";
+import { useState, memo, useEffect, useRef } from "react";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
-
-const MotionBox = motion.create(Box);
 
 const buttonStyles = {
   display: "flex",
@@ -43,32 +40,46 @@ const buttonStyles = {
   },
 };
 
-const ContributorAvatar = memo(({ user, index, theme }) => (
-  <Tooltip title={user?.login || `Contributor ${index + 1}`} arrow>
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.2, delay: index * 0.05 }}
-      whileHover={{ scale: 1.05 }}
-    >
-      <Avatar
-        src={user?.avatar_url}
-        alt={user?.login || `Contributor ${index + 1}`}
+const ContributorAvatar = memo(({ user, index, theme }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), index * 30);
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  return (
+    <Tooltip title={user?.login || `Contributor ${index + 1}`} arrow>
+      <Box
         sx={{
-          width: 48,
-          height: 48,
-          border: "2px solid",
-          cursor: "pointer",
-          borderColor:
-            theme.palette.mode === "dark"
-              ? alpha(theme.palette.common.white, 0.1)
-              : "background.paper",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "scale(1)" : "scale(0.9)",
+          transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
+          "&:hover": {
+            transform: "scale(1.05)",
+            transition: "transform 0.15s ease-out",
+          },
         }}
-      />
-    </motion.div>
-  </Tooltip>
-));
+      >
+        <Avatar
+          src={user?.avatar_url}
+          alt={user?.login || `Contributor ${index + 1}`}
+          sx={{
+            width: 48,
+            height: 48,
+            border: "2px solid",
+            cursor: "pointer",
+            borderColor:
+              theme.palette.mode === "dark"
+                ? alpha(theme.palette.common.white, 0.1)
+                : "background.paper",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          }}
+        />
+      </Box>
+    </Tooltip>
+  );
+});
 
 ContributorAvatar.displayName = "ContributorAvatar";
 
@@ -76,6 +87,26 @@ const StargazersSection = () => {
   const { stars, stargazers, loading, error } = useGitHub();
   const theme = useTheme();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   if (error) return null;
 
@@ -84,20 +115,21 @@ const StargazersSection = () => {
   const remainingCount = Math.max(0, stargazers.length - displayCount);
 
   return (
-    <Container maxWidth="lg">
-      <MotionBox
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.5 }}
+    <Container maxWidth="lg" ref={sectionRef}>
+      <Box
+        sx={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
+        }}
       >
-        <MotionBox
+        <Box
           textAlign="center"
           mb={5}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          sx={{
+            opacity: isVisible ? 1 : 0,
+            transition: "opacity 0.5s ease-out 0.1s",
+          }}
         >
           <Typography
             variant="h3"
@@ -129,17 +161,18 @@ const StargazersSection = () => {
             Sync UI offers powerful, flexible components to help you ship
             faster, design better, and scale confidently.
           </Typography>
-        </MotionBox>
+        </Box>
 
-        <MotionBox
+        <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
           gap={1}
           mb={4}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          sx={{
+            opacity: isVisible ? 1 : 0,
+            transition: "opacity 0.4s ease-out 0.2s",
+          }}
         >
           <Box
             sx={{
@@ -164,7 +197,6 @@ const StargazersSection = () => {
               }`,
             }}
           >
-            {/* Stars Section */}
             <Box
               sx={{
                 textAlign: "center",
@@ -213,7 +245,6 @@ const StargazersSection = () => {
                   alignItems: "center",
                 }}
               >
-                {/* Support Button */}
                 <Box
                   component="a"
                   href={SPONSOR_URL}
@@ -223,31 +254,21 @@ const StargazersSection = () => {
                   onMouseLeave={() => setIsHeartHovered(false)}
                   sx={buttonStyles}
                 >
-                  <AnimatePresence mode="wait">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      opacity: isHeartHovered ? 1 : 1,
+                      transform: isHeartHovered ? "scale(1)" : "scale(1)",
+                      transition: "opacity 0.15s ease, transform 0.15s ease",
+                    }}
+                  >
                     {isHeartHovered ? (
-                      <motion.div
-                        key="filled"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <RiHeartFill size={20} color="#e91e63" />
-                      </motion.div>
+                      <RiHeartFill size={20} color="#e91e63" />
                     ) : (
-                      <motion.div
-                        key="outline"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <RiHeartLine size={20} />
-                      </motion.div>
+                      <RiHeartLine size={20} />
                     )}
-                  </AnimatePresence>
+                  </Box>
                   <Typography
                     variant="body2"
                     fontWeight={500}
@@ -257,7 +278,6 @@ const StargazersSection = () => {
                   </Typography>
                 </Box>
 
-                {/* Star Button */}
                 <Box
                   component="a"
                   href={GITHUB_URL}
@@ -277,7 +297,6 @@ const StargazersSection = () => {
               </Box>
             </Box>
 
-            {/* Divider */}
             <Box
               sx={{
                 width: { xs: "100%", md: "1px" },
@@ -291,7 +310,6 @@ const StargazersSection = () => {
               }}
             />
 
-            {/* Contributors Section */}
             <Box
               sx={{
                 textAlign: "center",
@@ -352,14 +370,16 @@ const StargazersSection = () => {
                         title={`${remainingCount} more stargazers`}
                         arrow
                       >
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{
-                            duration: 0.2,
-                            delay: displayCount * 0.03,
+                        <Box
+                          sx={{
+                            opacity: isVisible ? 1 : 0,
+                            transform: isVisible ? "scale(1)" : "scale(0.9)",
+                            transition: `opacity 0.2s ease-out ${displayCount * 0.03}s, transform 0.2s ease-out ${displayCount * 0.03}s`,
+                            "&:hover": {
+                              transform: "scale(1.05)",
+                              transition: "transform 0.15s ease-out",
+                            },
                           }}
-                          whileHover={{ scale: 1.05 }}
                         >
                           <Avatar
                             sx={{
@@ -378,7 +398,7 @@ const StargazersSection = () => {
                           >
                             +{remainingCount}
                           </Avatar>
-                        </motion.div>
+                        </Box>
                       </Tooltip>
                     )}
                   </Box>
@@ -398,8 +418,8 @@ const StargazersSection = () => {
               )}
             </Box>
           </Box>
-        </MotionBox>
-      </MotionBox>
+        </Box>
+      </Box>
     </Container>
   );
 };
