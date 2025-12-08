@@ -23,7 +23,6 @@ import AvatarVariants from "../ui/Avatars";
 import LoaderVariants from "../ui/Loaders";
 import SeparatorVariants from "../ui/Separators";
 import BackgroundVariants from "../ui/Backgrounds";
-import MarqueeVariants from "../ui/Marquees";
 import TabVariants from "../ui/Tabs";
 import PaginationVariants from "../ui/Paginations";
 import PointerVariants from "../ui/Pointers";
@@ -60,7 +59,6 @@ const componentVariants = {
     "gradientBlob",
   ],
   carousels: ["scale", "parallax", "fade", "cards"],
-  marquees: ["horizontal", "vertical", "diagonal"],
   buttons: [
     "neubrutalism",
     "animatedBorder",
@@ -172,7 +170,6 @@ const sectionConfig = {
   docks: { title: "Navigation Docks", layout: "tabs" },
   loaders: { title: "Loading Animations", layout: "flex-wrap" },
   grids: { title: "Responsive Grids", layout: "tabs" },
-  marquees: { title: "Scrolling Marquees", layout: "tabs" },
   tables: { title: "Data Tables", layout: "tabs" },
   avatars: { title: "Profile Avatars", layout: "tabs" },
   accordions: { title: "Collapsible Panels", layout: "tabs" },
@@ -349,7 +346,6 @@ const SectionContent = ({ title, children, url, index }) => {
         elevation={0}
         sx={{
           borderRadius: 2,
-          overflowX: "hidden",
           backgroundColor: "background.paper",
           border: `1px solid ${theme.palette.divider}`,
           boxShadow: 0.5,
@@ -659,7 +655,6 @@ const componentMap = {
   paginations: PaginationVariants,
   avatars: AvatarVariants,
   texts: TextVariants,
-  marquees: MarqueeVariants,
   separators: SeparatorVariants,
 };
 

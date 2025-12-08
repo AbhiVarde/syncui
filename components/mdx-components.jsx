@@ -30,7 +30,6 @@ import LoaderVariants from "./ui/Loaders";
 import SeparatorVariants from "./ui/Separators";
 import BackgroundVariants from "./ui/Backgrounds";
 import AvatarVariants from "./ui/Avatars";
-import MarqueeVariants from "./ui/Marquees";
 import TabVariants from "./ui/Tabs";
 import PaginationVariants from "./ui/Paginations";
 import CarouselVariants from "./ui/Carousels";
@@ -285,7 +284,6 @@ export const MDXComponents = {
   SeparatorVariants,
   BackgroundVariants,
   AvatarVariants,
-  MarqueeVariants,
   TabVariants,
   PaginationVariants,
   CarouselVariants,
