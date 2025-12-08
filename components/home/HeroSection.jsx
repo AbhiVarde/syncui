@@ -45,7 +45,7 @@ const HeroSection = () => {
               "opacity 0.3s ease-out 0.05s, transform 0.3s ease-out 0.05s",
           }}
         >
-          <Link href="/docs/timepickers" passHref>
+          <Link href="/docs/components/timepickers" passHref>
             <Box
               component="button"
               sx={{

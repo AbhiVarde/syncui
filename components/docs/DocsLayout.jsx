@@ -232,14 +232,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                         </Typography>
                         <Box>
                           {items.map((item) => {
-                            const isActive =
-                              (item.title === "Setup" &&
-                                router.asPath === "/docs") ||
-                              (item.title === "Changelog" &&
-                                router.asPath === "/docs/changelog") ||
-                              (item.title === "Templates" &&
-                                router.asPath === "/templates") ||
-                              router.asPath === item.url;
+                            const isActive = router.asPath === item.url;
                             return renderNavigationItem(item, isActive);
                           })}
                         </Box>
@@ -310,20 +303,14 @@ const DocsLayout = ({ children, toc, docsTree }) => {
 const groupDocsTree = (docsTree) => {
   const grouped = {
     "Getting Started": [],
+    Components: [],
   };
 
   docsTree.forEach((item) => {
-    if (
-      item.title === "Setup" ||
-      item.title === "Changelog" ||
-      item.title === "The Story of Sync UI"
-    ) {
-      grouped["Getting Started"].push(item);
-    } else {
-      if (!grouped["Components"]) {
-        grouped["Components"] = [];
-      }
+    if (item.category === "Components") {
       grouped["Components"].push(item);
+    } else {
+      grouped["Getting Started"].push(item);
     }
   });
 

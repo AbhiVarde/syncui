@@ -308,15 +308,7 @@ const SectionContent = ({ title, children, url, index }) => {
   }, []);
 
   const handleGetCode = () => {
-    const isMainDomain =
-      typeof window !== "undefined" &&
-      window.location.hostname === "syncui.design";
-
-    if (isMainDomain) {
-      window.location.href = `https://docs.syncui.design${url}`;
-    } else {
-      router.push(url);
-    }
+    router.push(url);
   };
 
   return (
@@ -716,7 +708,7 @@ const TabsSection = () => {
             <SectionContent
               key={sectionKey}
               title={config.title}
-              url={`/docs/${sectionKey}`}
+              url={`/docs/components/${sectionKey}`}
               index={index}
             >
               {renderComponentLayout(

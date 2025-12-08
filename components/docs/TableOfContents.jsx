@@ -143,6 +143,9 @@ export const TableOfContents = ({ toc }) => {
                 pr: "1px",
                 pl: 1,
                 my: 0.5,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {item.text.split("–")[0].trim()}
