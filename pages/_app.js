@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
-import { AnimatePresence } from "framer-motion";
 import { Toaster } from "sonner";
 import Router from "next/router";
 import Head from "next/head";
@@ -65,8 +64,6 @@ function MyApp({ Component, pageProps }) {
             }),
           }}
         />
-
-        {/* Breadcrumb Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -314,13 +311,7 @@ function AppContent({ Component, pageProps }) {
           docsTree={pageProps.docsTree}
           toc={pageProps.toc}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <Component
-              {...pageProps}
-              key={currentRoute}
-              isDarkMode={isDarkMode}
-            />
-          </AnimatePresence>
+          <Component {...pageProps} isDarkMode={isDarkMode} />
         </Layout>
       )}
     </MuiThemeProvider>

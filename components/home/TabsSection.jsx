@@ -245,7 +245,7 @@ const TabContent = ({
             "& .MuiTabs-indicator": {
               backgroundColor: theme.palette.text.primary,
               height: 2,
-              transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+              transition: "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
             },
             "& .Mui-selected": {
               color: `${theme.palette.text.primary} !important`,
@@ -317,7 +317,7 @@ const SectionContent = ({ title, children, url, index }) => {
       sx={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? "translateY(0)" : "translateY(15px)",
-        transition: `opacity 0.25s ease-out ${index * 0.03}s, transform 0.25s ease-out ${index * 0.03}s`,
+        transition: `opacity 0.15s ease-out ${index * 0.02}s, transform 0.15s ease-out ${index * 0.02}s`,
       }}
     >
       <Typography
@@ -685,7 +685,7 @@ const TabsSection = () => {
               textAlign: "center",
               opacity: headerVisible ? 1 : 0,
               transform: headerVisible ? "translateY(0)" : "translateY(15px)",
-              transition: "opacity 0.25s ease-out, transform 0.25s ease-out",
+              transition: "opacity 0.15s ease-out, transform 0.15s ease-out",
             }}
           >
             <Typography

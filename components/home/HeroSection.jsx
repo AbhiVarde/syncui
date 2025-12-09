@@ -34,7 +34,7 @@ const HeroSection = () => {
           flexDirection: "column",
           opacity: mounted ? 1 : 0,
           transform: mounted ? "translateY(0)" : "translateY(10px)",
-          transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
+          transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
         }}
       >
         <Box
@@ -42,7 +42,7 @@ const HeroSection = () => {
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(10px)",
             transition:
-              "opacity 0.3s ease-out 0.05s, transform 0.3s ease-out 0.05s",
+              "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
         >
           <Link href="/docs/components/timepickers" passHref>
@@ -88,7 +88,7 @@ const HeroSection = () => {
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(10px)",
             transition:
-              "opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s",
+              "opacity 0.2s ease-out 0.06s, transform 0.2s ease-out 0.06s",
           }}
         >
           <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mb: 1 }}>
@@ -195,7 +195,7 @@ const HeroSection = () => {
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(10px)",
             transition:
-              "opacity 0.3s ease-out 0.15s, transform 0.3s ease-out 0.15s",
+              "opacity 0.2s ease-out 0.09s, transform 0.2s ease-out 0.09s",
           }}
         >
           <Typography
@@ -213,7 +213,7 @@ const HeroSection = () => {
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(10px)",
             transition:
-              "opacity 0.3s ease-out 0.2s, transform 0.3s ease-out 0.2s",
+              "opacity 0.2s ease-out 0.12s, transform 0.2s ease-out 0.12s",
           }}
         >
           <Typography
@@ -231,7 +231,7 @@ const HeroSection = () => {
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(10px)",
             transition:
-              "opacity 0.3s ease-out 0.25s, transform 0.3s ease-out 0.25s",
+              "opacity 0.2s ease-out 0.15s, transform 0.2s ease-out 0.15s",
           }}
         >
           <Box
@@ -261,7 +261,7 @@ const HeroSection = () => {
                     alignItems: "center",
                     cursor: "pointer",
                     color,
-                    transition: "transform 0.2s ease, opacity 0.2s ease",
+                    transition: "transform 0.15s ease, opacity 0.15s ease",
                     "&:hover": {
                       transform: "translateY(-2px)",
                       opacity: 0.8,
@@ -280,7 +280,7 @@ const HeroSection = () => {
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(10px)",
             transition:
-              "opacity 0.3s ease-out 0.3s, transform 0.3s ease-out 0.3s",
+              "opacity 0.2s ease-out 0.18s, transform 0.2s ease-out 0.18s",
           }}
         >
           <Link href="/docs" passHref>
@@ -325,7 +325,7 @@ const HeroSection = () => {
                   justifyContent: "center",
                   gap: 1,
                   "& svg": {
-                    transition: "transform 0.2s cubic-bezier(.2,0,.2,1)",
+                    transition: "transform 0.15s cubic-bezier(.2,0,.2,1)",
                   },
                 }}
               >

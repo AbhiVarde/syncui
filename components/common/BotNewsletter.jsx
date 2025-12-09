@@ -8,7 +8,7 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { LuX, LuMail } from "react-icons/lu";
 import { toast } from "sonner";
 
