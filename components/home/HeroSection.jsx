@@ -45,7 +45,7 @@ const HeroSection = () => {
               "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
         >
-          <Link href="/docs/components/timepickers" passHref>
+          <Link href="/docs/components/skeletons" passHref>
             <Box
               component="button"
               sx={{
@@ -77,7 +77,7 @@ const HeroSection = () => {
                 },
               }}
             >
-              ⏰ New: Time Picker Components
+              📦 New: Skeleton Components
               <RxArrowRight size={16} />
             </Box>
           </Link>
