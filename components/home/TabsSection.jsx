@@ -369,13 +369,12 @@ const SectionContent = ({ title, children, url, index }) => {
             onClick={handleGetCode}
             sx={{
               color: theme.palette.mode === "light" ? "black" : "white",
-              transition: "all 0.15s ease",
+              transition: "background-color 0.15s ease",
               "&:hover": {
                 backgroundColor:
                   theme.palette.mode === "light"
                     ? "rgba(0, 0, 0, 0.04)"
                     : "rgba(255, 255, 255, 0.08)",
-                transform: "translateX(2px)",
               },
             }}
           >
