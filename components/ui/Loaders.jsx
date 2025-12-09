@@ -17,12 +17,12 @@ const LoaderVariants = ({ variant }) => {
 
   const loaderStyle = {
     width: 160,
-    height: asPath === "/docs/loaders" ? 60 : 120,
+    height: asPath === "/docs/components/loaders" ? 60 : 120,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: asPath === "/docs/loaders" ? "center" : "space-between",
-    padding: asPath === "/docs/loaders" ? "0px !important" : "16px 0",
+    justifyContent: asPath === "/docs/components/loaders" ? "center" : "space-between",
+    padding: asPath === "/docs/components/loaders" ? "0px !important" : "16px 0",
   };
 
   const typographyStyle = {
@@ -272,7 +272,7 @@ const LoaderVariants = ({ variant }) => {
           style={{}}
         >
           <Box sx={loaderStyle}>
-            {asPath !== "/docs/loaders" && (
+            {asPath !== "/docs/components/loaders" && (
               <Typography variant="body1" sx={typographyStyle}>
                 {variant.charAt(0).toUpperCase() + variant.slice(1)}
               </Typography>

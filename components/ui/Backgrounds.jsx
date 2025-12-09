@@ -682,7 +682,7 @@ const BackgroundVariants = ({ variant }) => {
     }
   };
 
-  return asPath !== "/docs/backgrounds" ? (
+  return asPath !== "/docs/components/backgrounds" ? (
     <AnimatePresence>
       <Box sx={{ width: "100%", height: "300px", overflow: "hidden" }}>
         {renderBackground()}

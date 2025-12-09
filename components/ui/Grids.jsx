@@ -8,7 +8,7 @@ const MotionBox = motion.create(Box);
 const GridVariants = ({ variant = "masonry" }) => {
   const theme = useTheme();
   const pathname = usePathname();
-  const shouldShowHeading = pathname !== "/docs/grids";
+  const shouldShowHeading = pathname !== "/docs/components/grids";
 
   const unsplashImages = [
     "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=2940", // Mountain landscape

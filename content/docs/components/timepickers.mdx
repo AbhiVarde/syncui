@@ -5,7 +5,7 @@ description: Sync UI offers a variety of time picker components with smooth anim
 
 Sync UI provides a collection of versatile time picker components designed for seamless time selection, featuring 12-hour format, 24-hour format, seconds selection, and preset options capabilities.
 
-#### 12-Hour Time Picker
+#### 12-Hour
 
 A standard time picker for selecting hours and minutes in 12-hour format with AM/PM.
 
@@ -16,23 +16,23 @@ import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButto
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
 
 const TwelveHourTimePicker = () => {
-  const [selectedTime, setSelectedTime] = useState({
-    hour: "06",
-    minute: "00",
-    period: "PM",
-  });
-  const [isOpen, setIsOpen] = useState(false);
-  const [pickerPosition, setPickerPosition] = useState("bottom");
+const [selectedTime, setSelectedTime] = useState({
+hour: "06",
+minute: "00",
+period: "PM",
+});
+const [isOpen, setIsOpen] = useState(false);
+const [pickerPosition, setPickerPosition] = useState("bottom");
 
-  const containerRef = useRef(null);
-  const pickerRef = useRef(null);
-  const rafRef = useRef(null);
+const containerRef = useRef(null);
+const pickerRef = useRef(null);
+const rafRef = useRef(null);
 
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+const theme = useTheme();
+const isDark = theme.palette.mode === "dark";
 
-  const calculatePosition = useCallback(() => {
-    if (!containerRef.current) return;
+const calculatePosition = useCallback(() => {
+if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
@@ -44,19 +44,20 @@ const TwelveHourTimePicker = () => {
     const newPosition =
       spaceBelow < pickerHeight && spaceAbove > pickerHeight ? "top" : "bottom";
     setPickerPosition(newPosition);
-  }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target) &&
-        pickerRef.current &&
-        !pickerRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
+}, []);
+
+useEffect(() => {
+const handleClickOutside = (event) => {
+if (
+containerRef.current &&
+!containerRef.current.contains(event.target) &&
+pickerRef.current &&
+!pickerRef.current.contains(event.target)
+) {
+setIsOpen(false);
+}
+};
 
     const handleScroll = () => {
       if (isOpen) {
@@ -82,17 +83,18 @@ const TwelveHourTimePicker = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (isOpen) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-        }
-        rafRef.current = requestAnimationFrame(calculatePosition);
-      }
-    };
+}, [isOpen, calculatePosition]);
+
+useEffect(() => {
+const handleResize = () => {
+if (isOpen) {
+if (rafRef.current) {
+cancelAnimationFrame(rafRef.current);
+}
+rafRef.current = requestAnimationFrame(calculatePosition);
+}
+};
 
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
@@ -101,16 +103,17 @@ const TwelveHourTimePicker = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  const handleTimeChange = useCallback((field, value) => {
-    if (value === "") {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: "",
-      }));
-      return;
-    }
+}, [isOpen, calculatePosition]);
+
+const handleTimeChange = useCallback((field, value) => {
+if (value === "") {
+setSelectedTime((prev) => ({
+...prev,
+[field]: "",
+}));
+return;
+}
 
     let numValue = value.replace(/\\D/g, "");
 
@@ -132,12 +135,13 @@ const TwelveHourTimePicker = () => {
       ...prev,
       [field]: numValue,
     }));
-  }, []);
 
-  const handleIncrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleIncrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 12 ? 1 : current + 1;
@@ -150,12 +154,13 @@ const TwelveHourTimePicker = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const handleDecrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleDecrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 1 ? 12 : current - 1;
@@ -168,40 +173,40 @@ const TwelveHourTimePicker = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const formatTime = useCallback(() => {
-    const hour = selectedTime.hour || "12";
-    const minute = selectedTime.minute || "00";
-    return \`\${hour}:\${minute} \${selectedTime.period}\`;
-  }, [selectedTime]);
+}, []);
 
-  const handleBlur = useCallback((e, field) => {
-    let value = e.target.value;
-    if (value === "") {
-      const defaultValue = field === "hour" ? "12" : "00";
-      handleTimeChange(field, defaultValue);
-    } else if (value.length === 1) {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: value.padStart(2, "0"),
-      }));
-    }
-  }, [handleTimeChange]);
+const formatTime = useCallback(() => {
+const hour = selectedTime.hour || "12";
+const minute = selectedTime.minute || "00";
+return \`\${hour}:\${minute} \${selectedTime.period}\`;
+}, [selectedTime]);
 
-  const renderTimeInput = useCallback((field, label) => (
-    <Box
-      sx={{
+const handleBlur = useCallback((e, field) => {
+let value = e.target.value;
+if (value === "") {
+const defaultValue = field === "hour" ? "12" : "00";
+handleTimeChange(field, defaultValue);
+} else if (value.length === 1) {
+setSelectedTime((prev) => ({
+...prev,
+[field]: value.padStart(2, "0"),
+}));
+}
+}, [handleTimeChange]);
+
+const renderTimeInput = useCallback((field, label) => (
+<Box
+sx={{
         display: "flex !important",
         flexDirection: "column !important",
         alignItems: "center !important",
         gap: "4px !important",
-      }}
-    >
-      <IconButton
-        onClick={() => handleIncrement(field)}
-        disableRipple
-        sx={{
+      }} >
+<IconButton
+onClick={() => handleIncrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -210,24 +215,22 @@ const TwelveHourTimePicker = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronUp size={12} />
-      </IconButton>
-      <Box
-        sx={{
+        }} >
+<LuChevronUp size={12} />
+</IconButton>
+<Box
+sx={{
           display: "flex !important",
           flexDirection: "column !important",
           alignItems: "center !important",
           gap: "3px !important",
-        }}
-      >
-        <TextField
-          value={selectedTime[field]}
-          onChange={(e) => handleTimeChange(field, e.target.value)}
-          onBlur={(e) => handleBlur(e, field)}
-          inputProps={{ maxLength: 2 }}
-          sx={{
+        }} >
+<TextField
+value={selectedTime[field]}
+onChange={(e) => handleTimeChange(field, e.target.value)}
+onBlur={(e) => handleBlur(e, field)}
+inputProps={{ maxLength: 2 }}
+sx={{
             width: "48px !important",
             "& .MuiOutlinedInput-root": {
               height: "40px !important",
@@ -256,23 +259,22 @@ const TwelveHourTimePicker = () => {
               fontWeight: "500 !important",
             },
           }}
-        />
-        <Typography
-          sx={{
+/>
+<Typography
+sx={{
             fontSize: "10px !important",
             fontWeight: "500 !important",
             color: \`\${isDark ? "#666" : "#999"} !important\`,
             textTransform: "uppercase !important",
             letterSpacing: "0.5px !important",
-          }}
-        >
-          {label}
-        </Typography>
-      </Box>
-      <IconButton
-        onClick={() => handleDecrement(field)}
-        disableRipple
-        sx={{
+          }} >
+{label}
+</Typography>
+</Box>
+<IconButton
+onClick={() => handleDecrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -281,52 +283,49 @@ const TwelveHourTimePicker = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronDown size={12} />
-      </IconButton>
-    </Box>
-  ), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
+        }} >
+<LuChevronDown size={12} />
+</IconButton>
+</Box>
+), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
 
-  return (
-    <Box
-      ref={containerRef}
-      sx={{
+return (
+<Box
+ref={containerRef}
+sx={{
         width: "100% !important",
         maxWidth: "320px !important",
         margin: "0 auto !important",
         position: "relative !important",
-      }}
-    >
-      <Typography
-        variant="body2"
-        sx={{
+      }} >
+<Typography
+variant="body2"
+sx={{
           mb: "6px !important",
           textAlign: "center !important",
           fontSize: "13px !important",
           color: \`\${isDark ? "#999" : "#666"} !important\`,
-        }}
-      >
-        Standard 12-hour time picker
-      </Typography>
-      <Box sx={{ position: "relative !important" }}>
-        <TextField
-          fullWidth
-          placeholder="Select time..."
-          value={formatTime()}
-          onClick={() => {
-            calculatePosition();
-            setIsOpen(!isOpen);
-          }}
-          InputProps={{
+        }} >
+Standard 12-hour time picker
+</Typography>
+<Box sx={{ position: "relative !important" }}>
+<TextField
+fullWidth
+placeholder="Select time..."
+value={formatTime()}
+onClick={() => {
+calculatePosition();
+setIsOpen(!isOpen);
+}}
+InputProps={{
             readOnly: true,
             startAdornment: (
               <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
-                <LuClock size={16} color={isDark ? "#666" : "#999"} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
+<LuClock size={16} color={isDark ? "#666" : "#999"} />
+</InputAdornment>
+),
+}}
+sx={{
             "& .MuiOutlinedInput-root": {
               height: "44px !important",
               bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
@@ -360,11 +359,11 @@ const TwelveHourTimePicker = () => {
               left: "12px !important",
             },
           }}
-        />
-        {isOpen && (
-          <Box
-            ref={pickerRef}
-            sx={{
+/>
+{isOpen && (
+<Box
+ref={pickerRef}
+sx={{
               position: "absolute !important",
               ...(pickerPosition === "top"
                 ? { bottom: "calc(100% + 6px) !important" }
@@ -379,40 +378,37 @@ const TwelveHourTimePicker = () => {
               zIndex: "1000 !important",
               willChange: "transform, opacity",
               transform: "translateZ(0)",
-            }}
-          >
-            <Box
-              sx={{
+            }} >
+<Box
+sx={{
                 display: "flex !important",
                 alignItems: "center !important",
                 justifyContent: "center !important",
                 gap: "10px !important",
-              }}
-            >
-              {renderTimeInput("hour", "Hour")}
-              <Typography
-                sx={{
+              }} >
+{renderTimeInput("hour", "Hour")}
+<Typography
+sx={{
                   fontSize: "20px !important",
                   fontWeight: "300 !important",
                   color: \`\${isDark ? "#666" : "#999"} !important\`,
                   mt: "-20px !important",
-                }}
-              >
-                :
-              </Typography>
-              {renderTimeInput("minute", "Min")}
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Box>
-  );
+                }} >
+:
+</Typography>
+{renderTimeInput("minute", "Min")}
+</Box>
+</Box>
+)}
+</Box>
+</Box>
+);
 };
 
 export default TwentyFourHourTimePicker;`}
 />
 
-#### Time Picker with Seconds
+#### With Seconds
 
 Time picker with hours, minutes, and seconds selection.
 
@@ -423,24 +419,24 @@ import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButto
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
 
 const TimePickerWithSeconds = () => {
-  const [selectedTime, setSelectedTime] = useState({
-    hour: "06",
-    minute: "00",
-    second: "00",
-    period: "PM",
-  });
-  const [isOpen, setIsOpen] = useState(false);
-  const [pickerPosition, setPickerPosition] = useState("bottom");
+const [selectedTime, setSelectedTime] = useState({
+hour: "06",
+minute: "00",
+second: "00",
+period: "PM",
+});
+const [isOpen, setIsOpen] = useState(false);
+const [pickerPosition, setPickerPosition] = useState("bottom");
 
-  const containerRef = useRef(null);
-  const pickerRef = useRef(null);
-  const rafRef = useRef(null);
+const containerRef = useRef(null);
+const pickerRef = useRef(null);
+const rafRef = useRef(null);
 
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+const theme = useTheme();
+const isDark = theme.palette.mode === "dark";
 
-  const calculatePosition = useCallback(() => {
-    if (!containerRef.current) return;
+const calculatePosition = useCallback(() => {
+if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
@@ -452,19 +448,20 @@ const TimePickerWithSeconds = () => {
     const newPosition =
       spaceBelow < pickerHeight && spaceAbove > pickerHeight ? "top" : "bottom";
     setPickerPosition(newPosition);
-  }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target) &&
-        pickerRef.current &&
-        !pickerRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
+}, []);
+
+useEffect(() => {
+const handleClickOutside = (event) => {
+if (
+containerRef.current &&
+!containerRef.current.contains(event.target) &&
+pickerRef.current &&
+!pickerRef.current.contains(event.target)
+) {
+setIsOpen(false);
+}
+};
 
     const handleScroll = () => {
       if (isOpen) {
@@ -490,17 +487,18 @@ const TimePickerWithSeconds = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (isOpen) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-        }
-        rafRef.current = requestAnimationFrame(calculatePosition);
-      }
-    };
+}, [isOpen, calculatePosition]);
+
+useEffect(() => {
+const handleResize = () => {
+if (isOpen) {
+if (rafRef.current) {
+cancelAnimationFrame(rafRef.current);
+}
+rafRef.current = requestAnimationFrame(calculatePosition);
+}
+};
 
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
@@ -509,16 +507,17 @@ const TimePickerWithSeconds = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  const handleTimeChange = useCallback((field, value) => {
-    if (value === "") {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: "",
-      }));
-      return;
-    }
+}, [isOpen, calculatePosition]);
+
+const handleTimeChange = useCallback((field, value) => {
+if (value === "") {
+setSelectedTime((prev) => ({
+...prev,
+[field]: "",
+}));
+return;
+}
 
     let numValue = value.replace(/\\D/g, "");
 
@@ -540,12 +539,13 @@ const TimePickerWithSeconds = () => {
       ...prev,
       [field]: numValue,
     }));
-  }, []);
 
-  const handleIncrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleIncrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 12 ? 1 : current + 1;
@@ -558,12 +558,13 @@ const TimePickerWithSeconds = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const handleDecrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleDecrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 1 ? 12 : current - 1;
@@ -576,41 +577,41 @@ const TimePickerWithSeconds = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const formatTime = useCallback(() => {
-    const hour = selectedTime.hour || "12";
-    const minute = selectedTime.minute || "00";
-    const second = selectedTime.second || "00";
-    return \`\${hour}:\${minute}:\${second} \${selectedTime.period}\`;
-  }, [selectedTime]);
+}, []);
 
-  const handleBlur = useCallback((e, field) => {
-    let value = e.target.value;
-    if (value === "") {
-      const defaultValue = field === "hour" ? "12" : "00";
-      handleTimeChange(field, defaultValue);
-    } else if (value.length === 1) {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: value.padStart(2, "0"),
-      }));
-    }
-  }, [handleTimeChange]);
+const formatTime = useCallback(() => {
+const hour = selectedTime.hour || "12";
+const minute = selectedTime.minute || "00";
+const second = selectedTime.second || "00";
+return \`\${hour}:\${minute}:\${second} \${selectedTime.period}\`;
+}, [selectedTime]);
 
-  const renderTimeInput = useCallback((field, label) => (
-    <Box
-      sx={{
+const handleBlur = useCallback((e, field) => {
+let value = e.target.value;
+if (value === "") {
+const defaultValue = field === "hour" ? "12" : "00";
+handleTimeChange(field, defaultValue);
+} else if (value.length === 1) {
+setSelectedTime((prev) => ({
+...prev,
+[field]: value.padStart(2, "0"),
+}));
+}
+}, [handleTimeChange]);
+
+const renderTimeInput = useCallback((field, label) => (
+<Box
+sx={{
         display: "flex !important",
         flexDirection: "column !important",
         alignItems: "center !important",
         gap: "4px !important",
-      }}
-    >
-      <IconButton
-        onClick={() => handleIncrement(field)}
-        disableRipple
-        sx={{
+      }} >
+<IconButton
+onClick={() => handleIncrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -619,24 +620,22 @@ const TimePickerWithSeconds = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronUp size={12} />
-      </IconButton>
-      <Box
-        sx={{
+        }} >
+<LuChevronUp size={12} />
+</IconButton>
+<Box
+sx={{
           display: "flex !important",
           flexDirection: "column !important",
           alignItems: "center !important",
           gap: "3px !important",
-        }}
-      >
-        <TextField
-          value={selectedTime[field]}
-          onChange={(e) => handleTimeChange(field, e.target.value)}
-          onBlur={(e) => handleBlur(e, field)}
-          inputProps={{ maxLength: 2 }}
-          sx={{
+        }} >
+<TextField
+value={selectedTime[field]}
+onChange={(e) => handleTimeChange(field, e.target.value)}
+onBlur={(e) => handleBlur(e, field)}
+inputProps={{ maxLength: 2 }}
+sx={{
             width: "48px !important",
             "& .MuiOutlinedInput-root": {
               height: "40px !important",
@@ -665,23 +664,22 @@ const TimePickerWithSeconds = () => {
               fontWeight: "500 !important",
             },
           }}
-        />
-        <Typography
-          sx={{
+/>
+<Typography
+sx={{
             fontSize: "10px !important",
             fontWeight: "500 !important",
             color: \`\${isDark ? "#666" : "#999"} !important\`,
             textTransform: "uppercase !important",
             letterSpacing: "0.5px !important",
-          }}
-        >
-          {label}
-        </Typography>
-      </Box>
-      <IconButton
-        onClick={() => handleDecrement(field)}
-        disableRipple
-        sx={{
+          }} >
+{label}
+</Typography>
+</Box>
+<IconButton
+onClick={() => handleDecrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -690,52 +688,49 @@ const TimePickerWithSeconds = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronDown size={12} />
-      </IconButton>
-    </Box>
-  ), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
+        }} >
+<LuChevronDown size={12} />
+</IconButton>
+</Box>
+), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
 
-  return (
-    <Box
-      ref={containerRef}
-      sx={{
+return (
+<Box
+ref={containerRef}
+sx={{
         width: "100% !important",
         maxWidth: "320px !important",
         margin: "0 auto !important",
         position: "relative !important",
-      }}
-    >
-      <Typography
-        variant="body2"
-        sx={{
+      }} >
+<Typography
+variant="body2"
+sx={{
           mb: "6px !important",
           textAlign: "center !important",
           fontSize: "13px !important",
           color: \`\${isDark ? "#999" : "#666"} !important\`,
-        }}
-      >
-        Time picker with seconds
-      </Typography>
-      <Box sx={{ position: "relative !important" }}>
-        <TextField
-          fullWidth
-          placeholder="Select time with seconds..."
-          value={formatTime()}
-          onClick={() => {
-            calculatePosition();
-            setIsOpen(!isOpen);
-          }}
-          InputProps={{
+        }} >
+Time picker with seconds
+</Typography>
+<Box sx={{ position: "relative !important" }}>
+<TextField
+fullWidth
+placeholder="Select time with seconds..."
+value={formatTime()}
+onClick={() => {
+calculatePosition();
+setIsOpen(!isOpen);
+}}
+InputProps={{
             readOnly: true,
             startAdornment: (
               <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
-                <LuClock size={16} color={isDark ? "#666" : "#999"} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
+<LuClock size={16} color={isDark ? "#666" : "#999"} />
+</InputAdornment>
+),
+}}
+sx={{
             "& .MuiOutlinedInput-root": {
               height: "44px !important",
               bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
@@ -772,11 +767,11 @@ const TimePickerWithSeconds = () => {
               left: "12px !important",
             },
           }}
-        />
-        {isOpen && (
-          <Box
-            ref={pickerRef}
-            sx={{
+/>
+{isOpen && (
+<Box
+ref={pickerRef}
+sx={{
               position: "absolute !important",
               ...(pickerPosition === "top"
                 ? { bottom: "calc(100% + 6px) !important" }
@@ -791,49 +786,44 @@ const TimePickerWithSeconds = () => {
               zIndex: "1000 !important",
               willChange: "transform, opacity",
               transform: "translateZ(0)",
-            }}
-          >
-            <Box
-              sx={{
+            }} >
+<Box
+sx={{
                 display: "flex !important",
                 flexDirection: "column !important",
                 alignItems: "center !important",
                 gap: "12px !important",
-              }}
-            >
-              <Box
-                sx={{
+              }} >
+<Box
+sx={{
                   display: "flex !important",
                   alignItems: "center !important",
                   justifyContent: "center !important",
                   gap: "10px !important",
-                }}
-              >
-                {renderTimeInput("hour", "Hour")}
-                <Typography
-                  sx={{
+                }} >
+{renderTimeInput("hour", "Hour")}
+<Typography
+sx={{
                     fontSize: "20px !important",
                     fontWeight: "300 !important",
                     color: \`\${isDark ? "#666" : "#999"} !important\`,
                     mt: "-20px !important",
-                  }}
-                >
-                  :
-                </Typography>
-                {renderTimeInput("minute", "Min")}
-                <Box
-                  sx={{
+                  }} >
+:
+</Typography>
+{renderTimeInput("minute", "Min")}
+<Box
+sx={{
                     display: "flex !important",
                     flexDirection: "column !important",
                     gap: "4px !important",
                     ml: "2px !important",
-                  }}
-                >
-                  <Button
-                    onClick={() => setSelectedTime((prev) => ({ ...prev, period: "AM" }))}
-                    disableRipple
-                    disableElevation
-                    sx={{
+                  }} >
+<Button
+onClick={() => setSelectedTime((prev) => ({ ...prev, period: "AM" }))}
+disableRipple
+disableElevation
+sx={{
                       p: "6px 10px !important",
                       minWidth: "44px !important",
                       minHeight: "auto !important",
@@ -861,15 +851,14 @@ const TimePickerWithSeconds = () => {
                         } !important\`,
                         transform: selectedTime.period === "AM" ? "scale(1)" : "scale(1.05)",
                       },
-                    }}
-                  >
-                    AM
-                  </Button>
-                  <Button
-                    onClick={() => setSelectedTime((prev) => ({ ...prev, period: "PM" }))}
-                    disableRipple
-                    disableElevation
-                    sx={{
+                    }} >
+AM
+</Button>
+<Button
+onClick={() => setSelectedTime((prev) => ({ ...prev, period: "PM" }))}
+disableRipple
+disableElevation
+sx={{
                       p: "6px 10px !important",
                       minWidth: "44px !important",
                       minHeight: "auto !important",
@@ -897,24 +886,23 @@ const TimePickerWithSeconds = () => {
                         } !important\`,
                         transform: selectedTime.period === "PM" ? "scale(1)" : "scale(1.05)",
                       },
-                    }}
-                  >
-                    PM
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Box>
-  );
+                    }} >
+PM
+</Button>
+</Box>
+</Box>
+</Box>
+</Box>
+)}
+</Box>
+</Box>
+);
 };
 
 export default TwelveHourTimePicker;`}
 />
 
-#### 24-Hour Time Picker
+#### 24-Hour
 
 Time picker with 24-hour format (00:00 to 23:59).
 
@@ -925,22 +913,22 @@ import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
 
 const TwentyFourHourTimePicker = () => {
-  const [selectedTime, setSelectedTime] = useState({
-    hour: "06",
-    minute: "00",
-  });
-  const [isOpen, setIsOpen] = useState(false);
-  const [pickerPosition, setPickerPosition] = useState("bottom");
+const [selectedTime, setSelectedTime] = useState({
+hour: "06",
+minute: "00",
+});
+const [isOpen, setIsOpen] = useState(false);
+const [pickerPosition, setPickerPosition] = useState("bottom");
 
-  const containerRef = useRef(null);
-  const pickerRef = useRef(null);
-  const rafRef = useRef(null);
+const containerRef = useRef(null);
+const pickerRef = useRef(null);
+const rafRef = useRef(null);
 
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+const theme = useTheme();
+const isDark = theme.palette.mode === "dark";
 
-  const calculatePosition = useCallback(() => {
-    if (!containerRef.current) return;
+const calculatePosition = useCallback(() => {
+if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
@@ -952,19 +940,20 @@ const TwentyFourHourTimePicker = () => {
     const newPosition =
       spaceBelow < pickerHeight && spaceAbove > pickerHeight ? "top" : "bottom";
     setPickerPosition(newPosition);
-  }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target) &&
-        pickerRef.current &&
-        !pickerRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
+}, []);
+
+useEffect(() => {
+const handleClickOutside = (event) => {
+if (
+containerRef.current &&
+!containerRef.current.contains(event.target) &&
+pickerRef.current &&
+!pickerRef.current.contains(event.target)
+) {
+setIsOpen(false);
+}
+};
 
     const handleScroll = () => {
       if (isOpen) {
@@ -990,17 +979,18 @@ const TwentyFourHourTimePicker = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (isOpen) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-        }
-        rafRef.current = requestAnimationFrame(calculatePosition);
-      }
-    };
+}, [isOpen, calculatePosition]);
+
+useEffect(() => {
+const handleResize = () => {
+if (isOpen) {
+if (rafRef.current) {
+cancelAnimationFrame(rafRef.current);
+}
+rafRef.current = requestAnimationFrame(calculatePosition);
+}
+};
 
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
@@ -1009,16 +999,17 @@ const TwentyFourHourTimePicker = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  const handleTimeChange = useCallback((field, value) => {
-    if (value === "") {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: "",
-      }));
-      return;
-    }
+}, [isOpen, calculatePosition]);
+
+const handleTimeChange = useCallback((field, value) => {
+if (value === "") {
+setSelectedTime((prev) => ({
+...prev,
+[field]: "",
+}));
+return;
+}
 
     let numValue = value.replace(/\\D/g, "");
 
@@ -1040,12 +1031,13 @@ const TwentyFourHourTimePicker = () => {
       ...prev,
       [field]: numValue,
     }));
-  }, []);
 
-  const handleIncrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleIncrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 23 ? 0 : current + 1;
@@ -1058,12 +1050,13 @@ const TwentyFourHourTimePicker = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const handleDecrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleDecrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 0 ? 23 : current - 1;
@@ -1076,40 +1069,40 @@ const TwentyFourHourTimePicker = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const formatTime = useCallback(() => {
-    const hour = selectedTime.hour || "00";
-    const minute = selectedTime.minute || "00";
-    return \`\${hour}:\${minute}\`;
-  }, [selectedTime]);
+}, []);
 
-  const handleBlur = useCallback((e, field) => {
-    let value = e.target.value;
-    if (value === "") {
-      const defaultValue = "00";
-      handleTimeChange(field, defaultValue);
-    } else if (value.length === 1) {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: value.padStart(2, "0"),
-      }));
-    }
-  }, [handleTimeChange]);
+const formatTime = useCallback(() => {
+const hour = selectedTime.hour || "00";
+const minute = selectedTime.minute || "00";
+return \`\${hour}:\${minute}\`;
+}, [selectedTime]);
 
-  const renderTimeInput = useCallback((field, label) => (
-    <Box
-      sx={{
+const handleBlur = useCallback((e, field) => {
+let value = e.target.value;
+if (value === "") {
+const defaultValue = "00";
+handleTimeChange(field, defaultValue);
+} else if (value.length === 1) {
+setSelectedTime((prev) => ({
+...prev,
+[field]: value.padStart(2, "0"),
+}));
+}
+}, [handleTimeChange]);
+
+const renderTimeInput = useCallback((field, label) => (
+<Box
+sx={{
         display: "flex !important",
         flexDirection: "column !important",
         alignItems: "center !important",
         gap: "4px !important",
-      }}
-    >
-      <IconButton
-        onClick={() => handleIncrement(field)}
-        disableRipple
-        sx={{
+      }} >
+<IconButton
+onClick={() => handleIncrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -1118,24 +1111,22 @@ const TwentyFourHourTimePicker = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronUp size={12} />
-      </IconButton>
-      <Box
-        sx={{
+        }} >
+<LuChevronUp size={12} />
+</IconButton>
+<Box
+sx={{
           display: "flex !important",
           flexDirection: "column !important",
           alignItems: "center !important",
           gap: "3px !important",
-        }}
-      >
-        <TextField
-          value={selectedTime[field]}
-          onChange={(e) => handleTimeChange(field, e.target.value)}
-          onBlur={(e) => handleBlur(e, field)}
-          inputProps={{ maxLength: 2 }}
-          sx={{
+        }} >
+<TextField
+value={selectedTime[field]}
+onChange={(e) => handleTimeChange(field, e.target.value)}
+onBlur={(e) => handleBlur(e, field)}
+inputProps={{ maxLength: 2 }}
+sx={{
             width: "48px !important",
             "& .MuiOutlinedInput-root": {
               height: "40px !important",
@@ -1164,23 +1155,22 @@ const TwentyFourHourTimePicker = () => {
               fontWeight: "500 !important",
             },
           }}
-        />
-        <Typography
-          sx={{
+/>
+<Typography
+sx={{
             fontSize: "10px !important",
             fontWeight: "500 !important",
             color: \`\${isDark ? "#666" : "#999"} !important\`,
             textTransform: "uppercase !important",
             letterSpacing: "0.5px !important",
-          }}
-        >
-          {label}
-        </Typography>
-      </Box>
-      <IconButton
-        onClick={() => handleDecrement(field)}
-        disableRipple
-        sx={{
+          }} >
+{label}
+</Typography>
+</Box>
+<IconButton
+onClick={() => handleDecrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -1189,52 +1179,49 @@ const TwentyFourHourTimePicker = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronDown size={12} />
-      </IconButton>
-    </Box>
-  ), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
+        }} >
+<LuChevronDown size={12} />
+</IconButton>
+</Box>
+), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
 
-  return (
-    <Box
-      ref={containerRef}
-      sx={{
+return (
+<Box
+ref={containerRef}
+sx={{
         width: "100% !important",
         maxWidth: "320px !important",
         margin: "0 auto !important",
         position: "relative !important",
-      }}
-    >
-      <Typography
-        variant="body2"
-        sx={{
+      }} >
+<Typography
+variant="body2"
+sx={{
           mb: "6px !important",
           textAlign: "center !important",
           fontSize: "13px !important",
           color: \`\${isDark ? "#999" : "#666"} !important\`,
-        }}
-      >
-        24-hour format time selection
-      </Typography>
-      <Box sx={{ position: "relative !important" }}>
-        <TextField
-          fullWidth
-          placeholder="Select time (24h)..."
-          value={formatTime()}
-          onClick={() => {
-            calculatePosition();
-            setIsOpen(!isOpen);
-          }}
-          InputProps={{
+        }} >
+24-hour format time selection
+</Typography>
+<Box sx={{ position: "relative !important" }}>
+<TextField
+fullWidth
+placeholder="Select time (24h)..."
+value={formatTime()}
+onClick={() => {
+calculatePosition();
+setIsOpen(!isOpen);
+}}
+InputProps={{
             readOnly: true,
             startAdornment: (
               <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
-                <LuClock size={16} color={isDark ? "#666" : "#999"} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
+<LuClock size={16} color={isDark ? "#666" : "#999"} />
+</InputAdornment>
+),
+}}
+sx={{
             "& .MuiOutlinedInput-root": {
               height: "44px !important",
               bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
@@ -1268,11 +1255,11 @@ const TwentyFourHourTimePicker = () => {
               left: "12px !important",
             },
           }}
-        />
-        {isOpen && (
-          <Box
-            ref={pickerRef}
-            sx={{
+/>
+{isOpen && (
+<Box
+ref={pickerRef}
+sx={{
               position: "absolute !important",
               ...(pickerPosition === "top"
                 ? { bottom: "calc(100% + 6px) !important" }
@@ -1287,40 +1274,37 @@ const TwentyFourHourTimePicker = () => {
               zIndex: "1000 !important",
               willChange: "transform, opacity",
               transform: "translateZ(0)",
-            }}
-          >
-            <Box
-              sx={{
+            }} >
+<Box
+sx={{
                 display: "flex !important",
                 alignItems: "center !important",
                 justifyContent: "center !important",
                 gap: "10px !important",
-              }}
-            >
-              {renderTimeInput("hour", "Hour")}
-              <Typography
-                sx={{
+              }} >
+{renderTimeInput("hour", "Hour")}
+<Typography
+sx={{
                   fontSize: "20px !important",
                   fontWeight: "300 !important",
                   color: \`\${isDark ? "#666" : "#999"} !important\`,
                   mt: "-20px !important",
-                }}
-              >
-                :
-              </Typography>
-              {renderTimeInput("minute", "Min")}
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Box>
-  );
+                }} >
+:
+</Typography>
+{renderTimeInput("minute", "Min")}
+</Box>
+</Box>
+)}
+</Box>
+</Box>
+);
 };
 
 export default TwentyFourHourTimePicker;`}
 />
 
-#### Time Picker with Presets
+#### With Presets
 
 Quick select with preset time options.
 
@@ -1331,24 +1315,24 @@ import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButto
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
 
 const TimePickerWithPresets = () => {
-  const [selectedTime, setSelectedTime] = useState({
-    hour: "06",
-    minute: "00",
-    period: "PM",
-  });
-  const [isOpen, setIsOpen] = useState(false);
-  const [pickerPosition, setPickerPosition] = useState("bottom");
-  const [hoveredPreset, setHoveredPreset] = useState(null);
+const [selectedTime, setSelectedTime] = useState({
+hour: "06",
+minute: "00",
+period: "PM",
+});
+const [isOpen, setIsOpen] = useState(false);
+const [pickerPosition, setPickerPosition] = useState("bottom");
+const [hoveredPreset, setHoveredPreset] = useState(null);
 
-  const containerRef = useRef(null);
-  const pickerRef = useRef(null);
-  const rafRef = useRef(null);
+const containerRef = useRef(null);
+const pickerRef = useRef(null);
+const rafRef = useRef(null);
 
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+const theme = useTheme();
+const isDark = theme.palette.mode === "dark";
 
-  const calculatePosition = useCallback(() => {
-    if (!containerRef.current) return;
+const calculatePosition = useCallback(() => {
+if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
@@ -1360,19 +1344,20 @@ const TimePickerWithPresets = () => {
     const newPosition =
       spaceBelow < pickerHeight && spaceAbove > pickerHeight ? "top" : "bottom";
     setPickerPosition(newPosition);
-  }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target) &&
-        pickerRef.current &&
-        !pickerRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
+}, []);
+
+useEffect(() => {
+const handleClickOutside = (event) => {
+if (
+containerRef.current &&
+!containerRef.current.contains(event.target) &&
+pickerRef.current &&
+!pickerRef.current.contains(event.target)
+) {
+setIsOpen(false);
+}
+};
 
     const handleScroll = () => {
       if (isOpen) {
@@ -1398,17 +1383,18 @@ const TimePickerWithPresets = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (isOpen) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-        }
-        rafRef.current = requestAnimationFrame(calculatePosition);
-      }
-    };
+}, [isOpen, calculatePosition]);
+
+useEffect(() => {
+const handleResize = () => {
+if (isOpen) {
+if (rafRef.current) {
+cancelAnimationFrame(rafRef.current);
+}
+rafRef.current = requestAnimationFrame(calculatePosition);
+}
+};
 
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
@@ -1417,28 +1403,29 @@ const TimePickerWithPresets = () => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isOpen, calculatePosition]);
 
-  const presets = useMemo(
-    () => [
-      { label: "Now", hour: "12", minute: "00", period: "PM" },
-      { label: "9:00 AM", hour: "09", minute: "00", period: "AM" },
-      { label: "12:00 PM", hour: "12", minute: "00", period: "PM" },
-      { label: "3:00 PM", hour: "03", minute: "00", period: "PM" },
-      { label: "5:00 PM", hour: "05", minute: "00", period: "PM" },
-      { label: "6:00 PM", hour: "06", minute: "00", period: "PM" },
-    ],
-    []
-  );
+}, [isOpen, calculatePosition]);
 
-  const handleTimeChange = useCallback((field, value) => {
-    if (value === "") {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: "",
-      }));
-      return;
-    }
+const presets = useMemo(
+() => [
+{ label: "Now", hour: "12", minute: "00", period: "PM" },
+{ label: "9:00 AM", hour: "09", minute: "00", period: "AM" },
+{ label: "12:00 PM", hour: "12", minute: "00", period: "PM" },
+{ label: "3:00 PM", hour: "03", minute: "00", period: "PM" },
+{ label: "5:00 PM", hour: "05", minute: "00", period: "PM" },
+{ label: "6:00 PM", hour: "06", minute: "00", period: "PM" },
+],
+[]
+);
+
+const handleTimeChange = useCallback((field, value) => {
+if (value === "") {
+setSelectedTime((prev) => ({
+...prev,
+[field]: "",
+}));
+return;
+}
 
     let numValue = value.replace(/\\D/g, "");
 
@@ -1460,12 +1447,13 @@ const TimePickerWithPresets = () => {
       ...prev,
       [field]: numValue,
     }));
-  }, []);
 
-  const handleIncrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleIncrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 12 ? 1 : current + 1;
@@ -1478,12 +1466,13 @@ const TimePickerWithPresets = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const handleDecrement = useCallback((field) => {
-    setSelectedTime((prev) => {
-      const current = parseInt(prev[field]) || 0;
-      let newValue;
+}, []);
+
+const handleDecrement = useCallback((field) => {
+setSelectedTime((prev) => {
+const current = parseInt(prev[field]) || 0;
+let newValue;
 
       if (field === "hour") {
         newValue = current === 1 ? 12 : current - 1;
@@ -1496,63 +1485,63 @@ const TimePickerWithPresets = () => {
         [field]: newValue.toString().padStart(2, "0"),
       };
     });
-  }, []);
 
-  const handlePresetClick = useCallback((preset) => {
-    const now = new Date();
-    if (preset.label === "Now") {
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const period = hours >= 12 ? "PM" : "AM";
-      const hour12 = hours % 12 || 12;
-      setSelectedTime((prev) => ({
-        ...prev,
-        hour: hour12.toString().padStart(2, "0"),
-        minute: minutes.toString().padStart(2, "0"),
-        period: period,
-      }));
-    } else {
-      setSelectedTime((prev) => ({
-        ...prev,
-        hour: preset.hour,
-        minute: preset.minute,
-        period: preset.period,
-      }));
-    }
-  }, []);
+}, []);
 
-  const formatTime = useCallback(() => {
-    const hour = selectedTime.hour || "12";
-    const minute = selectedTime.minute || "00";
-    return \`\${hour}:\${minute} \${selectedTime.period}\`;
-  }, [selectedTime]);
+const handlePresetClick = useCallback((preset) => {
+const now = new Date();
+if (preset.label === "Now") {
+const hours = now.getHours();
+const minutes = now.getMinutes();
+const period = hours >= 12 ? "PM" : "AM";
+const hour12 = hours % 12 || 12;
+setSelectedTime((prev) => ({
+...prev,
+hour: hour12.toString().padStart(2, "0"),
+minute: minutes.toString().padStart(2, "0"),
+period: period,
+}));
+} else {
+setSelectedTime((prev) => ({
+...prev,
+hour: preset.hour,
+minute: preset.minute,
+period: preset.period,
+}));
+}
+}, []);
 
-  const handleBlur = useCallback((e, field) => {
-    let value = e.target.value;
-    if (value === "") {
-      const defaultValue = field === "hour" ? "12" : "00";
-      handleTimeChange(field, defaultValue);
-    } else if (value.length === 1) {
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: value.padStart(2, "0"),
-      }));
-    }
-  }, [handleTimeChange]);
+const formatTime = useCallback(() => {
+const hour = selectedTime.hour || "12";
+const minute = selectedTime.minute || "00";
+return \`\${hour}:\${minute} \${selectedTime.period}\`;
+}, [selectedTime]);
 
-  const renderTimeInput = useCallback((field, label) => (
-    <Box
-      sx={{
+const handleBlur = useCallback((e, field) => {
+let value = e.target.value;
+if (value === "") {
+const defaultValue = field === "hour" ? "12" : "00";
+handleTimeChange(field, defaultValue);
+} else if (value.length === 1) {
+setSelectedTime((prev) => ({
+...prev,
+[field]: value.padStart(2, "0"),
+}));
+}
+}, [handleTimeChange]);
+
+const renderTimeInput = useCallback((field, label) => (
+<Box
+sx={{
         display: "flex !important",
         flexDirection: "column !important",
         alignItems: "center !important",
         gap: "4px !important",
-      }}
-    >
-      <IconButton
-        onClick={() => handleIncrement(field)}
-        disableRipple
-        sx={{
+      }} >
+<IconButton
+onClick={() => handleIncrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -1561,24 +1550,22 @@ const TimePickerWithPresets = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronUp size={12} />
-      </IconButton>
-      <Box
-        sx={{
+        }} >
+<LuChevronUp size={12} />
+</IconButton>
+<Box
+sx={{
           display: "flex !important",
           flexDirection: "column !important",
           alignItems: "center !important",
           gap: "3px !important",
-        }}
-      >
-        <TextField
-          value={selectedTime[field]}
-          onChange={(e) => handleTimeChange(field, e.target.value)}
-          onBlur={(e) => handleBlur(e, field)}
-          inputProps={{ maxLength: 2 }}
-          sx={{
+        }} >
+<TextField
+value={selectedTime[field]}
+onChange={(e) => handleTimeChange(field, e.target.value)}
+onBlur={(e) => handleBlur(e, field)}
+inputProps={{ maxLength: 2 }}
+sx={{
             width: "48px !important",
             "& .MuiOutlinedInput-root": {
               height: "40px !important",
@@ -1607,23 +1594,22 @@ const TimePickerWithPresets = () => {
               fontWeight: "500 !important",
             },
           }}
-        />
-        <Typography
-          sx={{
+/>
+<Typography
+sx={{
             fontSize: "10px !important",
             fontWeight: "500 !important",
             color: \`\${isDark ? "#666" : "#999"} !important\`,
             textTransform: "uppercase !important",
             letterSpacing: "0.5px !important",
-          }}
-        >
-          {label}
-        </Typography>
-      </Box>
-      <IconButton
-        onClick={() => handleDecrement(field)}
-        disableRipple
-        sx={{
+          }} >
+{label}
+</Typography>
+</Box>
+<IconButton
+onClick={() => handleDecrement(field)}
+disableRipple
+sx={{
           p: "2px !important",
           borderRadius: "4px !important",
           color: \`\${isDark ? "#fff" : "#000"} !important\`,
@@ -1632,52 +1618,49 @@ const TimePickerWithPresets = () => {
           "&:hover": {
             bgcolor: \`\${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important\`,
           },
-        }}
-      >
-        <LuChevronDown size={12} />
-      </IconButton>
-    </Box>
-  ), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
+        }} >
+<LuChevronDown size={12} />
+</IconButton>
+</Box>
+), [selectedTime, isDark, handleIncrement, handleDecrement, handleTimeChange, handleBlur]);
 
-  return (
-    <Box
-      ref={containerRef}
-      sx={{
+return (
+<Box
+ref={containerRef}
+sx={{
         width: "100% !important",
         maxWidth: "320px !important",
         margin: "0 auto !important",
         position: "relative !important",
-      }}
-    >
-      <Typography
-        variant="body2"
-        sx={{
+      }} >
+<Typography
+variant="body2"
+sx={{
           mb: "6px !important",
           textAlign: "center !important",
           fontSize: "13px !important",
           color: \`\${isDark ? "#999" : "#666"} !important\`,
-        }}
-      >
-        Quick select with preset times
-      </Typography>
-      <Box sx={{ position: "relative !important" }}>
-        <TextField
-          fullWidth
-          placeholder="Select or choose preset..."
-          value={formatTime()}
-          onClick={() => {
-            calculatePosition();
-            setIsOpen(!isOpen);
-          }}
-          InputProps={{
+        }} >
+Quick select with preset times
+</Typography>
+<Box sx={{ position: "relative !important" }}>
+<TextField
+fullWidth
+placeholder="Select or choose preset..."
+value={formatTime()}
+onClick={() => {
+calculatePosition();
+setIsOpen(!isOpen);
+}}
+InputProps={{
             readOnly: true,
             startAdornment: (
               <InputAdornment position="start" sx={{ ml: "0 !important", mr: "0 !important" }}>
-                <LuClock size={16} color={isDark ? "#666" : "#999"} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
+<LuClock size={16} color={isDark ? "#666" : "#999"} />
+</InputAdornment>
+),
+}}
+sx={{
             "& .MuiOutlinedInput-root": {
               height: "44px !important",
               bgcolor: \`\${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important\`,
@@ -1711,11 +1694,11 @@ const TimePickerWithPresets = () => {
               left: "12px !important",
             },
           }}
-        />
-        {isOpen && (
-          <Box
-            ref={pickerRef}
-            sx={{
+/>
+{isOpen && (
+<Box
+ref={pickerRef}
+sx={{
               position: "absolute !important",
               ...(pickerPosition === "top"
                 ? { bottom: "calc(100% + 6px) !important" }
@@ -1730,27 +1713,25 @@ const TimePickerWithPresets = () => {
               zIndex: "1000 !important",
               willChange: "transform, opacity",
               transform: "translateZ(0)",
-            }}
-          >
-            <Box
-              sx={{
+            }} >
+<Box
+sx={{
                 display: "flex !important",
                 flexWrap: "wrap !important",
                 gap: "6px !important",
                 mb: "14px !important",
                 pb: "14px !important",
                 borderBottom: \`1px solid \${isDark ? "#333" : "#e0e0e0"} !important\`,
-              }}
-            >
-              {presets.map((preset, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handlePresetClick(preset)}
-                  onMouseEnter={() => setHoveredPreset(index)}
-                  onMouseLeave={() => setHoveredPreset(null)}
-                  disableRipple
-                  disableElevation
-                  sx={{
+              }} >
+{presets.map((preset, index) => (
+<Button
+key={index}
+onClick={() => handlePresetClick(preset)}
+onMouseEnter={() => setHoveredPreset(index)}
+onMouseLeave={() => setHoveredPreset(null)}
+disableRipple
+disableElevation
+sx={{
                     p: "6px 12px !important",
                     minWidth: "auto !important",
                     minHeight: "auto !important",
@@ -1775,12 +1756,11 @@ const TimePickerWithPresets = () => {
                     "&:hover": {
                       bgcolor: \`\${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important\`,
                     },
-                  }}
-                >
-                  {preset.label}
-                </Button>
-              ))}
-            </Box>
+                  }} >
+{preset.label}
+</Button>
+))}
+</Box>
 
             <Box
               sx={{
@@ -1897,8 +1877,11 @@ const TimePickerWithPresets = () => {
         )}
       </Box>
     </Box>
-  );
+
+);
 };
 
 export default TimePickerWithPresets;`}
-/>
+/
+
+>
