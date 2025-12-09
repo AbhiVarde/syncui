@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useMemo } from "react";
 import { Box, useTheme, Portal, Typography } from "@mui/material";
 import {
   motion,
   AnimatePresence,
   useMotionValue,
   useSpring,
-} from "framer-motion";
+} from "motion/react";
 import { encode } from "qss";
 
 const LinkPreview = ({
@@ -25,86 +25,84 @@ const LinkPreview = ({
   const timeoutRef = useRef();
   const linkRef = useRef();
 
-  // Framer Motion for subtle mouse tracking
   const x = useMotionValue(0);
-  const translateX = useSpring(x, { stiffness: 100, damping: 15 });
+  const translateX = useSpring(x, { stiffness: 150, damping: 20 });
 
-  // Generate image source
-  const imageSrc =
-    staticImage ||
-    (() => {
-      const params = encode({
-        url,
-        screenshot: true,
-        meta: false,
-        embed: "screenshot.url",
-        colorScheme: theme.palette.mode,
-        "viewport.isMobile": true,
-        "viewport.deviceScaleFactor": 1,
-        "viewport.width": width * 3,
-        "viewport.height": height * 3,
-      });
-      return `https://api.microlink.io/?${params}`;
-    })();
+  const imageSrc = useMemo(() => {
+    if (staticImage) return staticImage;
+    const params = encode({
+      url,
+      screenshot: true,
+      meta: false,
+      embed: "screenshot.url",
+      colorScheme: theme.palette.mode,
+      "viewport.isMobile": true,
+      "viewport.deviceScaleFactor": 1,
+      "viewport.width": width * 3,
+      "viewport.height": height * 3,
+    });
+    return `https://api.microlink.io/?${params}`;
+  }, [staticImage, url, theme.palette.mode, width, height]);
 
-  const updatePosition = () => {
-    if (linkRef.current) {
-      const rect = linkRef.current.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-      const scrollLeft =
-        window.pageXOffset || document.documentElement.scrollLeft;
+  const updatePosition = useCallback(() => {
+    if (!linkRef.current) return;
+    const rect = linkRef.current.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft =
+      window.pageXOffset || document.documentElement.scrollLeft;
+    const topPosition =
+      placement === "top"
+        ? rect.top + scrollTop - height - 20
+        : rect.bottom + scrollTop + 20;
 
-      const topPosition =
-        placement === "top"
-          ? rect.top + scrollTop - height - 20
-          : rect.bottom + scrollTop + 20;
+    setPosition({
+      top: topPosition,
+      left: rect.left + scrollLeft + rect.width / 2 - width / 2,
+    });
+  }, [placement, height, width]);
 
-      setPosition({
-        top: topPosition,
-        left: rect.left + scrollLeft + rect.width / 2 - width / 2,
-      });
-    }
-  };
-
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       updatePosition();
       setIsOpen(true);
     }, 50);
-  };
+  }, [updatePosition]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => setIsOpen(false), 100);
-  };
+  }, []);
 
-  const handleMouseMove = (event) => {
-    if (linkRef.current) {
+  const handleMouseMove = useCallback(
+    (event) => {
+      if (!linkRef.current) return;
       const targetRect = linkRef.current.getBoundingClientRect();
       const eventOffsetX = event.clientX - targetRect.left;
       const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2;
       x.set(offsetFromCenter);
-    }
-  };
+    },
+    [x]
+  );
 
-  const animationProps =
-    placement === "top"
-      ? {
-          initial: { opacity: 0, y: 15, scale: 0.8, rotateX: -10 },
-          animate: { opacity: 1, y: 0, scale: 1, rotateX: 0 },
-          exit: { opacity: 0, y: 15, scale: 0.85, rotateX: -10 },
-        }
-      : {
-          initial: { opacity: 0, y: -15, scale: 0.8, rotateX: 10 },
-          animate: { opacity: 1, y: 0, scale: 1, rotateX: 0 },
-          exit: { opacity: 0, y: -15, scale: 0.85, rotateX: 10 },
-        };
+  const animationProps = useMemo(
+    () =>
+      placement === "top"
+        ? {
+            initial: { opacity: 0, y: 10, scale: 0.95 },
+            animate: { opacity: 1, y: 0, scale: 1 },
+            exit: { opacity: 0, y: 10, scale: 0.95 },
+          }
+        : {
+            initial: { opacity: 0, y: -10, scale: 0.95 },
+            animate: { opacity: 1, y: 0, scale: 1 },
+            exit: { opacity: 0, y: -10, scale: 0.95 },
+          },
+    [placement]
+  );
 
   return (
     <>
-      {/* Link with hover trigger */}
       <Box
         component="a"
         ref={linkRef}
@@ -127,7 +125,6 @@ const LinkPreview = ({
         {children}
       </Box>
 
-      {/* Preview portal */}
       <Portal>
         <Box
           sx={{
@@ -144,20 +141,15 @@ const LinkPreview = ({
             {isOpen && (
               <motion.div
                 initial={animationProps.initial}
-                animate={{
-                  ...animationProps.animate,
-                  transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 25,
-                    mass: 0.8,
-                  },
-                }}
+                animate={animationProps.animate}
                 exit={animationProps.exit}
-                style={{
-                  x: translateX,
-                  transformStyle: "preserve-3d",
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30,
+                  mass: 0.5,
                 }}
+                style={{ x: translateX, willChange: "transform" }}
               >
                 <Box
                   component="a"
@@ -167,11 +159,11 @@ const LinkPreview = ({
                   sx={{
                     display: "block",
                     bgcolor: "background.paper",
-                    boxShadow: `0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)`,
+                    boxShadow:
+                      "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
                     textDecoration: "none",
                     overflow: "hidden",
-                    transform: "translateZ(0)",
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    willChange: "transform",
                     border: 1,
                     borderRadius: 1.5,
                     borderColor:
@@ -203,13 +195,13 @@ const LinkPreview = ({
                       component="img"
                       src={imageSrc}
                       alt="Link preview"
+                      loading="lazy"
                       sx={{
                         width: description ? width - 24 : width,
                         height,
                         borderRadius: 1,
                         display: "block",
                         objectFit: "cover",
-                        filter: "brightness(1.02) contrast(1.05)",
                       }}
                     />
                   </Box>
