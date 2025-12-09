@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }) {
         strategy="afterInteractive"
       />
       <Head>
+        {/* WebSite Schema with Search Action */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -48,22 +49,85 @@ function MyApp({ Component, pageProps }) {
                   "https://www.syncui.design/search?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
-              mainEntity: {
-                "@type": "SoftwareApplication",
-                name: "Sync UI",
-                applicationCategory: "DeveloperApplication",
-                operatingSystem: "Web",
-                description:
-                  "A sleek UI library for Design Engineers with 125+ free components and 3 affordable templates",
-                offers: {
-                  "@type": "Offer",
-                  price: "0",
-                  priceCurrency: "USD",
-                },
+              sameAs: [
+                "https://x.com/syncuidesign",
+                "https://github.com/syncui/syncui",
+              ],
+            }),
+          }}
+        />
+
+        {/* SoftwareApplication Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "Sync UI",
+              applicationCategory: "DeveloperApplication",
+              operatingSystem: "Web",
+              description:
+                "A sleek UI library for Design Engineers with 125+ free components and 3 affordable templates",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                ratingCount: "75",
               },
             }),
           }}
         />
+
+        {/* Site Navigation Schema for Sitelinks */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              itemListElement: [
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 1,
+                  name: "Documentation",
+                  description:
+                    "Complete documentation for Sync UI components and setup guides",
+                  url: "https://www.syncui.design/docs",
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 2,
+                  name: "Components",
+                  description:
+                    "Browse 125+ free React UI components built with MUI and Framer Motion",
+                  url: "https://www.syncui.design/docs/components/buttons",
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 3,
+                  name: "Templates",
+                  description:
+                    "Premium SaaS, Startup, and Portfolio templates at affordable prices",
+                  url: "https://www.syncui.design/templates",
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 4,
+                  name: "Changelog",
+                  description: "Latest updates and version history for Sync UI",
+                  url: "https://www.syncui.design/docs/changelog",
+                },
+              ],
+            }),
+          }}
+        />
+
+        {/* BreadcrumbList Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -87,7 +151,7 @@ function MyApp({ Component, pageProps }) {
                   "@type": "ListItem",
                   position: 3,
                   name: "Components",
-                  item: "https://www.syncui.design/docs/accordions",
+                  item: "https://www.syncui.design/docs/components/buttons",
                 },
                 {
                   "@type": "ListItem",
@@ -95,6 +159,31 @@ function MyApp({ Component, pageProps }) {
                   name: "Templates",
                   item: "https://www.syncui.design/templates",
                 },
+              ],
+            }),
+          }}
+        />
+
+        {/* Organization Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Sync UI",
+              url: "https://www.syncui.design/",
+              logo: "https://www.syncui.design/logo.png",
+              description:
+                "A sleek UI library for Design Engineers with 125+ free components and affordable templates",
+              founder: {
+                "@type": "Person",
+                name: "Abhi Varde",
+                url: "https://www.abhivarde.in/",
+              },
+              sameAs: [
+                "https://x.com/syncuidesign",
+                "https://github.com/syncui/syncui",
               ],
             }),
           }}
@@ -148,7 +237,7 @@ function MyApp({ Component, pageProps }) {
           {
             name: "keywords",
             content:
-              "UI library, React components, Design Engineers, MUI, Framer Motion, UI templates, component library, design system, web components, React UI, modern UI, responsive components",
+              "UI library, React components, Design Engineers, MUI, Framer Motion, UI templates, component library, design system, web components, React UI, modern UI, responsive components, Next.js components, SaaS templates, startup templates, portfolio templates",
           },
           {
             name: "robots",
