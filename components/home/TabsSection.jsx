@@ -34,8 +34,10 @@ import FormVariants from "../ui/Forms";
 import AutocompleteVariants from "../ui/Autocompletes";
 import DatePickerVariants from "../ui/DatePickers";
 import TimePickerVariants from "../ui/TimePickers";
+import SkeletonVariants from "../ui/Skeletons";
 
 const componentVariants = {
+  skeletons: ["shimmer", "pulse", "wave"],
   timepickers: ["12hour", "24hour", "with-seconds", "presets"],
   datepickers: ["single", "range", "presets", "with-time"],
   autocompletes: ["basic", "multi-select", "async", "grouped", "custom-render"],
@@ -158,6 +160,7 @@ const componentVariants = {
 };
 
 const sectionConfig = {
+  skeletons: { title: "Loading Skeletons", layout: "tabs" },
   timepickers: { title: "Time Pickers", layout: "tabs" },
   datepickers: { title: "Date Pickers", layout: "tabs" },
   autocompletes: { title: "Smart Autocomplete", layout: "tabs" },
@@ -413,6 +416,11 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
   const containerStyle = baseStyles[config.layout];
 
   const tabLayouts = {
+    skeletons: {
+      shimmer: "Shimmer",
+      pulse: "Pulse",
+      wave: "Wave",
+    },
     timepickers: {
       "12hour": "12 Hour",
       "24hour": "24 Hour",
@@ -465,6 +473,138 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
       tables: "400px",
       carousels: "400px",
     };
+
+    if (sectionKey === "skeletons") {
+      return (
+        <TabContent
+          variants={variants}
+          ComponentVariant={({ variant }) => (
+            <Box
+              sx={{
+                width: "100%",
+                maxWidth: 800,
+                mx: "auto",
+                px: { xs: 2, sm: 3 },
+              }}
+            >
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "repeat(2, 1fr)",
+                    lg: "repeat(3, 1fr)",
+                  },
+                  gap: { xs: 3, sm: 4 },
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ mb: 2, fontWeight: 500 }}
+                  >
+                    Card Layout
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <ComponentVariant
+                      variant={variant}
+                      width={56}
+                      height={56}
+                      rounded
+                    />
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                      <ComponentVariant
+                        variant={variant}
+                        width={140}
+                        height={16}
+                      />
+                      <Box sx={{ mt: 1.5 }}>
+                        <ComponentVariant
+                          variant={variant}
+                          width={100}
+                          height={14}
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ mb: 2, fontWeight: 500 }}
+                  >
+                    Text Lines
+                  </Typography>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+                  >
+                    <ComponentVariant
+                      variant={variant}
+                      width={160}
+                      height={14}
+                    />
+                    <ComponentVariant
+                      variant={variant}
+                      width={140}
+                      height={14}
+                    />
+                    <ComponentVariant
+                      variant={variant}
+                      width={120}
+                      height={14}
+                    />
+                  </Box>
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ mb: 2, fontWeight: 500 }}
+                  >
+                    List Items
+                  </Typography>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                  >
+                    {[1, 2, 3].map((i) => (
+                      <Box
+                        key={i}
+                        sx={{ display: "flex", gap: 1.5, alignItems: "center" }}
+                      >
+                        <ComponentVariant
+                          variant={variant}
+                          width={40}
+                          height={40}
+                          rounded
+                        />
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                          <ComponentVariant
+                            variant={variant}
+                            width={110}
+                            height={12}
+                          />
+                          <Box sx={{ mt: 0.75 }}>
+                            <ComponentVariant
+                              variant={variant}
+                              width={80}
+                              height={10}
+                            />
+                          </Box>
+                        </Box>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          )}
+          tabLabels={tabLayouts[sectionKey] || {}}
+          sectionKey={sectionKey}
+          minHeight={minHeights[sectionKey]}
+        />
+      );
+    }
 
     return (
       <TabContent
@@ -627,6 +767,7 @@ const renderComponentLayout = (sectionKey, variants, ComponentVariant) => {
 };
 
 const componentMap = {
+  skeletons: SkeletonVariants,
   timepickers: TimePickerVariants,
   datepickers: DatePickerVariants,
   autocompletes: AutocompleteVariants,

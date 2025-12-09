@@ -44,6 +44,7 @@ import FormVariants from "./ui/Forms";
 import AutocompleteVariants from "./ui/Autocompletes";
 import DatePickerVariants from "./ui/DatePickers";
 import TimePickerVariants from "./ui/TimePickers";
+import SkeletonVariants from "./ui/Skeletons";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2 },
@@ -298,6 +299,7 @@ export const MDXComponents = {
   AutocompleteVariants,
   DatePickerVariants,
   TimePickerVariants,
+  SkeletonVariants,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),

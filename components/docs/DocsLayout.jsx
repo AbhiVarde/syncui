@@ -101,9 +101,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         }}
       >
         <span>{item.title}</span>
-        {(item.title === "Time Pickers" ||
-          item.title === "Date Pickers" ||
-          item.title === "Autocompletes" ||
+        {(item.title === "Skeletons" ||
+          item.title === "Time Pickers" ||
           item.title === "Templates") && (
           <Box
             component="span"
