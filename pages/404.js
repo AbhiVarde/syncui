@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { LiaTelegramPlane } from "react-icons/lia";
 import Head from "next/head";
@@ -82,7 +82,7 @@ const ScrambleText = ({
           key={index}
           initial={{ opacity: animate ? 0 : 1 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.1, delay: index * 0.02 }}
+          transition={{ duration: 0.08, delay: index * 0.015 }}
           style={{ display: "inline-block" }}
         >
           {letter === " " ? "\u00A0" : letter}
@@ -113,8 +113,8 @@ const NotFound = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
       },
     },
   };
@@ -126,9 +126,9 @@ const NotFound = () => {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 70,
-        damping: 12,
-        duration: 0.6,
+        stiffness: 100,
+        damping: 15,
+        duration: 0.4,
       },
     },
   };
@@ -139,7 +139,7 @@ const NotFound = () => {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.8,
+        duration: 0.5,
         ease: "easeOut",
       },
     },
@@ -271,20 +271,22 @@ const NotFound = () => {
                 variant="contained"
                 onClick={() => router.push("/")}
                 sx={{
-                  px: 3,
-                  py: 1,
-                  borderRadius: "4px",
+                  px: 2.5,
+                  py: 0.75,
+                  borderRadius: "12px",
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#ffffff" : "#000000",
                   color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                   fontWeight: 500,
+                  fontSize: "14px",
                   textTransform: "none",
+                  minHeight: "36px",
                   "&:hover": {
                     backgroundColor:
                       theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
-                    transform: "translateY(-2px)",
+                    transform: "translateY(-1px)",
                   },
-                  transition: "all 0.3s ease",
+                  transition: "all 0.2s ease",
                 }}
               >
                 Return Home
@@ -294,21 +296,23 @@ const NotFound = () => {
                 variant="outlined"
                 onClick={() => window.history.back()}
                 sx={{
-                  px: 3,
-                  py: 1,
-                  borderRadius: "4px",
+                  px: 2.5,
+                  py: 0.75,
+                  borderRadius: "12px",
                   fontWeight: 500,
+                  fontSize: "14px",
                   textTransform: "none",
+                  minHeight: "36px",
                   borderColor:
                     theme.palette.mode === "dark" ? "#ffffff" : "#000000",
                   color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
                   "&:hover": {
-                    transform: "translateY(-2px)",
+                    transform: "translateY(-1px)",
                     borderColor:
                       theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
                     backgroundColor: "transparent",
                   },
-                  transition: "all 0.3s ease",
+                  transition: "all 0.2s ease",
                 }}
               >
                 Go Back
