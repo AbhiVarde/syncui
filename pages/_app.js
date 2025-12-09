@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }) {
                 applicationCategory: "DeveloperApplication",
                 operatingSystem: "Web",
                 description:
-                  "A sleek UI library for Design Engineers with 45+ free components and templates",
+                  "A sleek UI library for Design Engineers with 125+ free components and 3 affordable templates",
                 offers: {
                   "@type": "Offer",
                   price: "0",
@@ -103,12 +103,12 @@ function MyApp({ Component, pageProps }) {
       <DefaultSeo
         title="Sync UI // Sleek UI Library for Design Engineers"
         titleTemplate="%s | Sync UI"
-        description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 45+ free components, templates, and comprehensive documentation."
+        description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation."
         canonical="https://www.syncui.design/"
         openGraph={{
           title: "Sync UI // Sleek UI Library for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 45+ free components, templates, and comprehensive documentation.",
+            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation.",
           siteName: "Sync UI",
           url: "https://www.syncui.design/",
           type: "website",
@@ -129,7 +129,7 @@ function MyApp({ Component, pageProps }) {
           creator: "@abhivarde",
           title: "Sync UI // Sleek UI Library for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 150+ free components, templates, and comprehensive documentation.",
+            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation.",
           images: ["https://www.syncui.design/default-og-image.png"],
         }}
         additionalMetaTags={[
