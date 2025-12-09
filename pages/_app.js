@@ -339,8 +339,8 @@ function AppContent({ Component, pageProps }) {
     );
 
     console.log(
-      "%c🚀 Sync UI: trusted by creators in 80+ countries 🌍\n" +
-        "⭐ 75+ GitHub stars and growing fast\n" +
+      "%c🚀 Sync UI: trusted by creators in 95+ countries 🌍\n" +
+        "⭐ 85+ GitHub stars and growing fast\n" +
         "🐦 Follow updates → https://x.com/syncuidesign",
       "color: #ffffff; font-family: monospace; font-size: 12px; font-weight: bold;"
     );
