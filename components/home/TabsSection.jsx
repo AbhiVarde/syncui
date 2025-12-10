@@ -220,7 +220,7 @@ const TabContent = ({
   ].includes(sectionKey);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", mx: -2 }}>
       <Box
         sx={{
           borderBottom: 1,
