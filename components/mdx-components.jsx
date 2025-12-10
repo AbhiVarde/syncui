@@ -13,7 +13,6 @@ import {
   Tabs,
   Tab,
   IconButton,
-  Tooltip,
   styled,
   useTheme,
   useMediaQuery,

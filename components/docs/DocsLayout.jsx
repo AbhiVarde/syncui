@@ -11,6 +11,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [activeId, setActiveId] = useState("");
   const [isComponentsOpen, setIsComponentsOpen] = useState(true);
+  const [clickedUrl, setClickedUrl] = useState(null);
 
   const topPosition = 60;
   const heightCalc = "calc(100vh - 60px)";
@@ -34,6 +35,10 @@ const DocsLayout = ({ children, toc, docsTree }) => {
 
     return () => observer.disconnect();
   }, [toc]);
+
+  useEffect(() => {
+    setClickedUrl(null);
+  }, [router.asPath]);
 
   const renderBreadcrumbs = () => {
     const activeTocItem = toc.find((item) => item.id === activeId);
@@ -68,66 +73,76 @@ const DocsLayout = ({ children, toc, docsTree }) => {
     );
   };
 
-  const renderNavigationItem = (item, isActive) => (
-    <Link key={item.url} href={item.url} passHref legacyBehavior>
-      <Typography
-        component="a"
-        variant="caption"
-        sx={{
-          mb: 0.5,
-          px: 1.2,
-          py: 0.8,
-          display: "flex",
-          alignItems: "center",
-          textDecoration: "none",
-          color: isActive ? "text.primary" : "text.secondary",
-          letterSpacing: 0.2,
-          borderRadius: 1.2,
-          fontWeight: 400,
-          textShadow: isActive
-            ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-            : "none",
-          border: "1px solid transparent",
-          transition:
-            "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease",
-          "&:hover": {
-            bgcolor: "action.hover",
-            color: "text.primary",
-          },
-          ...(isActive && {
-            bgcolor: "action.hover",
-            borderColor: "divider",
-          }),
-        }}
+  const renderNavigationItem = (item, isActive) => {
+    const isHighlighted = isActive || clickedUrl === item.url;
+
+    return (
+      <Link
+        key={item.url}
+        href={item.url}
+        passHref
+        legacyBehavior
+        scroll={false}
       >
-        <span>{item.title}</span>
-        {(item.title === "Skeletons" ||
-          item.title === "Time Pickers" ||
-          item.title === "Templates") && (
-          <Box
-            component="span"
-            sx={{
-              ml: 1,
-              px: 0.8,
-              py: 0.2,
-              bgcolor: "#008080",
-              color: "#ffffff",
-              borderRadius: "10px",
-              fontSize: "0.65rem",
-              fontWeight: 500,
-              lineHeight: 1,
-              letterSpacing: "0.02em",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            New
-          </Box>
-        )}
-      </Typography>
-    </Link>
-  );
+        <Typography
+          component="a"
+          variant="caption"
+          onClick={() => setClickedUrl(item.url)}
+          sx={{
+            mb: 0.5,
+            px: 1.2,
+            py: 0.8,
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            color: isHighlighted ? "text.primary" : "text.secondary",
+            letterSpacing: 0.2,
+            borderRadius: 1.2,
+            fontWeight: 400,
+            textShadow: isHighlighted
+              ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+              : "none",
+            border: "1px solid",
+            borderColor: isHighlighted ? "divider" : "transparent",
+            transition: "none",
+            "&:hover": {
+              bgcolor: "action.hover",
+              color: "text.primary",
+            },
+            ...(isHighlighted && {
+              bgcolor: "action.hover",
+            }),
+          }}
+        >
+          <span>{item.title}</span>
+          {(item.title === "Skeletons" ||
+            item.title === "Time Pickers" ||
+            item.title === "Templates") && (
+            <Box
+              component="span"
+              sx={{
+                ml: 1,
+                px: 0.8,
+                py: 0.2,
+                bgcolor: "#008080",
+                color: "#ffffff",
+                borderRadius: "10px",
+                fontSize: "0.65rem",
+                fontWeight: 500,
+                lineHeight: 1,
+                letterSpacing: "0.02em",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              New
+            </Box>
+          )}
+        </Typography>
+      </Link>
+    );
+  };
 
   return (
     <Box sx={{ display: "flex", flexGrow: 1 }}>
@@ -231,7 +246,10 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                         </Typography>
                         <Box>
                           {items.map((item) => {
-                            const isActive = router.asPath === item.url;
+                            const isActive =
+                              (item.title === "Setup" &&
+                                router.asPath === "/docs") ||
+                              router.asPath === item.url;
                             return renderNavigationItem(item, isActive);
                           })}
                         </Box>

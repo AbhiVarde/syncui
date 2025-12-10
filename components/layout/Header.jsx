@@ -110,10 +110,15 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const [isComponentsOpen, setIsComponentsOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
   const anchorRef = useRef(null);
+  const [clickedUrl, setClickedUrl] = useState(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setClickedUrl(null);
+  }, [router.asPath]);
 
   const handleToggle = () => setMenuOpen((prev) => !prev);
   const handleClose = (event) => {
@@ -244,13 +249,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   <List disablePadding>
                     {items.map((item) => {
                       const isActive = router.asPath === item.url;
+                      const isHighlighted = isActive || clickedUrl === item.url;
                       return (
                         <ListItem
                           key={item.url}
                           button
                           component={Link}
                           href={item.url}
+                          scroll={false}
                           onClick={() => {
+                            setClickedUrl(item.url);
                             toggleDrawer();
                             setTimeout(() => router.push(item.url), 500);
                           }}
@@ -264,20 +272,23 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                             textDecoration: "none",
                             cursor: "pointer",
                             letterSpacing: 0.2,
-                            color: isActive ? "text.primary" : "text.secondary",
-                            textShadow: isActive
+                            color: isHighlighted
+                              ? "text.primary"
+                              : "text.secondary",
+                            textShadow: isHighlighted
                               ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
                               : "none",
-                            border: "1px solid transparent",
-                            transition:
-                              "background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease",
+                            border: "1px solid",
+                            borderColor: isHighlighted
+                              ? "divider"
+                              : "transparent",
+                            transition: "none",
                             "&:hover": {
                               bgcolor: "action.hover",
                               color: "text.primary",
                             },
-                            ...(isActive && {
+                            ...(isHighlighted && {
                               bgcolor: "action.hover",
-                              borderColor: "divider",
                             }),
                           }}
                         >
@@ -294,10 +305,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                                 variant: "body2",
                                 sx: {
                                   fontWeight: 400,
-                                  textShadow: isActive
+                                  textShadow: isHighlighted
                                     ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
                                     : "none",
-                                  color: isActive
+                                  color: isHighlighted
                                     ? "text.primary"
                                     : "text.secondary",
                                 },
@@ -355,13 +366,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       (item.title === "Templates" &&
                         router.asPath === "/templates") ||
                       router.asPath === item.url;
+                    const isHighlighted = isActive || clickedUrl === item.url;
                     return (
                       <ListItem
                         key={item.url}
                         button
                         component={Link}
                         href={item.url}
+                        scroll={false}
                         onClick={() => {
+                          setClickedUrl(item.url);
                           toggleDrawer();
                           setTimeout(() => router.push(item.url), 500);
                         }}
@@ -370,11 +384,13 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           px: 1.5,
                           py: 0.5,
                           borderRadius: 1.2,
-                          transition: "all 0.15s",
-                          ...(isActive && {
-                            bgcolor: "background.paper",
-                            boxShadow: (theme) =>
-                              `0 0 0 1px ${theme.palette.divider}`,
+                          border: "1px solid",
+                          borderColor: isHighlighted
+                            ? "divider"
+                            : "transparent",
+                          transition: "none",
+                          ...(isHighlighted && {
+                            bgcolor: "action.hover",
                           }),
                         }}
                       >
@@ -391,10 +407,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                               variant: "body2",
                               sx: {
                                 fontWeight: 400,
-                                textShadow: isActive
+                                textShadow: isHighlighted
                                   ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
                                   : "none",
-                                color: isActive
+                                color: isHighlighted
                                   ? "text.primary"
                                   : "text.secondary",
                               },
