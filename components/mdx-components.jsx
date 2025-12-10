@@ -21,7 +21,7 @@ import {
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { GoEye, GoTerminal } from "react-icons/go";
-import { LuCheck, LuCopy } from "react-icons/lu";
+import { LuCheck, LuClipboard } from "react-icons/lu";
 
 import CardVariants from "./ui/Cards";
 import ButtonVariants from "./ui/Buttons";
@@ -111,58 +111,48 @@ const CodeBlock = ({ className, children }) => {
         maxHeight: 300,
       }}
     >
-      <Tooltip
-        title={copied ? "Copied!" : "Copy"}
-        placement="left"
-        disableInteractive
+      <IconButton
+        onClick={handleCopy}
+        size="small"
+        disableRipple
+        sx={{
+          position: "absolute",
+          top: isSmall ? 8 : 12,
+          right: isSmall ? 8 : 12,
+          width: 32,
+          height: 32,
+          borderRadius: 1.5,
+          backgroundColor: "rgba(0,0,0,0.35)",
+          color: "rgba(255,255,255,0.9)",
+          transition: "background-color 0.15s ease",
+          zIndex: 2,
+          "&:hover": {
+            backgroundColor: "rgba(0,0,0,0.55)",
+          },
+        }}
       >
-        <IconButton
-          onClick={handleCopy}
-          size="small"
-          disableRipple
+        <Box
           sx={{
-            position: "absolute",
-            top: isSmall ? 8 : 12,
-            right: isSmall ? 8 : 12,
-            color: copied ? "rgb(34,197,94)" : "rgba(255,255,255,0.8)",
-            bgcolor: "rgba(0,0,0,0.35)",
-            width: 32,
-            height: 32,
-            borderRadius: 1.5,
-            backdropFilter: "blur(6px)",
-            transition:
-              "background-color 0.15s ease, color 0.15s ease, transform 0.1s ease",
-            zIndex: 2,
-            willChange: "transform",
-            "&:hover": {
-              bgcolor: "rgba(0,0,0,0.55)",
-              color: copied ? "rgb(34,197,94)" : "#fff",
-            },
-            "&:active": { transform: "scale(0.95)" },
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          {copied ? <LuCheck size={16} /> : <LuCopy size={16} />}
-        </IconButton>
-      </Tooltip>
+          {copied ? <LuCheck size={16} /> : <LuClipboard size={16} />}
+        </Box>
+      </IconButton>
 
       <Box
         sx={{
           maxHeight: 300,
           overflowY: "auto",
           overflowX: "auto",
-          scrollBehavior: "smooth",
-          WebkitOverflowScrolling: "touch",
-          willChange: "scroll-position",
-          "&::-webkit-scrollbar": { width: 8, height: 8 },
+          "&::-webkit-scrollbar": { width: 6, height: 6 },
           "&::-webkit-scrollbar-track": {
-            background: "rgba(0,0,0,0.1)",
-            borderRadius: 1,
+            background: "rgba(255,255,255,0.05)",
           },
           "&::-webkit-scrollbar-thumb": {
-            background: "rgba(255,255,255,0.3)",
+            background: "rgba(255,255,255,0.25)",
             borderRadius: 1,
-            transition: "background 0.15s ease",
-            "&:hover": { background: "rgba(255,255,255,0.4)" },
           },
         }}
       >

@@ -275,14 +275,7 @@ const HeroSection = () => {
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(10px)",
-            transition:
-              "opacity 0.2s ease-out 0.18s, transform 0.2s ease-out 0.18s",
-          }}
-        >
+        <Box>
           <Link href="/docs" passHref>
             <Button
               variant="contained"
@@ -296,8 +289,7 @@ const HeroSection = () => {
                 minHeight: "38px",
                 borderRadius: "12px",
                 textTransform: "none",
-                transition:
-                  "box-shadow 0.15s cubic-bezier(.2,0,.2,1), transform 0.15s cubic-bezier(.2,0,.2,1)",
+                transition: "box-shadow 0.15s cubic-bezier(.2,0,.2,1)",
                 boxShadow:
                   theme.palette.mode === "light"
                     ? "0 2px 6px rgba(0,0,0,0.12)"
@@ -310,9 +302,6 @@ const HeroSection = () => {
                   "& svg": {
                     transform: "translateX(4px)",
                   },
-                },
-                "&:active": {
-                  transform: "translateY(0px) scale(0.98)",
                 },
               }}
             >
