@@ -276,6 +276,7 @@ const TabContent = ({
           alignItems: "center",
           minHeight: minHeight || "auto",
           width: "100%",
+          px: 2,
         }}
       >
         <Box sx={{ width: needsFullWidth ? "100%" : "auto" }}>
