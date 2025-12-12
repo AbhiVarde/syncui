@@ -277,6 +277,7 @@ const TabContent = ({
           minHeight: minHeight || "auto",
           width: "100%",
           px: 2,
+          pb: 2,
         }}
       >
         <Box sx={{ width: needsFullWidth ? "100%" : "auto" }}>
