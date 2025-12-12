@@ -5,7 +5,7 @@ description: Sync UI offers a variety of responsive tab animation styles to enha
 
 Sync UI offers a variety of tab animation styles to enhance your user interface and provide visual feedback during tab transitions. These animations are now fully responsive and work seamlessly across all device sizes.
 
-#### Sliding Underline
+### Sliding Underline
 
 A smooth underline that slides to the active tab, adapting to screen size.
 
@@ -14,7 +14,7 @@ A smooth underline that slides to the active tab, adapting to screen size.
   code={`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const SlidingUnderlineTabs = () => {
   const theme = useTheme();
@@ -27,12 +27,12 @@ const SlidingUnderlineTabs = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        borderBottom: \`1px solid \${
+        justifyContent: "center",
+        borderBottom: \`1px solid ${
           theme.palette.mode === "dark"
             ? "rgba(255,255,255,0.2)"
             : "rgba(0,0,0,0.2)"
         }\`,
-        justifyContent: "center",
       }}
     >
       {tabs.map((tab, index) => (
@@ -43,14 +43,23 @@ const SlidingUnderlineTabs = () => {
             cursor: "pointer",
             position: "relative",
             color: theme.palette.mode === "dark" ? "#fff" : "#000",
-            transition: "color 0.3s ease",
             fontSize: isMobile ? "0.875rem" : "1rem",
           }}
           onClick={() => setActiveTab(index)}
         >
-          <Typography sx={{ fontWeight: activeTab === index ? 500 : 400 }}>
+          <Typography
+            sx={{
+              textShadow:
+                activeTab === index
+                  ? theme.palette.mode === "dark"
+                    ? "0 0 4px rgba(255,255,255,0.6)"
+                    : "0 0 4px rgba(0,0,0,0.35)"
+                  : "none",
+            }}
+          >
             {tab}
           </Typography>
+
           {activeTab === index && (
             <motion.div
               layoutId="underline"
@@ -60,7 +69,8 @@ const SlidingUnderlineTabs = () => {
                 left: 0,
                 right: 0,
                 height: 2,
-                background: theme.palette.mode === "dark" ? "#fff" : "#000",
+                background:
+                  theme.palette.mode === "dark" ? "#fff" : "#000",
               }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
@@ -75,16 +85,18 @@ export default SlidingUnderlineTabs;
 `}
 />
 
-#### Floating Background
+---
 
-A dynamic background that floats behind the active tab, now responsive to screen size.
+### Floating Background
+
+A dynamic background that floats behind the active tab.
 
 <CodePreview
   preview={<TabVariants variant="floatingBackground" />}
   code={`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const FloatingBackgroundTabs = () => {
   const theme = useTheme();
@@ -97,8 +109,8 @@ const FloatingBackgroundTabs = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: isMobile ? 1 : 2,
-        padding: isMobile ? 1 : 2,
+        gap: 1.5,
+        padding: 1,
         background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
         borderRadius: "12px",
         justifyContent: "center",
@@ -106,56 +118,32 @@ const FloatingBackgroundTabs = () => {
         overflow: "hidden",
       }}
     >
-      <motion.div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          opacity: 0.5,
-        }}
-        animate={{
-          x: [-20, 20, -20],
-          y: [-20, 20, -20],
-        }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            duration: 20,
-            ease: "easeInOut",
-          },
-          y: {
-            repeat: Infinity,
-            duration: 30,
-            ease: "easeInOut",
-          },
-        }}
-      />
       {tabs.map((tab, index) => (
         <motion.div
           key={tab}
           style={{
-            padding: isMobile ? "10px 16px" : "12px 24px",
+            padding: "6px 12px",
             cursor: "pointer",
             borderRadius: "8px",
             position: "relative",
-            zIndex: 1,
+            ... (rest from tabs.jsx) ...
           }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
           onClick={() => setActiveTab(index)}
         >
           <Typography
             sx={{
-              fontWeight: activeTab === index ? 500 : 400,
+              textShadow:
+                activeTab === index
+                  ? theme.palette.mode === "dark"
+                    ? "0 0 4px rgba(255,255,255,0.6)"
+                    : "0 0 4px rgba(0,0,0,0.35)"
+                  : "none",
               color: theme.palette.mode === "dark" ? "#fff" : "#000",
-              fontSize: isMobile ? "0.875rem" : "1rem",
             }}
           >
             {tab}
           </Typography>
+
           <AnimatePresence>
             {activeTab === index && (
               <motion.div
@@ -163,14 +151,15 @@ const FloatingBackgroundTabs = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.15 }}
                 style={{
                   position: "absolute",
                   top: 0,
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  background: theme.palette.mode === "dark" ? "#222" : "#fff",
+                  background:
+                    theme.palette.mode === "dark" ? "#222" : "#fff",
                   borderRadius: "8px",
                   zIndex: -1,
                 }}
@@ -187,16 +176,18 @@ export default FloatingBackgroundTabs;
 `}
 />
 
-#### Elevated Cards
+---
 
-Tabs that elevate when active, giving a 3D effect, now responsive to different screen sizes.
+### Elevated Cards
+
+Cards rise when active with updated shadows, motion, and colors.
 
 <CodePreview
   preview={<TabVariants variant="elevatedCards" />}
   code={`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const ElevatedCardsTabs = () => {
   const theme = useTheme();
@@ -209,8 +200,8 @@ const ElevatedCardsTabs = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: isMobile ? 1 : 2,
-        padding: isMobile ? 1 : 2,
+        gap: 1.5,
+        padding: 1,
         background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
         borderRadius: "12px",
         justifyContent: "center",
@@ -220,9 +211,10 @@ const ElevatedCardsTabs = () => {
         <motion.div
           key={tab}
           style={{
-            padding: isMobile ? "10px 16px" : "12px 24px",
+            padding: "6px 12px",
             cursor: "pointer",
-            backgroundColor: theme.palette.mode === "dark" ? "#222" : "#fff",
+            backgroundColor:
+              theme.palette.mode === "dark" ? "#222" : "#fff",
             borderRadius: "8px",
             boxShadow:
               activeTab === index
@@ -233,14 +225,19 @@ const ElevatedCardsTabs = () => {
           }}
           whileHover={{ y: -5 }}
           animate={{
-            y: activeTab === index ? -10 : 0,
-            transition: { type: "spring", stiffness: 300, damping: 20 },
+            y: activeTab === index ? -8 : 0,
           }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
           onClick={() => setActiveTab(index)}
         >
           <Typography
             sx={{
-              fontWeight: activeTab === index ? 500 : 400,
+              textShadow:
+                activeTab === index
+                  ? theme.palette.mode === "dark"
+                    ? "0 0 5px rgba(255,255,255,0.7)"
+                    : "0 0 5px rgba(0,0,0,0.35)"
+                  : "0 0 2px rgba(0,0,0,0.15)",
               color:
                 activeTab === index
                   ? theme.palette.mode === "dark"
@@ -249,7 +246,6 @@ const ElevatedCardsTabs = () => {
                   : theme.palette.mode === "dark"
                   ? "#aaa"
                   : "#666",
-              fontSize: isMobile ? "0.875rem" : "1rem",
             }}
           >
             {tab}
@@ -264,16 +260,18 @@ export default ElevatedCardsTabs;
 `}
 />
 
-#### Growing Background
+---
 
-A background that grows to highlight the active tab, now fully responsive.
+### Growing Background
+
+Highlight grows behind the active tab.
 
 <CodePreview
   preview={<TabVariants variant="growingBackground" />}
   code={`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const GrowingBackgroundTabs = () => {
   const theme = useTheme();
@@ -286,8 +284,8 @@ const GrowingBackgroundTabs = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: isMobile ? 1 : 2,
-        padding: isMobile ? 1 : 2,
+        gap: 1.5,
+        padding: 1,
         background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
         justifyContent: "center",
         borderRadius: "12px",
@@ -297,7 +295,7 @@ const GrowingBackgroundTabs = () => {
         <Box
           key={tab}
           sx={{
-            padding: isMobile ? "8px 12px" : "10px 20px",
+            padding: "6px 12px",
             cursor: "pointer",
             position: "relative",
             color: theme.palette.mode === "dark" ? "#fff" : "#000",
@@ -310,26 +308,33 @@ const GrowingBackgroundTabs = () => {
             sx={{
               position: "relative",
               zIndex: 1,
-              fontWeight: activeTab === index ? 500 : 400,
-              fontSize: isMobile ? "0.875rem" : "1rem",
+              textShadow:
+                activeTab === index
+                  ? theme.palette.mode === "dark"
+                    ? "0 0 4px rgba(255,255,255,0.6)"
+                    : "0 0 4px rgba(0,0,0,0.35)"
+                  : "none",
             }}
           >
             {tab}
           </Typography>
+
           <AnimatePresence>
             {activeTab === index && (
               <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+                layoutId="activeGrowBg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
                 style={{
                   position: "absolute",
                   top: 0,
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  backgroundColor: theme.palette.mode === "dark" ? "#222" : "#fff",
+                  background:
+                    theme.palette.mode === "dark" ? "#222" : "#fff",
                   borderRadius: "8px",
                   zIndex: 0,
                 }}

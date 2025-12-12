@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useRouter } from "next/router";
 
 const TabVariants = ({ variant }) => {
@@ -17,7 +17,6 @@ const TabVariants = ({ variant }) => {
     cursor: "pointer",
     position: "relative",
     color: theme.palette.mode === "dark" ? "#fff" : "#000",
-    transition: "color 0.3s ease",
     fontSize: isMobile ? "0.875rem" : "1rem",
   });
 
@@ -45,7 +44,12 @@ const TabVariants = ({ variant }) => {
               >
                 <Typography
                   sx={{
-                    fontWeight: activeTab === index ? 500 : 400,
+                    textShadow:
+                      activeTab === index
+                        ? theme.palette.mode === "dark"
+                          ? "0 0 4px rgba(255,255,255,0.6)"
+                          : "0 0 4px rgba(0,0,0,0.35)"
+                        : "none",
                   }}
                 >
                   {tab}
@@ -91,6 +95,13 @@ const TabVariants = ({ variant }) => {
                   padding: "6px 12px",
                   borderRadius: "8px",
                   overflow: "hidden",
+                  backgroundColor:
+                    activeTab === index
+                      ? theme.palette.mode === "dark"
+                        ? "#222"
+                        : "#fff"
+                      : "transparent",
+                  transition: "background-color 0.2s",
                 }}
                 onClick={() => setActiveTab(index)}
               >
@@ -98,32 +109,16 @@ const TabVariants = ({ variant }) => {
                   sx={{
                     position: "relative",
                     zIndex: 1,
-                    fontWeight: activeTab === index ? 500 : 400,
+                    textShadow:
+                      activeTab === index
+                        ? theme.palette.mode === "dark"
+                          ? "0 0 4px rgba(255,255,255,0.6)"
+                          : "0 0 4px rgba(0,0,0,0.35)"
+                        : "none",
                   }}
                 >
                   {tab}
                 </Typography>
-                <AnimatePresence>
-                  {activeTab === index && (
-                    <motion.div
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor:
-                          theme.palette.mode === "dark" ? "#222" : "#fff",
-                        borderRadius: "8px",
-                        zIndex: 0,
-                      }}
-                    />
-                  )}
-                </AnimatePresence>
               </Box>
             ))}
           </Box>
@@ -161,13 +156,18 @@ const TabVariants = ({ variant }) => {
                 whileHover={{ y: -5 }}
                 animate={{
                   y: activeTab === index ? -8 : 0,
-                  transition: { type: "spring", stiffness: 300, damping: 20 },
                 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 onClick={() => setActiveTab(index)}
               >
                 <Typography
                   sx={{
-                    fontWeight: activeTab === index ? 500 : 400,
+                    textShadow:
+                      activeTab === index
+                        ? theme.palette.mode === "dark"
+                          ? "0 0 5px rgba(255,255,255,0.7)"
+                          : "0 0 5px rgba(0,0,0,0.35)"
+                        : "0 0 2px rgba(0,0,0,0.15)",
                     color:
                       activeTab === index
                         ? theme.palette.mode === "dark"
@@ -200,32 +200,6 @@ const TabVariants = ({ variant }) => {
               overflow: "hidden",
             }}
           >
-            <motion.div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                opacity: 0.5,
-              }}
-              animate={{
-                x: [-20, 20, -20],
-                y: [-20, 20, -20],
-              }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  duration: 20,
-                  ease: "easeInOut",
-                },
-                y: {
-                  repeat: Infinity,
-                  duration: 30,
-                  ease: "easeInOut",
-                },
-              }}
-            />
             {tabs.map((tab, index) => (
               <motion.div
                 key={tab}
@@ -236,14 +210,16 @@ const TabVariants = ({ variant }) => {
                   position: "relative",
                   zIndex: 1,
                 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 onClick={() => setActiveTab(index)}
               >
                 <Typography
                   sx={{
-                    fontWeight: activeTab === index ? 500 : 400,
+                    textShadow:
+                      activeTab === index
+                        ? theme.palette.mode === "dark"
+                          ? "0 0 4px rgba(255,255,255,0.6)"
+                          : "0 0 4px rgba(0,0,0,0.35)"
+                        : "none",
                     color: theme.palette.mode === "dark" ? "#fff" : "#000",
                   }}
                 >
@@ -256,7 +232,7 @@ const TabVariants = ({ variant }) => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.15 }}
                       style={{
                         position: "absolute",
                         top: 0,
