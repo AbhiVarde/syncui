@@ -7,7 +7,7 @@ Sync UI offers a variety of text field styles with animated placeholders and mod
 
 #### OTP
 
-A responsive OTP input with 6 individual fields, auto-focus navigation, and visual progress indicators.
+A responsive OTP input with 6 individual fields, auto-focus navigation, paste support, and visual progress indicators with an animated placeholder.
 
 <CodePreview
   preview={<TextFieldVariants variant="otp" />}
@@ -19,14 +19,15 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
-const OTPTextField = () => {
+const OTPInput = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const [isFocused, setIsFocused] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
 
   const placeholders = [
     "Enter verification code",
@@ -43,13 +44,13 @@ const OTPTextField = () => {
   };
 
   useEffect(() => {
-    if (!otpValues.some(val => val)) {
+    if (!isFocused && !otpValues.some(val => val)) {
       const interval = setInterval(() => {
         setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
       }, 3000);
       return () => clearInterval(interval);
     }
-  }, [otpValues]);
+  }, [isFocused, otpValues]);
 
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
@@ -64,9 +65,9 @@ const OTPTextField = () => {
         {otpValues.map((digit, index) => (
           <React.Fragment key={index}>
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.05 }}
+              transition={{ duration: 0.12, delay: index * 0.03 }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -88,12 +89,22 @@ const OTPTextField = () => {
                     const newOtpValues = [...otpValues];
                     newOtpValues[index] = newValue;
                     setOtpValues(newOtpValues);
-
                     if (newValue && index < 5) {
                       document
                         .querySelector(\`input[data-index="\${index + 1}"]\`)
                         ?.focus();
                     }
+                  }
+                }}
+                onPaste={(e) => {
+                  e.preventDefault();
+                  const paste = e.clipboardData
+                    .getData("text")
+                    .replace(/[^0-9]/g, "")
+                    .slice(0, 6);
+                  if (paste) {
+                    const digits = paste.split("");
+                    setOtpValues([...digits, ...Array(6 - digits.length).fill("")]);
                   }
                 }}
                 onKeyDown={(e) => {
@@ -102,28 +113,6 @@ const OTPTextField = () => {
                       .querySelector(\`input[data-index="\${index - 1}"]\`)
                       ?.focus();
                   }
-                  if (e.key === "v" && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    navigator.clipboard.readText().then((text) => {
-                      const digits = text
-                        .replace(/[^0-9]/g, "")
-                        .slice(0, 6)
-                        .split("");
-                      setOtpValues([
-                        ...digits,
-                        ...Array(6 - digits.length).fill(""),
-                      ]);
-                    });
-                  }
-                }}
-                onPaste={(e) => {
-                  e.preventDefault();
-                  const text = e.clipboardData.getData("text");
-                  const digits = text.replace(/[^0-9]/g, "").slice(0, 6).split("");
-                  setOtpValues([
-                    ...digits,
-                    ...Array(6 - digits.length).fill(""),
-                  ]);
                 }}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -137,9 +126,7 @@ const OTPTextField = () => {
                       borderColor: colors.border,
                       borderWidth: "1px",
                     },
-                    "&:hover fieldset": {
-                      borderColor: colors.border,
-                    },
+                    "&:hover fieldset": { borderColor: colors.border },
                     "&.Mui-focused fieldset": {
                       borderColor: colors.border,
                       borderWidth: "1px",
@@ -147,11 +134,12 @@ const OTPTextField = () => {
                   },
                   "& .MuiInputBase-input": { color: colors.text },
                 }}
-                inputRef={(input) => input?.setAttribute("data-index", index)}
+                inputRef={(input) =>
+                  input?.setAttribute("data-index", String(index))
+                }
               />
             </motion.div>
 
-            {/* Separator after 3rd digit */}
             {index === 2 && (
               <Box
                 sx={{
@@ -175,7 +163,6 @@ const OTPTextField = () => {
         ))}
       </Box>
 
-      {/* Progress dots */}
       <Box
         sx={{
           display: "flex",
@@ -189,7 +176,7 @@ const OTPTextField = () => {
             key={index}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: 0.12 }}
           >
             <Box
               sx={{
@@ -197,39 +184,39 @@ const OTPTextField = () => {
                 height: 6,
                 borderRadius: "50%",
                 backgroundColor: digit
-                  ? isDark ? "#ffffff" : "#000000"
-                  : isDark ? "#333333" : "#e0e0e0",
+                  ? (isDark ? "#ffffff" : "#000000")
+                  : (isDark ? "#333333" : "#e0e0e0"),
               }}
             />
           </motion.div>
         ))}
       </Box>
 
-      {/* Animated placeholder */}
-      {!otpValues.some(val => val) && (
+      {!isFocused && !otpValues.some(val => val) && (
         <Box
           sx={{
             position: "absolute",
-            top: -30,
+            top: -34,
             left: "50%",
             transform: "translateX(-50%)",
             pointerEvents: "none",
+            zIndex: 1,
           }}
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={placeholderIndex}
-              initial={{ opacity: 0, y: 5 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
             >
               <Typography
                 variant="body2"
                 sx={{
                   color: colors.textSecondary,
-                  textAlign: "center",
                   fontSize: "14px",
+                  textAlign: "center",
                 }}
               >
                 {placeholders[placeholderIndex]}
@@ -242,7 +229,7 @@ const OTPTextField = () => {
   );
 };
 
-export default OTPTextField;
+export default OTPInput;
 `}
 />
 
@@ -261,7 +248,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { FiMail } from "react-icons/fi";
 
 const EndIconTextField = () => {
@@ -305,7 +292,13 @@ const EndIconTextField = () => {
         onBlur={() => setIsFocused(false)}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="end" sx={{ m: 0, height: "100%" }}>
+            <InputAdornment
+              position="end"
+              sx={{
+                m: 0,
+                height: "100%",
+              }}
+            >
               <Box
                 sx={{
                   height: "42px",
@@ -320,8 +313,9 @@ const EndIconTextField = () => {
                 }}
               >
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  style={{ margin: 0 }}
                 >
                   <FiMail size={20} style={{ color: colors.textSecondary }} />
                 </motion.div>
@@ -371,7 +365,7 @@ const EndIconTextField = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.18, easing: "ease-out" }}
             >
               <Typography
                 variant="body2"
@@ -406,7 +400,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const StartInlineTextField = () => {
   const [value, setValue] = useState("");
@@ -415,11 +409,7 @@ const StartInlineTextField = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const placeholders = [
-    "Your website URL",
-    "Business domain",
-    "Custom domain",
-  ];
+  const placeholders = ["Your website URL", "Business domain", "Custom domain"];
 
   const colors = {
     background: isDark ? "#121212" : "#ffffff",
@@ -449,7 +439,13 @@ const StartInlineTextField = () => {
         onBlur={() => setIsFocused(false)}
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ m: 0, height: "100%" }}>
+            <InputAdornment
+              position="start"
+              sx={{
+                m: 0,
+                height: "100%",
+              }}
+            >
               <Box
                 sx={{
                   height: "42px",
@@ -495,6 +491,7 @@ const StartInlineTextField = () => {
           "& .MuiInputBase-input": {
             color: colors.text,
             fontSize: "14px",
+            pl: 1,
           },
         }}
       />
@@ -515,7 +512,7 @@ const StartInlineTextField = () => {
               initial={{ opacity: 0, x: 8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.18, easing: "ease-out" }}
             >
               <Typography
                 variant="body2"
@@ -550,7 +547,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const EndInlineTextField = () => {
   const [value, setValue] = useState("");
@@ -559,11 +556,7 @@ const EndInlineTextField = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const placeholders = [
-    "Search anything",
-    "Find content",
-    "Explore here",
-  ];
+  const placeholders = ["Search anything", "Find content", "Explore here"];
 
   const colors = {
     background: isDark ? "#121212" : "#ffffff",
@@ -593,7 +586,13 @@ const EndInlineTextField = () => {
         onBlur={() => setIsFocused(false)}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="end" sx={{ m: 0, height: "100%" }}>
+            <InputAdornment
+              position="end"
+              sx={{
+                m: 0,
+                height: "100%",
+              }}
+            >
               <Box
                 sx={{
                   height: "42px",
@@ -656,10 +655,10 @@ const EndInlineTextField = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={placeholderIndex}
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.18, easing: "ease-out" }}
             >
               <Typography
                 variant="body2"
@@ -694,7 +693,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const CurrencyTextField = () => {
   const [value, setValue] = useState("");
@@ -703,11 +702,7 @@ const CurrencyTextField = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const placeholders = [
-    "Enter amount",
-    "Your budget",
-    "Price value",
-  ];
+  const placeholders = ["Enter amount", "Your budget", "Price value"];
 
   const colors = {
     background: isDark ? "#121212" : "#ffffff",
@@ -737,7 +732,13 @@ const CurrencyTextField = () => {
         onBlur={() => setIsFocused(false)}
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ m: 0, height: "100%" }}>
+            <InputAdornment
+              position="start"
+              sx={{
+                m: 0,
+                height: "100%",
+              }}
+            >
               <Box
                 sx={{
                   height: "42px",
@@ -763,7 +764,13 @@ const CurrencyTextField = () => {
             </InputAdornment>
           ),
           endAdornment: (
-            <InputAdornment position="end" sx={{ m: 0, height: "100%" }}>
+            <InputAdornment
+              position="end"
+              sx={{
+                m: 0,
+                height: "100%",
+              }}
+            >
               <Box
                 sx={{
                   height: "42px",
@@ -809,6 +816,7 @@ const CurrencyTextField = () => {
           "& .MuiInputBase-input": {
             color: colors.text,
             fontSize: "14px",
+            px: 1,
           },
         }}
       />
@@ -826,10 +834,18 @@ const CurrencyTextField = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={placeholderIndex}
-              initial={{ opacity: 0, rotateX: 45 }}
-              animate={{ opacity: 1, rotateX: 0 }}
-              exit={{ opacity: 0, rotateX: -45 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, rotateX: 20 }}
+              animate={{
+                opacity: 1,
+                rotateX: 0,
+              }}
+              exit={{
+                opacity: 0,
+                rotateX: -20,
+              }}
+              transition={{
+                duration: 0.22,
+              }}
             >
               <Typography
                 variant="body2"
@@ -867,7 +883,7 @@ import {
   IconButton,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { FiChevronDown, FiPaperclip, FiArrowUp } from "react-icons/fi";
 
 const AIPromptTextField = () => {
@@ -912,7 +928,6 @@ const AIPromptTextField = () => {
 
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
-      {/* Model Selector - Bottom Left */}
       <Box sx={{ position: "absolute", bottom: 8, left: 8, zIndex: 2 }}>
         <FormControl size="small" sx={{ minWidth: 120 }}>
           <Select
@@ -925,7 +940,7 @@ const AIPromptTextField = () => {
               "& .MuiOutlinedInput-notchedOutline": { border: "none" },
               "& .MuiSelect-select": {
                 color: colors.text,
-                fontSize: "0.875rem",
+                fontSize: "14px",
                 fontWeight: 500,
                 backgroundColor: colors.addon,
                 borderRadius: "8px",
@@ -933,9 +948,30 @@ const AIPromptTextField = () => {
                 py: 0.5,
               },
             }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  borderRadius: "8px",
+                  mt: 1,
+                  backgroundColor: isDark ? "#1e1e1e" : "#ffffff",
+                  boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+                  fontSize: "0.875rem",
+                },
+              },
+            }}
           >
             {aiModels.map((model) => (
-              <MenuItem key={model.value} value={model.value}>
+              <MenuItem
+                key={model.value}
+                value={model.value}
+                sx={{
+                  fontSize: "15px !important",
+                  minHeight: "36px",
+                  "&.Mui-selected": {
+                    backgroundColor: isDark ? "#2a2a2a" : "#f5f5f5",
+                  },
+                }}
+              >
                 {model.label}
               </MenuItem>
             ))}
@@ -943,7 +979,6 @@ const AIPromptTextField = () => {
         </FormControl>
       </Box>
 
-      {/* Action Buttons - Bottom Right */}
       <Box
         sx={{
           position: "absolute",
@@ -954,7 +989,7 @@ const AIPromptTextField = () => {
           zIndex: 2,
         }}
       >
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
           <IconButton
             size="small"
             sx={{
@@ -962,12 +997,15 @@ const AIPromptTextField = () => {
               backgroundColor: isDark ? "#FFF" : "#000",
               borderRadius: "8px",
               p: "8px",
+              "&:hover": {
+                backgroundColor: isDark ? "#FFF" : "#000",
+              },
             }}
           >
             <FiPaperclip size={18} />
           </IconButton>
         </motion.div>
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
           <IconButton
             size="small"
             sx={{
@@ -975,6 +1013,9 @@ const AIPromptTextField = () => {
               backgroundColor: isDark ? "#FFF" : "#000",
               borderRadius: "8px",
               p: "8px",
+              "&:hover": {
+                backgroundColor: isDark ? "#FFF" : "#000",
+              },
             }}
           >
             <FiArrowUp size={18} />
@@ -982,7 +1023,6 @@ const AIPromptTextField = () => {
         </motion.div>
       </Box>
 
-      {/* Input Field */}
       <TextField
         fullWidth
         multiline
@@ -1001,7 +1041,7 @@ const AIPromptTextField = () => {
             alignItems: "flex-start",
             px: 1,
             pt: 1,
-            pb: 0,
+            pb: 6,
             "& fieldset": {
               borderColor: colors.border,
             },
@@ -1023,7 +1063,7 @@ const AIPromptTextField = () => {
           },
           "& .MuiInputBase-inputMultiline": {
             padding: 0,
-            mb: 3.5,
+            mb: 0,
           },
         }}
       />
@@ -1044,7 +1084,7 @@ const AIPromptTextField = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.18, easing: "ease-out" }}
             >
               <Typography
                 variant="body2"
@@ -1063,3 +1103,4 @@ const AIPromptTextField = () => {
 export default AIPromptTextField;
 `}
 />
+

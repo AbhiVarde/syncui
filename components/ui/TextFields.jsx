@@ -10,7 +10,7 @@ import {
   useTheme,
   IconButton,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { FiMail, FiChevronDown, FiPaperclip, FiArrowUp } from "react-icons/fi";
 
 const TextFieldVariants = ({ variant = "endIcon" }) => {
@@ -58,7 +58,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
     hover: isDark ? "#2a2a2a" : "#f0f0f0",
   };
 
-  // Rotate placeholders
   useEffect(() => {
     if (!isFocused && !value) {
       const currentSet = placeholderSets[variant] || placeholderSets.endIcon;
@@ -72,6 +71,23 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
   const getCurrentPlaceholder = () => {
     const currentSet = placeholderSets[variant] || placeholderSets.endIcon;
     return currentSet[placeholderIndex];
+  };
+
+  const commonTransition = { duration: 0.18, easing: "ease-out" };
+  const fadeUpVariant = {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0, transition: commonTransition },
+    exit: { opacity: 0, y: -8, transition: commonTransition },
+  };
+  const fadeScaleVariant = {
+    initial: { opacity: 0, scale: 0.97 },
+    animate: { opacity: 1, scale: 1, transition: commonTransition },
+    exit: { opacity: 0, scale: 1.02, transition: commonTransition },
+  };
+
+  const subtleButtonTap = {
+    whileHover: { scale: 1.04 },
+    whileTap: { scale: 0.96 },
   };
 
   const renderVariant = () => {
@@ -107,11 +123,8 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                         cursor: "pointer",
                       }}
                     >
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        style={{ margin: "0px" }}
-                      >
+                      {/* small motion wrapper for micro-interaction */}
+                      <motion.div {...subtleButtonTap} style={{ margin: 0 }}>
                         <FiMail
                           size={20}
                           style={{ color: colors.textSecondary }}
@@ -161,16 +174,13 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={placeholderIndex}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
+                    initial={fadeUpVariant.initial}
+                    animate={fadeUpVariant.animate}
+                    exit={fadeUpVariant.exit}
                   >
                     <Typography
                       variant="body2"
-                      sx={{
-                        color: colors.textSecondary,
-                      }}
+                      sx={{ color: colors.textSecondary }}
                     >
                       {getCurrentPlaceholder()}
                     </Typography>
@@ -263,15 +273,12 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   <motion.div
                     key={placeholderIndex}
                     initial={{ opacity: 0, x: 8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -8 }}
-                    transition={{ duration: 0.2 }}
+                    animate={{ opacity: 1, x: 0, transition: commonTransition }}
+                    exit={{ opacity: 0, x: -8, transition: commonTransition }}
                   >
                     <Typography
                       variant="body2"
-                      sx={{
-                        color: colors.textSecondary,
-                      }}
+                      sx={{ color: colors.textSecondary }}
                     >
                       {getCurrentPlaceholder()}
                     </Typography>
@@ -362,16 +369,13 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={placeholderIndex}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
+                    initial={fadeScaleVariant.initial}
+                    animate={fadeScaleVariant.animate}
+                    exit={fadeScaleVariant.exit}
                   >
                     <Typography
                       variant="body2"
-                      sx={{
-                        color: colors.textSecondary,
-                      }}
+                      sx={{ color: colors.textSecondary }}
                     >
                       {getCurrentPlaceholder()}
                     </Typography>
@@ -495,16 +499,21 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={placeholderIndex}
-                    initial={{ opacity: 0, rotateX: 45 }}
-                    animate={{ opacity: 1, rotateX: 0 }}
-                    exit={{ opacity: 0, rotateX: -45 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, rotateX: 20 }}
+                    animate={{
+                      opacity: 1,
+                      rotateX: 0,
+                      transition: { duration: 0.22 },
+                    }}
+                    exit={{
+                      opacity: 0,
+                      rotateX: -20,
+                      transition: { duration: 0.18 },
+                    }}
                   >
                     <Typography
                       variant="body2"
-                      sx={{
-                        color: colors.textSecondary,
-                      }}
+                      sx={{ color: colors.textSecondary }}
                     >
                       {getCurrentPlaceholder()}
                     </Typography>
@@ -518,7 +527,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
       case "aiPrompt":
         return (
           <Box sx={{ position: "relative", width: "100%" }}>
-            {/* Dropdown - Bottom Left */}
             <Box sx={{ position: "absolute", bottom: 8, left: 8, zIndex: 2 }}>
               <FormControl size="small" sx={{ minWidth: 120 }}>
                 <Select
@@ -570,7 +578,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
               </FormControl>
             </Box>
 
-            {/* Send & Attachment Icons - Bottom Right */}
             <Box
               sx={{
                 position: "absolute",
@@ -581,10 +588,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 zIndex: 2,
               }}
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div {...subtleButtonTap}>
                 <IconButton
                   size="small"
                   sx={{
@@ -600,10 +604,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   <FiPaperclip size={18} />
                 </IconButton>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div {...subtleButtonTap}>
                 <IconButton
                   size="small"
                   sx={{
@@ -621,7 +622,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
               </motion.div>
             </Box>
 
-            {/* Input Field */}
             <TextField
               fullWidth
               multiline
@@ -681,10 +681,9 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={placeholderIndex}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
+                    initial={fadeUpVariant.initial}
+                    animate={fadeUpVariant.animate}
+                    exit={fadeUpVariant.exit}
                   >
                     <Typography
                       variant="body2"
@@ -713,9 +712,12 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
               {otpValues.map((digit, index) => (
                 <React.Fragment key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.05 }}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.12, delay: index * 0.03 },
+                    }}
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -831,7 +833,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
               ))}
             </Box>
 
-            {/* Simple dots progress */}
             <Box
               sx={{
                 display: "flex",
@@ -845,7 +846,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ duration: 0.15 }}
+                  transition={{ duration: 0.12 }}
                 >
                   <Box
                     sx={{
@@ -876,16 +877,9 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.22 }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 600,
-          margin: "0 auto",
-          padding: 2,
-        }}
-      >
+      <Box sx={{ width: "100%", maxWidth: 600, margin: "0 auto", padding: 2 }}>
         {renderVariant()}
       </Box>
     </motion.div>
