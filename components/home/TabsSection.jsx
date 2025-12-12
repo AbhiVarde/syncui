@@ -220,7 +220,7 @@ const TabContent = ({
   ].includes(sectionKey);
 
   return (
-    <Box sx={{ width: "100%", mx: -2 }}>
+    <Box sx={{ width: "100%" }}>
       <Box
         sx={{
           borderBottom: 1,
@@ -354,8 +354,18 @@ const SectionContent = ({ title, children, url, index }) => {
           },
         }}
       >
-        <Box sx={{ p: 2 }}>{children}</Box>
+        <Box
+          sx={
+            sectionConfig[url.split("/").pop()]?.layout === "tabs"
+              ? { py: 2 }
+              : { p: 2 }
+          }
+        >
+          {children}
+        </Box>
+
         <Divider />
+
         <Box
           sx={{
             p: 1,
@@ -369,7 +379,6 @@ const SectionContent = ({ title, children, url, index }) => {
             onClick={handleGetCode}
             sx={{
               color: theme.palette.mode === "light" ? "black" : "white",
-              transition: "background-color 0.15s ease",
               "&:hover": {
                 backgroundColor:
                   theme.palette.mode === "light"
