@@ -3,15 +3,15 @@ title: Tabs
 description: Sync UI offers a variety of responsive tab animation styles to enhance your user interface across all device sizes.
 ---
 
-Sync UI offers a variety of tab animation styles to enhance your user interface and provide visual feedback during tab transitions. These animations are now fully responsive and work seamlessly across all device sizes.
+Sync UI offers a variety of tab animation styles to enhance your user interface and provide visual feedback during tab transitions. These animations are fully responsive and work seamlessly across all device sizes.
 
 ### Sliding Underline
 
-A smooth underline that slides to the active tab, adapting to screen size.
+A smooth underline that slides to the active tab.
 
 <CodePreview
   preview={<TabVariants variant="slidingUnderline" />}
-  code={`
+  code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { motion } from "motion/react";
@@ -28,11 +28,9 @@ const SlidingUnderlineTabs = () => {
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "center",
-        borderBottom: \`1px solid ${
-          theme.palette.mode === "dark"
-            ? "rgba(255,255,255,0.2)"
-            : "rgba(0,0,0,0.2)"
-        }\`,
+        borderBottom: \`1px solid \${theme.palette.mode === "dark"
+          ? "rgba(255,255,255,0.2)"
+          : "rgba(0,0,0,0.2)"}\`,
       }}
     >
       {tabs.map((tab, index) => (
@@ -85,7 +83,6 @@ export default SlidingUnderlineTabs;
 `}
 />
 
----
 
 ### Floating Background
 
@@ -93,7 +90,7 @@ A dynamic background that floats behind the active tab.
 
 <CodePreview
   preview={<TabVariants variant="floatingBackground" />}
-  code={`
+  code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence } from "motion/react";
@@ -126,7 +123,6 @@ const FloatingBackgroundTabs = () => {
             cursor: "pointer",
             borderRadius: "8px",
             position: "relative",
-            ... (rest from tabs.jsx) ...
           }}
           onClick={() => setActiveTab(index)}
         >
@@ -176,15 +172,13 @@ export default FloatingBackgroundTabs;
 `}
 />
 
----
-
 ### Elevated Cards
 
-Cards rise when active with updated shadows, motion, and colors.
+Cards rise when active with motion and shadows.
 
 <CodePreview
   preview={<TabVariants variant="elevatedCards" />}
-  code={`
+  code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { motion } from "motion/react";
@@ -260,15 +254,13 @@ export default ElevatedCardsTabs;
 `}
 />
 
----
-
 ### Growing Background
 
-Highlight grows behind the active tab.
+Highlight grows smoothly behind the active tab.
 
 <CodePreview
   preview={<TabVariants variant="growingBackground" />}
-  code={`
+  code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence } from "motion/react";
@@ -287,8 +279,8 @@ const GrowingBackgroundTabs = () => {
         gap: 1.5,
         padding: 1,
         background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
-        justifyContent: "center",
         borderRadius: "12px",
+        justifyContent: "center",
       }}
     >
       {tabs.map((tab, index) => (
