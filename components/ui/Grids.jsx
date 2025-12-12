@@ -179,7 +179,11 @@ const GridVariants = ({ variant = "masonry" }) => {
             height: 260,
             backdropFilter: "blur(10px)",
             borderRadius: 4,
-            border: "1px solid rgba(255,255,255,0.2)",
+            border: `1px solid ${
+              theme.palette.mode === "dark"
+                ? "rgba(255,255,255,0.2)"
+                : "rgba(0,0,0,0.2)"
+            }`,
             overflow: "hidden",
             display: "flex",
             justifyContent: "center",
