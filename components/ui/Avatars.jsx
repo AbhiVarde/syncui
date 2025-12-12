@@ -9,33 +9,35 @@ import {
   useMediaQuery,
   Skeleton,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const AvatarVariants = ({ variant, totalUsers = 60 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loadedImages, setLoadedImages] = useState({});
 
+  const baseUrl =
+    "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61";
+
   const avatarUrls = [
-    "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61",
+    baseUrl,
     "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+    baseUrl,
     "https://images.unsplash.com/photo-1599566150163-29194dcaad36",
-    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde",
+    baseUrl,
     "https://images.unsplash.com/photo-1527980965255-d3b416303d12",
-    "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+    baseUrl,
     "https://images.unsplash.com/photo-1517841905240-472988babdf9",
-    "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
+    baseUrl,
     "https://images.unsplash.com/photo-1519345182560-3f2917c472ef",
-    "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79",
+    baseUrl,
   ];
 
   const avatarSize = isMobile ? 35 : 50;
   const visibleAvatars = isMobile ? 5 : 8;
   const gridColumns = isMobile ? 3 : 4;
 
-  // Preload images
   useEffect(() => {
     avatarUrls.forEach((url, index) => {
       const img = new Image();
@@ -87,13 +89,10 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                 placement="top"
               >
                 <motion.div
-                  initial={{ x: -20 * index, opacity: 0, scale: 0.8 }}
-                  animate={{ x: 0, opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1, duration: 0.3 }}
                   whileHover={{
                     y: -5,
                     zIndex: 10,
-                    transition: { duration: 0.2 },
+                    transition: { duration: 0.15 },
                   }}
                   style={{
                     zIndex: 1,
@@ -131,10 +130,11 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
             {avatarUrls.slice(0, gridColumns * 3).map((url, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2, delay: index * 0.05 }}
-                whileHover={{ scale: 1.15, zIndex: 1 }}
+                whileHover={{
+                  scale: 1.1,
+                  zIndex: 1,
+                  transition: { duration: 0.15 },
+                }}
               >
                 <AvatarWithFallback
                   url={url}
@@ -167,21 +167,10 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
               {avatarUrls.slice(0, isMobile ? 6 : 10).map((url, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
                   whileHover={{
                     y: -5,
-                    rotate: [-1, 1],
-                    transition: {
-                      rotate: {
-                        repeat: Infinity,
-                        duration: 0.3,
-                        repeatType: "reverse",
-                      },
-                    },
+                    transition: { duration: 0.15 },
                   }}
-                  transition={{ delay: index * 0.1 }}
                 >
                   <Paper
                     elevation={2}
@@ -225,17 +214,10 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
               {avatarUrls.slice(0, isMobile ? 6 : 8).map((url, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: index * 0.1,
-                    type: "spring",
-                  }}
                   whileHover={{
                     scale: 1.1,
                     rotate: 10,
-                    transition: { duration: 0.2 },
+                    transition: { duration: 0.15 },
                   }}
                 >
                   <AvatarWithFallback
@@ -253,18 +235,12 @@ const AvatarVariants = ({ variant, totalUsers = 60 }) => {
                 </motion.div>
               ))}
             </Box>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
+            <Typography
+              variant={isMobile ? "subtitle1" : "h6"}
+              sx={{ fontWeight: 500 }}
             >
-              <Typography
-                variant={isMobile ? "subtitle1" : "h6"}
-                sx={{ fontWeight: 500 }}
-              >
-                {totalUsers}+ Contributors
-              </Typography>
-            </motion.div>
+              {totalUsers}+ Contributors
+            </Typography>
           </Box>
         );
 

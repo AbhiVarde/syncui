@@ -13,8 +13,8 @@ A modern dock with smooth animations and gradient effects.
   preview={<DockVariants variant="modern" />}
   code={`
 import React, { useState } from "react";
-import { Box, Tooltip, Paper } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, Tooltip, Paper, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "motion/react";
 import {
   FiHome,
   FiSettings,
@@ -27,55 +27,75 @@ import {
 
 const ModernDock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isDark = theme.palette.mode === "dark";
 
   const dockItems = [
-    { icon: FiHome, label: "Home" },
-    { icon: FiFolder, label: "Files" },
-    { icon: FiGlobe, label: "Browser" },
-    { icon: FiMail, label: "Mail" },
-    { icon: FiCamera, label: "Camera" },
-    { icon: FiTerminal, label: "Terminal" },
-    { icon: FiSettings, label: "Settings" },
-  ];
+    { icon: FiHome, label: "Home", group: "main" },
+    { icon: FiFolder, label: "Files", group: "main" },
+    { icon: FiGlobe, label: "Browser", group: "apps" },
+    { icon: FiMail, label: "Mail", group: "apps" },
+    { icon: FiCamera, label: "Camera", group: "apps" },
+    { icon: FiTerminal, label: "Terminal", group: "system" },
+    { icon: FiSettings, label: "Settings", group: "system" },
+  ].slice(0, isMobile ? 5 : 7);
+
+  const themeColors = {
+    background: isDark ? "rgba(30, 32, 35, 0.95)" : "rgba(255, 255, 255, 0.95)",
+    paperGradient: isDark
+      ? "linear-gradient(145deg, #2d3135 0%, #1e2023 100%)"
+      : "linear-gradient(145deg, #ffffff 0%, #f0f2f5 100%)",
+    iconHoverGradient: isDark
+      ? "linear-gradient(135deg, #404549 0%, #2d3135 100%)"
+      : "linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)",
+    iconColor: isDark ? theme.palette.text.primary : "text.primary",
+    iconHoverColor: "#ffffff",
+    borderColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.06)",
+  };
 
   const config = {
-    iconSize: 22,
-    buttonSize: 45,
-    gapSize: 2,
-    hoverScale: 1.2,
+    iconSize: isMobile ? 18 : 22,
+    buttonSize: isMobile ? 35 : 45,
+    gapSize: isMobile ? 1 : 2,
+    hoverScale: isMobile ? 1.1 : 1.2,
   };
 
   return (
     <Paper
       elevation={3}
       sx={{
-        borderRadius: 4,
-        padding: 2,
-        background: "linear-gradient(145deg, #ffffff 0%, #f0f2f5 100%)",
-        border: "1px solid rgba(0, 0, 0, 0.06)",
-        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
+        borderRadius: isMobile ? 3 : 4,
+        padding: isMobile ? 1 : 2,
+        background: themeColors.paperGradient,
+        border: \`1px solid \${themeColors.borderColor}\`,
+        boxShadow: isDark
+          ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+          : "0 8px 32px rgba(0, 0, 0, 0.12)",
         position: "relative",
         overflow: "hidden",
+        maxWidth: "100%",
+        overflowX: "auto",
       }}
     >
-      <Box sx={{ display: "flex", gap: config.gapSize, position: "relative" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: config.gapSize,
+          position: "relative",
+          width: "max-content",
+        }}
+      >
         {dockItems.map((item, index) => {
           const Icon = item.icon;
           const isHovered = hoveredIndex === index;
           const distance = Math.abs(hoveredIndex - index);
-          const neighborScale = hoveredIndex !== null ? Math.max(1, 1.1 - distance * 0.1) : 1;
+          const neighborScale =
+            hoveredIndex !== null ? Math.max(1, 1.1 - distance * 0.1) : 1;
 
           return (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 20,
-                delay: index * 0.05,
-              }}
               onHoverStart={() => setHoveredIndex(index)}
               onHoverEnd={() => setHoveredIndex(null)}
             >
@@ -83,13 +103,12 @@ const ModernDock = () => {
                 <motion.div
                   animate={{
                     scale: isHovered ? config.hoverScale : neighborScale,
-                    rotate: isHovered ? [0, -10, 10, 0] : 0,
-                    y: isHovered ? -12 : 0,
+                    y: isHovered ? (isMobile ? -8 : -12) : 0,
                   }}
                   transition={{
                     type: "spring",
                     stiffness: 400,
-                    damping: 17,
+                    damping: 20,
                   }}
                 >
                   <Box
@@ -99,16 +118,20 @@ const ModernDock = () => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      borderRadius: 3,
+                      borderRadius: isMobile ? 2 : 3,
                       cursor: "pointer",
                       background: isHovered
-                        ? "linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)"
-                        : "white",
+                        ? themeColors.iconHoverGradient
+                        : themeColors.background,
                       boxShadow: isHovered
-                        ? "0 8px 16px rgba(99, 102, 241, 0.3)"
+                        ? isDark
+                          ? "0 8px 16px rgba(0, 0, 0, 0.3)"
+                          : "0 8px 16px rgba(99, 102, 241, 0.3)"
                         : "0 2px 8px rgba(0, 0, 0, 0.06)",
-                      color: isHovered ? "white" : "text.primary",
-                      transition: "all 0.3s ease",
+                      color: isHovered
+                        ? themeColors.iconHoverColor
+                        : themeColors.iconColor,
+                      transition: "all 0.2s",
                     }}
                   >
                     <Icon size={config.iconSize} />
@@ -135,8 +158,8 @@ A structured dock interface with grouped items and visual separators, perfect fo
   preview={<DockVariants variant="categorical" />}
   code={`
 import React, { useState } from "react";
-import { Box, Tooltip, Paper, Divider } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, Tooltip, Paper, Divider, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "motion/react";
 import {
   FiHome,
   FiSettings,
@@ -149,49 +172,55 @@ import {
 
 const CategoricalDock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isDark = theme.palette.mode === "dark";
 
   const dockItems = [
-    { icon: FiHome, label: "Home", group: "navigation" },
-    { icon: FiFolder, label: "Files", group: "navigation" },
-    { icon: FiGlobe, label: "Browser", group: "navigation" },
-    { icon: FiMail, label: "Mail", group: "communication" },
-    { icon: FiCamera, label: "Camera", group: "media" },
+    { icon: FiHome, label: "Home", group: "main" },
+    { icon: FiFolder, label: "Files", group: "main" },
+    { icon: FiGlobe, label: "Browser", group: "apps" },
+    { icon: FiMail, label: "Mail", group: "apps" },
+    { icon: FiCamera, label: "Camera", group: "apps" },
     { icon: FiTerminal, label: "Terminal", group: "system" },
     { icon: FiSettings, label: "Settings", group: "system" },
-  ];
+  ].slice(0, isMobile ? 5 : 7);
+
+  const themeColors = {
+    paperGradient: isDark
+      ? "linear-gradient(145deg, #2d3135 0%, #1e2023 100%)"
+      : "linear-gradient(145deg, #ffffff 0%, #f0f2f5 100%)",
+    iconColor: isDark ? theme.palette.text.primary : "text.primary",
+    borderColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.06)",
+    dividerColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)",
+  };
 
   const config = {
-    iconSize: 22,
-    buttonSize: 45,
-    gapSize: 1.5,
-    hoverScale: 1.2,
-    baseAnimation: {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 20,
-      },
-    },
+    iconSize: isMobile ? 18 : 22,
+    buttonSize: isMobile ? 35 : 45,
+    gapSize: isMobile ? 1 : 1.5,
+    hoverScale: isMobile ? 1.1 : 1.2,
   };
 
   return (
     <Paper
       elevation={0}
       sx={{
-        borderRadius: 3,
-        padding: 2,
-        background: "rgba(255, 255, 255, 0.95)",
-        border: "1px solid rgba(0, 0, 0, 0.08)",
+        borderRadius: isMobile ? 2 : 3,
+        padding: isMobile ? 1 : 2,
+        background: themeColors.paperGradient,
+        border: \`1px solid \${themeColors.borderColor}\`,
         backdropFilter: "blur(8px)",
+        maxWidth: "100%",
+        overflowX: "auto",
       }}
     >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: config.gapSize
+          gap: config.gapSize,
+          width: "max-content",
         }}
       >
         {dockItems.map((item, index) => {
@@ -199,7 +228,7 @@ const CategoricalDock = () => {
           const isHovered = hoveredIndex === index;
           const showDivider =
             index < dockItems.length - 1 &&
-            item.group !== dockItems[index + 1].group;
+            dockItems[index].group !== dockItems[index + 1].group;
 
           return (
             <Box
@@ -207,12 +236,6 @@ const CategoricalDock = () => {
               sx={{ display: "flex", alignItems: "center" }}
             >
               <motion.div
-                initial={config.baseAnimation.initial}
-                animate={config.baseAnimation.animate}
-                transition={{
-                  ...config.baseAnimation.transition,
-                  delay: index * 0.05,
-                }}
                 onHoverStart={() => setHoveredIndex(index)}
                 onHoverEnd={() => setHoveredIndex(null)}
               >
@@ -225,7 +248,7 @@ const CategoricalDock = () => {
                     transition={{
                       type: "spring",
                       stiffness: 400,
-                      damping: 17,
+                      damping: 20,
                     }}
                   >
                     <Box
@@ -235,12 +258,18 @@ const CategoricalDock = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        borderRadius: 2,
+                        borderRadius: isMobile ? 1.5 : 2,
                         cursor: "pointer",
-                        color: isHovered ? "#42a5f5" : "text.primary",
-                        transition: "all 0.2s ease",
+                        color: isHovered
+                          ? !isDark
+                            ? "#42a5f5"
+                            : themeColors.iconColor
+                          : themeColors.iconColor,
+                        transition: "all 0.15s",
                         "&:hover": {
-                          bgcolor: "rgba(0, 0, 0, 0.04)",
+                          bgcolor: isDark
+                            ? "rgba(255, 255, 255, 0.05)"
+                            : "rgba(0, 0, 0, 0.04)",
                         },
                       }}
                     >
@@ -250,16 +279,16 @@ const CategoricalDock = () => {
                 </Tooltip>
               </motion.div>
 
-              {showDivider && (
+              {showDivider && !isMobile && (
                 <Divider
                   orientation="vertical"
                   flexItem
                   sx={{
-                    mx: 2,
+                    ml: 2,
                     height: "32px",
                     alignSelf: "center",
-                    borderColor: "divider",
-                    opacity: 0.8,
+                    borderColor: themeColors.dividerColor,
+                    opacity: 1,
                   }}
                 />
               )}
@@ -283,8 +312,8 @@ An interactive dock with smooth animations and scaling effects.
   preview={<DockVariants variant="dynamic" />}
   code={`
 import React, { useState } from "react";
-import { Box, Tooltip, Paper } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { Box, Tooltip, Paper, useTheme } from "@mui/material";
+import { motion, AnimatePresence } from "motion/react";
 import {
   FiHome,
   FiSettings,
@@ -298,6 +327,8 @@ import {
 const DynamicDock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
 
   const dockItems = [
     { icon: FiHome, label: "Home" },
@@ -308,6 +339,18 @@ const DynamicDock = () => {
     { icon: FiTerminal, label: "Terminal" },
     { icon: FiSettings, label: "Settings" },
   ];
+
+  const themeColors = {
+    background: isDark ? "rgba(30, 32, 35, 0.95)" : "rgba(255, 255, 255, 0.95)",
+    paperGradient: isDark
+      ? "linear-gradient(145deg, #2d3135 0%, #1e2023 100%)"
+      : "linear-gradient(145deg, #ffffff 0%, #f0f2f5 100%)",
+    iconHoverGradient: isDark
+      ? "linear-gradient(135deg, #404549 0%, #2d3135 100%)"
+      : "linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)",
+    iconHoverColor: "#ffffff",
+    borderColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.06)",
+  };
 
   const config = {
     iconSize: 22,
@@ -320,22 +363,32 @@ const DynamicDock = () => {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.2 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.15 }}
         >
           <Paper
             elevation={2}
             sx={{
               borderRadius: 3,
               padding: 2,
-              background: "linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%)",
-              border: "1px solid rgba(0, 0, 0, 0.1)",
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+              background: themeColors.paperGradient,
+              border: \`1px solid \${themeColors.borderColor}\`,
+              boxShadow: isDark
+                ? "0 4px 20px rgba(0, 0, 0, 0.2)"
+                : "0 4px 20px rgba(0, 0, 0, 0.08)",
+              maxWidth: "100%",
+              overflowX: "auto",
             }}
           >
-            <Box sx={{ display: "flex", gap: config.gapSize }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: config.gapSize,
+                width: "max-content",
+              }}
+            >
               {dockItems.map((item, index) => {
                 const Icon = item.icon;
                 const isHovered = hoveredIndex === index;
@@ -343,20 +396,12 @@ const DynamicDock = () => {
                 const scale = isHovered
                   ? config.hoverScale
                   : hoveredIndex !== null
-                  ? Math.max(1, config.hoverScale - distance * 0.15)
-                  : 1;
+                    ? Math.max(1, config.hoverScale - distance * 0.15)
+                    : 1;
 
                 return (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 20,
-                      delay: index * 0.05,
-                    }}
                     onHoverStart={() => setHoveredIndex(index)}
                     onHoverEnd={() => setHoveredIndex(null)}
                   >
@@ -365,12 +410,11 @@ const DynamicDock = () => {
                         animate={{
                           scale,
                           y: isHovered ? -8 : 0,
-                          rotateZ: isHovered ? -8 : 0,
                         }}
                         transition={{
                           type: "spring",
                           stiffness: 400,
-                          damping: 17,
+                          damping: 20,
                         }}
                       >
                         <Paper
@@ -384,12 +428,12 @@ const DynamicDock = () => {
                             borderRadius: 2,
                             cursor: "pointer",
                             background: isHovered
-                              ? "linear-gradient(135deg, primary.light 0%, primary.main 100%)"
-                              : "white",
-                            transition: "all 0.3s ease",
+                              ? themeColors.iconHoverGradient
+                              : themeColors.background,
+                            transition: "all 0.2s",
                             "&:hover": {
-                              background: "linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)",
-                              color: "white",
+                              background: themeColors.iconHoverGradient,
+                              color: themeColors.iconHoverColor,
                             },
                           }}
                         >
@@ -420,8 +464,8 @@ A translucent dock with blur effects and smooth animations.
   preview={<DockVariants variant="glass" />}
   code={`
 import React, { useState } from "react";
-import { Box, Tooltip } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, Tooltip, useTheme } from "@mui/material";
+import { motion } from "motion/react";
 import {
   FiHome,
   FiSettings,
@@ -434,6 +478,8 @@ import {
 
 const GlassDock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
 
   const dockItems = [
     { icon: FiHome, label: "Home" },
@@ -445,6 +491,14 @@ const GlassDock = () => {
     { icon: FiSettings, label: "Settings" },
   ];
 
+  const themeColors = {
+    paperGradient: isDark
+      ? "linear-gradient(145deg, #2d3135 0%, #1e2023 100%)"
+      : "linear-gradient(145deg, #ffffff 0%, #f0f2f5 100%)",
+    iconColor: isDark ? theme.palette.text.primary : "text.primary",
+    borderColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.06)",
+  };
+
   const config = {
     iconSize: 22,
     buttonSize: 45,
@@ -455,43 +509,25 @@ const GlassDock = () => {
   return (
     <Box
       sx={{
-        background: "rgba(255, 255,255, 0.1)",
-        backdropFilter: "blur(12px)",
+        background: themeColors.paperGradient,
         borderRadius: 3,
         padding: 2,
-        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
+        boxShadow: isDark
+          ? "0 4px 30px rgba(0, 0, 0, 0.2)"
+          : "0 4px 30px rgba(0, 0, 0, 0.1)",
+        border: \`1px solid \${themeColors.borderColor}\`,
         position: "relative",
         overflow: "hidden",
+        maxWidth: "100%",
+        overflowX: "auto",
       }}
     >
-      <motion.div
-        animate={{
-          background: [
-            "linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1))",
-            "linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))",
-            "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1))",
-          ],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          borderRadius: "12px",
-        }}
-      />
       <Box
         sx={{
           display: "flex",
           gap: config.gapSize,
           position: "relative",
+          width: "max-content",
         }}
       >
         {dockItems.map((item, index) => {
@@ -501,14 +537,6 @@ const GlassDock = () => {
           return (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 20,
-                delay: index * 0.05,
-              }}
               onHoverStart={() => setHoveredIndex(index)}
               onHoverEnd={() => setHoveredIndex(null)}
             >
@@ -517,16 +545,11 @@ const GlassDock = () => {
                   animate={{
                     scale: isHovered ? config.hoverScale : 1,
                     y: isHovered ? -8 : 0,
-                    rotateY: isHovered ? [0, 180, 360] : 0,
                   }}
                   transition={{
                     type: "spring",
                     stiffness: 400,
-                    damping: 17,
-                    rotateY: {
-                      duration: 0.8,
-                      ease: "easeInOut",
-                    },
+                    damping: 20,
                   }}
                 >
                   <Box
@@ -539,17 +562,33 @@ const GlassDock = () => {
                       borderRadius: "50%",
                       cursor: "pointer",
                       background: isHovered
-                        ? "rgba(255, 255, 255, 0.2)"
-                        : "rgba(255, 255, 255, 0.1)",
-                      border: "1px solid rgba(255, 255, 255, 0.3)",
+                        ? isDark
+                          ? "rgba(255, 255, 255, 0.15)"
+                          : "rgba(255, 255, 255, 0.2)"
+                        : isDark
+                          ? "rgba(255, 255, 255, 0.05)"
+                          : "rgba(255, 255, 255, 0.1)",
+                      border: isDark
+                        ? "1px solid rgba(255, 255, 255, 0.2)"
+                        : "1px solid rgba(255, 255, 255, 0.3)",
                       boxShadow: isHovered
-                        ? "0 8px 32px rgba(31, 38, 135, 0.15)"
+                        ? isDark
+                          ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+                          : "0 8px 32px rgba(31, 38, 135, 0.15)"
                         : "none",
-                      color: isHovered ? "#42a5f5" : "text.primary",
-                      transition: "all 0.3s ease",
+                      color: isHovered
+                        ? !isDark
+                          ? "#42a5f5"
+                          : themeColors.iconColor
+                        : themeColors.iconColor,
+                      transition: "all 0.2s",
                       "&:hover": {
-                        background: "rgba(255, 255, 255, 0.25)",
-                        border: "1px solid rgba(255, 255, 255, 0.4)",
+                        background: isDark
+                          ? "rgba(255, 255, 255, 0.2)"
+                          : "rgba(255, 255, 255, 0.25)",
+                        border: isDark
+                          ? "1px solid rgba(255, 255, 255, 0.3)"
+                          : "1px solid rgba(255, 255, 255, 0.4)",
                       },
                     }}
                   >

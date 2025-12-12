@@ -8,7 +8,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   RxChevronDown,
   RxChevronLeft,
@@ -142,7 +142,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                   key={`page-${page}`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  transition={{ duration: 0.15 }}
+                  transition={{ duration: 0.1 }}
                 >
                   <Box
                     width={isMobile ? 28 : 36}
@@ -154,35 +154,14 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                     cursor="pointer"
                     onClick={() => setCurrentPage(page)}
                     sx={{
-                      position: "relative",
-                      overflow: "hidden",
+                      backgroundColor:
+                        page === currentPage ? bubbleColor : "transparent",
+                      fontWeight: page === currentPage ? 600 : 400,
+                      color: textColor,
+                      transition: "background-color 0.15s",
                     }}
                   >
-                    <motion.div
-                      animate={{
-                        backgroundColor:
-                          page === currentPage ? bubbleColor : "transparent",
-                      }}
-                      transition={{ duration: 0.2 }}
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        borderRadius: 4,
-                      }}
-                    />
-                    <motion.span
-                      animate={{
-                        cursor: "pointer",
-                        color: textColor,
-                        fontWeight: page === currentPage ? 600 : 400,
-                      }}
-                      style={{ zIndex: 1 }}
-                    >
-                      {page}
-                    </motion.span>
+                    {page}
                   </Box>
                 </motion.div>
               )
@@ -241,18 +220,12 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                 ) : (
                   <motion.div
                     key={`page-${page}`}
-                    initial={false}
-                    animate={{
-                      backgroundColor:
-                        page === currentPage ? bubbleColor : "transparent",
-                    }}
                     whileHover={{
                       backgroundColor:
                         page !== currentPage
                           ? theme.palette.action.hover
                           : bubbleColor,
                     }}
-                    transition={{ duration: 0.2 }}
                   >
                     <Box
                       width={isMobile ? 28 : 36}
@@ -262,16 +235,15 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                       justifyContent="center"
                       cursor="pointer"
                       onClick={() => setCurrentPage(page)}
+                      sx={{
+                        backgroundColor:
+                          page === currentPage ? bubbleColor : "transparent",
+                        fontWeight: page === currentPage ? 600 : 400,
+                        color: textColor,
+                        transition: "background-color 0.15s",
+                      }}
                     >
-                      <motion.span
-                        animate={{
-                          cursor: "pointer",
-                          fontWeight: page === currentPage ? 600 : 400,
-                          color: textColor,
-                        }}
-                      >
-                        {page}
-                      </motion.span>
+                      {page}
                     </Box>
                   </motion.div>
                 )
@@ -391,10 +363,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeInOut",
-                  }}
+                  transition={{ duration: 0.15 }}
                   style={{
                     position: "absolute",
                     width: "100%",
@@ -439,12 +408,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
             >
               <motion.div
                 animate={{ x: -((currentPage - 1) * (isMobile ? 30 : 40)) }}
-                transition={{
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 25,
-                  mass: 0.5,
-                }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 style={{
                   display: "flex",
                   position: "absolute",
@@ -452,27 +416,22 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                 }}
               >
                 {Array.from({ length: totalPages }).map((_, i) => (
-                  <motion.div
+                  <Box
                     key={i}
-                    style={{
+                    sx={{
                       width: isMobile ? 30 : 40,
                       height: 30,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                    }}
-                    animate={{
                       color: i + 1 === currentPage ? textColor : secondaryColor,
                       scale: i + 1 === currentPage ? 1.2 : 0.9,
                       fontWeight: i + 1 === currentPage ? 600 : 400,
-                    }}
-                    transition={{
-                      duration: 0.2,
-                      ease: "easeOut",
+                      transition: "all 0.15s",
                     }}
                   >
                     {i + 1}
-                  </motion.div>
+                  </Box>
                 ))}
               </motion.div>
             </Box>
@@ -500,17 +459,13 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
               {Array.from({ length: totalPages }).map((_, i) => (
                 <motion.div
                   key={i}
-                  initial={{ width: i + 1 === initialPage ? 30 : 8 }}
                   animate={{
                     width: i + 1 === currentPage ? 30 : 8,
                     opacity: i + 1 === currentPage ? 1 : 0.6,
                     backgroundColor:
                       i + 1 === currentPage ? bubbleColor : "transparent",
                   }}
-                  transition={{
-                    duration: 0.25,
-                    ease: "easeOut",
-                  }}
+                  transition={{ duration: 0.2 }}
                   style={{
                     height: 30,
                     borderRadius: 15,
@@ -527,10 +482,10 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                   <AnimatePresence mode="wait">
                     {i + 1 === currentPage && (
                       <motion.span
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
                         style={{ color: textColor, fontSize: "0.875rem" }}
                       >
                         {i + 1}

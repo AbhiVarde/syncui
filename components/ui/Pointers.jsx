@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import { useRouter } from "next/router";
 
 const PointerVariants = ({ variant = "glowingDot" }) => {
@@ -100,7 +100,6 @@ const PointerVariants = ({ variant = "glowingDot" }) => {
   );
 };
 
-// Pointer variant components
 const GlowingDot = ({ position }) => {
   return (
     <motion.div
@@ -119,14 +118,13 @@ const GlowingDot = ({ position }) => {
       }}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      transition={{ type: "spring", stiffness: 400, damping: 20 }}
     />
   );
 };
 
 const FollowingRing = ({ position }) => {
-  // Create spring for smoother movement
-  const springConfig = { damping: 25, stiffness: 200 };
+  const springConfig = { stiffness: 250, damping: 30 };
   const x = useMotionValue(position.x);
   const y = useMotionValue(position.y);
   const xSpring = useSpring(x, springConfig);
@@ -155,7 +153,7 @@ const FollowingRing = ({ position }) => {
       }}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      transition={{ type: "spring", duration: 0.2 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
     />
   );
 };
@@ -173,7 +171,7 @@ const MagneticArrow = ({ position }) => {
       }}
       initial={{ rotate: 0 }}
       animate={{ rotate: 45 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <motion.path
@@ -182,9 +180,9 @@ const MagneticArrow = ({ position }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ pathLength: 0 }}
+          initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         />
       </svg>
     </motion.div>
@@ -195,13 +193,11 @@ const TrailingDots = ({ position }) => {
   const [trail, setTrail] = useState([]);
 
   useEffect(() => {
-    // Add position to trail
     setTrail((prevTrail) => {
       const newTrail = [
         ...prevTrail,
         { x: position.x, y: position.y, id: Date.now() },
       ];
-      // Keep only the last 5 positions
       return newTrail.slice(-5);
     });
   }, [position]);
@@ -230,7 +226,7 @@ const TrailingDots = ({ position }) => {
             }}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
           />
         );
       })}
@@ -243,11 +239,10 @@ const EmojiFollower = ({ position }) => {
   const [currentEmoji, setCurrentEmoji] = useState(emojis[0]);
 
   useEffect(() => {
-    // Change emoji every second
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * emojis.length);
       setCurrentEmoji(emojis[randomIndex]);
-    }, 1000);
+    }, 700);
 
     return () => clearInterval(interval);
   }, []);
@@ -268,7 +263,7 @@ const EmojiFollower = ({ position }) => {
       }}
       initial={{ scale: 0, rotate: 0 }}
       animate={{ scale: 1, rotate: 360 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
     >
       {currentEmoji}
     </motion.div>
@@ -276,8 +271,7 @@ const EmojiFollower = ({ position }) => {
 };
 
 const GradientBlob = ({ position }) => {
-  // Create spring for smoother movement
-  const springConfig = { damping: 25, stiffness: 200 };
+  const springConfig = { stiffness: 250, damping: 30 };
   const x = useMotionValue(position.x);
   const y = useMotionValue(position.y);
   const xSpring = useSpring(x, springConfig);
@@ -306,12 +300,13 @@ const GradientBlob = ({ position }) => {
         pointerEvents: "none",
       }}
       animate={{
-        scale: [1, 1.1, 1],
+        scale: [1, 1.08],
       }}
       transition={{
-        duration: 2,
+        duration: 1.2,
         repeat: Infinity,
         repeatType: "reverse",
+        ease: "easeInOut",
       }}
     />
   );

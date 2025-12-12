@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useRouter } from "next/router";
 
 const LoaderVariants = ({ variant }) => {
@@ -21,8 +21,9 @@ const LoaderVariants = ({ variant }) => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: asPath === "/docs/components/loaders" ? "center" : "space-between",
-    padding: asPath === "/docs/components/loaders" ? "0px !important" : "16px 0",
+    justifyContent:
+      asPath === "/docs/components/loaders" ? "center" : "space-between",
+    padding: asPath === "/docs/components/loaders" ? "0px" : "16px 0",
   };
 
   const typographyStyle = {
@@ -35,28 +36,29 @@ const LoaderVariants = ({ variant }) => {
     switch (variant) {
       case "pulsatingDots":
         return (
-          <Box sx={{ height: 40, position: "relative", width: 12 + 2 * 24 }}>
-            {[0, 1, 2].map((index) => (
+          <Box sx={{ height: 40, position: "relative", width: 60 }}>
+            {[0, 1, 2].map((i) => (
               <motion.div
-                key={index}
+                key={i}
                 style={{
                   width: 12,
                   height: 12,
                   borderRadius: "50%",
                   backgroundColor: loaderColor,
                   position: "absolute",
-                  left: `${index * 24}px`,
+                  left: i * 24,
                   top: "50%",
-                  transform: "translateY(-50%)",
+                  y: "-50%",
                 }}
                 animate={{
                   scale: [1, 1.5, 1],
                   opacity: [1, 0.5, 1],
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 1.2,
                   repeat: Infinity,
-                  delay: index * 0.2,
+                  delay: i * 0.15,
+                  ease: "easeInOut",
                 }}
               />
             ))}
@@ -76,8 +78,8 @@ const LoaderVariants = ({ variant }) => {
               borderRadius: ["0%", "50%", "0%"],
             }}
             transition={{
-              duration: 2,
-              ease: "easeInOut",
+              duration: 1.6,
+              ease: [0.45, 0, 0.55, 1],
               repeat: Infinity,
             }}
           />
@@ -98,8 +100,8 @@ const LoaderVariants = ({ variant }) => {
               borderRadius: ["50%", "30%", "50%"],
             }}
             transition={{
-              duration: 2,
-              ease: "easeInOut",
+              duration: 1.6,
+              ease: [0.45, 0, 0.55, 1],
               repeat: Infinity,
             }}
           />
@@ -116,13 +118,11 @@ const LoaderVariants = ({ variant }) => {
               strokeWidth="4"
               fill="transparent"
               strokeDasharray="126"
-              strokeDashoffset="126"
-              animate={{
-                strokeDashoffset: [126, 0],
-              }}
+              initial={{ strokeDashoffset: 126 }}
+              animate={{ strokeDashoffset: 0 }}
               transition={{
-                duration: 2,
-                ease: "easeInOut",
+                duration: 1.5,
+                ease: [0.45, 0, 0.55, 1],
                 repeat: Infinity,
               }}
             />
@@ -132,25 +132,26 @@ const LoaderVariants = ({ variant }) => {
       case "fadingSquares":
         return (
           <Box sx={{ height: 40, position: "relative", width: 100 }}>
-            {[0, 1, 2, 3].map((index) => (
+            {[0, 1, 2, 3].map((i) => (
               <motion.div
-                key={index}
+                key={i}
                 style={{
                   width: 12,
                   height: 12,
                   backgroundColor: loaderColor,
                   position: "absolute",
                   top: "50%",
-                  marginTop: -6,
-                  left: `${index * 24 + 8}px`,
+                  y: -6,
+                  left: i * 24 + 8,
                 }}
                 animate={{
                   opacity: [0, 1, 0],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 1.6,
                   repeat: Infinity,
-                  delay: index * 0.4,
+                  delay: i * 0.3,
+                  ease: "easeInOut",
                 }}
               />
             ))}
@@ -159,23 +160,19 @@ const LoaderVariants = ({ variant }) => {
 
       case "orbitalSpin":
         return (
-          <Box
-            component={motion.div}
-            sx={{
+          <motion.div
+            style={{
               width: 40,
               height: 40,
               border: `3px solid ${loaderColor}`,
               borderTopColor: "transparent",
               borderRadius: "50%",
             }}
-            animate={{
-              rotate: 360,
-            }}
+            animate={{ rotate: 360 }}
             transition={{
-              duration: 1,
+              duration: 0.8,
               ease: "linear",
               repeat: Infinity,
-              repeatType: "loop",
             }}
           />
         );
@@ -188,19 +185,16 @@ const LoaderVariants = ({ variant }) => {
               height: 40,
               position: "relative",
             }}
-            animate={{
-              rotate: 360,
-            }}
+            animate={{ rotate: 360 }}
             transition={{
-              duration: 1.5,
+              duration: 1.2,
               ease: "linear",
               repeat: Infinity,
-              repeatType: "loop",
             }}
           >
-            {[0, 1, 2].map((index) => (
+            {[0, 1, 2].map((i) => (
               <motion.div
-                key={index}
+                key={i}
                 style={{
                   position: "absolute",
                   width: 20,
@@ -209,15 +203,16 @@ const LoaderVariants = ({ variant }) => {
                   backgroundColor: loaderColor,
                   top: 15,
                   left: 15,
-                  transform: `rotate(${index * 120}deg) translate(0, -15px)`,
+                  transform: `rotate(${i * 120}deg) translate(0, -15px)`,
                 }}
                 animate={{
                   scale: [1, 0.8, 1],
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 1.2,
                   repeat: Infinity,
-                  delay: index * 0.5,
+                  delay: i * 0.4,
+                  ease: "easeInOut",
                 }}
               />
             ))}
@@ -247,10 +242,10 @@ const LoaderVariants = ({ variant }) => {
                   height: [10, 30, 10],
                 }}
                 transition={{
-                  duration: 1,
+                  duration: 0.8,
                   repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.1,
+                  ease: [0.45, 0, 0.55, 1],
+                  delay: i * 0.08,
                 }}
               />
             ))}
@@ -269,7 +264,7 @@ const LoaderVariants = ({ variant }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          style={{}}
+          transition={{ duration: 0.2 }}
         >
           <Box sx={loaderStyle}>
             {asPath !== "/docs/components/loaders" && (

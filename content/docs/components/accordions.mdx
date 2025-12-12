@@ -23,29 +23,39 @@ import {
   Box,
   useTheme,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxChevronDown } from "react-icons/rx";
-
-const MotionAccordion = motion.create(Accordion);
 
 const BrutalistAccordion = () => {
   const theme = useTheme();
   const [expandedPanels, setExpandedPanels] = useState({});
+
   const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick introduction to our platform with essential setup steps." },
-    { id: "panel2", title: "Key Features", content: "Explore powerful tools designed to enhance your workflow." },
-    { id: "panel3", title: "Best Practices", content: "Learn proven strategies for optimal performance and results." },
+    {
+      id: "panel1",
+      title: "Getting Started",
+      content: "Quick introduction to our platform with essential setup steps.",
+    },
+    {
+      id: "panel2",
+      title: "Key Features",
+      content: "Explore powerful tools designed to enhance your workflow.",
+    },
+    {
+      id: "panel3",
+      title: "Best Practices",
+      content: "Learn proven strategies for optimal performance and results.",
+    },
   ];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+  const handleChange = (panel) => (event, isExpanded) =>
+    setExpandedPanels((prev) => ({ ...prev, [panel]: isExpanded }));
 
   return (
     <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
+      <Box sx={{ width: "100%", maxWidth: 700 }}>
         {accordionData.map((item) => (
-          <MotionAccordion
+          <Accordion
             key={item.id}
             expanded={expandedPanels[item.id] || false}
             onChange={handleChange(item.id)}
@@ -55,7 +65,10 @@ const BrutalistAccordion = () => {
               backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
               border: "2px solid",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
-              boxShadow: theme.palette.mode === "dark" ? "3px 3px 0 #FFF" : "3px 3px 0 #111",
+              boxShadow: \`3px 3px 0 \${
+                theme.palette.mode === "dark" ? "#FFF" : "#111"
+              }\`,
+              borderRadius: 0,
               mb: 2,
               "&::before": { display: "none" },
             }}
@@ -64,24 +77,36 @@ const BrutalistAccordion = () => {
               expandIcon={
                 <motion.div
                   animate={{ rotate: expandedPanels[item.id] ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{ color: theme.palette.mode === "dark" ? "#FFF" : "#111" }}
+                  transition={{ duration: 0.15 }}
                 >
-                  <RxChevronDown size={20} />
+                  <RxChevronDown
+                    size={20}
+                    color={theme.palette.mode === "dark" ? "#FFF" : "#111"}
+                  />
                 </motion.div>
               }
+              sx={{
+                color: theme.palette.mode === "dark" ? "#FFF" : "#111",
+              }}
             >
               <Typography variant="h6">{item.title}</Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails
+              sx={{
+                borderTop: "1px solid",
+                borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
+              }}
+            >
               <Typography variant="body2">{item.content}</Typography>
             </AccordionDetails>
-          </MotionAccordion>
+          </Accordion>
         ))}
       </Box>
     </Box>
   );
 };
+
+export default BrutalistAccordion;
 `}
 />
 
@@ -101,42 +126,50 @@ import {
   Box,
   useTheme,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxChevronRight } from "react-icons/rx";
-
-const MotionAccordion = motion.create(Accordion);
 
 const DashedAccordion = () => {
   const theme = useTheme();
   const [expandedPanels, setExpandedPanels] = useState({});
+
   const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick introduction to our platform." },
-    { id: "panel2", title: "Key Features", content: "Explore powerful tools." },
-    { id: "panel3", title: "Best Practices", content: "Learn proven strategies." },
+    {
+      id: "panel1",
+      title: "Getting Started",
+      content: "Quick introduction to our platform with essential setup steps.",
+    },
+    {
+      id: "panel2",
+      title: "Key Features",
+      content: "Explore powerful tools designed to enhance your workflow.",
+    },
+    {
+      id: "panel3",
+      title: "Best Practices",
+      content: "Learn proven strategies for optimal performance and results.",
+    },
   ];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+  const handleChange = (panel) => (event, isExpanded) =>
+    setExpandedPanels((prev) => ({ ...prev, [panel]: isExpanded }));
 
   return (
     <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
+      <Box sx={{ width: "100%", maxWidth: 700 }}>
         {accordionData.map((item) => (
-          <MotionAccordion
+          <Accordion
             key={item.id}
             expanded={expandedPanels[item.id] || false}
             onChange={handleChange(item.id)}
             disableGutters
             elevation={0}
             sx={{
-              backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
               border: "2px dashed",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
               borderRadius: 1,
               mb: 2,
-              "&::before": { display: "none" },
-              "&.Mui-expanded": { borderStyle: "solid" },
+              backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
             }}
           >
             <AccordionSummary
@@ -145,21 +178,31 @@ const DashedAccordion = () => {
                   animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
                   transition={{ duration: 0.15 }}
                 >
-                  <RxChevronRight size={20} />
+                  <RxChevronRight
+                    size={20}
+                    color={theme.palette.mode === "dark" ? "#FFF" : "#111"}
+                  />
                 </motion.div>
               }
             >
               <Typography variant="h6">{item.title}</Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails
+              sx={{
+                borderTop: "1px dashed",
+                borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
+              }}
+            >
               <Typography variant="body2">{item.content}</Typography>
             </AccordionDetails>
-          </MotionAccordion>
+          </Accordion>
         ))}
       </Box>
     </Box>
   );
 };
+
+export default DashedAccordion;
 `}
 />
 
@@ -179,29 +222,39 @@ import {
   Box,
   useTheme,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxChevronRight } from "react-icons/rx";
-
-const MotionAccordion = motion.create(Accordion);
 
 const MinimalAccordion = () => {
   const theme = useTheme();
   const [expandedPanels, setExpandedPanels] = useState({});
+
   const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick setup guide." },
-    { id: "panel2", title: "Key Features", content: "Enhance your workflow." },
-    { id: "panel3", title: "Best Practices", content: "Optimize performance." },
+    {
+      id: "panel1",
+      title: "Getting Started",
+      content: "Quick introduction to our platform with essential setup steps.",
+    },
+    {
+      id: "panel2",
+      title: "Key Features",
+      content: "Explore powerful tools designed to enhance your workflow.",
+    },
+    {
+      id: "panel3",
+      title: "Best Practices",
+      content: "Learn proven strategies for optimal performance and results.",
+    },
   ];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+  const handleChange = (panel) => (event, isExpanded) =>
+    setExpandedPanels((prev) => ({ ...prev, [panel]: isExpanded }));
 
   return (
     <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
+      <Box sx={{ width: "100%", maxWidth: 700 }}>
         {accordionData.map((item) => (
-          <MotionAccordion
+          <Accordion
             key={item.id}
             expanded={expandedPanels[item.id] || false}
             onChange={handleChange(item.id)}
@@ -211,7 +264,6 @@ const MinimalAccordion = () => {
               borderBottom: "1px solid",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
               backgroundColor: "transparent",
-              "&::before": { display: "none" },
             }}
           >
             <AccordionSummary
@@ -220,7 +272,10 @@ const MinimalAccordion = () => {
                   animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
                   transition={{ duration: 0.15 }}
                 >
-                  <RxChevronRight size={20} />
+                  <RxChevronRight
+                    size={20}
+                    color={theme.palette.mode === "dark" ? "#FFF" : "#111"}
+                  />
                 </motion.div>
               }
               sx={{
@@ -239,12 +294,14 @@ const MinimalAccordion = () => {
             <AccordionDetails>
               <Typography variant="body2">{item.content}</Typography>
             </AccordionDetails>
-          </MotionAccordion>
+          </Accordion>
         ))}
       </Box>
     </Box>
   );
 };
+
+export default MinimalAccordion;
 `}
 />
 
@@ -265,30 +322,39 @@ import {
   useTheme,
   Paper,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxPlus, RxMinus } from "react-icons/rx";
-
-const MotionAccordion = motion.create(Accordion);
-const MotionPaper = motion.create(Paper);
 
 const ModernAccordion = () => {
   const theme = useTheme();
   const [expandedPanels, setExpandedPanels] = useState({});
+
   const accordionData = [
-    { id: "panel1", title: "Getting Started", content: "Quick setup steps." },
-    { id: "panel2", title: "Key Features", content: "Powerful workflow tools." },
-    { id: "panel3", title: "Best Practices", content: "Tips for efficiency." },
+    {
+      id: "panel1",
+      title: "Getting Started",
+      content: "Quick introduction to our platform with essential setup steps.",
+    },
+    {
+      id: "panel2",
+      title: "Key Features",
+      content: "Explore powerful tools designed to enhance your workflow.",
+    },
+    {
+      id: "panel3",
+      title: "Best Practices",
+      content: "Learn proven strategies for optimal performance and results.",
+    },
   ];
 
-  const handleChange = (panel) => (_, isExpanded) => {
-    setExpandedPanels(prev => ({ ...prev, [panel]: isExpanded }));
-  };
+  const handleChange = (panel) => (event, isExpanded) =>
+    setExpandedPanels((prev) => ({ ...prev, [panel]: isExpanded }));
 
   return (
     <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", maxWidth: 600 }}>
+      <Box sx={{ width: "100%", maxWidth: 700 }}>
         {accordionData.map((item) => (
-          <MotionPaper
+          <Paper
             key={item.id}
             sx={{
               mb: 2,
@@ -296,62 +362,51 @@ const ModernAccordion = () => {
               border: "1px solid",
               borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
               backgroundColor: theme.palette.mode === "dark" ? "#111" : "#FFF",
-              color: theme.palette.mode === "dark" ? "#FFF" : "#111",
-              boxShadow:
-                theme.palette.mode === "dark"
-                  ? "0 2px 6px rgba(0,0,0,0.3)"
-                  : "0 2px 6px rgba(0,0,0,0.1)",
             }}
           >
-            <MotionAccordion
+            <Accordion
               expanded={expandedPanels[item.id] || false}
               onChange={handleChange(item.id)}
               disableGutters
               elevation={0}
-              sx={{ "&::before": { display: "none" } }}
+              sx={{
+                backgroundColor: "transparent",
+                "&::before": { display: "none" },
+              }}
             >
               <AccordionSummary
                 expandIcon={
-                  <motion.div
-                    animate={{
-                      color: expandedPanels[item.id]
-                        ? theme.palette.mode === "dark"
-                          ? "#111"
-                          : "#FFF"
-                        : theme.palette.mode === "dark"
-                        ? "#FFF"
-                        : "#111",
-                      backgroundColor: expandedPanels[item.id]
-                        ? theme.palette.mode === "dark"
-                          ? "#FFF"
-                          : "#111"
-                        : "transparent",
-                    }}
-                    transition={{ duration: 0.2 }}
-                    style={{
-                      borderRadius: "50%",
-                      width: 20,
-                      height: 20,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {expandedPanels[item.id] ? <RxMinus size={20} /> : <RxPlus size={20} />}
-                  </motion.div>
+                  expandedPanels[item.id] ? (
+                    <RxMinus
+                      size={20}
+                      color={theme.palette.mode === "dark" ? "#FFF" : "#111"}
+                    />
+                  ) : (
+                    <RxPlus
+                      size={20}
+                      color={theme.palette.mode === "dark" ? "#FFF" : "#111"}
+                    />
+                  )
                 }
               >
                 <Typography variant="h6">{item.title}</Typography>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails
+                sx={{
+                  borderTop: "1px solid",
+                  borderColor: theme.palette.mode === "dark" ? "#FFF" : "#111",
+                }}
+              >
                 <Typography variant="body2">{item.content}</Typography>
               </AccordionDetails>
-            </MotionAccordion>
-          </MotionPaper>
+            </Accordion>
+          </Paper>
         ))}
       </Box>
     </Box>
   );
 };
+
+export default ModernAccordion;
 `}
 />

@@ -13,7 +13,7 @@ A bold, blocky button style with a distinctive shadow.
   preview={<ButtonVariants variant="neubrutalism" />}
   code={`
 import { Button, useTheme } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const MotionButton = motion.create(Button);
 
@@ -23,8 +23,6 @@ const NeubrutalismButton = () => {
   return (
     <MotionButton
       variant="contained"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       sx={{
         backgroundColor: theme.palette.mode === "dark" ? "#000000" : "#FFFFFF",
         color: "text.primary",
@@ -32,7 +30,7 @@ const NeubrutalismButton = () => {
         borderColor: "divider",
         boxShadow: "4px 4px 0 currentColor",
         borderRadius: 0,
-        transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+        transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
         "&:hover": {
           borderColor: "divider",
           boxShadow: "2px 2px 0 currentColor",
@@ -57,7 +55,7 @@ A button with an animated border effect.
   preview={<ButtonVariants variant="animatedBorder" />}
   code={`
 import { Button, Box, useTheme, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const MotionButton = motion.create(Button);
 
@@ -67,9 +65,6 @@ const AnimatedBorderButton = () => {
   return (
     <MotionButton
       variant="outlined"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       sx={{
         position: "relative",
         overflow: "hidden",
@@ -83,7 +78,7 @@ const AnimatedBorderButton = () => {
         borderColor: "divider",
         "&:hover": {
           borderColor: "divider",
-          outline: "0px !important",
+          outline: 0,
         },
       }}
     >
@@ -93,7 +88,7 @@ const AnimatedBorderButton = () => {
           inset: -2,
           overflow: "hidden",
           borderRadius: "inherit",
-          padding: "0px !important",
+          padding: 0,
           "&::before": {
             content: '""',
             position: "absolute",
@@ -102,7 +97,7 @@ const AnimatedBorderButton = () => {
               theme.palette.mode === "dark"
                 ? "conic-gradient(from 0deg, transparent 0 340deg, #FFF 360deg)"
                 : "conic-gradient(from 0deg, transparent 0 340deg, #000 360deg)",
-            animation: "rotate 5s linear infinite",
+            animation: "rotate 3s linear infinite",
           },
           "@keyframes rotate": {
             from: { transform: "rotate(0deg)" },
@@ -137,7 +132,7 @@ A button with a gradient shine effect.
   preview={<ButtonVariants variant="gradientShine" />}
   code={`
 import { Button, useTheme } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const MotionButton = motion.create(Button);
 
@@ -147,15 +142,13 @@ const GradientShineButton = () => {
   return (
     <MotionButton
       variant="contained"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       sx={{
         background:
           theme.palette.mode === "light"
             ? "linear-gradient(110deg, #fff 45%, #e4e4e7 55%, #fff)"
             : "linear-gradient(110deg, #000 45%, #333 55%, #000)",
         backgroundSize: "200% 100%",
-        animation: "shine 3s linear infinite",
+        animation: "shine 2s linear infinite",
         color: "text.primary",
         border: "1px solid",
         borderColor: "divider",
@@ -185,7 +178,7 @@ A text button with an animated underline effect on hover.
   preview={<ButtonVariants variant="underline" />}
   code={`
 import { Button } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const MotionButton = motion.create(Button);
 
@@ -193,8 +186,6 @@ const UnderlineButton = () => {
   return (
     <MotionButton
       variant="text"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       sx={{
         color: "text.primary",
         position: "relative",
@@ -202,13 +193,13 @@ const UnderlineButton = () => {
           content: '""',
           position: "absolute",
           width: "100%",
-          height: "2px",
+          height: "1px",
           bottom: 0,
           left: 0,
           backgroundColor: "text.primary",
           transform: "scaleX(0)",
           transformOrigin: "bottom right",
-          transition: "transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+          transition: "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
         },
         "&:hover::after": {
           transform: "scaleX(1)",
@@ -236,7 +227,7 @@ A button that transitions from text to an icon on hover.
   preview={<ButtonVariants variant="sendIcon" />}
   code={`
 import { Button, useTheme } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { IoSend } from "react-icons/io5";
 
 const MotionButton = motion.create(Button);
@@ -247,8 +238,6 @@ const SendIconButton = () => {
   return (
     <MotionButton
       variant="outlined"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       sx={{
         backgroundColor: theme.palette.mode === "dark" ? "#000000" : "#FFFFFF",
         color: "text.primary",
@@ -258,7 +247,7 @@ const SendIconButton = () => {
         minWidth: "120px",
         height: "44px",
         padding: "10px 20px",
-        transition: "all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)",
+        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         "&:hover": {
           backgroundColor: "text.primary",
           color: "background.paper",
@@ -271,7 +260,7 @@ const SendIconButton = () => {
           justifyContent: "center",
           height: "100%",
           width: "100%",
-          transition: "all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)",
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         },
         "& .icon": {
           transform: "translateX(-100%)",
@@ -308,7 +297,7 @@ A button that expands to reveal an icon on hover.
   code={`
 import { useState } from "react";
 import { Button, Box } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { RxPlus } from "react-icons/rx";
 
 const MotionButton = motion.create(Button);
@@ -319,18 +308,13 @@ const ExpandButton = () => {
   return (
     <MotionButton
       variant="outlined"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
       sx={{
         display: "flex",
         alignItems: "center",
-        transition: "0.3s",
         borderColor: "divider",
-        "&:hover": {
-          borderColor: "divider",
-        },
+        "&:hover": { borderColor: "divider" },
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -341,7 +325,7 @@ const ExpandButton = () => {
               initial={{ opacity: 0, width: 0, marginLeft: 0 }}
               animate={{ opacity: 1, width: "auto", marginLeft: 8 }}
               exit={{ opacity: 0, width: 0, marginLeft: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
               style={{ display: "inline-flex", overflow: "hidden" }}
             >
               <RxPlus size={18} />
@@ -366,7 +350,7 @@ A button with an animated arrow that appears on hover.
   code={`
 import { useState } from "react";
 import { Button, Box } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { RxArrowRight } from "react-icons/rx";
 
 const MotionButton = motion.create(Button);
@@ -382,12 +366,13 @@ const HoverArrowButton = () => {
       sx={{
         display: "flex",
         alignItems: "center",
-        transition: "0.3s",
         fontWeight: 500,
         borderColor: "divider",
+        transition: "none",
         "&:hover": {
           borderColor: "divider",
-          outline: "0px !important",
+          backgroundColor: "transparent",
+          outline: 0,
         },
       }}
     >
@@ -398,7 +383,7 @@ const HoverArrowButton = () => {
               initial={{ opacity: 0, width: 0, marginRight: 0 }}
               animate={{ opacity: 1, width: "auto", marginRight: 8 }}
               exit={{ opacity: 0, width: 0, marginRight: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
               style={{ display: "inline-flex", overflow: "hidden" }}
             >
               <RxArrowRight size={19} />
@@ -412,7 +397,7 @@ const HoverArrowButton = () => {
               initial={{ opacity: 0, width: 0, marginLeft: 0 }}
               animate={{ opacity: 1, width: "auto", marginLeft: 8 }}
               exit={{ opacity: 0, width: 0, marginLeft: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
               style={{ display: "inline-flex", overflow: "hidden" }}
             >
               <RxArrowRight size={19} />
@@ -436,7 +421,7 @@ A button with a glitch effect.
   preview={<ButtonVariants variant="glitch" />}
   code={`
 import { Button, useTheme } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const MotionButton = motion.create(Button);
 
@@ -445,17 +430,15 @@ const GlitchButton = () => {
 
   return (
     <MotionButton
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       sx={{
         position: "relative",
         color: "text.primary",
-        backgroundColor: theme.palette.mode === "dark" ? "#000000" : "#FFFFFF",
+        backgroundColor: theme.palette.mode === "dark" ? "#000" : "#fff",
         border: "1px solid",
         borderColor: "divider",
         overflow: "hidden",
-        padding: "10px 20px",
-        transition: "all 0.3s ease",
+        padding: "8px 20px",
+        transition: "all 0.2s ease",
         "&::before, &::after": {
           content: '"Glitch"',
           position: "absolute",
@@ -472,27 +455,17 @@ const GlitchButton = () => {
           left: "2px",
           textShadow: theme.palette.mode === "dark" ? "2px 0 #fff" : "2px 0 #000",
           clipPath: "inset(0 100% 0 0)",
-          animation: "glitch-anim 4s infinite linear alternate-reverse",
+          animation: "glitch-anim 2.5s infinite linear alternate-reverse",
         },
         "&::after": {
           left: "-2px",
           textShadow: theme.palette.mode === "dark" ? "-2px 0 #fff" : "-2px 0 #000",
           clipPath: "inset(0 0 0 100%)",
-          animation: "glitch-anim 4s infinite linear alternate-reverse 2s",
+          animation: "glitch-anim 2.5s infinite linear alternate-reverse 1.25s",
         },
         "&:hover": {
           color: theme.palette.mode === "dark" ? "#000" : "#fff",
           backgroundColor: theme.palette.mode === "dark" ? "#fff" : "#000",
-          "&::before": {
-            textShadow: theme.palette.mode === "dark" ? "2px 0 #000" : "2px 0 #fff",
-          },
-          "&::after": {
-            textShadow: theme.palette.mode === "dark" ? "-2px 0 #000" : "-2px 0 #fff",
-          },
-        },
-        "@keyframes glitch-anim": {
-          "0%": { clipPath: "inset(0 100% 0 0)" },
-          "100%": { clipPath: "inset(0 0 0 0)" },
         },
       }}
     >
@@ -513,7 +486,7 @@ A button that fills with color on hover.
   preview={<ButtonVariants variant="outlineFill" />}
   code={`
 import { Button } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const MotionButton = motion.create(Button);
 
@@ -521,8 +494,6 @@ const OutlineFillButton = () => {
   return (
     <MotionButton
       variant="outlined"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       sx={{
         color: "text.primary",
         borderColor: "divider",
@@ -539,7 +510,7 @@ const OutlineFillButton = () => {
           backgroundColor: "text.primary",
           transform: "scaleX(0)",
           transformOrigin: "right",
-          transition: "transform 0.3s ease",
+          transition: "transform 0.25s ease",
           zIndex: -1,
         },
         "&:hover": {
@@ -568,7 +539,7 @@ A button with an elastic sliding effect that reveals an icon.
   preview={<ButtonVariants variant="elasticSlide" />}
   code={`
 import { Button } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxArrowRight } from "react-icons/rx";
 
 const MotionButton = motion.create(Button);
@@ -595,23 +566,23 @@ const ElasticSlideButton = () => {
             x: -5,
             transition: {
               type: "spring",
-              stiffness: 400,
-              damping: 10,
+              stiffness: 500,
+              damping: 15,
             },
           },
         }}
       >
         Elastic
         <motion.div
-          style={{ marginLeft: 8, display: "flex" }}
+          style={{ marginLeft: 8, display: "flex", opacity: 0, x: -10 }}
           variants={{
             hover: {
-              x: [-20, 5, 0],
-              opacity: [0, 1, 1],
+              opacity: 1,
+              x: 0,
               transition: {
                 type: "spring",
-                stiffness: 400,
-                damping: 10,
+                stiffness: 500,
+                damping: 15,
               },
             },
           }}

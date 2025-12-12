@@ -13,38 +13,43 @@ Three dots that pulsate in sequence.
   preview={<LoaderVariants variant="pulsatingDots" />}
   code={`
 import React from "react";
-import { Box } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const PulsatingDots = () => (
+const PulsatingDots = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-  <Box sx={{ height: 40, position: "relative", width: 12 + 2 * 24 }}>
-    {[0, 1, 2].map((index) => (
-      <motion.div
-        key={index}
-        style={{
-          width: 12,
-          height: 12,
-          borderRadius: "50%",
-          backgroundColor: "currentColor",
-          position: "absolute",
-          left: \`\${index * 24}px\`,
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-        animate={{
-          scale: [1, 1.5, 1],
-          opacity: [1, 0.5, 1],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          delay: index * 0.2,
-        }}
-      />
-    ))}
-  </Box>
-);
+  return (
+    <Box sx={{ height: 40, position: "relative", width: 60 }}>
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          style={{
+            width: 12,
+            height: 12,
+            borderRadius: "50%",
+            backgroundColor: loaderColor,
+            position: "absolute",
+            left: i * 24,
+            top: "50%",
+            y: "-50%",
+          }}
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [1, 0.5, 1],
+          }}
+          transition={{
+            duration: 1.2,
+            repeat: Infinity,
+            delay: i * 0.15,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
 
 export default PulsatingDots;
 `}
@@ -58,27 +63,32 @@ A square that rotates and morphs into a circle.
   preview={<LoaderVariants variant="morphingCube" />}
   code={`
 import React from "react";
-import { motion } from "framer-motion";
+import { useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const MorphingCube = () => (
+const MorphingCube = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-<motion.div
-  style={{
-    width: 30,
-    height: 30,
-    backgroundColor: "currentColor",
-  }}
-  animate={{
-    rotate: 360,
-    borderRadius: ["0%", "50%", "0%"],
-  }}
-  transition={{
-    duration: 2,
-    ease: "easeInOut",
-    repeat: Infinity,
-  }}
-/>
-);
+  return (
+    <motion.div
+      style={{
+        width: 30,
+        height: 30,
+        backgroundColor: loaderColor,
+      }}
+      animate={{
+        rotate: 360,
+        borderRadius: ["0%", "50%", "0%"],
+      }}
+      transition={{
+        duration: 1.6,
+        ease: [0.45, 0, 0.55, 1],
+        repeat: Infinity,
+      }}
+    />
+  );
+};
 
 export default MorphingCube;
 `}
@@ -92,29 +102,34 @@ A circle that pulsates and rotates.
   preview={<LoaderVariants variant="pulsatingRing" />}
   code={`
 import React from "react";
-import { motion } from "framer-motion";
+import { useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const PulsatingRing = () => (
+const PulsatingRing = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-  <motion.div
-    style={{
-      width: 40,
-      height: 40,
-      borderRadius: "50%",
-      border: \`3px solid currentColor\`,
-    }}
-    animate={{
-      scale: [1, 1.2, 1],
-      rotate: [0, 180, 360],
-      borderRadius: ["50%", "30%", "50%"],
-    }}
-    transition={{
-      duration: 2,
-      ease: "easeInOut",
-      repeat: Infinity,
-    }}
-  />
-);
+  return (
+    <motion.div
+      style={{
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        border: \`3px solid \${loaderColor}\`,
+      }}
+      animate={{
+        scale: [1, 1.2, 1],
+        rotate: [0, 180, 360],
+        borderRadius: ["50%", "30%", "50%"],
+      }}
+      transition={{
+        duration: 1.6,
+        ease: [0.45, 0, 0.55, 1],
+        repeat: Infinity,
+      }}
+    />
+  );
+};
 
 export default PulsatingRing;
 `}
@@ -128,31 +143,34 @@ A circular progress indicator that sweeps around.
   preview={<LoaderVariants variant="circularSweep" />}
   code={`
 import React from "react";
-import { motion } from "framer-motion";
+import { useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const CircularSweep = () => (
+const CircularSweep = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-<svg width="50" height="50" viewBox="0 0 50 50">
-  <motion.circle
-    cx="25"
-    cy="25"
-    r="20"
-    stroke="currentColor"
-    strokeWidth="4"
-    fill="transparent"
-    strokeDasharray="126"
-    strokeDashoffset="126"
-    animate={{
-      strokeDashoffset: [126, 0],
-    }}
-    transition={{
-      duration: 2,
-      ease: "easeInOut",
-      repeat: Infinity,
-    }}
-  />
-</svg>
-);
+  return (
+    <svg width="50" height="50" viewBox="0 0 50 50">
+      <motion.circle
+        cx="25"
+        cy="25"
+        r="20"
+        stroke={loaderColor}
+        strokeWidth="4"
+        fill="transparent"
+        strokeDasharray="126"
+        initial={{ strokeDashoffset: 126 }}
+        animate={{ strokeDashoffset: 0 }}
+        transition={{
+          duration: 1.5,
+          ease: [0.45, 0, 0.55, 1],
+          repeat: Infinity,
+        }}
+      />
+    </svg>
+  );
+};
 
 export default CircularSweep;
 `}
@@ -166,36 +184,41 @@ Four squares that fade in and out in sequence.
   preview={<LoaderVariants variant="fadingSquares" />}
   code={`
 import React from "react";
-import { Box } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const FadingSquares = () => (
+const FadingSquares = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-  <Box sx={{ height: 40, position: "relative", width: 100 }}>
-    {[0, 1, 2, 3].map((index) => (
-      <motion.div
-        key={index}
-        style={{
-          width: 12,
-          height: 12,
-          backgroundColor: "currentColor",
-          position: "absolute",
-          top: "50%",
-          marginTop: -6,
-          left: \`\${index * 24 + 8}px\`,
-        }}
-        animate={{
-          opacity: [0, 1, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          delay: index * 0.4,
-        }}
-      />
-    ))}
-  </Box>
-);
+  return (
+    <Box sx={{ height: 40, position: "relative", width: 100 }}>
+      {[0, 1, 2, 3].map((i) => (
+        <motion.div
+          key={i}
+          style={{
+            width: 12,
+            height: 12,
+            backgroundColor: loaderColor,
+            position: "absolute",
+            top: "50%",
+            y: -6,
+            left: i * 24 + 8,
+          }}
+          animate={{
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: 1.6,
+            repeat: Infinity,
+            delay: i * 0.3,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
 
 export default FadingSquares;
 `}
@@ -209,31 +232,31 @@ A circular border that spins around its center.
   preview={<LoaderVariants variant="orbitalSpin" />}
   code={`
 import React from "react";
-import { motion } from "framer-motion";
+import { useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const OrbitalSpin = () => (
+const OrbitalSpin = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-    <Box
-      component={motion.div}
-      sx={{
+  return (
+    <motion.div
+      style={{
         width: 40,
         height: 40,
-        border: \`3px solid currentColor\`,
+        border: \`3px solid \${loaderColor}\`,
         borderTopColor: "transparent",
         borderRadius: "50%",
       }}
-      animate={{
-        rotate: 360,
-      }}
+      animate={{ rotate: 360 }}
       transition={{
-        duration: 1,
+        duration: 0.8,
         ease: "linear",
         repeat: Infinity,
-        repeatType: "loop",
       }}
     />
-
-);
+  );
+};
 
 export default OrbitalSpin;
 `}
@@ -247,51 +270,54 @@ Three circles orbiting around a central point.
   preview={<LoaderVariants variant="triadicOrbit" />}
   code={`
 import React from "react";
-import { motion } from "framer-motion";
+import { useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const TriadicOrbit = () => (
+const TriadicOrbit = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-  <motion.div
-    style={{
-      width: 40,
-      height: 40,
-      position: "relative",
-    }}
-    animate={{
-      rotate: 360,
-    }}
-    transition={{
-      duration: 1.5,
-      ease: "linear",
-      repeat: Infinity,
-      repeatType: "loop",
-    }}
-  >
-    {[0, 1, 2].map((index) => (
-      <motion.div
-        key={index}
-        style={{
-          position: "absolute",
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          backgroundColor: "currentColor",
-          top: 15,
-          left: 15,
-          transform: \`rotate(\${index * 120}deg) translate(0, -15px)\`,
-        }}
-        animate={{
-          scale: [1, 0.8, 1],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          delay: index * 0.5,
-        }}
-      />
-    ))}
-  </motion.div>
-);
+  return (
+    <motion.div
+      style={{
+        width: 40,
+        height: 40,
+        position: "relative",
+      }}
+      animate={{ rotate: 360 }}
+      transition={{
+        duration: 1.2,
+        ease: "linear",
+        repeat: Infinity,
+      }}
+    >
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          style={{
+            position: "absolute",
+            width: 20,
+            height: 20,
+            borderRadius: "50%",
+            backgroundColor: loaderColor,
+            top: 15,
+            left: 15,
+            transform: \`rotate(\${i * 120}deg) translate(0, -15px)\`,
+          }}
+          animate={{
+            scale: [1, 0.8, 1],
+          }}
+          transition={{
+            duration: 1.2,
+            repeat: Infinity,
+            delay: i * 0.4,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </motion.div>
+  );
+};
 
 export default TriadicOrbit;
 `}
@@ -305,41 +331,45 @@ A series of bars that move up and down in a wave pattern.
   preview={<LoaderVariants variant="barWave" />}
   code={`
 import React from "react";
-import { Box } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, useTheme } from "@mui/material";
+import { motion } from "motion/react";
 
-const BarWave = () => (
+const BarWave = () => {
+  const theme = useTheme();
+  const loaderColor = theme.palette.mode === "dark" ? "#FFFFFF" : "#000000";
 
-<Box
-  sx={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-end",
-    height: 40,
-    width: 60,
-  }}
->
-  {[0, 1, 2, 3, 4].map((i) => (
-    <motion.div
-      key={i}
-      style={{
-        width: 4,
-        backgroundColor: "currentColor",
-        margin: "0 2px",
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        height: 40,
+        width: 60,
       }}
-      animate={{
-        height: [10, 30, 10],
-      }}
-      transition={{
-        duration: 1,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: i * 0.1,
-      }}
-    />
-  ))}
-</Box>
-);
+    >
+      {[0, 1, 2, 3, 4].map((i) => (
+        <motion.div
+          key={i}
+          style={{
+            width: 4,
+            backgroundColor: loaderColor,
+            margin: "0 2px",
+          }}
+          animate={{
+            height: [10, 30, 10],
+          }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            ease: [0.45, 0, 0.55, 1],
+            delay: i * 0.08,
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
 
 export default BarWave;
 `}

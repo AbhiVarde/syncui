@@ -8,7 +8,7 @@ import {
   useTheme,
   Paper,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxChevronDown, RxChevronRight, RxPlus, RxMinus } from "react-icons/rx";
 
 const AccordionVariants = ({ variant = "modern" }) => {
@@ -47,8 +47,6 @@ const AccordionVariants = ({ variant = "modern" }) => {
     maxWidth: 700,
   };
 
-  const transition = { duration: 0.15, ease: "easeInOut" };
-
   const renderAccordion = () => {
     switch (variant) {
       case "brutalist":
@@ -80,7 +78,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
                     expandIcon={
                       <motion.div
                         animate={{ rotate: expandedPanels[item.id] ? 180 : 0 }}
-                        transition={transition}
+                        transition={{ duration: 0.15 }}
                       >
                         <RxChevronDown
                           size={20}
@@ -136,7 +134,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
                     expandIcon={
                       <motion.div
                         animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
-                        transition={transition}
+                        transition={{ duration: 0.15 }}
                       >
                         <RxChevronRight
                           size={20}
@@ -156,13 +154,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
                         theme.palette.mode === "dark" ? "#FFF" : "#111",
                     }}
                   >
-                    <motion.div
-                      initial={{ opacity: 0, y: -3 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={transition}
-                    >
-                      <Typography variant="body2">{item.content}</Typography>
-                    </motion.div>
+                    <Typography variant="body2">{item.content}</Typography>
                   </AccordionDetails>
                 </Accordion>
               ))}
@@ -192,7 +184,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
                     expandIcon={
                       <motion.div
                         animate={{ rotate: expandedPanels[item.id] ? 90 : 0 }}
-                        transition={transition}
+                        transition={{ duration: 0.15 }}
                       >
                         <RxChevronRight
                           size={20}
@@ -216,13 +208,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={transition}
-                    >
-                      <Typography variant="body2">{item.content}</Typography>
-                    </motion.div>
+                    <Typography variant="body2">{item.content}</Typography>
                   </AccordionDetails>
                 </Accordion>
               ))}
@@ -286,13 +272,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
                           theme.palette.mode === "dark" ? "#FFF" : "#111",
                       }}
                     >
-                      <motion.div
-                        initial={{ opacity: 0, y: -3 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={transition}
-                      >
-                        <Typography variant="body2">{item.content}</Typography>
-                      </motion.div>
+                      <Typography variant="body2">{item.content}</Typography>
                     </AccordionDetails>
                   </Accordion>
                 </Paper>
@@ -303,16 +283,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
     }
   };
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={transition}
-      style={{ width: "100%" }}
-    >
-      {renderAccordion()}
-    </motion.div>
-  );
+  return <Box sx={{ width: "100%" }}>{renderAccordion()}</Box>;
 };
 
 export default AccordionVariants;

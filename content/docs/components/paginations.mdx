@@ -13,21 +13,21 @@ A minimal pagination style with basic navigation controls.
   preview={<PaginationVariants variant="simple" />}
   code={`
 import React, { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "motion/react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { useTheme } from "@mui/material/styles";
 
 const SimplePagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const textColor = theme.palette.text.primary;
 
   const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
-    <Box display="flex" alignItems="center" gap={2}>
+    <Box display="flex" alignItems="center" gap={isMobile ? 1 : 2}>
       <Typography variant="body2" color={textColor}>
         Page {currentPage} of {totalPages}
       </Typography>
@@ -36,7 +36,11 @@ const SimplePagination = ({ totalPages = 10 }) => {
           <IconButton
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            sx={{ border: \`1px solid \${theme.palette.divider}\`, borderRadius: 1 }}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              border: \`1px solid \${theme.palette.divider}\`,
+              borderRadius: 1,
+            }}
           >
             <RxChevronLeft style={{ color: textColor }} />
           </IconButton>
@@ -45,7 +49,11 @@ const SimplePagination = ({ totalPages = 10 }) => {
           <IconButton
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            sx={{ border: \`1px solid \${theme.palette.divider}\`, borderRadius: 1 }}
+            size={isMobile ? "small" : "medium"}
+            sx={{
+              border: \`1px solid \${theme.palette.divider}\`,
+              borderRadius: 1,
+            }}
           >
             <RxChevronRight style={{ color: textColor }} />
           </IconButton>
@@ -67,35 +75,45 @@ Traditional pagination with visible page numbers and navigation controls.
   preview={<PaginationVariants variant="numbered" />}
   code={`
 import React, { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "motion/react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { useTheme } from "@mui/material/styles";
 
 const NumberedPagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const textColor = theme.palette.text.primary;
+  const secondaryColor = theme.palette.text.secondary;
   const bubbleColor = theme.palette.action.selected;
+
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   const getPageNumbers = (current, total) => {
     if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
     if (current <= 3) return [1, 2, 3, 4, "...", total];
-    if (current >= total - 2) return [1, "...", total - 3, total - 2, total - 1, total];
+    if (current >= total - 2)
+      return [1, "...", total - 3, total - 2, total - 1, total];
     return [1, "...", current - 1, current, current + 1, "...", total];
   };
 
   return (
     <Box display="flex" alignItems="center" gap={0.5}>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+      <IconButton
+        onClick={handlePrevPage}
         disabled={currentPage === 1}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronLeft style={{ color: textColor }} />
       </IconButton>
       {getPageNumbers(currentPage, totalPages).map((page, index) =>
         page === "..." ? (
-          <Typography key={\`ellipsis-\${index}\`} color="text.secondary" px={0.5}>
+          <Typography
+            key={\`ellipsis-\${index}\`}
+            color={secondaryColor}
+            px={0.5}
+          >
             ...
           </Typography>
         ) : (
@@ -103,44 +121,34 @@ const NumberedPagination = ({ totalPages = 10 }) => {
             key={\`page-\${page}\`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: 0.1 }}
           >
             <Box
-              width={36}
-              height={36}
+              width={isMobile ? 28 : 36}
+              height={isMobile ? 28 : 36}
               display="flex"
               alignItems="center"
               justifyContent="center"
               borderRadius={0.5}
+              cursor="pointer"
               onClick={() => setCurrentPage(page)}
-              sx={{ cursor: "pointer", position: "relative", overflow: "hidden" }}
+              sx={{
+                backgroundColor:
+                  page === currentPage ? bubbleColor : "transparent",
+                fontWeight: page === currentPage ? 600 : 400,
+                color: textColor,
+                transition: "background-color 0.15s",
+              }}
             >
-              <motion.div
-                animate={{
-                  backgroundColor: page === currentPage ? bubbleColor : "transparent",
-                }}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  borderRadius: 4,
-                }}
-              />
-              <Typography
-                color={textColor}
-                fontWeight={page === currentPage ? 600 : 400}
-              >
-                {page}
-              </Typography>
+              {page}
             </Box>
           </motion.div>
         )
       )}
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+      <IconButton
+        onClick={handleNextPage}
         disabled={currentPage === totalPages}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronRight style={{ color: textColor }} />
       </IconButton>
@@ -160,26 +168,33 @@ A space-efficient pagination style with first/last page controls.
   preview={<PaginationVariants variant="compact" />}
   code={`
 import React, { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "motion/react";
 import {
   RxChevronLeft,
   RxChevronRight,
   RxDoubleArrowLeft,
   RxDoubleArrowRight,
 } from "react-icons/rx";
-import { useTheme } from "@mui/material/styles";
 
 const CompactPagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const textColor = theme.palette.text.primary;
+  const secondaryColor = theme.palette.text.secondary;
   const bubbleColor = theme.palette.action.selected;
+
+  const handleFirstPage = () => setCurrentPage(1);
+  const handleLastPage = () => setCurrentPage(totalPages);
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   const getPageNumbers = (current, total) => {
     if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
     if (current <= 3) return [1, 2, 3, 4, "...", total];
-    if (current >= total - 2) return [1, "...", total - 3, total - 2, total - 1, total];
+    if (current >= total - 2)
+      return [1, "...", total - 3, total - 2, total - 1, total];
     return [1, "...", current - 1, current, current + 1, "...", total];
   };
 
@@ -187,63 +202,92 @@ const CompactPagination = ({ totalPages = 10 }) => {
     <Box
       display="flex"
       alignItems="center"
+      gap={0.5}
       border={\`1px solid \${theme.palette.divider}\`}
       borderRadius={1}
+      overflow="hidden"
     >
-      <IconButton 
-        onClick={() => setCurrentPage(1)}
+      <IconButton
+        onClick={handleFirstPage}
         disabled={currentPage === 1}
+        size="small"
+        sx={{ borderRadius: 0 }}
       >
-        <RxDoubleArrowLeft style={{ color: textColor }} />
+        <RxDoubleArrowLeft
+          style={{ color: textColor, fontSize: isMobile ? 16 : 20 }}
+        />
       </IconButton>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+      <IconButton
+        onClick={handlePrevPage}
         disabled={currentPage === 1}
+        size="small"
+        sx={{ borderRadius: 0 }}
       >
-        <RxChevronLeft style={{ color: textColor }} />
+        <RxChevronLeft
+          style={{ color: textColor, fontSize: isMobile ? 16 : 20 }}
+        />
       </IconButton>
-      {getPageNumbers(currentPage, totalPages).slice(0, 5).map((page, index) =>
-        page === "..." ? (
-          <Typography key={\`ellipsis-\${index}\`} color="text.secondary" px={0.5}>
-            ...
-          </Typography>
-        ) : (
-          <motion.div
-            key={\`page-\${page}\`}
-            animate={{
-              backgroundColor: page === currentPage ? bubbleColor : "transparent",
-            }}
-          >
-            <Box
-              width={36}
-              height={36}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              onClick={() => setCurrentPage(page)}
-              sx={{ cursor: "pointer" }}
+      {getPageNumbers(currentPage, totalPages)
+        .slice(0, 5)
+        .map((page, index) =>
+          page === "..." ? (
+            <Typography
+              key={\`ellipsis-\${index}\`}
+              color={secondaryColor}
+              px={0.5}
             >
-              <Typography
-                color={textColor}
-                fontWeight={page === currentPage ? 600 : 400}
+              ...
+            </Typography>
+          ) : (
+            <motion.div
+              key={\`page-\${page}\`}
+              whileHover={{
+                backgroundColor:
+                  page !== currentPage
+                    ? theme.palette.action.hover
+                    : bubbleColor,
+              }}
+            >
+              <Box
+                width={isMobile ? 28 : 36}
+                height={isMobile ? 28 : 36}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                cursor="pointer"
+                onClick={() => setCurrentPage(page)}
+                sx={{
+                  backgroundColor:
+                    page === currentPage ? bubbleColor : "transparent",
+                  fontWeight: page === currentPage ? 600 : 400,
+                  color: textColor,
+                  transition: "background-color 0.15s",
+                }}
               >
                 {page}
-              </Typography>
-            </Box>
-          </motion.div>
-        )
-      )}
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+              </Box>
+            </motion.div>
+          )
+        )}
+      <IconButton
+        onClick={handleNextPage}
         disabled={currentPage === totalPages}
+        size="small"
+        sx={{ borderRadius: 0 }}
       >
-        <RxChevronRight style={{ color: textColor }} />
+        <RxChevronRight
+          style={{ color: textColor, fontSize: isMobile ? 16 : 20 }}
+        />
       </IconButton>
-      <IconButton 
-        onClick={() => setCurrentPage(totalPages)}
+      <IconButton
+        onClick={handleLastPage}
         disabled={currentPage === totalPages}
+        size="small"
+        sx={{ borderRadius: 0 }}
       >
-        <RxDoubleArrowRight style={{ color: textColor }} />
+        <RxDoubleArrowRight
+          style={{ color: textColor, fontSize: isMobile ? 16 : 20 }}
+        />
       </IconButton>
     </Box>
   );
@@ -271,26 +315,32 @@ const DropdownPagination = ({ totalPages = 10 }) => {
   const theme = useTheme();
   const textColor = theme.palette.text.primary;
 
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const handleRowsPerPageChange = (event) => setRowsPerPage(event.target.value);
+
   return (
-    <Box display="flex" alignItems="center" gap={2}>
+    <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
       <Box display="flex" alignItems="center" gap={1}>
         <Typography variant="body2">Rows per page</Typography>
         <Select
           value={rowsPerPage}
-          onChange={(e) => setRowsPerPage(e.target.value)}
+          onChange={handleRowsPerPageChange}
           size="small"
           sx={{ minWidth: 100 }}
           IconComponent={RxChevronDown}
         >
           {[10, 25, 50, 100].map((num) => (
-            <MenuItem key={num} value={num}>{num}</MenuItem>
+            <MenuItem key={num} value={num}>
+              {num}
+            </MenuItem>
           ))}
         </Select>
       </Box>
 
       <Box display="flex" alignItems="center" gap={1}>
-        <IconButton 
-          onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+        <IconButton
+          onClick={handlePrevPage}
           disabled={currentPage === 1}
         >
           <RxChevronLeft style={{ color: textColor }} />
@@ -303,11 +353,13 @@ const DropdownPagination = ({ totalPages = 10 }) => {
           IconComponent={RxChevronDown}
         >
           {Array.from({ length: totalPages }, (_, i) => (
-            <MenuItem key={i + 1} value={i + 1}>Page {i + 1}</MenuItem>
+            <MenuItem key={i + 1} value={i + 1}>
+              Page {i + 1}
+            </MenuItem>
           ))}
         </Select>
-        <IconButton 
-          onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+        <IconButton
+          onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >
           <RxChevronRight style={{ color: textColor }} />
@@ -337,29 +389,38 @@ const RowsPerPagePagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const theme = useTheme();
-  
+
+  const handleRowsPerPageChange = (event) => setRowsPerPage(event.target.value);
+
   const start = (currentPage - 1) * rowsPerPage + 1;
   const end = Math.min(currentPage * rowsPerPage, totalPages * rowsPerPage);
 
   return (
-    <Box display="flex" alignItems="center" gap={2}>
-      <Box display="flex" alignItems="center" gap={1}>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      width="100%"
+    >
+      <Box display="flex" alignItems="center" gap={2}>
         <Typography variant="body2">Rows per page</Typography>
         <Select
           value={rowsPerPage}
-          onChange={(e) => setRowsPerPage(e.target.value)}
+          onChange={handleRowsPerPageChange}
           size="small"
           sx={{ minWidth: 100 }}
           IconComponent={RxChevronDown}
         >
           {[10, 25, 50, 100].map((num) => (
-            <MenuItem key={num} value={num}>{num}</MenuItem>
+            <MenuItem key={num} value={num}>
+              {num}
+            </MenuItem>
           ))}
         </Select>
+        <Typography variant="body2">
+          {start}-{end} of {totalPages * rowsPerPage}
+        </Typography>
       </Box>
-      <Typography variant="body2">
-        {start}-{end} of {totalPages * rowsPerPage}
-      </Typography>
     </Box>
   );
 };
@@ -376,21 +437,25 @@ A smooth fade animation when transitioning between pages.
   preview={<PaginationVariants variant="fading" />}
   code={`
 import React, { useState } from "react";
-import { Box, IconButton } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
+import { motion, AnimatePresence } from "motion/react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { useTheme } from "@mui/material/styles";
 
 const FadingPagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const textColor = theme.palette.text.primary;
+
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
     <Box display="flex" alignItems="center" gap={1}>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+      <IconButton
+        onClick={handlePrevPage}
         disabled={currentPage === 1}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronLeft style={{ color: textColor }} />
       </IconButton>
@@ -401,7 +466,7 @@ const FadingPagination = ({ totalPages = 10 }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.15 }}
             style={{
               position: "absolute",
               width: "100%",
@@ -418,9 +483,10 @@ const FadingPagination = ({ totalPages = 10 }) => {
           </motion.div>
         </AnimatePresence>
       </Box>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+      <IconButton
+        onClick={handleNextPage}
         disabled={currentPage === totalPages}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronRight style={{ color: textColor }} />
       </IconButton>
@@ -440,55 +506,68 @@ A horizontal sliding animation between page numbers.
   preview={<PaginationVariants variant="sliding" />}
   code={`
 import React, { useState } from "react";
-import { Box, IconButton } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
+import { motion } from "motion/react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { useTheme } from "@mui/material/styles";
 
 const SlidingPagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const textColor = theme.palette.text.primary;
   const secondaryColor = theme.palette.text.secondary;
 
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
   return (
     <Box display="flex" alignItems="center" gap={1}>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+      <IconButton
+        onClick={handlePrevPage}
         disabled={currentPage === 1}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronLeft style={{ color: textColor }} />
       </IconButton>
-      <Box width={120} height={30} overflow="hidden" position="relative">
+      <Box
+        width={isMobile ? 90 : 120}
+        height={30}
+        overflow="hidden"
+        position="relative"
+      >
         <motion.div
-          animate={{ x: -((currentPage - 1) * 40) }}
-          transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.5 }}
-          style={{ display: "flex", position: "absolute" }}
+          animate={{ x: -((currentPage - 1) * (isMobile ? 30 : 40)) }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          style={{
+            display: "flex",
+            position: "absolute",
+            height: "100%",
+          }}
         >
           {Array.from({ length: totalPages }).map((_, i) => (
-            <motion.div
+            <Box
               key={i}
-              style={{
-                width: 40,
+              sx={{
+                width: isMobile ? 30 : 40,
                 height: 30,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-              }}
-              animate={{
                 color: i + 1 === currentPage ? textColor : secondaryColor,
                 scale: i + 1 === currentPage ? 1.2 : 0.9,
                 fontWeight: i + 1 === currentPage ? 600 : 400,
+                transition: "all 0.15s",
               }}
             >
               {i + 1}
-            </motion.div>
+            </Box>
           ))}
         </motion.div>
       </Box>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+      <IconButton
+        onClick={handleNextPage}
         disabled={currentPage === totalPages}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronRight style={{ color: textColor }} />
       </IconButton>
@@ -508,22 +587,26 @@ An expanding/collapsing animation for page indicators.
   preview={<PaginationVariants variant="expanding" />}
   code={`
 import React, { useState } from "react";
-import { Box, IconButton } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
+import { motion, AnimatePresence } from "motion/react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { useTheme } from "@mui/material/styles";
 
 const ExpandingPagination = ({ totalPages = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const textColor = theme.palette.text.primary;
   const bubbleColor = theme.palette.action.selected;
 
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
   return (
     <Box display="flex" alignItems="center" gap={1}>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+      <IconButton
+        onClick={handlePrevPage}
         disabled={currentPage === 1}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronLeft style={{ color: textColor }} />
       </IconButton>
@@ -531,13 +614,13 @@ const ExpandingPagination = ({ totalPages = 10 }) => {
         {Array.from({ length: totalPages }).map((_, i) => (
           <motion.div
             key={i}
-            initial={{ width: i + 1 === currentPage ? 30 : 8 }}
             animate={{
               width: i + 1 === currentPage ? 30 : 8,
-              backgroundColor: i + 1 === currentPage ? bubbleColor : "transparent",
               opacity: i + 1 === currentPage ? 1 : 0.6,
+              backgroundColor:
+                i + 1 === currentPage ? bubbleColor : "transparent",
             }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             style={{
               height: 30,
               borderRadius: 15,
@@ -545,16 +628,19 @@ const ExpandingPagination = ({ totalPages = 10 }) => {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              overflow: "hidden",
               border: \`1px solid \${theme.palette.divider}\`,
             }}
             onClick={() => setCurrentPage(i + 1)}
+            whileHover={{ scale: 1.05 }}
           >
             <AnimatePresence mode="wait">
               {i + 1 === currentPage && (
                 <motion.span
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                   style={{ color: textColor, fontSize: "0.875rem" }}
                 >
                   {i + 1}
@@ -564,9 +650,10 @@ const ExpandingPagination = ({ totalPages = 10 }) => {
           </motion.div>
         ))}
       </Box>
-      <IconButton 
-        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+      <IconButton
+        onClick={handleNextPage}
         disabled={currentPage === totalPages}
+        size={isMobile ? "small" : "medium"}
       >
         <RxChevronRight style={{ color: textColor }} />
       </IconButton>

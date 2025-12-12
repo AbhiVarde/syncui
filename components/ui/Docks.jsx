@@ -7,7 +7,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   FiHome,
   FiSettings,
@@ -25,7 +25,6 @@ const DockVariants = ({ variant = "minimal" }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isDark = theme.palette.mode === "dark";
 
-  // Responsive configurations
   const dockItems = [
     { icon: FiHome, label: "Home", group: "main" },
     { icon: FiFolder, label: "Files", group: "main" },
@@ -34,7 +33,7 @@ const DockVariants = ({ variant = "minimal" }) => {
     { icon: FiCamera, label: "Camera", group: "apps" },
     { icon: FiTerminal, label: "Terminal", group: "system" },
     { icon: FiSettings, label: "Settings", group: "system" },
-  ].slice(0, isMobile ? 5 : 7); // Show fewer items on mobile
+  ].slice(0, isMobile ? 5 : 7);
 
   const themeColors = {
     background: isDark ? "rgba(30, 32, 35, 0.95)" : "rgba(255, 255, 255, 0.95)",
@@ -50,21 +49,11 @@ const DockVariants = ({ variant = "minimal" }) => {
     dividerColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)",
   };
 
-  // Responsive size configurations
   const config = {
     iconSize: isMobile ? 18 : 22,
     buttonSize: isMobile ? 35 : 45,
     gapSize: isMobile ? 1 : 2,
     hoverScale: isMobile ? 1.1 : 1.2,
-    baseAnimation: {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 20,
-      },
-    },
   };
 
   const renderVariant = () => {
@@ -105,11 +94,6 @@ const DockVariants = ({ variant = "minimal" }) => {
                 return (
                   <motion.div
                     key={index}
-                    {...config.baseAnimation}
-                    transition={{
-                      ...config.baseAnimation.transition,
-                      delay: index * 0.05,
-                    }}
                     onHoverStart={() => setHoveredIndex(index)}
                     onHoverEnd={() => setHoveredIndex(null)}
                   >
@@ -117,17 +101,12 @@ const DockVariants = ({ variant = "minimal" }) => {
                       <motion.div
                         animate={{
                           scale: isHovered ? config.hoverScale : neighborScale,
-                          rotate: isHovered ? [0, -10, 10, 0] : 0,
                           y: isHovered ? (isMobile ? -8 : -12) : 0,
                         }}
                         transition={{
                           type: "spring",
                           stiffness: 400,
-                          damping: 17,
-                          rotate: {
-                            duration: 0.5,
-                            ease: "easeInOut",
-                          },
+                          damping: 20,
                         }}
                       >
                         <Box
@@ -150,7 +129,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                             color: isHovered
                               ? themeColors.iconHoverColor
                               : themeColors.iconColor,
-                            transition: "all 0.3s ease",
+                            transition: "all 0.2s",
                           }}
                         >
                           <Icon size={config.iconSize} />
@@ -199,12 +178,6 @@ const DockVariants = ({ variant = "minimal" }) => {
                     sx={{ display: "flex", alignItems: "center" }}
                   >
                     <motion.div
-                      initial={config.baseAnimation.initial}
-                      animate={config.baseAnimation.animate}
-                      transition={{
-                        ...config.baseAnimation.transition,
-                        delay: index * 0.05,
-                      }}
                       onHoverStart={() => setHoveredIndex(index)}
                       onHoverEnd={() => setHoveredIndex(null)}
                     >
@@ -217,7 +190,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                           transition={{
                             type: "spring",
                             stiffness: 400,
-                            damping: 17,
+                            damping: 20,
                           }}
                         >
                           <Box
@@ -234,7 +207,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                                   ? "#42a5f5"
                                   : themeColors.iconColor
                                 : themeColors.iconColor,
-                              transition: "all 0.2s ease",
+                              transition: "all 0.15s",
                               "&:hover": {
                                 bgcolor: isDark
                                   ? "rgba(255, 255, 255, 0.05)"
@@ -273,10 +246,10 @@ const DockVariants = ({ variant = "minimal" }) => {
           <AnimatePresence>
             {isVisible && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
               >
                 <Paper
                   elevation={2}
@@ -306,17 +279,12 @@ const DockVariants = ({ variant = "minimal" }) => {
                       const scale = isHovered
                         ? config.hoverScale
                         : hoveredIndex !== null
-                        ? Math.max(1, config.hoverScale - distance * 0.15)
-                        : 1;
+                          ? Math.max(1, config.hoverScale - distance * 0.15)
+                          : 1;
 
                       return (
                         <motion.div
                           key={index}
-                          {...config.baseAnimation}
-                          transition={{
-                            ...config.baseAnimation.transition,
-                            delay: index * 0.05,
-                          }}
                           onHoverStart={() => setHoveredIndex(index)}
                           onHoverEnd={() => setHoveredIndex(null)}
                         >
@@ -325,12 +293,11 @@ const DockVariants = ({ variant = "minimal" }) => {
                               animate={{
                                 scale,
                                 y: isHovered ? -8 : 0,
-                                rotateZ: isHovered ? -8 : 0,
                               }}
                               transition={{
                                 type: "spring",
                                 stiffness: 400,
-                                damping: 17,
+                                damping: 20,
                               }}
                             >
                               <Paper
@@ -346,7 +313,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                                   background: isHovered
                                     ? themeColors.iconHoverGradient
                                     : themeColors.background,
-                                  transition: "all 0.3s ease",
+                                  transition: "all 0.2s",
                                   "&:hover": {
                                     background: themeColors.iconHoverGradient,
                                     color: themeColors.iconHoverColor,
@@ -384,40 +351,6 @@ const DockVariants = ({ variant = "minimal" }) => {
               overflowX: "auto",
             }}
           >
-            <motion.div
-              animate={{
-                background: [
-                  `linear-gradient(0deg, ${
-                    isDark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)"
-                  }, ${
-                    isDark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)"
-                  })`,
-                  `linear-gradient(90deg, ${
-                    isDark ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.2)"
-                  }, ${
-                    isDark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)"
-                  })`,
-                  `linear-gradient(180deg, ${
-                    isDark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)"
-                  }, ${
-                    isDark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.1)"
-                  })`,
-                ],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                borderRadius: "12px",
-              }}
-            />
             <Box
               sx={{
                 display: "flex",
@@ -433,11 +366,6 @@ const DockVariants = ({ variant = "minimal" }) => {
                 return (
                   <motion.div
                     key={index}
-                    {...config.baseAnimation}
-                    transition={{
-                      ...config.baseAnimation.transition,
-                      delay: index * 0.05,
-                    }}
                     onHoverStart={() => setHoveredIndex(index)}
                     onHoverEnd={() => setHoveredIndex(null)}
                   >
@@ -446,16 +374,11 @@ const DockVariants = ({ variant = "minimal" }) => {
                         animate={{
                           scale: isHovered ? config.hoverScale : 1,
                           y: isHovered ? -8 : 0,
-                          rotateY: isHovered ? [0, 180, 360] : 0,
                         }}
                         transition={{
                           type: "spring",
                           stiffness: 400,
-                          damping: 17,
-                          rotateY: {
-                            duration: 0.8,
-                            ease: "easeInOut",
-                          },
+                          damping: 20,
                         }}
                       >
                         <Box
@@ -472,8 +395,8 @@ const DockVariants = ({ variant = "minimal" }) => {
                                 ? "rgba(255, 255, 255, 0.15)"
                                 : "rgba(255, 255, 255, 0.2)"
                               : isDark
-                              ? "rgba(255, 255, 255, 0.05)"
-                              : "rgba(255, 255, 255, 0.1)",
+                                ? "rgba(255, 255, 255, 0.05)"
+                                : "rgba(255, 255, 255, 0.1)",
                             border: isDark
                               ? "1px solid rgba(255, 255, 255, 0.2)"
                               : "1px solid rgba(255, 255, 255, 0.3)",
@@ -487,7 +410,7 @@ const DockVariants = ({ variant = "minimal" }) => {
                                 ? "#42a5f5"
                                 : themeColors.iconColor
                               : themeColors.iconColor,
-                            transition: "all 0.3s ease",
+                            transition: "all 0.2s",
                             "&:hover": {
                               background: isDark
                                 ? "rgba(255, 255, 255, 0.2)"
