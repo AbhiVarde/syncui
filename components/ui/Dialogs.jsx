@@ -29,7 +29,7 @@ import {
   RxCross2,
   RxCheck,
 } from "react-icons/rx";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const TransitionSlide = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -59,7 +59,6 @@ const DialogVariants = ({ variant }) => {
   const bgColor = isDark ? "#1a1a1a" : "#ffffff";
   const borderColor = isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
 
-  // Auto-close for notification and info dialogs
   useEffect(() => {
     if (open && (variant === "notification" || variant === "info")) {
       const timer = setTimeout(() => {
@@ -99,7 +98,7 @@ const DialogVariants = ({ variant }) => {
         width: isMobile ? "90vw" : isTablet ? "80vw" : 480,
         maxWidth: isMobile ? "90vw" : 480,
         backgroundColor: bgColor,
-        backgroundImage: "none !important",
+        backgroundImage: "none",
         border: `1px solid ${borderColor}`,
         boxShadow: isDark
           ? "0 25px 50px -12px rgba(0, 0, 0, 0.8)"
@@ -189,7 +188,7 @@ const DialogVariants = ({ variant }) => {
                 maxWidth: 480,
                 backdropFilter: "blur(8px)",
                 backgroundColor: bgColor,
-                backgroundImage: "none !important",
+                backgroundImage: "none",
                 border: `1px solid ${borderColor}`,
                 boxShadow: isDark
                   ? "0 5px 20px rgba(0,0,0,0.5)"
@@ -442,7 +441,7 @@ const DialogVariants = ({ variant }) => {
             PaperProps={{
               sx: {
                 backgroundColor: bgColor,
-                backgroundImage: "none !important",
+                backgroundImage: "none",
               },
             }}
           >
@@ -513,13 +512,12 @@ const DialogVariants = ({ variant }) => {
                 height: "100vh",
                 borderRadius: 2,
                 backgroundColor: bgColor,
-                backgroundImage: "none !important",
+                backgroundImage: "none",
                 borderRight: `1px solid ${borderColor}`,
               },
             }}
           >
             <Box sx={{ p: 2, height: "100%" }}>
-              {/* Header */}
               <Box
                 sx={{
                   display: "flex",
@@ -540,7 +538,6 @@ const DialogVariants = ({ variant }) => {
                 <CloseButton onClick={handleClose} />
               </Box>
 
-              {/* List */}
               <List
                 sx={{
                   "& .MuiListItem-root": {
@@ -634,15 +631,10 @@ const DialogVariants = ({ variant }) => {
           <AnimatePresence>
             {open && (
               <MotionBox
-                initial={{ opacity: 0, y: -100, scale: 0.95 }}
+                initial={{ opacity: 0, y: -50, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -100, scale: 0.95 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 30,
-                  mass: 1,
-                }}
+                exit={{ opacity: 0, y: -50, scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 sx={{
                   position: "fixed",
                   top: 20,
