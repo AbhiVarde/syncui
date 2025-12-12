@@ -13,7 +13,7 @@ Text with video content visible through text mask.
   code={`
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
   const svgMask = encodeURIComponent(\`
@@ -115,7 +115,7 @@ Text that cycles through blur states with opacity changes.
   preview={<TextVariants variant="blurIn" />}
   code={`
 import { Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const BlurIn = ({ text }) => (
   <motion.div
@@ -146,7 +146,7 @@ Text that reveals characters with a sliding motion.
   code={`
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const SplitReveal = ({ text }) => {
   return (
@@ -202,7 +202,7 @@ Characters that pulse in a wave pattern.
   preview={<TextVariants variant="staggeredScale" />}
   code={`
 import { Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const StaggeredScale = ({ text }) => (
   <div style={{ display: "flex", gap: "0.2rem" }}>
@@ -229,7 +229,7 @@ Individual letters that rise and fade repeatedly.
   preview={<TextVariants variant="lettersPullUp" />}
   code={`
 import { Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const LettersPullUp = ({ text }) => (
   <motion.div style={{ display: "flex", justifyContent: "center" }}>
@@ -256,7 +256,7 @@ Characters that move in a vertical wave pattern.
   preview={<TextVariants variant="waveEffect" />}
   code={`
 import { Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const WaveEffect = ({ text }) => (
   <div style={{ display: "flex", gap: "0.2rem" }}>
@@ -285,7 +285,7 @@ Text with pulsating neon effect in national colors.
   preview={<TextVariants variant="neonGlow" />}
   code={`
 import { Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const NeonGlow = ({ text }) => (
   <motion.div
@@ -321,7 +321,7 @@ Complete words that smoothly rise into view.
   preview={<TextVariants variant="wordsPullUp" />}
   code={`
 import { Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const WordsPullUp = ({ text }) => (
   <motion.div
@@ -359,7 +359,7 @@ Classic typing effect with blinking cursor.
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const TypewriterEffect = ({ text }) => {
   const [displayText, setDisplayText] = useState("");
@@ -408,7 +408,7 @@ Text that cycles through words with smooth transitions.
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const RotateWords = ({ text, words }) => {
   const [index, setIndex] = useState(0);
@@ -454,7 +454,7 @@ Words that smoothly transition between different values.
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const MorphingText = ({ words }) => {
   const [index, setIndex] = useState(0);
@@ -486,4 +486,3 @@ const MorphingText = ({ words }) => {
 };
 `}
 />
-

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const TextVariants = ({ variant }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -209,13 +209,7 @@ const MorphingText = ({ words }) => {
           exit={{ opacity: 0, scale: 1.2 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 500,
-              letterSpacing: 0.2,
-            }}
-          >
+          <Typography variant="h3" sx={{ fontWeight: 500, letterSpacing: 0.2 }}>
             {words[index]}
           </Typography>
         </motion.div>
@@ -380,21 +374,21 @@ const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
   const xPosition = alignment === "center" ? "50%" : "10%";
 
   const svgMask = encodeURIComponent(`
-  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-    <text 
-      x="${xPosition}" 
-      y="50%" 
-      dominant-baseline="middle" 
-      text-anchor="${textAnchor}"
-      font-family="Montserrat, sans-serif"
-      font-weight="700"
-      font-size="36px"
-      letter-spacing="8px"
-    >
-      ${text.toUpperCase()}
-    </text>
-  </svg>
-`);
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <text 
+        x="${xPosition}" 
+        y="50%" 
+        dominant-baseline="middle" 
+        text-anchor="${textAnchor}"
+        font-family="Montserrat, sans-serif"
+        font-weight="700"
+        font-size="36px"
+        letter-spacing="8px"
+      >
+        ${text.toUpperCase()}
+      </text>
+    </svg>
+  `);
 
   return (
     <Box
