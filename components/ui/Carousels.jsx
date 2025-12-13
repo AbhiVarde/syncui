@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, Typography, IconButton, Paper } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   LuChevronRight,
   LuChevronLeft,
@@ -10,16 +10,14 @@ import {
   LuArrowRight,
 } from "react-icons/lu";
 
-// Motion components with optimized will-change
 const MotionBox = motion.create(Box);
 const MotionPaper = motion.create(Paper);
 
-// Enhanced preload function with cache tracking
 const preloadImages = async (images) => {
   const cache = new Set();
   await Promise.all(
     images.map((slideData) => {
-      if (cache.has(slideData.image)) return;
+      if (cache.has(slideData.image)) return Promise.resolve();
       cache.add(slideData.image);
 
       return new Promise((resolve) => {
@@ -32,23 +30,22 @@ const preloadImages = async (images) => {
   );
 };
 
-// Slide data
 const imageSlides = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1605379399642-870262d3d051",
+    image: "https://images.unsplash.com/photo-1605379399642-870262d3d051?w=800",
     title: "Modern Architecture",
     description: "Exploring contemporary design principles",
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800",
     title: "Natural Landscapes",
     description: "Breathtaking views from around the world",
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1449034446853-66c86144b0ad",
+    image: "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=800",
     title: "Urban Life",
     description: "City experiences and metropolitan moments",
   },
@@ -57,68 +54,34 @@ const imageSlides = [
 const imageSlidesContent = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1682685797661-9e0c87f59c60",
+    image: "https://images.unsplash.com/photo-1682685797661-9e0c87f59c60?w=800",
     title: "Quantum Computing",
-    description:
-      "Revolutionizing computational possibilities with quantum mechanics",
+    description: "Revolutionizing computational possibilities",
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1683009427513-28e163402d16",
+    image: "https://images.unsplash.com/photo-1683009427513-28e163402d16?w=800",
     title: "Sustainable Future",
-    description: "Pioneering green technologies for tomorrow's world",
+    description: "Pioneering green technologies",
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1682687219800-bba120d709c5",
+    image: "https://images.unsplash.com/photo-1682687219800-bba120d709c5?w=800",
     title: "AI Revolution",
-    description: "Shaping the future of human-machine collaboration",
+    description: "Shaping human-machine collaboration",
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1682695796954-bad0d0f59ff1",
+    image: "https://images.unsplash.com/photo-1682695796954-bad0d0f59ff1?w=800",
     title: "Space Exploration",
-    description: "Pushing the boundaries of human discovery",
-  },
-  {
-    id: 5,
-    image: "https://images.unsplash.com/photo-1682686578707-140b042e8f19",
-    title: "Neural Interface",
-    description: "Breaking barriers between mind and machine",
-  },
-  {
-    id: 6,
-    image: "https://images.unsplash.com/photo-1682695798522-6e208131916d",
-    title: "Quantum Art",
-    description: "Where science meets digital creativity",
+    description: "Pushing boundaries of discovery",
   },
 ];
-const slideAnimations = {
-  scale: {
-    initial: { scale: 0.85, opacity: 0 },
-    animate: { scale: 1, opacity: 1, transition: { duration: 0.5 } },
-    exit: { scale: 0.85, opacity: 0, transition: { duration: 0.3 } },
-  },
-  fade: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.5 } },
-    exit: { opacity: 0, transition: { duration: 0.3 } },
-  },
-  parallax: {
-    initial: (direction) => ({ x: direction > 0 ? "100%" : "-100%" }),
-    animate: { x: 0, transition: { duration: 0.6, ease: "easeInOut" } },
-    exit: (direction) => ({
-      x: direction > 0 ? "-100%" : "100%",
-      transition: { duration: 0.6, ease: "easeInOut" },
-    }),
-  },
-};
 
 const CarouselVariants = ({ variant = "classic" }) => {
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
-  const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const slides = useMemo(() => {
@@ -128,16 +91,14 @@ const CarouselVariants = ({ variant = "classic" }) => {
   }, [variant]);
 
   const handleNext = useCallback(() => {
-    if (isDragging) return;
     setDirection(1);
     setActive((prev) => (prev + 1) % slides.length);
-  }, [slides.length, isDragging]);
+  }, [slides.length]);
 
   const handlePrev = useCallback(() => {
-    if (isDragging) return;
     setDirection(-1);
     setActive((prev) => (prev - 1 + slides.length) % slides.length);
-  }, [slides.length, isDragging]);
+  }, [slides.length]);
 
   useEffect(() => {
     let timeout;
@@ -145,7 +106,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
       timeout = setTimeout(handleNext, 5000);
     }
     return () => clearTimeout(timeout);
-  }, [autoplay, handleNext, isLoading]);
+  }, [autoplay, handleNext, isLoading, active]);
 
   useEffect(() => {
     let mounted = true;
@@ -173,8 +134,10 @@ const CarouselVariants = ({ variant = "classic" }) => {
             <AnimatePresence initial={false} custom={direction}>
               <MotionBox
                 key={active}
-                custom={direction}
-                {...slideAnimations.scale}
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.85, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 sx={{
                   position: "absolute",
                   width: "100%",
@@ -182,6 +145,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                   backgroundImage: `url(${slides[active]?.image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
+                  borderRadius: 4,
                 }}
               >
                 <Box
@@ -198,22 +162,8 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     borderBottomRightRadius: 8,
                   }}
                 >
-                  <Typography
-                    variant="h5"
-                    component={motion.h5}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    {slides[active]?.title}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    component={motion.p}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
+                  <Typography variant="h6">{slides[active]?.title}</Typography>
+                  <Typography variant="body1">
                     {slides[active]?.description}
                   </Typography>
                 </Box>
@@ -238,6 +188,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     scale: active === index ? 1.2 : 1,
                     opacity: active === index ? 1 : 0.5,
                   }}
+                  transition={{ duration: 0.3 }}
                   sx={{
                     width: 8,
                     height: 8,
@@ -259,7 +210,6 @@ const CarouselVariants = ({ variant = "classic" }) => {
               {slides.map((slide, index) => {
                 const cardOffset =
                   (index - active + slides.length) % slides.length;
-                const isActive = cardOffset === 0;
 
                 return (
                   <MotionPaper
@@ -272,7 +222,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                       zIndex: slides.length - Math.abs(cardOffset),
                     }}
                     exit={{ scale: 0.8, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     sx={{
                       position: "absolute",
                       width: "80%",
@@ -282,23 +232,15 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     }}
                   >
                     <Box
-                      component="div"
                       sx={{
                         position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
+                        inset: 0,
                         backgroundImage: `url(${slide?.image})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                        pointerEvents: "none",
-                        willChange: "transform",
-                        transform: "translateZ(0)",
                       }}
                     />
                     <Box
-                      component="div"
                       sx={{
                         position: "absolute",
                         bottom: 0,
@@ -309,10 +251,9 @@ const CarouselVariants = ({ variant = "classic" }) => {
                           "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
                         color: "white",
                         borderRadius: "0 0 16px 16px",
-                        pointerEvents: "none",
                       }}
                     >
-                      <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                         {slide?.title}
                       </Typography>
                       <Typography variant="body1" sx={{ opacity: 0.9 }}>
@@ -335,26 +276,22 @@ const CarouselVariants = ({ variant = "classic" }) => {
               }}
             >
               <IconButton
-                onClick={!isDragging ? handlePrev : undefined}
-                disabled={isDragging}
+                onClick={handlePrev}
                 sx={{
                   color: "white",
                   bgcolor: "rgba(0,0,0,0.4)",
                   "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
-                  "&:disabled": { opacity: 0.5 },
                   borderRadius: "50%",
                 }}
               >
                 <LuArrowLeft />
               </IconButton>
               <IconButton
-                onClick={!isDragging ? handleNext : undefined}
-                disabled={isDragging}
+                onClick={handleNext}
                 sx={{
                   color: "white",
                   bgcolor: "rgba(0,0,0,0.4)",
                   "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
-                  "&:disabled": { opacity: 0.5 },
                   borderRadius: "50%",
                 }}
               >
@@ -370,8 +307,10 @@ const CarouselVariants = ({ variant = "classic" }) => {
             <AnimatePresence initial={false} custom={direction}>
               <MotionBox
                 key={active}
-                custom={direction}
-                {...slideAnimations.parallax}
+                initial={{ x: direction > 0 ? "100%" : "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: direction > 0 ? "-100%" : "100%" }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
                 sx={{
                   position: "absolute",
                   width: "100%",
@@ -384,10 +323,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                 <Box
                   sx={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    inset: 0,
                     background:
                       "linear-gradient(45deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%)",
                     display: "flex",
@@ -397,22 +333,8 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     color: "white",
                   }}
                 >
-                  <Typography
-                    variant="h3"
-                    component={motion.h3}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    {slides[active]?.title}
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    component={motion.h6}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                  >
+                  <Typography variant="h6">{slides[active]?.title}</Typography>
+                  <Typography variant="body1">
                     {slides[active]?.description}
                   </Typography>
                 </Box>
@@ -449,6 +371,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     scale: active === index ? 1 : 0.8,
                     opacity: active === index ? 1 : 0.5,
                   }}
+                  transition={{ duration: 0.2 }}
                   sx={{
                     width: active === index ? 24 : 12,
                     height: 4,
@@ -470,7 +393,10 @@ const CarouselVariants = ({ variant = "classic" }) => {
             <AnimatePresence mode="wait">
               <MotionBox
                 key={active}
-                {...slideAnimations.fade}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 sx={{
                   position: "absolute",
                   width: "100%",
@@ -493,7 +419,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
                     borderRadius: 2,
                   }}
                 >
-                  <Typography variant="h5" gutterBottom>
+                  <Typography variant="h6" gutterBottom>
                     {imageSlides[active]?.title}
                   </Typography>
                   <Typography variant="body1">
@@ -544,10 +470,7 @@ const CarouselVariants = ({ variant = "classic" }) => {
         <Box
           sx={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             background: "rgba(0,0,0,0.1)",
             zIndex: 1,
           }}

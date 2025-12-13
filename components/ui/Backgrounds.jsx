@@ -5,706 +5,649 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { Box, useTheme, Typography } from "@mui/material";
-import {
-  motion,
-  AnimatePresence,
-  useAnimation,
-  useInView,
-} from "framer-motion";
-import { useRouter } from "next/router";
+import { Box, Typography, useTheme } from "@mui/material";
+import { motion, useInView } from "motion/react";
 
 const MotionBox = motion.create(Box);
 
 const BackgroundVariants = ({ variant }) => {
-  const theme = useTheme();
   const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.3 });
 
-  const isInView = useInView(ref);
-  const controls = useAnimation();
-  const router = useRouter();
-  const { asPath } = router;
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start("visible");
+  const borderRadius = useMemo(() => {
+    if (variant === "grid" || variant === "interactiveGrid") {
+      return 0;
     }
-  }, [isInView, controls]);
+    return 4;
+  }, [variant]);
 
   const renderBackground = () => {
     switch (variant) {
       case "geminiWave":
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: `linear-gradient(135deg, #92EFFD, #4E65FF)`,
-              position: "relative",
-              overflow: "hidden",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <MotionBox
-              sx={{
-                position: "absolute",
-                width: "150%",
-                height: "100%",
-                left: "-25%",
-              }}
-            >
-              {[...Array(3)].map((_, index) => (
-                <MotionBox
-                  key={index}
-                  sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    opacity: 0.7 - index * 0.2,
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 1440 320"
-                    style={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
-                    <motion.path
-                      fill={`rgba(255,255,255,${0.3 - index * 0.1})`}
-                      initial={{
-                        d: "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
-                      }}
-                      animate={{
-                        d: [
-                          "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
-                          "M0,200 C320,100,420,260,640,200 C880,140,1200,180,1440,240 V320 H0 Z",
-                          "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
-                        ],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        repeatType: "loop",
-                        duration: 10 - index * 2,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  </svg>
-                </MotionBox>
-              ))}
-            </MotionBox>
-            <Typography variant="h4" sx={{ color: "white", zIndex: 1 }}>
-              Gemini Wave
-            </Typography>
-          </MotionBox>
-        );
-
+        return <GeminiWave />;
       case "magneticConnections":
-        const [mousePos, setMousePos] = useState(null);
-        const [dots, setDots] = useState([]);
-        const dotSize = 3;
-        const spacing = 40;
-        const connectDistance = 80;
-        const lineOpacity = 0.6;
-        const extraColumns = 4;
-
-        function distance(pos1, pos2) {
-          const dx = pos1.x - pos2.x;
-          const dy = pos1.y - pos2.y;
-          return Math.sqrt(dx * dx + dy * dy);
-        }
-
-        useEffect(() => {
-          if (ref.current) {
-            const width = ref.current.offsetWidth;
-            const height = ref.current.offsetHeight;
-
-            const cols = Math.floor(width / spacing) + extraColumns;
-            const rows = Math.floor(height / spacing);
-
-            const offsetX =
-              (width - (cols - extraColumns) * spacing) / 2 -
-              (extraColumns * spacing) / 2;
-            const offsetY = (height - rows * spacing) / 2;
-
-            const dots = [];
-            for (let row = 0; row < rows; row++) {
-              for (let col = 0; col < cols; col++) {
-                dots.push({
-                  id: `${col}-${row}`,
-                  x: offsetX + col * spacing,
-                  y: offsetY + row * spacing,
-                });
-              }
-            }
-            setDots(dots);
-          }
-
-          const handleResize = () => {
-            if (ref.current) {
-              const width = ref.current.offsetWidth;
-              const height = ref.current.offsetHeight;
-
-              const cols = Math.floor(width / spacing) + extraColumns;
-              const rows = Math.floor(height / spacing);
-
-              const offsetX =
-                (width - (cols - extraColumns) * spacing) / 2 -
-                (extraColumns * spacing) / 2;
-              const offsetY = (height - rows * spacing) / 2;
-
-              const newDots = [];
-              for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                  newDots.push({
-                    id: `${col}-${row}`,
-                    x: offsetX + col * spacing,
-                    y: offsetY + row * spacing,
-                  });
-                }
-              }
-              setDots(newDots);
-            }
-          };
-
-          window.addEventListener("resize", handleResize);
-          return () => window.removeEventListener("resize", handleResize);
-        }, [ref]);
-
-        const handleMouseMove = useCallback((e) => {
-          if (!ref.current) return;
-          const rect = ref.current.getBoundingClientRect();
-          setMousePos({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-          });
-        }, []);
-
-        const handleMouseLeave = useCallback(() => setMousePos(null), []);
-
-        return (
-          <MotionBox
-            ref={ref}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: theme.palette.background.default,
-              position: "relative",
-              overflow: "hidden",
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <svg
-              width="100%"
-              height="100%"
-              style={{
-                position: "absolute",
-                pointerEvents: "none",
-              }}
-            >
-              {mousePos &&
-                dots.map((dot) => {
-                  const dx = mousePos.x - dot.x;
-                  const dy = mousePos.y - dot.y;
-                  const distance = Math.sqrt(dx * dx + dy * dy);
-
-                  if (distance < connectDistance) {
-                    const opacity =
-                      lineOpacity * (1 - distance / connectDistance);
-                    return (
-                      <line
-                        key={`line-${dot.id}`}
-                        x1={dot.x}
-                        y1={dot.y}
-                        x2={mousePos.x}
-                        y2={mousePos.y}
-                        stroke={theme.palette.text.primary}
-                        strokeWidth={0.6}
-                        opacity={opacity}
-                      />
-                    );
-                  }
-                  return null;
-                })}
-            </svg>
-
-            {dots.map((dot) => (
-              <motion.div
-                key={dot.id}
-                style={{
-                  position: "absolute",
-                  left: dot.x - dotSize / 2,
-                  top: dot.y - dotSize / 2,
-                  width: dotSize,
-                  height: dotSize,
-                  borderRadius: "50%",
-                  background: theme.palette.text.primary,
-                  zIndex: 1,
-                }}
-                animate={{
-                  scale: mousePos
-                    ? 1 +
-                      0.5 *
-                        (1 -
-                          Math.min(
-                            1,
-                            distance(mousePos, dot) / connectDistance
-                          ))
-                    : 1,
-                  opacity: mousePos
-                    ? 0.8 +
-                      0.2 *
-                        (1 -
-                          Math.min(
-                            1,
-                            distance(mousePos, dot) / connectDistance
-                          ))
-                    : 0.8,
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              />
-            ))}
-
-            <Typography
-              variant="h4"
-              sx={{
-                position: "relative",
-                zIndex: 2,
-                color: theme.palette.text.primary,
-                pointerEvents: "none",
-              }}
-            >
-              Magnetic Connections
-            </Typography>
-          </MotionBox>
-        );
-
+        return <MagneticConnections ref={ref} />;
       case "gradientMesh":
-        return (
-          <MotionBox
-            ref={ref}
-            initial="hidden"
-            animate={controls}
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { duration: 1 } },
-            }}
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: `
-              radial-gradient(at 30% 10%, #6EE7B7 0px, transparent 50%),
-              radial-gradient(at 80% 0%, #3B82F6 0px, transparent 50%),
-              radial-gradient(at 10% 90%, #F87171 0px, transparent 50%),
-              radial-gradient(at 90% 80%, #C084FC 0px, transparent 55%)
-            `,
-              backgroundSize: "100% 100%",
-              animation: "gradientShift 15s ease infinite",
-              "@keyframes gradientShift": {
-                "0%, 100%": { backgroundPosition: "0% 0%" },
-                "50%": { backgroundPosition: "100% 100%" },
-              },
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" sx={{ color: "white" }}>
-              Gradient Mesh
-            </Typography>
-          </MotionBox>
-        );
-
+        return <GradientMesh ref={ref} isInView={isInView} />;
       case "movingShapes":
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: `linear-gradient(45deg, #4E65FF, #92EFFD)`,
-              position: "relative",
-              overflow: "hidden",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {[...Array(8)].map((_, index) => {
-              const gradients = [
-                { start: "#00C853", end: "#B2FF59" },
-                { start: "#FF4B2B", end: "#FF416C" },
-                { start: "#36D1DC", end: "#5B86E5" },
-              ];
-
-              const gradient = gradients[index % gradients.length];
-
-              return (
-                <MotionBox
-                  key={index}
-                  sx={{
-                    position: "absolute",
-                    width: ["60px", "80px", "100px", "120px"][index % 4],
-                    height: ["60px", "80px", "100px", "120px"][index % 4],
-                    borderRadius: index % 2 === 0 ? "50%" : "30%",
-                    background: `linear-gradient(135deg, ${gradient.start}, ${gradient.end})`,
-                    opacity: 0.4,
-                    filter: "blur(4px)",
-                    boxShadow: `0 0 20px rgba(0,0,0,0.1)`,
-                  }}
-                  animate={{
-                    x: ["-20%", "120%"],
-                    y: ["-20%", "120%"],
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 15 + index * 2,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "linear",
-                  }}
-                  style={{
-                    left: `${(index * 25) % 100}%`,
-                    top: `${(index * 35) % 100}%`,
-                  }}
-                />
-              );
-            })}
-            <Typography
-              variant="h4"
-              sx={{
-                color: "white",
-                zIndex: 1,
-                textShadow: "0 2px 10px rgba(0,0,0,0.2)",
-                fontWeight: "bold",
-              }}
-            >
-              Moving Shapes
-            </Typography>
-          </MotionBox>
-        );
-
+        return <MovingShapes />;
       case "interactiveGrid":
-        const squareWidth = 30;
-        const squareHeight = 30;
-        const [gridDimensions, setGridDimensions] = useState({
-          width: 0,
-          height: 0,
-        });
-        const [hoveredSquare, setHoveredSquare] = useState(null);
-
-        const containerRef = useRef(null);
-
-        useEffect(() => {
-          if (containerRef.current) {
-            const containerRect = containerRef.current.getBoundingClientRect();
-
-            // Calculate how many squares can fit inside the container
-            const horizontalSquares = Math.floor(
-              containerRect.width / squareWidth
-            );
-            const verticalSquares = Math.floor(
-              containerRect.height / squareHeight
-            );
-
-            setGridDimensions({
-              width: horizontalSquares,
-              height: verticalSquares,
-            });
-          }
-        }, []);
-
-        // Recalculate on window resize
-        useEffect(() => {
-          const handleResize = () => {
-            if (containerRef.current) {
-              const containerRect =
-                containerRef.current.getBoundingClientRect();
-
-              const horizontalSquares = Math.floor(
-                containerRect.width / squareWidth
-              );
-              const verticalSquares = Math.floor(
-                containerRect.height / squareHeight
-              );
-
-              setGridDimensions({
-                width: horizontalSquares,
-                height: verticalSquares,
-              });
-            }
-          };
-
-          window.addEventListener("resize", handleResize);
-          return () => window.removeEventListener("resize", handleResize);
-        }, []);
-
-        const totalSquares = gridDimensions.width * gridDimensions.height;
-        const containerWidth = squareWidth * gridDimensions.width;
-        const containerHeight = squareHeight * gridDimensions.height;
-
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: theme.palette.background.default,
-              position: "relative",
-              overflow: "hidden",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            ref={containerRef}
-          >
-            {gridDimensions.width > 0 && gridDimensions.height > 0 && (
-              <Box
-                sx={{
-                  position: "relative",
-                  width: `${containerWidth}px`,
-                  height: `${containerHeight}px`,
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  borderColor: "rgba(128, 128, 128, 0.3)",
-                  borderWidth: 0.5,
-                  borderStyle: "solid",
-                }}
-              >
-                {Array.from({ length: totalSquares }).map((_, index) => {
-                  const x = (index % gridDimensions.width) * squareWidth;
-                  const y =
-                    Math.floor(index / gridDimensions.width) * squareHeight;
-
-                  return (
-                    <MotionBox
-                      key={index}
-                      sx={{
-                        cursor: "pointer",
-                        position: "absolute",
-                        top: `${y}px`,
-                        left: `${x}px`,
-                        width: `${squareWidth}px`,
-                        height: `${squareHeight}px`,
-                        borderColor: "rgba(128, 128, 128, 0.3)",
-                        borderWidth: 0.5,
-                        borderStyle: "solid",
-                      }}
-                      onMouseEnter={() => setHoveredSquare(index)}
-                      onMouseLeave={() => setHoveredSquare(null)}
-                      whileHover={{ scale: 1.05 }}
-                      animate={{
-                        backgroundColor:
-                          hoveredSquare === index ? "#FF416C" : "transparent",
-                        transition: {
-                          duration: 0.05,
-                          ease: "easeOut",
-                        },
-                      }}
-                    />
-                  );
-                })}
-              </Box>
-            )}
-            <Typography
-              variant="h4"
-              sx={{
-                color: theme.palette.text.primary,
-                position: "absolute",
-                zIndex: 1,
-              }}
-            >
-              Interactive Grid
-            </Typography>
-          </MotionBox>
-        );
-
+        return <InteractiveGrid />;
       case "flickeringGrid":
-        const squareSize = 2;
-        const gridGap = 0.5;
-        const flickerChance = 0.3;
-        const maxOpacity = 0.3;
-        const flickerDuration = 0.5;
-
-        const gridSize = useMemo(() => {
-          const cols = Math.floor(100 / (squareSize + gridGap));
-          const rows = Math.floor(100 / (squareSize + gridGap));
-          return { cols, rows };
-        }, []);
-
-        const squares = useMemo(() => {
-          return Array.from({ length: gridSize.cols * gridSize.rows }, () => ({
-            opacity: Math.random() * maxOpacity,
-          }));
-        }, [gridSize, maxOpacity]);
-
-        const flickerControls = useAnimation();
-        const isMounted = useRef(false);
-
-        useEffect(() => {
-          isMounted.current = true;
-          return () => {
-            isMounted.current = false;
-          };
-        }, []);
-
-        useEffect(() => {
-          const animateFlicker = async () => {
-            while (isMounted.current) {
-              await flickerControls.start((i) => ({
-                opacity:
-                  Math.random() < flickerChance
-                    ? Math.random() * maxOpacity
-                    : squares[i].opacity,
-                transition: { duration: flickerDuration, ease: "easeInOut" },
-              }));
-              await new Promise((resolve) => setTimeout(resolve, 500));
-            }
-          };
-
-          if (isMounted.current) {
-            animateFlicker();
-          }
-
-          return () => {
-            flickerControls.stop();
-          };
-        }, [
-          flickerControls,
-          squares,
-          flickerChance,
-          maxOpacity,
-          flickerDuration,
-        ]);
-
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              position: "relative",
-              overflow: "hidden",
-              background: theme.palette.background.default,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {squares.map((square, i) => (
-              <MotionBox
-                key={i}
-                custom={i}
-                animate={flickerControls}
-                initial={{ opacity: square.opacity }}
-                sx={{
-                  position: "absolute",
-                  width: `${squareSize}%`,
-                  height: `${squareSize}%`,
-                  left: `${(i % gridSize.cols) * (squareSize + gridGap)}%`,
-                  top: `${
-                    Math.floor(i / gridSize.cols) * (squareSize + gridGap)
-                  }%`,
-                  backgroundColor: "#34D399",
-                }}
-              />
-            ))}
-            <Typography
-              variant="h4"
-              sx={{ color: theme.palette.text.primary, zIndex: 1 }}
-            >
-              Flickering Grid
-            </Typography>
-          </MotionBox>
-        );
-
+        return <FlickeringGrid />;
       case "grid":
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: theme.palette.background.default,
-              backgroundImage: `linear-gradient(${theme.palette.divider} 1px, transparent 1px),
-                                 linear-gradient(90deg, ${theme.palette.divider} 1px, transparent 1px)`,
-              backgroundSize: "20px 20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4">Grid</Typography>
-          </MotionBox>
-        );
-
+        return <GridBackground />;
       case "dots":
-        return (
-          <MotionBox
-            sx={{
-              width: "100%",
-              height: "100%",
-              background: theme.palette.background.default,
-              backgroundImage: `radial-gradient(${theme.palette.text.secondary} 1px, transparent 1px)`,
-              backgroundSize: "20px 20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4">Dots</Typography>
-          </MotionBox>
-        );
-
+        return <DotsBackground />;
       default:
-        return (
-          <Box
-            sx={{
-              width: "100%",
-              height: "100%",
-              backgroundColor: theme.palette.background.default,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" sx={{ color: theme.palette.text.primary }}>
-              Default Background
-            </Typography>
-          </Box>
-        );
+        return <DefaultBackground />;
     }
   };
 
-  return asPath !== "/docs/components/backgrounds" ? (
-    <AnimatePresence>
-      <Box sx={{ width: "100%", height: "300px", overflow: "hidden" }}>
-        {renderBackground()}
-      </Box>
-    </AnimatePresence>
-  ) : (
+  return (
     <Box
       sx={{
         width: "100%",
-        height: "200px",
+        height: "300px",
         overflow: "hidden",
-        borderRadius: 2,
-        position: "relative",
+        borderRadius, // ✅ controlled here
       }}
     >
-      <AnimatePresence>
-        <Box sx={{ width: "100%", height: "300px", overflow: "hidden" }}>
-          {renderBackground()}
-        </Box>
-      </AnimatePresence>
+      {renderBackground()}
     </Box>
   );
 };
+
+const GeminiWave = React.memo(() => (
+  <MotionBox
+    sx={{
+      width: "100%",
+      height: "100%",
+      background: "linear-gradient(135deg, #92EFFD, #4E65FF)",
+      position: "relative",
+      overflow: "hidden",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <MotionBox
+      sx={{
+        position: "absolute",
+        width: "150%",
+        height: "100%",
+        left: "-25%",
+      }}
+    >
+      {[0, 1, 2].map((index) => (
+        <MotionBox
+          key={index}
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            opacity: 0.7 - index * 0.2,
+          }}
+        >
+          <svg
+            viewBox="0 0 1440 320"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <motion.path
+              fill={`rgba(255,255,255,${0.3 - index * 0.1})`}
+              initial={{
+                d: "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
+              }}
+              animate={{
+                d: [
+                  "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
+                  "M0,200 C320,100,420,260,640,200 C880,140,1200,180,1440,240 V320 H0 Z",
+                  "M0,160 C320,300,420,240,640,160 C880,80,1200,220,1440,200 V320 H0 Z",
+                ],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 8 - index * 1.5,
+                ease: "easeInOut",
+              }}
+            />
+          </svg>
+        </MotionBox>
+      ))}
+    </MotionBox>
+    <Typography variant="h4" sx={{ fontWeight: 500, color: "#fff", zIndex: 1 }}>
+      Gemini Wave
+    </Typography>
+  </MotionBox>
+));
+
+const MagneticConnections = React.memo(
+  React.forwardRef((props, ref) => {
+    const [mousePos, setMousePos] = useState(null);
+    const [dots, setDots] = useState([]);
+    const rafRef = useRef(null);
+    const theme = useTheme();
+
+    const dotSize = 3;
+    const spacing = 40;
+    const connectDistance = 80;
+    const lineOpacity = 0.6;
+    const extraColumns = 4;
+
+    useEffect(() => {
+      const calculateDots = () => {
+        if (ref.current) {
+          const width = ref.current.offsetWidth;
+          const height = ref.current.offsetHeight;
+          const cols = Math.floor(width / spacing) + extraColumns;
+          const rows = Math.floor(height / spacing);
+          const offsetX =
+            (width - (cols - extraColumns) * spacing) / 2 -
+            (extraColumns * spacing) / 2;
+          const offsetY = (height - rows * spacing) / 2;
+
+          const newDots = [];
+          for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+              newDots.push({
+                id: `${col}-${row}`,
+                x: offsetX + col * spacing,
+                y: offsetY + row * spacing,
+              });
+            }
+          }
+          setDots(newDots);
+        }
+      };
+
+      calculateDots();
+      window.addEventListener("resize", calculateDots);
+      return () => window.removeEventListener("resize", calculateDots);
+    }, []);
+
+    const handleMouseMove = useCallback((e) => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+
+      rafRef.current = requestAnimationFrame(() => {
+        if (!ref.current) return;
+        const rect = ref.current.getBoundingClientRect();
+        setMousePos({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
+      });
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      setMousePos(null);
+    }, []);
+
+    const distance = useCallback((pos1, pos2) => {
+      const dx = pos1.x - pos2.x;
+      const dy = pos1.y - pos2.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }, []);
+
+    return (
+      <MotionBox
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        sx={{
+          width: "100%",
+          height: "100%",
+          background: theme.palette.background.default,
+          position: "relative",
+          overflow: "hidden",
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <svg
+          width="100%"
+          height="100%"
+          style={{
+            position: "absolute",
+            pointerEvents: "none",
+          }}
+        >
+          {mousePos &&
+            dots.map((dot) => {
+              const dist = distance(mousePos, dot);
+
+              if (dist < connectDistance) {
+                const opacity = lineOpacity * (1 - dist / connectDistance);
+                return (
+                  <line
+                    key={`line-${dot.id}`}
+                    x1={dot.x}
+                    y1={dot.y}
+                    x2={mousePos.x}
+                    y2={mousePos.y}
+                    stroke={
+                      theme.palette.mode === "dark"
+                        ? "rgba(255,255,255,0.8)"
+                        : "rgba(0,0,0,0.7)"
+                    }
+                    strokeWidth={0.6}
+                    opacity={opacity}
+                  />
+                );
+              }
+              return null;
+            })}
+        </svg>
+
+        {dots.map((dot) => {
+          const dist = mousePos ? distance(mousePos, dot) : connectDistance;
+          const scale = mousePos
+            ? 1 + 0.5 * (1 - Math.min(1, dist / connectDistance))
+            : 1;
+          const opacity = mousePos
+            ? 0.8 + 0.2 * (1 - Math.min(1, dist / connectDistance))
+            : 0.8;
+
+          return (
+            <motion.div
+              key={dot.id}
+              style={{
+                position: "absolute",
+                left: dot.x - dotSize / 2,
+                top: dot.y - dotSize / 2,
+                width: dotSize,
+                height: dotSize,
+                borderRadius: "50%",
+                background:
+                  theme.palette.mode === "dark"
+                    ? "rgba(255,255,255,0.85)"
+                    : "rgba(0,0,0,0.85)",
+                zIndex: 1,
+                scale,
+                opacity,
+                willChange: "transform, opacity",
+              }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+            />
+          );
+        })}
+
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 500,
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          Magnetic Connections
+        </Typography>
+      </MotionBox>
+    );
+  })
+);
+
+const GradientMesh = React.memo(
+  React.forwardRef(({ isInView }, ref) => (
+    <MotionBox
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: `
+          radial-gradient(at 30% 10%, #6EE7B7 0px, transparent 50%),
+          radial-gradient(at 80% 0%, #3B82F6 0px, transparent 50%),
+          radial-gradient(at 10% 90%, #F87171 0px, transparent 50%),
+          radial-gradient(at 90% 80%, #C084FC 0px, transparent 55%)
+        `,
+        backgroundSize: "100% 100%",
+        animation: "gradientShift 12s ease infinite",
+        "@keyframes gradientShift": {
+          "0%, 100%": { backgroundPosition: "0% 0%" },
+          "50%": { backgroundPosition: "100% 100%" },
+        },
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 500,
+          position: "relative",
+          zIndex: 2,
+          color: "#fff",
+        }}
+      >
+        Gradient Mesh
+      </Typography>
+    </MotionBox>
+  ))
+);
+
+const MovingShapes = React.memo(() => {
+  const shapes = useMemo(() => {
+    const gradients = [
+      { start: "#00C853", end: "#B2FF59" },
+      { start: "#FF4B2B", end: "#FF416C" },
+      { start: "#36D1DC", end: "#5B86E5" },
+    ];
+
+    return Array.from({ length: 8 }, (_, index) => ({
+      id: index,
+      size: [60, 80, 100, 120][index % 4],
+      gradient: gradients[index % gradients.length],
+      borderRadius: index % 2 === 0 ? "50%" : "30%",
+      duration: 12 + index * 1.5,
+      left: `${(index * 25) % 100}%`,
+      top: `${(index * 35) % 100}%`,
+    }));
+  }, []);
+
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(45deg, #4E65FF, #92EFFD)",
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {shapes.map((shape) => (
+        <MotionBox
+          key={shape.id}
+          sx={{
+            position: "absolute",
+            width: shape.size,
+            height: shape.size,
+            borderRadius: shape.borderRadius,
+            background: `linear-gradient(135deg, ${shape.gradient.start}, ${shape.gradient.end})`,
+            opacity: 0.4,
+            filter: "blur(4px)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.1)",
+          }}
+          animate={{
+            x: ["-20%", "120%"],
+            y: ["-20%", "120%"],
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: shape.duration,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "linear",
+          }}
+          style={{
+            left: shape.left,
+            top: shape.top,
+          }}
+        />
+      ))}
+      <Typography
+        variant="h4"
+        sx={{
+          color: "#fff",
+          zIndex: 1,
+          fontWeight: 500,
+        }}
+      >
+        Moving Shapes
+      </Typography>
+    </MotionBox>
+  );
+});
+
+const InteractiveGrid = React.memo(() => {
+  const theme = useTheme();
+
+  const [gridDimensions, setGridDimensions] = useState({ width: 0, height: 0 });
+  const [hoveredSquare, setHoveredSquare] = useState(null);
+  const containerRef = useRef(null);
+
+  const squareWidth = 30;
+  const squareHeight = 30;
+
+  useEffect(() => {
+    const calculateGrid = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const horizontalSquares = Math.floor(rect.width / squareWidth);
+        const verticalSquares = Math.floor(rect.height / squareHeight);
+        setGridDimensions({
+          width: horizontalSquares,
+          height: verticalSquares,
+        });
+      }
+    };
+
+    calculateGrid();
+    window.addEventListener("resize", calculateGrid);
+    return () => window.removeEventListener("resize", calculateGrid);
+  }, []);
+
+  const totalSquares = gridDimensions.width * gridDimensions.height;
+
+  return (
+    <MotionBox
+      ref={containerRef}
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {gridDimensions.width > 0 && (
+        <Box
+          sx={{
+            position: "relative",
+            width: gridDimensions.width * squareWidth,
+            height: gridDimensions.height * squareHeight,
+            maxWidth: "100%",
+            maxHeight: "100%",
+            border: "0.5px solid rgba(128, 128, 128, 0.3)",
+          }}
+        >
+          {Array.from({ length: totalSquares }, (_, index) => {
+            const x = (index % gridDimensions.width) * squareWidth;
+            const y = Math.floor(index / gridDimensions.width) * squareHeight;
+
+            return (
+              <MotionBox
+                key={index}
+                sx={{
+                  cursor: "pointer",
+                  position: "absolute",
+                  top: y,
+                  left: x,
+                  width: squareWidth,
+                  height: squareHeight,
+                  border: "0.5px solid rgba(128, 128, 128, 0.3)",
+                  backgroundColor:
+                    hoveredSquare === index ? "#FF416C" : "transparent",
+                }}
+                onMouseEnter={() => setHoveredSquare(index)}
+                onMouseLeave={() => setHoveredSquare(null)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.1, ease: "easeOut" }}
+              />
+            );
+          })}
+        </Box>
+      )}
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 500,
+          position: "absolute",
+          zIndex: 1,
+        }}
+      >
+        Interactive Grid
+      </Typography>
+    </MotionBox>
+  );
+});
+
+const FlickeringGrid = React.memo(() => {
+  const theme = useTheme();
+
+  const squareSize = 2;
+  const gridGap = 0.5;
+  const flickerChance = 0.3;
+  const maxOpacity = 0.3;
+
+  const gridSize = useMemo(() => {
+    const cols = Math.floor(100 / (squareSize + gridGap));
+    const rows = Math.floor(100 / (squareSize + gridGap));
+    return { cols, rows };
+  }, []);
+
+  const squares = useMemo(() => {
+    return Array.from({ length: gridSize.cols * gridSize.rows }, (_, i) => ({
+      id: i,
+      opacity: Math.random() * maxOpacity,
+      shouldFlicker: Math.random() < flickerChance,
+    }));
+  }, [gridSize]);
+
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        overflow: "hidden",
+        background: theme.palette.background.default,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {squares.map((square) => (
+        <MotionBox
+          key={square.id}
+          animate={{
+            opacity: square.shouldFlicker
+              ? [square.opacity, Math.random() * maxOpacity, square.opacity]
+              : square.opacity,
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          sx={{
+            position: "absolute",
+            width: `${squareSize}%`,
+            height: `${squareSize}%`,
+            left: `${(square.id % gridSize.cols) * (squareSize + gridGap)}%`,
+            top: `${Math.floor(square.id / gridSize.cols) * (squareSize + gridGap)}%`,
+            backgroundColor: "#34D399",
+          }}
+        />
+      ))}
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 500,
+          position: "absolute",
+          zIndex: 1,
+        }}
+      >
+        Flickering Grid
+      </Typography>
+    </MotionBox>
+  );
+});
+
+const GridBackground = React.memo(() => {
+  const theme = useTheme();
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        backgroundImage:
+          "linear-gradient(rgba(128,128,128,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(128,128,128,0.3) 1px, transparent 1px)",
+        backgroundSize: "20px 20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: 500, zIndex: 1 }}>
+        Grid
+      </Typography>
+    </MotionBox>
+  );
+});
+
+const DotsBackground = React.memo(() => {
+  const theme = useTheme();
+  return (
+    <MotionBox
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        backgroundImage:
+          theme.palette.mode === "dark"
+            ? "radial-gradient(rgba(255,255,255,0.45) 1px, transparent 1px)"
+            : "radial-gradient(rgba(0,0,0,0.45) 1px, transparent 1px)",
+        backgroundSize: "20px 20px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: 500, zIndex: 1 }}>
+        Dots
+      </Typography>
+    </MotionBox>
+  );
+});
+
+const DefaultBackground = React.memo(() => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.default,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography variant="h4" sx={{ color: "#fff" }}>
+        Default Background
+      </Typography>
+    </Box>
+  );
+});
 
 export default BackgroundVariants;

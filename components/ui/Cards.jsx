@@ -7,7 +7,7 @@ import {
   Button,
   useTheme,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { FaMeteor, FaAdjust, FaTwitter } from "react-icons/fa";
 import { RxImage } from "react-icons/rx";
 import { FaWandMagicSparkles } from "react-icons/fa6";
@@ -17,16 +17,15 @@ const MotionCard = motion.create(Card);
 const MotionBox = motion.create(Box);
 
 const twitterImages = [
-  "https://images.unsplash.com/photo-1511497584788-876760111969",
-  "https://images.unsplash.com/photo-1501854140801-50d01698950b",
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+  "https://images.unsplash.com/photo-1511497584788-876760111969?w=800",
+  "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
 ];
 
 const CardVariants = ({ variant }) => {
   const theme = useTheme();
   const [meteors, setMeteors] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -47,7 +46,7 @@ const CardVariants = ({ variant }) => {
           x: Math.random() * 320,
           delay: Math.random() * 2,
         };
-        setMeteors((prev) => [...prev.slice(-5), newMeteor]); // Keep only last 5 meteors
+        setMeteors((prev) => [...prev.slice(-5), newMeteor]);
       };
 
       const interval = setInterval(createMeteor, 500);
@@ -57,7 +56,7 @@ const CardVariants = ({ variant }) => {
 
   const commonCardStyle = {
     width: { xs: "100%", sm: "350px" },
-    maxWidth: "350px", 
+    maxWidth: "350px",
     height: "300px",
     borderRadius: 2,
     backgroundColor: theme.palette.background.paper,
@@ -66,9 +65,7 @@ const CardVariants = ({ variant }) => {
     borderColor: theme.palette.divider,
     overflow: "hidden",
     position: "relative",
-    // mx: { xs: 0, sm: 1 },
     cursor: "pointer",
-    transition: "all 0.3s ease",
   };
 
   const renderCard = () => {
@@ -76,15 +73,15 @@ const CardVariants = ({ variant }) => {
       case "lens":
         return (
           <MotionCard
+            style={{ scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             sx={{
               ...commonCardStyle,
               overflow: "visible",
               position: "relative",
             }}
-            whileHover={{ scale: 1.02 }}
           >
             <CardContent sx={{ p: 0, height: "100%", position: "relative" }}>
-              {/* Image Container */}
               <Box
                 sx={{
                   position: "relative",
@@ -106,18 +103,15 @@ const CardVariants = ({ variant }) => {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
-                {/* Main Image */}
                 <Box
                   sx={{
                     width: "100%",
                     height: "100%",
-                    backgroundImage: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')`,
+                    backgroundImage: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    transition: "transform 0.3s ease",
                   }}
                 />
-                {/* Magnifying Lens */}
                 {isHovered && (
                   <Box
                     className="lens"
@@ -130,7 +124,7 @@ const CardVariants = ({ variant }) => {
                       pointerEvents: "none",
                       opacity: 0,
                       transition: "opacity 0.3s ease",
-                      background: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')`,
+                      background: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800')`,
                       backgroundSize: "400% 400%",
                       backgroundPosition: `${lensPosition.x}% ${lensPosition.y}%`,
                       boxShadow: "0 0 25px rgba(0,0,0,0.2)",
@@ -142,7 +136,6 @@ const CardVariants = ({ variant }) => {
                   />
                 )}
               </Box>
-              {/* Content Area */}
               <Box sx={{ p: 2, pt: 1.5 }}>
                 <Box
                   sx={{
@@ -180,7 +173,7 @@ const CardVariants = ({ variant }) => {
           <MotionCard
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             sx={commonCardStyle}
           >
             <CardContent sx={{ p: 2 }}>
@@ -208,7 +201,7 @@ const CardVariants = ({ variant }) => {
                     initial={{ x: "100%" }}
                     animate={{ x: 0 }}
                     exit={{ x: "-100%" }}
-                    transition={{ type: "tween", duration: 0.5 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                     style={{
                       position: "absolute",
                       width: "100%",
@@ -237,7 +230,7 @@ const CardVariants = ({ variant }) => {
                     gap: 1,
                   }}
                 >
-                {twitterImages.map((_, index) => (
+                  {twitterImages.map((_, index) => (
                     <Box
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
@@ -265,7 +258,7 @@ const CardVariants = ({ variant }) => {
           <MotionCard
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             sx={commonCardStyle}
           >
             <CardContent sx={{ position: "relative", zIndex: 2 }}>
@@ -291,7 +284,6 @@ const CardVariants = ({ variant }) => {
                   delay: meteor.delay,
                   ease: "linear",
                 }}
-                style={{ willChange: "transform, opacity" }}
                 sx={{
                   position: "absolute",
                   width: "2px",
@@ -303,6 +295,7 @@ const CardVariants = ({ variant }) => {
                     theme.palette.mode === "dark" ? "#FFFFFF" : "#000000"
                   }`,
                   zIndex: 1,
+                  willChange: "transform, opacity",
                 }}
               />
             ))}
@@ -312,9 +305,8 @@ const CardVariants = ({ variant }) => {
       case "dynamicOverlay":
         return (
           <MotionCard
-            whileHover="hover"
             initial="initial"
-            animate="animate"
+            whileHover="hover"
             sx={{
               ...commonCardStyle,
               backgroundImage: `url('https://cdn.webshopapp.com/shops/268192/files/433182622/tommy-shelby.jpg')`,
@@ -328,27 +320,22 @@ const CardVariants = ({ variant }) => {
               zIndex: 2,
             }}
           >
-            {/* Static Image Background */}
             <motion.div
               initial={{ opacity: 1 }}
               variants={{
                 initial: { opacity: 1 },
                 hover: { opacity: 0 },
               }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
               style={{
                 position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
+                inset: 0,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 zIndex: 1,
               }}
             />
 
-            {/* Animated GIF Overlay */}
             <motion.div
               variants={{
                 initial: { opacity: 0 },
@@ -357,10 +344,7 @@ const CardVariants = ({ variant }) => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               style={{
                 position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
+                inset: 0,
                 backgroundImage: `url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjBvZWV0MmgxYTR5dmtweDl5aG1oMTE3b25yYzQ1Y3EyMGN1cjRoMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/X3Zr6miqq2KuQ/giphy.gif')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
@@ -369,19 +353,15 @@ const CardVariants = ({ variant }) => {
               }}
             />
 
-            {/* Dynamic Overlay */}
             <motion.div
               variants={{
                 initial: { opacity: 0.2 },
                 hover: { opacity: 0.5 },
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               style={{
                 position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
+                inset: 0,
                 backgroundColor: "rgba(0, 0, 0, 0.5)",
                 zIndex: 2,
               }}
@@ -420,21 +400,16 @@ const CardVariants = ({ variant }) => {
         return (
           <MotionCard
             sx={commonCardStyle}
+            style={{ y: 0 }}
             whileHover={{
               y: -5,
-              transition: {
-                duration: 0.3,
-                ease: "easeOut",
-              },
+            }}
+            transition={{
+              duration: 0.3,
+              ease: "easeOut",
             }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 200,
-              damping: 25,
-              mass: 1,
-            }}
           >
             <CardContent
               sx={{
@@ -448,7 +423,7 @@ const CardVariants = ({ variant }) => {
                 style={{
                   position: "relative",
                   height: "100%",
-                  backgroundImage: `url('https://plus.unsplash.com/premium_photo-1667126447968-f02d4cb36114?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                  backgroundImage: `url('https://plus.unsplash.com/premium_photo-1667126447968-f02d4cb36114?w=800')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   overflow: "hidden",
@@ -457,24 +432,16 @@ const CardVariants = ({ variant }) => {
                 whileHover={{
                   backgroundImage: `url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3N0Ym81cmZ1Zmgxanh4eTJreDF1dWhrYXRjYnE1MDc3MTMxMWc4biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3og0ISMA5iGiROl4U8/giphy.gif')`,
                   scale: 1.02,
-                  transition: {
-                    scale: {
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 25,
-                      mass: 1,
-                    },
-                    duration: 0.3,
-                  },
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeOut",
                 }}
               >
                 <Box
                   sx={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    inset: 0,
                     background:
                       "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)",
                   }}
@@ -547,8 +514,8 @@ const CardVariants = ({ variant }) => {
           <MotionCard
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            style={{ scale: 1 }}
             sx={commonCardStyle}
           >
             <Box
@@ -610,7 +577,7 @@ const CardVariants = ({ variant }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         style={{ width: "100%", height: "100%" }}
       >
         {renderCard()}

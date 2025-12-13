@@ -13,84 +13,96 @@ A card with an interactive magnifying lens effect on hover.
   preview={<CardVariants variant="lens" />}
   code={`
 import React, { useState } from "react";
-import { Card, CardContent, Typography, Box } from "@mui/material";
-import { motion } from "framer-motion";
+import { Card, CardContent, Typography, Box, Button } from "@mui/material";
+import { motion } from "motion/react";
 import { LuSearch } from "react-icons/lu";
+
+const MotionCard = motion.create(Card);
 
 const LensCard = () => {
   const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.div whileHover={{ scale: 1.02 }}>
-      <Card
-        sx={{
-          width: 350,
-          height: 300,
-          borderRadius: 2,
-          backgroundColor: "background.paper",
-          boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
-          border: "1px solid",
-          borderColor: "divider",
-          overflow: "hidden",
-          position: "relative",
-          cursor: "pointer",
-        }}
-      >
-        <CardContent sx={{ p: 0, height: "100%", position: "relative" }}>
+    <MotionCard
+      style={{ scale: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      sx={{
+        width: { xs: "100%", sm: "350px" },
+        maxWidth: "350px",
+        height: "300px",
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+        boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
+        border: "1px solid",
+        borderColor: "divider",
+        overflow: "visible",
+        position: "relative",
+        cursor: "pointer",
+      }}
+    >
+      <CardContent sx={{ p: 0, height: "100%", position: "relative" }}>
+        <Box
+          sx={{
+            position: "relative",
+            height: "180px",
+            overflow: "hidden",
+            borderRadius: 2,
+            "&:hover .lens": {
+              opacity: 1,
+            },
+          }}
+          onMouseMove={(e) => {
+            const container = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - container.left) / container.width) * 100;
+            const y = ((e.clientY - container.top) / container.height) * 100;
+            setLensPosition({ x, y });
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <Box
             sx={{
-              position: "relative",
-              height: "180px",
-              overflow: "hidden",
-              borderRadius: 2,
-              "&:hover .lens": {
-                opacity: 1,
-              },
+              width: "100%",
+              height: "100%",
+              backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
-            onMouseMove={(e) => {
-              const container = e.currentTarget.getBoundingClientRect();
-              const x = ((e.clientX - container.left) / container.width) * 100;
-              const y = ((e.clientY - container.top) / container.height) * 100;
-              setLensPosition({ x, y });
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
+          />
+          {isHovered && (
             <Box
+              className="lens"
               sx={{
-                width: "100%",
-                height: "100%",
-                backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                transition: "transform 0.3s ease",
+                position: "absolute",
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                border: "2px solid rgba(255,255,255,0.8)",
+                pointerEvents: "none",
+                opacity: 0,
+                transition: "opacity 0.3s ease",
+                background: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800')",
+                backgroundSize: "400% 400%",
+                backgroundPosition: \`\${lensPosition.x}% \${lensPosition.y}%\`,
+                boxShadow: "0 0 25px rgba(0,0,0,0.2)",
+                left: \`calc(\${lensPosition.x}% - 50px)\`,
+                top: \`calc(\${lensPosition.y}% - 50px)\`,
+                zIndex: 2,
+                willChange: "background-position, left, top",
               }}
             />
-            {isHovered && (
-              <Box
-                className="lens"
-                sx={{
-                  position: "absolute",
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50%",
-                  border: "2px solid rgba(255,255,255,0.8)",
-                  pointerEvents: "none",
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                  background: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')",
-                  backgroundSize: "400% 400%",
-                  backgroundPosition: \`\${lensPosition.x}% \${lensPosition.y}%\`,
-                  boxShadow: "0 0 25px rgba(0,0,0,0.2)",
-                  left: \`calc(\${lensPosition.x}% - 50px)\`,
-                  top: \`calc(\${lensPosition.y}% - 50px)\`,
-                  zIndex: 2,
-                }}
-              />
-            )}
-          </Box>
-          <Box sx={{ p: 2, pt: 1.5 }}>
+          )}
+        </Box>
+        <Box sx={{ p: 2, pt: 1.5 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 1,
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -104,13 +116,13 @@ const LensCard = () => {
               <LuSearch size={22} color="#00BCD4" />
               Interactive Preview
             </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Explore intricate details of our advanced circuitry design with dynamic magnification.
-            </Typography>
           </Box>
-        </CardContent>
-      </Card>
-    </motion.div>
+          <Typography variant="caption" color="text.secondary">
+            Explore intricate details of our advanced circuitry design with dynamic magnification.
+          </Typography>
+        </Box>
+      </CardContent>
+    </MotionCard>
   );
 };
 
@@ -127,15 +139,17 @@ A card with a smooth auto-scrolling image carousel.
   code={`
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { FaTwitter } from "react-icons/fa";
+
+const MotionCard = motion.create(Card);
 
 const TwitterCarousel = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const twitterImages = [
-    "https://images.unsplash.com/photo-1511497584788-876760111969",
-    "https://images.unsplash.com/photo-1501854140801-50d01698950b",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    "https://images.unsplash.com/photo-1511497584788-876760111969?w=800",
+    "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
   ];
 
   useEffect(() => {
@@ -146,88 +160,99 @@ const TwitterCarousel = () => {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      <Card
-        sx={{
-          width: 350,
-          height: 300,
-          borderRadius: 2,
-          backgroundColor: "background.paper",
-          boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
-          border: "1px solid",
-          borderColor: "divider",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        <CardContent sx={{ p: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <FaTwitter style={{ color: "#1DA1F2", marginRight: 8 }} />
-            <Typography variant="h6">Twitter Carousel</Typography>
-          </Box>
-          <Typography mt={0.5} variant="body2">
-            Smooth auto-scrolling image carousel with fluid transitions.
-          </Typography>
-          <Box
-            sx={{
-              mt: 1.5,
-              position: "relative",
-              height: 170,
-              overflow: "hidden",
-              borderRadius: 1,
-            }}
-          >
-            <AnimatePresence initial={false}>
-              <motion.div
-                key={currentImageIndex}
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ type: "tween", duration: 0.5 }}
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundImage: \`url(\${twitterImages[currentImageIndex]})\`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
-              </motion.div>
-            </AnimatePresence>
-            <Box
-              sx={{
+    <MotionCard
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      sx={{
+        width: { xs: "100%", sm: "350px" },
+        maxWidth: "350px",
+        height: "300px",
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+        boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
+        border: "1px solid",
+        borderColor: "divider",
+        overflow: "hidden",
+        position: "relative",
+        cursor: "pointer",
+      }}
+    >
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <FaTwitter style={{ color: "#1DA1F2", marginRight: 8 }} />
+          <Typography variant="h6">Twitter Carousel</Typography>
+        </Box>
+
+        <Typography mt={0.5} variant="body2">
+          Smooth auto-scrolling image carousel with fluid transitions
+        </Typography>
+
+        <Box
+          sx={{
+            mt: 1.5,
+            position: "relative",
+            height: 170,
+            overflow: "hidden",
+            borderRadius: 1,
+          }}
+        >
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={currentImageIndex}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              style={{
                 position: "absolute",
-                bottom: 8,
-                left: "50%",
-                transform: "translateX(-50%)",
-                display: "flex",
-                gap: 1,
+                width: "100%",
+                height: "100%",
               }}
             >
-              {twitterImages.map((_, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    backgroundColor: index === currentImageIndex ? "primary.main" : "rgba(255, 255, 255, 0.5)",
-                    transition: "all 0.3s ease",
-                  }}
-                />
-              ))}
-            </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  backgroundImage: \`url(\${twitterImages[currentImageIndex]})\`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 8,
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            {twitterImages.map((_, index) => (
+              <Box
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                  backgroundColor:
+                    index === currentImageIndex
+                      ? "primary.main"
+                      : "rgba(255, 255, 255, 0.5)",
+                  transition: "all 0.3s ease",
+                }}
+              />
+            ))}
           </Box>
-        </CardContent>
-      </Card>
-    </motion.div>
+        </Box>
+      </CardContent>
+    </MotionCard>
   );
 };
 
@@ -243,11 +268,15 @@ A card with a dynamic meteor shower animation in the background.
   preview={<CardVariants variant="meteorShower" />}
   code={`
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Box } from "@mui/material";
-import { motion } from "framer-motion";
+import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
+import { motion } from "motion/react";
 import { FaMeteor } from "react-icons/fa";
 
+const MotionCard = motion.create(Card);
+const MotionBox = motion.create(Box);
+
 const MeteorShowerCard = () => {
+  const theme = useTheme();
   const [meteors, setMeteors] = useState([]);
 
   useEffect(() => {
@@ -265,55 +294,62 @@ const MeteorShowerCard = () => {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      <Card
-        sx={{
-          width: 350,
-          height: 300,
-          borderRadius: 2,
-          backgroundColor: "background.paper",
-          boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
-          border: "1px solid",
-          borderColor: "divider",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        <CardContent sx={{ position: "relative", zIndex: 2 }}>
-          <Typography variant="h5" display="flex" alignItems="center">
-            <FaMeteor style={{ marginRight: 8, color: "#F44336" }} />
-            Meteor Shower
-          </Typography>
-          <Typography mt variant="body2">
-            Create an ethereal atmosphere with animated meteor particles streaking across your card.
-          </Typography>
-        </CardContent>
-        {meteors.map((meteor) => (
-          <Box
-            key={meteor.id}
-            component={motion.div}
-            initial={{ x: meteor.x, y: -20, opacity: 0 }}
-            animate={{
-              y: 250,
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 2,
-              delay: meteor.delay,
-              ease: "linear",
-            }}
-            sx={{
-              position: "absolute",
-              width: "2px",
-              height: "20px",
-              background: "linear-gradient(to bottom, #FFFFFF, transparent)",
-              boxShadow: "0 0 10px #FFFFFF",
-              zIndex: 1,
-            }}
-          />
-        ))}
-      </Card>
-    </motion.div>
+    <MotionCard
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      sx={{
+        width: { xs: "100%", sm: "350px" },
+        maxWidth: "350px",
+        height: "300px",
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+        boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
+        border: "1px solid",
+        borderColor: "divider",
+        overflow: "hidden",
+        position: "relative",
+        cursor: "pointer",
+      }}
+    >
+      <CardContent sx={{ position: "relative", zIndex: 2 }}>
+        <Typography variant="h5" display="flex" alignItems="center">
+          <FaMeteor style={{ marginRight: 8, color: "#F44336" }} />
+          Meteor Shower
+        </Typography>
+        <Typography mt variant="body2">
+          Create an ethereal atmosphere with animated meteor particles streaking across your card.
+        </Typography>
+      </CardContent>
+      {meteors.map((meteor) => (
+        <MotionBox
+          key={meteor.id}
+          initial={{ x: meteor.x, y: -20, opacity: 0 }}
+          animate={{
+            y: 250,
+            opacity: [0, 1, 1, 0],
+          }}
+          transition={{
+            duration: 2,
+            delay: meteor.delay,
+            ease: "linear",
+          }}
+          sx={{
+            position: "absolute",
+            width: "2px",
+            height: "20px",
+            background: \`linear-gradient(to bottom, \${
+              theme.palette.mode === "dark" ? "#FFFFFF" : "#000000"
+            }, transparent)\`,
+            boxShadow: \`0 0 10px \${
+              theme.palette.mode === "dark" ? "#FFFFFF" : "#000000"
+            }\`,
+            zIndex: 1,
+            willChange: "transform, opacity",
+          }}
+        />
+      ))}
+    </MotionCard>
   );
 };
 
@@ -329,40 +365,51 @@ A card with dynamic image overlay transitions on hover.
   preview={<CardVariants variant="dynamicOverlay" />}
   code={`
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { Card, CardContent, Typography, useTheme } from "@mui/material";
+import { motion } from "motion/react";
 import { FaAdjust } from "react-icons/fa";
 
-const DynamicOverlay = () => (
-  <motion.div whileHover="hover" initial="initial" animate="animate">
-    <Card
+const MotionCard = motion.create(Card);
+
+const DynamicOverlay = () => {
+  const theme = useTheme();
+
+  return (
+    <MotionCard
+      initial="initial"
+      whileHover="hover"
       sx={{
-        width: 350,
-        height: 300,
+        width: { xs: "100%", sm: "350px" },
+        maxWidth: "350px",
+        height: "300px",
+        borderRadius: 2,
         backgroundImage: "url('https://cdn.webshopapp.com/shops/268192/files/433182622/tommy-shelby.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        position: "relative",
+        cursor: "pointer",
         overflow: "hidden",
+        position: "relative",
+        border: "1px solid",
+        borderColor: "divider",
+        zIndex: 2,
       }}
     >
       <motion.div
+        initial={{ opacity: 1 }}
         variants={{
           initial: { opacity: 1 },
           hover: { opacity: 0 },
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          inset: 0,
           backgroundSize: "cover",
           backgroundPosition: "center",
           zIndex: 1,
         }}
       />
+
       <motion.div
         variants={{
           initial: { opacity: 0 },
@@ -371,10 +418,7 @@ const DynamicOverlay = () => (
         transition={{ duration: 0.5, ease: "easeInOut" }}
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          inset: 0,
           backgroundImage: "url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjBvZWV0MmgxYTR5dmtweDl5aG1oMTE3b25yYzQ1Y3EyMGN1cjRoMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/X3Zr6miqq2KuQ/giphy.gif')",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -382,34 +426,50 @@ const DynamicOverlay = () => (
           pointerEvents: "none",
         }}
       />
+
       <motion.div
         variants={{
           initial: { opacity: 0.2 },
           hover: { opacity: 0.5 },
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          inset: 0,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           zIndex: 2,
         }}
       />
-      <CardContent sx={{ position: "relative", zIndex: 4, color: "white" }}>
-        <Typography variant="h5" gutterBottom display="flex" alignItems="center">
+
+      <CardContent sx={{ position: "relative", zIndex: 4 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            color: "white",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
           <FaAdjust style={{ marginRight: 8 }} />
           Dynamic Overlay
         </Typography>
-        <Typography variant="body2">
+        <Typography
+          mt
+          variant="body2"
+          sx={{
+            color: "white",
+            overflow: "hidden",
+          }}
+        >
           Transform static images with hover-triggered animated overlays.
         </Typography>
       </CardContent>
-    </Card>
-  </motion.div>
-);
+    </MotionCard>
+  );
+};
 
 export default DynamicOverlay;
 `}
@@ -424,124 +484,133 @@ A card with dynamic image hover effects and interactive content layout.
   code={`
 import React from "react";
 import { Card, CardContent, Typography, Box, Button } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { RxImage } from "react-icons/rx";
 
+const MotionCard = motion.create(Card);
+
 const ContentCard = () => (
-  <motion.div
+  <MotionCard
+    sx={{
+      width: { xs: "100%", sm: "350px" },
+      maxWidth: "350px",
+      height: "300px",
+      borderRadius: 2,
+      backgroundColor: "background.paper",
+      boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
+      border: "1px solid",
+      borderColor: "divider",
+      overflow: "hidden",
+      position: "relative",
+      cursor: "pointer",
+    }}
+    style={{ y: 0 }}
     whileHover={{
       y: -5,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut",
-      },
     }}
+    transition={{
+      duration: 0.3,
+      ease: "easeOut",
+    }}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
   >
-    <Card
+    <CardContent
       sx={{
-        width: 350,
-        height: 300,
-        borderRadius: 2,
-        backgroundColor: "background.paper",
-        boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
-        border: "1px solid",
-        borderColor: "divider",
-        overflow: "hidden",
-        position: "relative",
+        padding: 0,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <CardContent sx={{ padding: 0, height: "100%", display: "flex", flexDirection: "column" }}>
-        <motion.div
-          style={{
-            position: "relative",
-            height: "100%",
-            backgroundImage: "url('https://plus.unsplash.com/premium_photo-1667126447968-f02d4cb36114?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            overflow: "hidden",
-            borderRadius: "16px",
-          }}
-          whileHover={{
-            backgroundImage: "url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3N0Ym81cmZ1Zmgxanh4eTJreDF1dWhrYXRjYnE1MDc3MTMxMWc4biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3og0ISMA5iGiROl4U8/giphy.gif')",
-            scale: 1.02,
-            transition: {
-              scale: {
-                type: "spring",
-                stiffness: 200,
-                damping: 25,
-                mass: 1,
-              },
-              duration: 0.3,
-            },
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)",
-            }}
-          />
-        </motion.div>
+      <motion.div
+        style={{
+          position: "relative",
+          height: "100%",
+          backgroundImage: "url('https://plus.unsplash.com/premium_photo-1667126447968-f02d4cb36114?w=800')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          overflow: "hidden",
+          borderRadius: "16px",
+        }}
+        whileHover={{
+          backgroundImage: "url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3N0Ym81cmZ1Zmgxanh4eTJreDF1dWhrYXRjYnE1MDc3MTMxMWc4biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3og0ISMA5iGiROl4U8/giphy.gif')",
+          scale: 1.02,
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeOut",
+        }}
+      >
         <Box
           sx={{
-            pt: 1,
-            px: 2,
-            flexGrow: 1,
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)",
+          }}
+        />
+      </motion.div>
+
+      <Box
+        sx={{
+          pt: 1,
+          px: 2,
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          sx={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "space-between",
+            alignItems: "center",
+            mb: 1,
           }}
         >
-          <Box
+          <Typography
+            variant="body2"
+            fontWeight={500}
             sx={{
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
-              mb: 1,
             }}
           >
-            <Typography
-              variant="body2"
-              fontWeight={500}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <RxImage size={24} style={{ marginRight: 8, color: "#FFC107" }} />
-              Content Card
-            </Typography>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                minWidth: "60px",
-                height: "28px",
-                p: "8px",
-                fontSize: "14px !important",
-                fontWeight: 400,
-              }}
-            >
-              View
-            </Button>
-          </Box>
-          <Typography
-            variant="caption"
-            sx={{
-              color: "text.secondary",
-              lineHeight: 1.5,
-            }}
-          >
-            Engaging visuals with dynamic interactions.
+            <RxImage
+              size={24}
+              style={{ marginRight: 8, color: "#FFC107" }}
+            />
+            Content Card
           </Typography>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              minWidth: "60px",
+              height: "28px",
+              p: "8px",
+              fontSize: "14px !important",
+              fontWeight: 400,
+            }}
+          >
+            View
+          </Button>
         </Box>
-      </CardContent>
-    </Card>
-  </motion.div>
+
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+            lineHeight: 1.5,
+          }}
+        >
+          Engaging visuals with dynamic interactions.
+        </Typography>
+      </Box>
+    </CardContent>
+  </MotionCard>
 );
 
 export default ContentCard;
@@ -557,73 +626,79 @@ A card with a sleek animated glowing border effect.
   code={`
 import React from "react";
 import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { FaWandMagicSparkles } from "react-icons/fa6";
+
+const MotionCard = motion.create(Card);
 
 const AnimatedBorderCard = () => {
   const theme = useTheme();
 
   return (
-    <motion.div
+    <MotionCard
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      style={{ scale: 1 }}
+      sx={{
+        width: { xs: "100%", sm: "350px" },
+        maxWidth: "350px",
+        height: "300px",
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+        boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
+        border: "1px solid",
+        borderColor: "divider",
+        overflow: "hidden",
+        position: "relative",
+        cursor: "pointer",
+      }}
     >
-      <Card
+      <Box
         sx={{
-          width: 350,
-          height: 300,
-          borderRadius: 2,
-          backgroundColor: "background.paper",
-          boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)",
-          border: "1px solid",
-          borderColor: "divider",
+          position: "absolute",
+          inset: -1,
           overflow: "hidden",
-          position: "relative",
+          borderRadius: 2,
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            inset: "-50%",
+            background:
+              theme.palette.mode === "dark"
+                ? "conic-gradient(from 0deg, transparent 0 340deg, #FFF 360deg)"
+                : "conic-gradient(from 0deg, transparent 0 340deg, #000 360deg)",
+            animation: "rotate 5s linear infinite",
+          },
+          "@keyframes rotate": {
+            from: { transform: "rotate(0deg)" },
+            to: { transform: "rotate(360deg)" },
+          },
         }}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            inset: -1,
-            overflow: "hidden",
-            borderRadius: 2,
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              inset: "-50%",
-              background:
-                theme.palette.mode === "dark"
-                  ? "conic-gradient(from 0deg, transparent 0 340deg, #FFF 360deg)"
-                  : "conic-gradient(from 0deg, transparent 0 340deg, #000 360deg)",
-              animation: "rotate 5s linear infinite",
-            },
-            "@keyframes rotate": {
-              from: { transform: "rotate(0deg)" },
-              to: { transform: "rotate(360deg)" },
-            },
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 1,
-            borderRadius: 2,
-            backgroundColor: theme.palette.mode === "dark" ? "#191919" : "background.paper",
-          }}
-        />
-        <CardContent sx={{ position: "relative", zIndex: 1 }}>
-          <Typography variant="h5" display="flex" alignItems="center">
-            <FaWandMagicSparkles style={{ marginRight: 8, color: "deepskyblue" }} />
-            Animated Border
-          </Typography>
-          <Typography mt variant="body2">
-            Captivate users with a mesmerizing rotating gradient border animation.
-          </Typography>
-        </CardContent>
-      </Card>
-    </motion.div>
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 1,
+          borderRadius: 2,
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? "#191919"
+              : theme.palette.background.paper,
+        }}
+      />
+      <CardContent sx={{ position: "relative", zIndex: 1 }}>
+        <Typography variant="h5" display="flex" alignItems="center">
+          <FaWandMagicSparkles
+            style={{ marginRight: 8, color: "deepskyblue" }}
+          />
+          Animated Border
+        </Typography>
+        <Typography mt variant="body2">
+          Captivate users with a mesmerizing rotating gradient border animation. Now optimized for better performance.
+        </Typography>
+      </CardContent>
+    </MotionCard>
   );
 };
 

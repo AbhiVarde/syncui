@@ -18,7 +18,7 @@ import {
   CircularProgress,
   Collapse,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   LuChevronDown,
   LuArrowUpDown,
@@ -28,45 +28,6 @@ import {
 
 const MotionTableRow = motion.create(TableRow);
 const MotionPaper = motion.create(Paper);
-
-const animations = {
-  table: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    transition: { duration: 0.3 },
-  },
-  row: {
-    initial: { opacity: 0, y: 10 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -10 },
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
-      mass: 0.1,
-    },
-  },
-  cell: {
-    initial: { opacity: 0, scale: 0.95 },
-    animate: { opacity: 1, scale: 1 },
-    transition: {
-      type: "spring",
-      stiffness: 200,
-      damping: 20,
-    },
-  },
-  expand: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-    transition: { duration: 0.2 },
-  },
-  progress: {
-    initial: { width: 0, opacity: 0 },
-    animate: { width: "100%", opacity: 1 },
-    transition: { duration: 0.8, ease: "easeOut" },
-  },
-};
 
 const createData = (id, name, role, status, progress, date) => ({
   id,
@@ -141,7 +102,7 @@ const TableVariants = ({ variant = "modern" }) => {
       component={motion.div}
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       sx={{
         display: "inline-flex",
         px: 1.5,
@@ -176,7 +137,7 @@ const TableVariants = ({ variant = "modern" }) => {
           component={motion.div}
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
-          transition={{ duration: 1, delay, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay, ease: "easeOut" }}
           sx={{
             height: 6,
             bgcolor: theme.palette.primary.main,
@@ -195,7 +156,9 @@ const TableVariants = ({ variant = "modern" }) => {
       case "minimal":
         return (
           <MotionPaper
-            {...animations.table}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             elevation={0}
             sx={{
               overflow: "hidden",
@@ -230,8 +193,13 @@ const TableVariants = ({ variant = "modern" }) => {
                     .map((row, index) => (
                       <MotionTableRow
                         key={row.id}
-                        {...animations.row}
-                        transition={{ delay: index * 0.05 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          delay: index * 0.05,
+                          duration: 0.3,
+                          ease: "easeOut",
+                        }}
                         sx={{
                           "&:hover": {
                             bgcolor: alpha(theme.palette.primary.main, 0.04),
@@ -288,7 +256,9 @@ const TableVariants = ({ variant = "modern" }) => {
       case "expandable":
         return (
           <MotionPaper
-            {...animations.table}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             sx={{
               overflow: "hidden",
               bgcolor: "background.paper",
@@ -325,8 +295,13 @@ const TableVariants = ({ variant = "modern" }) => {
                     .map((row, index) => (
                       <React.Fragment key={row.id}>
                         <MotionTableRow
-                          {...animations.row}
-                          transition={{ delay: index * 0.05 }}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: index * 0.05,
+                            duration: 0.3,
+                            ease: "easeOut",
+                          }}
                           sx={{
                             "&:hover": {
                               bgcolor: alpha(theme.palette.primary.main, 0.04),
@@ -353,7 +328,12 @@ const TableVariants = ({ variant = "modern" }) => {
                             </IconButton>
                           </TableCell>
                           <TableCell>
-                            <Box component={motion.div} {...animations.cell}>
+                            <Box
+                              component={motion.div}
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.3, ease: "easeOut" }}
+                            >
                               <Typography variant="subtitle2">
                                 {row.name}
                               </Typography>
@@ -485,7 +465,9 @@ const TableVariants = ({ variant = "modern" }) => {
       default:
         return (
           <MotionPaper
-            {...animations.table}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             sx={{
               overflow: "hidden",
               bgcolor: "background.paper",
@@ -570,9 +552,8 @@ const TableVariants = ({ variant = "modern" }) => {
                                   : 0,
                             }}
                             transition={{
-                              type: "spring",
-                              stiffness: 200,
-                              damping: 20,
+                              duration: 0.3,
+                              ease: "easeOut",
                             }}
                           >
                             <LuArrowUpDown size={16} />
@@ -600,8 +581,13 @@ const TableVariants = ({ variant = "modern" }) => {
                         return (
                           <MotionTableRow
                             key={row.id}
-                            {...animations.row}
-                            transition={{ delay: index * 0.05 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              delay: index * 0.05,
+                              duration: 0.3,
+                              ease: "easeOut",
+                            }}
                             sx={{
                               bgcolor: isSelected
                                 ? alpha(theme.palette.primary.main, 0.08)
@@ -620,7 +606,12 @@ const TableVariants = ({ variant = "modern" }) => {
                               />
                             </TableCell>
                             <TableCell>
-                              <Box component={motion.div} {...animations.cell}>
+                              <Box
+                                component={motion.div}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                              >
                                 <Typography variant="subtitle2">
                                   {row.name}
                                 </Typography>
@@ -687,5 +678,6 @@ const TableVariants = ({ variant = "modern" }) => {
 
   return renderVariant();
 };
+
 
 export default TableVariants;

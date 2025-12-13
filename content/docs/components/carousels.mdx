@@ -12,86 +12,93 @@ A carousel with smooth scaling transitions between slides, featuring overlay con
 <CodePreview
   preview={<CarouselVariants variant="scale" />}
   code={`
-import React, { useState } from "react";
-import { Box, Typography, IconButton, Paper } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useCallback, useMemo } from "react";
+import { Box, Typography } from "@mui/material";
+import { motion, AnimatePresence } from "motion/react";
 
+const MotionBox = motion.create(Box);
+
+// Sample data
 const imageSlides = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1605379399642-870262d3d051",
+    image: "https://images.unsplash.com/photo-1605379399642-870262d3d051?w=800",
     title: "Modern Architecture",
     description: "Exploring contemporary design principles",
   },
-  // ... other slides
+  // ... more slides
 ];
 
 const ScaleCarousel = () => {
   const [active, setActive] = useState(0);
 
+  const handleNext = useCallback(() => {
+    setActive((prev) => (prev + 1) % imageSlides.length);
+  }, []);
+
   return (
-    <Box sx={{ position: "relative", height: 400, overflow: "hidden" }}>
+    <Box sx={{ position: "relative", width: "100%", height: 400, overflow: "hidden", borderRadius: 4 }}>
       <AnimatePresence initial={false}>
-        <motion.div
+        <MotionBox
           key={active}
           initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.85, opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          sx={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundImage: \`url(\${imageSlides[active]?.image})\`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            borderRadius: 4,
+          }}
         >
           <Box
             sx={{
               position: "absolute",
-              width: "100%",
-              height: "100%",
-              backgroundImage: \`url(\${imageSlides[active]?.image})\`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              p: { md: 5, xs: 2.5 },
+              background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+              color: "white",
+              borderBottomLeftRadius: 8,
+              borderBottomRightRadius: 8,
             }}
           >
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                p: 3,
-                background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
-                color: "white",
-              }}
-            >
-              <Typography variant="h5" gutterBottom>
-                {imageSlides[active]?.title}
-              </Typography>
-              <Typography variant="body1">
-                {imageSlides[active]?.description}
-              </Typography>
-            </Box>
+            <Typography variant="h6">{imageSlides[active]?.title}</Typography>
+            <Typography variant="body1">{imageSlides[active]?.description}</Typography>
           </Box>
-        </motion.div>
+        </MotionBox>
       </AnimatePresence>
-      <Box sx={{ 
-        position: "absolute", 
-        bottom: 16, 
-        left: "50%", 
-        transform: "translateX(-50%)",
-        display: "flex",
-        gap: 1
-      }}>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 30,
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: 1,
+          zIndex: 1,
+        }}
+      >
         {imageSlides.map((_, index) => (
           <Box
             key={index}
             component={motion.div}
             animate={{
               scale: active === index ? 1.2 : 1,
-              opacity: active === index ? 1 : 0.5
+              opacity: active === index ? 1 : 0.5,
             }}
+            transition={{ duration: 0.3 }}
             sx={{
               width: 8,
               height: 8,
               borderRadius: "50%",
               bgcolor: "white",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
             onClick={() => setActive(index)}
           />
@@ -100,6 +107,8 @@ const ScaleCarousel = () => {
     </Box>
   );
 };
+
+export default ScaleCarousel;
 `}
 />
 
@@ -110,13 +119,21 @@ A dynamic carousel with parallax scrolling effects and gradient overlays, creati
 <CodePreview
   preview={<CarouselVariants variant="parallax" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { LuPlay, LuPause } from "react-icons/lu";
 
+const MotionBox = motion.create(Box);
+
 const imageSlidesContent = [
-  // ... parallax slides data
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1682685797661-9e0c87f59c60?w=800",
+    title: "Quantum Computing",
+    description: "Revolutionizing computational possibilities",
+  },
+  // ... more slides
 ];
 
 const ParallaxCarousel = () => {
@@ -124,58 +141,75 @@ const ParallaxCarousel = () => {
   const [direction, setDirection] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
 
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    setActive((prev) => (prev + 1) % imageSlidesContent.length);
+  }, []);
+
+  useEffect(() => {
+    let timeout;
+    if (autoplay) {
+      timeout = setTimeout(handleNext, 5000);
+    }
+    return () => clearTimeout(timeout);
+  }, [autoplay, handleNext, active]);
+
   return (
-    <Box sx={{ position: "relative", height: 400, overflow: "hidden" }}>
+    <Box sx={{ position: "relative", width: "100%", height: 400, overflow: "hidden", borderRadius: 4 }}>
       <AnimatePresence initial={false} custom={direction}>
-        <motion.div
+        <MotionBox
           key={active}
-          custom={direction}
           initial={{ x: direction > 0 ? "100%" : "-100%" }}
           animate={{ x: 0 }}
           exit={{ x: direction > 0 ? "-100%" : "100%" }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          sx={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundImage: \`url(\${imageSlidesContent[active]?.image})\`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
           <Box
             sx={{
-              width: "100%",
-              height: "100%",
-              backgroundImage: \`url(\${imageSlidesContent[active]?.image})\`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(45deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              p: { md: 6, xs: 3 },
+              color: "white",
             }}
           >
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: "linear-gradient(45deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%)",
-                p: 6,
-                color: "white",
-              }}
-            >
-              <Typography variant="h3" gutterBottom>
-                {imageSlidesContent[active]?.title}
-              </Typography>
-              <Typography variant="h6">
-                {imageSlidesContent[active]?.description}
-              </Typography>
-            </Box>
+            <Typography variant="h6">{imageSlidesContent[active]?.title}</Typography>
+            <Typography variant="body1">{imageSlidesContent[active]?.description}</Typography>
           </Box>
-        </motion.div>
+        </MotionBox>
       </AnimatePresence>
-      <Box sx={{ 
-        position: "absolute",
-        bottom: 40,
-        left: 0,
-        right: 0,
-        display: "flex",
-        justifyContent: "center",
-        gap: 2
-      }}>
-        <IconButton onClick={() => setAutoplay(!autoplay)} sx={{ color: "white" }}>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 40,
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          zIndex: 1,
+        }}
+      >
+        <IconButton
+          onClick={() => setAutoplay(!autoplay)}
+          sx={{
+            color: "white",
+            bgcolor: "rgba(255,255,255,0.1)",
+            "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
+          }}
+        >
           {autoplay ? <LuPause /> : <LuPlay />}
         </IconButton>
         {imageSlidesContent.map((_, index) => (
@@ -183,14 +217,17 @@ const ParallaxCarousel = () => {
             key={index}
             component={motion.div}
             animate={{
-              width: active === index ? 24 : 12,
-              opacity: active === index ? 1 : 0.5
+              scale: active === index ? 1 : 0.8,
+              opacity: active === index ? 1 : 0.5,
             }}
+            transition={{ duration: 0.2 }}
             sx={{
+              width: active === index ? 24 : 12,
               height: 4,
               borderRadius: 2,
               bgcolor: "white",
-              cursor: "pointer"
+              cursor: "pointer",
+              transition: "width 0.3s ease",
             }}
             onClick={() => setActive(index)}
           />
@@ -199,6 +236,8 @@ const ParallaxCarousel = () => {
     </Box>
   );
 };
+
+export default ParallaxCarousel;
 `}
 />
 
@@ -209,71 +248,97 @@ A simple yet elegant carousel with smooth fade transitions and navigation arrows
 <CodePreview
   preview={<CarouselVariants variant="fade" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+
+const MotionBox = motion.create(Box);
 
 const FadeCarousel = () => {
   const [active, setActive] = useState(0);
 
+  const handleNext = useCallback(() => {
+    setActive((prev) => (prev + 1) % imageSlides.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setActive((prev) => (prev - 1 + imageSlides.length) % imageSlides.length);
+  }, []);
+
   return (
-    <Box sx={{ position: "relative", height: 400, overflow: "hidden" }}>
+    <Box sx={{ position: "relative", width: "100%", height: 400, overflow: "hidden", borderRadius: 4 }}>
       <AnimatePresence mode="wait">
-        <motion.div
+        <MotionBox
           key={active}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          sx={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundImage: \`url(\${imageSlides[active]?.image})\`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
           <Box
             sx={{
               position: "absolute",
-              width: "100%",
-              height: "100%",
-              backgroundImage: \`url(\${imageSlides[active]?.image})\`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              p: { md: 3, xs: 1.5 },
+              background: "rgba(0, 0, 0, 0.5)",
+              color: "white",
+              textAlign: "center",
+              borderRadius: 2,
             }}
           >
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                p: 3,
-                background: "rgba(0, 0, 0, 0.5)",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              <Typography variant="h5" gutterBottom>
-                {imageSlides[active]?.title}
-              </Typography>
-              <Typography variant="body1">
-                {imageSlides[active]?.description}
-              </Typography>
-            </Box>
+            <Typography variant="h6" gutterBottom>
+              {imageSlides[active]?.title}
+            </Typography>
+            <Typography variant="body1">
+              {imageSlides[active]?.description}
+            </Typography>
           </Box>
-        </motion.div>
+        </MotionBox>
       </AnimatePresence>
       <IconButton
-        onClick={() => setActive((prev) => (prev - 1 + imageSlides.length) % imageSlides.length)}
-        sx={{ position: "absolute", left: 16, top: "50%", color: "white" }}
+        onClick={handlePrev}
+        sx={{
+          position: "absolute",
+          left: 16,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "white",
+          bgcolor: "rgba(0,0,0,0.3)",
+          "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
+        }}
       >
         <LuChevronLeft />
       </IconButton>
       <IconButton
-        onClick={() => setActive((prev) => (prev + 1) % imageSlides.length)}
-        sx={{ position: "absolute", right: 16, top: "50%", color: "white" }}
+        onClick={handleNext}
+        sx={{
+          position: "absolute",
+          right: 16,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "white",
+          bgcolor: "rgba(0,0,0,0.3)",
+          "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
+        }}
       >
         <LuChevronRight />
       </IconButton>
     </Box>
   );
 };
+
+export default FadeCarousel;
 `}
 />
 
@@ -284,50 +349,55 @@ An interactive card-based carousel with 3D perspective and overlapping cards.
 <CodePreview
   preview={<CarouselVariants variant="cards" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Box, Typography, IconButton, Paper } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 
-const imageSlidesContent = [
-  // ... card slides data
-];
+const MotionPaper = motion.create(Paper);
 
 const CardCarousel = () => {
   const [active, setActive] = useState(0);
 
+  const handleNext = useCallback(() => {
+    setActive((prev) => (prev + 1) % imageSlidesContent.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setActive((prev) => (prev - 1 + imageSlidesContent.length) % imageSlidesContent.length);
+  }, []);
+
   return (
-    <Box sx={{ position: "relative", height: 400, perspective: "1000px" }}>
-      <AnimatePresence initial={false}>
+    <Box sx={{ position: "relative", width: "100%", height: 400, overflow: "hidden", borderRadius: 4, perspective: "1000px" }}>
+      <AnimatePresence>
         {imageSlidesContent.map((slide, index) => {
-          const offset = (index - active + imageSlidesContent.length) % imageSlidesContent.length;
-          
+          const cardOffset = (index - active + imageSlidesContent.length) % imageSlidesContent.length;
+
           return (
-            <motion.div
+            <MotionPaper
               key={slide.id}
               initial={{ scale: 0.9, opacity: 0, x: 300 }}
               animate={{
-                scale: 1 - Math.abs(offset) * 0.1,
-                opacity: 1 - Math.abs(offset) * 0.3,
-                x: offset * 100
+                scale: 1 - Math.abs(cardOffset) * 0.1,
+                opacity: 1 - Math.abs(cardOffset) * 0.3,
+                x: cardOffset * 100,
+                zIndex: imageSlidesContent.length - Math.abs(cardOffset),
               }}
               exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              style={{
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              sx={{
                 position: "absolute",
                 width: "80%",
                 height: "80%",
-                borderRadius: 16
+                borderRadius: "16px",
+                overflow: "hidden",
               }}
             >
               <Box
                 sx={{
                   position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundImage: \`url(\${slide.image})\`,
+                  inset: 0,
+                  backgroundImage: \`url(\${slide?.image})\`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -338,39 +408,53 @@ const CardCarousel = () => {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  p: 4,
+                  p: { md: 4, xs: 2 },
                   background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
                   color: "white",
+                  borderRadius: "0 0 16px 16px",
                 }}
               >
-                <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                  {slide.title}
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  {slide?.title}
                 </Typography>
-                <Typography variant="body1">
-                  {slide.description}
+                <Typography variant="body1" sx={{ opacity: 0.9 }}>
+                  {slide?.description}
                 </Typography>
               </Box>
-            </motion.div>
+            </MotionPaper>
           );
         })}
       </AnimatePresence>
-      <Box sx={{ 
-        position: "absolute",
-        bottom: 16,
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "flex",
-        gap: 2
-      }}>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: 2,
+          zIndex: imageSlidesContent.length + 1,
+        }}
+      >
         <IconButton
-          onClick={() => setActive((prev) => (prev - 1 + imageSlidesContent.length) % imageSlidesContent.length)}
-          sx={{ color: "white" }}
+          onClick={handlePrev}
+          sx={{
+            color: "white",
+            bgcolor: "rgba(0,0,0,0.4)",
+            "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
+            borderRadius: "50%",
+          }}
         >
           <LuArrowLeft />
         </IconButton>
         <IconButton
-          onClick={() => setActive((prev) => (prev + 1) % imageSlidesContent.length)}
-          sx={{ color: "white" }}
+          onClick={handleNext}
+          sx={{
+            color: "white",
+            bgcolor: "rgba(0,0,0,0.4)",
+            "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
+            borderRadius: "50%",
+          }}
         >
           <LuArrowRight />
         </IconButton>
@@ -378,5 +462,7 @@ const CardCarousel = () => {
     </Box>
   );
 };
+
+export default CardCarousel;
 `}
 />
