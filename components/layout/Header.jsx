@@ -204,15 +204,32 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         <RxCross2 size={18} />
       </IconButton>
 
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, my: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          my: 0.5,
+        }}
+      >
         <Image
           src="/logo.png"
           alt="Sync UI Logo"
-          width={28}
-          height={28}
-          style={{ borderRadius: "4px" }}
+          width={24}
+          height={24}
+          style={{
+            borderRadius: "4px",
+            display: "block",
+          }}
         />
-        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: 500,
+            lineHeight: 1.2,
+          }}
+        >
           Sync UI Docs
         </Typography>
       </Box>
@@ -613,8 +630,13 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               {isDocsPage && !isMediumUp && (
-                <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
-                  <GoSidebarCollapse />
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={toggleDrawer}
+                  sx={{ pr: 0 }}
+                >
+                  <GoSidebarCollapse size={22} />
                 </IconButton>
               )}
               <Box
@@ -622,10 +644,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
+                  gap: 1,
                   cursor: "pointer",
-                  textDecoration: "none",
-                  minWidth: 0,
                 }}
               >
                 <Box
@@ -635,19 +655,20 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   sx={{
                     width: 24,
                     height: 24,
+                    borderRadius: 0.5,
                     display:
                       asPath.startsWith("/docs") && !isMediumUp
                         ? "none"
-                        : "inline-block",
+                        : "block",
                   }}
                 />
+
                 <Typography
                   variant="h6"
-                  fontWeight={600}
                   noWrap
                   sx={{
-                    color: "text.primary",
-                    lineHeight: 1,
+                    fontWeight: 500,
+                    lineHeight: 1.2,
                   }}
                 >
                   Sync UI
