@@ -36,7 +36,11 @@ const Footer = () => {
         >
           <Typography variant="caption">
             Brought to you by{" "}
-            <LinkPreview url="https://abhivarde.in" placement="top">
+            <LinkPreview
+              url="https://abhivarde.in"
+              placement="top"
+              staticImage="/og-image.png"
+            >
               abhivarde.in
             </LinkPreview>
             .

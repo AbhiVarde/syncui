@@ -6,7 +6,6 @@ import {
   useMotionValue,
   useSpring,
 } from "motion/react";
-import { encode } from "qss";
 
 const LinkPreview = ({
   children,
@@ -28,21 +27,7 @@ const LinkPreview = ({
   const x = useMotionValue(0);
   const translateX = useSpring(x, { stiffness: 150, damping: 20 });
 
-  const imageSrc = useMemo(() => {
-    if (staticImage) return staticImage;
-    const params = encode({
-      url,
-      screenshot: true,
-      meta: false,
-      embed: "screenshot.url",
-      colorScheme: theme.palette.mode,
-      "viewport.isMobile": true,
-      "viewport.deviceScaleFactor": 1,
-      "viewport.width": width * 3,
-      "viewport.height": height * 3,
-    });
-    return `https://api.microlink.io/?${params}`;
-  }, [staticImage, url, theme.palette.mode, width, height]);
+  const imageSrc = useMemo(() => staticImage, [staticImage]);
 
   const updatePosition = useCallback(() => {
     if (!linkRef.current) return;
@@ -190,21 +175,24 @@ const LinkPreview = ({
                       </Typography>
                     </Box>
                   )}
-                  <Box sx={{ p: description ? "0 12px 12px 12px" : 1 }}>
-                    <Box
-                      component="img"
-                      src={imageSrc}
-                      alt="Link preview"
-                      loading="lazy"
-                      sx={{
-                        width: description ? width - 24 : width,
-                        height,
-                        borderRadius: 1,
-                        display: "block",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </Box>
+
+                  {imageSrc && (
+                    <Box sx={{ p: description ? "0 12px 12px 12px" : 1 }}>
+                      <Box
+                        component="img"
+                        src={imageSrc}
+                        alt="Link preview"
+                        loading="eager"
+                        sx={{
+                          width: description ? width - 24 : width,
+                          height,
+                          borderRadius: 1,
+                          display: "block",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
+                  )}
                 </Box>
               </motion.div>
             )}
