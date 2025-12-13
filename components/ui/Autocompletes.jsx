@@ -1,6 +1,7 @@
+// autocompletes.jsx - Optimized with motion/react
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Typography, useTheme } from "@mui/material";
+import { motion, AnimatePresence } from "motion/react";
+import { Typography, useTheme, Box } from "@mui/material";
 import { LuX } from "react-icons/lu";
 
 const AutocompleteVariants = ({ variant = "basic" }) => {
@@ -13,7 +14,6 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  // Sample data
   const sampleData = {
     basic: [
       "Apple",
@@ -120,7 +120,6 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
     ],
   };
 
-  // Simulate async loading
   const simulateAsyncLoad = async (query) => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 800));
@@ -199,81 +198,6 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
     );
   };
 
-  const containerStyle = {
-    width: "100%",
-    maxWidth: "400px",
-    margin: "0 auto",
-    position: "relative",
-    zIndex: "auto",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    height: "44px",
-    padding: "0 16px 0 44px",
-    border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
-    borderRadius: "12px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
-    color: isDark ? "#fff" : "#000",
-    fontSize: "16px",
-    outline: "none",
-    transition: "all 0.2s ease",
-    "&:focus": {
-      borderColor: isDark ? "#666" : "#000",
-    },
-  };
-
-  const dropdownStyle = {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    marginTop: "4px",
-    maxHeight: "180px",
-    overflowY: "auto",
-    backgroundColor: isDark ? "#1a1a1a" : "#fff",
-    border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
-    borderRadius: "12px",
-    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-    zIndex: 9999,
-  };
-
-  const optionStyle = {
-    padding: "6px 12px",
-    cursor: "pointer",
-    fontSize: "16px",
-    color: isDark ? "#fff" : "#000",
-    transition: "background-color 0.2s ease",
-    "&:hover": {
-      backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
-    },
-  };
-
-  const chipStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    padding: "6px 14px",
-    margin: "2px",
-    backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
-    color: isDark ? "#fff" : "#000",
-    borderRadius: "12px",
-    fontSize: "14px",
-    gap: "6px",
-  };
-
-  const avatarStyle = {
-    width: "24px",
-    height: "24px",
-    borderRadius: "50%",
-    backgroundColor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)",
-    color: isDark ? "#fff" : "#000",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "11px",
-    fontWeight: "500",
-  };
-
   const getDescription = () => {
     switch (variant) {
       case "basic":
@@ -336,32 +260,51 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
   const renderCloseIcon = () => <LuX />;
 
   const renderLoadingSpinner = () => (
-    <div
-      style={{
+    <Box
+      sx={{
         position: "absolute",
         right: "14px",
         top: "50%",
         transform: "translateY(-50%)",
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           width: "16px",
           height: "16px",
           border: `2px solid ${isDark ? "#333" : "#e0e0e0"}`,
           borderTop: `2px solid ${isDark ? "#fff" : "#666"}`,
           borderRadius: "50%",
           animation: "spin 1s linear infinite",
+          "@keyframes spin": {
+            "0%": { transform: "rotate(0deg)" },
+            "100%": { transform: "rotate(360deg)" },
+          },
         }}
       />
-    </div>
+    </Box>
   );
 
   const renderBasicAutocomplete = () => (
-    <div style={{ position: "relative" }}>
+    <Box sx={{ position: "relative" }}>
       {renderSearchIcon()}
-      <input
-        style={inputStyle}
+      <Box
+        component="input"
+        sx={{
+          width: "100%",
+          height: "44px",
+          padding: "0 16px 0 44px",
+          border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+          borderRadius: "12px",
+          backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+          color: isDark ? "#fff" : "#000",
+          fontSize: "16px",
+          outline: "none",
+          transition: "all 0.2s ease",
+          "&:focus": {
+            borderColor: isDark ? "#666" : "#000",
+          },
+        }}
         placeholder={getPlaceholder()}
         value={inputValue}
         onChange={(e) => handleInputChange(e.target.value)}
@@ -371,37 +314,82 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
 
       <AnimatePresence>
         {isOpen && filteredOptions.length > 0 && (
-          <motion.div
+          <Box
+            component={motion.div}
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            style={dropdownStyle}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            sx={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              marginTop: "4px",
+              maxHeight: "180px",
+              overflowY: "auto",
+              backgroundColor: isDark ? "#1a1a1a" : "#fff",
+              border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+              borderRadius: "12px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+              zIndex: 9999,
+            }}
           >
             {filteredOptions.map((option, index) => (
-              <motion.div
+              <Box
                 key={option}
+                component={motion.div}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.03 }}
-                style={optionStyle}
+                transition={{
+                  delay: index * 0.03,
+                  duration: 0.2,
+                  ease: "easeOut",
+                }}
+                sx={{
+                  padding: "6px 12px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  color: isDark ? "#fff" : "#000",
+                  transition: "background-color 0.2s ease",
+                  "&:hover": {
+                    backgroundColor: isDark
+                      ? "rgba(255,255,255,0.05)"
+                      : "rgba(0,0,0,0.04)",
+                  },
+                }}
                 onMouseDown={() => handleOptionSelect(option)}
               >
                 {option}
-              </motion.div>
+              </Box>
             ))}
-          </motion.div>
+          </Box>
         )}
       </AnimatePresence>
-    </div>
+    </Box>
   );
 
   const renderMultiSelectAutocomplete = () => (
-    <div>
-      <div style={{ position: "relative" }}>
+    <Box>
+      <Box sx={{ position: "relative" }}>
         {renderSearchIcon()}
-        <input
-          style={inputStyle}
+        <Box
+          component="input"
+          sx={{
+            width: "100%",
+            height: "44px",
+            padding: "0 16px 0 44px",
+            border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+            borderRadius: "12px",
+            backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+            color: isDark ? "#fff" : "#000",
+            fontSize: "16px",
+            outline: "none",
+            transition: "all 0.2s ease",
+            "&:focus": {
+              borderColor: isDark ? "#666" : "#000",
+            },
+          }}
           placeholder={getPlaceholder()}
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
@@ -411,35 +399,67 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
 
         <AnimatePresence>
           {isOpen && filteredOptions.length > 0 && (
-            <motion.div
+            <Box
+              component={motion.div}
               initial={{ opacity: 0, y: -8, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              style={dropdownStyle}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              sx={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                right: 0,
+                marginTop: "4px",
+                maxHeight: "180px",
+                overflowY: "auto",
+                backgroundColor: isDark ? "#1a1a1a" : "#fff",
+                border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+                borderRadius: "12px",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                zIndex: 9999,
+              }}
             >
               {filteredOptions.map((option, index) => (
-                <motion.div
+                <Box
                   key={option}
+                  component={motion.div}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.03 }}
-                  style={optionStyle}
+                  transition={{
+                    delay: index * 0.03,
+                    duration: 0.2,
+                    ease: "easeOut",
+                  }}
+                  sx={{
+                    padding: "6px 12px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    color: isDark ? "#fff" : "#000",
+                    transition: "background-color 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: isDark
+                        ? "rgba(255,255,255,0.05)"
+                        : "rgba(0,0,0,0.04)",
+                    },
+                  }}
                   onMouseDown={() => handleOptionSelect(option)}
                 >
                   {option}
-                </motion.div>
+                </Box>
               ))}
-            </motion.div>
+            </Box>
           )}
         </AnimatePresence>
-      </div>
+      </Box>
 
       {selectedValues.length > 0 && (
-        <motion.div
+        <Box
+          component={motion.div}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          style={{
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          sx={{
             marginTop: "12px",
             display: "flex",
             flexWrap: "wrap",
@@ -447,16 +467,34 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
           }}
         >
           {selectedValues.map((value, index) => (
-            <motion.div
+            <Box
               key={value}
+              component={motion.div}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              style={chipStyle}
+              transition={{
+                delay: index * 0.05,
+                duration: 0.2,
+                ease: "easeOut",
+              }}
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "6px 14px",
+                margin: "2px",
+                backgroundColor: isDark
+                  ? "rgba(255,255,255,0.1)"
+                  : "rgba(0,0,0,0.08)",
+                color: isDark ? "#fff" : "#000",
+                borderRadius: "12px",
+                fontSize: "14px",
+                gap: "6px",
+              }}
             >
               {value}
-              <button
-                style={{
+              <Box
+                component="button"
+                sx={{
                   background: "none",
                   border: "none",
                   cursor: "pointer",
@@ -468,19 +506,34 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
                 onClick={() => handleChipDelete(value)}
               >
                 {renderCloseIcon()}
-              </button>
-            </motion.div>
+              </Box>
+            </Box>
           ))}
-        </motion.div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 
   const renderAsyncAutocomplete = () => (
-    <div style={{ position: "relative" }}>
+    <Box sx={{ position: "relative" }}>
       {renderSearchIcon()}
-      <input
-        style={inputStyle}
+      <Box
+        component="input"
+        sx={{
+          width: "100%",
+          height: "44px",
+          padding: "0 16px 0 44px",
+          border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+          borderRadius: "12px",
+          backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+          color: isDark ? "#fff" : "#000",
+          fontSize: "16px",
+          outline: "none",
+          transition: "all 0.2s ease",
+          "&:focus": {
+            borderColor: isDark ? "#666" : "#000",
+          },
+        }}
         placeholder={getPlaceholder()}
         value={inputValue}
         onChange={(e) => handleInputChange(e.target.value)}
@@ -491,56 +544,79 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <Box
+            component={motion.div}
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            style={dropdownStyle}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            sx={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              marginTop: "4px",
+              maxHeight: "180px",
+              overflowY: "auto",
+              backgroundColor: isDark ? "#1a1a1a" : "#fff",
+              border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+              borderRadius: "12px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+              zIndex: 9999,
+            }}
           >
             {isLoading ? (
-              <div
-                style={{
-                  ...optionStyle,
-                  textAlign: "center",
-                  color: isDark ? "#666" : "#999",
+              <Typography
+                variant="body2"
+                sx={{
+                  padding: "6px 12px",
                 }}
               >
                 Loading...
-              </div>
+              </Typography>
             ) : filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
-                <motion.div
+                <Box
                   key={option}
+                  component={motion.div}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.03 }}
-                  style={optionStyle}
+                  transition={{
+                    delay: index * 0.03,
+                    duration: 0.2,
+                    ease: "easeOut",
+                  }}
+                  sx={{
+                    padding: "6px 12px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    color: isDark ? "#fff" : "#000",
+                    transition: "background-color 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: isDark
+                        ? "rgba(255,255,255,0.05)"
+                        : "rgba(0,0,0,0.04)",
+                    },
+                  }}
                   onMouseDown={() => handleOptionSelect(option)}
                 >
                   {option}
-                </motion.div>
+                </Box>
               ))
             ) : (
-              <div style={{ ...optionStyle, color: isDark ? "#666" : "#999" }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  padding: "6px 12px",
+                }}
+              >
                 No results found
-              </div>
+              </Typography>
             )}
-          </motion.div>
+          </Box>
         )}
       </AnimatePresence>
-
-      <style jsx>{`
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </div>
+    </Box>
   );
 
   const renderGroupedAutocomplete = () => {
@@ -558,10 +634,25 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
     }
 
     return (
-      <div style={{ position: "relative" }}>
+      <Box sx={{ position: "relative" }}>
         {renderSearchIcon()}
-        <input
-          style={inputStyle}
+        <Box
+          component="input"
+          sx={{
+            width: "100%",
+            height: "44px",
+            padding: "0 16px 0 44px",
+            border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+            borderRadius: "12px",
+            backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+            color: isDark ? "#fff" : "#000",
+            fontSize: "16px",
+            outline: "none",
+            transition: "all 0.2s ease",
+            "&:focus": {
+              borderColor: isDark ? "#666" : "#000",
+            },
+          }}
           placeholder={getPlaceholder()}
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
@@ -571,18 +662,32 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
 
         <AnimatePresence>
           {isOpen && Object.keys(groupedResults).length > 0 && (
-            <motion.div
+            <Box
+              component={motion.div}
               initial={{ opacity: 0, y: -8, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              style={{ ...dropdownStyle }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              sx={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                right: 0,
+                marginTop: "4px",
+                maxHeight: "180px",
+                overflowY: "auto",
+                backgroundColor: isDark ? "#1a1a1a" : "#fff",
+                border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+                borderRadius: "12px",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                zIndex: 9999,
+              }}
             >
               {Object.entries(groupedResults).map(
                 ([groupName, items], groupIndex) => (
-                  <div key={groupName}>
-                    <div
-                      style={{
+                  <Box key={groupName}>
+                    <Box
+                      sx={{
                         padding: "8px 16px 4px 16px",
                         fontSize: "11px",
                         fontWeight: "600",
@@ -592,55 +697,99 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
                       }}
                     >
                       {groupName}
-                    </div>
+                    </Box>
                     {items.map((item, index) => (
-                      <motion.div
+                      <Box
                         key={item.id}
+                        component={motion.div}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{
                           delay: (groupIndex * items.length + index) * 0.02,
+                          duration: 0.2,
+                          ease: "easeOut",
                         }}
-                        style={{
-                          ...optionStyle,
+                        sx={{
+                          padding: "6px 12px",
                           paddingLeft: "20px",
+                          cursor: "pointer",
+                          fontSize: "16px",
+                          color: isDark ? "#fff" : "#000",
+                          transition: "background-color 0.2s ease",
                           display: "flex",
                           alignItems: "center",
                           gap: "10px",
+                          "&:hover": {
+                            backgroundColor: isDark
+                              ? "rgba(255,255,255,0.05)"
+                              : "rgba(0,0,0,0.04)",
+                          },
                         }}
                         onMouseDown={() => handleOptionSelect(item)}
                       >
-                        <div style={avatarStyle}>{item.avatar}</div>
-                        <div>
-                          <div style={{ fontSize: "13px", fontWeight: "500" }}>
+                        <Box
+                          sx={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            backgroundColor: isDark
+                              ? "rgba(255,255,255,0.15)"
+                              : "rgba(0,0,0,0.1)",
+                            color: isDark ? "#fff" : "#000",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "11px",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {item.avatar}
+                        </Box>
+                        <Box>
+                          <Box sx={{ fontSize: "13px", fontWeight: "500" }}>
                             {item.name}
-                          </div>
-                          <div
-                            style={{
+                          </Box>
+                          <Box
+                            sx={{
                               fontSize: "11px",
                               color: isDark ? "#666" : "#999",
                             }}
                           >
                             {item.description || item.email}
-                          </div>
-                        </div>
-                      </motion.div>
+                          </Box>
+                        </Box>
+                      </Box>
                     ))}
-                  </div>
+                  </Box>
                 )
               )}
-            </motion.div>
+            </Box>
           )}
         </AnimatePresence>
-      </div>
+      </Box>
     );
   };
 
   const renderCustomRenderAutocomplete = () => (
-    <div style={{ position: "relative" }}>
+    <Box sx={{ position: "relative" }}>
       {renderSearchIcon()}
-      <input
-        style={inputStyle}
+      <Box
+        component="input"
+        sx={{
+          width: "100%",
+          height: "44px",
+          padding: "0 16px 0 44px",
+          border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+          borderRadius: "12px",
+          backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+          color: isDark ? "#fff" : "#000",
+          fontSize: "16px",
+          outline: "none",
+          transition: "all 0.2s ease",
+          "&:focus": {
+            borderColor: isDark ? "#666" : "#000",
+          },
+        }}
         placeholder={getPlaceholder()}
         value={inputValue}
         onChange={(e) => handleInputChange(e.target.value)}
@@ -650,40 +799,76 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
 
       <AnimatePresence>
         {isOpen && filteredOptions.length > 0 && (
-          <motion.div
+          <Box
+            component={motion.div}
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            style={dropdownStyle}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            sx={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              marginTop: "4px",
+              maxHeight: "180px",
+              overflowY: "auto",
+              backgroundColor: isDark ? "#1a1a1a" : "#fff",
+              border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+              borderRadius: "12px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+              zIndex: 9999,
+            }}
           >
             {filteredOptions.map((person, index) => (
-              <motion.div
+              <Box
                 key={person.id}
+                component={motion.div}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.03 }}
-                style={{
-                  ...optionStyle,
+                transition={{
+                  delay: index * 0.03,
+                  duration: 0.2,
+                  ease: "easeOut",
+                }}
+                sx={{
+                  padding: "6px 12px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  color: isDark ? "#fff" : "#000",
+                  transition: "background-color 0.2s ease",
                   display: "flex",
                   alignItems: "center",
                   gap: "12px",
+                  "&:hover": {
+                    backgroundColor: isDark
+                      ? "rgba(255,255,255,0.05)"
+                      : "rgba(0,0,0,0.04)",
+                  },
                 }}
                 onMouseDown={() => handleOptionSelect(person)}
               >
-                <div style={{ position: "relative" }}>
-                  <div
-                    style={{
-                      ...avatarStyle,
+                <Box sx={{ position: "relative" }}>
+                  <Box
+                    sx={{
                       width: "32px",
                       height: "32px",
+                      borderRadius: "50%",
+                      backgroundColor: isDark
+                        ? "rgba(255,255,255,0.15)"
+                        : "rgba(0,0,0,0.1)",
+                      color: isDark ? "#fff" : "#000",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       fontSize: "13px",
+                      fontWeight: "500",
                     }}
                   >
                     {person.avatar}
-                  </div>
-                  <div
-                    style={{
+                  </Box>
+                  <Box
+                    sx={{
                       position: "absolute",
                       bottom: 0,
                       right: 0,
@@ -694,19 +879,19 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
                       border: `2px solid ${isDark ? "#1a1a1a" : "#fff"}`,
                     }}
                   />
-                </div>
-                <div>
-                  <div
-                    style={{
+                </Box>
+                <Box>
+                  <Box
+                    sx={{
                       fontSize: "13px",
                       fontWeight: "500",
                       marginBottom: "2px",
                     }}
                   >
                     {person.name}
-                  </div>
-                  <div
-                    style={{
+                  </Box>
+                  <Box
+                    sx={{
                       display: "flex",
                       alignItems: "center",
                       gap: "6px",
@@ -714,24 +899,26 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
                       color: isDark ? "#666" : "#999",
                     }}
                   >
-                    <span>{person.role}</span>
-                    <div
-                      style={{
+                    <Box component="span">{person.role}</Box>
+                    <Box
+                      sx={{
                         width: "2px",
                         height: "2px",
                         borderRadius: "50%",
                         backgroundColor: person.online ? "#10b981" : "#6b7280",
                       }}
                     />
-                    <span>{person.online ? "Online" : "Offline"}</span>
-                  </div>
-                </div>
-              </motion.div>
+                    <Box component="span">
+                      {person.online ? "Online" : "Offline"}
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
             ))}
-          </motion.div>
+          </Box>
         )}
       </AnimatePresence>
-    </div>
+    </Box>
   );
 
   const renderAutocomplete = () => {
@@ -750,18 +937,21 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
         return renderBasicAutocomplete();
     }
   };
-
   return (
-    <div style={containerStyle}>
-      {/* Description */}
-
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "400px",
+        margin: "0 auto",
+        position: "relative",
+        zIndex: "auto",
+      }}
+    >
       <Typography variant="body1" sx={{ mb: 1, textAlign: "center" }}>
         {getDescription()}
       </Typography>
-
       {renderAutocomplete()}
-    </div>
+    </Box>
   );
 };
-
 export default AutocompleteVariants;

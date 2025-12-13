@@ -30,7 +30,7 @@ import {
   FormControlLabel,
   LinearProgress,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   IoEyeOutline,
   IoEyeOffOutline,
@@ -75,7 +75,7 @@ const MultiStepForm = () => {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       sx={{ display: "flex", flexDirection: "column", gap: 3 }}
     >
       <Box sx={{ display: "flex", gap: 2 }}>
@@ -131,7 +131,7 @@ const MultiStepForm = () => {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       sx={{ display: "flex", flexDirection: "column", gap: 3 }}
     >
       <TextField
@@ -172,7 +172,7 @@ const MultiStepForm = () => {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -227,7 +227,7 @@ const MultiStepForm = () => {
     <MotionPaper
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       sx={{ p: 4, maxWidth: 420 }}
     >
       <Typography variant="h5" sx={{ fontWeight: 500, mb: 1, textAlign: "center" }}>
@@ -237,7 +237,7 @@ const MultiStepForm = () => {
         Complete all steps to create your account
       </Typography>
 
-      <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
           <Typography variant="body2" sx={{ fontWeight: 500 }}>
             Step {activeStep + 1} / {steps.length}
@@ -266,6 +266,7 @@ const MultiStepForm = () => {
             variant="outlined"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             Back
           </MotionButton>
@@ -276,6 +277,7 @@ const MultiStepForm = () => {
             endIcon={activeStep === steps.length - 1 ? <IoCheckmark /> : <IoArrowForward />}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             {activeStep === steps.length - 1 ? "Complete" : "Continue"}
           </MotionButton>
@@ -308,7 +310,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 const MotionPaper = motion.create(Paper);
@@ -321,7 +323,7 @@ const LoginForm = () => {
     <MotionPaper
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       sx={{ p: 4, maxWidth: 420 }}
     >
       <Typography variant="h5" sx={{ fontWeight: 500, textAlign: "center", mb: 1 }}>
@@ -373,6 +375,7 @@ const LoginForm = () => {
           fullWidth
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           sx={{ mt: 1 }}
         >
           Sign In
@@ -406,7 +409,7 @@ import {
   Paper,
   Divider,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { IoLogoGithub } from "react-icons/io5";
 
 const MotionPaper = motion.create(Paper);
@@ -417,7 +420,7 @@ const RegistrationForm = () => {
     <MotionPaper
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       sx={{ p: 4, maxWidth: 420 }}
     >
       <Box sx={{ textAlign: "center", mb: 4 }}>
@@ -441,7 +444,8 @@ const RegistrationForm = () => {
           fullWidth
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
-          sx={{ fontSize: "16px" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          sx={{ fontSize: "15px !important" }}
         >
           Sign In with Email
         </MotionButton>
@@ -460,18 +464,19 @@ const RegistrationForm = () => {
           startIcon={<IoLogoGithub />}
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
-          sx={{ fontSize: "16px" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          sx={{ fontSize: "15px !important" }}
         >
           GitHub
         </MotionButton>
 
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 1, lineHeight: 1.6 }}>
           By clicking continue, you agree to our{" "}
-          <Typography component="a" variant="body2" sx={{ textDecoration: "underline", color: "text.primary" }}>
+          <Typography component="a" variant="body2" sx={{ textDecoration: "underline", color: "text.primary", cursor: "pointer" }}>
             Terms of Service
           </Typography>{" "}
           and{" "}
-          <Typography component="a" variant="body2" sx={{ textDecoration: "underline", color: "text.primary" }}>
+          <Typography component="a" variant="body2" sx={{ textDecoration: "underline", color: "text.primary", cursor: "pointer" }}>
             Privacy Policy
           </Typography>
           .
@@ -504,7 +509,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { IoSend } from "react-icons/io5";
 import { LuChevronDown } from "react-icons/lu";
 
@@ -516,7 +521,7 @@ const ContactForm = () => {
     <MotionPaper
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       sx={{ p: 4, maxWidth: 420 }}
     >
       <Typography variant="h5" sx={{ fontWeight: 500, mb: 1, textAlign: "center" }}>
@@ -563,7 +568,6 @@ const ContactForm = () => {
           rows={4}
           variant="outlined"
           size="small"
-          placeholder="Tell us how we can help you..."
         />
 
         <MotionButton
@@ -572,6 +576,7 @@ const ContactForm = () => {
           endIcon={<IoSend />}
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           sx={{ mt: 1 }}
         >
           Send Message

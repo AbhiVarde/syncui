@@ -1,3 +1,4 @@
+// forms.jsx - Optimized with motion/react
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -19,7 +20,7 @@ import {
   useTheme,
   LinearProgress,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   IoEyeOutline,
   IoEyeOffOutline,
@@ -164,13 +165,12 @@ const FormVariants = ({ variant = "register" }) => {
     const steps = ["Personal", "Contact", "Preferences"];
 
     const stepContent = [
-      // Step 1: Personal Info
       <MotionBox
         key="step1"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
         sx={{ display: "flex", flexDirection: "column", gap: 3 }}
       >
         <Box
@@ -247,13 +247,12 @@ const FormVariants = ({ variant = "register" }) => {
         />
       </MotionBox>,
 
-      // Step 2: Contact Details
       <MotionBox
         key="step2"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
         sx={{ display: "flex", flexDirection: "column", gap: 3 }}
       >
         <TextField
@@ -321,13 +320,12 @@ const FormVariants = ({ variant = "register" }) => {
         </FormControl>
       </MotionBox>,
 
-      // Step 3: Preferences
       <MotionBox
         key="step3"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
         sx={{ display: "flex", flexDirection: "column", gap: 2 }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -422,7 +420,7 @@ const FormVariants = ({ variant = "register" }) => {
       <MotionPaper
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <Typography
           variant="h5"
@@ -493,6 +491,7 @@ const FormVariants = ({ variant = "register" }) => {
               variant="outlined"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               sx={{ order: { xs: 2, sm: 1 } }}
             >
               Back
@@ -512,6 +511,7 @@ const FormVariants = ({ variant = "register" }) => {
               }
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               sx={{ order: { xs: 1, sm: 2 } }}
             >
               {activeStep === steps.length - 1 ? "Complete" : "Continue"}
@@ -526,7 +526,7 @@ const FormVariants = ({ variant = "register" }) => {
     <MotionPaper
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <Typography
         variant="h5"
@@ -643,6 +643,7 @@ const FormVariants = ({ variant = "register" }) => {
             fullWidth
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             sx={{ mt: 1 }}
           >
             Sign In
@@ -676,7 +677,7 @@ const FormVariants = ({ variant = "register" }) => {
     <MotionPaper
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography
@@ -717,6 +718,7 @@ const FormVariants = ({ variant = "register" }) => {
             fullWidth
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             sx={{
               fontSize: "15px !important",
             }}
@@ -751,6 +753,7 @@ const FormVariants = ({ variant = "register" }) => {
             startIcon={<IoLogoGithub />}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             sx={{
               fontSize: "15px !important",
             }}
@@ -800,7 +803,7 @@ const FormVariants = ({ variant = "register" }) => {
     <MotionPaper
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <Typography
         variant="h5"
@@ -919,6 +922,7 @@ const FormVariants = ({ variant = "register" }) => {
             endIcon={<IoSend />}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             sx={{ mt: 1 }}
           >
             Send Message
@@ -951,6 +955,7 @@ const FormVariants = ({ variant = "register" }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             sx={{
               display: "flex",
               justifyContent: "center",
