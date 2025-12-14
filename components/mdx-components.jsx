@@ -46,12 +46,12 @@ import TimePickerVariants from "./ui/TimePickers";
 import SkeletonVariants from "./ui/Skeletons";
 
 const headingSizes = {
-  h1: { fontSize: "32px", lineHeight: 1.2 },
-  h2: { fontSize: "26px", lineHeight: 1.3 },
-  h3: { fontSize: "22px", lineHeight: 1.4 },
-  h4: { fontSize: "18px", lineHeight: 1.5 },
-  h5: { fontSize: "16px", lineHeight: 1.6 },
-  h6: { fontSize: "14px", lineHeight: 1.6 },
+  h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },
+  h2: { fontSize: "26px", lineHeight: 1.3, fontWeight: 600 },
+  h3: { fontSize: "22px", lineHeight: 1.4, fontWeight: 500 },
+  h4: { fontSize: "18px", lineHeight: 1.5, fontWeight: 500 },
+  h5: { fontSize: "16px", lineHeight: 1.6, fontWeight: 500 },
+  h6: { fontSize: "14px", lineHeight: 1.6, fontWeight: 400 },
 };
 
 const createHeading = (variant) =>
@@ -68,7 +68,6 @@ const createHeading = (variant) =>
         id={id}
         sx={{
           my: 1.5,
-          fontWeight: 500,
           letterSpacing: "-0.01em",
           ...headingSizes[variant],
         }}

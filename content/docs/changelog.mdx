@@ -3,14 +3,27 @@ title: Changelog
 description: Latest updates and announcements for Sync UI
 ---
 
-#### 🔒 Dec '25 – Security Update & Upcoming Blocks
+#### 🔒 Dec '25 – Security Update & Motion Migration
 
 **Release:**  
-→ **v0.1.1** – Security update _(latest)_
+→ **v0.1.2** – Security & performance update _(latest)_  
+→ **v0.1.1** – Security update
 
 **Changes:**  
-→ Next.js: **16.0.0 → 16.0.7**  
-→ Fixed **CVE-2025-55182**
+→ Next.js: **16.0.0 → 16.0.7 → 16.0.10**  
+→ React Server Components security fixes (DoS & source exposure)
+
+**Migration:**  
+Replaced **framer-motion** with [motion/react](https://motion.dev/docs/react)
+
+**Why this matters:**  
+→ 🚀 Smaller bundles & faster load times  
+→ 🎯 More accurate, smoother animations  
+→ 🧠 Cleaner architecture with fewer abstractions  
+→ 🧩 Fewer unnecessary abstraction layers  
+→ ⚡ Noticeably smoother & faster UI interactions
+
+All components are refactored to leverage Motion’s modern animation primitives.
 
 **New Component:**  
 → [Skeletons](/docs/components/skeletons) – Lightweight loading placeholders for cards, lists, texts, and content blocks.
@@ -18,7 +31,7 @@ description: Latest updates and announcements for Sync UI
 **Coming Soon:**  
 → Block-based UI sections  
 → Copy-paste layout blocks  
-→ Faster bundles
+→ Faster bundles & smarter tree-shaking
 
 #### ⏰ Nov '25 – Time Pickers Added
 
@@ -66,7 +79,6 @@ Built with:
 **New in Templates:**  
 → [Startup Template](/templates) – Built for modern startups: smooth, focused, and ready to launch 🚀  
 → 💼 **Bundle Deal:** Get all 3 templates – SaaS, Portfolio & Startup – for **$79** _(Save $8)_  
- → [Grab the Bundle](https://abhivarde.gumroad.com/l/syncui-templates-bundle)  
 → Or pick your favorite for **$29** each ✨
 
 #### 🔲 May '25 – Grid Systems Unleashed
@@ -111,7 +123,7 @@ Built with:
 
 #### 🚀 Oct '24 – Sync UI Is Live!
 
-Say hello to **Sync UI** — an open-source UI library powered by **MUI** and **Framer Motion**, built for developers who love performance, polish, and flexibility.
+Say hello to **Sync UI** — an open-source UI library powered by **MUI** and **Motion (motion/react)**, built for developers who love performance, polish, and flexibility.
 
 **Core Components:**  
 → [Avatars](/docs/components/avatars)  

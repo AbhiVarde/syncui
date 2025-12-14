@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
 ![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)
 
-**A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Framer Motion.**
+**A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Motion (motion/react).**
 
 ![Sync UI Preview](https://github.com/user-attachments/assets/a0e55177-2bfe-40bb-83d4-295dcbc366df)
 
@@ -22,7 +22,7 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 
 ## ✨ Key Features
 
-- 🎨 **Beautifully Designed Components** – MUI + Framer Motion
+- 🎨 **Beautifully Designed Components** – MUI + Motion (motion/react)
 - 📁 **Production-Ready Templates** – speed up your development workflow
 - ♿ **Accessible & Customizable** – built with accessibility in mind
 - 🤝 **100% Free & Open Source** – no hidden costs
@@ -32,7 +32,7 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 
 - **Frontend:** React, Next.js
 - **Styling:** Material UI
-- **Animation:** Framer Motion
+- **Animation:** Motion (motion/react)
 - **Analytics:** Umami Analytics
 - **Email Storage:** Appwrite Database
 - **Email Delivery:** Resend

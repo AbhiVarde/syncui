@@ -1,6 +1,6 @@
 {
   "name": "sync-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,7 +17,6 @@
     "@mui/material": "^5.16.7",
     "axios": "^1.7.9",
     "esbuild": "^0.25.11",
-    "framer-motion": "^11.18.2",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^10.0.2",
     "motion": "^12.23.25",

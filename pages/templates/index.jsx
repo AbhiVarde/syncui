@@ -80,13 +80,13 @@ const Templates = ({ docsTree }) => {
     <>
       <NextSeo
         title="Templates // Sync UI"
-        description="Professional UI templates built with MUI & Framer Motion. Get startup, SaaS, and portfolio templates for your next project."
+        description="Professional UI templates built with MUI & Motion (motion/react). Get startup, SaaS, and portfolio templates for your next project."
         canonical="https://www.syncui.design/templates"
         openGraph={{
           url: "https://www.syncui.design/templates",
           title: "Templates // Sync UI",
           description:
-            "Professional UI templates built with MUI & Framer Motion. Get startup, SaaS, and portfolio templates for your next project.",
+            "Professional UI templates built with MUI & Motion (motion/react). Get startup, SaaS, and portfolio templates for your next project.",
           images: [
             {
               url: "https://www.syncui.design/default-og-image.png",

@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
               "@type": "WebSite",
               name: "Sync UI",
               description:
-                "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion.",
+                "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react).",
               url: "https://www.syncui.design/",
               author: {
                 "@type": "Person",
@@ -104,7 +104,7 @@ function MyApp({ Component, pageProps }) {
                   position: 2,
                   name: "Components",
                   description:
-                    "Browse 125+ free React UI components built with MUI and Framer Motion",
+                    "Browse 125+ free React UI components built with MUI and Motion (motion/react)",
                   url: "https://www.syncui.design/docs/components/buttons",
                 },
                 {
@@ -192,12 +192,12 @@ function MyApp({ Component, pageProps }) {
       <DefaultSeo
         title="Sync UI // Sleek UI Library for Design Engineers"
         titleTemplate="%s"
-        description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation."
+        description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react). Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation."
         canonical="https://www.syncui.design/"
         openGraph={{
           title: "Sync UI // Sleek UI Library for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation.",
+            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react). Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation.",
           siteName: "Sync UI",
           url: "https://www.syncui.design/",
           type: "website",
@@ -218,7 +218,7 @@ function MyApp({ Component, pageProps }) {
           creator: "@abhivarde",
           title: "Sync UI // Sleek UI Library for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Framer Motion. Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation.",
+            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react). Explore 125+ free components, 3 affordable templates at $9, and comprehensive documentation.",
           images: ["https://www.syncui.design/default-og-image.png"],
         }}
         additionalMetaTags={[
@@ -237,7 +237,7 @@ function MyApp({ Component, pageProps }) {
           {
             name: "keywords",
             content:
-              "UI library, React components, Design Engineers, MUI, Framer Motion, UI templates, component library, design system, web components, React UI, modern UI, responsive components, Next.js components, SaaS templates, startup templates, portfolio templates",
+              "UI library, React components, Design Engineers, MUI, Motion (motion/react), UI templates, component library, design system, web components, React UI, modern UI, responsive components, Next.js components, SaaS templates, startup templates, portfolio templates",
           },
           {
             name: "robots",

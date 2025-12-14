@@ -824,7 +824,7 @@ const TabsSection = () => {
   }, []);
 
   return (
-    <Box sx={{ py: 12, backgroundColor: "background.default" }}>
+    <Box sx={{ py: { xs: 8, md: 10 }, backgroundColor: "background.default" }}>
       <Container
         maxWidth="md"
         sx={{ paddingX: { md: "0px !important", xs: "16px !important" } }}
@@ -842,17 +842,22 @@ const TabsSection = () => {
             <Typography
               variant="h2"
               gutterBottom
-              sx={{ fontWeight: 500, mb: 1.5 }}
+              sx={{ fontWeight: 500, mb: 2 }}
             >
               Modern UI Components
             </Typography>
             <Typography
               variant="body1"
               color="text.secondary"
-              sx={{ maxWidth: "800px", mx: "auto" }}
+              sx={{
+                maxWidth: "700px",
+                mx: "auto",
+                fontSize: { xs: "16px", sm: "18px" },
+                lineHeight: 1.6,
+              }}
             >
-              A handcrafted collection of responsive, customizable components
-              designed to elevate your next web project.
+              Handcrafted, responsive components designed to elevate your
+              projects.
             </Typography>
           </Box>
           {Object.entries(sectionConfig).map(([sectionKey, config], index) => (

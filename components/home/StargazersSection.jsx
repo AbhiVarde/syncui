@@ -115,7 +115,7 @@ const StargazersSection = () => {
   const remainingCount = Math.max(0, stargazers.length - displayCount);
 
   return (
-    <Container maxWidth="lg" ref={sectionRef}>
+    <Container maxWidth="lg" ref={sectionRef} sx={{ py: { xs: 8, md: 10 } }}>
       <Box
         sx={{
           opacity: isVisible ? 1 : 0,
@@ -136,7 +136,7 @@ const StargazersSection = () => {
             component="h2"
             sx={{
               fontWeight: 500,
-              mb: 1,
+              mb: 2,
               letterSpacing: "-0.02em",
               color: theme.palette.mode === "dark" ? "#fff" : "#000",
               textAlign: "center",
@@ -155,11 +155,9 @@ const StargazersSection = () => {
               maxWidth: 600,
               mx: "auto",
               fontWeight: 400,
-              mb: 2,
             }}
           >
-            Sync UI offers powerful, flexible components to help you ship
-            faster, design better, and scale confidently.
+            Powerful, flexible components to help you build better.
           </Typography>
         </Box>
 
@@ -167,8 +165,6 @@ const StargazersSection = () => {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          gap={1}
-          mb={4}
           sx={{
             opacity: isVisible ? 1 : 0,
             transition: "opacity 0.4s ease-out 0.2s",
@@ -236,7 +232,6 @@ const StargazersSection = () => {
                 </Typography>
               </Box>
 
-              {/* Action Buttons */}
               <Box
                 sx={{
                   display: "flex",
@@ -258,9 +253,6 @@ const StargazersSection = () => {
                     sx={{
                       display: "flex",
                       alignItems: "center",
-                      opacity: isHeartHovered ? 1 : 1,
-                      transform: isHeartHovered ? "scale(1)" : "scale(1)",
-                      transition: "opacity 0.15s ease, transform 0.15s ease",
                     }}
                   >
                     {isHeartHovered ? (
@@ -305,7 +297,6 @@ const StargazersSection = () => {
                   theme.palette.mode === "dark"
                     ? alpha(theme.palette.common.white, 0.1)
                     : alpha(theme.palette.common.black, 0.1),
-                display: { xs: "block", md: "block" },
                 order: { xs: 2, md: 2 },
               }}
             />
@@ -345,7 +336,7 @@ const StargazersSection = () => {
                   ))}
                 </Box>
               ) : (
-                <Box sx={{ textAlign: "center", position: "relative" }}>
+                <Box sx={{ textAlign: "center" }}>
                   <Box
                     sx={{
                       display: "flex",

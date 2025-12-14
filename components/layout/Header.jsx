@@ -226,7 +226,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         <Typography
           variant="body1"
           sx={{
-            fontWeight: 500,
+            fontWeight: 600,
             lineHeight: 1.2,
           }}
         >
@@ -667,7 +667,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   variant="h6"
                   noWrap
                   sx={{
-                    fontWeight: 500,
+                    fontWeight: 600,
                     lineHeight: 1.2,
                   }}
                 >

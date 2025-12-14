@@ -170,7 +170,7 @@ const NotFound = () => {
           content="The page you're looking for doesn't exist or has moved."
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
       </Head>
@@ -217,7 +217,7 @@ const NotFound = () => {
               variant="h1"
               sx={{
                 fontSize: { xs: "4rem", sm: "5rem" },
-                fontWeight: 800,
+                fontWeight: 600,
                 mb: 1,
                 color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
                 fontFamily: "'Roboto Mono', monospace",
