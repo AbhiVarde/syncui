@@ -25,7 +25,6 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
     return <div>Error: Could not load the document.</div>;
   }
 
-  console.log("Rendering document:", docsTree, slug);
   return (
     <>
       <NextSeo

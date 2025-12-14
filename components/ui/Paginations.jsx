@@ -226,6 +226,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                           ? theme.palette.action.hover
                           : bubbleColor,
                     }}
+                    initial={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
                   >
                     <Box
                       width={isMobile ? 28 : 36}
@@ -463,7 +464,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                     width: i + 1 === currentPage ? 30 : 8,
                     opacity: i + 1 === currentPage ? 1 : 0.6,
                     backgroundColor:
-                      i + 1 === currentPage ? bubbleColor : "transparent",
+                      i + 1 === currentPage ? bubbleColor : "rgba(0, 0, 0, 0)",
                   }}
                   transition={{ duration: 0.2 }}
                   style={{

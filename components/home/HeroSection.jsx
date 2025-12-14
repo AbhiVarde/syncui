@@ -31,7 +31,7 @@ const HeroSection = () => {
               "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
         >
-          <Link href="/docs/components/skeletons" passHref>
+          <Link href="/docs/components/skeletons">
             <Box
               component="button"
               sx={{
@@ -236,7 +236,7 @@ const HeroSection = () => {
               flexWrap: "wrap",
             }}
           >
-            <Link href="/docs" passHref>
+            <Link href="/docs">
               <Button
                 variant="contained"
                 color="primary"
@@ -284,7 +284,7 @@ const HeroSection = () => {
               </Button>
             </Link>
 
-            <Link href="/docs/components/accordions" passHref>
+            <Link href="/docs/components/accordions">
               <Button
                 sx={{
                   display: "flex",

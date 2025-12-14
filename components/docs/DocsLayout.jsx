@@ -77,15 +77,9 @@ const DocsLayout = ({ children, toc, docsTree }) => {
     const isHighlighted = isActive || clickedUrl === item.url;
 
     return (
-      <Link
-        key={item.url}
-        href={item.url}
-        passHref
-        legacyBehavior
-        scroll={false}
-      >
+      <Link key={item.url} href={item.url} scroll={false}>
         <Typography
-          component="a"
+          component="span"
           variant="caption"
           onClick={() => setClickedUrl(item.url)}
           sx={{
