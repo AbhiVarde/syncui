@@ -6,7 +6,6 @@ import { MDXComponents } from "../../components/mdx-components";
 import { DocPager } from "../../components/docs/DocPager";
 import { Typography } from "@mui/material";
 import Head from "next/head";
-import { MDXProvider } from "@mdx-js/react";
 import { NextSeo } from "next-seo";
 
 export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
@@ -65,9 +64,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
           <Typography variant="h3" fontWeight={500}>
             {frontmatter.title}
           </Typography>
-          <MDXProvider>
-            <Component components={MDXComponents} />
-          </MDXProvider>
+          <Component components={MDXComponents} />
         </article>
         <DocPager slug={slug} docsTree={docsTree} />
       </DocsLayout>

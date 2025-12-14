@@ -6,6 +6,7 @@ description: Sync UI offers a variety of grid layout styles to enhance your cont
 Sync UI provides multiple grid layout variants to beautifully organize your content with smooth animations.
 
 #### Masonry
+
 A cascading grid layout with items of varying heights.
 
 <CodePreview
@@ -15,63 +16,62 @@ import React from "react";
 import { Box } from "@mui/material";
 import { motion } from "motion/react";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const MasonryGrid = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-  ];
+const images = [
+"https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+"https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+"https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+];
 
-  const items = Array.from({ length: 9 }, (_, i) => ({
-    id: i + 1,
-    imageUrl: images[i % images.length],
-  }));
+const items = Array.from({ length: 9 }, (\_, i) => ({
+id: i + 1,
+imageUrl: images[i % images.length],
+}));
 
-  return (
-    <MotionBox
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      sx={{
+return (
+<MotionBox
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+sx={{
         columnCount: { xs: 1, sm: 2, md: 3 },
         columnGap: "16px",
         padding: 2,
         width: "100%",
-      }}
-    >
-      {items.map((item, index) => (
-        <MotionBox
-          key={item.id}
-          whileHover={{ scale: 1.03 }}
-          sx={{
+      }} >
+{items.map((item, index) => (
+<MotionBox
+key={item.id}
+whileHover={{ scale: 1.03 }}
+sx={{
             mb: "16px",
             breakInside: "avoid-column",
             borderRadius: 2,
             overflow: "hidden",
             cursor: "pointer",
             boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          }}
-        >
-          <Box
-            sx={{
+          }} >
+<Box
+sx={{
               width: "100%",
               height: 250 + (index % 4) * 40,
               backgroundImage: \`url(\${item.imageUrl})\`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
-          />
-        </MotionBox>
-      ))}
-    </MotionBox>
-  );
+/>
+</MotionBox>
+))}
+</MotionBox>
+);
 };
 `}
 />
 
 #### Bento
+
 A Japanese-style compartmentalized grid with structured layout.
 
 <CodePreview
@@ -81,31 +81,30 @@ import React from "react";
 import { Box } from "@mui/material";
 import { motion } from "motion/react";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const BentoGrid = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-    "https://images.unsplash.com/photo-1439066615861-d1af74d74000",
-  ];
+const images = [
+"https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+"https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+"https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+"https://images.unsplash.com/photo-1439066615861-d1af74d74000",
+];
 
-  return (
-    <MotionBox
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      sx={{
+return (
+<MotionBox
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+sx={{
         padding: 2,
         display: "grid",
         gap: 2,
         gridTemplateColumns: { xs: "1fr", md: "2fr 1fr" },
         gridTemplateRows: "auto auto auto",
-      }}
-    >
-      <MotionBox
-        sx={{
+      }} >
+<MotionBox
+sx={{
           gridColumn: { md: "1" },
           gridRow: { md: "1 / 3" },
           minHeight: { xs: 260, md: 480 },
@@ -114,7 +113,7 @@ const BentoGrid = () => {
           borderRadius: 3,
           boxShadow: "0 0 0 1px rgba(0,0,0,0.1)",
         }}
-      />
+/>
 
       {[1, 2].map((i) => (
         <MotionBox
@@ -148,12 +147,14 @@ const BentoGrid = () => {
         }}
       />
     </MotionBox>
-  );
+
+);
 };
 `}
 />
 
 #### Glassmorphism
+
 A grid with frosted glass cards and inner content containers.
 
 <CodePreview
@@ -163,21 +164,21 @@ import React from "react";
 import { Box } from "@mui/material";
 import { motion } from "motion/react";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const GlassmorphismGrid = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-  ];
+const images = [
+"https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+"https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+"https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+];
 
-  return (
-    <MotionBox
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      sx={{
+return (
+<MotionBox
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+sx={{
         display: "grid",
         gap: 2,
         padding: 2,
@@ -186,12 +187,11 @@ const GlassmorphismGrid = () => {
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
         },
-      }}
-    >
-      {Array.from({ length: 6 }).map((_, index) => (
-        <MotionBox
-          key={index}
-          sx={{
+      }} >
+{Array.from({ length: 6 }).map((\_, index) => (
+<MotionBox
+key={index}
+sx={{
             height: 260,
             borderRadius: 4,
             backdropFilter: "blur(10px)",
@@ -200,10 +200,9 @@ const GlassmorphismGrid = () => {
             justifyContent: "center",
             alignItems: "center",
             padding: 2,
-          }}
-        >
-          <Box
-            sx={{
+          }} >
+<Box
+sx={{
               height: "90%",
               width: "90%",
               borderRadius: 3,
@@ -211,16 +210,17 @@ const GlassmorphismGrid = () => {
               backgroundSize: "cover",
               boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
             }}
-          />
-        </MotionBox>
-      ))}
-    </MotionBox>
-  );
+/>
+</MotionBox>
+))}
+</MotionBox>
+);
 };
 `}
 />
 
 #### Organic Shapes
+
 A playful grid with smooth, irregular shapes using stable memoized radii.
 
 <CodePreview
@@ -230,27 +230,27 @@ import React from "react";
 import { Box } from "@mui/material";
 import { motion } from "motion/react";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const OrganicShapesGrid = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-  ];
+const images = [
+"https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+"https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+];
 
-  const shapes = React.useMemo(() => {
-    return Array.from({ length: 6 }).map(() => {
-      const rand = () => Math.floor(Math.random() * 20) + 25;
-      return \`\${rand()}px \${rand()}px \${rand()}px \${rand()}px\`;
-    });
-  }, []);
+const shapes = React.useMemo(() => {
+return Array.from({ length: 6 }).map(() => {
+const rand = () => Math.floor(Math.random() \* 20) + 25;
+return \`\${rand()}px \${rand()}px \${rand()}px \${rand()}px\`;
+});
+}, []);
 
-  return (
-    <MotionBox
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      sx={{
+return (
+<MotionBox
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+sx={{
         display: "grid",
         gap: 2,
         padding: 2,
@@ -259,12 +259,11 @@ const OrganicShapesGrid = () => {
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
         },
-      }}
-    >
-      {Array.from({ length: 6 }).map((_, index) => (
-        <MotionBox
-          key={index}
-          sx={{
+      }} >
+{Array.from({ length: 6 }).map((\_, index) => (
+<MotionBox
+key={index}
+sx={{
             height: 260,
             borderRadius: shapes[index],
             backgroundImage: \`url(\${images[index % images.length]})\`,
@@ -272,15 +271,16 @@ const OrganicShapesGrid = () => {
             backgroundPosition: "center",
             boxShadow: "0 0 0 1px rgba(0,0,0,0.1)",
           }}
-        />
-      ))}
-    </MotionBox>
-  );
+/>
+))}
+</MotionBox>
+);
 };
 `}
 />
 
 #### Minimal Cards
+
 A clean card layout with soft shadows and rounded corners.
 
 <CodePreview
@@ -290,20 +290,20 @@ import React from "react";
 import { Box } from "@mui/material";
 import { motion } from "motion/react";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 const MinimalCardsGrid = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-  ];
+const images = [
+"https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+"https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+];
 
-  return (
-    <MotionBox
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      sx={{
+return (
+<MotionBox
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+sx={{
         display: "grid",
         gap: 2,
         padding: 2,
@@ -312,13 +312,12 @@ const MinimalCardsGrid = () => {
           sm: "repeat(2,1fr)",
           md: "repeat(3,1fr)",
         },
-      }}
-    >
-      {Array.from({ length: 6 }).map((_, index) => (
-        <MotionBox
-          key={index}
-          whileHover={{ scale: 1.02 }}
-          sx={{
+      }} >
+{Array.from({ length: 6 }).map((\_, index) => (
+<MotionBox
+key={index}
+whileHover={{ scale: 1.02 }}
+sx={{
             height: 260,
             borderRadius: 2,
             backgroundColor: "background.paper",
@@ -327,10 +326,10 @@ const MinimalCardsGrid = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
-      ))}
-    </MotionBox>
-  );
+/>
+))}
+</MotionBox>
+);
 };
 `}
 />

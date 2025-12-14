@@ -4,7 +4,6 @@ import {
   Typography,
   useTheme,
   Container,
-  Tooltip,
   Skeleton,
   alpha,
 } from "@mui/material";
@@ -49,35 +48,33 @@ const ContributorAvatar = memo(({ user, index, theme }) => {
   }, [index]);
 
   return (
-    <Tooltip title={user?.login || `Contributor ${index + 1}`} arrow>
-      <Box
+    <Box
+      sx={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "scale(1)" : "scale(0.9)",
+        transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
+        "&:hover": {
+          transform: "scale(1.05)",
+          transition: "transform 0.15s ease-out",
+        },
+      }}
+    >
+      <Avatar
+        src={user?.avatar_url}
+        alt={user?.login || `Contributor ${index + 1}`}
         sx={{
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? "scale(1)" : "scale(0.9)",
-          transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
-          "&:hover": {
-            transform: "scale(1.05)",
-            transition: "transform 0.15s ease-out",
-          },
+          width: 48,
+          height: 48,
+          border: "2px solid",
+          cursor: "pointer",
+          borderColor:
+            theme.palette.mode === "dark"
+              ? alpha(theme.palette.common.white, 0.1)
+              : "background.paper",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
         }}
-      >
-        <Avatar
-          src={user?.avatar_url}
-          alt={user?.login || `Contributor ${index + 1}`}
-          sx={{
-            width: 48,
-            height: 48,
-            border: "2px solid",
-            cursor: "pointer",
-            borderColor:
-              theme.palette.mode === "dark"
-                ? alpha(theme.palette.common.white, 0.1)
-                : "background.paper",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        />
-      </Box>
-    </Tooltip>
+      />
+    </Box>
   );
 });
 
@@ -357,40 +354,35 @@ const StargazersSection = () => {
                       />
                     ))}
                     {remainingCount > 0 && (
-                      <Tooltip
-                        title={`${remainingCount} more stargazers`}
-                        arrow
+                      <Box
+                        sx={{
+                          opacity: isVisible ? 1 : 0,
+                          transform: isVisible ? "scale(1)" : "scale(0.9)",
+                          transition: `opacity 0.2s ease-out ${displayCount * 0.03}s, transform 0.2s ease-out ${displayCount * 0.03}s`,
+                          "&:hover": {
+                            transform: "scale(1.05)",
+                            transition: "transform 0.15s ease-out",
+                          },
+                        }}
                       >
-                        <Box
+                        <Avatar
                           sx={{
-                            opacity: isVisible ? 1 : 0,
-                            transform: isVisible ? "scale(1)" : "scale(0.9)",
-                            transition: `opacity 0.2s ease-out ${displayCount * 0.03}s, transform 0.2s ease-out ${displayCount * 0.03}s`,
-                            "&:hover": {
-                              transform: "scale(1.05)",
-                              transition: "transform 0.15s ease-out",
-                            },
+                            width: 48,
+                            height: 48,
+                            border: "2px solid",
+                            cursor: "pointer",
+                            borderColor: theme.palette.divider,
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                            backgroundColor: theme.palette.background.paper,
+                            color:
+                              theme.palette.mode === "dark" ? "#fff" : "#000",
+                            fontWeight: 500,
+                            fontSize: "15px",
                           }}
                         >
-                          <Avatar
-                            sx={{
-                              width: 48,
-                              height: 48,
-                              border: "2px solid",
-                              cursor: "pointer",
-                              borderColor: theme.palette.divider,
-                              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                              backgroundColor: theme.palette.background.paper,
-                              color:
-                                theme.palette.mode === "dark" ? "#fff" : "#000",
-                              fontWeight: 500,
-                              fontSize: "15px",
-                            }}
-                          >
-                            +{remainingCount}
-                          </Avatar>
-                        </Box>
-                      </Tooltip>
+                          +{remainingCount}
+                        </Avatar>
+                      </Box>
                     )}
                   </Box>
                   <Typography
