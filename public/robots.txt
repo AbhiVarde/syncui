@@ -1,20 +1,4 @@
 User-agent: *
 Allow: /
 
-# Allow access to main sections
-Allow: /docs
-Allow: /docs/changelog
-Allow: /docs/accordions
-Allow: /templates
-
-# Disallow admin or private areas 
-Disallow: /api/
-Disallow: /_next/
-Disallow: /admin/
-Disallow: /private/
-
-# Sitemap location
 Sitemap: https://www.syncui.design/sitemap.xml
-
-# Crawl delay 
-Crawl-delay: 1
