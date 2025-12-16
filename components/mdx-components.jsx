@@ -104,7 +104,6 @@ const CodeBlock = ({ className, children }) => {
     <Box
       sx={{
         position: "relative",
-        borderRadius: 2,
         overflow: "hidden",
         maxHeight: 300,
       }}
@@ -221,7 +220,7 @@ const CodePreview = ({ preview, code }) => {
   return (
     <Paper
       variant="outlined"
-      sx={{ mb: 4, overflow: "visible", borderRadius: 2, boxShadow: 0.5 }}
+      sx={{ mb: 4, overflow: "hidden", borderRadius: 2, boxShadow: 0.5 }}
     >
       <StyledTabs value={tab} onChange={(e, v) => setTab(v)}>
         <StyledTab
@@ -256,7 +255,7 @@ const CodePreview = ({ preview, code }) => {
             transition: "opacity 0.15s",
           }}
         >
-          <Box p={1}>
+          <Box>
             <DynamicCodeBlock className="language-jsx">{code}</DynamicCodeBlock>
           </Box>
         </Box>
@@ -329,7 +328,7 @@ const PackageManagerTabs = ({ npm, yarn, pnpm, bun }) => {
         </IconButton>
 
         <SyntaxHighlighter
-          language="bash"
+          language={language}
           style={atomDark}
           customStyle={{
             margin: 0,
