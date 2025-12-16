@@ -328,7 +328,7 @@ const PackageManagerTabs = ({ npm, yarn, pnpm, bun }) => {
         </IconButton>
 
         <SyntaxHighlighter
-          language={language}
+          language="bash"
           style={atomDark}
           customStyle={{
             margin: 0,
