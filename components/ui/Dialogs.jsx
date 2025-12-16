@@ -548,8 +548,10 @@ const DialogVariants = ({ variant }) => {
                 }}
               >
                 <ListItem
-                  button
-                  sx={{ "&:hover": { backgroundColor: "action.hover" } }}
+                  sx={{
+                    "&:hover": { backgroundColor: "action.hover" },
+                    cursor: "pointer",
+                  }}
                 >
                   <ListItemIcon sx={{ minWidth: 32 }}>
                     <RxDashboard size={18} color={textColor} />
@@ -573,8 +575,10 @@ const DialogVariants = ({ variant }) => {
                 <Divider sx={{ my: 0.5 }} />
 
                 <ListItem
-                  button
-                  sx={{ "&:hover": { backgroundColor: "action.hover" } }}
+                  sx={{
+                    "&:hover": { backgroundColor: "action.hover" },
+                    cursor: "pointer",
+                  }}
                 >
                   <ListItemIcon sx={{ minWidth: 32 }}>
                     <RxPerson size={18} color={textColor} />
@@ -598,9 +602,9 @@ const DialogVariants = ({ variant }) => {
                 <Divider sx={{ my: 0.5 }} />
 
                 <ListItem
-                  button
                   sx={{
                     "&:hover": { backgroundColor: "action.hover" },
+                    cursor: "pointer",
                   }}
                 >
                   <ListItemIcon sx={{ minWidth: 32 }}>

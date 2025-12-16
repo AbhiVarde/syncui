@@ -182,7 +182,7 @@ const CardVariants = ({ variant }) => {
                 <Typography variant="h6">Twitter Carousel</Typography>
               </Box>
 
-              <Typography mt={0.5} variant="body2">
+              <Typography sx={{ mt: 0.5 }} variant="body2">
                 Smooth auto-scrolling image carousel with fluid transitions
               </Typography>
 
@@ -266,7 +266,7 @@ const CardVariants = ({ variant }) => {
                 <FaMeteor style={{ marginRight: 8, color: "#F44336" }} />
                 Meteor Shower
               </Typography>
-              <Typography mt variant="body2">
+              <Typography sx={{ mt: 1 }} variant="body2">
                 Create an ethereal atmosphere with animated meteor particles
                 streaking across your card.
               </Typography>
@@ -383,9 +383,9 @@ const CardVariants = ({ variant }) => {
                 Dynamic Overlay
               </Typography>
               <Typography
-                mt
                 variant="body2"
                 sx={{
+                  mt: 1,
                   color: "white",
                   overflow: "hidden",
                 }}
@@ -558,7 +558,7 @@ const CardVariants = ({ variant }) => {
                 />
                 Animated Border
               </Typography>
-              <Typography mt variant="body2">
+              <Typography sx={{ mt: 1 }} variant="body2">
                 Captivate users with a mesmerizing rotating gradient border
                 animation. Now optimized for better performance.
               </Typography>

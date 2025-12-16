@@ -270,7 +270,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       return (
                         <ListItem
                           key={item.url}
-                          button
                           component={Link}
                           href={item.url}
                           scroll={false}
@@ -387,7 +386,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     return (
                       <ListItem
                         key={item.url}
-                        button
                         component={Link}
                         href={item.url}
                         scroll={false}
@@ -843,20 +841,22 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           <StyledPaper elevation={3}>
             <ClickAwayListener onClickAway={handleClose}>
               <StyledMenuList dense>
-                {menuItems.map((item, index) => (
-                  <Fragment key={index}>
-                    {renderPopoverMenuItem(item, index)}
-                    {index < menuItems.length - 1 && (
+                {menuItems.flatMap((item, index) => {
+                  const elements = [renderPopoverMenuItem(item, index)];
+                  if (index < menuItems.length - 1) {
+                    elements.push(
                       <Divider
+                        key={`divider-${index}`}
                         sx={{
                           mx: "0px !important",
                           my: 0.25,
                           borderColor: "divider",
                         }}
                       />
-                    )}
-                  </Fragment>
-                ))}
+                    );
+                  }
+                  return elements;
+                })}
               </StyledMenuList>
             </ClickAwayListener>
           </StyledPaper>
