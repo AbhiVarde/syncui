@@ -161,7 +161,7 @@ const CodeBlock = ({ className, children }) => {
             padding: isSmall ? 14 : 18,
             fontSize: 14,
             lineHeight: 1.6,
-            borderRadius: 8,
+            borderRadius: 0,
             background: "#1d1f21",
           }}
           wrapLines={false}
