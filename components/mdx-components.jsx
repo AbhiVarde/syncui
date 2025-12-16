@@ -265,6 +265,88 @@ const CodePreview = ({ preview, code }) => {
   );
 };
 
+const PackageManagerTabs = ({ npm, yarn, pnpm, bun }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [copied, setCopied] = useState(false);
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const commands = [
+    { label: "npm", value: npm },
+    { label: "yarn", value: yarn },
+    { label: "pnpm", value: pnpm },
+    { label: "bun", value: bun },
+  ].filter((cmd) => cmd.value);
+
+  const currentCommand = commands[activeTab]?.value || "";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(currentCommand);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Paper
+      variant="outlined"
+      sx={{ mb: 4, overflow: "hidden", borderRadius: 2, boxShadow: 0.5 }}
+    >
+      <StyledTabs
+        value={activeTab}
+        onChange={(e, v) => setActiveTab(v)}
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        {commands.map((cmd, idx) => (
+          <StyledTab key={idx} label={cmd.label} />
+        ))}
+      </StyledTabs>
+
+      <Box sx={{ position: "relative" }}>
+        <IconButton
+          onClick={handleCopy}
+          size="small"
+          disableRipple
+          sx={{
+            position: "absolute",
+            top: isSmall ? 8 : 12,
+            right: isSmall ? 8 : 12,
+            width: 32,
+            height: 32,
+            borderRadius: 1.5,
+            backgroundColor: "rgba(0,0,0,0.35)",
+            color: "rgba(255,255,255,0.9)",
+            transition: "background-color 0.15s ease",
+            zIndex: 2,
+            "&:hover": {
+              backgroundColor: "rgba(0,0,0,0.55)",
+            },
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {copied ? <LuCheck size={16} /> : <LuClipboard size={16} />}
+          </Box>
+        </IconButton>
+
+        <SyntaxHighlighter
+          language="bash"
+          style={atomDark}
+          customStyle={{
+            margin: 0,
+            padding: isSmall ? 14 : 18,
+            fontSize: 14,
+            lineHeight: 1.6,
+            borderRadius: 0,
+            background: "#1d1f21",
+          }}
+        >
+          {currentCommand}
+        </SyntaxHighlighter>
+      </Box>
+    </Paper>
+  );
+};
+
 export const MDXComponents = {
   ButtonVariants,
   CardVariants,
@@ -288,6 +370,8 @@ export const MDXComponents = {
   DatePickerVariants,
   TimePickerVariants,
   SkeletonVariants,
+  CodePreview,
+  PackageManagerTabs,
   h1: createHeading("h1"),
   h2: createHeading("h2"),
   h3: createHeading("h3"),
@@ -306,15 +390,15 @@ export const MDXComponents = {
       />
     ),
   a: (props) => <MuiLink color="primary" {...props} />,
+  strong: (props) => (
+    <Typography component="strong" sx={{ fontWeight: 500 }} {...props} />
+  ),
   code: DynamicCodeBlock,
   pre: (props) => <div {...props} />,
   img: (props) => (
     <Box component="figure" sx={{ my: 4 }}>
       <img {...props} style={{ maxWidth: "100%", borderRadius: 4 }} />
     </Box>
-  ),
-  strong: (props) => (
-    <Typography component="strong" sx={{ fontWeight: 500 }} {...props} />
   ),
   blockquote: (props) => (
     <Box
@@ -332,7 +416,6 @@ export const MDXComponents = {
       {...props}
     />
   ),
-  CodePreview,
   table: (props) => (
     <Box sx={{ overflowX: "auto", mb: 2, width: "100%" }}>
       <Table
@@ -349,16 +432,16 @@ export const MDXComponents = {
   ),
   tbody: TableBody,
   tr: TableRow,
-  td: (props) => (
-    <TableCell
-      {...props}
-      sx={{ borderBottom: "1px solid rgba(224,224,224,1)" }}
-    />
-  ),
   th: (props) => (
     <TableCell
       {...props}
       sx={{ fontWeight: "bold", borderBottom: "1px solid rgba(224,224,224,1)" }}
+    />
+  ),
+  td: (props) => (
+    <TableCell
+      {...props}
+      sx={{ borderBottom: "1px solid rgba(224,224,224,1)" }}
     />
   ),
 };
