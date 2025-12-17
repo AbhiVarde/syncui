@@ -78,7 +78,7 @@ const createHeading = (variant) =>
     );
   });
 
-const CodeBlock = ({ className, children }) => {
+const CodeBlock = ({ className, children, rounded = true }) => {
   const [copied, setCopied] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const theme = useTheme();
@@ -106,6 +106,7 @@ const CodeBlock = ({ className, children }) => {
         position: "relative",
         overflow: "hidden",
         maxHeight: 300,
+        borderRadius: rounded ? 2 : 0,
       }}
     >
       <IconButton
@@ -256,7 +257,9 @@ const CodePreview = ({ preview, code }) => {
           }}
         >
           <Box>
-            <DynamicCodeBlock className="language-jsx">{code}</DynamicCodeBlock>
+            <DynamicCodeBlock rounded={false} className="language-jsx">
+              {code}
+            </DynamicCodeBlock>
           </Box>
         </Box>
       </Box>
