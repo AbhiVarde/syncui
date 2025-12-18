@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, List, ListItem } from "@mui/material";
 import { RxTextAlignLeft, RxStar, RxStarFilled } from "react-icons/rx";
+import { RiGithubFill, RiHeartFill, RiHeartLine } from "react-icons/ri";
+import { usePathname } from "next/navigation";
+
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
-import { RiGithubFill, RiHeartFill, RiHeartLine } from "react-icons/ri";
 import AnimatedCounter from "../AnimatedCounter";
-import { usePathname } from "next/navigation";
+
+const SCROLL_OFFSET = 80;
 
 const buttonStyles = {
   mt: 1,
@@ -27,20 +32,62 @@ const buttonStyles = {
   },
 };
 
-export const TableOfContents = ({ toc }) => {
+export const TableOfContents = ({ toc = [] }) => {
   const { stars, loading } = useGitHub();
+  const pathname = usePathname();
+
   const [activeId, setActiveId] = useState("");
+  const [indicatorTop, setIndicatorTop] = useState(null);
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isStarHovered, setIsStarHovered] = useState(false);
-  const pathname = usePathname();
+
+  const itemRefs = useRef({});
+  const tocIdsRef = useRef("");
+  const isClickScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
   const isChangelogPage = pathname === "/docs/changelog";
 
-  const minLevel = Math.min(...toc.map((item) => item.level));
+  const minLevel = toc.length ? Math.min(...toc.map((item) => item.level)) : 1;
+
+  const tocKey = toc.map((item) => item.id).join(",");
 
   useEffect(() => {
+    if (tocIdsRef.current !== tocKey) {
+      // console.log("🔄 Page Changed:", {
+      //   from: tocIdsRef.current.substring(0, 30) + "...",
+      //   to: tocKey.substring(0, 30) + "...",
+      //   pathname,
+      //   tocLength: toc.length,
+      // });
+
+      isClickScrollingRef.current = false;
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      setActiveId("");
+      setIndicatorTop(null);
+      tocIdsRef.current = tocKey;
+
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      setTimeout(() => {
+        if (toc.length > 0) {
+          setActiveId(toc[0].id);
+          // console.log("✅ First item activated:", toc[0].id);
+        }
+      }, 150);
+    }
+  }, [tocKey, pathname, toc]);
+
+  useEffect(() => {
+    if (!toc.length) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
+        if (isClickScrollingRef.current) return;
+
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveId(entry.target.id);
@@ -69,6 +116,8 @@ export const TableOfContents = ({ toc }) => {
     }
 
     const handleScroll = () => {
+      if (isClickScrollingRef.current) return;
+
       if (window.scrollY < 100 && toc.length > 0) {
         setActiveId(toc[0].id);
         return;
@@ -92,28 +141,69 @@ export const TableOfContents = ({ toc }) => {
     };
   }, [toc]);
 
+  useEffect(() => {
+    if (!activeId) {
+      setIndicatorTop(null);
+      return;
+    }
+
+    const updateIndicatorPosition = () => {
+      const item = itemRefs.current[activeId];
+      if (!item) return;
+
+      const text = item.firstElementChild;
+      if (!text) return;
+
+      const itemRect = item.getBoundingClientRect();
+      const textRect = text.getBoundingClientRect();
+
+      const offset = textRect.top - itemRect.top + textRect.height / 2;
+      const newTop = item.offsetTop + offset;
+
+      setIndicatorTop(newTop);
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setTimeout(updateIndicatorPosition, 50);
+      });
+    });
+  }, [activeId, tocKey]);
+
   const handleClick = (e, id) => {
     e.preventDefault();
+
+    isClickScrollingRef.current = true;
+
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80;
       const elementPosition =
         element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - offset;
+      const offsetPosition = elementPosition - SCROLL_OFFSET;
+
+      setActiveId(id);
 
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth",
       });
-      setActiveId(id);
+
+      scrollTimeoutRef.current = setTimeout(() => {
+        isClickScrollingRef.current = false;
+      }, 1000);
     }
   };
+
+  if (!toc.length) return null;
 
   return (
     <Box sx={{ p: 2 }}>
       <Typography
         variant="body2"
-        gutterBottom
         sx={{
           display: "flex",
           alignItems: "center",
@@ -121,55 +211,73 @@ export const TableOfContents = ({ toc }) => {
           fontSize: "0.8rem",
           fontWeight: 500,
         }}
+        gutterBottom
       >
-        <RxTextAlignLeft size={20} /> On this page
+        <RxTextAlignLeft size={18} />
+        On this page
       </Typography>
-      <List
-        dense
-        sx={{
-          pl: 0.5,
-          "& .MuiListItem-root": {
-            p: "0px !important",
-          },
-        }}
-      >
-        {toc.map((item) => (
-          <ListItem
-            key={item.id}
-            component="a"
-            href={`#${item.id}`}
-            onClick={(e) => handleClick(e, item.id)}
+
+      <Box sx={{ position: "relative", pl: 2 }}>
+        <Box
+          sx={{
+            position: "absolute",
+            left: 6,
+            top: 6,
+            bottom: 6,
+            borderLeft: "1.5px dashed",
+            borderColor: "divider",
+          }}
+        />
+
+        {indicatorTop !== null && (
+          <Box
             sx={{
-              borderLeft: 1,
-              borderColor: activeId === item.id ? "" : "divider",
-              pl: (item.level - minLevel) * 0.5 + 0.5,
-              "&:hover": {
-                backgroundColor: "transparent",
-              },
+              position: "absolute",
+              left: 6.75,
+              top: indicatorTop - 9,
+              width: 3,
+              height: 18,
+              borderRadius: "999px",
+              bgcolor: "text.primary",
+              transform: "translateX(-50%)",
+              transition: "top 0.25s cubic-bezier(0.4,0,0.2,1)",
             }}
-          >
-            <Typography
-              variant="caption"
-              color={activeId === item.id ? "" : "text.secondary"}
+          />
+        )}
+
+        <List dense sx={{ pl: 0 }}>
+          {toc.map((item) => (
+            <ListItem
+              key={item.id}
+              ref={(el) => (itemRefs.current[item.id] = el)}
+              component="a"
+              href={`#${item.id}`}
+              onClick={(e) => handleClick(e, item.id)}
               sx={{
-                fontWeight: 400,
-                textShadow:
-                  activeId === item.id
-                    ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                    : "none",
-                pr: "1px",
-                pl: 1,
-                my: 0.5,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                pl: (item.level - minLevel) * 0.75 + 2,
+                py: 0,
+                "&:hover": { backgroundColor: "transparent" },
               }}
             >
-              {item.text.split("–")[0].trim()}
-            </Typography>
-          </ListItem>
-        ))}
-      </List>
+              <Typography
+                variant="caption"
+                color={activeId === item.id ? "text.primary" : "text.secondary"}
+                sx={{
+                  fontWeight: 400,
+                  textShadow:
+                    activeId === item.id ? "0 0 0.6px currentColor" : "none",
+                  my: 0.5,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {item.text.split("–")[0].trim()}
+              </Typography>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
 
       {!isChangelogPage && (
         <>
@@ -182,14 +290,12 @@ export const TableOfContents = ({ toc }) => {
             onMouseLeave={() => setIsHeartHovered(false)}
             sx={buttonStyles}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              {isHeartHovered ? (
-                <RiHeartFill size={20} color="#e91e63" />
-              ) : (
-                <RiHeartLine size={20} />
-              )}
-            </Box>
-            <Typography variant="body2" fontWeight={500} sx={{ lineHeight: 1 }}>
+            {isHeartHovered ? (
+              <RiHeartFill size={20} color="#e91e63" />
+            ) : (
+              <RiHeartLine size={20} />
+            )}
+            <Typography variant="body2" fontWeight={500}>
               Support Sync UI
             </Typography>
           </Box>
@@ -205,52 +311,24 @@ export const TableOfContents = ({ toc }) => {
           >
             {!loading ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-                  <RiGithubFill size={20} />
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    sx={{
-                      borderRight: "1px solid",
-                      borderColor: "divider",
-                      pr: 1.2,
-                      lineHeight: 1,
-                    }}
-                  >
-                    Star
-                  </Typography>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    lineHeight: 1,
-                  }}
-                >
-                  <Typography variant="body2" fontWeight={500}>
-                    <AnimatedCounter value={stars || 0} duration={2} />
-                  </Typography>
-
-                  {isStarHovered ? (
-                    <RxStarFilled size={20} color="#fbc02d" />
-                  ) : (
-                    <RxStar size={20} />
-                  )}
-                </Box>
-              </Box>
-            ) : (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-                <RiGithubFill size={24} />
-                <Typography
-                  variant="body2"
-                  fontWeight={500}
-                  sx={{ lineHeight: 1 }}
-                >
+                <RiGithubFill size={20} />
+                <Typography variant="body2" fontWeight={500}>
                   Star
                 </Typography>
+                <AnimatedCounter value={stars || 0} duration={2} />
+                {isStarHovered ? (
+                  <RxStarFilled size={18} color="#fbc02d" />
+                ) : (
+                  <RxStar size={18} />
+                )}
               </Box>
+            ) : (
+              <>
+                <RiGithubFill size={20} />
+                <Typography variant="body2" fontWeight={500}>
+                  Star
+                </Typography>
+              </>
             )}
           </Box>
         </>
