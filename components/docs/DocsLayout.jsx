@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Typography, Breadcrumbs } from "@mui/material";
 import Link from "next/link";
 import { TableOfContents } from "./TableOfContents";
@@ -11,7 +11,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [activeId, setActiveId] = useState("");
   const [isComponentsOpen, setIsComponentsOpen] = useState(true);
-  const [clickedUrl, setClickedUrl] = useState(null);
+  const [activeUrl, setActiveUrl] = useState(router.asPath);
 
   const topPosition = 60;
   const heightCalc = "calc(100vh - 60px)";
@@ -37,7 +37,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
   }, [toc]);
 
   useEffect(() => {
-    setClickedUrl(null);
+    setActiveUrl(router.asPath);
   }, [router.asPath]);
 
   const renderBreadcrumbs = () => {
@@ -74,14 +74,13 @@ const DocsLayout = ({ children, toc, docsTree }) => {
   };
 
   const renderNavigationItem = (item, isActive) => {
-    const isHighlighted = isActive || clickedUrl === item.url;
+    const isHighlighted = isActive || activeUrl === item.url;
 
     return (
       <Link key={item.url} href={item.url} scroll={false}>
         <Typography
           component="span"
           variant="caption"
-          onClick={() => setClickedUrl(item.url)}
           sx={{
             mb: 0.5,
             px: 1.2,
@@ -96,9 +95,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             textShadow: isHighlighted
               ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
               : "none",
-            border: "1px solid",
-            borderColor: isHighlighted ? "divider" : "transparent",
-            transition: "none",
+            transition: "color 0.15s ease, background-color 0.15s ease",
             "&:hover": {
               bgcolor: "action.hover",
               color: "text.primary",
@@ -156,7 +153,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           sx={{
             position: "relative",
             height: "100%",
-            borderRight: (theme) => `1px solid ${theme.palette.divider}`,
+            borderRight: "1.5px dashed",
+            borderColor: "divider",
           }}
         >
           <Box
@@ -260,7 +258,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               bottom: 0,
               left: 0,
               right: 0,
-              borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+              borderTop: "1.5px dashed",
+              borderColor: "divider",
               p: 1.5,
               bgcolor: "background.default",
             }}

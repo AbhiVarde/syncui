@@ -109,15 +109,15 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isComponentsOpen, setIsComponentsOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [activeUrl, setActiveUrl] = useState(router.asPath);
   const anchorRef = useRef(null);
-  const [clickedUrl, setClickedUrl] = useState(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    setClickedUrl(null);
+    setActiveUrl(router.asPath);
   }, [router.asPath]);
 
   const handleToggle = () => setMenuOpen((prev) => !prev);
@@ -182,91 +182,206 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     <Box
       sx={{
         width: 320,
-        py: 4,
-        px: 2,
         position: "relative",
         height: "100%",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      <IconButton
-        onClick={toggleDrawer}
-        sx={{
-          position: "absolute",
-          right: 10,
-          top: 10,
-          color: "text.secondary",
-          bgcolor: "background.paper",
-          borderRadius: "8px",
-        }}
-      >
-        <RxCross2 size={18} />
-      </IconButton>
-
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          my: 0.5,
-        }}
-      >
-        <Image
-          src="/logo.png"
-          alt="Sync UI Logo"
-          width={24}
-          height={24}
-          style={{
-            borderRadius: "4px",
-            display: "block",
-          }}
-        />
-
-        <Typography
-          variant="body1"
+      <Box sx={{ py: 4, px: 2, flexGrow: 1, overflowY: "auto" }}>
+        <IconButton
+          onClick={toggleDrawer}
           sx={{
-            fontWeight: 600,
-            lineHeight: 1.2,
+            position: "absolute",
+            right: 10,
+            top: 10,
+            color: "text.secondary",
+            bgcolor: "background.paper",
+            borderRadius: "8px",
           }}
         >
-          Sync UI Docs
-        </Typography>
-      </Box>
+          <RxCross2 size={18} />
+        </IconButton>
 
-      <Box sx={{ flexGrow: 1, overflowY: "auto", px: 0.2 }}>
-        {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
-          <Box key={category} sx={{ my: 2 }}>
-            {category === "Components" ? (
-              <>
-                <Box
-                  onClick={() => setIsComponentsOpen(!isComponentsOpen)}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    cursor: "pointer",
-                    mb: 1,
-                    userSelect: "none",
-                  }}
-                >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            my: 0.5,
+            mb: 2,
+          }}
+        >
+          <Image
+            src="/logo.png"
+            alt="Sync UI Logo"
+            width={24}
+            height={24}
+            style={{
+              borderRadius: "4px",
+              display: "block",
+            }}
+          />
+
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: 600,
+              lineHeight: 1.2,
+            }}
+          >
+            Sync UI Docs
+          </Typography>
+        </Box>
+
+        <Box sx={{ px: 0.2 }}>
+          {Object.entries(groupDocsTree(docsTree)).map(([category, items]) => (
+            <Box key={category} sx={{ my: 2 }}>
+              {category === "Components" ? (
+                <>
+                  <Box
+                    onClick={() => setIsComponentsOpen(!isComponentsOpen)}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      cursor: "pointer",
+                      mb: 1,
+                      userSelect: "none",
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontSize: "0.8rem",
+                        fontWeight: 500,
+                        letterSpacing: 0.5,
+                      }}
+                    >
+                      {category}
+                    </Typography>
+                    <RotatingChevron isOpen={isComponentsOpen} />
+                  </Box>
+                  {isComponentsOpen && (
+                    <List disablePadding>
+                      {items.map((item) => {
+                        const isActive = router.asPath === item.url;
+                        const isHighlighted =
+                          isActive || activeUrl === item.url;
+                        return (
+                          <ListItem
+                            key={item.url}
+                            component={Link}
+                            href={item.url}
+                            scroll={false}
+                            onClick={() => {
+                              setActiveUrl(item.url);
+                              toggleDrawer();
+                              setTimeout(() => router.push(item.url), 500);
+                            }}
+                            sx={{
+                              mb: 0.5,
+                              px: 1.5,
+                              py: 0.4,
+                              borderRadius: 1.2,
+                              display: "flex",
+                              alignItems: "center",
+                              textDecoration: "none",
+                              cursor: "pointer",
+                              letterSpacing: 0.2,
+                              color: isHighlighted
+                                ? "text.primary"
+                                : "text.secondary",
+                              textShadow: isHighlighted
+                                ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                : "none",
+                              transition:
+                                "color 0.15s ease, background-color 0.15s ease",
+                              "&:hover": {
+                                bgcolor: "action.hover",
+                                color: "text.primary",
+                              },
+                              ...(isHighlighted && {
+                                bgcolor: "action.hover",
+                              }),
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0.5,
+                              }}
+                            >
+                              <ListItemText
+                                primary={item.title}
+                                primaryTypographyProps={{
+                                  variant: "body2",
+                                  sx: {
+                                    fontWeight: 400,
+                                    textShadow: isHighlighted
+                                      ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+                                      : "none",
+                                    color: isHighlighted
+                                      ? "text.primary"
+                                      : "text.secondary",
+                                  },
+                                }}
+                              />
+                              {["Skeletons", "Time Pickers"].includes(
+                                item.title
+                              ) && (
+                                <Box
+                                  component="span"
+                                  sx={{
+                                    ml: 1,
+                                    px: 0.8,
+                                    py: 0.2,
+                                    bgcolor: "#008080",
+                                    color: "#ffffff",
+                                    borderRadius: "10px",
+                                    fontSize: "0.65rem",
+                                    fontWeight: 500,
+                                    lineHeight: 1,
+                                    letterSpacing: "0.02em",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  New
+                                </Box>
+                              )}
+                            </Box>
+                          </ListItem>
+                        );
+                      })}
+                    </List>
+                  )}
+                </>
+              ) : (
+                <>
                   <Typography
                     variant="body2"
                     sx={{
                       fontSize: "0.8rem",
                       fontWeight: 500,
                       letterSpacing: 0.5,
+                      mb: 1,
                     }}
                   >
                     {category}
                   </Typography>
-                  <RotatingChevron isOpen={isComponentsOpen} />
-                </Box>
-                {isComponentsOpen && (
                   <List disablePadding>
                     {items.map((item) => {
-                      const isActive = router.asPath === item.url;
-                      const isHighlighted = isActive || clickedUrl === item.url;
+                      const isActive =
+                        (item.title === "Setup" && router.asPath === "/docs") ||
+                        (item.title === "Changelog" &&
+                          router.asPath === "/docs/changelog") ||
+                        (item.title === "Templates" &&
+                          router.asPath === "/templates") ||
+                        router.asPath === item.url;
+                      const isHighlighted = isActive || activeUrl === item.url;
                       return (
                         <ListItem
                           key={item.url}
@@ -274,31 +389,17 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                           href={item.url}
                           scroll={false}
                           onClick={() => {
-                            setClickedUrl(item.url);
+                            setActiveUrl(item.url);
                             toggleDrawer();
                             setTimeout(() => router.push(item.url), 500);
                           }}
                           sx={{
                             mb: 0.5,
                             px: 1.5,
-                            py: 0.4,
+                            py: 0.5,
                             borderRadius: 1.2,
-                            display: "flex",
-                            alignItems: "center",
-                            textDecoration: "none",
-                            cursor: "pointer",
-                            letterSpacing: 0.2,
-                            color: isHighlighted
-                              ? "text.primary"
-                              : "text.secondary",
-                            textShadow: isHighlighted
-                              ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                              : "none",
-                            border: "1px solid",
-                            borderColor: isHighlighted
-                              ? "divider"
-                              : "transparent",
-                            transition: "none",
+                            transition:
+                              "color 0.15s ease, background-color 0.15s ease",
                             "&:hover": {
                               bgcolor: "action.hover",
                               color: "text.primary",
@@ -330,9 +431,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                                 },
                               }}
                             />
-                            {["Skeletons", "Time Pickers"].includes(
-                              item.title
-                            ) && (
+                            {item.title === "Templates" && (
                               <Box
                                 component="span"
                                 sx={{
@@ -359,118 +458,19 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       );
                     })}
                   </List>
-                )}
-              </>
-            ) : (
-              <>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: "0.8rem",
-                    fontWeight: 500,
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  {category}
-                </Typography>
-                <List disablePadding>
-                  {items.map((item) => {
-                    const isActive =
-                      (item.title === "Setup" && router.asPath === "/docs") ||
-                      (item.title === "Changelog" &&
-                        router.asPath === "/docs/changelog") ||
-                      (item.title === "Templates" &&
-                        router.asPath === "/templates") ||
-                      router.asPath === item.url;
-                    const isHighlighted = isActive || clickedUrl === item.url;
-                    return (
-                      <ListItem
-                        key={item.url}
-                        component={Link}
-                        href={item.url}
-                        scroll={false}
-                        onClick={() => {
-                          setClickedUrl(item.url);
-                          toggleDrawer();
-                          setTimeout(() => router.push(item.url), 500);
-                        }}
-                        sx={{
-                          mb: 0.5,
-                          px: 1.5,
-                          py: 0.5,
-                          borderRadius: 1.2,
-                          border: "1px solid",
-                          borderColor: isHighlighted
-                            ? "divider"
-                            : "transparent",
-                          transition: "none",
-                          ...(isHighlighted && {
-                            bgcolor: "action.hover",
-                          }),
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 0.5,
-                          }}
-                        >
-                          <ListItemText
-                            primary={item.title}
-                            primaryTypographyProps={{
-                              variant: "body2",
-                              sx: {
-                                fontWeight: 400,
-                                textShadow: isHighlighted
-                                  ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                                  : "none",
-                                color: isHighlighted
-                                  ? "text.primary"
-                                  : "text.secondary",
-                              },
-                            }}
-                          />
-                          {item.title === "Templates" && (
-                            <Box
-                              component="span"
-                              sx={{
-                                ml: 1,
-                                px: 0.8,
-                                py: 0.2,
-                                bgcolor: "#008080",
-                                color: "#ffffff",
-                                borderRadius: "10px",
-                                fontSize: "0.65rem",
-                                fontWeight: 500,
-                                lineHeight: 1,
-                                letterSpacing: "0.02em",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              New
-                            </Box>
-                          )}
-                        </Box>
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </>
-            )}
-          </Box>
-        ))}
+                </>
+              )}
+            </Box>
+          ))}
+        </Box>
       </Box>
 
       <Box
-        display="flex"
-        alignItems="center"
         sx={{
-          mt: 2,
-          pt: 2,
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+          borderTop: "1.5px dashed",
+          borderColor: "divider",
+          p: 1.5,
+          bgcolor: "background.default",
         }}
       >
         <Typography variant="caption">
@@ -603,7 +603,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           height: "60px",
           width: "100%",
           top: 0,
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          borderBottom: "1.5px dashed",
+          borderColor: "divider",
           backdropFilter: "blur(10px)",
           transition: "background-color 0.15s ease",
           backgroundColor: isScrolled ? "transparent" : "background.default",
