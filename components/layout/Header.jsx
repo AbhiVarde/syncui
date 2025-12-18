@@ -475,7 +475,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       >
         <Typography variant="caption">
           Brought to you by{" "}
-          <LinkPreview url="https://abhivarde.in" placement="top">
+          <LinkPreview
+            url="https://abhivarde.in"
+            placement="top"
+            staticImage="/og-image.png"
+          >
             abhivarde.in
           </LinkPreview>
           .
@@ -603,8 +607,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           height: "60px",
           width: "100%",
           top: 0,
-          borderBottom: "1.5px dashed",
-          borderColor: "divider",
+          borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: "blur(10px)",
           transition: "background-color 0.15s ease",
           backgroundColor: isScrolled ? "transparent" : "background.default",
