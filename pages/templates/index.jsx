@@ -3,7 +3,6 @@ import {
   Container,
   Typography,
   Box,
-  Grid,
   Button,
   useTheme,
   alpha,
@@ -290,298 +289,302 @@ const Templates = ({ docsTree }) => {
 
         <Container maxWidth="md" sx={{ px: { lg: 0 } }}>
           {templatesData.map((template, index) => (
-            <Box key={template.id}>
-              <Grid
-                container
-                spacing={6}
-                alignItems="center"
-                sx={{ my: { md: 5, sm: 3, xs: 2 } }}
-              >
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  order={{
+            <Box
+              key={template.id}
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                gap: { xs: 3, md: 6 },
+                alignItems: "center",
+                my: { md: 5, sm: 3, xs: 2 },
+              }}
+            >
+              <Box
+                sx={{
+                  flex: { md: "1 1 50%" },
+                  width: { xs: "100%", md: "50%" },
+                  order: {
                     xs: 2,
                     md: index % 2 === 0 ? 1 : 2,
+                  },
+                }}
+              >
+                <Box
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: 0.1,
+                  }}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
                   }}
                 >
                   <Box
                     component={motion.div}
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{
-                      duration: 0.4,
-                      ease: [0.22, 1, 0.36, 1],
-                      delay: 0.1,
-                    }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: 0.15 }}
                     sx={{
                       display: "flex",
-                      flexDirection: "column",
-                      gap: 2,
+                      alignItems: "center",
+                      flexWrap: "wrap",
                     }}
                   >
-                    <Box
-                      component={motion.div}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.35, delay: 0.15 }}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                        {template.title}
-                      </Typography>
-
-                      {template.isNew && (
-                        <Box
-                          component={motion.span}
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.3, delay: 0.25 }}
-                          sx={{
-                            ml: 1,
-                            px: 1,
-                            py: 0.3,
-                            bgcolor: "#008080",
-                            color: "#ffffff",
-                            borderRadius: "12px",
-                            fontSize: "0.78rem",
-                            fontWeight: 500,
-                            lineHeight: 1.25,
-                            letterSpacing: "0.02em",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          New
-                        </Box>
-                      )}
-                    </Box>
-
-                    <Typography
-                      component={motion.p}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.35, delay: 0.25 }}
-                      variant="body1"
-                      sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
-                    >
-                      {template.description}
+                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                      {template.title}
                     </Typography>
 
-                    <Box sx={{ my: 2 }}>
-                      {template.features.map((feature, i) => (
-                        <Box
-                          component={motion.div}
-                          key={i}
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{
-                            duration: 0.35,
-                            delay: 0.3 + i * 0.08,
-                          }}
+                    {template.isNew && (
+                      <Box
+                        component={motion.span}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: 0.25 }}
+                        sx={{
+                          ml: 1,
+                          px: 1,
+                          py: 0.3,
+                          bgcolor: "#008080",
+                          color: "#ffffff",
+                          borderRadius: "12px",
+                          fontSize: "0.78rem",
+                          fontWeight: 500,
+                          lineHeight: 1.25,
+                          letterSpacing: "0.02em",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        New
+                      </Box>
+                    )}
+                  </Box>
+
+                  <Typography
+                    component={motion.p}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: 0.25 }}
+                    variant="body1"
+                    sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
+                  >
+                    {template.description}
+                  </Typography>
+
+                  <Box sx={{ my: 2 }}>
+                    {template.features.map((feature, i) => (
+                      <Box
+                        component={motion.div}
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.35,
+                          delay: 0.3 + i * 0.08,
+                        }}
+                        sx={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          mb: 2,
+                        }}
+                      >
+                        <Box sx={{ mt: 0.5, flexShrink: 0, mr: 1 }}>
+                          <LuCheck size={18} style={{ color: "teal" }} />
+                        </Box>
+                        <Typography
+                          variant="body2"
                           sx={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            mb: 2,
+                            color: alpha(theme.palette.text.primary, 0.8),
                           }}
                         >
-                          <Box sx={{ mt: 0.5, flexShrink: 0, mr: 1 }}>
-                            <LuCheck size={18} style={{ color: "teal" }} />
-                          </Box>
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              color: alpha(theme.palette.text.primary, 0.8),
-                            }}
-                          >
-                            {feature}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </Box>
+                          {feature}
+                        </Typography>
+                      </Box>
+                    ))}
                   </Box>
-                </Grid>
+                </Box>
+              </Box>
 
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  order={{
+              <Box
+                sx={{
+                  flex: { md: "1 1 50%" },
+                  width: { xs: "100%", md: "50%" },
+                  order: {
                     xs: 1,
                     md: index % 2 === 0 ? 2 : 1,
+                  },
+                }}
+              >
+                <Box
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: 0.15,
+                  }}
+                  sx={{
+                    position: "relative",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+                    width: "100%",
+                    aspectRatio: "16/9",
                   }}
                 >
                   <Box
-                    component={motion.div}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.4,
-                      ease: [0.22, 1, 0.36, 1],
-                      delay: 0.15,
-                    }}
                     sx={{
-                      position: "relative",
-                      borderRadius: 3,
+                      position: "absolute",
+                      top: -2,
+                      left: -2,
+                      right: -2,
+                      bottom: -2,
+                      borderRadius: "24px",
+                      background: "transparent",
                       overflow: "hidden",
-                      boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-                      width: "100%",
-                      aspectRatio: "16/9",
+                      zIndex: 0,
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        top: "-50%",
+                        left: "-50%",
+                        height: "200%",
+                        width: "200%",
+                        background:
+                          "conic-gradient(from 0deg, transparent 0 340deg, #00B5AD 360deg)",
+                        animation: "rotate 5s linear infinite",
+                      },
+                      "@keyframes rotate": {
+                        from: { transform: "rotate(0deg)" },
+                        to: { transform: "rotate(360deg)" },
+                      },
                     }}
-                  >
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        top: -2,
-                        left: -2,
-                        right: -2,
-                        bottom: -2,
-                        borderRadius: "24px",
-                        background: "transparent",
-                        overflow: "hidden",
-                        zIndex: 0,
-                        "&::before": {
-                          content: '""',
-                          position: "absolute",
-                          top: "-50%",
-                          left: "-50%",
-                          height: "200%",
-                          width: "200%",
-                          background:
-                            "conic-gradient(from 0deg, transparent 0 340deg, #00B5AD 360deg)",
-                          animation: "rotate 5s linear infinite",
-                        },
-                        "@keyframes rotate": {
-                          from: { transform: "rotate(0deg)" },
-                          to: { transform: "rotate(360deg)" },
-                        },
-                      }}
-                    />
-
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        top: 2,
-                        left: 2,
-                        right: 2,
-                        bottom: 2,
-                        borderRadius: "20px",
-                        bgcolor: isDarkMode ? "#111" : "#f8f9fa",
-                        zIndex: 1,
-                      }}
-                    />
-
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        zIndex: 2,
-                        padding: "4px",
-                        boxSizing: "border-box",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: "100%",
-                          height: "100%",
-                          overflow: "hidden",
-                          borderRadius: "18px",
-                        }}
-                      >
-                        <video
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          src={template.src}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  </Box>
+                  />
 
                   <Box
-                    component={motion.div}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.4,
-                      ease: [0.22, 1, 0.36, 1],
-                      delay: 0.25,
-                    }}
                     sx={{
-                      display: "flex",
-                      gap: 2,
-                      mt: 3,
-                      alignItems: "center",
-                      flexDirection: { xs: "column", sm: "row" },
+                      position: "absolute",
+                      top: 2,
+                      left: 2,
+                      right: 2,
+                      bottom: 2,
+                      borderRadius: "20px",
+                      bgcolor: isDarkMode ? "#111" : "#f8f9fa",
+                      zIndex: 1,
+                    }}
+                  />
+
+                  <Box
+                    sx={{
+                      position: "relative",
                       width: "100%",
+                      height: "100%",
+                      zIndex: 2,
+                      padding: "4px",
+                      boxSizing: "border-box",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      component="a"
-                      href={template.accessUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Box
                       sx={{
-                        width: { xs: "100%", sm: "50%" },
-                        padding: "6px 20px",
-                        borderRadius: "12px",
-                        background: (theme) =>
-                          theme.palette.mode !== "light"
-                            ? "linear-gradient(110deg, #fff 45%, #e4e4e7 55%, #fff)"
-                            : "linear-gradient(110deg, #000 45%, #333 55%, #000)",
-                        backgroundSize: "200% 100%",
-                        animation: "shine 3s linear infinite",
-                        color: (theme) =>
-                          theme.palette.mode !== "light" ? "#000" : "#fff",
-                        border: "1px solid",
-                        borderColor: "divider",
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                        borderRadius: "18px",
                       }}
                     >
-                      Get Access ${template.price}
-                    </Button>
-
-                    <Button
-                      variant="outlined"
-                      startIcon={<LuExternalLink />}
-                      component="a"
-                      href={template.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{
-                        width: { xs: "100%", sm: "50%" },
-                        padding: "6px 20px",
-                        borderRadius: "12px",
-                        border: "1px solid",
-                        borderColor: "divider",
-                        color: "text.primary",
-                      }}
-                    >
-                      Live Preview
-                    </Button>
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        src={template.src}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
                   </Box>
-                </Grid>
-              </Grid>
+                </Box>
+
+                <Box
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.4,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: 0.25,
+                  }}
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    mt: 3,
+                    alignItems: "center",
+                    flexDirection: { xs: "column", sm: "row" },
+                    width: "100%",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    component="a"
+                    href={template.accessUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      width: { xs: "100%", sm: "50%" },
+                      padding: "6px 20px",
+                      borderRadius: "12px",
+                      background: (theme) =>
+                        theme.palette.mode !== "light"
+                          ? "linear-gradient(110deg, #fff 45%, #e4e4e7 55%, #fff)"
+                          : "linear-gradient(110deg, #000 45%, #333 55%, #000)",
+                      backgroundSize: "200% 100%",
+                      animation: "shine 3s linear infinite",
+                      color: (theme) =>
+                        theme.palette.mode !== "light" ? "#000" : "#fff",
+                      border: "1px solid",
+                      borderColor: "divider",
+                    }}
+                  >
+                    Get Access ${template.price}
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    startIcon={<LuExternalLink />}
+                    component="a"
+                    href={template.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      width: { xs: "100%", sm: "50%" },
+                      padding: "6px 20px",
+                      borderRadius: "12px",
+                      border: "1px solid",
+                      borderColor: "divider",
+                      color: "text.primary",
+                    }}
+                  >
+                    Live Preview
+                  </Button>
+                </Box>
+              </Box>
             </Box>
           ))}
         </Container>
