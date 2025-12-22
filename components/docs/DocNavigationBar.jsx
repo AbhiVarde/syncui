@@ -225,7 +225,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
               ...buttonBaseStyle,
               gap: 0.75,
               px: 1.5,
-              py: 0.75,
+              py: 0.5,
             }}
           >
             <LuCopy size={14} />
@@ -234,7 +234,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
               fontWeight={500}
               sx={{
                 display: { xs: "none", sm: "block" },
-                fontSize: "14px",
+                fontSize: "13px",
               }}
             >
               Copy Page

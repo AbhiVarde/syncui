@@ -6,6 +6,7 @@ import { MDXComponents } from "../../components/mdx-components";
 import { DocNavigationBar } from "../../components/docs/DocNavigationBar";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
+import { Typography } from "@mui/material";
 
 export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   const Component = React.useMemo(() => {
@@ -19,6 +20,16 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
     }
     return null;
   }, [code]);
+
+  const isComponentPage = React.useMemo(() => {
+    const currentUrl = `/docs/${slug}`;
+    const currentDoc = docsTree.find((item) => {
+      if (item.url === currentUrl) return true;
+      if (slug === "" && item.title === "Setup") return true;
+      return false;
+    });
+    return currentDoc?.category === "Components";
+  }, [docsTree, slug]);
 
   if (!Component) {
     return <div>Error: Could not load the document.</div>;
@@ -59,11 +70,26 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
       </Head>
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
-          <DocNavigationBar
-            slug={slug}
-            docsTree={docsTree}
-            title={frontmatter.title}
-          />
+          {isComponentPage && (
+            <DocNavigationBar
+              slug={slug}
+              docsTree={docsTree}
+              title={frontmatter.title}
+            />
+          )}
+
+          {!isComponentPage && (
+            <Typography
+              variant="h3"
+              fontWeight={500}
+              sx={{
+                mb: 3,
+                wordBreak: "break-word",
+              }}
+            >
+              {frontmatter.title}
+            </Typography>
+          )}
 
           <Component components={MDXComponents} />
         </article>
