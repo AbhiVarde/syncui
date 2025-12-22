@@ -223,9 +223,11 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
             onClick={handleClick}
             sx={{
               ...buttonBaseStyle,
-              gap: 0.75,
-              px: 1.5,
-              py: 0.5,
+              height: 32,
+              minWidth: 32,
+              px: { xs: 1, sm: 1.5 },
+              py: { xs: 0, sm: 0.5 },
+              gap: { xs: 0.25, sm: 0.75 },
             }}
           >
             <LuCopy size={14} />
