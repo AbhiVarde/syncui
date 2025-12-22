@@ -3,8 +3,7 @@ import { getMDXComponent } from "mdx-bundler/client";
 import { getAllDocsSlugs, getDocBySlug } from "../../lib/docs";
 import DocsLayout from "../../components/docs/DocsLayout";
 import { MDXComponents } from "../../components/mdx-components";
-import { DocPager } from "../../components/docs/DocPager";
-import { Typography } from "@mui/material";
+import { DocNavigationBar } from "../../components/docs/DocNavigationBar";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 
@@ -60,12 +59,14 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
       </Head>
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
-          <Typography variant="h3" fontWeight={500}>
-            {frontmatter.title}
-          </Typography>
+          <DocNavigationBar
+            slug={slug}
+            docsTree={docsTree}
+            title={frontmatter.title}
+          />
+
           <Component components={MDXComponents} />
         </article>
-        <DocPager slug={slug} docsTree={docsTree} />
       </DocsLayout>
     </>
   );
