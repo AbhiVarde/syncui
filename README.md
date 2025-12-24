@@ -56,10 +56,12 @@ Visit **https://syncui.design/docs** to get started with Sync UI.
 
 Love Sync UI? Help me keep building!
 
+- ☕ **One-time support** → Buy me a coffee
 - 💚 **$5 / month – Supporter** → GitHub README recognition
 - 🌟 **$19 / month – Sponsor** → README + Portfolio recognition
 - 🚀 **$49 / month – Featured Sponsor** → README + Portfolio + promotion on Sync UI
 
+[☕ Buy Me a Coffee](https://buymeacoffee.com/abhivarde9h)  
 [👉 Become a Sponsor](https://github.com/sponsors/AbhiVarde)
 
 ## 🤝 Contributing

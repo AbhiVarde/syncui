@@ -3,10 +3,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, List, ListItem } from "@mui/material";
 import { RxTextAlignLeft, RxStar, RxStarFilled } from "react-icons/rx";
-import { RiGithubFill, RiHeartFill, RiHeartLine } from "react-icons/ri";
+import { RiGithubFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 
-import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
+import { GITHUB_URL, COFFEE_URL } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
 import AnimatedCounter from "../AnimatedCounter";
 
@@ -283,20 +283,29 @@ export const TableOfContents = ({ toc = [] }) => {
         <>
           <Box
             component="a"
-            href={SPONSOR_URL}
+            href={COFFEE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            onMouseEnter={() => setIsHeartHovered(true)}
-            onMouseLeave={() => setIsHeartHovered(false)}
-            sx={buttonStyles}
+            sx={{
+              ...buttonStyles,
+              background: "#FD0",
+              color: "#000",
+              fontWeight: 600,
+              border: "1px solid #E6C200",
+              boxShadow: "0 2px 8px rgba(255, 221, 0, 0.35)",
+              "&:hover": {
+                background: "#F2C800",
+                boxShadow: "0 4px 12px rgba(255, 221, 0, 0.45)",
+                transform: "translateY(-1px)",
+              },
+              transition: "all 0.2s ease",
+            }}
           >
-            {isHeartHovered ? (
-              <RiHeartFill size={20} color="#e91e63" />
-            ) : (
-              <RiHeartLine size={20} />
-            )}
-            <Typography variant="body2" fontWeight={500}>
-              Support Sync UI
+            <Typography variant="body2" sx={{ fontSize: "18px" }}>
+              ☕
+            </Typography>
+            <Typography variant="body2" fontWeight={600}>
+              Buy Me a Coffee
             </Typography>
           </Box>
 
