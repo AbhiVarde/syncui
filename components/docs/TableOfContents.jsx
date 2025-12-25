@@ -5,8 +5,12 @@ import { Box, Typography, List, ListItem } from "@mui/material";
 import { RxTextAlignLeft, RxStar, RxStarFilled } from "react-icons/rx";
 import { RiGithubFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
-
-import { GITHUB_URL, COFFEE_URL } from "../../utils/constants";
+import {
+  GITHUB_URL,
+  COFFEE_URL,
+  ADSENSE_CLIENT,
+  ADSENSE_SLOT,
+} from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
 import AnimatedCounter from "../AnimatedCounter";
 
@@ -51,6 +55,29 @@ export const TableOfContents = ({ toc = [] }) => {
   const minLevel = toc.length ? Math.min(...toc.map((item) => item.level)) : 1;
 
   const tocKey = toc.map((item) => item.id).join(",");
+
+  const adLoadedRef = useRef(false);
+
+  useEffect(() => {
+    if (!adLoadedRef.current) {
+      const script = document.createElement("script");
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
+      adLoadedRef.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (window.adsbygoogle && !isChangelogPage) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    } catch (err) {
+      console.error("AdSense error:", err);
+    }
+  }, [isChangelogPage, pathname]);
 
   useEffect(() => {
     if (tocIdsRef.current !== tocKey) {
@@ -342,6 +369,39 @@ export const TableOfContents = ({ toc = [] }) => {
           </Box>
         </>
       )}
+
+      {/* AdSense Ad - Below Buttons */}
+      <Box
+        sx={{
+          mt: 2,
+          mx: 1,
+          borderRadius: "12px",
+          overflow: "hidden",
+          border: "1px solid",
+          borderColor: "divider",
+          minHeight: 250,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: (theme) =>
+            theme.palette.mode === "dark"
+              ? "rgba(255,255,255,0.02)"
+              : "rgba(0,0,0,0.02)",
+        }}
+      >
+        <ins
+          className="adsbygoogle"
+          style={{
+            display: "block",
+            minHeight: "250px",
+            width: "100%",
+          }}
+          data-ad-client="ca-pub-4873815556142919"
+          data-ad-slot="1466125258"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </Box>
     </Box>
   );
 };
