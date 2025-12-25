@@ -367,41 +367,40 @@ export const TableOfContents = ({ toc = [] }) => {
               </>
             )}
           </Box>
+
+          <Box
+            sx={{
+              mt: 2,
+              mx: 1,
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: "1px solid",
+              borderColor: "divider",
+              minHeight: 250,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "rgba(255,255,255,0.02)"
+                  : "rgba(0,0,0,0.02)",
+            }}
+          >
+            <ins
+              className="adsbygoogle"
+              style={{
+                display: "block",
+                minHeight: "250px",
+                width: "100%",
+              }}
+              data-ad-client="ca-pub-4873815556142919"
+              data-ad-slot="1466125258"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          </Box>
         </>
       )}
-
-      {/* AdSense Ad - Below Buttons */}
-      <Box
-        sx={{
-          mt: 2,
-          mx: 1,
-          borderRadius: "12px",
-          overflow: "hidden",
-          border: "1px solid",
-          borderColor: "divider",
-          minHeight: 250,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          bgcolor: (theme) =>
-            theme.palette.mode === "dark"
-              ? "rgba(255,255,255,0.02)"
-              : "rgba(0,0,0,0.02)",
-        }}
-      >
-        <ins
-          className="adsbygoogle"
-          style={{
-            display: "block",
-            minHeight: "250px",
-            width: "100%",
-          }}
-          data-ad-client="ca-pub-4873815556142919"
-          data-ad-slot="1466125258"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      </Box>
     </Box>
   );
 };
