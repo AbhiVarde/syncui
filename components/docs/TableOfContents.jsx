@@ -371,16 +371,13 @@ export const TableOfContents = ({ toc = [] }) => {
           <Box
             sx={{
               mt: 2,
-              mx: "auto",
-              width: 300,
-              height: 250,
-              borderRadius: "16px",
-              overflow: "hidden",
+              mx: 1,
+              borderRadius: "12px",
               border: "1px solid",
               borderColor: "divider",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              maxHeight: 300,
+              overflow: "hidden",
+              position: "relative",
               bgcolor: (theme) =>
                 theme.palette.mode === "dark"
                   ? "rgba(255,255,255,0.02)"
@@ -390,12 +387,13 @@ export const TableOfContents = ({ toc = [] }) => {
             <ins
               className="adsbygoogle"
               style={{
-                display: "inline-block",
-                width: "300px",
-                height: "250px",
+                display: "block",
+                width: "100%",
               }}
               data-ad-client="ca-pub-4873815556142919"
               data-ad-slot="1466125258"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
             />
           </Box>
         </>
