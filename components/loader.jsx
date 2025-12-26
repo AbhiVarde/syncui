@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 
 const Loader = () => {
   const theme = useTheme();
-  const [timeoutActive, setTimeoutActive] = useState(true);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setTimeoutActive(false);
-    }, 5000);
-    return () => clearTimeout(timeoutId);
-  }, []);
 
   return (
     <Box
@@ -25,20 +16,12 @@ const Loader = () => {
         backgroundColor: theme.palette.background.default,
       }}
     >
-      {timeoutActive ? (
-        <>
-          <Typography variant="h6" textAlign="center" fontWeight={500}>
-            Loading...⏳
-          </Typography>
-          <Typography variant="body1" textAlign="center" sx={{ mt: 1 }}>
-            Hang tight, we’re almost there! 😅
-          </Typography>
-        </>
-      ) : (
-        <Typography variant="body1" textAlign="center" fontWeight={400}>
-          😅 Oops! Taking longer than expected. Please try again later.
-        </Typography>
-      )}
+      <Typography variant="h6" textAlign="center" fontWeight={500}>
+        Loading... ⏳
+      </Typography>
+      <Typography variant="body1" textAlign="center" sx={{ mt: 1 }}>
+        Hang tight, we’re almost there! 😅
+      </Typography>
     </Box>
   );
 };

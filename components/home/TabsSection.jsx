@@ -13,28 +13,28 @@ import {
 import { RiCodeSSlashLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
-import DockVariants from "../ui/Docks";
-import ButtonVariants from "../ui/Buttons";
-import CardVariants from "../ui/Cards";
-import CarouselVariants from "../ui/Carousels";
-import TableVariants from "../ui/Tables";
-import TextVariants from "../ui/Texts";
-import AvatarVariants from "../ui/Avatars";
-import LoaderVariants from "../ui/Loaders";
-import SeparatorVariants from "../ui/Separators";
-import BackgroundVariants from "../ui/Backgrounds";
-import TabVariants from "../ui/Tabs";
-import PaginationVariants from "../ui/Paginations";
-import PointerVariants from "../ui/Pointers";
-import GridVariants from "../ui/Grids";
-import AccordionVariants from "../ui/Accordions";
-import TextFieldVariants from "../ui/TextFields";
-import DialogVariants from "../ui/Dialogs";
-import FormVariants from "../ui/Forms";
-import AutocompleteVariants from "../ui/Autocompletes";
-import DatePickerVariants from "../ui/DatePickers";
-import TimePickerVariants from "../ui/TimePickers";
-import SkeletonVariants from "../ui/Skeletons";
+import DockVariants from "../ui/components/Docks";
+import ButtonVariants from "../ui/components/Buttons";
+import CardVariants from "../ui/components/Cards";
+import CarouselVariants from "../ui/components/Carousels";
+import TableVariants from "../ui/components/Tables";
+import TextVariants from "../ui/components/Texts";
+import AvatarVariants from "../ui/components/Avatars";
+import LoaderVariants from "../ui/components/Loaders";
+import SeparatorVariants from "../ui/components/Separators";
+import BackgroundVariants from "../ui/components/Backgrounds";
+import TabVariants from "../ui/components/Tabs";
+import PaginationVariants from "../ui/components/Paginations";
+import PointerVariants from "../ui/components/Pointers";
+import GridVariants from "../ui/components/Grids";
+import AccordionVariants from "../ui/components/Accordions";
+import TextFieldVariants from "../ui/components/TextFields";
+import DialogVariants from "../ui/components/Dialogs";
+import FormVariants from "../ui/components/Forms";
+import AutocompleteVariants from "../ui/components/Autocompletes";
+import DatePickerVariants from "../ui/components/DatePickers";
+import TimePickerVariants from "../ui/components/TimePickers";
+import SkeletonVariants from "../ui/components/Skeletons";
 
 const componentVariants = {
   skeletons: ["shimmer", "pulse", "wave"],
