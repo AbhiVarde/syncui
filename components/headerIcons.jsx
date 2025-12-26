@@ -3,7 +3,7 @@ import { RxDotsVertical } from "react-icons/rx";
 import { WiMoonAltThirdQuarter } from "react-icons/wi";
 import { Box, IconButton, Typography, Divider } from "@mui/material";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
-import AnimatedCounter from "./animatedCounter";
+import AnimatedCounter from "./AnimatedCounter";
 
 const HeaderIcons = ({
   stars,

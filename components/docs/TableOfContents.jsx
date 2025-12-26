@@ -12,7 +12,7 @@ import {
   ADSENSE_SLOT,
 } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
-import AnimatedCounter from "../animatedCounter";
+import AnimatedCounter from "./AnimatedCounter";
 
 const SCROLL_OFFSET = 80;
 
