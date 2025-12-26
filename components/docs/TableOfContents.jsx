@@ -58,26 +58,26 @@ export const TableOfContents = ({ toc = [] }) => {
 
   const adLoadedRef = useRef(false);
 
-  // useEffect(() => {
-  //   if (!adLoadedRef.current) {
-  //     const script = document.createElement("script");
-  //     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
-  //     script.async = true;
-  //     script.crossOrigin = "anonymous";
-  //     document.head.appendChild(script);
-  //     adLoadedRef.current = true;
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!adLoadedRef.current) {
+      const script = document.createElement("script");
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
+      adLoadedRef.current = true;
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     if (window.adsbygoogle && !isChangelogPage) {
-  //       (window.adsbygoogle = window.adsbygoogle || []).push({});
-  //     }
-  //   } catch (err) {
-  //     console.error("AdSense error:", err);
-  //   }
-  // }, [isChangelogPage, pathname]);
+  useEffect(() => {
+    try {
+      if (window.adsbygoogle && !isChangelogPage) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    } catch (err) {
+      console.error("AdSense error:", err);
+    }
+  }, [isChangelogPage, pathname]);
 
   useEffect(() => {
     if (tocIdsRef.current !== tocKey) {
@@ -368,7 +368,7 @@ export const TableOfContents = ({ toc = [] }) => {
             )}
           </Box>
 
-          {/* <Box
+          <Box
             sx={{
               mt: 2,
               mx: 1,
@@ -395,7 +395,7 @@ export const TableOfContents = ({ toc = [] }) => {
               data-ad-format="auto"
               data-full-width-responsive="true"
             />
-          </Box> */}
+          </Box>
         </>
       )}
     </Box>
