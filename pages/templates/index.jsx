@@ -192,7 +192,7 @@ const Templates = ({ docsTree }) => {
                 <Typography
                   variant="h2"
                   component="h1"
-                  sx={{ fontWeight: 700, mt: 1 }}
+                  sx={{ fontWeight: 600, mt: 1 }}
                 >
                   Premium UI templates for web applications
                 </Typography>
@@ -337,7 +337,7 @@ const Templates = ({ docsTree }) => {
                       flexWrap: "wrap",
                     }}
                   >
-                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 600 }}>
                       {template.title}
                     </Typography>
 

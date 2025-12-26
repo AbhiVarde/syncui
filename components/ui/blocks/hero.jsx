@@ -1,0 +1,575 @@
+import React from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  useTheme,
+  Container,
+} from "@mui/material";
+import { motion } from "motion/react";
+import { LuArrowRight, LuPlay, LuSearch, LuSparkles } from "react-icons/lu";
+
+const HeroVariants = ({ variant = "dark" }) => {
+  const theme = useTheme();
+
+  const renderHero = () => {
+    switch (variant) {
+      case "left":
+        return (
+          <Box
+            sx={{
+              backgroundColor: theme.palette.mode === "dark" ? "#000" : "#FFF",
+              color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+              minHeight: "60vh",
+              display: "flex",
+              flexDirection: "column",
+              position: "relative",
+              overflow: "hidden",
+              py: { xs: 6, md: 10 },
+            }}
+          >
+            <Container
+              maxWidth="lg"
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <Box
+                  sx={{
+                    maxWidth: "800px",
+                    mx: { xs: 2, sm: 3 },
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 3,
+                  }}
+                >
+                  <Typography
+                    variant="h1"
+                    sx={{
+                      fontWeight: 500,
+                    }}
+                  >
+                    Transform your workflow with intelligent automation
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 0.5,
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.7)"
+                            : "rgba(0,0,0,0.7)",
+                        fontWeight: 400,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      Streamline operations, enhance productivity, and scale
+                      effortlessly.
+                    </Typography>
+
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.5)"
+                            : "rgba(0,0,0,0.5)",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      Empower teams with cutting-edge tools built for modern
+                      challenges.
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 1.5,
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        px: 3,
+                        py: 0.4,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        borderRadius: 1.5,
+                        minHeight: "auto",
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#FFF" : "#000",
+                        color: theme.palette.mode === "dark" ? "#000" : "#FFF",
+                        transition: "all 0.2s ease-out",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.9)"
+                              : "rgba(0,0,0,0.85)",
+                        },
+                      }}
+                    >
+                      Get Started
+                    </Button>
+
+                    <Button
+                      variant="text"
+                      sx={{
+                        px: 3,
+                        py: 0.4,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        borderRadius: 1.5,
+                        minHeight: "auto",
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.7)"
+                            : "rgba(0,0,0,0.7)",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 1,
+                        transition: "all 0.2s ease-out",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.05)"
+                              : "rgba(0,0,0,0.05)",
+                          color:
+                            theme.palette.mode === "dark" ? "#FFF" : "#000",
+                          "& .arrow-icon": {
+                            transform: "translateX(4px)",
+                          },
+                        },
+                      }}
+                    >
+                      New: AI Integration
+                      <Box
+                        component="span"
+                        className="arrow-icon"
+                        sx={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          transition: "transform 0.2s ease-out",
+                        }}
+                      >
+                        <LuArrowRight size={16} />
+                      </Box>
+                    </Button>
+                  </Box>
+                </Box>
+              </motion.div>
+            </Container>
+          </Box>
+        );
+
+      case "center":
+        return (
+          <Box
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+              minHeight: "60vh",
+              py: { xs: 6, md: 10 },
+              backgroundColor: theme.palette.mode === "dark" ? "#000" : "#FFF",
+              color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Container
+              maxWidth="lg"
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <Box
+                  sx={{
+                    maxWidth: "900px",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3 },
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 3,
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="h2" sx={{ fontWeight: 500 }}>
+                    Beyond authentication, Complete Access Control
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 0.75,
+                      maxWidth: "800px",
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.7)"
+                            : "rgba(0,0,0,0.7)",
+                        fontWeight: 400,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      Need comprehensive security? Our platform provides
+                      enterprise-grade access management so you can deploy
+                      quickly and scale efficiently.
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 1.5,
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        px: 3,
+                        py: 0.4,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        borderRadius: 6,
+                        minHeight: "auto",
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#FFF" : "#000",
+                        color: theme.palette.mode === "dark" ? "#000" : "#FFF",
+                        transition: "all 0.2s ease-out",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.9)"
+                              : "rgba(0,0,0,0.85)",
+                        },
+                      }}
+                    >
+                      Start building for free
+                    </Button>
+                    <Button
+                      variant="text"
+                      sx={{
+                        px: 3,
+                        py: 0.4,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        borderRadius: 6,
+                        minHeight: "auto",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 1,
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.7)"
+                            : "rgba(0,0,0,0.7)",
+                        transition: "all 0.2s ease-out",
+                        "& .play-icon": {
+                          transition:
+                            "transform 0.2s ease-out, opacity 0.2s ease-out",
+                          opacity: 0.8,
+                          display: "flex",
+                          alignItems: "center",
+                        },
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.05)"
+                              : "rgba(0,0,0,0.05)",
+                          color:
+                            theme.palette.mode === "dark" ? "#FFF" : "#000",
+                          "& .play-icon": {
+                            transform: "translateX(3px)",
+                            opacity: 1,
+                          },
+                        },
+                      }}
+                    >
+                      <Box component="span" className="play-icon">
+                        <LuPlay size={16} />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 0.5,
+                        }}
+                      >
+                        <span>Watch demo</span>
+                        <Box
+                          component="span"
+                          sx={{
+                            fontSize: "0.8rem",
+                            color:
+                              theme.palette.mode === "dark"
+                                ? "rgba(255,255,255,0.5)"
+                                : "rgba(0,0,0,0.5)",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          3 min
+                        </Box>
+                      </Box>
+                    </Button>
+                  </Box>
+                </Box>
+              </motion.div>
+            </Container>
+          </Box>
+        );
+
+      case "search":
+        return (
+          <Box
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+              minHeight: "60vh",
+              py: { xs: 6, md: 10 },
+              backgroundColor: theme.palette.mode === "dark" ? "#000" : "#FFF",
+              color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Container
+              maxWidth="md"
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <Box
+                  sx={{
+                    maxWidth: "800px",
+                    mx: "auto",
+                    px: { xs: 2, sm: 3 },
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 3,
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="h2" sx={{ fontWeight: 500 }}>
+                    Search powered by Intelligence
+                  </Typography>
+                  <Box sx={{ width: "100%", maxWidth: 600 }}>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        borderRadius: 1.5,
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#0f0f0f" : "#FFF",
+                        border:
+                          theme.palette.mode === "dark"
+                            ? "1px solid rgba(255,255,255,0.12)"
+                            : "1px solid rgba(0,0,0,0.12)",
+                        boxShadow:
+                          theme.palette.mode === "dark"
+                            ? "0 2px 10px rgba(0,0,0,0.4)"
+                            : "0 2px 10px rgba(0,0,0,0.08)",
+                        transition: "border 0.2s ease-out",
+                        "&:hover": {
+                          border:
+                            theme.palette.mode === "dark"
+                              ? "1px solid rgba(255,255,255,0.25)"
+                              : "1px solid rgba(0,0,0,0.25)",
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: 10,
+                          left: 16,
+                          opacity: 0.5,
+                          pointerEvents: "none",
+                        }}
+                      >
+                        <LuSearch size={16} />
+                      </Box>
+                      <TextField
+                        fullWidth
+                        multiline
+                        minRows={3}
+                        maxRows={6}
+                        placeholder="VP of Marketing…"
+                        variant="outlined"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            padding: 0,
+                            borderRadius: 1.5,
+                            "& fieldset": { border: "none" },
+                          },
+                          "& textarea": {
+                            fontSize: "0.9rem",
+                            fontWeight: 400,
+                            lineHeight: 1.4,
+                            paddingTop: "12px",
+                            paddingBottom: "48px",
+                            paddingLeft: "44px",
+                            paddingRight: "16px",
+                            resize: "none",
+                          },
+                          "& textarea::placeholder": {
+                            opacity: 0.6,
+                          },
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          bottom: 10,
+                          right: 12,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                        }}
+                      >
+                        <LuSparkles size={14} style={{ opacity: 0.45 }} />
+                        <Box
+                          sx={{
+                            width: 26,
+                            height: 26,
+                            borderRadius: 0.75,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            backgroundColor:
+                              theme.palette.mode === "dark"
+                                ? "rgba(255,255,255,0.05)"
+                                : "rgba(0,0,0,0.05)",
+                            transition: "all 0.2s ease-out",
+                            "&:hover": {
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "rgba(255,255,255,0.12)"
+                                  : "rgba(0,0,0,0.12)",
+                            },
+                          }}
+                        >
+                          <LuArrowRight size={13} />
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 1.5,
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        px: 3,
+                        py: 0.4,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        borderRadius: 1.5,
+                        minHeight: "auto",
+                        backgroundColor:
+                          theme.palette.mode === "dark" ? "#FFF" : "#000",
+                        color: theme.palette.mode === "dark" ? "#000" : "#FFF",
+                        transition: "all 0.2s ease-out",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.9)"
+                              : "rgba(0,0,0,0.85)",
+                        },
+                      }}
+                    >
+                      Try the API for free
+                    </Button>
+
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        px: 3,
+                        py: 0.4,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        borderRadius: 1.5,
+                        minHeight: "auto",
+                        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+                        borderColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.25)"
+                            : "rgba(0,0,0,0.25)",
+                        transition: "all 0.2s ease-out",
+                        "&:hover": {
+                          borderColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.45)"
+                              : "rgba(0,0,0,0.45)",
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.03)"
+                              : "rgba(0,0,0,0.03)",
+                        },
+                      }}
+                    >
+                      Try Collections
+                    </Button>
+                  </Box>
+                </Box>
+              </motion.div>
+            </Container>
+          </Box>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return <Box sx={{ width: "100%" }}>{renderHero()}</Box>;
+};
+
+export default HeroVariants;

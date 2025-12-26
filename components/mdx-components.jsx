@@ -44,6 +44,7 @@ import AutocompleteVariants from "./ui/components/Autocompletes";
 import DatePickerVariants from "./ui/components/DatePickers";
 import TimePickerVariants from "./ui/components/TimePickers";
 import SkeletonVariants from "./ui/components/Skeletons";
+// import HeroVariants from "./ui/blocks/hero";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },
@@ -66,11 +67,7 @@ const createHeading = (variant) =>
         gutterBottom
         ref={ref}
         id={id}
-        sx={{
-          my: 1.5,
-          letterSpacing: "-0.01em",
-          ...headingSizes[variant],
-        }}
+        sx={{ my: 1.5, letterSpacing: "-0.01em", ...headingSizes[variant] }}
         {...props}
       >
         {children}
@@ -78,19 +75,39 @@ const createHeading = (variant) =>
     );
   });
 
+const CopyButton = ({ onClick, copied, isSmall }) => (
+  <IconButton
+    onClick={onClick}
+    size="small"
+    disableRipple
+    sx={{
+      position: "absolute",
+      top: isSmall ? 8 : 12,
+      right: isSmall ? 8 : 12,
+      width: 32,
+      height: 32,
+      borderRadius: 1.5,
+      backgroundColor: "rgba(0,0,0,0.35)",
+      color: "rgba(255,255,255,0.9)",
+      transition: "background-color 0.15s ease",
+      zIndex: 2,
+      "&:hover": { backgroundColor: "rgba(0,0,0,0.55)" },
+    }}
+  >
+    {copied ? <LuCheck size={16} /> : <LuClipboard size={16} />}
+  </IconButton>
+);
+
 const CodeBlock = ({ className, children, rounded = true }) => {
   const [copied, setCopied] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  useEffect(() => setIsMounted(true), []);
 
   const language = className?.replace(/language-/, "") || "jsx";
-  const codeString =
-    typeof children === "string" ? children.trim() : String(children).trim();
+  const codeString = String(children).trim();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(codeString);
@@ -109,36 +126,7 @@ const CodeBlock = ({ className, children, rounded = true }) => {
         borderRadius: rounded ? 2 : 0,
       }}
     >
-      <IconButton
-        onClick={handleCopy}
-        size="small"
-        disableRipple
-        sx={{
-          position: "absolute",
-          top: isSmall ? 8 : 12,
-          right: isSmall ? 8 : 12,
-          width: 32,
-          height: 32,
-          borderRadius: 1.5,
-          backgroundColor: "rgba(0,0,0,0.35)",
-          color: "rgba(255,255,255,0.9)",
-          transition: "background-color 0.15s ease",
-          zIndex: 2,
-          "&:hover": {
-            backgroundColor: "rgba(0,0,0,0.55)",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {copied ? <LuCheck size={16} /> : <LuClipboard size={16} />}
-        </Box>
-      </IconButton>
-
+      <CopyButton onClick={handleCopy} copied={copied} isSmall={isSmall} />
       <Box
         sx={{
           maxHeight: 300,
@@ -179,8 +167,6 @@ const DynamicCodeBlock = dynamic(() => Promise.resolve(CodeBlock), {
   ssr: false,
 });
 
-const Preview = ({ children }) => <Box p={3}>{children}</Box>;
-
 const StyledTabs = styled(Tabs)(({ theme }) => ({
   minHeight: 40,
   borderBottom: `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
@@ -215,13 +201,24 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   },
 }));
 
-const CodePreview = ({ preview, code }) => {
+// Updated CodePreview component with explicit overflow prop
+const CodePreview = ({
+  preview,
+  code,
+  noPadding = false,
+  overflowVisible = false,
+}) => {
   const [tab, setTab] = useState(0);
 
   return (
     <Paper
       variant="outlined"
-      sx={{ mb: 4, overflow: "hidden", borderRadius: 2, boxShadow: 0.5 }}
+      sx={{
+        mb: 4,
+        overflow: overflowVisible ? "visible" : "hidden",
+        borderRadius: 2,
+        boxShadow: 0.5,
+      }}
     >
       <StyledTabs value={tab} onChange={(e, v) => setTab(v)}>
         <StyledTab
@@ -236,32 +233,26 @@ const CodePreview = ({ preview, code }) => {
         />
       </StyledTabs>
       <Box sx={{ position: "relative", minHeight: "100%" }}>
-        <Box
-          sx={{
-            opacity: tab === 0 ? 1 : 0,
-            visibility: tab === 0 ? "visible" : "hidden",
-            position: tab === 0 ? "relative" : "absolute",
-            inset: 0,
-            transition: "opacity 0.15s",
-          }}
-        >
-          <Preview>{preview}</Preview>
-        </Box>
-        <Box
-          sx={{
-            opacity: tab === 1 ? 1 : 0,
-            visibility: tab === 1 ? "visible" : "hidden",
-            position: tab === 1 ? "relative" : "absolute",
-            inset: 0,
-            transition: "opacity 0.15s",
-          }}
-        >
-          <Box>
-            <DynamicCodeBlock rounded={false} className="language-jsx">
-              {code}
-            </DynamicCodeBlock>
+        {[0, 1].map((index) => (
+          <Box
+            key={index}
+            sx={{
+              opacity: tab === index ? 1 : 0,
+              visibility: tab === index ? "visible" : "hidden",
+              position: tab === index ? "relative" : "absolute",
+              inset: 0,
+              transition: "opacity 0.15s",
+            }}
+          >
+            {index === 0 ? (
+              <Box p={noPadding ? 0 : 3}>{preview}</Box>
+            ) : (
+              <DynamicCodeBlock rounded={false} className="language-jsx">
+                {code}
+              </DynamicCodeBlock>
+            )}
           </Box>
-        </Box>
+        ))}
       </Box>
     </Paper>
   );
@@ -303,33 +294,8 @@ const PackageManagerTabs = ({ npm, yarn, pnpm, bun }) => {
           <StyledTab key={idx} label={cmd.label} />
         ))}
       </StyledTabs>
-
       <Box sx={{ position: "relative" }}>
-        <IconButton
-          onClick={handleCopy}
-          size="small"
-          disableRipple
-          sx={{
-            position: "absolute",
-            top: isSmall ? 8 : 12,
-            right: isSmall ? 8 : 12,
-            width: 32,
-            height: 32,
-            borderRadius: 1.5,
-            backgroundColor: "rgba(0,0,0,0.35)",
-            color: "rgba(255,255,255,0.9)",
-            transition: "background-color 0.15s ease",
-            zIndex: 2,
-            "&:hover": {
-              backgroundColor: "rgba(0,0,0,0.55)",
-            },
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            {copied ? <LuCheck size={16} /> : <LuClipboard size={16} />}
-          </Box>
-        </IconButton>
-
+        <CopyButton onClick={handleCopy} copied={copied} isSmall={isSmall} />
         <SyntaxHighlighter
           language="bash"
           style={atomDark}
@@ -372,6 +338,7 @@ export const MDXComponents = {
   DatePickerVariants,
   TimePickerVariants,
   SkeletonVariants,
+  // HeroVariants,
   CodePreview,
   PackageManagerTabs,
   h1: createHeading("h1"),

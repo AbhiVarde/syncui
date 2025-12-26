@@ -223,15 +223,14 @@ const HeroSection = () => {
         <Box
           sx={{
             opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(10px)",
-            transition:
-              "opacity 0.2s ease-out 0.12s, transform 0.2s ease-out 0.12s",
+            transform: mounted ? "translateY(0)" : "translateY(8px)",
+            transition: "opacity 0.25s ease-out, transform 0.25s ease-out",
           }}
         >
           <Box
             sx={{
               display: "flex",
-              gap: { xs: 1.5, sm: 2 },
+              gap: { xs: 1.25, sm: 1.5 },
               alignItems: "center",
               flexWrap: "wrap",
             }}
@@ -239,68 +238,55 @@ const HeroSection = () => {
             <Link href="/docs">
               <Button
                 variant="contained"
-                color="primary"
-                size="large"
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexShrink: 0,
-                  padding: { xs: "6px 16px", sm: "6px 20px" },
-                  minHeight: "38px",
-                  borderRadius: "12px",
+                  px: { xs: 2, sm: 2.5 },
+                  py: 0.4,
+                  borderRadius: 1.5,
                   textTransform: "none",
-                  fontSize: { xs: "15px", sm: "16px" },
-                  transition: "box-shadow 0.15s cubic-bezier(.2,0,.2,1)",
+                  fontWeight: 500,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 0.75,
+                  transition: "box-shadow 0.2s ease-out",
                   boxShadow:
                     theme.palette.mode === "light"
-                      ? "0 2px 6px rgba(0,0,0,0.12)"
+                      ? "0 1px 4px rgba(0,0,0,0.12)"
                       : "0 4px 12px rgba(0,0,0,0.4)",
                   "&:hover": {
                     boxShadow:
                       theme.palette.mode === "light"
-                        ? "0 6px 16px rgba(0,0,0,0.18)"
-                        : "0 6px 18px rgba(0,0,0,0.5)",
+                        ? "0 4px 12px rgba(0,0,0,0.18)"
+                        : "0 6px 16px rgba(0,0,0,0.5)",
                     "& svg": {
-                      transform: "translateX(4px)",
+                      transform: "translateX(3px)",
                     },
+                  },
+                  "& svg": {
+                    transition: "transform 0.2s ease-out",
                   },
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    lineHeight: 1,
-                    minWidth: { xs: "auto", sm: "120px" },
-                    justifyContent: "center",
-                    gap: 1,
-                    "& svg": {
-                      transition: "transform 0.15s cubic-bezier(.2,0,.2,1)",
-                    },
-                  }}
-                >
-                  Get Started <RxArrowRight size={19} />
-                </Box>
+                Get Started <RxArrowRight size={17} />
               </Button>
             </Link>
 
             <Link href="/docs/components/accordions">
               <Button
+                variant="text"
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: { xs: "6px 12px", sm: "6px 20px" },
-                  minHeight: "38px",
-                  borderRadius: "12px",
+                  px: { xs: 2, sm: 2.5 },
+                  py: 0.4,
+                  borderRadius: 1.5,
                   textTransform: "none",
-                  color: "text.primary",
-                  fontSize: { xs: "15px", sm: "16px" },
                   fontWeight: 500,
-                  transition: "opacity 0.15s ease",
-                  whiteSpace: "nowrap",
+                  color: "text.primary",
+                  transition:
+                    "color 0.2s ease-out, background-color 0.2s ease-out",
                   "&:hover": {
-                    backgroundColor: "transparent",
-                    opacity: 0.7,
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "rgba(255,255,255,0.04)"
+                        : "rgba(0,0,0,0.04)",
                   },
                 }}
               >

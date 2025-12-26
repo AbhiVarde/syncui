@@ -10,6 +10,7 @@ Sync UI provides a collection of versatile time picker components designed for s
 A standard time picker for selecting hours and minutes in 12-hour format with AM/PM.
 
 <CodePreview
+  overflowVisible={true}
   preview={<TimePickerVariants variant="12hour" />}
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
@@ -417,6 +418,7 @@ export default TwentyFourHourTimePicker;`}
 Time picker with hours, minutes, and seconds selection.
 
 <CodePreview
+  overflowVisible={true}
   preview={<TimePickerVariants variant="with-seconds" />}
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
@@ -919,6 +921,7 @@ export default TwelveHourTimePicker;`}
 Time picker with 24-hour format (00:00 to 23:59).
 
 <CodePreview
+  overflowVisible={true}
   preview={<TimePickerVariants variant="24hour" />}
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
@@ -1325,6 +1328,7 @@ export default TwentyFourHourTimePicker;`}
 Quick select with preset time options.
 
 <CodePreview
+  overflowVisible={true}
   preview={<TimePickerVariants variant="presets" />}
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";

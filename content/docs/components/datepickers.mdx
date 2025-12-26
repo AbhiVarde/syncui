@@ -10,6 +10,7 @@ Sync UI provides a collection of versatile date picker components designed for s
 A standard calendar date picker for selecting a single date.
 
 <CodePreview
+  overflowVisible={true}
   preview={<DatePickerVariants variant="single" />}
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
@@ -329,6 +330,7 @@ export default SingleDatePicker;`}
 Select start and end dates for a date range.
 
 <CodePreview
+  overflowVisible={true}
   preview={<DatePickerVariants variant="range" />}
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
@@ -686,6 +688,7 @@ export default RangeDatePicker;`}
 Quick select with preset date range options.
 
 <CodePreview
+  overflowVisible={true}
   preview={<DatePickerVariants variant="presets" />}
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
@@ -1151,6 +1154,7 @@ export default PresetsDatePicker;
 Combined date and time selection with hours, minutes, and AM/PM.
 
 <CodePreview
+  overflowVisible={true}
   preview={<DatePickerVariants variant="with-time" />}
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";

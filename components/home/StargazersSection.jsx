@@ -16,7 +16,7 @@ import {
 } from "react-icons/ri";
 import { useState, memo, useEffect, useRef } from "react";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
-import AnimatedCounter from "../AnimatedCounter";
+import AnimatedCounter from "../animatedCounter";
 
 const buttonStyles = {
   display: "flex",
