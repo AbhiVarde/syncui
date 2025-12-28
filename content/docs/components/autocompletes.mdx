@@ -20,22 +20,75 @@ A simple autocomplete with real-time filtering of options.
   overflowVisible={true}
   preview={<AutocompleteVariants variant="basic" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Typography, useTheme, Box } from "@mui/material";
 
 const BasicAutocomplete = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [inputValue, setInputValue] = useState("");
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const sampleData = [
     "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape",
     "Honeydew", "Kiwi", "Lemon", "Mango", "Orange", "Papaya", "Quinoa",
     "Raspberry", "Strawberry"
   ];
+
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 180;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", calculatePosition);
+    };
+  }, [isOpen]);
 
   const handleInputChange = (value) => {
     setInputValue(value);
@@ -79,6 +132,7 @@ const BasicAutocomplete = () => {
 
   return (
     <Box
+      ref={containerRef}  
       sx={{
         width: "100%",
         maxWidth: "400px",
@@ -123,11 +177,16 @@ const BasicAutocomplete = () => {
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               sx={{
-                position: "absolute",
-                top: "100%",
+                 position: "absolute",
+                ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                  top: "calc(100% + 4px)",
+                }),
                 left: 0,
                 right: 0,
-                marginTop: "4px",
                 maxHeight: "180px",
                 overflowY: "auto",
                 backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -185,23 +244,75 @@ An autocomplete allowing multiple selections with chip display.
   overflowVisible={true}
   preview={<AutocompleteVariants variant="multi-select" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Typography, useTheme, Box } from "@mui/material";
 import { LuX } from "react-icons/lu";
 
 const MultiSelectAutocomplete = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [selectedValues, setSelectedValues] = useState([]);
-  const [filteredOptions, setFilteredOptions] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+
+  const [inputValue, setInputValue] = useState("");
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const sampleData = [
     "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js",
     "Python", "Java", "C++", "Go", "Rust", "PHP", "Ruby", "Swift", "Kotlin"
   ];
+
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 180;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", calculatePosition);
+    };
+  }, [isOpen]);  
 
   const handleInputChange = (value) => {
     setInputValue(value);
@@ -255,6 +366,7 @@ const MultiSelectAutocomplete = () => {
 
   return (
     <Box
+      ref={containerRef}  
       sx={{
         width: "100%",
         maxWidth: "400px",
@@ -301,10 +413,15 @@ const MultiSelectAutocomplete = () => {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 sx={{
                   position: "absolute",
-                  top: "100%",
+                  ...(dropdownPosition === "top"
+                  ? {
+                      bottom: "calc(100% + 4px)",
+                    }
+                  : {
+                    top: "calc(100% + 4px)",
+                  }),
                   left: 0,
                   right: 0,
-                  marginTop: "4px",
                   maxHeight: "180px",
                   overflowY: "auto",
                   backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -421,23 +538,75 @@ An autocomplete with simulated asynchronous data fetching.
   overflowVisible={true}
   preview={<AutocompleteVariants variant="async" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Typography, useTheme, Box } from "@mui/material";
 
 const AsyncAutocomplete = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [inputValue, setInputValue] = useState("");
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const sampleData = [
     "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape",
     "Honeydew", "Kiwi", "Lemon", "Mango", "Orange", "Papaya", "Quinoa",
     "Raspberry", "Strawberry"
   ];
+
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 180;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", calculatePosition);
+    };
+  }, [isOpen]);  
 
   const simulateAsyncLoad = async (query) => {
     setIsLoading(true);
@@ -518,6 +687,7 @@ const AsyncAutocomplete = () => {
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         width: "100%",
         maxWidth: "400px",
@@ -563,11 +733,16 @@ const AsyncAutocomplete = () => {
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               sx={{
-                position: "absolute",
-                top: "100%",
+                 position: "absolute",
+                ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                  top: "calc(100% + 4px)",
+                }),
                 left: 0,
                 right: 0,
-                marginTop: "4px",
                 maxHeight: "180px",
                 overflowY: "auto",
                 backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -645,15 +820,19 @@ An autocomplete with results organized by categories.
   overflowVisible={true}
   preview={<AutocompleteVariants variant="grouped" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Typography, useTheme, Box } from "@mui/material";
 
 const GroupedAutocomplete = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+
+  const [inputValue, setInputValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const sampleData = {
     Users: [
@@ -671,6 +850,55 @@ const GroupedAutocomplete = () => {
       { id: 8, name: "User Guide", description: "How-to guide", avatar: "U" },
     ],
   };
+
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 180;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", calculatePosition);
+    };
+  }, [isOpen]);  
 
   const handleInputChange = (value) => {
     setInputValue(value);
@@ -721,6 +949,7 @@ const GroupedAutocomplete = () => {
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         width: "100%",
         maxWidth: "400px",
@@ -765,11 +994,16 @@ const GroupedAutocomplete = () => {
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               sx={{
-                position: "absolute",
-                top: "100%",
+                 position: "absolute",
+                ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                  top: "calc(100% + 4px)",
+                }),
                 left: 0,
                 right: 0,
-                marginTop: "4px",
                 maxHeight: "180px",
                 overflowY: "auto",
                 backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -879,16 +1113,22 @@ An autocomplete with rich content rendering, including avatars and status indica
   overflowVisible={true}
   preview={<AutocompleteVariants variant="custom-render" />}
   code={`
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Typography, useTheme, Box } from "@mui/material";
 
 const CustomRenderAutocomplete = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
   const [inputValue, setInputValue] = useState("");
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+
+  const [inputValue, setInputValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const sampleData = [
     { id: 1, name: "Alice Cooper", role: "Designer", avatar: "A", online: true },
@@ -897,6 +1137,55 @@ const CustomRenderAutocomplete = () => {
     { id: 4, name: "David Wilson", role: "Designer", avatar: "D", online: false },
     { id: 5, name: "Emma Brown", role: "Developer", avatar: "E", online: true },
   ];
+
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 180;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", calculatePosition);
+    };
+  }, [isOpen]);  
 
   const handleInputChange = (value) => {
     setInputValue(value);
@@ -942,6 +1231,7 @@ const CustomRenderAutocomplete = () => {
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         width: "100%",
         maxWidth: "400px",
@@ -986,11 +1276,16 @@ const CustomRenderAutocomplete = () => {
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               sx={{
-                position: "absolute",
-                top: "100%",
+                 position: "absolute",
+                ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                  top: "calc(100% + 4px)",
+                }),
                 left: 0,
                 right: 0,
-                marginTop: "4px",
                 maxHeight: "180px",
                 overflowY: "auto",
                 backgroundColor: isDark ? "#1a1a1a" : "#fff",

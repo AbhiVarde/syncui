@@ -24,7 +24,6 @@ const AnimatedCounter = memo(
         return;
       }
 
-      // Animate from previous value to new value
       const startValue = previousValueRef.current;
       const endValue = value;
       const difference = endValue - startValue;

@@ -201,7 +201,6 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   },
 }));
 
-// Updated CodePreview component with explicit overflow prop
 const CodePreview = ({
   preview,
   code,

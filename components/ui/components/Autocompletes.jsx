@@ -1,124 +1,175 @@
-// autocompletes.jsx - Optimized with motion/react
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Typography, useTheme, Box } from "@mui/material";
 import { LuX } from "react-icons/lu";
 
+const sampleData = {
+  basic: [
+    "Apple",
+    "Banana",
+    "Cherry",
+    "Date",
+    "Elderberry",
+    "Fig",
+    "Grape",
+    "Honeydew",
+    "Kiwi",
+    "Lemon",
+    "Mango",
+    "Orange",
+    "Papaya",
+    "Quinoa",
+    "Raspberry",
+    "Strawberry",
+  ],
+  multiSelect: [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Vue",
+    "Angular",
+    "Node.js",
+    "Python",
+    "Java",
+    "C++",
+    "Go",
+    "Rust",
+    "PHP",
+    "Ruby",
+    "Swift",
+    "Kotlin",
+  ],
+  grouped: {
+    Users: [
+      { id: 1, name: "John Smith", email: "john@example.com", avatar: "J" },
+      {
+        id: 2,
+        name: "Sarah Wilson",
+        email: "sarah@example.com",
+        avatar: "S",
+      },
+      { id: 3, name: "Mike Johnson", email: "mike@example.com", avatar: "M" },
+    ],
+    Projects: [
+      {
+        id: 4,
+        name: "Design System",
+        description: "UI Components",
+        avatar: "D",
+      },
+      { id: 5, name: "Mobile App", description: "React Native", avatar: "M" },
+      { id: 6, name: "Dashboard", description: "Analytics", avatar: "D" },
+    ],
+    Documents: [
+      {
+        id: 7,
+        name: "API Documentation",
+        description: "Technical specs",
+        avatar: "A",
+      },
+      { id: 8, name: "User Guide", description: "How-to guide", avatar: "U" },
+    ],
+  },
+  customRender: [
+    {
+      id: 1,
+      name: "Alice Cooper",
+      role: "Designer",
+      avatar: "A",
+      online: true,
+    },
+    {
+      id: 2,
+      name: "Bob Smith",
+      role: "Developer",
+      avatar: "B",
+      online: false,
+    },
+    {
+      id: 3,
+      name: "Carol Davis",
+      role: "Manager",
+      avatar: "C",
+      online: true,
+    },
+    {
+      id: 4,
+      name: "David Wilson",
+      role: "Designer",
+      avatar: "D",
+      online: false,
+    },
+    {
+      id: 5,
+      name: "Emma Brown",
+      role: "Developer",
+      avatar: "E",
+      online: true,
+    },
+  ],
+};
+
 const AutocompleteVariants = ({ variant = "basic" }) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   const [inputValue, setInputValue] = useState("");
   const [selectedValues, setSelectedValues] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
 
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const calculatePosition = () => {
+    if (!containerRef.current) return;
 
-  const sampleData = {
-    basic: [
-      "Apple",
-      "Banana",
-      "Cherry",
-      "Date",
-      "Elderberry",
-      "Fig",
-      "Grape",
-      "Honeydew",
-      "Kiwi",
-      "Lemon",
-      "Mango",
-      "Orange",
-      "Papaya",
-      "Quinoa",
-      "Raspberry",
-      "Strawberry",
-    ],
-    multiSelect: [
-      "JavaScript",
-      "TypeScript",
-      "React",
-      "Vue",
-      "Angular",
-      "Node.js",
-      "Python",
-      "Java",
-      "C++",
-      "Go",
-      "Rust",
-      "PHP",
-      "Ruby",
-      "Swift",
-      "Kotlin",
-    ],
-    grouped: {
-      Users: [
-        { id: 1, name: "John Smith", email: "john@example.com", avatar: "J" },
-        {
-          id: 2,
-          name: "Sarah Wilson",
-          email: "sarah@example.com",
-          avatar: "S",
-        },
-        { id: 3, name: "Mike Johnson", email: "mike@example.com", avatar: "M" },
-      ],
-      Projects: [
-        {
-          id: 4,
-          name: "Design System",
-          description: "UI Components",
-          avatar: "D",
-        },
-        { id: 5, name: "Mobile App", description: "React Native", avatar: "M" },
-        { id: 6, name: "Dashboard", description: "Analytics", avatar: "D" },
-      ],
-      Documents: [
-        {
-          id: 7,
-          name: "API Documentation",
-          description: "Technical specs",
-          avatar: "A",
-        },
-        { id: 8, name: "User Guide", description: "How-to guide", avatar: "U" },
-      ],
-    },
-    customRender: [
-      {
-        id: 1,
-        name: "Alice Cooper",
-        role: "Designer",
-        avatar: "A",
-        online: true,
-      },
-      {
-        id: 2,
-        name: "Bob Smith",
-        role: "Developer",
-        avatar: "B",
-        online: false,
-      },
-      {
-        id: 3,
-        name: "Carol Davis",
-        role: "Manager",
-        avatar: "C",
-        online: true,
-      },
-      {
-        id: 4,
-        name: "David Wilson",
-        role: "Designer",
-        avatar: "D",
-        online: false,
-      },
-      {
-        id: 5,
-        name: "Emma Brown",
-        role: "Developer",
-        avatar: "E",
-        online: true,
-      },
-    ],
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 180;
+
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("top");
+    } else {
+      setDropdownPosition("bottom");
+    }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isOpen) {
+        calculatePosition();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, true);
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", calculatePosition);
+    };
+  }, [isOpen]);
 
   const simulateAsyncLoad = async (query) => {
     setIsLoading(true);
@@ -320,12 +371,18 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
+            ref={dropdownRef}
             sx={{
               position: "absolute",
-              top: "100%",
+              ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                    top: "calc(100% + 4px)",
+                  }),
               left: 0,
               right: 0,
-              marginTop: "4px",
               maxHeight: "180px",
               overflowY: "auto",
               backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -405,12 +462,18 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
+              ref={dropdownRef}
               sx={{
                 position: "absolute",
-                top: "100%",
+                ...(dropdownPosition === "top"
+                  ? {
+                      bottom: "calc(100% + 4px)",
+                    }
+                  : {
+                      top: "calc(100% + 4px)",
+                    }),
                 left: 0,
                 right: 0,
-                marginTop: "4px",
                 maxHeight: "180px",
                 overflowY: "auto",
                 backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -550,12 +613,18 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
+            ref={dropdownRef}
             sx={{
               position: "absolute",
-              top: "100%",
+              ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                    top: "calc(100% + 4px)",
+                  }),
               left: 0,
               right: 0,
-              marginTop: "4px",
               maxHeight: "180px",
               overflowY: "auto",
               backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -668,12 +737,18 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
+              ref={dropdownRef}
               sx={{
                 position: "absolute",
-                top: "100%",
+                ...(dropdownPosition === "top"
+                  ? {
+                      bottom: "calc(100% + 4px)",
+                    }
+                  : {
+                      top: "calc(100% + 4px)",
+                    }),
                 left: 0,
                 right: 0,
-                marginTop: "4px",
                 maxHeight: "180px",
                 overflowY: "auto",
                 backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -805,12 +880,18 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
+            ref={dropdownRef}
             sx={{
               position: "absolute",
-              top: "100%",
+              ...(dropdownPosition === "top"
+                ? {
+                    bottom: "calc(100% + 4px)",
+                  }
+                : {
+                    top: "calc(100% + 4px)",
+                  }),
               left: 0,
               right: 0,
-              marginTop: "4px",
               maxHeight: "180px",
               overflowY: "auto",
               backgroundColor: isDark ? "#1a1a1a" : "#fff",
@@ -937,8 +1018,10 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
         return renderBasicAutocomplete();
     }
   };
+
   return (
     <Box
+      ref={containerRef}
       sx={{
         width: "100%",
         maxWidth: "400px",

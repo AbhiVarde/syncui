@@ -41,7 +41,6 @@ const BotNewsletter = ({ isDarkMode }) => {
             duration: 4000,
           });
           setEmail("");
-          // Close modal after successful subscription
           setTimeout(() => {
             setIsOpen(false);
             setStatus("idle");
@@ -70,7 +69,6 @@ const BotNewsletter = ({ isDarkMode }) => {
     setEmail("");
   }, []);
 
-  // Toggle function for mail icon click
   const handleToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
     if (isOpen) {

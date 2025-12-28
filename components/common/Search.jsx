@@ -140,7 +140,6 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
     return () => window.removeEventListener("keydown", handleKey);
   }, [searchQuery, docsTree, isMediumUp]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
