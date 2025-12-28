@@ -10,12 +10,28 @@ import { motion, AnimatePresence } from "motion/react";
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [activeId, setActiveId] = useState("");
-  const [isComponentsOpen, setIsComponentsOpen] = useState(true);
-  // const [isBlocksOpen, setIsBlocksOpen] = useState(true);
+  const [openCategories, setOpenCategories] = useState(() => new Set());
   const [activeUrl, setActiveUrl] = useState(router.asPath);
 
   const topPosition = 60;
   const heightCalc = "calc(100vh - 60px)";
+
+  const getActiveCategory = (docsTree, path) => {
+    const activeItem = docsTree.find((item) => item.url === path);
+    return activeItem?.category || null;
+  };
+
+  useEffect(() => {
+    const activeCategory = getActiveCategory(docsTree, router.asPath);
+
+    if (!activeCategory) return;
+
+    setOpenCategories((prev) => {
+      const next = new Set(prev);
+      next.add(activeCategory);
+      return next;
+    });
+  }, [router.asPath, docsTree]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -75,64 +91,80 @@ const DocsLayout = ({ children, toc, docsTree }) => {
   }, [toc, activeId]);
 
   const renderNavigationItem = useCallback(
-    (item, isActive) => {
+    (item, isActive, isExternal = false) => {
       const isHighlighted = isActive || activeUrl === item.url;
+
+      const content = (
+        <Typography
+          component="span"
+          variant="caption"
+          sx={{
+            mb: 0.5,
+            px: 1.2,
+            py: 0.8,
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            color: isHighlighted ? "text.primary" : "text.secondary",
+            letterSpacing: 0.2,
+            borderRadius: 1.2,
+            fontWeight: 400,
+            textShadow: isHighlighted
+              ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
+              : "none",
+            transition: "color 0.15s ease, background-color 0.15s ease",
+            "&:hover": {
+              bgcolor: "action.hover",
+              color: "text.primary",
+            },
+            ...(isHighlighted && {
+              bgcolor: "action.hover",
+            }),
+          }}
+        >
+          <span>{item.title}</span>
+          {(item.title === "Skeletons" || item.title === "Time Pickers") && (
+            <Box
+              component="span"
+              sx={{
+                ml: 1,
+                px: 0.8,
+                py: 0.2,
+                bgcolor: "#008080",
+                color: "#ffffff",
+                borderRadius: "10px",
+                fontSize: "0.65rem",
+                fontWeight: 500,
+                lineHeight: 1,
+                letterSpacing: "0.02em",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              New
+            </Box>
+          )}
+        </Typography>
+      );
+
+      if (isExternal) {
+        return (
+          <a
+            key={item.url}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none" }}
+          >
+            {content}
+          </a>
+        );
+      }
 
       return (
         <Link key={item.url} href={item.url} scroll={false}>
-          <Typography
-            component="span"
-            variant="caption"
-            sx={{
-              mb: 0.5,
-              px: 1.2,
-              py: 0.8,
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: isHighlighted ? "text.primary" : "text.secondary",
-              letterSpacing: 0.2,
-              borderRadius: 1.2,
-              fontWeight: 400,
-              textShadow: isHighlighted
-                ? "0 0 0.6px currentColor, 0 0 0.6px currentColor"
-                : "none",
-              transition: "color 0.15s ease, background-color 0.15s ease",
-              "&:hover": {
-                bgcolor: "action.hover",
-                color: "text.primary",
-              },
-              ...(isHighlighted && {
-                bgcolor: "action.hover",
-              }),
-            }}
-          >
-            <span>{item.title}</span>
-            {(item.title === "Skeletons" ||
-              item.title === "Time Pickers" ||
-              item.title === "Templates") && (
-              <Box
-                component="span"
-                sx={{
-                  ml: 1,
-                  px: 0.8,
-                  py: 0.2,
-                  bgcolor: "#008080",
-                  color: "#ffffff",
-                  borderRadius: "10px",
-                  fontSize: "0.65rem",
-                  fontWeight: 500,
-                  lineHeight: 1,
-                  letterSpacing: "0.02em",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                New
-              </Box>
-            )}
-          </Typography>
+          {content}
         </Link>
       );
     },
@@ -140,11 +172,19 @@ const DocsLayout = ({ children, toc, docsTree }) => {
   );
 
   const renderCollapsibleCategory = useCallback(
-    (category, items, isOpen, setIsOpen) => {
+    (category, items) => {
+      const isOpen = openCategories.has(category);
+
       return (
         <>
           <Box
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() =>
+              setOpenCategories((prev) => {
+                const next = new Set(prev);
+                next.has(category) ? next.delete(category) : next.add(category);
+                return next;
+              })
+            }
             sx={{
               display: "flex",
               alignItems: "center",
@@ -156,70 +196,42 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           >
             <Typography
               variant="body2"
-              sx={{
-                fontSize: "0.8rem",
-                fontWeight: 500,
-                letterSpacing: 0.5,
-              }}
+              sx={{ fontSize: "0.8rem", fontWeight: 500 }}
             >
               {category}
             </Typography>
+
             <motion.div
               animate={{ rotate: isOpen ? 0 : -90 }}
-              transition={{
-                duration: 0.15,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 0.15 }}
             >
               <RxChevronDown size={16} />
             </motion.div>
           </Box>
+
           <AnimatePresence initial={false}>
             {isOpen && (
               <motion.div
-                initial="collapsed"
-                animate="open"
-                exit="collapsed"
-                variants={{
-                  open: {
-                    height: "auto",
-                    opacity: 1,
-                    transition: {
-                      height: {
-                        duration: 0.15,
-                        ease: "easeInOut",
-                      },
-                      opacity: {
-                        duration: 0.1,
-                        ease: "easeIn",
-                      },
-                    },
-                  },
-                  collapsed: {
-                    height: 0,
-                    opacity: 0,
-                    transition: {
-                      height: {
-                        duration: 0.15,
-                        ease: "easeInOut",
-                      },
-                      opacity: {
-                        duration: 0.1,
-                        ease: "easeOut",
-                      },
-                    },
-                  },
+                initial={{ gridTemplateRows: "0fr", opacity: 0 }}
+                animate={{ gridTemplateRows: "1fr", opacity: 1 }}
+                exit={{ gridTemplateRows: "0fr", opacity: 0 }}
+                transition={{
+                  duration: 0.18,
+                  ease: [0.4, 0, 0.2, 1],
                 }}
                 style={{
+                  display: "grid",
                   overflow: "hidden",
-                  willChange: "height, opacity",
                 }}
               >
-                <Box>
-                  {items.map((item) => {
-                    const isActive = router.asPath === item.url;
-                    return renderNavigationItem(item, isActive);
-                  })}
+                <Box sx={{ overflow: "hidden" }}>
+                  {items.map((item) =>
+                    renderNavigationItem(
+                      item,
+                      router.asPath === item.url,
+                      category === "Templates"
+                    )
+                  )}
                 </Box>
               </motion.div>
             )}
@@ -227,7 +239,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         </>
       );
     },
-    [router.asPath, renderNavigationItem]
+    [openCategories, router.asPath, renderNavigationItem]
   );
 
   const groupedDocsTree = useMemo(() => groupDocsTree(docsTree), [docsTree]);
@@ -264,41 +276,25 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             <nav>
               {Object.entries(groupedDocsTree).map(([category, items]) => (
                 <Box key={category} sx={{ mb: 2 }}>
-                  {category === "Components" ? (
-                    renderCollapsibleCategory(
-                      category,
-                      items,
-                      isComponentsOpen,
-                      setIsComponentsOpen
-                    )
+                  {["Components", "Templates"].includes(category) ? (
+                    renderCollapsibleCategory(category, items)
                   ) : (
-                    /* category === "Blocks" ? (
-                    renderCollapsibleCategory(
-                      category,
-                      items,
-                      isBlocksOpen,
-                      setIsBlocksOpen
-                    )
-                  ) : */ <>
+                    <>
                       <Typography
                         variant="body2"
-                        sx={{
-                          fontSize: "0.8rem",
-                          fontWeight: 500,
-                          letterSpacing: 0.5,
-                          mb: 1,
-                        }}
+                        sx={{ fontSize: "0.8rem", fontWeight: 500, mb: 1 }}
                       >
                         {category}
                       </Typography>
                       <Box>
-                        {items.map((item) => {
-                          const isActive =
-                            (item.title === "Setup" &&
-                              router.asPath === "/docs") ||
-                            router.asPath === item.url;
-                          return renderNavigationItem(item, isActive);
-                        })}
+                        {items.map((item) =>
+                          renderNavigationItem(
+                            item,
+                            router.asPath === item.url ||
+                              (item.title === "Setup" &&
+                                router.asPath === "/docs")
+                          )
+                        )}
                       </Box>
                     </>
                   )}
@@ -367,6 +363,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
 const groupDocsTree = (docsTree) => {
   const grouped = new Map([
     ["Getting Started", []],
+    ["Templates", []],
     // ["Blocks", []],
     ["Components", []],
   ]);
@@ -381,18 +378,29 @@ const groupDocsTree = (docsTree) => {
     }
   });
 
-  grouped.get("Getting Started").push({
-    title: "Templates",
-    url: "/templates",
-    slug: "templates",
-  });
+  grouped.get("Templates").push(
+    {
+      title: "Startup",
+      url: "https://abhivarde.gumroad.com/l/startup-template-syncui",
+      slug: "startup-template",
+    },
+    {
+      title: "SaaS",
+      url: "https://abhivarde.gumroad.com/l/saas-template-syncui",
+      slug: "saas-template",
+    },
+    {
+      title: "Portfolio",
+      url: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
+      slug: "portfolio-template",
+    }
+  );
 
   grouped.get("Getting Started").sort((a, b) => {
     const order = {
       Setup: 1,
       Changelog: 2,
-      Templates: 3,
-      "The Story of Sync UI": 4,
+      "The Story of Sync UI": 3,
     };
     return (order[a.title] || 99) - (order[b.title] || 99);
   });

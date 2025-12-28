@@ -45,6 +45,7 @@ import DatePickerVariants from "./ui/components/DatePickers";
 import TimePickerVariants from "./ui/components/TimePickers";
 import SkeletonVariants from "./ui/components/Skeletons";
 // import HeroVariants from "./ui/blocks/hero";
+// import CTAVariants from "./ui/blocks/cta";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },
@@ -338,6 +339,7 @@ export const MDXComponents = {
   TimePickerVariants,
   SkeletonVariants,
   // HeroVariants,
+  // CTAVariants,
   CodePreview,
   PackageManagerTabs,
   h1: createHeading("h1"),
