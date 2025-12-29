@@ -416,32 +416,21 @@ const Templates = ({ docsTree }) => {
                     border: "1px solid",
                     borderColor: "divider",
                     aspectRatio: "16/9",
-                    "&:hover .preview": {
-                      transform: "scale(1.04)",
-                    },
+                    backgroundColor: "background.default",
                   }}
                 >
-                  <Box
-                    className="preview"
-                    sx={{
-                      position: "absolute",
-                      inset: 0,
-                      transition: "transform 0.35s ease-out",
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    src={template.src}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
                     }}
-                  >
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      src={template.src}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </Box>
+                  />
                 </Box>
 
                 <Box
@@ -465,11 +454,9 @@ const Templates = ({ docsTree }) => {
                     rel="noopener noreferrer"
                     sx={{
                       flex: 1,
-                      px: 0,
                       py: 0.5,
                       fontWeight: 500,
                       borderRadius: 1.5,
-                      gap: 0.5,
                       textTransform: "none",
                       border: "1px solid",
                       borderColor: "divider",
@@ -485,16 +472,15 @@ const Templates = ({ docsTree }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     sx={{
-                      color: theme.palette.mode === "light" ? "#000" : "#FFF",
                       flex: 1,
-                      px: 0,
                       py: 0.5,
                       fontWeight: 500,
                       borderRadius: 1.5,
-                      gap: 0.5,
                       textTransform: "none",
                       display: "inline-flex",
                       alignItems: "center",
+                      gap: 0.5,
+                      color: "text.primary",
                       "&:hover .chevron": {
                         transform: "translateX(3px)",
                       },
