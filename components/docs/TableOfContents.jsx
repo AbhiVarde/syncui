@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, List, ListItem } from "@mui/material";
-import { RxTextAlignLeft, RxStar, RxStarFilled } from "react-icons/rx";
+import { RxTextAlignLeft, RxChevronRight } from "react-icons/rx";
 import { RiGithubFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import {
@@ -16,47 +16,22 @@ import AnimatedCounter from "../AnimatedCounter";
 
 const SCROLL_OFFSET = 80;
 
-const buttonStyles = {
-  mt: 1,
-  mx: 1,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 1.5,
-  width: "100%",
-  height: 40,
-  borderRadius: "12px",
-  color: "inherit",
-  textDecoration: "none",
-  bgcolor: (theme) => theme.palette.action.hover,
-  border: "1px solid",
-  borderColor: "divider",
-  "&:hover": {
-    bgcolor: (theme) => theme.palette.action.selected,
-  },
-};
-
 export const TableOfContents = ({ toc = [] }) => {
   const { stars, loading } = useGitHub();
   const pathname = usePathname();
 
   const [activeId, setActiveId] = useState("");
   const [indicatorTop, setIndicatorTop] = useState(null);
-  const [isHeartHovered, setIsHeartHovered] = useState(false);
-  const [isStarHovered, setIsStarHovered] = useState(false);
 
   const itemRefs = useRef({});
   const tocIdsRef = useRef("");
   const isClickScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef(null);
+  const adLoadedRef = useRef(false);
 
   const isChangelogPage = pathname === "/docs/changelog";
-
   const minLevel = toc.length ? Math.min(...toc.map((item) => item.level)) : 1;
-
   const tocKey = toc.map((item) => item.id).join(",");
-
-  const adLoadedRef = useRef(false);
 
   useEffect(() => {
     if (!adLoadedRef.current) {
@@ -81,13 +56,6 @@ export const TableOfContents = ({ toc = [] }) => {
 
   useEffect(() => {
     if (tocIdsRef.current !== tocKey) {
-      // console.log("🔄 Page Changed:", {
-      //   from: tocIdsRef.current.substring(0, 30) + "...",
-      //   to: tocKey.substring(0, 30) + "...",
-      //   pathname,
-      //   tocLength: toc.length,
-      // });
-
       isClickScrollingRef.current = false;
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
@@ -102,7 +70,6 @@ export const TableOfContents = ({ toc = [] }) => {
       setTimeout(() => {
         if (toc.length > 0) {
           setActiveId(toc[0].id);
-          // console.log("✅ First item activated:", toc[0].id);
         }
       }, 150);
     }
@@ -309,63 +276,105 @@ export const TableOfContents = ({ toc = [] }) => {
       {!isChangelogPage && (
         <>
           <Box
-            component="a"
-            href={COFFEE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
             sx={{
-              ...buttonStyles,
-              background: "#FD0",
-              color: "#000",
-              fontWeight: 600,
-              border: "1px solid #E6C200",
-              boxShadow: "0 2px 8px rgba(255, 221, 0, 0.35)",
-              "&:hover": {
-                background: "#F2C800",
-                boxShadow: "0 4px 12px rgba(255, 221, 0, 0.45)",
-                transform: "translateY(-1px)",
-              },
-              transition: "all 0.2s ease",
+              px: 2,
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              mt: 2,
             }}
           >
-            <Typography variant="body2" sx={{ fontSize: "18px" }}>
-              ☕
-            </Typography>
-            <Typography variant="body2" fontWeight={600}>
-              Buy Me a Coffee
-            </Typography>
-          </Box>
+            <Box
+              component="a"
+              href={COFFEE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 0.5,
+                px: 0,
+                py: 0.25,
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                fontFamily: "inherit",
+                color: "text.primary",
+                textDecoration: "none",
+                cursor: "pointer",
+                width: "fit-content",
 
-          <Box
-            component="a"
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => setIsStarHovered(true)}
-            onMouseLeave={() => setIsStarHovered(false)}
-            sx={buttonStyles}
-          >
-            {!loading ? (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <RiGithubFill size={20} />
-                <Typography variant="body2" fontWeight={500}>
-                  Star
-                </Typography>
-                <AnimatedCounter value={stars || 0} duration={2} />
-                {isStarHovered ? (
-                  <RxStarFilled size={18} color="#fbc02d" />
-                ) : (
-                  <RxStar size={18} />
-                )}
+                "&:hover .chevron": {
+                  transform: "translateX(4px)",
+                },
+
+                "&:focus-visible": {
+                  outline: "2px solid",
+                  outlineColor: "primary.main",
+                  outlineOffset: 2,
+                  borderRadius: 1,
+                },
+              }}
+            >
+              ☕ Buy me a coffee
+              <Box
+                className="chevron"
+                sx={{
+                  display: "inline-flex",
+                  transition: "transform 0.18s ease",
+                }}
+              >
+                <RxChevronRight size={14} />
               </Box>
-            ) : (
-              <>
-                <RiGithubFill size={20} />
-                <Typography variant="body2" fontWeight={500}>
-                  Star
-                </Typography>
-              </>
-            )}
+            </Box>
+
+            <Box
+              component="a"
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 0.5,
+                px: 0,
+                py: 0.25,
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                fontFamily: "inherit",
+                color: "text.primary",
+                textDecoration: "none",
+                cursor: "pointer",
+                width: "fit-content",
+
+                "&:hover .chevron": {
+                  transform: "translateX(4px)",
+                },
+
+                "&:focus-visible": {
+                  outline: "2px solid",
+                  outlineColor: "primary.main",
+                  outlineOffset: 2,
+                  borderRadius: 1,
+                },
+              }}
+            >
+              <RiGithubFill size={16} />
+              Star
+              {!loading && (
+                <Box component="span" sx={{ fontWeight: 500 }}>
+                  <AnimatedCounter value={stars || 0} duration={1.4} />
+                </Box>
+              )}
+              <Box
+                className="chevron"
+                sx={{
+                  display: "inline-flex",
+                  transition: "transform 0.18s ease",
+                }}
+              >
+                <RxChevronRight size={14} />
+              </Box>
+            </Box>
           </Box>
 
           <Box
@@ -390,8 +399,8 @@ export const TableOfContents = ({ toc = [] }) => {
                 display: "block",
                 width: "100%",
               }}
-              data-ad-client="ca-pub-4873815556142919"
-              data-ad-slot="1466125258"
+              data-ad-client={ADSENSE_CLIENT}
+              data-ad-slot={ADSENSE_SLOT}
               data-ad-format="auto"
               data-full-width-responsive="true"
             />
