@@ -1,15 +1,15 @@
 import React from "react";
-import HeroSection from "@/components/home/HeroSection";
-import TabsSection from "@/components/home/TabsSection";
-import StargazersSection from "@/components/home/StargazersSection";
 import { getAllDocsSlugs } from "@/lib/docs";
+import HeroSection from "@/components/home/HeroSection";
+import StargazersSection from "@/components/home/StargazersSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
 
 const Home = ({ docsTree }) => {
   return (
     <>
       <HeroSection />
+      <FeaturesSection />
       <StargazersSection />
-      <TabsSection />
     </>
   );
 };

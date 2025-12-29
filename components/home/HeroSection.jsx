@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Typography, Button, Box, Container, useTheme } from "@mui/material";
-import { RxArrowRight } from "react-icons/rx";
+import { RxArrowRight, RxChevronRight } from "react-icons/rx";
 import Link from "next/link";
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
 
@@ -13,7 +13,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <Container maxWidth="md" sx={{ py: { md: 12, xs: 8 } }}>
+    <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
       <Box
         sx={{
           display: "flex",
@@ -26,7 +26,7 @@ const HeroSection = () => {
         <Box
           sx={{
             opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(10px)",
+            transform: mounted ? "translateY(0)" : "translateY(8px)",
             transition:
               "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
@@ -37,7 +37,7 @@ const HeroSection = () => {
               sx={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 1,
+                gap: 0.5,
                 px: 1.25,
                 py: 0.75,
                 mb: 2,
@@ -60,11 +60,22 @@ const HeroSection = () => {
                     theme.palette.mode === "light"
                       ? "rgba(0,0,0,0.1)"
                       : "rgba(255,255,255,0.12)",
+                  "& .chevron": {
+                    transform: "translateX(3px)",
+                  },
                 },
               }}
             >
               📦 New: Skeleton Components
-              <RxArrowRight size={16} />
+              <Box
+                className="chevron"
+                sx={{
+                  display: "inline-flex",
+                  transition: "transform 0.18s ease-out",
+                }}
+              >
+                <RxChevronRight size={16} />
+              </Box>
             </Box>
           </Link>
         </Box>
@@ -244,10 +255,6 @@ const HeroSection = () => {
                   borderRadius: 1.5,
                   textTransform: "none",
                   fontWeight: 500,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 0.75,
-                  transition: "box-shadow 0.2s ease-out",
                   boxShadow:
                     theme.palette.mode === "light"
                       ? "0 1px 4px rgba(0,0,0,0.12)"
@@ -257,16 +264,10 @@ const HeroSection = () => {
                       theme.palette.mode === "light"
                         ? "0 4px 12px rgba(0,0,0,0.18)"
                         : "0 6px 16px rgba(0,0,0,0.5)",
-                    "& svg": {
-                      transform: "translateX(3px)",
-                    },
-                  },
-                  "& svg": {
-                    transition: "transform 0.2s ease-out",
                   },
                 }}
               >
-                Get Started <RxArrowRight size={17} />
+                Get started
               </Button>
             </Link>
 
@@ -280,17 +281,30 @@ const HeroSection = () => {
                   textTransform: "none",
                   fontWeight: 500,
                   color: "text.primary",
-                  transition:
-                    "color 0.2s ease-out, background-color 0.2s ease-out",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 0.5,
                   "&:hover": {
                     backgroundColor:
                       theme.palette.mode === "dark"
                         ? "rgba(255,255,255,0.04)"
                         : "rgba(0,0,0,0.04)",
+                    "& .chevron": {
+                      transform: "translateX(3px)",
+                    },
                   },
                 }}
               >
-                View Components
+                View components
+                <Box
+                  className="chevron"
+                  sx={{
+                    display: "inline-flex",
+                    transition: "transform 0.18s ease-out",
+                  }}
+                >
+                  <RxChevronRight size={16} />
+                </Box>
               </Button>
             </Link>
           </Box>
