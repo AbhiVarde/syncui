@@ -33,7 +33,7 @@ import {
   RxChevronRight,
   RxCross2,
   RxExternalLink,
-  RxComponent2,
+  RxDashboard,
   RxLayers,
   RxChevronDown,
 } from "react-icons/rx";
@@ -52,7 +52,7 @@ const menuItems = [
     label: "Blocks",
     href: "/blocks",
     external: false,
-    icon: <RxComponent2 size={18} />,
+    icon: <RxDashboard size={18} />,
     comingSoon: true,
     disabled: true,
   },
