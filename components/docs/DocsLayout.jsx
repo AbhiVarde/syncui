@@ -3,9 +3,15 @@ import { Box, Typography, Breadcrumbs } from "@mui/material";
 import Link from "next/link";
 import { TableOfContents } from "./TableOfContents";
 import { useRouter } from "next/router";
-import { RxChevronRight, RxTextAlignLeft, RxChevronDown } from "react-icons/rx";
-import LinkPreview from "../common/LinkPreview";
 import { motion, AnimatePresence } from "motion/react";
+import LinkPreview from "../common/LinkPreview";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowRight01Icon,
+  TextAlignLeftIcon,
+  ArrowDown01Icon,
+} from "@hugeicons/core-free-icons";
 
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
@@ -63,7 +69,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
 
     return (
       <Breadcrumbs
-        separator={<RxChevronRight size={18} />}
+        separator={<HugeiconsIcon icon={ArrowRight01Icon} size={18} />}
         aria-label="breadcrumb"
         sx={{ mb: 2, display: { xs: "none", md: "flex", lg: "none" } }}
       >
@@ -78,7 +84,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             fontWeight: 500,
           }}
         >
-          <RxTextAlignLeft size={20} />
+          <HugeiconsIcon icon={TextAlignLeftIcon} size={20} />
           On this page
         </Typography>
         {activeText && (
@@ -205,7 +211,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               animate={{ rotate: isOpen ? 0 : -90 }}
               transition={{ duration: 0.15 }}
             >
-              <RxChevronDown size={16} />
+              <HugeiconsIcon icon={ArrowDown01Icon} size={16} />
             </motion.div>
           </Box>
 

@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, List, ListItem } from "@mui/material";
-import { RxTextAlignLeft, RxChevronRight } from "react-icons/rx";
-import { RiGithubFill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import {
   GITHUB_URL,
@@ -13,6 +11,13 @@ import {
 } from "../../utils/constants";
 import { useGitHub } from "@/context/GithubContext";
 import AnimatedCounter from "../AnimatedCounter";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  TextAlignLeftIcon,
+  GithubIcon,
+  ArrowRight01Icon,
+} from "@hugeicons/core-free-icons";
 
 const SCROLL_OFFSET = 80;
 
@@ -207,7 +212,7 @@ export const TableOfContents = ({ toc = [] }) => {
         }}
         gutterBottom
       >
-        <RxTextAlignLeft size={18} />
+        <HugeiconsIcon icon={TextAlignLeftIcon} size={18} />
         On this page
       </Typography>
 
@@ -323,7 +328,7 @@ export const TableOfContents = ({ toc = [] }) => {
                   transition: "transform 0.18s ease",
                 }}
               >
-                <RxChevronRight size={14} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Box>
             </Box>
 
@@ -358,7 +363,7 @@ export const TableOfContents = ({ toc = [] }) => {
                 },
               }}
             >
-              <RiGithubFill size={16} />
+              <HugeiconsIcon icon={GithubIcon} size={18} />
               Star
               {!loading && (
                 <Box component="span" sx={{ fontWeight: 500 }}>
@@ -372,7 +377,7 @@ export const TableOfContents = ({ toc = [] }) => {
                   transition: "transform 0.18s ease",
                 }}
               >
-                <RxChevronRight size={14} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Box>
             </Box>
           </Box>

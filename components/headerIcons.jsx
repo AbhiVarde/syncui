@@ -1,9 +1,15 @@
-import { RiGithubFill, RiTwitterXLine } from "react-icons/ri";
-import { RxDotsVertical } from "react-icons/rx";
-import { WiMoonAltThirdQuarter } from "react-icons/wi";
 import { Box, IconButton, Typography, Divider } from "@mui/material";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
 import AnimatedCounter from "./AnimatedCounter";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  GithubIcon,
+  NewTwitterIcon,
+  Moon01Icon,
+  Sun01Icon,
+  MoreVerticalIcon,
+} from "@hugeicons/core-free-icons";
 
 const HeaderIcons = ({
   stars,
@@ -13,6 +19,7 @@ const HeaderIcons = ({
   handleToggle,
   anchorRef,
   menuOpen,
+  isDarkMode,
 }) => {
   const renderDivider = () => (
     <Divider
@@ -35,7 +42,6 @@ const HeaderIcons = ({
         gap: { xs: 0.5, sm: 1 },
       }}
     >
-      {/* GitHub Icon with Stars */}
       {(typeof stars === "number" || loading) && (
         <>
           <Box
@@ -56,7 +62,7 @@ const HeaderIcons = ({
               },
             }}
           >
-            <RiGithubFill size={20} style={{ cursor: "pointer" }} />
+            <HugeiconsIcon icon={GithubIcon} size={20} />
             {!loading && stars > 0 && (
               <Typography
                 variant="body2"
@@ -102,7 +108,7 @@ const HeaderIcons = ({
           },
         }}
       >
-        <RiTwitterXLine size={18} style={{ cursor: "pointer" }} />
+        <HugeiconsIcon icon={NewTwitterIcon} size={18} />
       </IconButton>
 
       {renderDivider()}
@@ -129,7 +135,7 @@ const HeaderIcons = ({
           },
         }}
       >
-        <WiMoonAltThirdQuarter size={24} style={{ cursor: "pointer" }} />
+        <HugeiconsIcon icon={isDarkMode ? Sun01Icon : Moon01Icon} size={22} />
       </IconButton>
 
       {!isMediumUp && (
@@ -160,7 +166,7 @@ const HeaderIcons = ({
               },
             }}
           >
-            <RxDotsVertical size={20} style={{ cursor: "pointer" }} />
+            <HugeiconsIcon icon={MoreVerticalIcon} size={20} />
           </IconButton>
         </>
       )}

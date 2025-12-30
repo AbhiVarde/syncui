@@ -9,8 +9,10 @@ import {
   IconButton,
 } from "@mui/material";
 import { motion, AnimatePresence } from "motion/react";
-import { LuX, LuMail } from "react-icons/lu";
 import { toast } from "sonner";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Mail01Icon, Cancel01Icon } from "@hugeicons/core-free-icons/index";
 
 const BotNewsletter = ({ isDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -148,9 +150,8 @@ const BotNewsletter = ({ isDarkMode }) => {
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
       >
-        {/* Changed to handleToggle for open/close functionality */}
         <Fab onClick={handleToggle} sx={fabStyles}>
-          <LuMail size={20} />
+          <HugeiconsIcon icon={Mail01Icon} size={20} />
         </Fab>
       </motion.div>
 
@@ -188,7 +189,7 @@ const BotNewsletter = ({ isDarkMode }) => {
                   size="small"
                   sx={{ color: isDarkMode ? "#ffffff" : "#000000" }}
                 >
-                  <LuX />
+                  <HugeiconsIcon icon={Cancel01Icon} size={20} />
                 </IconButton>
               </Box>
 

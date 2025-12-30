@@ -3,8 +3,15 @@
 import React from "react";
 import { Box, Container, Paper, Typography, Button } from "@mui/material";
 import { motion } from "motion/react";
-import { RxLayers, RxDashboard, RxCube, RxChevronRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  Layers01Icon,
+  IceCubesIcon,
+  DashboardSquare01Icon,
+  ArrowRight01Icon,
+} from "@hugeicons/core-free-icons";
 
 const MotionPaper = motion(Paper);
 
@@ -40,20 +47,13 @@ const TextLink = ({ children, disabled, onClick }) => {
           transition: "transform 0.18s ease",
         }}
       >
-        <RxChevronRight size={14} />
+        <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
       </Box>
     </Button>
   );
 };
 
-const FeatureCard = ({
-  icon: Icon,
-  title,
-  description,
-  cta,
-  disabled,
-  onClick,
-}) => {
+const FeatureCard = ({ icon, title, description, cta, disabled, onClick }) => {
   return (
     <MotionPaper
       initial={{ opacity: 0, y: 10 }}
@@ -74,7 +74,7 @@ const FeatureCard = ({
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Icon size={20} />
+        <HugeiconsIcon icon={icon} size={18} />
         <Typography variant="h6" fontWeight={600}>
           {title}
         </Typography>
@@ -132,7 +132,7 @@ const FeaturesSection = () => {
           }}
         >
           <FeatureCard
-            icon={RxLayers}
+            icon={Layers01Icon}
             title="Templates"
             description="Ready made templates for SaaS, startup, and portfolio websites. Available individually or as a complete bundle."
             cta="View templates"
@@ -140,7 +140,7 @@ const FeaturesSection = () => {
           />
 
           <FeatureCard
-            icon={RxDashboard}
+            icon={DashboardSquare01Icon}
             title="Blocks"
             description="Reusable sections such as heroes, feature layouts, and pricing tables. Designed to integrate seamlessly."
             cta="Coming soon"
@@ -167,7 +167,7 @@ const FeaturesSection = () => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <RxCube size={20} />
+            <HugeiconsIcon icon={IceCubesIcon} size={20} />
             <Typography variant="h6" fontWeight={600}>
               Components
             </Typography>

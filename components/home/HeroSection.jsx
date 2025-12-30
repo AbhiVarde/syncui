@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Typography, Button, Box, Container, useTheme } from "@mui/material";
-import { RxArrowRight, RxChevronRight } from "react-icons/rx";
 import Link from "next/link";
+
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 
 const HeroSection = () => {
   const theme = useTheme();
@@ -74,7 +76,7 @@ const HeroSection = () => {
                   transition: "transform 0.18s ease-out",
                 }}
               >
-                <RxChevronRight size={16} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
               </Box>
             </Box>
           </Link>
@@ -303,7 +305,7 @@ const HeroSection = () => {
                     transition: "transform 0.18s ease-out",
                   }}
                 >
-                  <RxChevronRight size={16} />
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
                 </Box>
               </Button>
             </Link>

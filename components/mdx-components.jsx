@@ -19,8 +19,14 @@ import {
 } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { GoEye, GoTerminal } from "react-icons/go";
-import { LuCheck, LuClipboard } from "react-icons/lu";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ViewIcon,
+  ComputerTerminal01Icon,
+  Copy01Icon,
+  Tick01Icon,
+} from "@hugeicons/core-free-icons";
 
 import CardVariants from "./ui/components/Cards";
 import ButtonVariants from "./ui/components/Buttons";
@@ -95,7 +101,7 @@ const CopyButton = ({ onClick, copied, isSmall }) => (
       "&:hover": { backgroundColor: "rgba(0,0,0,0.55)" },
     }}
   >
-    {copied ? <LuCheck size={16} /> : <LuClipboard size={16} />}
+    <HugeiconsIcon icon={copied ? Tick01Icon : Copy01Icon} size={16} />
   </IconButton>
 );
 
@@ -222,12 +228,12 @@ const CodePreview = ({
     >
       <StyledTabs value={tab} onChange={(e, v) => setTab(v)}>
         <StyledTab
-          icon={<GoEye size={18} />}
+          icon={<HugeiconsIcon icon={ViewIcon} size={18} />}
           label="Preview"
           iconPosition="start"
         />
         <StyledTab
-          icon={<GoTerminal size={18} />}
+          icon={<HugeiconsIcon icon={ComputerTerminal01Icon} size={18} />}
           label="Code"
           iconPosition="start"
         />

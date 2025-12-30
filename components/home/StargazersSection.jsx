@@ -11,11 +11,18 @@ import {
   Paper,
 } from "@mui/material";
 import { useGitHub } from "@/context/GithubContext";
-import { RxGithubLogo, RxStar, RxHeart, RxChevronRight } from "react-icons/rx";
 import { useState, memo, useEffect } from "react";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
 import { motion } from "motion/react";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  GithubIcon,
+  StarIcon,
+  FavouriteIcon,
+  ArrowRight01Icon,
+} from "@hugeicons/core-free-icons";
 
 const ContributorAvatar = memo(({ user, index }) => {
   const [visible, setVisible] = useState(false);
@@ -72,7 +79,7 @@ const TextLink = ({ children, href }) => (
         transition: "transform 0.18s ease",
       }}
     >
-      <RxChevronRight size={14} />
+      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
     </Box>
   </Button>
 );
@@ -200,7 +207,7 @@ const StargazersSection = () => {
               mb: 3,
             }}
           >
-            <RxStar size={16} />
+            <HugeiconsIcon icon={StarIcon} size={18} />
             <Typography variant="body1" fontWeight={500}>
               {loading ? (
                 <Skeleton width={48} />
@@ -222,12 +229,12 @@ const StargazersSection = () => {
             }}
           >
             <TextLink href={GITHUB_URL}>
-              <RxGithubLogo size={16} />
+              <HugeiconsIcon icon={GithubIcon} size={18} />
               Star on GitHub
             </TextLink>
 
             <TextLink href={SPONSOR_URL}>
-              <RxHeart size={16} />
+              <HugeiconsIcon icon={FavouriteIcon} size={18} />
               Support Sync UI
             </TextLink>
           </Box>

@@ -7,9 +7,11 @@ import {
   useTheme,
   Slide,
 } from "@mui/material";
-import { RxMagnifyingGlass, RxFile } from "react-icons/rx";
 import { motion, AnimatePresence } from "motion/react";
 import { useRouter } from "next/router";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Search01Icon, File02Icon } from "@hugeicons/core-free-icons";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -212,17 +214,20 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
   };
 
   const renderSearchIcon = () => (
-    <RxMagnifyingGlass
-      size={19}
-      style={{
+    <Box
+      sx={{
         position: "absolute",
         left: "10px",
         top: "50%",
         transform: "translateY(-50%)",
         color: isDark ? "#6b7280" : "#999",
         pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
       }}
-    />
+    >
+      <HugeiconsIcon icon={Search01Icon} size={19} />
+    </Box>
   );
 
   const renderLoadingSpinner = () => (
@@ -346,12 +351,10 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
                   }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <RxFile
-                    size={isMobile ? 18 : 14}
-                    style={{
-                      color: isDark ? "#666" : "#6b7280",
-                      flexShrink: 0,
-                    }}
+                  <HugeiconsIcon
+                    icon={File02Icon}
+                    size={16}
+                    color={isDark ? "#666" : "#6b7280"}
                   />
                   <span>{doc.title}</span>
                 </motion.div>
@@ -368,10 +371,13 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
             fontSize: "14px",
           }}
         >
-          <RxMagnifyingGlass
-            size={24}
-            style={{ marginBottom: "8px", opacity: 0.5 }}
-          />
+          <Box sx={{ mb: 1, display: "flex", justifyContent: "center" }}>
+            <HugeiconsIcon
+              icon={Search01Icon}
+              size={24}
+              style={{ opacity: 0.5 }}
+            />
+          </Box>
           <div>No results found for "{searchQuery}"</div>
         </div>
       ) : null}
@@ -382,7 +388,7 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
     return (
       <>
         <IconButton onClick={handleMobileOpen} sx={{ padding: "4px" }}>
-          <RxMagnifyingGlass size={22} />
+          <HugeiconsIcon icon={Search01Icon} size={22} />
         </IconButton>
 
         <Dialog
@@ -415,16 +421,19 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
             }}
           >
             <Box sx={{ position: "relative" }}>
-              <RxMagnifyingGlass
-                size={18}
-                style={{
+              <Box
+                sx={{
                   position: "absolute",
                   left: "14px",
                   top: "50%",
                   transform: "translateY(-50%)",
                   color: isDark ? "#6b7280" : "#999",
+                  display: "flex",
+                  alignItems: "center",
                 }}
-              />
+              >
+                <HugeiconsIcon icon={Search01Icon} size={18} />
+              </Box>
               <input
                 ref={mobileInputRef}
                 style={{
@@ -496,12 +505,10 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
                           },
                         }}
                       >
-                        <RxFile
+                        <HugeiconsIcon
+                          icon={File02Icon}
                           size={16}
-                          style={{
-                            color: isDark ? "#666" : "#6b7280",
-                            flexShrink: 0,
-                          }}
+                          color={isDark ? "#666" : "#6b7280"}
                         />
                         <Typography
                           variant="body2"
@@ -526,7 +533,9 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
                   color: isDark ? "#6b7280" : "#999",
                 }}
               >
-                <RxMagnifyingGlass size={28} style={{ marginBottom: "6px" }} />
+                <Box sx={{ mb: 1, display: "flex", justifyContent: "center" }}>
+                  <HugeiconsIcon icon={Search01Icon} size={28} />
+                </Box>
                 <Typography variant="body2">
                   No results for "{searchQuery}"
                 </Typography>

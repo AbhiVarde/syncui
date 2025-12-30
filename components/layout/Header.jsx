@@ -28,18 +28,8 @@ import {
   styled,
   Divider,
 } from "@mui/material";
-import {
-  RxTextAlignLeft,
-  RxChevronRight,
-  RxCross2,
-  RxExternalLink,
-  RxDashboard,
-  RxLayers,
-  RxChevronDown,
-} from "react-icons/rx";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { GoSidebarCollapse } from "react-icons/go";
 import { useGitHub } from "@/context/GithubContext";
 import HeaderIcons from "../headerIcons";
 import LinkPreview from "../common/LinkPreview";
@@ -47,12 +37,24 @@ import Image from "next/image";
 import Search from "../common/Search";
 import { motion, AnimatePresence } from "motion/react";
 
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  TextAlignLeftIcon,
+  ArrowRight01Icon,
+  Cancel01Icon,
+  LinkSquare02Icon,
+  DashboardSquare01Icon,
+  Layers01Icon,
+  ArrowDown01Icon,
+  LayoutRightIcon,
+} from "@hugeicons/core-free-icons";
+
 const menuItems = [
   {
     label: "Blocks",
     href: "/blocks",
     external: false,
-    icon: <RxDashboard size={18} />,
+    icon: <HugeiconsIcon icon={DashboardSquare01Icon} size={18} />,
     comingSoon: true,
     disabled: true,
   },
@@ -60,7 +62,7 @@ const menuItems = [
     label: "Templates",
     href: "/templates",
     external: false,
-    icon: <RxLayers size={18} />,
+    icon: <HugeiconsIcon icon={Layers01Icon} size={18} />,
     comingSoon: false,
     disabled: false,
   },
@@ -68,7 +70,7 @@ const menuItems = [
     label: "Changelog",
     href: "/docs/changelog",
     external: false,
-    icon: <RxExternalLink size={18} />,
+    icon: <HugeiconsIcon icon={LinkSquare02Icon} size={18} />,
     comingSoon: false,
     disabled: false,
   },
@@ -253,7 +255,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
               animate={{ rotate: isOpen ? 0 : -90 }}
               transition={{ duration: 0.15 }}
             >
-              <RxChevronDown size={16} />
+              <HugeiconsIcon icon={ArrowDown01Icon} size={16} />
             </motion.div>
           </Box>
 
@@ -409,7 +411,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             borderRadius: "8px",
           }}
         >
-          <RxCross2 size={18} />
+          <HugeiconsIcon icon={Cancel01Icon} size={18} />
         </IconButton>
 
         <Box
@@ -559,7 +561,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
     return (
       <Breadcrumbs
-        separator={<RxChevronRight size={18} />}
+        separator={<HugeiconsIcon icon={ArrowRight01Icon} size={18} />}
         aria-label="breadcrumb"
         sx={{ display: { xs: "flex", md: "none" } }}
       >
@@ -573,7 +575,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             fontWeight: 500,
           }}
         >
-          <RxTextAlignLeft size={20} color="inherit" /> On this page
+          <HugeiconsIcon icon={TextAlignLeftIcon} size={20} /> On this page
         </Typography>
         {activeText && (
           <Typography
@@ -703,7 +705,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   onClick={toggleDrawer}
                   sx={{ pr: 0 }}
                 >
-                  <GoSidebarCollapse size={22} />
+                  <HugeiconsIcon icon={LayoutRightIcon} size={22} />
                 </IconButton>
               )}
               <Box
@@ -830,7 +832,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   <Button
                     component={Link}
                     href="/docs/changelog"
-                    endIcon={<RxExternalLink size={16} />}
+                    endIcon={
+                      <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
+                    }
                     sx={{
                       color: "text.primary",
                       fontSize: "15px",

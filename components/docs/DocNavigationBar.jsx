@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Box, ButtonBase, Typography, Menu, MenuItem } from "@mui/material";
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuChevronDown,
-  LuCopy,
-} from "react-icons/lu";
-import { SiClaude, SiMarkdown, SiOpenai } from "react-icons/si";
 import Link from "next/link";
+
+import { SiClaude, SiMarkdown, SiOpenai } from "react-icons/si";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowRight01Icon,
+  ArrowLeft01Icon,
+  ArrowDown01Icon,
+  Copy01Icon,
+} from "@hugeicons/core-free-icons";
 
 const buttonBaseStyle = {
   display: "flex",
@@ -42,7 +44,7 @@ const menuItemStyle = {
 };
 
 const NavButton = ({ page, direction }) => {
-  const Icon = direction === "prev" ? LuChevronLeft : LuChevronRight;
+  const icon = direction === "prev" ? ArrowLeft01Icon : ArrowRight01Icon;
 
   const buttonContent = (
     <ButtonBase
@@ -55,7 +57,7 @@ const NavButton = ({ page, direction }) => {
         cursor: page ? "pointer" : "not-allowed",
       }}
     >
-      <Icon size={16} />
+      <HugeiconsIcon icon={icon} size={16} />
     </ButtonBase>
   );
 
@@ -230,7 +232,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
               gap: { xs: 0.25, sm: 0.75 },
             }}
           >
-            <LuCopy size={14} />
+            <HugeiconsIcon icon={Copy01Icon} size={14} />
             <Typography
               variant="body2"
               fontWeight={500}
@@ -241,7 +243,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
             >
               Copy Page
             </Typography>
-            <LuChevronDown size={14} />
+            <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
           </ButtonBase>
 
           <Box sx={{ display: "flex", gap: 0.75 }}>
