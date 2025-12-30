@@ -7,12 +7,17 @@ import {
   useTheme,
   alpha,
 } from "@mui/material";
-import { motion } from "motion/react";
-import { LuCheck } from "react-icons/lu";
-import { RxChevronRight, RxCube } from "react-icons/rx";
 import { getAllDocsSlugs } from "@/lib/docs";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
+import { motion } from "motion/react";
+
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  Tick02Icon,
+  ArrowRight01Icon,
+  PackageIcon,
+} from "@hugeicons/core-free-icons";
 
 const templatesData = [
   {
@@ -264,7 +269,7 @@ const Templates = ({ docsTree }) => {
                     },
                   }}
                 >
-                  <RxCube size={18} style={{ color: "#fff" }} />
+                  <HugeiconsIcon icon={PackageIcon} size={18} />
                   <Typography
                     variant="body2"
                     fontWeight={500}
@@ -382,7 +387,11 @@ const Templates = ({ docsTree }) => {
                         }}
                       >
                         <Box sx={{ mt: 0.5, mr: 1 }}>
-                          <LuCheck size={16} style={{ color: "teal" }} />
+                          <HugeiconsIcon
+                            icon={Tick02Icon}
+                            size={18}
+                            style={{ color: "teal" }}
+                          />
                         </Box>
                         <Typography
                           variant="body2"
@@ -476,6 +485,7 @@ const Templates = ({ docsTree }) => {
                       py: 0.5,
                       fontWeight: 500,
                       borderRadius: 1.5,
+                      backgroundColor: "transparent",
                       textTransform: "none",
                       display: "inline-flex",
                       alignItems: "center",
@@ -494,7 +504,7 @@ const Templates = ({ docsTree }) => {
                         transition: "transform 0.18s ease-out",
                       }}
                     >
-                      <RxChevronRight size={16} />
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
                     </Box>
                   </Button>
                 </Box>
