@@ -15,6 +15,7 @@ import AnimatedCounter from "../AnimatedCounter";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   TextAlignLeftIcon,
+  Coffee02Icon,
   GithubIcon,
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
@@ -320,7 +321,8 @@ export const TableOfContents = ({ toc = [] }) => {
                 },
               }}
             >
-              ☕ Buy me a coffee
+              <HugeiconsIcon icon={Coffee02Icon} size={18} />
+              Buy me a coffee
               <Box
                 className="chevron"
                 sx={{
