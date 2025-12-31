@@ -332,7 +332,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <DefaultSeo
-        title="Sync UI // 125+ Free React Components & 10+ Blocks for Design Engineers"
+        title="Sync UI // React Component Library for Design Engineers"
         titleTemplate="%s"
         description="Free & open-source React UI library with 125+ components, 10+ prebuilt blocks (Hero, CTA, Pricing), and 3 premium templates. Built with MUI and Motion (motion/react). Trusted by developers in 100+ countries. Perfect for Next.js, SaaS, and modern web apps."
         canonical="https://www.syncui.design/"
