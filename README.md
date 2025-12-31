@@ -8,7 +8,7 @@
 
 **A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Motion (motion/react).**
 
-![Sync UI Preview](https://github.com/user-attachments/assets/43986d95-ce10-4e22-a95a-7a0746c42693)
+![Sync UI Preview](https://github.com/user-attachments/assets/919a2d09-ce30-4608-88fe-a52bedc686bc)
 
 ⭐ **If you like this project, please give it a star!** It helps more developers discover Sync UI 💚
 

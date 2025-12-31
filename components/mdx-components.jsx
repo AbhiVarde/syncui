@@ -50,8 +50,9 @@ import AutocompleteVariants from "./ui/components/Autocompletes";
 import DatePickerVariants from "./ui/components/DatePickers";
 import TimePickerVariants from "./ui/components/TimePickers";
 import SkeletonVariants from "./ui/components/Skeletons";
-// import HeroVariants from "./ui/blocks/hero";
-// import CTAVariants from "./ui/blocks/cta";
+import HeroVariants from "./ui/blocks/Hero";
+import CTAVariants from "./ui/blocks/Cta";
+import PricingVariants from "./ui/blocks/Pricing";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },
@@ -344,8 +345,9 @@ export const MDXComponents = {
   DatePickerVariants,
   TimePickerVariants,
   SkeletonVariants,
-  // HeroVariants,
-  // CTAVariants,
+  HeroVariants,
+  CTAVariants,
+  PricingVariants,
   CodePreview,
   PackageManagerTabs,
   h1: createHeading("h1"),

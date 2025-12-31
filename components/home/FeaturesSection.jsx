@@ -143,8 +143,9 @@ const FeaturesSection = () => {
             icon={DashboardSquare01Icon}
             title="Blocks"
             description="Reusable sections such as heroes, feature layouts, and pricing tables. Designed to integrate seamlessly."
-            cta="Coming soon"
-            disabled
+            cta="Browse blocks"
+            onClick={() => router.push("/blocks")}
+            // disabled
           />
         </Box>
 

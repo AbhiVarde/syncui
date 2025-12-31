@@ -33,7 +33,7 @@ const HeroSection = () => {
               "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
         >
-          <Link href="/docs/components/skeletons">
+          <Link href="/docs/blocks/cta">
             <Box
               component="button"
               sx={{
@@ -68,7 +68,7 @@ const HeroSection = () => {
                 },
               }}
             >
-              📦 New: Skeleton Components
+              🧱 Introducing Blocks: Hero, CTA & Pricing
               <Box
                 className="chevron"
                 sx={{

@@ -282,7 +282,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
             <nav>
               {Object.entries(groupedDocsTree).map(([category, items]) => (
                 <Box key={category} sx={{ mb: 2 }}>
-                  {["Components", "Templates"].includes(category) ? (
+                  {["Components", "Blocks", "Templates"].includes(category) ? (
                     renderCollapsibleCategory(category, items)
                   ) : (
                     <>
@@ -370,16 +370,16 @@ const groupDocsTree = (docsTree) => {
   const grouped = new Map([
     ["Getting Started", []],
     ["Templates", []],
-    // ["Blocks", []],
+    ["Blocks", []],
     ["Components", []],
   ]);
 
   docsTree.forEach((item) => {
     if (item.category === "Components") {
       grouped.get("Components").push(item);
-    } /* else if (item.category === "Blocks") {
+    } else if (item.category === "Blocks") {
       grouped.get("Blocks").push(item);
-    } */ else {
+    } else {
       grouped.get("Getting Started").push(item);
     }
   });

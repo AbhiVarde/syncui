@@ -8,7 +8,14 @@ import {
   Container,
 } from "@mui/material";
 import { motion } from "motion/react";
-import { LuArrowRight, LuPlay, LuSearch, LuSparkles } from "react-icons/lu";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowRight01Icon,
+  ArrowRight02Icon,
+  PlayIcon,
+  Search01Icon,
+  SparklesIcon,
+} from "@hugeicons/core-free-icons";
 
 const HeroVariants = ({ variant = "dark" }) => {
   const theme = useTheme();
@@ -170,7 +177,7 @@ const HeroVariants = ({ variant = "dark" }) => {
                           transition: "transform 0.2s ease-out",
                         }}
                       >
-                        <LuArrowRight size={16} />
+                        <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
                       </Box>
                     </Button>
                   </Box>
@@ -318,7 +325,7 @@ const HeroVariants = ({ variant = "dark" }) => {
                       }}
                     >
                       <Box component="span" className="play-icon">
-                        <LuPlay size={16} />
+                        <HugeiconsIcon icon={PlayIcon} size={18} />
                       </Box>
                       <Box
                         sx={{
@@ -427,7 +434,7 @@ const HeroVariants = ({ variant = "dark" }) => {
                           pointerEvents: "none",
                         }}
                       >
-                        <LuSearch size={16} />
+                        <HugeiconsIcon icon={Search01Icon} size={18} />
                       </Box>
                       <TextField
                         fullWidth
@@ -467,7 +474,11 @@ const HeroVariants = ({ variant = "dark" }) => {
                           gap: 1,
                         }}
                       >
-                        <LuSparkles size={14} style={{ opacity: 0.45 }} />
+                        <HugeiconsIcon
+                          icon={SparklesIcon}
+                          size={18}
+                          style={{ opacity: 0.45 }}
+                        />
                         <Box
                           sx={{
                             width: 26,
@@ -490,7 +501,7 @@ const HeroVariants = ({ variant = "dark" }) => {
                             },
                           }}
                         >
-                          <LuArrowRight size={13} />
+                          <HugeiconsIcon icon={ArrowRight02Icon} size={18} />
                         </Box>
                       </Box>
                     </Box>

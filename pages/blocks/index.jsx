@@ -4,8 +4,8 @@ import {
   Container,
   Typography,
   Button,
-  Divider,
   useTheme,
+  IconButton,
 } from "@mui/material";
 import { motion } from "motion/react";
 import Head from "next/head";
@@ -13,14 +13,34 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+
 const blockCategories = [
   {
     id: 1,
-    title: "Hero Blocks",
+    title: "CTA",
+    image: "/images/cta.png",
+    count: 4,
+    route: "/docs/blocks/cta",
+  },
+  {
+    id: 2,
+    title: "Hero",
     image: "/images/hero.png",
     count: 3,
     route: "/docs/blocks/hero",
-    comingSoon: false,
+  },
+  {
+    id: 3,
+    title: "Pricing",
+    image: "/images/pricing.png",
+    count: 3,
+    route: "/docs/blocks/pricing",
+  },
+  {
+    id: 4,
+    comingSoon: true,
   },
 ];
 
@@ -198,68 +218,137 @@ const Blocks = () => {
             gap: { xs: 4, sm: 5, md: 6 },
           }}
         >
-          {blockCategories.map((block) => (
-            <Box
-              key={block.id}
-              component={motion.div}
-              onClick={() => router.push(block.route)}
-              sx={{
-                p: 1,
-                cursor: "pointer",
-                borderRadius: "16px",
-                border: `1px dashed ${
-                  theme.palette.mode === "dark"
-                    ? "rgba(255,255,255,0.25)"
-                    : "rgba(0,0,0,0.2)"
-                }`,
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                "&:hover img": {
-                  transform: "scale(1.08)",
-                },
-              }}
-            >
+          {blockCategories.map((block) =>
+            block.comingSoon ? (
               <Box
+                key={block.id}
+                component={motion.div}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.28, ease: "easeOut" }}
                 sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: "180px",
-                  overflow: "hidden",
-                  borderRadius: "12px",
+                  borderRadius: 3,
+                  border: "1px dashed",
+                  borderColor: "divider",
+                  height: 260,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
                 }}
               >
-                <Image
-                  src={block.image}
-                  alt={block.title}
-                  fill
-                  style={{
-                    objectFit: "cover",
-                    transition: "transform 0.3s ease",
-                  }}
-                />
+                <Box>
+                  <Typography variant="h6" fontWeight={500}>
+                    Coming soon
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 0.5, display: "block" }}
+                  >
+                    More blocks in progress
+                  </Typography>
+                </Box>
               </Box>
-
-              <Divider
+            ) : (
+              <Box
+                key={block.id}
+                component={motion.div}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.28, ease: "easeOut" }}
+                onClick={() => router.push(block.route)}
                 sx={{
-                  borderStyle: "dashed",
-                  borderColor:
-                    theme.palette.mode === "dark"
-                      ? "rgba(255,255,255,0.25)"
-                      : "rgba(0,0,0,0.2)",
+                  cursor: "pointer",
+                  borderRadius: 3,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backgroundColor: "transparent",
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  "&:hover .preview": {
+                    transform: "scale(1.04)",
+                  },
+                  "&:hover .icon": {
+                    transform: "rotate(45deg)",
+                  },
                 }}
-              />
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    height: 180,
+                    overflow: "hidden",
+                    borderRadius: 2,
+                  }}
+                >
+                  <Box
+                    className="preview"
+                    sx={{
+                      position: "absolute",
+                      inset: 0,
+                      transition: "transform 0.3s ease-out",
+                    }}
+                  >
+                    <Image
+                      src={block.image}
+                      alt={block.title}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </Box>
+                </Box>
 
-              <Box textAlign="center">
-                <Typography variant="h6" fontWeight={500}>
-                  {block.title}
-                </Typography>
-                <Typography variant="body2" sx={{ opacity: 0.6 }}>
-                  {block.count} blocks
-                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    px: 0.5,
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
+                    <Typography variant="h6" fontWeight={500}>
+                      {block.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {block.count} blocks
+                    </Typography>
+                  </Box>
+
+                  <IconButton
+                    disableRipple
+                    sx={{
+                      p: 0,
+                      color: isDarkMode ? "#FFF" : "#000",
+                      backgroundColor: "transparent",
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                      },
+                    }}
+                  >
+                    <Box
+                      className="icon"
+                      sx={{
+                        display: "inline-flex",
+                        transition:
+                          "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+                        transformOrigin: "center",
+                      }}
+                    >
+                      <HugeiconsIcon icon={ArrowUpRight01Icon} size={20} />
+                    </Box>
+                  </IconButton>
+                </Box>
               </Box>
-            </Box>
-          ))}
+            )
+          )}
         </Box>
       </Container>
     </>

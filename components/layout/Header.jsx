@@ -55,8 +55,8 @@ const menuItems = [
     href: "/blocks",
     external: false,
     icon: <HugeiconsIcon icon={DashboardSquare01Icon} size={18} />,
-    comingSoon: true,
-    disabled: true,
+    comingSoon: false,
+    disabled: false,
   },
   {
     label: "Templates",
@@ -87,6 +87,27 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   maxWidth: 180,
   border: `1px solid ${theme.palette.divider}`,
 }));
+
+const navTextLinkSx = {
+  px: 0,
+  py: 0.25,
+  fontSize: "15px",
+  fontWeight: 500,
+  lineHeight: 1.2,
+  textTransform: "none",
+  minWidth: "auto",
+  color: "text.primary",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 0.5,
+  backgroundColor: "transparent",
+  borderRadius: 1,
+  transition: "color 0.15s ease, opacity 0.15s ease",
+  "&:hover": {
+    backgroundColor: "transparent",
+    opacity: 0.85,
+  },
+};
 
 const StyledMenuList = styled(MenuList)(({ theme }) => ({
   padding: theme.spacing(0.5),
@@ -168,16 +189,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     const grouped = {
       "Getting Started": [],
       Templates: [],
-      // Blocks: [],
+      Blocks: [],
       Components: [],
     };
 
     docsTree?.forEach((item) => {
       if (item.category === "Components") {
         grouped["Components"].push(item);
-      } /* else if (item.category === "Blocks") {
+      } else if (item.category === "Blocks") {
         grouped["Blocks"].push(item);
-      } */ else {
+      } else {
         grouped["Getting Started"].push(item);
       }
     });
@@ -641,7 +662,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         >
           {item.label}
         </Typography>
-        {item.comingSoon && (
+        {/* {item.comingSoon && (
           <Box
             component="span"
             sx={{
@@ -659,7 +680,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           >
             Soon
           </Box>
-        )}
+        )} */}
       </Box>
     </MenuItem>
   );
@@ -748,30 +769,14 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 }}
                 >
-                  <Button
-                    disabled
-                    sx={{
-                      color: "text.secondary",
-                      fontSize: "15px",
-                      fontWeight: 400,
-                      textTransform: "none",
-                      px: "6px",
-                      py: "4px",
-                      minWidth: "auto",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 0.75,
-                      cursor: "not-allowed",
-                      "&:hover": { backgroundColor: "transparent" },
-                    }}
-                  >
+                  <Button sx={navTextLinkSx} href="/blocks">
                     Blocks
                     <Box
                       component="span"
                       sx={{
                         px: "6px",
                         py: "1px",
-                        bgcolor: "#FFA500",
+                        background: "linear-gradient(135deg, #007B83, #00B5AD)",
                         color: "#fff",
                         borderRadius: "6px",
                         fontSize: "11px",
@@ -784,51 +789,26 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         justifyContent: "center",
                       }}
                     >
-                      Soon
+                      New
                     </Box>
                   </Button>
+
                   <Divider
                     orientation="vertical"
                     flexItem
-                    sx={{
-                      alignSelf: "center",
-                      mx: 0.5,
-                      height: 24,
-                      borderColor: "divider",
-                    }}
+                    sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
-                  <Button
-                    component={Link}
-                    href="/templates"
-                    sx={{
-                      color: "text.primary",
-                      fontSize: "15px",
-                      fontWeight: 400,
-                      textTransform: "none",
-                      px: "6px",
-                      py: "4px",
-                      minWidth: "auto",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 0.75,
-                      "&:hover": {
-                        backgroundColor: "transparent",
-                        opacity: 0.75,
-                      },
-                    }}
-                  >
+
+                  <Button component={Link} href="/templates" sx={navTextLinkSx}>
                     Templates
                   </Button>
+
                   <Divider
                     orientation="vertical"
                     flexItem
-                    sx={{
-                      alignSelf: "center",
-                      mx: 0.5,
-                      height: 24,
-                      borderColor: "divider",
-                    }}
+                    sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
+
                   <Button
                     component={Link}
                     href="/docs/changelog"
@@ -836,15 +816,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
                     }
                     sx={{
-                      color: "text.primary",
-                      fontSize: "15px",
-                      fontWeight: 400,
-                      textTransform: "none",
-                      padding: "4px 8px",
-                      minWidth: "auto",
-                      "&:hover": {
-                        backgroundColor: "transparent",
-                        opacity: 0.7,
+                      ...navTextLinkSx,
+                      "& .MuiButton-endIcon": {
+                        ml: 0.25,
                       },
                     }}
                   >

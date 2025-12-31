@@ -388,7 +388,11 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
     return (
       <>
         <IconButton onClick={handleMobileOpen} sx={{ padding: "4px" }}>
-          <HugeiconsIcon icon={Search01Icon} size={22} />
+          <HugeiconsIcon
+            icon={Search01Icon}
+            size={22}
+            color={isDark ? "#FFF" : "#000"}
+          />
         </IconButton>
 
         <Dialog

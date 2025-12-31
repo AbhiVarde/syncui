@@ -22,7 +22,8 @@ import {
   Container,
 } from "@mui/material";
 import { motion } from "motion/react";
-import { LuArrowRight } from "react-icons/lu";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 
 const LeftAlignedHero = () => {
   const theme = useTheme();
@@ -181,7 +182,7 @@ const LeftAlignedHero = () => {
                     transition: "transform 0.2s ease-out",
                   }}
                 >
-                  <LuArrowRight size={16} />
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
                 </Box>
               </Button>
             </Box>
@@ -213,7 +214,8 @@ import {
   Container,
 } from "@mui/material";
 import { motion } from "motion/react";
-import { LuPlay } from "react-icons/lu";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PlayIcon } from "@hugeicons/core-free-icons";
 
 const CenterAlignedHero = () => {
   const theme = useTheme();
@@ -357,7 +359,7 @@ const CenterAlignedHero = () => {
                   className="play-icon"
                   sx={{ display: "inline-flex", alignItems: "center" }}
                 >
-                  <LuPlay size={16} />
+                  <HugeiconsIcon icon={PlayIcon} size={18} />
                 </Box>
                 Watch demo
                 <Box
@@ -404,7 +406,12 @@ import {
   Container,
 } from "@mui/material";
 import { motion } from "motion/react";
-import { LuArrowRight, LuSearch, LuSparkles } from "react-icons/lu";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+  ArrowRight02Icon, 
+  Search01Icon, 
+  SparklesIcon 
+} from "@hugeicons/core-free-icons";
 
 const SearchHero = () => {
   const theme = useTheme();
@@ -484,7 +491,7 @@ const SearchHero = () => {
                     pointerEvents: "none",
                   }}
                 >
-                  <LuSearch size={16} />
+                  <HugeiconsIcon icon={Search01Icon} size={18} />
                 </Box>
                 <TextField
                   fullWidth
@@ -523,7 +530,7 @@ const SearchHero = () => {
                     gap: 1,
                   }}
                 >
-                  <LuSparkles size={14} style={{ opacity: 0.45 }} />
+                  <HugeiconsIcon icon={SparklesIcon} size={18} style={{ opacity: 0.45 }} />
                   <Box
                     sx={{
                       width: 26,
@@ -546,7 +553,7 @@ const SearchHero = () => {
                       },
                     }}
                   >
-                    <LuArrowRight size={13} />
+                    <HugeiconsIcon icon={ArrowRight02Icon} size={18} />
                   </Box>
                 </Box>
               </Box>
