@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
 ![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)
 
-**A sleek UI library for Design Engineers, offering beautifully designed components built with MUI and Motion (motion/react).**
+**A sleek UI library for Design Engineers, offering beautifully designed **components and Blocks** built with MUI and Motion (motion/react).**
 
 ![Sync UI Preview](https://github.com/user-attachments/assets/919a2d09-ce30-4608-88fe-a52bedc686bc)
 
@@ -23,6 +23,7 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 ## ✨ Key Features
 
 - 🎨 **Beautifully Designed Components** – MUI + Motion (motion/react)
+- 🧱 **Blocks (New)** – Pre-built Hero, CTA & Pricing sections for faster page building
 - 📁 **Production-Ready Templates** – speed up your development workflow
 - ♿ **Accessible & Customizable** – built with accessibility in mind
 - 🤝 **100% Free & Open Source** – no hidden costs
@@ -39,6 +40,19 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 - **Email UI:** React Email
 - **Deployment:** Vercel
 
+## 🧱 Blocks (New)
+
+Blocks are **pre-built, copy-paste UI sections** composed using Sync UI components.
+
+### Available Blocks
+- Hero Blocks
+- CTA Blocks
+- Pricing Blocks
+
+Blocks help you build landing pages faster while keeping layouts consistent and easy to customize.
+
+➡ Explore Blocks: https://syncui.design/docs/blocks
+
 ## 📦 Templates
 
 - 🚀 [Startup Template – $29](https://abhivarde.gumroad.com/l/startup-template-syncui)
@@ -50,7 +64,7 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 
 ## 📖 Documentation
 
-Visit **https://syncui.design/docs** to get started with Sync UI.
+Visit **https://syncui.design/docs** to explore components, Blocks, and templates.
 
 ## 💖 Support
 

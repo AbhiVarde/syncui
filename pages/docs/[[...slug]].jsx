@@ -38,32 +38,54 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   return (
     <>
       <NextSeo
-        title={`${frontmatter.title} // Sync UI`}
+        title={`${frontmatter.title} – Sync UI Docs`}
         description={
           frontmatter.description ||
-          `Documentation for ${frontmatter.title} in Sync UI`
+          `${frontmatter.title} documentation for Sync UI. Learn how to use, customize, and integrate this component in React and Next.js projects.`
         }
         canonical={`https://www.syncui.design/docs/${slug}`}
         openGraph={{
           url: `https://www.syncui.design/docs/${slug}`,
-          title: `${frontmatter.title} // Sync UI`,
+          title: `${frontmatter.title} – Sync UI Documentation`,
           description:
-            frontmatter.description || `Documentation for ${frontmatter.title}`,
+            frontmatter.description ||
+            `Official Sync UI documentation for ${frontmatter.title}. Usage examples, props, and integration details.`,
           images: [
             {
               url: "https://www.syncui.design/default-og-image.png",
               width: 1200,
               height: 630,
-              alt: `${frontmatter.title} // Sync UI Documentation`,
+              alt: `${frontmatter.title} – Sync UI Docs`,
             },
           ],
           siteName: "Sync UI",
+          type: "article",
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
+          title: `${frontmatter.title} – Sync UI Docs`,
+          description:
+            frontmatter.description ||
+            `Learn how to use the ${frontmatter.title} component in Sync UI.`,
         }}
+        additionalMetaTags={[
+          {
+            name: "keywords",
+            content: `
+        ${frontmatter.title},
+        Sync UI docs,
+        React UI documentation,
+        MUI components,
+        motion react components,
+        Framer Motion UI,
+        React UI blocks,
+        Next.js UI components,
+        Sync UI components
+      `,
+          },
+        ]}
       />
       <Head>
         <title>{frontmatter.title} // Sync UI</title>

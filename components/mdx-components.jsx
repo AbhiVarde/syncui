@@ -50,9 +50,9 @@ import AutocompleteVariants from "./ui/components/Autocompletes";
 import DatePickerVariants from "./ui/components/DatePickers";
 import TimePickerVariants from "./ui/components/TimePickers";
 import SkeletonVariants from "./ui/components/Skeletons";
-import HeroVariants from "./ui/blocks/Hero";
-import CTAVariants from "./ui/blocks/Cta";
-import PricingVariants from "./ui/blocks/Pricing";
+import HeroVariants from "./ui/blocks/Hero/Hero";
+import CTAVariants from "./ui/blocks/CTA/Cta";
+import PricingVariants from "./ui/blocks/Pricing/Pricing";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },

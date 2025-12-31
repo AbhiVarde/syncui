@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
               name: "Sync UI - React Component Library for Design Engineers",
               alternateName: ["Sync UI", "syncui", "syncui.design"],
               description:
-                "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react).",
+                "A sleek UI library for Design Engineers with 125+ free React components, 10+ prebuilt blocks (Hero, CTA, Pricing), and 3 affordable premium templates. Built with MUI and Motion (motion/react).",
               url: "https://www.syncui.design/",
               author: {
                 "@type": "Person",
@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }) {
               applicationCategory: "DeveloperApplication",
               operatingSystem: "Web",
               description:
-                "A sleek UI library for Design Engineers with 125+ free components and 3 affordable templates",
+                "A sleek UI library for Design Engineers with 125+ free components, 10+ prebuilt blocks, and 3 affordable templates. Built with React, MUI, and Motion (motion/react).",
               offers: {
                 "@type": "Offer",
                 price: "0",
@@ -79,8 +79,71 @@ function MyApp({ Component, pageProps }) {
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: "4.8",
-                ratingCount: "75",
+                ratingCount: "85",
               },
+              featureList: [
+                "125+ free React UI components",
+                "10+ prebuilt blocks (Hero, CTA, Pricing)",
+                "3 premium templates (SaaS, Startup, Portfolio)",
+                "Built with Material UI and Motion (motion/react)",
+                "Fully accessible and customizable",
+                "Production-ready and open source",
+                "Next.js compatible",
+                "Responsive design",
+              ],
+            }),
+          }}
+        />
+
+        {/* FAQPage Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "What is Sync UI?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Sync UI is a free and open-source React UI component library for Design Engineers, featuring 125+ components, 10+ prebuilt blocks (Hero, CTA, Pricing), and 3 affordable premium templates built with MUI and Motion (motion/react).",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How many components does Sync UI have?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Sync UI offers 125+ free React components including buttons, cards, forms, tables, carousels, dialogs, and more. All components are fully customizable and production-ready.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What are Sync UI Blocks?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Blocks are 10+ prebuilt, copy-paste UI sections including Hero blocks, CTA blocks, and Pricing blocks. They help you build landing pages faster while maintaining consistency.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Are Sync UI components free?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes, all 125+ components and 10+ blocks are 100% free and open source under the MIT License. Premium templates are available starting at $29.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What technologies does Sync UI use?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Sync UI is built with React, Next.js, Material UI (MUI), and Motion (motion/react) for animations. It's fully compatible with modern React frameworks.",
+                  },
+                },
+              ],
             }),
           }}
         />
@@ -98,7 +161,7 @@ function MyApp({ Component, pageProps }) {
                   position: 1,
                   name: "Documentation",
                   description:
-                    "Complete documentation for Sync UI components and setup guides",
+                    "Complete documentation for Sync UI with setup guides and component examples",
                   url: "https://www.syncui.design/docs",
                 },
                 {
@@ -106,22 +169,31 @@ function MyApp({ Component, pageProps }) {
                   position: 2,
                   name: "Components",
                   description:
-                    "Browse 125+ free React UI components built with MUI and Motion (motion/react)",
+                    "Browse 125+ free React UI components including buttons, cards, forms, tables, and more",
                   url: "https://www.syncui.design/docs/components/buttons",
                 },
                 {
                   "@type": "SiteNavigationElement",
                   position: 3,
-                  name: "Templates",
+                  name: "Blocks",
                   description:
-                    "Premium SaaS, Startup, and Portfolio templates at affordable prices",
-                  url: "https://www.syncui.design/templates",
+                    "10+ free prebuilt blocks: Hero sections, CTA blocks, and Pricing tables",
+                  url: "https://www.syncui.design/docs/blocks/hero",
                 },
                 {
                   "@type": "SiteNavigationElement",
                   position: 4,
+                  name: "Templates",
+                  description:
+                    "3 premium templates: SaaS, Startup, and Portfolio at $29 each",
+                  url: "https://www.syncui.design/templates",
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  position: 5,
                   name: "Changelog",
-                  description: "Latest updates and version history for Sync UI",
+                  description:
+                    "Latest updates, new components, and version history",
                   url: "https://www.syncui.design/docs/changelog",
                 },
               ],
@@ -158,6 +230,12 @@ function MyApp({ Component, pageProps }) {
                 {
                   "@type": "ListItem",
                   position: 4,
+                  name: "Blocks",
+                  item: "https://www.syncui.design/docs/blocks/hero",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 5,
                   name: "Templates",
                   item: "https://www.syncui.design/templates",
                 },
@@ -178,7 +256,7 @@ function MyApp({ Component, pageProps }) {
               url: "https://www.syncui.design/",
               logo: "https://www.syncui.design/logo.png",
               description:
-                "A sleek UI library for Design Engineers with 125+ free components and affordable templates",
+                "A sleek UI library for Design Engineers with 125+ free components, 10+ blocks, and 3 affordable templates. Trusted by creators in 100+ countries.",
               founder: {
                 "@type": "Person",
                 name: "Abhi Varde",
@@ -188,19 +266,81 @@ function MyApp({ Component, pageProps }) {
                 "https://x.com/syncuidesign",
                 "https://github.com/syncui/syncui",
               ],
+              knowsAbout: [
+                "React UI Components",
+                "Material UI",
+                "Motion Animation",
+                "Next.js",
+                "Design Systems",
+                "Web Development",
+                "Frontend Development",
+              ],
+            }),
+          }}
+        />
+
+        {/* Product Schema for Templates */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: "Sync UI Premium Templates",
+              description:
+                "Production-ready React templates including SaaS, Startup, and Portfolio templates built with Sync UI components",
+              brand: {
+                "@type": "Brand",
+                name: "Sync UI",
+              },
+              offers: [
+                {
+                  "@type": "Offer",
+                  name: "Startup Template",
+                  price: "29",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/startup-template-syncui",
+                },
+                {
+                  "@type": "Offer",
+                  name: "SaaS Template",
+                  price: "29",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/saas-template-syncui",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Portfolio Template",
+                  price: "29",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Templates Bundle",
+                  price: "79",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
+                },
+              ],
             }),
           }}
         />
       </Head>
       <DefaultSeo
-        title="Sync UI // React Component Library for Design Engineers"
+        title="Sync UI // 125+ Free React Components & 10+ Blocks for Design Engineers"
         titleTemplate="%s"
-        description="A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react). Explore 125+ free components, 3 affordable templates, and comprehensive documentation."
+        description="Free & open-source React UI library with 125+ components, 10+ prebuilt blocks (Hero, CTA, Pricing), and 3 premium templates. Built with MUI and Motion (motion/react). Trusted by developers in 100+ countries. Perfect for Next.js, SaaS, and modern web apps."
         canonical="https://www.syncui.design/"
         openGraph={{
-          title: "Sync UI // React Component Library for Design Engineers",
+          title:
+            "Sync UI // 125+ Free React Components & 10+ Blocks for Design Engineers",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react). Explore 125+ free components, 3 affordable templates, and comprehensive documentation.",
+            "Free & open-source React UI library with 125+ components, 10+ prebuilt blocks (Hero, CTA, Pricing), and 3 premium templates. Built with MUI and Motion (motion/react). Trusted by developers in 100+ countries.",
           siteName: "Sync UI",
           url: "https://www.syncui.design/",
           type: "website",
@@ -210,7 +350,7 @@ function MyApp({ Component, pageProps }) {
               url: "https://www.syncui.design/default-og-image.png",
               width: 1200,
               height: 630,
-              alt: "Sync UI // React Component Library for Design Engineers with Components and Templates",
+              alt: "Sync UI - 125+ Free React Components, 10+ Blocks & Premium Templates for Design Engineers",
               type: "image/png",
             },
           ],
@@ -219,9 +359,9 @@ function MyApp({ Component, pageProps }) {
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
-          title: "Sync UI // React Component Library for Design Engineers",
+          title: "Sync UI // 125+ Free React Components & 10+ Blocks",
           description:
-            "A sleek UI library for Design Engineers, offering beautifully designed components and templates built with MUI and Motion (motion/react). Explore 125+ free components, 3 affordable templates, and comprehensive documentation.",
+            "Free & open-source React UI library with 125+ components, 10+ blocks (Hero, CTA, Pricing), and 3 premium templates. Built with MUI and Motion.",
           images: ["https://www.syncui.design/default-og-image.png"],
         }}
         additionalMetaTags={[
@@ -240,7 +380,7 @@ function MyApp({ Component, pageProps }) {
           {
             name: "keywords",
             content:
-              "Sync UI, syncui, syncui.design, UI library, React components, Design Engineers, MUI, Motion, Framer Motion, UI templates, component library, design system, web components, React UI, modern UI, responsive components, Next.js components, SaaS templates, startup templates, portfolio templates",
+              "Sync UI, syncui, syncui.design, React UI components, free React components, UI library, Design Engineers, MUI, Material UI, Motion, Framer Motion, motion/react, UI templates, component library, design system, web components, React UI, modern UI, responsive components, Next.js components, SaaS templates, startup templates, portfolio templates, free UI blocks, hero blocks, CTA blocks, pricing blocks, prebuilt sections, landing page components, accessible components, open source UI, React component library, frontend components, UI kit, design tools, web development, React templates, 125+ components, production ready, copy paste components, customizable UI, animated components",
           },
           {
             name: "robots",
@@ -249,6 +389,11 @@ function MyApp({ Component, pageProps }) {
           },
           {
             name: "googlebot",
+            content:
+              "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+          },
+          {
+            name: "bingbot",
             content: "index, follow",
           },
           {
@@ -260,6 +405,22 @@ function MyApp({ Component, pageProps }) {
             content: "en_US",
           },
           {
+            property: "og:type",
+            content: "website",
+          },
+          {
+            name: "twitter:card",
+            content: "summary_large_image",
+          },
+          {
+            name: "twitter:site",
+            content: "@syncuidesign",
+          },
+          {
+            name: "twitter:creator",
+            content: "@abhivarde",
+          },
+          {
             name: "theme-color",
             content: "#000000",
           },
@@ -268,8 +429,56 @@ function MyApp({ Component, pageProps }) {
             content: "#000000",
           },
           {
+            name: "application-name",
+            content: "Sync UI",
+          },
+          {
+            name: "apple-mobile-web-app-title",
+            content: "Sync UI",
+          },
+          {
+            name: "apple-mobile-web-app-capable",
+            content: "yes",
+          },
+          {
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "black-translucent",
+          },
+          {
+            name: "format-detection",
+            content: "telephone=no",
+          },
+          {
             name: "viewport",
             content: "width=device-width, initial-scale=1, shrink-to-fit=no",
+          },
+          {
+            name: "classification",
+            content: "Software Development, UI/UX Design, Web Development",
+          },
+          {
+            name: "category",
+            content: "Technology",
+          },
+          {
+            name: "coverage",
+            content: "Worldwide",
+          },
+          {
+            name: "distribution",
+            content: "Global",
+          },
+          {
+            name: "rating",
+            content: "General",
+          },
+          {
+            name: "revisit-after",
+            content: "7 days",
+          },
+          {
+            property: "article:author",
+            content: "https://www.abhivarde.in/",
           },
         ]}
         additionalLinkTags={[
@@ -291,6 +500,10 @@ function MyApp({ Component, pageProps }) {
             sizes: "180x180",
           },
           {
+            rel: "manifest",
+            href: "/manifest.json",
+          },
+          {
             rel: "preconnect",
             href: "https://fonts.googleapis.com",
           },
@@ -300,14 +513,32 @@ function MyApp({ Component, pageProps }) {
             crossOrigin: "anonymous",
           },
           {
+            rel: "dns-prefetch",
+            href: "https://fonts.googleapis.com",
+          },
+          {
+            rel: "dns-prefetch",
+            href: "https://fonts.gstatic.com",
+          },
+          {
             rel: "sitemap",
             type: "application/xml",
             href: "/sitemap.xml",
+          },
+          {
+            rel: "alternate",
+            type: "application/rss+xml",
+            title: "Sync UI RSS Feed",
+            href: "/rss.xml",
           },
         ]}
         languageAlternates={[
           {
             hrefLang: "en",
+            href: "https://www.syncui.design/",
+          },
+          {
+            hrefLang: "x-default",
             href: "https://www.syncui.design/",
           },
         ]}

@@ -81,29 +81,41 @@ const Templates = ({ docsTree }) => {
   return (
     <>
       <NextSeo
-        title="Templates // Sync UI"
-        description="Professional UI templates built with MUI & Motion (motion/react). Get startup, SaaS, and portfolio templates for your next project."
+        title="Premium React UI Templates (Startup, SaaS, Portfolio) // Sync UI"
+        description="Premium React UI templates built with MUI and Motion (motion/react). Startup, SaaS, and Portfolio templates with polished UI, production-ready code, and live previews."
         canonical="https://www.syncui.design/templates"
         openGraph={{
           url: "https://www.syncui.design/templates",
-          title: "Templates // Sync UI",
+          title:
+            "Premium React UI Templates (Startup, SaaS, Portfolio) // Sync UI",
           description:
-            "Professional UI templates built with MUI & Motion (motion/react). Get startup, SaaS, and portfolio templates for your next project.",
+            "Production-ready React UI templates built with MUI & Motion. Includes Startup, SaaS, and Portfolio templates with clean design and scalable code.",
           images: [
             {
               url: "https://www.syncui.design/default-og-image.png",
               width: 1200,
               height: 630,
-              alt: "Sync UI Templates",
+              alt: "Sync UI Premium React Templates – Startup, SaaS, Portfolio",
             },
           ],
           siteName: "Sync UI",
+          type: "website",
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
+          title: "Premium React UI Templates // Sync UI",
+          description:
+            "Startup, SaaS & Portfolio templates built with MUI and Motion. Production-ready React UI for modern web apps.",
         }}
+        additionalMetaTags={[
+          {
+            name: "keywords",
+            content:
+              "React UI templates, premium React templates, MUI templates, SaaS template React, startup landing page template, portfolio React template, paid UI templates, Next.js templates, Framer Motion templates, motion react templates, Sync UI templates",
+          },
+        ]}
       />
       <Head>
         <title>Templates // Sync UI</title>
