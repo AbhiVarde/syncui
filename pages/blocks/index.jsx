@@ -91,7 +91,7 @@ const Blocks = () => {
         ]}
       />
       <Head>
-        <title>10+ Free UI Blocks - Hero, CTA & Pricing // Sync UI</title>
+        <title>Blocks // Sync UI</title>
 
         {/* Additional Schema Markup for Blocks Page */}
         <script

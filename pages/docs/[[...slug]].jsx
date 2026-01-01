@@ -21,14 +21,14 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
     return null;
   }, [code]);
 
-  const isComponentPage = React.useMemo(() => {
+  const shouldShowNavigationBar = React.useMemo(() => {
     const currentUrl = `/docs/${slug}`;
     const currentDoc = docsTree.find((item) => {
       if (item.url === currentUrl) return true;
       if (slug === "" && item.title === "Setup") return true;
       return false;
     });
-    return currentDoc?.category === "Components";
+    return ["Components", "Blocks"].includes(currentDoc?.category);
   }, [docsTree, slug]);
 
   if (!Component) {
@@ -92,7 +92,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
       </Head>
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
-          {isComponentPage && (
+          {shouldShowNavigationBar && (
             <DocNavigationBar
               slug={slug}
               docsTree={docsTree}
@@ -100,7 +100,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
             />
           )}
 
-          {!isComponentPage && (
+          {!shouldShowNavigationBar && (
             <Typography
               variant="h3"
               fontWeight={500}
