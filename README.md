@@ -45,13 +45,14 @@ Building polished UI components takes time. **Sync UI** provides **prebuilt, ani
 Blocks are **pre-built, copy-paste UI sections** composed using Sync UI components.
 
 ### Available Blocks
+
 - Hero Blocks
 - CTA Blocks
 - Pricing Blocks
 
 Blocks help you build landing pages faster while keeping layouts consistent and easy to customize.
 
-➡ Explore Blocks: https://syncui.design/docs/blocks
+➡ Explore Blocks: https://syncui.design/blocks
 
 ## 📦 Templates
 
