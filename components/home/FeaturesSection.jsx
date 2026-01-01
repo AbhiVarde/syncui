@@ -13,7 +13,7 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const MotionPaper = motion(Paper);
+const MotionPaper = motion.create(Paper);
 
 const TextLink = ({ children, disabled, onClick }) => {
   return (

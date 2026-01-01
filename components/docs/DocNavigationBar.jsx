@@ -78,68 +78,37 @@ const AIMenuItem = ({ icon: Icon, label, onClick }) => (
 );
 
 const findAdjacentPages = (docsTree, currentSlug) => {
-  const flatTree = flattenTree(docsTree);
-  const currentIndex = flatTree.findIndex(
-    (item) => item.url === `/docs${currentSlug ? `/${currentSlug}` : ""}`
+  const currentUrl = `/docs${currentSlug ? `/${currentSlug}` : ""}`;
+
+  // Find the current page
+  const currentDoc = docsTree.find((item) => item.url === currentUrl);
+
+  if (!currentDoc || !currentDoc.category) {
+    return { prevPage: null, nextPage: null };
+  }
+
+  const currentCategory = currentDoc.category;
+
+  // Filter pages by the same category
+  const categoryPages = docsTree
+    .filter((item) => item.category === currentCategory)
+    .map((item) => ({
+      title: item.title,
+      url: item.url,
+    }));
+
+  // Find current index within the category
+  const currentIndex = categoryPages.findIndex(
+    (item) => item.url === currentUrl
   );
 
   return {
-    prevPage: currentIndex > 0 ? flatTree[currentIndex - 1] : null,
+    prevPage: currentIndex > 0 ? categoryPages[currentIndex - 1] : null,
     nextPage:
-      currentIndex < flatTree.length - 1 ? flatTree[currentIndex + 1] : null,
+      currentIndex < categoryPages.length - 1
+        ? categoryPages[currentIndex + 1]
+        : null,
   };
-};
-
-const flattenTree = (tree) => {
-  const flattenedTree = [];
-
-  const setupPage = tree.find((node) => node.title === "Setup");
-  if (setupPage) {
-    flattenedTree.push({ title: "Setup", url: "/docs" });
-  }
-
-  const changelogPage = tree.find((node) => node.title === "Changelog");
-  if (changelogPage) {
-    flattenedTree.push({ title: "Changelog", url: "/docs/changelog" });
-  }
-
-  flattenedTree.push({ title: "Templates", url: "/templates" });
-
-  const storyPage = tree.find((node) => node.title === "The Story of Sync UI");
-  if (storyPage) {
-    flattenedTree.push({
-      title: "The Story of Sync UI",
-      url: "/docs/story",
-    });
-  }
-
-  tree.forEach((node) => {
-    if (
-      node.title !== "Setup" &&
-      node.title !== "Changelog" &&
-      node.title !== "The Story of Sync UI"
-    ) {
-      if (!node.children) {
-        flattenedTree.push({
-          title: node.title,
-          url: `/docs/${
-            node.slug || node.title.toLowerCase().replace(/\s+/g, "-")
-          }`,
-        });
-      } else {
-        node.children.forEach((child) => {
-          flattenedTree.push({
-            title: child.title,
-            url: `/docs/${
-              child.slug || child.title.toLowerCase().replace(/\s+/g, "-")
-            }`,
-          });
-        });
-      }
-    }
-  });
-
-  return flattenedTree;
 };
 
 export const DocNavigationBar = ({ slug, docsTree, title }) => {
