@@ -287,7 +287,6 @@ export const TableOfContents = ({ toc = [] }) => {
               display: "flex",
               flexDirection: "column",
               gap: 1,
-              mt: 2,
             }}
           >
             <Box
