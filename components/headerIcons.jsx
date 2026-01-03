@@ -8,42 +8,27 @@ import {
   NewTwitterIcon,
   Moon01Icon,
   Sun01Icon,
-  MoreVerticalIcon,
 } from "@hugeicons/core-free-icons";
 
-const HeaderIcons = ({
-  stars,
-  loading,
-  toggleTheme,
-  isMediumUp,
-  handleToggle,
-  anchorRef,
-  menuOpen,
-  isDarkMode,
-}) => {
-  const renderDivider = () => (
-    <Divider
-      orientation="vertical"
-      flexItem
-      sx={{
-        alignSelf: "center",
-        mx: 0.5,
-        height: 24,
-        borderColor: "divider",
-      }}
-    />
-  );
-
+const HeaderIcons = ({ stars, loading, toggleTheme, isDarkMode }) => {
   return (
     <Box
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: { xs: 0.5, sm: 1 },
+        justifyContent: "space-between",
+        gap: 2,
+        width: "100%",
       }}
     >
-      {(typeof stars === "number" || loading) && (
-        <>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1.5,
+        }}
+      >
+        {(typeof stars === "number" || loading) && (
           <Box
             component="a"
             href={GITHUB_URL}
@@ -79,39 +64,35 @@ const HeaderIcons = ({
               </Typography>
             )}
           </Box>
+        )}
 
-          {renderDivider()}
-        </>
-      )}
-
-      <IconButton
-        component="a"
-        href={TWITTER_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseLeave={(e) => e.target.blur()}
-        sx={{
-          color: "text.primary",
-          p: 0.5,
-          cursor: "pointer",
-          "&:hover": {
-            backgroundColor: "transparent",
-            opacity: 0.7,
-          },
-          "&:focus": {
-            backgroundColor: "transparent",
-            opacity: 1,
-          },
-          "&:active": {
-            backgroundColor: "transparent",
-            opacity: 0.7,
-          },
-        }}
-      >
-        <HugeiconsIcon icon={NewTwitterIcon} size={18} />
-      </IconButton>
-
-      {renderDivider()}
+        <IconButton
+          component="a"
+          href={TWITTER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onMouseLeave={(e) => e.target.blur()}
+          sx={{
+            color: "text.primary",
+            p: 0.5,
+            cursor: "pointer",
+            "&:hover": {
+              backgroundColor: "transparent",
+              opacity: 0.7,
+            },
+            "&:focus": {
+              backgroundColor: "transparent",
+              opacity: 1,
+            },
+            "&:active": {
+              backgroundColor: "transparent",
+              opacity: 0.7,
+            },
+          }}
+        >
+          <HugeiconsIcon icon={NewTwitterIcon} size={18} />
+        </IconButton>
+      </Box>
 
       <IconButton
         onClick={toggleTheme}
@@ -137,39 +118,6 @@ const HeaderIcons = ({
       >
         <HugeiconsIcon icon={isDarkMode ? Sun01Icon : Moon01Icon} size={22} />
       </IconButton>
-
-      {!isMediumUp && (
-        <>
-          {renderDivider()}
-
-          <IconButton
-            ref={anchorRef}
-            aria-controls={menuOpen ? "menu-list-grow" : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-            onMouseLeave={(e) => e.target.blur()}
-            sx={{
-              color: "text.primary",
-              p: 0.5,
-              cursor: "pointer",
-              "&:hover": {
-                backgroundColor: "transparent",
-                opacity: 0.7,
-              },
-              "&:focus": {
-                backgroundColor: "transparent",
-                opacity: 1,
-              },
-              "&:active": {
-                backgroundColor: "transparent",
-                opacity: 0.7,
-              },
-            }}
-          >
-            <HugeiconsIcon icon={MoreVerticalIcon} size={20} />
-          </IconButton>
-        </>
-      )}
     </Box>
   );
 };

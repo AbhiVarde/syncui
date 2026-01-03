@@ -20,11 +20,6 @@ import {
   ListItemText,
   Breadcrumbs,
   Button,
-  Popper,
-  Paper,
-  ClickAwayListener,
-  MenuList,
-  MenuItem,
   styled,
   Divider,
 } from "@mui/material";
@@ -47,6 +42,7 @@ import {
   Layers01Icon,
   ArrowDown01Icon,
   LayoutRightIcon,
+  Menu02Icon,
 } from "@hugeicons/core-free-icons";
 
 const menuItems = [
@@ -54,63 +50,38 @@ const menuItems = [
     label: "Blocks",
     href: "/blocks",
     external: false,
-    icon: <HugeiconsIcon icon={DashboardSquare01Icon} size={18} />,
-    comingSoon: false,
-    disabled: false,
+    icon: <HugeiconsIcon icon={DashboardSquare01Icon} size={20} />,
+    badge: "New",
   },
   {
     label: "Templates",
     href: "/templates",
     external: false,
-    icon: <HugeiconsIcon icon={Layers01Icon} size={18} />,
-    comingSoon: false,
-    disabled: false,
+    icon: <HugeiconsIcon icon={Layers01Icon} size={20} />,
   },
   {
     label: "Changelog",
     href: "/docs/changelog",
     external: false,
-    icon: <HugeiconsIcon icon={LinkSquare02Icon} size={18} />,
-    comingSoon: false,
-    disabled: false,
+    icon: <HugeiconsIcon icon={LinkSquare02Icon} size={20} />,
   },
 ];
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius * 1.5,
-  boxShadow:
+const FullScreenMenu = styled(Box)(({ theme }) => ({
+  position: "fixed",
+  top: 60,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor:
     theme.palette.mode === "dark"
-      ? "0 4px 20px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1)"
-      : "0 4px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)",
-  overflow: "hidden",
-  minWidth: 180,
-  maxWidth: 180,
-  border: `1px solid ${theme.palette.divider}`,
-}));
-
-const navTextLinkSx = {
-  px: 0,
-  py: 0.25,
-  fontSize: "15px",
-  fontWeight: 500,
-  lineHeight: 1.2,
-  textTransform: "none",
-  minWidth: "auto",
-  color: "text.primary",
-  display: "inline-flex",
-  alignItems: "center",
-  gap: 0.5,
-  backgroundColor: "transparent",
-  borderRadius: 1,
-  transition: "color 0.15s ease, opacity 0.15s ease",
-  "&:hover": {
-    backgroundColor: "transparent",
-    opacity: 0.85,
-  },
-};
-
-const StyledMenuList = styled(MenuList)(({ theme }) => ({
-  padding: theme.spacing(0.5),
+      ? "rgba(0, 0, 0, 0.75)"
+      : "rgba(255, 255, 255, 0.75)",
+  backdropFilter: "blur(24px)",
+  WebkitBackdropFilter: "blur(24px)",
+  zIndex: 1200,
+  overflowY: "auto",
+  overflowX: "hidden",
 }));
 
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
@@ -127,8 +98,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeUrl, setActiveUrl] = useState(router.asPath);
-  const anchorRef = useRef(null);
-
   const [openCategories, setOpenCategories] = useState(() => new Set());
 
   useEffect(() => {
@@ -140,10 +109,22 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   }, [router.asPath]);
 
   const handleToggle = () => setMenuOpen((prev) => !prev);
-  const handleClose = (event) => {
-    if (anchorRef.current?.contains(event.target)) return;
-    setMenuOpen(false);
-  };
+  const handleClose = () => setMenuOpen(false);
+
+  useEffect(() => {
+    handleClose();
+  }, [router.asPath]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [menuOpen]);
 
   const getActiveCategory = useCallback((docsTree, path) => {
     const activeItem = docsTree?.find((item) => item.url === path);
@@ -616,75 +597,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     );
   };
 
-  const renderPopoverMenuItem = (item, index) => (
-    <MenuItem
-      key={index}
-      disabled={item.disabled}
-      component={item.disabled ? "div" : item.external ? "a" : Link}
-      href={item.disabled ? undefined : item.href}
-      onClick={item.disabled ? undefined : handleClose}
-      sx={{
-        borderRadius: "8px",
-        fontSize: "14px",
-        px: 1.25,
-        py: 0.5,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        gap: 1.25,
-        cursor: item.disabled ? "not-allowed" : "pointer",
-        transition: "all 0.15s",
-        "&:hover": {
-          backgroundColor: item.disabled
-            ? "transparent"
-            : theme.palette.action.hover,
-        },
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: item.disabled ? "text.secondary" : "text.primary",
-          opacity: item.disabled ? 0.5 : 1,
-        }}
-      >
-        {item.icon}
-      </Box>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, flex: 1 }}>
-        <Typography
-          sx={{
-            color: item.disabled ? "text.secondary" : "text.primary",
-            fontSize: "14px",
-            fontWeight: item.disabled ? 400 : 450,
-          }}
-        >
-          {item.label}
-        </Typography>
-        {/* {item.comingSoon && (
-          <Box
-            component="span"
-            sx={{
-              px: 0.75,
-              py: 0.25,
-              bgcolor: "#FFA500",
-              color: "#fff",
-              borderRadius: "5px",
-              fontSize: "10px",
-              fontWeight: 600,
-              lineHeight: 1.2,
-              letterSpacing: "0.3px",
-              textTransform: "uppercase",
-            }}
-          >
-            Soon
-          </Box>
-        )} */}
-      </Box>
-    </MenuItem>
-  );
-
   return (
     <Fragment>
       <AppBar
@@ -769,7 +681,30 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 }}
                 >
-                  <Button sx={navTextLinkSx} href="/blocks">
+                  <Button
+                    component={Link}
+                    href="/blocks"
+                    sx={{
+                      px: 0,
+                      py: 0.25,
+                      fontSize: "15px",
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      textTransform: "none",
+                      minWidth: "auto",
+                      color: "text.primary",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 0.5,
+                      backgroundColor: "transparent",
+                      borderRadius: 1,
+                      transition: "color 0.15s ease, opacity 0.15s ease",
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        opacity: 0.85,
+                      },
+                    }}
+                  >
                     Blocks
                     <Box
                       component="span"
@@ -799,7 +734,27 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
 
-                  <Button component={Link} href="/templates" sx={navTextLinkSx}>
+                  <Button
+                    component={Link}
+                    href="/templates"
+                    sx={{
+                      px: 0,
+                      py: 0.25,
+                      fontSize: "15px",
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      textTransform: "none",
+                      minWidth: "auto",
+                      color: "text.primary",
+                      backgroundColor: "transparent",
+                      borderRadius: 1,
+                      transition: "color 0.15s ease, opacity 0.15s ease",
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        opacity: 0.85,
+                      },
+                    }}
+                  >
                     Templates
                   </Button>
 
@@ -816,7 +771,21 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
                     }
                     sx={{
-                      ...navTextLinkSx,
+                      px: 0,
+                      py: 0.25,
+                      fontSize: "15px",
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      textTransform: "none",
+                      minWidth: "auto",
+                      color: "text.primary",
+                      backgroundColor: "transparent",
+                      borderRadius: 1,
+                      transition: "color 0.15s ease, opacity 0.15s ease",
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        opacity: 0.85,
+                      },
                       "& .MuiButton-endIcon": {
                         ml: 0.25,
                       },
@@ -846,16 +815,29 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   borderColor: "divider",
                 }}
               />
-              <HeaderIcons
-                isMediumUp={isMediumUp}
-                anchorRef={anchorRef}
-                menuOpen={menuOpen}
-                stars={stars}
-                loading={loading}
-                isDarkMode={isDarkMode}
-                toggleTheme={toggleTheme}
-                handleToggle={handleToggle}
-              />
+
+              {!isMediumUp && (
+                <IconButton
+                  onClick={handleToggle}
+                  sx={{
+                    color: "text.primary",
+                  }}
+                >
+                  <HugeiconsIcon
+                    icon={menuOpen ? Cancel01Icon : Menu02Icon}
+                    size={22}
+                  />
+                </IconButton>
+              )}
+
+              {isMediumUp && (
+                <HeaderIcons
+                  stars={stars}
+                  loading={loading}
+                  isDarkMode={isDarkMode}
+                  toggleTheme={toggleTheme}
+                />
+              )}
             </Box>
           </Box>
         </Toolbar>
@@ -877,37 +859,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             {renderDocsTree()}
           </Drawer>
         )}
-
-        <Popper
-          open={menuOpen && !isMediumUp}
-          anchorEl={anchorRef.current}
-          placement="bottom-end"
-          disablePortal
-          sx={{ zIndex: 999, mt: "8px !important", boxShadow: "revert" }}
-        >
-          <StyledPaper elevation={3}>
-            <ClickAwayListener onClickAway={handleClose}>
-              <StyledMenuList dense>
-                {menuItems.flatMap((item, index) => {
-                  const elements = [renderPopoverMenuItem(item, index)];
-                  if (index < menuItems.length - 1) {
-                    elements.push(
-                      <Divider
-                        key={`divider-${index}`}
-                        sx={{
-                          mx: "0px !important",
-                          my: 0.25,
-                          borderColor: "divider",
-                        }}
-                      />
-                    );
-                  }
-                  return elements;
-                })}
-              </StyledMenuList>
-            </ClickAwayListener>
-          </StyledPaper>
-        </Popper>
       </AppBar>
 
       {isDocsPage && !isMediumUp && (
@@ -935,6 +886,114 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             {renderBreadcrumbs()}
           </Toolbar>
         </AppBar>
+      )}
+
+      {menuOpen && !isMediumUp && (
+        <FullScreenMenu>
+          <Box
+            sx={{
+              maxWidth: 600,
+              mx: "auto",
+              px: 3,
+              py: 4,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Typography
+              variant="caption"
+              sx={{
+                color: "text.secondary",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+                fontSize: "0.7rem",
+                mb: 2,
+                display: "block",
+              }}
+            >
+              Navigation
+            </Typography>
+
+            <List disablePadding sx={{ flex: 1 }}>
+              {menuItems.map((item, index) => (
+                <ListItem
+                  key={index}
+                  component={item.external ? "a" : Link}
+                  href={item.href}
+                  onClick={handleClose}
+                  sx={{
+                    px: 0,
+                    py: 2.5,
+                    borderBottom:
+                      index < menuItems.length - 1
+                        ? `1px solid ${theme.palette.divider}`
+                        : "none",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    cursor: "pointer",
+                    transition: "opacity 0.15s ease",
+                    "&:hover": {
+                      opacity: 0.7,
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      color: "text.primary",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item.icon}
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontWeight: 500,
+                      color: "text.primary",
+                      flex: 1,
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
+                  {item.badge && (
+                    <Box
+                      component="span"
+                      sx={{
+                        px: 1.5,
+                        py: 0.5,
+                        background: "linear-gradient(135deg, #007B83, #00B5AD)",
+                        color: "#fff",
+                        borderRadius: 1,
+                        fontSize: "0.75rem",
+                        fontWeight: 500,
+                        letterSpacing: "0.3px",
+                      }}
+                    >
+                      {item.badge}
+                    </Box>
+                  )}
+                </ListItem>
+              ))}
+            </List>
+
+            <Box
+              sx={{
+                pt: 3,
+                mt: "auto",
+                borderTop: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <HeaderIcons
+                stars={stars}
+                loading={loading}
+                isDarkMode={isDarkMode}
+                toggleTheme={toggleTheme}
+              />
+            </Box>
+          </Box>
+        </FullScreenMenu>
       )}
     </Fragment>
   );
