@@ -723,9 +723,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           width: "100%",
           top: 0,
           borderBottom: `1px solid ${theme.palette.divider}`,
-          backdropFilter: "blur(10px)",
-          transition: "background-color 0.15s ease",
-          backgroundColor: isScrolled ? "transparent" : "background.default",
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? "rgba(0, 0, 0, 0.75)"
+              : "rgba(255, 255, 255, 0.75)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
           zIndex: 1100,
         }}
       >
@@ -968,7 +971,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           </Drawer>
         )}
       </AppBar>
-
       {isDocsPage && !isMediumUp && (
         <AppBar
           position="fixed"
@@ -995,7 +997,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           </Toolbar>
         </AppBar>
       )}
-
       {menuOpen && !isMediumUp && (
         <FullScreenMenu>
           <Box
