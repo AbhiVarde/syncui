@@ -28,14 +28,13 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
           toc={toc}
         />
       )}
+
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           mt: !is404Page ? "60px" : 0,
-          ...(isDocsPage && {
-            display: "flex",
-          }),
+          ...(isDocsPage && { display: "flex" }),
         }}
       >
         <Box
@@ -47,8 +46,10 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
           {children}
         </Box>
       </Box>
+
       {!isDocsPage && !is404Page && <Footer />}
       {/* {!is404Page && <BotNewsletter isDarkMode={isDarkMode} />} */}
+
       {!is404Page && (
         <Box
           sx={{
@@ -68,7 +69,7 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
               alt="Sync UI Blocks - Build faster with ready-made UI blocks | Product Hunt"
               width="250"
               height="54"
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1058017&theme=light&t=1767588469016"
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1058017&theme=dark&t=1767613972030"
             />
           </a>
         </Box>
