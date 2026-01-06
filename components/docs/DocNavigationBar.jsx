@@ -9,6 +9,7 @@ import {
   ArrowLeft01Icon,
   ArrowDown01Icon,
   Copy01Icon,
+  Tick02Icon,
 } from "@hugeicons/core-free-icons";
 
 const buttonBaseStyle = {
@@ -113,6 +114,7 @@ const findAdjacentPages = (docsTree, currentSlug) => {
 
 export const DocNavigationBar = ({ slug, docsTree, title }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [copied, setCopied] = useState(false);
   const open = Boolean(anchorEl);
 
   const { prevPage, nextPage } = React.useMemo(
@@ -140,6 +142,24 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
       };
     }
   }, [open]);
+
+  const handleCopyMarkdown = async () => {
+    try {
+      const mdxUrl = `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`;
+      const response = await fetch(mdxUrl);
+      const markdown = await response.text();
+      await navigator.clipboard.writeText(markdown);
+
+      setCopied(true);
+      handleClose();
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to copy markdown:", error);
+    }
+  };
 
   const handleViewMarkdown = () => {
     const mdxUrl = `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`;
@@ -201,7 +221,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
               gap: { xs: 0.25, sm: 0.75 },
             }}
           >
-            <HugeiconsIcon icon={Copy01Icon} size={14} />
+            <HugeiconsIcon icon={copied ? Tick02Icon : Copy01Icon} size={14} />
             <Typography
               variant="body2"
               fontWeight={500}
@@ -210,7 +230,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
                 fontSize: "13px",
               }}
             >
-              Copy Page
+              {copied ? "Copied" : "Copy Page"}
             </Typography>
             <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
           </ButtonBase>
@@ -256,6 +276,11 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           sx: { p: 0 },
         }}
       >
+        <AIMenuItem
+          icon={SiMarkdown}
+          label="Copy as Markdown"
+          onClick={handleCopyMarkdown}
+        />
         <AIMenuItem
           icon={SiMarkdown}
           label="View as Markdown"
