@@ -248,7 +248,7 @@ const HeroSection = () => {
               flexWrap: "wrap",
             }}
           >
-            <Link href="/docs">
+            <Link href="/docs/installation">
               <Button
                 variant="contained"
                 sx={{
@@ -273,7 +273,7 @@ const HeroSection = () => {
               </Button>
             </Link>
 
-            <Link href="/docs/components/accordions">
+            <Link href="/components">
               <Button
                 variant="text"
                 sx={{

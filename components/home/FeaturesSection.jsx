@@ -182,7 +182,7 @@ const FeaturesSection = () => {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <TextLink onClick={() => router.push("/docs/components/accordions")}>
+          <TextLink onClick={() => router.push("/components")}>
             Browse components
           </TextLink>
         </MotionPaper>
