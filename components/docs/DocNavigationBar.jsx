@@ -19,8 +19,9 @@ const buttonBaseStyle = {
   bgcolor: "background.paper",
   border: 1,
   borderColor: "divider",
-  borderRadius: 1.5,
+  borderRadius: 1,
   flexShrink: 0,
+  transition: "all 0.15s ease",
   "&:hover": {
     bgcolor: "action.hover",
   },
@@ -210,30 +211,71 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
             flexShrink: 0,
           }}
         >
-          <ButtonBase
-            onClick={handleClick}
+          <Box
             sx={{
               ...buttonBaseStyle,
               height: 32,
-              minWidth: 32,
-              px: { xs: 1, sm: 1.5 },
-              py: { xs: 0, sm: 0.5 },
-              gap: { xs: 0.25, sm: 0.75 },
+              display: "flex",
+              alignItems: "center",
+              overflow: "hidden",
             }}
           >
-            <HugeiconsIcon icon={copied ? Tick02Icon : Copy01Icon} size={14} />
-            <Typography
-              variant="body2"
-              fontWeight={500}
+            <ButtonBase
+              onClick={handleCopyMarkdown}
               sx={{
-                display: { xs: "none", sm: "block" },
-                fontSize: "13px",
+                px: { xs: 1, sm: 1.5 },
+                gap: { xs: 0.25, sm: 0.75 },
+                display: "flex",
+                alignItems: "center",
+                height: "100%",
+                transition: "all 0.15s ease",
+                "&:hover": {
+                  bgcolor: "action.hover",
+                },
               }}
             >
-              {copied ? "Copied" : "Copy Page"}
-            </Typography>
-            <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
-          </ButtonBase>
+              <HugeiconsIcon
+                icon={copied ? Tick02Icon : Copy01Icon}
+                size={14}
+              />
+              <Typography
+                variant="body2"
+                fontWeight={500}
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                  fontSize: "13px",
+                }}
+              >
+                Copy Page
+              </Typography>
+            </ButtonBase>
+
+            <Box
+              sx={{
+                width: "1px",
+                height: 20,
+                bgcolor: "divider",
+                flexShrink: 0,
+              }}
+            />
+
+            <ButtonBase
+              onClick={handleClick}
+              sx={{
+                px: 0.75,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                transition: "all 0.15s ease",
+                "&:hover": {
+                  bgcolor: "action.hover",
+                },
+              }}
+            >
+              <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
+            </ButtonBase>
+          </Box>
 
           <Box sx={{ display: "flex", gap: 0.75 }}>
             <NavButton page={prevPage} direction="prev" />
@@ -255,7 +297,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           horizontal: "right",
         }}
         TransitionProps={{
-          timeout: 200,
+          timeout: 150,
         }}
         slotProps={{
           paper: {
@@ -266,7 +308,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
               bgcolor: "background.paper",
               border: 1,
               borderColor: "divider",
-              borderRadius: 1.5,
+              borderRadius: 1,
               boxShadow: "none",
               p: 0.5,
             },
@@ -276,11 +318,6 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           sx: { p: 0 },
         }}
       >
-        <AIMenuItem
-          icon={SiMarkdown}
-          label="Copy as Markdown"
-          onClick={handleCopyMarkdown}
-        />
         <AIMenuItem
           icon={SiMarkdown}
           label="View as Markdown"
