@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Search = ({ docsTree = [], isMediumUp = true }) => {
+const Search = ({ docsTree = [], isLargeUp = true }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredDocs, setFilteredDocs] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -129,7 +129,7 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
         e.target.tagName !== "TEXTAREA"
       ) {
         e.preventDefault();
-        if (isMediumUp) {
+        if (isLargeUp) {
           inputRef.current?.focus();
           setIsOpen(true);
         } else {
@@ -140,7 +140,7 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [searchQuery, docsTree, isMediumUp]);
+  }, [searchQuery, docsTree, isLargeUp]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -148,12 +148,12 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
         setIsOpen(false);
       }
     };
-    if (isMediumUp) {
+    if (isLargeUp) {
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [isMediumUp]);
+  }, [isLargeUp]);
 
   const handleMobileOpen = () => {
     setMobileOpen(true);
@@ -384,7 +384,7 @@ const Search = ({ docsTree = [], isMediumUp = true }) => {
     </div>
   );
 
-  if (!isMediumUp) {
+  if (!isLargeUp) {
     return (
       <>
         <IconButton onClick={handleMobileOpen} sx={{ padding: "4px" }}>
