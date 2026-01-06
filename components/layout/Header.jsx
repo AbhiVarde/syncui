@@ -35,7 +35,8 @@ import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
 
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  TextAlignLeftIcon,
+  IceCubesIcon,
+  Menu02Icon,
   ArrowRight01Icon,
   Cancel01Icon,
   LinkSquare02Icon,
@@ -43,7 +44,7 @@ import {
   Layers01Icon,
   ArrowDown01Icon,
   LayoutRightIcon,
-  Menu02Icon,
+  Menu09Icon,
   GithubIcon,
   NewTwitterIcon,
   Moon01Icon,
@@ -51,6 +52,12 @@ import {
 } from "@hugeicons/core-free-icons";
 
 const menuItems = [
+  {
+    label: "Components",
+    href: "/components",
+    external: false,
+    icon: <HugeiconsIcon icon={IceCubesIcon} size={20} />,
+  },
   {
     label: "Blocks",
     href: "/blocks",
@@ -89,9 +96,25 @@ const FullScreenMenu = styled(Box)(({ theme }) => ({
   overflowX: "hidden",
 }));
 
+const standardBadgeStyle = {
+  px: "6px",
+  py: "1px",
+  background: "linear-gradient(135deg, #007B83, #00B5AD)",
+  color: "#fff",
+  borderRadius: "6px",
+  fontSize: "11px",
+  fontWeight: 500,
+  lineHeight: "14px",
+  letterSpacing: "0.25px",
+  minHeight: "18px",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const theme = useTheme();
-  const isMediumUp = useMediaQuery(theme.breakpoints.up("md"));
+  const isLargeUp = useMediaQuery(theme.breakpoints.up("lg"));
   const router = useRouter();
   const { asPath } = router;
   const { stars, loading } = useGitHub();
@@ -174,6 +197,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const groupDocsTree = useCallback((docsTree) => {
     const grouped = {
       "Getting Started": [],
+      Installation: [],
       Templates: [],
       Blocks: [],
       Components: [],
@@ -184,6 +208,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         grouped["Components"].push(item);
       } else if (item.category === "Blocks") {
         grouped["Blocks"].push(item);
+      } else if (item.category === "Installation") {
+        grouped["Installation"].push(item);
       } else {
         grouped["Getting Started"].push(item);
       }
@@ -212,8 +238,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
     grouped["Getting Started"].sort(
       (a, b) =>
-        ({ Setup: 1, Changelog: 2, "The Story of Sync UI": 3 })[a.title] -
-          { Setup: 1, Changelog: 2, "The Story of Sync UI": 3 }[b.title] || 0
+        ({ Installation: 1, Changelog: 2, "The Story of Sync UI": 3 })[
+          a.title
+        ] -
+          { Installation: 1, Changelog: 2, "The Story of Sync UI": 3 }[
+            b.title
+          ] || 0
     );
 
     return grouped;
@@ -364,15 +394,17 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                                 component="span"
                                 sx={{
                                   ml: 1,
-                                  px: 0.8,
-                                  py: 0.2,
-                                  bgcolor: "#008080",
-                                  color: "#ffffff",
-                                  borderRadius: "10px",
-                                  fontSize: "0.65rem",
+                                  px: "6px",
+                                  py: "1px",
+                                  background:
+                                    "linear-gradient(135deg, #007B83, #00B5AD)",
+                                  color: "#fff",
+                                  borderRadius: "6px",
+                                  fontSize: "11px",
                                   fontWeight: 500,
-                                  lineHeight: 1,
-                                  letterSpacing: "0.02em",
+                                  lineHeight: "14px",
+                                  letterSpacing: "0.25px",
+                                  minHeight: "18px",
                                   display: "inline-flex",
                                   alignItems: "center",
                                   justifyContent: "center",
@@ -570,7 +602,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       <Breadcrumbs
         separator={<HugeiconsIcon icon={ArrowRight01Icon} size={18} />}
         aria-label="breadcrumb"
-        sx={{ display: { xs: "flex", md: "none" } }}
+        sx={{ display: { xs: "flex", lg: "none" } }}
       >
         <Typography
           color="text.primary"
@@ -582,7 +614,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             fontWeight: 500,
           }}
         >
-          <HugeiconsIcon icon={TextAlignLeftIcon} size={20} /> On this page
+          <HugeiconsIcon icon={Menu02Icon} size={20} /> On this page
         </Typography>
         {activeText && (
           <Typography
@@ -607,9 +639,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: { xs: "space-between", md: "flex-end" },
-        gap: { xs: 2, md: 1.5 },
-        width: { xs: "100%", md: "auto" },
+        justifyContent: { xs: "space-between", lg: "flex-end" },
+        gap: { xs: 2, lg: 1.5 },
+        width: { xs: "100%", lg: "auto" },
       }}
     >
       <Box
@@ -735,7 +767,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         <Toolbar
           sx={{
             height: "100%",
-            padding: isMediumUp ? "12px 24px" : "16px 12px",
+            padding: isLargeUp ? "12px 24px" : "16px 12px",
           }}
         >
           <Box
@@ -749,7 +781,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {isDocsPage && !isMediumUp && (
+              {isDocsPage && !isLargeUp && (
                 <IconButton
                   edge="start"
                   color="inherit"
@@ -777,7 +809,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     height: 24,
                     borderRadius: 0.5,
                     display:
-                      asPath.startsWith("/docs") && !isMediumUp
+                      asPath.startsWith("/docs") && !isLargeUp
                         ? "none"
                         : "block",
                   }}
@@ -795,10 +827,34 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 </Typography>
               </Box>
 
-              {isMediumUp && (
+              {isLargeUp && (
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 }}
                 >
+                  <Button
+                    component={Link}
+                    href="/components"
+                    sx={{
+                      px: 0,
+                      py: 0.25,
+                      fontSize: "15px",
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      textTransform: "none",
+                      minWidth: "auto",
+                      color: "text.primary",
+                      "&:hover": { opacity: 0.85 },
+                    }}
+                  >
+                    Components
+                  </Button>
+
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
+                  />
+
                   <Button
                     component={Link}
                     href="/blocks"
@@ -922,7 +978,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 gap: { xs: 0.5, sm: 1 },
               }}
             >
-              <Search docsTree={docsTree} isMediumUp={isMediumUp} />
+              <Search docsTree={docsTree} isLargeUp={isLargeUp} />
               <Divider
                 orientation="vertical"
                 flexItem
@@ -934,7 +990,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 }}
               />
 
-              {!isMediumUp && (
+              {!isLargeUp && (
                 <IconButton
                   onClick={handleToggle}
                   sx={{
@@ -942,13 +998,13 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   }}
                 >
                   <HugeiconsIcon
-                    icon={menuOpen ? Cancel01Icon : Menu02Icon}
+                    icon={menuOpen ? Cancel01Icon : Menu09Icon}
                     size={22}
                   />
                 </IconButton>
               )}
 
-              {isMediumUp && renderHeaderIcons()}
+              {isLargeUp && renderHeaderIcons()}
             </Box>
           </Box>
         </Toolbar>
@@ -956,7 +1012,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         {isDocsPage && (
           <Drawer
             anchor="left"
-            open={!isMediumUp && drawerOpen}
+            open={!isLargeUp && drawerOpen}
             onClose={toggleDrawer}
             ModalProps={{ keepMounted: true }}
             PaperProps={{
@@ -971,7 +1027,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           </Drawer>
         )}
       </AppBar>
-      {isDocsPage && !isMediumUp && (
+      {isDocsPage && !isLargeUp && (
         <AppBar
           position="fixed"
           color="transparent"
@@ -988,7 +1044,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           <Toolbar
             sx={{
               height: "100%",
-              padding: isMediumUp ? "12px 24px" : "16px 12px",
+              padding: isLargeUp ? "12px 24px" : "16px 12px",
               maxHeight: "40px !important",
               minHeight: "40px !important",
             }}
@@ -997,7 +1053,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           </Toolbar>
         </AppBar>
       )}
-      {menuOpen && !isMediumUp && (
+      {menuOpen && !isLargeUp && (
         <FullScreenMenu>
           <Box
             sx={{
@@ -1070,14 +1126,19 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     <Box
                       component="span"
                       sx={{
-                        px: 1.5,
-                        py: 0.5,
+                        px: "6px",
+                        py: "1px",
                         background: "linear-gradient(135deg, #007B83, #00B5AD)",
                         color: "#fff",
-                        borderRadius: 1,
-                        fontSize: "0.75rem",
+                        borderRadius: "6px",
+                        fontSize: "11px",
                         fontWeight: 500,
-                        letterSpacing: "0.3px",
+                        lineHeight: "14px",
+                        letterSpacing: "0.25px",
+                        minHeight: "18px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       {item.badge}

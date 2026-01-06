@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ViewIcon,
@@ -27,6 +26,7 @@ import {
   Copy01Icon,
   Tick01Icon,
 } from "@hugeicons/core-free-icons";
+import { FrameworkGrid } from "./docs/FrameworkGrid";
 
 import CardVariants from "./ui/components/Cards";
 import ButtonVariants from "./ui/components/Buttons";
@@ -323,6 +323,7 @@ const PackageManagerTabs = ({ npm, yarn, pnpm, bun }) => {
 };
 
 export const MDXComponents = {
+  FrameworkGrid,
   ButtonVariants,
   CardVariants,
   LoaderVariants,
