@@ -7,6 +7,7 @@ import { DocNavigationBar } from "../../components/docs/DocNavigationBar";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 import { Typography } from "@mui/material";
+import { DocPageNavigation } from "@/components/docs/DocPageNavigation";
 
 export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   const Component = React.useMemo(() => {
@@ -28,7 +29,11 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
       if (slug === "" && item.title === "Setup") return true;
       return false;
     });
-    return ["Components", "Blocks"].includes(currentDoc?.category);
+    return (
+      ["Components", "Blocks"].includes(currentDoc?.category) ||
+      slug === "installation" ||
+      slug.startsWith("installation/")
+    );
   }, [docsTree, slug]);
 
   if (!Component) {
@@ -114,6 +119,8 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
           )}
 
           <Component components={MDXComponents} />
+
+          <DocPageNavigation slug={slug} docsTree={docsTree} />
         </article>
       </DocsLayout>
     </>

@@ -14,7 +14,7 @@ import AnimatedCounter from "../AnimatedCounter";
 
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  TextAlignLeftIcon,
+  Menu02Icon,
   Coffee02Icon,
   GithubIcon,
   ArrowRight01Icon,
@@ -213,7 +213,7 @@ export const TableOfContents = ({ toc = [] }) => {
         }}
         gutterBottom
       >
-        <HugeiconsIcon icon={TextAlignLeftIcon} size={18} />
+        <HugeiconsIcon icon={Menu02Icon} size={18} />
         On this page
       </Typography>
 
