@@ -49,31 +49,6 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
 
       {!isDocsPage && !is404Page && <Footer />}
       {/* {!is404Page && <BotNewsletter isDarkMode={isDarkMode} />} */}
-
-      {!is404Page && (
-        <Box
-          sx={{
-            position: "fixed",
-            bottom: 16,
-            right: 16,
-            zIndex: 1300,
-            display: { xs: "none", sm: "block" },
-          }}
-        >
-          <a
-            href="https://www.producthunt.com/products/sync-ui-blocks?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-sync-ui-blocks"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              alt="Sync UI Blocks - Build faster with ready-made UI blocks | Product Hunt"
-              width="250"
-              height="54"
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1058017&theme=dark&t=1767613972030"
-            />
-          </a>
-        </Box>
-      )}
     </Box>
   );
 };
