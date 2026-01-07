@@ -416,6 +416,7 @@ const Blocks = () => {
                       src={block.image}
                       alt={`${block.title} blocks - Free React ${block.description}`}
                       fill
+                      sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw"
                       style={{ objectFit: "cover" }}
                       loading="lazy"
                     />
