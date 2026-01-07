@@ -417,8 +417,9 @@ const Blocks = () => {
                       alt={`${block.title} blocks - Free React ${block.description}`}
                       fill
                       sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw"
+                      loading={block.id === 1 ? "eager" : "lazy"}
+                      priority={block.id === 1}
                       style={{ objectFit: "cover" }}
-                      loading="lazy"
                     />
                   </Box>
                 </Box>
