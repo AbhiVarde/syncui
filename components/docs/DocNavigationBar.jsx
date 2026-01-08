@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Box, ButtonBase, Typography, Menu, MenuItem } from "@mui/material";
 import Link from "next/link";
-
 import { SiClaude, SiMarkdown, SiOpenai } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -74,15 +73,13 @@ const NavButton = ({ page, direction }) => {
 
 const AIMenuItem = ({ icon: Icon, label, onClick }) => (
   <MenuItem onClick={onClick} sx={menuItemStyle}>
-    <Icon size={15} />
+    <Icon size={16} />
     {label}
   </MenuItem>
 );
 
 const findAdjacentPages = (docsTree, currentSlug) => {
   const currentUrl = `/docs${currentSlug ? `/${currentSlug}` : ""}`;
-
-  // Find the current page
   const currentDoc = docsTree.find((item) => item.url === currentUrl);
 
   if (!currentDoc || !currentDoc.category) {
@@ -90,8 +87,6 @@ const findAdjacentPages = (docsTree, currentSlug) => {
   }
 
   const currentCategory = currentDoc.category;
-
-  // Filter pages by the same category
   const categoryPages = docsTree
     .filter((item) => item.category === currentCategory)
     .map((item) => ({
@@ -99,7 +94,6 @@ const findAdjacentPages = (docsTree, currentSlug) => {
       url: item.url,
     }));
 
-  // Find current index within the category
   const currentIndex = categoryPages.findIndex(
     (item) => item.url === currentUrl
   );
@@ -116,68 +110,72 @@ const findAdjacentPages = (docsTree, currentSlug) => {
 export const DocNavigationBar = ({ slug, docsTree, title }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [isCopying, setIsCopying] = useState(false);
   const open = Boolean(anchorEl);
 
-  const { prevPage, nextPage } = React.useMemo(
+  const { prevPage, nextPage } = useMemo(
     () => findAdjacentPages(docsTree, slug),
     [docsTree, slug]
   );
 
-  const handleClick = (event) => {
+  const handleClick = useCallback((event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   useEffect(() => {
     if (open) {
-      const handleScroll = () => {
-        handleClose();
-      };
-
+      const handleScroll = () => handleClose();
       window.addEventListener("scroll", handleScroll, true);
-      return () => {
-        window.removeEventListener("scroll", handleScroll, true);
-      };
+      return () => window.removeEventListener("scroll", handleScroll, true);
     }
-  }, [open]);
+  }, [open, handleClose]);
 
-  const handleCopyMarkdown = async () => {
+  const handleCopyMarkdown = useCallback(async () => {
+    if (isCopying) return;
+
+    setIsCopying(true);
+    setCopied(true);
+
     try {
       const mdxUrl = `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`;
       const response = await fetch(mdxUrl);
       const markdown = await response.text();
       await navigator.clipboard.writeText(markdown);
 
-      setCopied(true);
-      handleClose();
-
       setTimeout(() => {
         setCopied(false);
+        setIsCopying(false);
       }, 2000);
     } catch (error) {
       console.error("Failed to copy markdown:", error);
+      setCopied(false);
+      setIsCopying(false);
     }
-  };
+  }, [slug, isCopying]);
 
-  const handleViewMarkdown = () => {
+  const handleViewMarkdown = useCallback(() => {
     const mdxUrl = `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`;
     window.open(mdxUrl, "_blank");
     handleClose();
-  };
+  }, [slug, handleClose]);
 
-  const handleOpenAI = (aiType) => {
-    const url = window.location.href;
-    const prompt = `I'm looking at this Sync UI documentation: ${url}. Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`;
-    const urls = {
-      chatgpt: `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`,
-      claude: `https://claude.ai/new?q=${encodeURIComponent(prompt)}`,
-    };
-    window.open(urls[aiType], "_blank");
-    handleClose();
-  };
+  const handleOpenAI = useCallback(
+    (aiType) => {
+      const url = window.location.href;
+      const prompt = `I'm looking at this Sync UI documentation: ${url}. Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`;
+      const urls = {
+        chatgpt: `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`,
+        claude: `https://claude.ai/new?q=${encodeURIComponent(prompt)}`,
+      };
+      window.open(urls[aiType], "_blank");
+      handleClose();
+    },
+    [handleClose]
+  );
 
   return (
     <>
@@ -222,13 +220,14 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           >
             <ButtonBase
               onClick={handleCopyMarkdown}
+              disabled={isCopying}
               sx={{
                 px: { xs: 1, sm: 1.5 },
                 gap: { xs: 0.25, sm: 0.75 },
                 display: "flex",
                 alignItems: "center",
                 height: "100%",
-                transition: "all 0.15s ease",
+                transition: "all 0.2s ease",
                 "&:hover": {
                   bgcolor: "action.hover",
                 },
@@ -236,7 +235,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
             >
               <HugeiconsIcon
                 icon={copied ? Tick02Icon : Copy01Icon}
-                size={14}
+                size={16}
               />
               <Typography
                 variant="body2"
@@ -244,9 +243,11 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
                 sx={{
                   display: { xs: "none", sm: "block" },
                   fontSize: "13px",
+                  transition: "all 0.2s ease",
+                  minWidth: "65px",
                 }}
               >
-                Copy Page
+                {copied ? "Copied!" : "Copy Page"}
               </Typography>
             </ButtonBase>
 
@@ -273,7 +274,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
                 },
               }}
             >
-              <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
+              <HugeiconsIcon icon={ArrowDown01Icon} size={16} />
             </ButtonBase>
           </Box>
 
@@ -297,7 +298,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           horizontal: "right",
         }}
         TransitionProps={{
-          timeout: 150,
+          timeout: 200,
         }}
         slotProps={{
           paper: {
