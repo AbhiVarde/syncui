@@ -262,6 +262,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           ml: { lg: "260px" },
           mr: { lg: "260px" },
           mt: { xs: 3, lg: 0 },
+          maxWidth: "100%",
         }}
       >
         {children}
