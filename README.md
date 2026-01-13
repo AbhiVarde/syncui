@@ -1,9 +1,10 @@
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
+
 # 🪴 Introducing Sync UI
 
 [![Follow on Twitter](https://img.shields.io/twitter/follow/syncuidesign?style=social)](https://x.com/syncuidesign)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
 [![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)](https://github.com/AbhiVarde/syncui)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/syncui)
 
 **Free React UI library with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).**
 
