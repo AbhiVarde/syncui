@@ -135,7 +135,7 @@ Sync UI is open source and available under the [MIT License](https://choosealice
 
 **Created and maintained by [Abhi Varde](https://www.abhivarde.in/)**
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/abhivarde?style=social)](https://x.com/abhivarde)
+[![X Follow](https://img.shields.io/twitter/follow/varde_abhi?style=social)](https://x.com/varde_abhi)
 [![GitHub followers](https://img.shields.io/github/followers/AbhiVarde?style=social)](https://github.com/AbhiVarde)
 
 ## 🔗 Links
