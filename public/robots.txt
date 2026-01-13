@@ -1,4 +1,17 @@
+# Allow all crawlers
 User-agent: *
 Allow: /
 
+# Disallow admin or private paths (add if you have any)
+# Disallow: /api/
+# Disallow: /admin/
+
+# Crawl-delay for specific bots (optional, uncomment if needed)
+# User-agent: Googlebot
+# Crawl-delay: 0
+
+# User-agent: Bingbot
+# Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://www.syncui.design/sitemap.xml
