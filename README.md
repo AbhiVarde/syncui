@@ -12,7 +12,7 @@
 
 <div align="center">
 
-[🌐 Website](https://syncui.design) • [📚 Documentation](https://syncui.design/docs) • [🧱 Components](https://syncui.design/components) • [🎨 Blocks](https://syncui.design/blocks) • [🚀 Templates](https://syncui.design/templates)
+[🌐 Website](https://syncui.design) • [📚 Documentation](https://syncui.design/docs) • [🧩 Components](https://syncui.design/components) • [🧱 Blocks](https://syncui.design/blocks) • [🚀 Templates](https://syncui.design/templates)
 
 </div>
 
