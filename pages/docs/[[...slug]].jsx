@@ -40,61 +40,73 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
     return <div>Error: Could not load the document.</div>;
   }
 
+  const pageTitle = `${frontmatter.title} - Sync UI Documentation`;
+  const pageDescription =
+    frontmatter.description ||
+    `Complete documentation for ${frontmatter.title}. Learn implementation, customization, and integration with React and Next.js.`;
+  const canonicalUrl = `https://www.syncui.design/docs/${slug}`;
+
   return (
     <>
       <NextSeo
-        title={`${frontmatter.title} – Sync UI Docs`}
-        description={
-          frontmatter.description ||
-          `${frontmatter.title} documentation for Sync UI. Learn how to use, customize, and integrate this component in React and Next.js projects.`
-        }
-        canonical={`https://www.syncui.design/docs/${slug}`}
+        title={pageTitle}
+        description={pageDescription}
+        canonical={canonicalUrl}
         openGraph={{
-          url: `https://www.syncui.design/docs/${slug}`,
-          title: `${frontmatter.title} – Sync UI Documentation`,
-          description:
-            frontmatter.description ||
-            `Official Sync UI documentation for ${frontmatter.title}. Usage examples, props, and integration details.`,
+          type: "article",
+          url: canonicalUrl,
+          title: pageTitle,
+          description: pageDescription,
+          siteName: "Sync UI",
           images: [
             {
-              url: "https://www.syncui.design/default-og-image.png",
+              url: "https://www.syncui.design/og-image.png",
               width: 1200,
               height: 630,
-              alt: `${frontmatter.title} – Sync UI Docs`,
+              alt: `${frontmatter.title} - Sync UI Docs`,
+              type: "image/png",
             },
           ],
-          siteName: "Sync UI",
-          type: "article",
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
-          title: `${frontmatter.title} – Sync UI Docs`,
-          description:
-            frontmatter.description ||
-            `Learn how to use the ${frontmatter.title} component in Sync UI.`,
         }}
         additionalMetaTags={[
           {
             name: "keywords",
-            content: `
-        ${frontmatter.title},
-        Sync UI docs,
-        React UI documentation,
-        MUI components,
-        motion react components,
-        Framer Motion UI,
-        React UI blocks,
-        Next.js UI components,
-        Sync UI components
-      `,
+            content: `${frontmatter.title}, Sync UI, React components, MUI, Motion, documentation, tutorial, Next.js`,
           },
         ]}
       />
+
       <Head>
         <title>{frontmatter.title} // Sync UI</title>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "TechArticle",
+              headline: frontmatter.title,
+              description: pageDescription,
+              url: canonicalUrl,
+              publisher: {
+                "@type": "Organization",
+                name: "Sync UI",
+                logo: "https://www.syncui.design/logo.png",
+              },
+              author: {
+                "@type": "Person",
+                name: "Abhi Varde",
+                url: "https://www.abhivarde.in/",
+              },
+            }),
+          }}
+        />
       </Head>
+
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
           {shouldShowNavigationBar && (

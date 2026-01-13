@@ -39,26 +39,26 @@ export const TableOfContents = ({ toc = [] }) => {
   const minLevel = toc.length ? Math.min(...toc.map((item) => item.level)) : 1;
   const tocKey = toc.map((item) => item.id).join(",");
 
-  useEffect(() => {
-    if (!adLoadedRef.current) {
-      const script = document.createElement("script");
-      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
-      script.async = true;
-      script.crossOrigin = "anonymous";
-      document.head.appendChild(script);
-      adLoadedRef.current = true;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!adLoadedRef.current) {
+  //     const script = document.createElement("script");
+  //     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+  //     script.async = true;
+  //     script.crossOrigin = "anonymous";
+  //     document.head.appendChild(script);
+  //     adLoadedRef.current = true;
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    try {
-      if (window.adsbygoogle && !isChangelogPage) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
-    } catch (err) {
-      console.error("AdSense error:", err);
-    }
-  }, [isChangelogPage, pathname]);
+  // useEffect(() => {
+  //   try {
+  //     if (window.adsbygoogle && !isChangelogPage) {
+  //       (window.adsbygoogle = window.adsbygoogle || []).push({});
+  //     }
+  //   } catch (err) {
+  //     console.error("AdSense error:", err);
+  //   }
+  // }, [isChangelogPage, pathname]);
 
   useEffect(() => {
     if (tocIdsRef.current !== tocKey) {
@@ -383,6 +383,7 @@ export const TableOfContents = ({ toc = [] }) => {
             </Box>
           </Box>
 
+          {/* 
           <Box
             sx={{
               mt: 2,
@@ -411,6 +412,7 @@ export const TableOfContents = ({ toc = [] }) => {
               data-full-width-responsive="true"
             />
           </Box>
+          */}
         </>
       )}
     </Box>

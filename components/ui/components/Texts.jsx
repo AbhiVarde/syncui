@@ -356,7 +356,7 @@ const SplitReveal = ({ text }) => {
   );
 };
 
-const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
+const VideoText = ({ text, videoSrc = "/videos/components/nature.mp4" }) => {
   const [alignment, setAlignment] = useState("center");
   const [width, setWidth] = useState("300px");
 

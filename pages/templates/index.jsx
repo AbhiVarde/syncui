@@ -11,7 +11,6 @@ import { getAllDocsSlugs } from "@/lib/docs";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 import { motion } from "motion/react";
-
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Tick02Icon,
@@ -23,7 +22,7 @@ const templatesData = [
   {
     id: "startup-template",
     title: "Startup Template",
-    src: "/videos/Startup-Template.mov",
+    src: "/videos/templates/startup.mov",
     price: 29,
     isNew: true,
     description:
@@ -41,7 +40,7 @@ const templatesData = [
   {
     id: "saas-template",
     title: "SaaS Template",
-    src: "/videos/SaaS-Template.mp4",
+    src: "/videos/templates/saas.mp4",
     price: 29,
     isNew: false,
     description: "Conversion-focused SaaS layout designed to ship faster.",
@@ -58,7 +57,7 @@ const templatesData = [
   {
     id: "portfolio-template",
     title: "Portfolio Template",
-    src: "/videos/Portfolio-Template.mov",
+    src: "/videos/templates/portfolio.mov",
     price: 29,
     isNew: false,
     description: "Modern animated portfolio built to showcase your work.",
@@ -81,45 +80,118 @@ const Templates = ({ docsTree }) => {
   return (
     <>
       <NextSeo
-        title="Premium React UI Templates (Startup, SaaS, Portfolio) // Sync UI"
-        description="Premium React UI templates built with MUI and Motion (motion/react). Startup, SaaS, and Portfolio templates with polished UI, production-ready code, and live previews."
+        title="Premium React Templates - Startup, SaaS & Portfolio | Sync UI"
+        description="Get premium React UI templates for $29 each. Includes Startup, SaaS, and Portfolio templates built with MUI and Motion (motion/react). Production-ready, fully customizable, and perfect for Next.js projects. Bundle offer: All 3 for $79."
         canonical="https://www.syncui.design/templates"
         openGraph={{
+          type: "website",
           url: "https://www.syncui.design/templates",
           title:
-            "Premium React UI Templates (Startup, SaaS, Portfolio) // Sync UI",
+            "Premium React Templates - Startup, SaaS & Portfolio | Sync UI",
           description:
-            "Production-ready React UI templates built with MUI & Motion. Includes Startup, SaaS, and Portfolio templates with clean design and scalable code.",
+            "Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29. Bundle: All 3 for $79.",
+          siteName: "Sync UI",
           images: [
             {
-              url: "https://www.syncui.design/default-og-image.png",
+              url: "https://www.syncui.design/images/open-graph/template-image.png",
               width: 1200,
               height: 630,
-              alt: "Sync UI Premium React Templates – Startup, SaaS, Portfolio",
+              alt: "Sync UI Premium React Templates",
+              type: "image/png",
             },
           ],
-          siteName: "Sync UI",
-          type: "website",
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
-          title: "Premium React UI Templates // Sync UI",
-          description:
-            "Startup, SaaS & Portfolio templates built with MUI and Motion. Production-ready React UI for modern web apps.",
         }}
         additionalMetaTags={[
           {
             name: "keywords",
             content:
-              "React UI templates, premium React templates, MUI templates, SaaS template React, startup landing page template, portfolio React template, paid UI templates, Next.js templates, Framer Motion templates, motion react templates, Sync UI templates",
+              "React templates, premium templates, MUI templates, SaaS template, startup template, portfolio template, Next.js templates, Motion templates, paid UI templates",
           },
         ]}
       />
+
       <Head>
         <title>Templates // Sync UI</title>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: "Sync UI Premium Templates",
+              description:
+                "Production-ready React templates including Startup, SaaS, and Portfolio templates",
+              brand: {
+                "@type": "Brand",
+                name: "Sync UI",
+              },
+              offers: [
+                {
+                  "@type": "Offer",
+                  name: "Startup Template",
+                  price: "29",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/startup-template-syncui",
+                },
+                {
+                  "@type": "Offer",
+                  name: "SaaS Template",
+                  price: "29",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/saas-template-syncui",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Portfolio Template",
+                  price: "29",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Templates Bundle",
+                  price: "79",
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
+                },
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://www.syncui.design/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Templates",
+                  item: "https://www.syncui.design/templates",
+                },
+              ],
+            }),
+          }}
+        />
       </Head>
+
       <Container maxWidth="xl" sx={{ px: "0px !important" }}>
         <Box
           sx={{
@@ -149,11 +221,7 @@ const Templates = ({ docsTree }) => {
 
           <Container
             maxWidth="md"
-            sx={{
-              position: "relative",
-              zIndex: 1,
-              textAlign: "center",
-            }}
+            sx={{ position: "relative", zIndex: 1, textAlign: "center" }}
           >
             <Box
               component={motion.div}
@@ -236,7 +304,6 @@ const Templates = ({ docsTree }) => {
                     with MUI and Framer Motion. Customize easily and enhance
                     your project instantly.
                   </Box>
-
                   <Box
                     component="span"
                     sx={{ display: { xs: "inline", sm: "none" } }}
@@ -259,10 +326,7 @@ const Templates = ({ docsTree }) => {
                     "_blank"
                   )
                 }
-                style={{
-                  marginTop: "16px",
-                  cursor: "pointer",
-                }}
+                style={{ marginTop: "16px", cursor: "pointer" }}
               >
                 <Box
                   sx={{
@@ -349,7 +413,6 @@ const Templates = ({ docsTree }) => {
                     <Typography variant="h4" fontWeight={600}>
                       {template.title}
                     </Typography>
-
                     {template.isNew && (
                       <Box
                         component="span"
@@ -503,9 +566,7 @@ const Templates = ({ docsTree }) => {
                       alignItems: "center",
                       gap: 0.5,
                       color: "text.primary",
-                      "&:hover .chevron": {
-                        transform: "translateX(3px)",
-                      },
+                      "&:hover .chevron": { transform: "translateX(3px)" },
                     }}
                   >
                     Live preview
@@ -533,10 +594,7 @@ export default Templates;
 
 export async function getStaticProps() {
   const docsTree = await getAllDocsSlugs();
-
   return {
-    props: {
-      docsTree,
-    },
+    props: { docsTree },
   };
 }

@@ -12,7 +12,6 @@ import Head from "next/head";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import Image from "next/image";
-
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
@@ -20,7 +19,7 @@ const blockCategories = [
   {
     id: 1,
     title: "CTA",
-    image: "/images/cta.png",
+    image: "/images/blocks/cta.png",
     count: 4,
     route: "/docs/blocks/cta",
     description: "Call-to-action sections to drive conversions",
@@ -28,7 +27,7 @@ const blockCategories = [
   {
     id: 2,
     title: "Hero",
-    image: "/images/hero.png",
+    image: "/images/blocks/hero.png",
     count: 3,
     route: "/docs/blocks/hero",
     description: "Eye-catching hero sections for landing pages",
@@ -36,7 +35,7 @@ const blockCategories = [
   {
     id: 3,
     title: "Pricing",
-    image: "/images/pricing.png",
+    image: "/images/blocks/pricing.png",
     count: 3,
     route: "/docs/blocks/pricing",
     description: "Professional pricing tables and plans",
@@ -55,85 +54,61 @@ const Blocks = () => {
   return (
     <>
       <NextSeo
-        title="10+ Free UI Blocks - Hero, CTA & Pricing // Sync UI"
-        description="10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react). Copy, customize, and integrate seamlessly into your Next.js projects. Perfect for landing pages and SaaS websites."
+        title="10+ Free UI Blocks - Hero, CTA & Pricing Sections | Sync UI"
+        description="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react). Perfect for landing pages and SaaS websites. Copy and integrate instantly."
         canonical="https://www.syncui.design/blocks"
         openGraph={{
+          type: "website",
           url: "https://www.syncui.design/blocks",
-          title: "10+ Free UI Blocks - Hero, CTA & Pricing // Sync UI",
+          title: "10+ Free UI Blocks - Hero, CTA & Pricing | Sync UI",
           description:
-            "10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion. Copy and integrate instantly.",
+            "Production-ready UI blocks for React. Hero sections, CTA blocks, and Pricing tables built with MUI & Motion.",
+          siteName: "Sync UI",
           images: [
             {
-              url: "https://www.syncui.design/default-og-image.png",
+              url: "https://www.syncui.design/images/open-graph/block-image.png",
               width: 1200,
               height: 630,
-              alt: "Sync UI - 10+ Free UI Blocks for React: Hero, CTA, Pricing sections",
+              alt: "Sync UI - 10+ Free UI Blocks",
+              type: "image/png",
             },
           ],
-          siteName: "Sync UI",
-          type: "website",
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
-          title: "10+ Free UI Blocks - Hero, CTA & Pricing // Sync UI",
-          description:
-            "10+ free UI blocks for React. Hero sections, CTA blocks, and Pricing tables. Built with MUI & Motion. Copy and integrate instantly.",
         }}
         additionalMetaTags={[
           {
             name: "keywords",
             content:
-              "React UI blocks, free UI blocks, hero section react, CTA blocks, pricing table react, landing page sections, prebuilt UI sections, React components, MUI blocks, Motion blocks, Framer Motion, Next.js blocks, copy paste blocks, production ready blocks, SaaS blocks, startup blocks, landing page components, hero components, call to action components, pricing components",
+              "React UI blocks, hero section, CTA blocks, pricing table, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Motion blocks",
           },
         ]}
       />
+
       <Head>
         <title>Blocks // Sync UI</title>
-
-        {/* Additional Schema Markup for Blocks Page */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "CollectionPage",
-              name: "Sync UI Blocks - Free React UI Blocks",
+              name: "Sync UI Blocks",
               description:
-                "10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react).",
+                "10+ free UI blocks including Hero sections, CTA blocks, and Pricing tables",
               url: "https://www.syncui.design/blocks",
+              numberOfItems: 10,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
-                url: "https://www.syncui.design/",
+                logo: "https://www.syncui.design/logo.png",
               },
-              hasPart: [
-                {
-                  "@type": "WebPage",
-                  name: "CTA Blocks",
-                  description: "4 free call-to-action blocks for React",
-                  url: "https://www.syncui.design/docs/blocks/cta",
-                },
-                {
-                  "@type": "WebPage",
-                  name: "Hero Blocks",
-                  description: "3 free hero section blocks for React",
-                  url: "https://www.syncui.design/docs/blocks/hero",
-                },
-                {
-                  "@type": "WebPage",
-                  name: "Pricing Blocks",
-                  description: "3 free pricing table blocks for React",
-                  url: "https://www.syncui.design/docs/blocks/pricing",
-                },
-              ],
             }),
           }}
         />
-
-        {/* BreadcrumbList Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -157,37 +132,30 @@ const Blocks = () => {
             }),
           }}
         />
-
-        {/* ItemList Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ItemList",
-              name: "Sync UI Blocks Collection",
-              description: "Free React UI blocks for modern web applications",
-              numberOfItems: 10,
+              name: "Sync UI Block Categories",
               itemListElement: [
                 {
                   "@type": "ListItem",
                   position: 1,
                   name: "CTA Blocks",
-                  description: "4 free call-to-action sections",
                   url: "https://www.syncui.design/docs/blocks/cta",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Hero Blocks",
-                  description: "3 free hero sections for landing pages",
                   url: "https://www.syncui.design/docs/blocks/hero",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: "Pricing Blocks",
-                  description: "3 free pricing tables and plans",
                   url: "https://www.syncui.design/docs/blocks/pricing",
                 },
               ],
@@ -195,6 +163,7 @@ const Blocks = () => {
           }}
         />
       </Head>
+
       <Container maxWidth="xl" sx={{ px: "0px !important" }}>
         <Box
           sx={{
@@ -224,11 +193,7 @@ const Blocks = () => {
 
           <Container
             maxWidth="md"
-            sx={{
-              position: "relative",
-              zIndex: 1,
-              textAlign: "center",
-            }}
+            sx={{ position: "relative", zIndex: 1, textAlign: "center" }}
           >
             <Box
               component={motion.div}
@@ -314,7 +279,7 @@ const Blocks = () => {
                     sx={{ display: { xs: "inline", sm: "none" } }}
                   >
                     Production-ready UI blocks built with MUI & Motion. Copy and
-                    integrate instantly
+                    integrate instantly.
                   </Box>
                 </Typography>
               </Box>
@@ -327,10 +292,7 @@ const Blocks = () => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: {
-              xs: "1fr",
-              sm: "repeat(2, 1fr)",
-            },
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
             gap: { xs: 4, sm: 5, md: 6 },
           }}
         >
@@ -387,12 +349,8 @@ const Blocks = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
-                  "&:hover .preview": {
-                    transform: "scale(1.04)",
-                  },
-                  "&:hover .icon": {
-                    transform: "rotate(45deg)",
-                  },
+                  "&:hover .preview": { transform: "scale(1.04)" },
+                  "&:hover .icon": { transform: "rotate(45deg)" },
                 }}
               >
                 <Box
@@ -414,9 +372,9 @@ const Blocks = () => {
                   >
                     <Image
                       src={block.image}
-                      alt={`${block.title} blocks - Free React ${block.description}`}
+                      alt={`${block.title} blocks - ${block.description}`}
                       fill
-                      sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 50vw"
+                      sizes="(max-width: 600px) 100vw, 50vw"
                       loading={block.id === 1 ? "eager" : "lazy"}
                       priority={block.id === 1}
                       style={{ objectFit: "cover" }}
@@ -448,9 +406,7 @@ const Blocks = () => {
                       p: 0,
                       color: isDarkMode ? "#FFF" : "#000",
                       backgroundColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "transparent",
-                      },
+                      "&:hover": { backgroundColor: "transparent" },
                     }}
                   >
                     <Box

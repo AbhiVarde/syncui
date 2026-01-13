@@ -584,7 +584,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           <LinkPreview
             url="https://abhivarde.in"
             placement="top"
-            staticImage="/og-image.png"
+            staticImage="/author-image.png"
           >
             abhivarde.in
           </LinkPreview>

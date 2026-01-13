@@ -12,17 +12,13 @@ import Head from "next/head";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { getAllDocsSlugs } from "@/lib/docs";
-
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
 const fadeUp = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
-  transition: {
-    duration: 0.28,
-    ease: [0.22, 1, 0.36, 1],
-  },
+  transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
 };
 
 const fadeUpDelayed = (delay = 0) => ({
@@ -37,7 +33,6 @@ const Components = ({ docsTree }) => {
 
   const componentsList = useMemo(() => {
     if (!docsTree) return [];
-
     return docsTree
       .filter((item) => item.category === "Components")
       .map((item) => ({
@@ -52,55 +47,61 @@ const Components = ({ docsTree }) => {
   return (
     <>
       <NextSeo
-        title="125+ Free React Components - Buttons, Cards, Tables & More // Sync UI"
-        description="125+ free, production-ready React components built with MUI & Motion (motion/react). Copy, customize, and integrate seamlessly."
+        title="125+ Free React Components - Buttons, Cards, Tables & More | Sync UI"
+        description="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, Date Pickers, Time Pickers, Accordions, Carousels, and more. Copy, customize, and integrate instantly."
         canonical="https://www.syncui.design/components"
         openGraph={{
+          type: "website",
           url: "https://www.syncui.design/components",
-          title:
-            "125+ Free React Components - Buttons, Cards, Tables & More // Sync UI",
+          title: "125+ Free React Components | Sync UI",
           description:
-            "125+ free, production-ready React components built with MUI & Motion.",
+            "Browse 125+ free React components built with MUI & Motion. Production-ready for Next.js projects.",
+          siteName: "Sync UI",
           images: [
             {
-              url: "https://www.syncui.design/default-og-image.png",
+              url: "https://www.syncui.design/images/open-graph/component-image.png",
               width: 1200,
               height: 630,
-              alt: "Sync UI - 125+ Free React Components Library",
+              alt: "Sync UI - 125+ Free React Components",
+              type: "image/png",
             },
           ],
-          siteName: "Sync UI",
-          type: "website",
         }}
         twitter={{
           cardType: "summary_large_image",
           site: "@syncuidesign",
           creator: "@abhivarde",
         }}
+        additionalMetaTags={[
+          {
+            name: "keywords",
+            content:
+              "React components, free UI components, MUI components, Motion components, buttons, cards, tables, date picker, time picker, Next.js components, production ready",
+          },
+        ]}
       />
 
       <Head>
         <title>Components // Sync UI</title>
-        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "CollectionPage",
-              name: "Sync UI Components - 125+ Free React Components",
+              name: "Sync UI Components",
               description:
-                "125+ free, production-ready React components built with MUI & Motion (motion/react). Includes buttons, loaders, cards, tables, time pickers, date pickers, docks, avatars, accordions, skeletons, carousels, separators, and much more.",
+                "125+ free React components built with MUI & Motion (motion/react)",
               url: "https://www.syncui.design/components",
+              numberOfItems: 125,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
-                url: "https://www.syncui.design/",
+                logo: "https://www.syncui.design/logo.png",
               },
             }),
           }}
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -121,22 +122,6 @@ const Components = ({ docsTree }) => {
                   item: "https://www.syncui.design/components",
                 },
               ],
-            }),
-          }}
-        />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "Sync UI Components Library",
-              applicationCategory: "DeveloperApplication",
-              operatingSystem: "Any",
-              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-              description:
-                "Free React components library with 125+ production-ready components built with MUI and Motion",
             }),
           }}
         />
@@ -308,7 +293,6 @@ export default Components;
 
 export async function getStaticProps() {
   const docsTree = await getAllDocsSlugs();
-
   return {
     props: { docsTree },
   };
