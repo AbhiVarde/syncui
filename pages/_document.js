@@ -4,11 +4,11 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <script
+        {/* <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4873815556142919"
           crossOrigin="anonymous"
-        ></script>
+        ></script> */}
       </Head>
       <body>
         <Main />
