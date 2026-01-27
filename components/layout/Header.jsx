@@ -177,7 +177,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) setActiveId(entry.target.id);
         }),
-      { rootMargin: "-20% 0px -60% 0px" }
+      { rootMargin: "-20% 0px -60% 0px" },
     );
     toc?.forEach((item) => {
       const element = document.getElementById(item.id);
@@ -195,27 +195,18 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const toggleDrawer = () => setDrawerOpen((prev) => !prev);
 
   const groupDocsTree = useCallback((docsTree) => {
-    const grouped = {
-      "Getting Started": [],
-      Installation: [],
-      Templates: [],
-      Blocks: [],
-      Components: [],
-    };
+    const grouped = new Map([
+      ["Getting Started", []],
+      ["Templates", []],
+      ["Blocks", []],
+      ["Components", []],
+    ]);
 
     docsTree?.forEach((item) => {
-      if (item.category === "Components") {
-        grouped["Components"].push(item);
-      } else if (item.category === "Blocks") {
-        grouped["Blocks"].push(item);
-      } else if (item.category === "Installation") {
-        grouped["Installation"].push(item);
-      } else {
-        grouped["Getting Started"].push(item);
-      }
+      grouped.get(item.category)?.push(item);
     });
 
-    grouped["Templates"].push(
+    grouped.get("Templates").push(
       {
         title: "Startup",
         url: "https://abhivarde.gumroad.com/l/startup-template-syncui",
@@ -233,25 +224,15 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         url: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
         slug: "portfolio-template",
         external: true,
-      }
+      },
     );
 
-    grouped["Getting Started"].sort(
-      (a, b) =>
-        ({ Installation: 1, Changelog: 2, "The Story of Sync UI": 3 })[
-          a.title
-        ] -
-          { Installation: 1, Changelog: 2, "The Story of Sync UI": 3 }[
-            b.title
-          ] || 0
-    );
-
-    return grouped;
+    return Object.fromEntries(grouped);
   }, []);
 
   const groupedDocsTree = useMemo(
     () => groupDocsTree(docsTree),
-    [docsTree, groupDocsTree]
+    [docsTree, groupDocsTree],
   );
 
   const renderCollapsibleCategory = useCallback(
@@ -388,7 +369,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                               }}
                             />
                             {["Skeletons", "Time Pickers"].includes(
-                              item.title
+                              item.title,
                             ) && (
                               <Box
                                 component="span"
@@ -425,7 +406,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         </>
       );
     },
-    [openCategories, router.asPath, activeUrl]
+    [openCategories, router.asPath, activeUrl],
   );
 
   const renderDocsTree = () => (
