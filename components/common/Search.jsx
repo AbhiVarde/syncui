@@ -31,28 +31,46 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const getFilteredDocsTree = (docs) =>
-    docs.filter(
+  const getFilteredDocsTree = (docs) => {
+    const filtered = docs.filter(
       (item) =>
         item.title !== "Setup" &&
         item.title !== "Changelog" &&
         item.title !== "Templates" &&
-        item.title !== "The Story of Sync UI"
+        item.title !== "The Story of Sync UI",
     );
+
+    return filtered;
+  };
 
   const getDefaultSuggestions = () => {
     const filtered = getFilteredDocsTree(docsTree);
-    const latestNames = ["Skeletons", "Time Pickers"];
+    const latestNames = ["Hero", "Pricing", "Skeletons", "Time Pickers"];
     const latest = [];
-    const others = [];
+    const allBlocks = [];
+    const allComponents = [];
+
     filtered.forEach((item) => {
-      if (latestNames.includes(item.title)) {
-        latest.push({ ...item, category: "Latest" });
+      const slug = item.slug || item.title.toLowerCase().replace(/\s+/g, "-");
+      const isBlock = slug.startsWith("blocks/");
+
+      if (isBlock) {
+        allBlocks.push({ ...item, category: "All Blocks" });
       } else {
-        others.push({ ...item, category: "All Components" });
+        allComponents.push({ ...item, category: "All Components" });
       }
     });
-    return [...latest, ...others];
+
+    latestNames.forEach((name) => {
+      const found = filtered.find((item) => item.title === name);
+      if (found) {
+        latest.push({ ...found, category: "Latest" });
+      }
+    });
+
+    const defaultSuggestions = [...latest, ...allBlocks, ...allComponents];
+
+    return defaultSuggestions;
   };
 
   const simulateAsyncLoad = async (query) => {
@@ -63,7 +81,15 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
     } else {
       const filtered = getFilteredDocsTree(docsTree)
         .filter((doc) => doc.title.toLowerCase().includes(query.toLowerCase()))
-        .map((item) => ({ ...item, category: "Search Results" }));
+        .map((item) => {
+          const slug =
+            item.slug || item.title.toLowerCase().replace(/\s+/g, "-");
+          const isBlock = slug.startsWith("blocks/");
+          return {
+            ...item,
+            category: isBlock ? "All Blocks" : "Search Results",
+          };
+        });
       setFilteredDocs(filtered);
     }
     setIsLoading(false);
@@ -96,7 +122,7 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
       case "ArrowDown":
         event.preventDefault();
         setSelectedIndex((prev) =>
-          prev < filteredDocs.length - 1 ? prev + 1 : prev
+          prev < filteredDocs.length - 1 ? prev + 1 : prev,
         );
         break;
       case "ArrowUp":
@@ -120,7 +146,6 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
     }
   };
 
-  // Hotkey "/"
   useEffect(() => {
     const handleKey = (e) => {
       if (
@@ -281,6 +306,18 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
     return acc;
   }, {});
 
+  const categoryOrder = [
+    "Latest",
+    "All Blocks",
+    "All Components",
+    "Search Results",
+  ];
+  const sortedCategories = Object.keys(groupedDocs).sort((a, b) => {
+    const indexA = categoryOrder.indexOf(a);
+    const indexB = categoryOrder.indexOf(b);
+    return indexA - indexB;
+  });
+
   const renderResultsList = (isMobile = false) => (
     <div style={isMobile ? {} : dropdownStyle}>
       {isLoading ? (
@@ -295,73 +332,77 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
           Loading...
         </div>
       ) : filteredDocs.length > 0 ? (
-        Object.entries(groupedDocs).map(([category, docs]) => (
-          <div key={category}>
-            <div
-              style={{
-                padding: "8px 16px 4px 16px",
-                backgroundColor: isDark ? "#111" : "#f9fafb",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: isDark ? "#9ca3af" : "#6b7280",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-                borderBottom: isMobile
-                  ? `1px solid ${isDark ? "#222" : "#e5e5e5"}`
-                  : "none",
-              }}
-            >
-              {category}
+        sortedCategories.map((category) => {
+          const docs = groupedDocs[category];
+          return (
+            <div key={category}>
+              <div
+                style={{
+                  padding: "8px 16px 4px 16px",
+                  backgroundColor: isDark ? "#111" : "#f9fafb",
+                  fontSize: "11px",
+                  fontWeight: 500,
+                  color: isDark ? "#9ca3af" : "#6b7280",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                  borderBottom: isMobile
+                    ? `1px solid ${isDark ? "#222" : "#e5e5e5"}`
+                    : "none",
+                }}
+              >
+                {category}
+              </div>
+              {docs.map((doc, docIndex) => {
+                const globalIndex =
+                  sortedCategories
+                    .slice(0, sortedCategories.indexOf(category))
+                    .reduce((sum, cat) => sum + groupedDocs[cat].length, 0) +
+                  docIndex;
+                return (
+                  <motion.div
+                    key={`${category}-${doc.title}`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: docIndex * 0.02 }}
+                    style={{
+                      padding: "8px 14px",
+                      fontSize: "13px",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      backgroundColor:
+                        globalIndex === selectedIndex
+                          ? isDark
+                            ? "#1a1a1a"
+                            : "rgba(0,0,0,0.06)"
+                          : "transparent",
+                      borderBottom: isMobile
+                        ? `1px solid ${isDark ? "#1a1a1a" : "#f0f0f0"}`
+                        : "none",
+                      transition: "background-color 0.2s ease",
+                      fontWeight: 400,
+                      color: isDark ? "#f9fafb" : "#000",
+                    }}
+                    onMouseDown={() => handleSelectDoc(doc)}
+                    onMouseEnter={() => setSelectedIndex(globalIndex)}
+                    whileHover={{
+                      backgroundColor: isDark ? "#1a1a1a" : "rgba(0,0,0,0.04)",
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <HugeiconsIcon
+                      icon={File02Icon}
+                      size={16}
+                      color={isDark ? "#666" : "#6b7280"}
+                    />
+                    <span>{doc.title}</span>
+                  </motion.div>
+                );
+              })}
             </div>
-            {docs.map((doc, docIndex) => {
-              const globalIndex =
-                Object.entries(groupedDocs)
-                  .slice(0, Object.keys(groupedDocs).indexOf(category))
-                  .reduce((sum, [, items]) => sum + items.length, 0) + docIndex;
-              return (
-                <motion.div
-                  key={`${category}-${doc.title}`}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: docIndex * 0.02 }}
-                  style={{
-                    padding: "8px 14px",
-                    fontSize: "13px",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    backgroundColor:
-                      globalIndex === selectedIndex
-                        ? isDark
-                          ? "#1a1a1a"
-                          : "rgba(0,0,0,0.06)"
-                        : "transparent",
-                    borderBottom: isMobile
-                      ? `1px solid ${isDark ? "#1a1a1a" : "#f0f0f0"}`
-                      : "none",
-                    transition: "background-color 0.2s ease",
-                    fontWeight: 400,
-                    color: isDark ? "#f9fafb" : "#000",
-                  }}
-                  onMouseDown={() => handleSelectDoc(doc)}
-                  onMouseEnter={() => setSelectedIndex(globalIndex)}
-                  whileHover={{
-                    backgroundColor: isDark ? "#1a1a1a" : "rgba(0,0,0,0.04)",
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <HugeiconsIcon
-                    icon={File02Icon}
-                    size={16}
-                    color={isDark ? "#666" : "#6b7280"}
-                  />
-                  <span>{doc.title}</span>
-                </motion.div>
-              );
-            })}
-          </div>
-        ))
+          );
+        })
       ) : searchQuery && !isLoading ? (
         <div
           style={{
@@ -469,66 +510,84 @@ const Search = ({ docsTree = [], isLargeUp = true }) => {
                 Loading...
               </Box>
             ) : filteredDocs.length > 0 ? (
-              Object.entries(groupedDocs).map(([category, docs]) => (
-                <Box key={category}>
-                  <Box
-                    sx={{
-                      padding: "8px 16px 4px 16px",
-                      backgroundColor: isDark ? "#111" : "#f9fafb",
-                      fontSize: "12px",
-                      fontWeight: 500,
-                      color: isDark ? "#9ca3af" : "#6b7280",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px",
-                      borderBottom: `1px solid ${isDark ? "#222" : "#e5e5e5"}`,
-                    }}
-                  >
-                    {category}
-                  </Box>
-                  {docs.map((doc, index) => (
-                    <motion.div
-                      key={`${category}-${doc.title}`}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.12, delay: index * 0.015 }}
-                      onMouseDown={() => handleSelectDoc(doc)}
+              sortedCategories.map((category) => {
+                const docs = groupedDocs[category];
+                return (
+                  <Box key={category}>
+                    <Box
+                      sx={{
+                        padding: "8px 16px 4px 16px",
+                        backgroundColor: isDark ? "#111" : "#f9fafb",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        color: isDark ? "#9ca3af" : "#6b7280",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        borderBottom: `1px solid ${isDark ? "#222" : "#e5e5e5"}`,
+                      }}
                     >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          padding: "8px 14px",
-                          fontSize: "13px",
-                          gap: "10px",
-                          cursor: "pointer",
-                          borderBottom: `1px solid ${isDark ? "#1a1a1a" : "#f0f0f0"}`,
-                          "&:hover": {
-                            backgroundColor: isDark
-                              ? "#1a1a1a"
-                              : "rgba(0,0,0,0.06)",
-                          },
-                        }}
-                      >
-                        <HugeiconsIcon
-                          icon={File02Icon}
-                          size={16}
-                          color={isDark ? "#666" : "#6b7280"}
-                        />
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: isDark ? "#f9fafb" : "#111",
-                            fontWeight: 400,
-                            fontSize: "15px",
-                          }}
+                      {category}
+                    </Box>
+                    {docs.map((doc, index) => {
+                      const globalIndex =
+                        sortedCategories
+                          .slice(0, sortedCategories.indexOf(category))
+                          .reduce(
+                            (sum, cat) => sum + groupedDocs[cat].length,
+                            0,
+                          ) + index;
+                      return (
+                        <motion.div
+                          key={`${category}-${doc.title}`}
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.12, delay: index * 0.015 }}
+                          onMouseDown={() => handleSelectDoc(doc)}
                         >
-                          {doc.title}
-                        </Typography>
-                      </Box>
-                    </motion.div>
-                  ))}
-                </Box>
-              ))
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              padding: "8px 14px",
+                              fontSize: "13px",
+                              gap: "10px",
+                              cursor: "pointer",
+                              borderBottom: `1px solid ${isDark ? "#1a1a1a" : "#f0f0f0"}`,
+                              backgroundColor:
+                                globalIndex === selectedIndex
+                                  ? isDark
+                                    ? "#1a1a1a"
+                                    : "rgba(0,0,0,0.06)"
+                                  : "transparent",
+                              "&:hover": {
+                                backgroundColor: isDark
+                                  ? "#1a1a1a"
+                                  : "rgba(0,0,0,0.06)",
+                              },
+                            }}
+                          >
+                            <HugeiconsIcon
+                              icon={File02Icon}
+                              size={16}
+                              color={isDark ? "#666" : "#6b7280"}
+                            />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: isDark ? "#f9fafb" : "#111",
+                                fontWeight: 400,
+                                fontSize: "15px",
+                              }}
+                            >
+                              {doc.title}
+                            </Typography>
+                          </Box>
+                        </motion.div>
+                      );
+                    })}
+                  </Box>
+                );
+              })
             ) : (
               <Box
                 sx={{
