@@ -71,6 +71,9 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
       document.addEventListener("mousedown", handleClickOutside, {
         passive: true,
       });
+      document.addEventListener("touchstart", handleClickOutside, {
+        passive: true,
+      });
       window.addEventListener("scroll", handleScroll, {
         passive: true,
         capture: true,
@@ -80,6 +83,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
       window.removeEventListener("scroll", handleScroll, true);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
@@ -115,7 +119,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
       { label: "5:00 PM", hour: "05", minute: "00", period: "PM" },
       { label: "6:00 PM", hour: "06", minute: "00", period: "PM" },
     ],
-    []
+    [],
   );
 
   const handleTimeChange = useCallback(
@@ -151,7 +155,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         [field]: numValue,
       }));
     },
-    [variant]
+    [variant],
   );
 
   const handleIncrement = useCallback(
@@ -176,7 +180,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         };
       });
     },
-    [variant]
+    [variant],
   );
 
   const handleDecrement = useCallback(
@@ -201,7 +205,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         };
       });
     },
-    [variant]
+    [variant],
   );
 
   const handlePresetClick = useCallback(
@@ -239,7 +243,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         }));
       }
     },
-    [variant]
+    [variant],
   );
 
   const formatTime = useCallback(() => {
@@ -298,7 +302,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         }));
       }
     },
-    [variant, handleTimeChange]
+    [variant, handleTimeChange],
   );
 
   const renderTimeInput = useCallback(
@@ -320,6 +324,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
             color: `${isDark ? "#fff" : "#000"} !important`,
             bgcolor: "transparent !important",
             transition: "background-color 0.15s ease !important",
+            touchAction: "manipulation !important",
             "&:hover": {
               bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
             },
@@ -339,7 +344,11 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
             value={selectedTime[field]}
             onChange={(e) => handleTimeChange(field, e.target.value)}
             onBlur={(e) => handleBlur(e, field)}
-            inputProps={{ maxLength: 2 }}
+            inputProps={{
+              maxLength: 2,
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+            }}
             sx={{
               width: "48px !important",
               "& .MuiOutlinedInput-root": {
@@ -392,6 +401,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
             color: `${isDark ? "#fff" : "#000"} !important`,
             bgcolor: "transparent !important",
             transition: "background-color 0.15s ease !important",
+            touchAction: "manipulation !important",
             "&:hover": {
               bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
             },
@@ -408,7 +418,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
       handleDecrement,
       handleTimeChange,
       handleBlur,
-    ]
+    ],
   );
 
   const renderPicker = useMemo(() => {
@@ -436,6 +446,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
           zIndex: "1000 !important",
           willChange: "transform, opacity",
           transform: "translateZ(0)",
+          touchAction: "manipulation !important",
         }}
       >
         {variant === "presets" && (
@@ -481,6 +492,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                   transform:
                     hoveredPreset === index ? "scale(1.02)" : "scale(1)",
                   willChange: "transform, background-color",
+                  touchAction: "manipulation !important",
                   "&:hover": {
                     bgcolor: `${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important`,
                   },
@@ -577,6 +589,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                     transition:
                       "background-color 0.15s ease, transform 0.1s ease !important",
                     willChange: "transform, background-color",
+                    touchAction: "manipulation !important",
                     "&:hover": {
                       bgcolor: `${
                         selectedTime.period === "AM"
@@ -625,6 +638,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                     transition:
                       "background-color 0.15s ease, transform 0.1s ease !important",
                     willChange: "transform, background-color",
+                    touchAction: "manipulation !important",
                     "&:hover": {
                       bgcolor: `${
                         selectedTime.period === "PM"
@@ -685,6 +699,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                   transition:
                     "background-color 0.15s ease, transform 0.1s ease !important",
                   willChange: "transform, background-color",
+                  touchAction: "manipulation !important",
                   "&:hover": {
                     bgcolor: `${
                       selectedTime.period === "AM"
@@ -731,6 +746,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                   transition:
                     "background-color 0.15s ease, transform 0.1s ease !important",
                   willChange: "transform, background-color",
+                  touchAction: "manipulation !important",
                   "&:hover": {
                     bgcolor: `${
                       selectedTime.period === "PM"
@@ -814,6 +830,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
               cursor: "pointer !important",
               transition:
                 "border-color 0.15s ease, background-color 0.15s ease !important",
+              touchAction: "manipulation !important",
               "& fieldset": {
                 borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
               },
@@ -831,7 +848,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
             "& .MuiOutlinedInput-input": {
               cursor: "pointer !important",
               color: `${isDark ? "#fff" : "#000"} !important`,
-              fontSize: "14px !important",
+              fontSize: "16px !important",
               fontWeight: "400 !important",
               pl: "36px !important",
               pr: "12px !important",
