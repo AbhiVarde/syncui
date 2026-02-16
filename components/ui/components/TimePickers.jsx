@@ -30,6 +30,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
   const containerRef = useRef(null);
   const pickerRef = useRef(null);
   const rafRef = useRef(null);
+  const isTogglingRef = useRef(false);
 
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -51,6 +52,10 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (isTogglingRef.current) {
+        return;
+      }
+
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target) &&
@@ -68,12 +73,15 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     };
 
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside, {
-        passive: true,
-      });
-      document.addEventListener("touchstart", handleClickOutside, {
-        passive: true,
-      });
+      setTimeout(() => {
+        document.addEventListener("mousedown", handleClickOutside, {
+          passive: true,
+        });
+        document.addEventListener("touchstart", handleClickOutside, {
+          passive: true,
+        });
+      }, 100);
+
       window.addEventListener("scroll", handleScroll, {
         passive: true,
         capture: true,
@@ -305,6 +313,15 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     [variant, handleTimeChange],
   );
 
+  const handleToggle = useCallback(() => {
+    isTogglingRef.current = true;
+    calculatePosition();
+    setIsOpen(!isOpen);
+    setTimeout(() => {
+      isTogglingRef.current = false;
+    }, 150);
+  }, [isOpen, calculatePosition]);
+
   const renderTimeInput = useCallback(
     (field, label) => (
       <Box
@@ -348,6 +365,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
               maxLength: 2,
               inputMode: "numeric",
               pattern: "[0-9]*",
+              autoComplete: "off",
             }}
             sx={{
               width: "48px !important",
@@ -807,9 +825,10 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
           fullWidth
           placeholder={getPlaceholder()}
           value={formatTime()}
-          onClick={() => {
-            calculatePosition();
-            setIsOpen(!isOpen);
+          onClick={handleToggle}
+          inputProps={{
+            autoComplete: "off",
+            readOnly: true,
           }}
           InputProps={{
             readOnly: true,
