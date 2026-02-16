@@ -23,7 +23,7 @@
     "mdx-bundler": "^10.0.2",
     "motion": "^12.23.25",
     "next": "16.0.10",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote": "^6.0.0",
     "next-seo": "^6.8.0",
     "qss": "^3.0.0",
     "react": "^19.2.3",
