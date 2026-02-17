@@ -97,6 +97,9 @@ const StargazersSection = () => {
   const latestStargazers = [...stargazers].reverse().slice(0, displayCount);
   const remainingCount = Math.max(0, stargazers.length - displayCount);
 
+  const skeletonBg =
+    theme.palette.mode === "dark" ? alpha("#fff", 0.1) : alpha("#000", 0.06);
+
   return (
     <Container maxWidth="md" sx={{ py: { xs: 6, md: 8 } }}>
       <Paper
@@ -156,10 +159,12 @@ const StargazersSection = () => {
                     height={44}
                     sx={{
                       ml: index > 0 ? "-12px" : 0,
-                      bgcolor:
-                        theme.palette.mode === "dark"
-                          ? alpha("#fff", 0.1)
-                          : alpha("#000", 0.06),
+                      flexShrink: 0,
+                      border: "2px solid",
+                      borderColor: "background.paper",
+                      bgcolor: skeletonBg,
+                      borderRadius: "50%",
+                      zIndex: displayCount - index,
                     }}
                   />
                 ))
@@ -207,17 +212,28 @@ const StargazersSection = () => {
               mb: 3,
             }}
           >
-            <HugeiconsIcon icon={StarIcon} size={18} />
-            <Typography variant="body1" fontWeight={500}>
-              {loading ? (
-                <Skeleton width={48} />
-              ) : (
-                <AnimatedCounter value={stars || 0} duration={1.6} />
-              )}
-            </Typography>
-            <Typography variant="body2" fontWeight={400} color="text.secondary">
-              GitHub stars
-            </Typography>
+            {loading ? (
+              <Skeleton
+                variant="rounded"
+                width={148}
+                height={20}
+                sx={{ borderRadius: 1, bgcolor: skeletonBg }}
+              />
+            ) : (
+              <>
+                <HugeiconsIcon icon={StarIcon} size={18} />
+                <Typography variant="body1" fontWeight={500}>
+                  <AnimatedCounter value={stars || 0} duration={1.6} />
+                </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight={400}
+                  color="text.secondary"
+                >
+                  GitHub stars
+                </Typography>
+              </>
+            )}
           </Box>
 
           <Box
@@ -228,15 +244,34 @@ const StargazersSection = () => {
               flexWrap: "wrap",
             }}
           >
-            <TextLink href={GITHUB_URL}>
-              <HugeiconsIcon icon={GithubIcon} size={18} />
-              Star on GitHub
-            </TextLink>
+            {loading ? (
+              <>
+                <Skeleton
+                  variant="rounded"
+                  width={120}
+                  height={20}
+                  sx={{ borderRadius: 1, bgcolor: skeletonBg }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={136}
+                  height={20}
+                  sx={{ borderRadius: 1, bgcolor: skeletonBg }}
+                />
+              </>
+            ) : (
+              <>
+                <TextLink href={GITHUB_URL}>
+                  <HugeiconsIcon icon={GithubIcon} size={18} />
+                  Star on GitHub
+                </TextLink>
 
-            <TextLink href={SPONSOR_URL}>
-              <HugeiconsIcon icon={FavouriteIcon} size={18} />
-              Support Sync UI
-            </TextLink>
+                <TextLink href={SPONSOR_URL}>
+                  <HugeiconsIcon icon={FavouriteIcon} size={18} />
+                  Support Sync UI
+                </TextLink>
+              </>
+            )}
           </Box>
         </Box>
       </Paper>
