@@ -17,20 +17,20 @@ import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
 const blockCategories = [
   {
-    id: 1,
-    title: "CTA",
-    image: "/images/blocks/cta.png",
-    count: 4,
-    route: "/docs/blocks/cta",
-    description: "Call-to-action sections to drive conversions",
-  },
-  {
     id: 2,
     title: "Hero",
     image: "/images/blocks/hero.png",
     count: 3,
     route: "/docs/blocks/hero",
     description: "Eye-catching hero sections for landing pages",
+  },
+  {
+    id: 4,
+    title: "Stats",
+    image: "/images/blocks/stats.png",
+    count: 3,
+    route: "/docs/blocks/stats",
+    description: "Professional statistics and metrics sections",
   },
   {
     id: 3,
@@ -41,7 +41,15 @@ const blockCategories = [
     description: "Professional pricing tables and plans",
   },
   {
-    id: 4,
+    id: 1,
+    title: "CTA",
+    image: "/images/blocks/cta.png",
+    count: 4,
+    route: "/docs/blocks/cta",
+    description: "Call-to-action sections to drive conversions",
+  },
+  {
+    id: 5,
     comingSoon: true,
   },
 ];
@@ -98,9 +106,9 @@ const Blocks = () => {
               "@type": "CollectionPage",
               name: "Sync UI Blocks",
               description:
-                "10+ free UI blocks including Hero sections, CTA blocks, and Pricing tables",
+                "13+ free UI blocks including Hero sections, Stats blocks, CTA blocks, and Pricing tables",
               url: "https://www.syncui.design/blocks",
-              numberOfItems: 10,
+              numberOfItems: 13,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
@@ -109,6 +117,7 @@ const Blocks = () => {
             }),
           }}
         />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -132,6 +141,7 @@ const Blocks = () => {
             }),
           }}
         />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -143,20 +153,26 @@ const Blocks = () => {
                 {
                   "@type": "ListItem",
                   position: 1,
-                  name: "CTA Blocks",
-                  url: "https://www.syncui.design/docs/blocks/cta",
+                  name: "Hero Blocks",
+                  url: "https://www.syncui.design/docs/blocks/hero",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
-                  name: "Hero Blocks",
-                  url: "https://www.syncui.design/docs/blocks/hero",
+                  name: "Stats Blocks",
+                  url: "https://www.syncui.design/docs/blocks/stats",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: "Pricing Blocks",
                   url: "https://www.syncui.design/docs/blocks/pricing",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 4,
+                  name: "CTA Blocks",
+                  url: "https://www.syncui.design/docs/blocks/cta",
                 },
               ],
             }),
@@ -423,7 +439,7 @@ const Blocks = () => {
                   </IconButton>
                 </Box>
               </Box>
-            )
+            ),
           )}
         </Box>
       </Container>

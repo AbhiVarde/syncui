@@ -219,26 +219,33 @@
     <priority>0.7</priority>
   </url>
   
-  <!-- Block Pages -->
-  <url>
-    <loc>https://www.syncui.design/docs/blocks/cta</loc>
-    <lastmod>2025-01-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.syncui.design/docs/blocks/hero</loc>
-    <lastmod>2025-01-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.syncui.design/docs/blocks/pricing</loc>
-    <lastmod>2025-01-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+ <!-- Block Pages -->
+<url>
+  <loc>https://www.syncui.design/docs/blocks/hero</loc>
+  <lastmod>2025-01-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<url>
+  <loc>https://www.syncui.design/docs/blocks/stats</loc>
+  <lastmod>2026-02-26</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<url>
+  <loc>https://www.syncui.design/docs/blocks/pricing</loc>
+  <lastmod>2025-01-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<url>
+  <loc>https://www.syncui.design/docs/blocks/cta</loc>
+  <lastmod>2025-01-13</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
   
 </urlset>

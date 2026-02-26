@@ -53,6 +53,7 @@ import SkeletonVariants from "./ui/components/Skeletons";
 import HeroVariants from "./ui/blocks/Hero/Hero";
 import CTAVariants from "./ui/blocks/CTA/Cta";
 import PricingVariants from "./ui/blocks/Pricing/Pricing";
+import StatsVariants from "./ui/blocks/Stats/Stats";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },
@@ -349,6 +350,7 @@ export const MDXComponents = {
   HeroVariants,
   CTAVariants,
   PricingVariants,
+  StatsVariants,
   CodePreview,
   PackageManagerTabs,
   h1: createHeading("h1"),
