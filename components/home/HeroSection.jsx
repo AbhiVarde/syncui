@@ -68,7 +68,7 @@ const HeroSection = () => {
                 },
               }}
             >
-              🧱 Introducing Blocks: Hero, CTA & Pricing
+              🧱 Introducing Blocks: Hero, CTA, Pricing & Stats
               <Box
                 className="chevron"
                 sx={{
