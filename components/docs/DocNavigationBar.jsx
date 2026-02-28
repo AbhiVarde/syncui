@@ -1,181 +1,255 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Box, ButtonBase, Typography, Menu, MenuItem } from "@mui/material";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
+import {
+  Box,
+  ButtonBase,
+  Typography,
+  Popper,
+  Paper,
+  ClickAwayListener,
+  Fade,
+} from "@mui/material";
 import Link from "next/link";
-import { SiClaude, SiMarkdown, SiOpenai } from "react-icons/si";
+import { SiMarkdown, SiOpenai, SiClaude } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowRight01Icon,
   ArrowLeft01Icon,
+  ArrowUp01Icon,
   ArrowDown01Icon,
   Copy01Icon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons";
 
-const buttonBaseStyle = {
+const pillSx = {
+  display: "flex",
+  alignItems: "center",
+  height: 32,
+  bgcolor: "background.paper",
+  border: "1.5px solid",
+  borderColor: "divider",
+  borderRadius: "10px",
+  overflow: "hidden",
+};
+
+const squareBtnSx = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  bgcolor: "background.paper",
-  border: 1,
-  borderColor: "divider",
-  borderRadius: 1,
+  width: 32,
+  height: 32,
   flexShrink: 0,
-  transition: "all 0.15s ease",
-  "&:hover": {
-    bgcolor: "action.hover",
-  },
+  bgcolor: "background.paper",
+  border: "1.5px solid",
+  borderColor: "divider",
+  borderRadius: "10px",
+  transition: "background-color 0.1s ease",
+  "&:hover": { bgcolor: "action.hover" },
 };
 
-const menuItemStyle = {
-  py: 0.75,
-  px: 1.25,
+const halfBtnSx = {
+  display: "flex",
+  alignItems: "center",
+  height: "100%",
+  transition: "background-color 0.1s ease",
+  "&:hover": { bgcolor: "action.hover" },
+};
+
+const dividerSx = {
+  width: "1.5px",
+  alignSelf: "stretch",
+  bgcolor: "divider",
+  flexShrink: 0,
+};
+
+const dropdownItemSx = {
+  width: "100%",
   display: "flex",
   alignItems: "center",
   gap: 1.25,
-  fontSize: "15px !important",
-  minHeight: "auto",
-  borderRadius: 1,
-  fontWeight: 500,
-  "& *": {
-    fontSize: "15px !important",
-  },
-  "&:hover": {
-    bgcolor: "action.hover",
-  },
+  px: 0.875,
+  py: 0.625,
+  borderRadius: "8px",
+  textAlign: "left",
+  transition: "background-color 0.1s ease",
+  "&:hover": { bgcolor: "action.hover" },
 };
 
-const NavButton = ({ page, direction }) => {
-  const icon = direction === "prev" ? ArrowLeft01Icon : ArrowRight01Icon;
-
-  const buttonContent = (
-    <ButtonBase
-      disabled={!page}
-      sx={{
-        ...buttonBaseStyle,
-        width: 32,
-        height: 32,
-        opacity: page ? 1 : 0.3,
-        cursor: page ? "pointer" : "not-allowed",
-      }}
-    >
-      <HugeiconsIcon icon={icon} size={16} />
-    </ButtonBase>
-  );
-
-  return page ? (
-    <Link href={page.url} style={{ textDecoration: "none" }}>
-      {buttonContent}
-    </Link>
-  ) : (
-    buttonContent
-  );
+const iconBoxSx = {
+  width: 30,
+  height: 30,
+  flexShrink: 0,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  bgcolor: "action.hover",
+  border: "1.5px solid",
+  borderColor: "divider",
+  borderRadius: "7px",
+  color: "text.secondary",
 };
-
-const AIMenuItem = ({ icon: Icon, label, onClick }) => (
-  <MenuItem onClick={onClick} sx={menuItemStyle}>
-    <Icon size={16} />
-    {label}
-  </MenuItem>
-);
 
 const findAdjacentPages = (docsTree, currentSlug) => {
   const currentUrl = `/docs${currentSlug ? `/${currentSlug}` : ""}`;
   const currentDoc = docsTree.find((item) => item.url === currentUrl);
+  if (!currentDoc?.category) return { prevPage: null, nextPage: null };
 
-  if (!currentDoc || !currentDoc.category) {
-    return { prevPage: null, nextPage: null };
-  }
-
-  const currentCategory = currentDoc.category;
   const categoryPages = docsTree
-    .filter((item) => item.category === currentCategory)
-    .map((item) => ({
-      title: item.title,
-      url: item.url,
-    }));
+    .filter((item) => item.category === currentDoc.category)
+    .map(({ title, url }) => ({ title, url }));
 
-  const currentIndex = categoryPages.findIndex(
-    (item) => item.url === currentUrl
-  );
-
+  const idx = categoryPages.findIndex((item) => item.url === currentUrl);
   return {
-    prevPage: currentIndex > 0 ? categoryPages[currentIndex - 1] : null,
-    nextPage:
-      currentIndex < categoryPages.length - 1
-        ? categoryPages[currentIndex + 1]
-        : null,
+    prevPage: idx > 0 ? categoryPages[idx - 1] : null,
+    nextPage: idx < categoryPages.length - 1 ? categoryPages[idx + 1] : null,
   };
 };
 
+const NavButton = ({ page, direction }) => {
+  const icon = direction === "prev" ? ArrowLeft01Icon : ArrowRight01Icon;
+  const btn = (
+    <ButtonBase
+      disabled={!page}
+      sx={{
+        ...squareBtnSx,
+        opacity: page ? 1 : 0.3,
+        pointerEvents: page ? "auto" : "none",
+      }}
+    >
+      <HugeiconsIcon icon={icon} size={14} strokeWidth={2} />
+    </ButtonBase>
+  );
+  return page ? (
+    <Link href={page.url} style={{ textDecoration: "none", display: "block" }}>
+      {btn}
+    </Link>
+  ) : (
+    btn
+  );
+};
+
+const CopyIcon = ({ size }) => (
+  <HugeiconsIcon icon={Copy01Icon} size={size} strokeWidth={2} />
+);
+
+const DropdownItem = ({
+  IconComponent,
+  label,
+  description,
+  hasArrow,
+  onClick,
+}) => (
+  <ButtonBase onClick={onClick} sx={dropdownItemSx}>
+    <Box sx={iconBoxSx}>
+      <IconComponent size={13} />
+    </Box>
+    <Box sx={{ flex: 1, minWidth: 0 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
+        <Typography
+          variant="caption"
+          fontWeight={500}
+          color="text.primary"
+          noWrap
+        >
+          {label}
+        </Typography>
+        {hasArrow && (
+          <Typography
+            variant="caption"
+            color="text.disabled"
+            sx={{ lineHeight: 1 }}
+          >
+            ↗
+          </Typography>
+        )}
+      </Box>
+      {description && (
+        <Typography
+          variant="caption"
+          fontWeight={400}
+          color="text.secondary"
+          display="block"
+        >
+          {description}
+        </Typography>
+      )}
+    </Box>
+  </ButtonBase>
+);
+
 export const DocNavigationBar = ({ slug, docsTree, title }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isCopying, setIsCopying] = useState(false);
-  const open = Boolean(anchorEl);
+  const anchorRef = useRef(null);
+  const timerRef = useRef(null);
 
   const { prevPage, nextPage } = useMemo(
     () => findAdjacentPages(docsTree, slug),
-    [docsTree, slug]
+    [docsTree, slug],
   );
 
-  const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
-
-  const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+  useEffect(() => () => clearTimeout(timerRef.current), []);
 
   useEffect(() => {
-    if (open) {
-      const handleScroll = () => handleClose();
-      window.addEventListener("scroll", handleScroll, true);
-      return () => window.removeEventListener("scroll", handleScroll, true);
-    }
-  }, [open, handleClose]);
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener("scroll", close, { passive: true, capture: true });
+    return () => window.removeEventListener("scroll", close, { capture: true });
+  }, [open]);
 
-  const handleCopyMarkdown = useCallback(async () => {
+  const copyMarkdown = useCallback(async () => {
     if (isCopying) return;
-
     setIsCopying(true);
     setCopied(true);
-
     try {
-      const mdxUrl = `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`;
-      const response = await fetch(mdxUrl);
-      const markdown = await response.text();
-      await navigator.clipboard.writeText(markdown);
-
-      setTimeout(() => {
+      const res = await fetch(
+        `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`,
+      );
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
         setCopied(false);
         setIsCopying(false);
       }, 2000);
-    } catch (error) {
-      console.error("Failed to copy markdown:", error);
-      setCopied(false);
-      setIsCopying(false);
     }
   }, [slug, isCopying]);
 
   const handleViewMarkdown = useCallback(() => {
-    const mdxUrl = `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`;
-    window.open(mdxUrl, "_blank");
-    handleClose();
-  }, [slug, handleClose]);
+    window.open(
+      `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`,
+      "_blank",
+    );
+    setOpen(false);
+  }, [slug]);
 
-  const handleOpenAI = useCallback(
-    (aiType) => {
-      const url = window.location.href;
-      const prompt = `I'm looking at this Sync UI documentation: ${url}. Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`;
-      const urls = {
-        chatgpt: `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`,
-        claude: `https://claude.ai/new?q=${encodeURIComponent(prompt)}`,
-      };
-      window.open(urls[aiType], "_blank");
-      handleClose();
-    },
-    [handleClose]
-  );
+  const handleOpenAI = useCallback((type) => {
+    const prompt = `I'm looking at this documentation: ${window.location.href}. Help me understand how to use it.`;
+    window.open(
+      type === "chatgpt"
+        ? `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`
+        : `https://claude.ai/new?q=${encodeURIComponent(prompt)}`,
+      "_blank",
+    );
+    setOpen(false);
+  }, []);
+
+  const handleCopyFromMenu = useCallback(() => {
+    setOpen(false);
+    copyMarkdown();
+  }, [copyMarkdown]);
+
+  const toggleOpen = useCallback(() => setOpen((v) => !v), []);
+  const handleClose = useCallback(() => setOpen(false), []);
 
   return (
     <>
@@ -192,11 +266,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
         <Typography
           variant="h3"
           fontWeight={500}
-          sx={{
-            flex: "1 1 auto",
-            minWidth: 0,
-            wordBreak: "break-word",
-          }}
+          sx={{ flex: "1 1 auto", minWidth: 0, wordBreak: "break-word" }}
         >
           {title}
         </Typography>
@@ -209,132 +279,105 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
             flexShrink: 0,
           }}
         >
-          <Box
-            sx={{
-              ...buttonBaseStyle,
-              height: 32,
-              display: "flex",
-              alignItems: "center",
-              overflow: "hidden",
-            }}
-          >
+          <Box ref={anchorRef} sx={pillSx}>
             <ButtonBase
-              onClick={handleCopyMarkdown}
+              onClick={copyMarkdown}
               disabled={isCopying}
-              sx={{
-                px: { xs: 1, sm: 1.5 },
-                gap: { xs: 0.25, sm: 0.75 },
-                display: "flex",
-                alignItems: "center",
-                height: "100%",
-                transition: "all 0.2s ease",
-                "&:hover": {
-                  bgcolor: "action.hover",
-                },
-              }}
+              sx={{ ...halfBtnSx, gap: 0.75, pl: 1.125, pr: 1.25 }}
             >
               <HugeiconsIcon
                 icon={copied ? Tick02Icon : Copy01Icon}
-                size={16}
+                size={13}
+                strokeWidth={2}
               />
               <Typography
-                variant="body2"
+                variant="caption"
                 fontWeight={500}
-                sx={{
-                  display: { xs: "none", sm: "block" },
-                  fontSize: "13px",
-                  transition: "all 0.2s ease",
-                  minWidth: "65px",
-                }}
+                component="span"
+                noWrap
+                sx={{ display: { xs: "none", sm: "block" }, minWidth: 52 }}
               >
-                {copied ? "Copied!" : "Copy Page"}
+                {copied ? "Copied!" : "Copy page"}
               </Typography>
             </ButtonBase>
 
-            <Box
-              sx={{
-                width: "1px",
-                height: 20,
-                bgcolor: "divider",
-                flexShrink: 0,
-              }}
-            />
+            <Box sx={dividerSx} />
 
             <ButtonBase
-              onClick={handleClick}
-              sx={{
-                px: 0.75,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                transition: "all 0.15s ease",
-                "&:hover": {
-                  bgcolor: "action.hover",
-                },
-              }}
+              onClick={toggleOpen}
+              sx={{ ...halfBtnSx, px: 0.75, justifyContent: "center" }}
             >
-              <HugeiconsIcon icon={ArrowDown01Icon} size={16} />
+              <HugeiconsIcon
+                icon={open ? ArrowUp01Icon : ArrowDown01Icon}
+                size={13}
+                strokeWidth={2}
+              />
             </ButtonBase>
           </Box>
 
-          <Box sx={{ display: "flex", gap: 0.75 }}>
-            <NavButton page={prevPage} direction="prev" />
-            <NavButton page={nextPage} direction="next" />
-          </Box>
+          <NavButton page={prevPage} direction="prev" />
+          <NavButton page={nextPage} direction="next" />
         </Box>
       </Box>
 
-      <Menu
-        anchorEl={anchorEl}
+      <Popper
         open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        TransitionProps={{
-          timeout: 200,
-        }}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              mt: 0.5,
-              minWidth: 200,
-              bgcolor: "background.paper",
-              border: 1,
-              borderColor: "divider",
-              borderRadius: 1,
-              boxShadow: "none",
-              p: 0.5,
-            },
-          },
-        }}
-        MenuListProps={{
-          sx: { p: 0 },
-        }}
+        anchorEl={anchorRef.current}
+        placement="bottom-end"
+        transition
+        style={{ zIndex: 1300 }}
+        modifiers={[{ name: "offset", options: { offset: [0, 6] } }]}
       >
-        <AIMenuItem
-          icon={SiMarkdown}
-          label="View as Markdown"
-          onClick={handleViewMarkdown}
-        />
-        <AIMenuItem
-          icon={SiOpenai}
-          label="Open in ChatGPT"
-          onClick={() => handleOpenAI("chatgpt")}
-        />
-        <AIMenuItem
-          icon={SiClaude}
-          label="Open in Claude"
-          onClick={() => handleOpenAI("claude")}
-        />
-      </Menu>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={120}>
+            <Paper
+              elevation={0}
+              sx={{
+                minWidth: 240,
+                border: "1.5px solid",
+                borderColor: "divider",
+                borderRadius: "12px",
+                bgcolor: "background.paper",
+                p: 0.5,
+                boxShadow:
+                  "0 8px 28px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05)",
+              }}
+            >
+              <ClickAwayListener onClickAway={handleClose}>
+                <Box>
+                  <DropdownItem
+                    IconComponent={CopyIcon}
+                    label="Copy page"
+                    description="Copy page as Markdown for LLMs"
+                    onClick={handleCopyFromMenu}
+                  />
+                  <DropdownItem
+                    IconComponent={SiMarkdown}
+                    label="View as Markdown"
+                    description="View this page as plain text"
+                    hasArrow
+                    onClick={handleViewMarkdown}
+                  />
+                  <DropdownItem
+                    IconComponent={SiOpenai}
+                    label="Open in ChatGPT"
+                    description="Ask questions about this page"
+                    hasArrow
+                    onClick={() => handleOpenAI("chatgpt")}
+                  />
+                  <DropdownItem
+                    IconComponent={SiClaude}
+                    label="Open in Claude"
+                    description="Ask questions about this page"
+                    hasArrow
+                    onClick={() => handleOpenAI("claude")}
+                  />
+                </Box>
+              </ClickAwayListener>
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
     </>
   );
 };
