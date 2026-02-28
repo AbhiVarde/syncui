@@ -10,7 +10,7 @@ import {
 import { motion } from "motion/react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
@@ -56,7 +56,6 @@ const blockCategories = [
 
 const Blocks = () => {
   const theme = useTheme();
-  const router = useRouter();
   const isDarkMode = theme.palette.mode === "dark";
 
   return (
@@ -117,7 +116,6 @@ const Blocks = () => {
             }),
           }}
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -141,7 +139,6 @@ const Blocks = () => {
             }),
           }}
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -347,98 +344,103 @@ const Blocks = () => {
                 </Box>
               </Box>
             ) : (
-              <Box
+              <Link
                 key={block.id}
-                component={motion.div}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                onClick={() => router.push(block.route)}
-                sx={{
-                  cursor: "pointer",
-                  borderRadius: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  backgroundColor: "transparent",
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 2,
-                  "&:hover .preview": { transform: "scale(1.04)" },
-                  "&:hover .icon": { transform: "rotate(45deg)" },
-                }}
+                href={block.route}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Box
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
                   sx={{
-                    position: "relative",
-                    width: "100%",
-                    height: 180,
-                    overflow: "hidden",
-                    borderRadius: 2,
+                    cursor: "pointer",
+                    borderRadius: 3,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    backgroundColor: "transparent",
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    "&:hover .preview": { transform: "scale(1.04)" },
+                    "&:hover .icon": { transform: "rotate(45deg)" },
                   }}
                 >
                   <Box
-                    className="preview"
                     sx={{
-                      position: "absolute",
-                      inset: 0,
-                      transition: "transform 0.3s ease-out",
-                    }}
-                  >
-                    <Image
-                      src={block.image}
-                      alt={`${block.title} blocks - ${block.description}`}
-                      fill
-                      sizes="(max-width: 600px) 100vw, 50vw"
-                      loading={block.id === 1 ? "eager" : "lazy"}
-                      priority={block.id === 1}
-                      style={{ objectFit: "cover" }}
-                    />
-                  </Box>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    px: 0.5,
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
-                    <Typography variant="h6" fontWeight={500}>
-                      {block.title}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {block.count} blocks
-                    </Typography>
-                  </Box>
-
-                  <IconButton
-                    disableRipple
-                    aria-label={`View ${block.title} blocks`}
-                    sx={{
-                      p: 0,
-                      color: isDarkMode ? "#FFF" : "#000",
-                      backgroundColor: "transparent",
-                      "&:hover": { backgroundColor: "transparent" },
+                      position: "relative",
+                      width: "100%",
+                      height: 180,
+                      overflow: "hidden",
+                      borderRadius: 2,
                     }}
                   >
                     <Box
-                      className="icon"
+                      className="preview"
                       sx={{
-                        display: "inline-flex",
-                        transition:
-                          "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
-                        transformOrigin: "center",
+                        position: "absolute",
+                        inset: 0,
+                        transition: "transform 0.3s ease-out",
                       }}
                     >
-                      <HugeiconsIcon icon={ArrowUpRight01Icon} size={20} />
+                      <Image
+                        src={block.image}
+                        alt={`${block.title} blocks - ${block.description}`}
+                        fill
+                        sizes="(max-width: 600px) 100vw, 50vw"
+                        loading={block.id === 1 ? "eager" : "lazy"}
+                        priority={block.id === 1}
+                        style={{ objectFit: "cover" }}
+                      />
                     </Box>
-                  </IconButton>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      px: 0.5,
+                    }}
+                  >
+                    <Box
+                      sx={{ display: "flex", alignItems: "baseline", gap: 1 }}
+                    >
+                      <Typography variant="h6" fontWeight={500}>
+                        {block.title}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {block.count} blocks
+                      </Typography>
+                    </Box>
+                    <IconButton
+                      disableRipple
+                      aria-label={`View ${block.title} blocks`}
+                      sx={{
+                        p: 0,
+                        color: isDarkMode ? "#FFF" : "#000",
+                        backgroundColor: "transparent",
+                        "&:hover": { backgroundColor: "transparent" },
+                      }}
+                    >
+                      <Box
+                        className="icon"
+                        sx={{
+                          display: "inline-flex",
+                          transition:
+                            "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+                          transformOrigin: "center",
+                        }}
+                      >
+                        <HugeiconsIcon icon={ArrowUpRight01Icon} size={20} />
+                      </Box>
+                    </IconButton>
+                  </Box>
                 </Box>
-              </Box>
+              </Link>
             ),
           )}
         </Box>

@@ -10,7 +10,7 @@ import {
 import { motion } from "motion/react";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { getAllDocsSlugs } from "@/lib/docs";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
@@ -28,7 +28,6 @@ const fadeUpDelayed = (delay = 0) => ({
 
 const Components = ({ docsTree }) => {
   const theme = useTheme();
-  const router = useRouter();
   const isDarkMode = theme.palette.mode === "dark";
 
   const componentsList = useMemo(() => {
@@ -209,79 +208,77 @@ const Components = ({ docsTree }) => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
+            gridTemplateColumns: { xs: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
             gap: { xs: 1.5, sm: 2 },
           }}
         >
           {componentsList.map((component, index) => (
-            <Box
+            <Link
               key={component.id}
-              component={motion.div}
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.24,
-                ease: "easeOut",
-                delay: index * 0.012,
-              }}
-              onClick={() => router.push(component.route)}
-              sx={{
-                cursor: "pointer",
-                borderRadius: 1.5,
-                backgroundColor: "background.paper",
-                p: 1.5,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                "&:hover": { backgroundColor: "action.hover" },
-                "&:hover .icon": {
-                  "@media (hover: hover)": {
-                    transform: "rotate(45deg)",
-                  },
-                },
-              }}
+              href={component.route}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Typography variant="body2" fontWeight={500}>
-                  {component.title}
-                </Typography>
+              <Box
+                component={motion.div}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: 0.24,
+                  ease: "easeOut",
+                  delay: index * 0.012,
+                }}
+                sx={{
+                  cursor: "pointer",
+                  borderRadius: 1.5,
+                  backgroundColor: "background.paper",
+                  p: 1.5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  "&:hover": { backgroundColor: "action.hover" },
+                  "&:hover .icon": {
+                    "@media (hover: hover)": { transform: "rotate(45deg)" },
+                  },
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography variant="body2" fontWeight={500}>
+                    {component.title}
+                  </Typography>
+                  {component.isNew && (
+                    <Box
+                      sx={{
+                        display: { xs: "none", sm: "inline-flex" },
+                        px: "6px",
+                        py: "1px",
+                        background: "linear-gradient(135deg, #007B83, #00B5AD)",
+                        color: "#fff",
+                        borderRadius: "6px",
+                        fontSize: 11,
+                        fontWeight: 500,
+                      }}
+                    >
+                      New
+                    </Box>
+                  )}
+                </Box>
 
-                {component.isNew && (
+                <IconButton disableRipple sx={{ p: 0 }}>
                   <Box
+                    className="icon"
                     sx={{
-                      display: { xs: "none", sm: "inline-flex" },
-                      px: "6px",
-                      py: "1px",
-                      background: "linear-gradient(135deg, #007B83, #00B5AD)",
-                      color: "#fff",
-                      borderRadius: "6px",
-                      fontSize: 11,
-                      fontWeight: 500,
+                      display: "inline-flex",
+                      willChange: "transform",
+                      transition:
+                        "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
                     }}
                   >
-                    New
+                    <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
                   </Box>
-                )}
+                </IconButton>
               </Box>
-
-              <IconButton disableRipple sx={{ p: 0 }}>
-                <Box
-                  className="icon"
-                  sx={{
-                    display: "inline-flex",
-                    willChange: "transform",
-                    transition:
-                      "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
-                  }}
-                >
-                  <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
-                </Box>
-              </IconButton>
-            </Box>
+            </Link>
           ))}
         </Box>
       </Container>

@@ -93,11 +93,7 @@ function MyApp({ Component, pageProps }) {
               operatingSystem: "Web",
               description:
                 "A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: "4.8",
@@ -164,10 +160,7 @@ function MyApp({ Component, pageProps }) {
             content:
               "React components, UI library, MUI, Motion, Framer Motion, Next.js, free components, UI blocks, React templates, design system",
           },
-          {
-            name: "author",
-            content: "Abhi Varde",
-          },
+          { name: "author", content: "Abhi Varde" },
           {
             name: "robots",
             content:
@@ -175,15 +168,8 @@ function MyApp({ Component, pageProps }) {
           },
         ]}
         additionalLinkTags={[
-          {
-            rel: "sitemap",
-            type: "application/xml",
-            href: "/sitemap.xml",
-          },
-          {
-            rel: "canonical",
-            href: "https://www.syncui.design/",
-          },
+          { rel: "sitemap", type: "application/xml", href: "/sitemap.xml" },
+          { rel: "canonical", href: "https://www.syncui.design/" },
         ]}
       />
 
@@ -199,65 +185,51 @@ function MyApp({ Component, pageProps }) {
 function AppContent({ Component, pageProps }) {
   const { isDarkMode, toggleTheme } = useTheme();
   const [loading, setLoading] = useState(false);
-  const [currentRoute, setCurrentRoute] = useState("");
-  const [isMounted, setIsMounted] = useState(false);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
-    setIsMounted(true);
-
-    console.log(
-      "%c                                  .__         .___            .__               \n" +
-        "  _________.__. ____   ____  __ __|__|      __| _/____   _____|__| ____   ____  \n" +
-        " /  ___<   |  |/    \\_/ ___\\|  |  \\  |     / __ |/ __ \\ /  ___/  |/ ___\\ /    \\ \n" +
-        " \\___ \\ \\___  |   |  \\  \\___|  |  /  |    / /_/ \\  ___/ \\___ \\|  / /_/  >   |  \\\n" +
-        "/____  >/ ____|___|  /\\___  >____/|__| /\\ \\____ |\\___  >____  >__\\___  /|___|  /\n" +
-        "     \\/ \\/         \\/     \\/           \\/      \\/    \\/     \\/  /_____/      \\/ \n",
-      "color: #ffffff; font-family: monospace; font-size: 11px; font-weight: bold;"
-    );
-
-    console.log(
-      "%c🚀 Sync UI: trusted by creators in 100+ countries 🌍\n" +
-        "⭐ 85+ GitHub stars and growing fast\n" +
-        "🐦 Follow updates → https://x.com/syncuidesign",
-      "color: #ffffff; font-family: monospace; font-size: 12px; font-weight: bold;"
-    );
-
-    console.log(
-      "%cBrought to you by https://abhivarde.in",
-      "color: #ffffff; font-family: monospace; font-size: 13px; font-weight: bold; margin-top: 8px;"
-    );
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        "%c                                  .__         .___            .__               \n" +
+          "  _________.__. ____   ____  __ __|__|      __| _/____   _____|__| ____   ____  \n" +
+          " /  ___<   |  |/    \\_/ ___\\|  |  \\  |     / __ |/ __ \\ /  ___/  |/ ___\\ /    \\ \n" +
+          " \\___ \\ \\___  |   |  \\  \\___|  |  /  |    / /_/ \\  ___/ \\___ \\|  / /_/  >   |  \\\n" +
+          "/____  >/ ____|___|  /\\___  >____/|__| /\\ \\____ |\\___  >____  >__\\___  /|___|  /\n" +
+          "     \\/ \\/         \\/     \\/           \\/      \\/    \\/     \\/  /_____/      \\/ \n",
+        "color: #ffffff; font-family: monospace; font-size: 11px; font-weight: bold;",
+      );
+      console.log(
+        "%c🚀 Sync UI: trusted by creators in 100+ countries 🌍\n⭐ 85+ GitHub stars and growing fast\n🐦 Follow updates → https://x.com/syncuidesign",
+        "color: #ffffff; font-family: monospace; font-size: 12px; font-weight: bold;",
+      );
+      console.log(
+        "%cBrought to you by https://abhivarde.in",
+        "color: #ffffff; font-family: monospace; font-size: 13px; font-weight: bold; margin-top: 8px;",
+      );
+    }
   }, []);
 
   useEffect(() => {
-    setCurrentRoute(window.location.pathname.split("/")[1]);
-
-    const handleRouteChange = (url) => {
-      const newRoute = url.split("/")[1];
-      if (newRoute !== currentRoute) {
+    const handleStart = (url) => {
+      const newSection = url.split("/")[1];
+      const currentSection = window.location.pathname.split("/")[1];
+      if (newSection !== currentSection) {
         setLoading(true);
       }
     };
 
-    const handleRouteComplete = (url) => {
-      setLoading(false);
-      setCurrentRoute(url.split("/")[1]);
-    };
+    const handleDone = () => setLoading(false);
 
-    Router.events.on("routeChangeStart", handleRouteChange);
-    Router.events.on("routeChangeComplete", handleRouteComplete);
-    Router.events.on("routeChangeError", () => setLoading(false));
+    Router.events.on("routeChangeStart", handleStart);
+    Router.events.on("routeChangeComplete", handleDone);
+    Router.events.on("routeChangeError", handleDone);
 
     return () => {
-      Router.events.off("routeChangeStart", handleRouteChange);
-      Router.events.off("routeChangeComplete", handleRouteComplete);
-      Router.events.off("routeChangeError", () => setLoading(false));
+      Router.events.off("routeChangeStart", handleStart);
+      Router.events.off("routeChangeComplete", handleDone);
+      Router.events.off("routeChangeError", handleDone);
     };
-  }, [currentRoute]);
-
-  if (!isMounted) {
-    return null;
-  }
+  }, []);
 
   return (
     <MuiThemeProvider theme={theme}>
