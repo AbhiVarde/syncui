@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { getAllDocsSlugs } from "@/lib/docs";
 import Head from "next/head";
-import { NextSeo } from "next-seo";
 import { motion } from "motion/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -79,44 +78,57 @@ const Templates = ({ docsTree }) => {
 
   return (
     <>
-      <NextSeo
-        title="Premium React Templates - Startup, SaaS & Portfolio | Sync UI"
-        description="Get premium React UI templates for $29 each. Includes Startup, SaaS, and Portfolio templates built with MUI and Motion (motion/react). Production-ready, fully customizable, and perfect for Next.js projects. Bundle offer: All 3 for $79."
-        canonical="https://www.syncui.design/templates"
-        openGraph={{
-          type: "website",
-          url: "https://www.syncui.design/templates",
-          title:
-            "Premium React Templates - Startup, SaaS & Portfolio | Sync UI",
-          description:
-            "Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29. Bundle: All 3 for $79.",
-          siteName: "Sync UI",
-          images: [
-            {
-              url: "https://www.syncui.design/images/open-graph/template-image.png",
-              width: 1200,
-              height: 630,
-              alt: "Sync UI Premium React Templates",
-              type: "image/png",
-            },
-          ],
-        }}
-        twitter={{
-          cardType: "summary_large_image",
-          site: "@syncuidesign",
-          creator: "@abhivarde",
-        }}
-        additionalMetaTags={[
-          {
-            name: "keywords",
-            content:
-              "React templates, premium templates, MUI templates, SaaS template, startup template, portfolio template, Next.js templates, Motion templates, paid UI templates",
-          },
-        ]}
-      />
-
       <Head>
         <title>Templates // Sync UI</title>
+        <meta
+          name="description"
+          content="Get premium React UI templates for $29 each. Includes Startup, SaaS, and Portfolio templates built with MUI and Motion (motion/react). Production-ready, fully customizable, and perfect for Next.js projects. Bundle offer: All 3 for $79."
+        />
+        <link rel="canonical" href="https://www.syncui.design/templates" />
+        <meta
+          name="keywords"
+          content="React templates, premium templates, MUI templates, SaaS template, startup template, portfolio template, Next.js templates, Motion templates, paid UI templates"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.syncui.design/templates" />
+        <meta property="og:site_name" content="Sync UI" />
+        <meta
+          property="og:title"
+          content="Premium React Templates - Startup, SaaS & Portfolio | Sync UI"
+        />
+        <meta
+          property="og:description"
+          content="Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29. Bundle: All 3 for $79."
+        />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/images/open-graph/template-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="Sync UI Premium React Templates"
+        />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@syncuidesign" />
+        <meta name="twitter:creator" content="@abhivarde" />
+        <meta
+          name="twitter:title"
+          content="Premium React Templates - Startup, SaaS & Portfolio | Sync UI"
+        />
+        <meta
+          name="twitter:description"
+          content="Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/images/open-graph/template-image.png"
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -126,10 +138,7 @@ const Templates = ({ docsTree }) => {
               name: "Sync UI Premium Templates",
               description:
                 "Production-ready React templates including Startup, SaaS, and Portfolio templates",
-              brand: {
-                "@type": "Brand",
-                name: "Sync UI",
-              },
+              brand: { "@type": "Brand", name: "Sync UI" },
               offers: [
                 {
                   "@type": "Offer",
@@ -301,15 +310,15 @@ const Templates = ({ docsTree }) => {
                     sx={{ display: { xs: "none", sm: "inline" } }}
                   >
                     Professionally designed, fully responsive UI templates built
-                    with MUI and Framer Motion. Customize easily and enhance
-                    your project instantly.
+                    with MUI and Motion (motion/react). Customize easily and
+                    enhance your project instantly.
                   </Box>
                   <Box
                     component="span"
                     sx={{ display: { xs: "inline", sm: "none" } }}
                   >
-                    Responsive UI templates built with MUI & Framer Motion.
-                    Customize and enhance your project instantly.
+                    Responsive UI templates built with MUI & Motion. Customize
+                    and enhance your project instantly.
                   </Box>
                 </Typography>
               </Box>
@@ -323,7 +332,7 @@ const Templates = ({ docsTree }) => {
                 onClick={() =>
                   window.open(
                     "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
-                    "_blank"
+                    "_blank",
                   )
                 }
                 style={{ marginTop: "16px", cursor: "pointer" }}

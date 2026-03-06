@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { motion } from "motion/react";
 import Head from "next/head";
-import { NextSeo } from "next-seo";
 import Link from "next/link";
 import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -60,43 +59,54 @@ const Blocks = () => {
 
   return (
     <>
-      <NextSeo
-        title="10+ Free UI Blocks - Hero, CTA & Pricing Sections | Sync UI"
-        description="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react). Perfect for landing pages and SaaS websites. Copy and integrate instantly."
-        canonical="https://www.syncui.design/blocks"
-        openGraph={{
-          type: "website",
-          url: "https://www.syncui.design/blocks",
-          title: "10+ Free UI Blocks - Hero, CTA & Pricing | Sync UI",
-          description:
-            "Production-ready UI blocks for React. Hero sections, CTA blocks, and Pricing tables built with MUI & Motion.",
-          siteName: "Sync UI",
-          images: [
-            {
-              url: "https://www.syncui.design/images/open-graph/block-image.png",
-              width: 1200,
-              height: 630,
-              alt: "Sync UI - 10+ Free UI Blocks",
-              type: "image/png",
-            },
-          ],
-        }}
-        twitter={{
-          cardType: "summary_large_image",
-          site: "@syncuidesign",
-          creator: "@abhivarde",
-        }}
-        additionalMetaTags={[
-          {
-            name: "keywords",
-            content:
-              "React UI blocks, hero section, CTA blocks, pricing table, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Motion blocks",
-          },
-        ]}
-      />
-
       <Head>
         <title>Blocks // Sync UI</title>
+        <meta
+          name="description"
+          content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react). Perfect for landing pages and SaaS websites. Copy and integrate instantly."
+        />
+        <link rel="canonical" href="https://www.syncui.design/blocks" />
+        <meta
+          name="keywords"
+          content="React UI blocks, hero section, CTA blocks, pricing table, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Motion blocks"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.syncui.design/blocks" />
+        <meta property="og:site_name" content="Sync UI" />
+        <meta
+          property="og:title"
+          content="10+ Free UI Blocks - Hero, CTA & Pricing Sections | Sync UI"
+        />
+        <meta
+          property="og:description"
+          content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react)."
+        />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/images/open-graph/block-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Sync UI - 10+ Free UI Blocks" />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@syncuidesign" />
+        <meta name="twitter:creator" content="@abhivarde" />
+        <meta
+          name="twitter:title"
+          content="10+ Free UI Blocks - Hero, CTA & Pricing Sections | Sync UI"
+        />
+        <meta
+          name="twitter:description"
+          content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/images/open-graph/block-image.png"
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

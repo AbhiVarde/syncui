@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { motion } from "motion/react";
 import Head from "next/head";
-import { NextSeo } from "next-seo";
 import Link from "next/link";
 import { getAllDocsSlugs } from "@/lib/docs";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -45,43 +44,60 @@ const Components = ({ docsTree }) => {
 
   return (
     <>
-      <NextSeo
-        title="125+ Free React Components - Buttons, Cards, Tables & More | Sync UI"
-        description="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, Date Pickers, Time Pickers, Accordions, Carousels, and more. Copy, customize, and integrate instantly."
-        canonical="https://www.syncui.design/components"
-        openGraph={{
-          type: "website",
-          url: "https://www.syncui.design/components",
-          title: "125+ Free React Components | Sync UI",
-          description:
-            "Browse 125+ free React components built with MUI & Motion. Production-ready for Next.js projects.",
-          siteName: "Sync UI",
-          images: [
-            {
-              url: "https://www.syncui.design/images/open-graph/component-image.png",
-              width: 1200,
-              height: 630,
-              alt: "Sync UI - 125+ Free React Components",
-              type: "image/png",
-            },
-          ],
-        }}
-        twitter={{
-          cardType: "summary_large_image",
-          site: "@syncuidesign",
-          creator: "@abhivarde",
-        }}
-        additionalMetaTags={[
-          {
-            name: "keywords",
-            content:
-              "React components, free UI components, MUI components, Motion components, buttons, cards, tables, date picker, time picker, Next.js components, production ready",
-          },
-        ]}
-      />
-
       <Head>
         <title>Components // Sync UI</title>
+        <meta
+          name="description"
+          content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, Date Pickers, Time Pickers, Accordions, Carousels, and more. Copy, customize, and integrate instantly."
+        />
+        <link rel="canonical" href="https://www.syncui.design/components" />
+        <meta
+          name="keywords"
+          content="React components, free UI components, MUI components, Motion components, buttons, cards, tables, date picker, time picker, Next.js components, production ready"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.syncui.design/components"
+        />
+        <meta property="og:site_name" content="Sync UI" />
+        <meta
+          property="og:title"
+          content="125+ Free React Components - Buttons, Cards, Tables & More | Sync UI"
+        />
+        <meta
+          property="og:description"
+          content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, and more."
+        />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/images/open-graph/component-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="Sync UI - 125+ Free React Components"
+        />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@syncuidesign" />
+        <meta name="twitter:creator" content="@abhivarde" />
+        <meta
+          name="twitter:title"
+          content="125+ Free React Components - Buttons, Cards, Tables & More | Sync UI"
+        />
+        <meta
+          name="twitter:description"
+          content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react)."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/images/open-graph/component-image.png"
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

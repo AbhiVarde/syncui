@@ -5,7 +5,6 @@ import DocsLayout from "../../components/docs/DocsLayout";
 import { MDXComponents } from "../../components/mdx-components";
 import { DocNavigationBar } from "../../components/docs/DocNavigationBar";
 import Head from "next/head";
-import { NextSeo } from "next-seo";
 import { Typography } from "@mui/material";
 import { DocPageNavigation } from "@/components/docs/DocPageNavigation";
 
@@ -48,41 +47,42 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
 
   return (
     <>
-      <NextSeo
-        title={pageTitle}
-        description={pageDescription}
-        canonical={canonicalUrl}
-        openGraph={{
-          type: "article",
-          url: canonicalUrl,
-          title: pageTitle,
-          description: pageDescription,
-          siteName: "Sync UI",
-          images: [
-            {
-              url: "https://www.syncui.design/og-image.png",
-              width: 1200,
-              height: 630,
-              alt: `${frontmatter.title} - Sync UI Docs`,
-              type: "image/png",
-            },
-          ],
-        }}
-        twitter={{
-          cardType: "summary_large_image",
-          site: "@syncuidesign",
-          creator: "@abhivarde",
-        }}
-        additionalMetaTags={[
-          {
-            name: "keywords",
-            content: `${frontmatter.title}, Sync UI, React components, MUI, Motion, documentation, tutorial, Next.js`,
-          },
-        ]}
-      />
-
       <Head>
         <title>{frontmatter.title} // Sync UI</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta
+          name="keywords"
+          content={`${frontmatter.title}, Sync UI, React components, MUI, Motion, documentation, tutorial, Next.js`}
+        />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:site_name" content="Sync UI" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content={`${frontmatter.title} - Sync UI Docs`}
+        />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@syncuidesign" />
+        <meta name="twitter:creator" content="@abhivarde" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/og-image.png"
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -121,10 +121,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
             <Typography
               variant="h3"
               fontWeight={500}
-              sx={{
-                mb: 3,
-                wordBreak: "break-word",
-              }}
+              sx={{ mb: 3, wordBreak: "break-word" }}
             >
               {frontmatter.title}
             </Typography>
@@ -141,38 +138,23 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
 
 export async function getStaticProps({ params }) {
   const slug = params.slug?.join("/") || "";
-
   const docData = await getDocBySlug(slug);
 
-  if (!docData) {
-    return {
-      notFound: true,
-    };
-  }
+  if (!docData) return { notFound: true };
 
   const { code, frontmatter, toc } = docData;
   const docsTree = await getAllDocsSlugs();
 
   return {
-    props: {
-      code,
-      frontmatter,
-      toc,
-      docsTree,
-      slug,
-    },
+    props: { code, frontmatter, toc, docsTree, slug },
   };
 }
 
 export async function getStaticPaths() {
   const slugs = await getAllDocsSlugs();
-
   const paths = slugs.map((item) => ({
     params: { slug: item.slug === "" ? [] : item.slug.split("/") },
   }));
 
-  return {
-    paths,
-    fallback: false,
-  };
+  return { paths, fallback: false };
 }

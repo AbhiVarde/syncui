@@ -4,7 +4,6 @@ import { Box, Typography, Button, useTheme } from "@mui/material";
 import { LiaTelegramPlane } from "react-icons/lia";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { NextSeo } from "next-seo";
 
 const getRandomInt = (max) => Math.floor(Math.random() * max);
 
@@ -28,10 +27,7 @@ const ScrambleText = ({
       setDisplayText(text.split(""));
       return;
     }
-
-    const startTimeout = setTimeout(() => {
-      setIsAnimating(true);
-    }, delay);
+    const startTimeout = setTimeout(() => setIsAnimating(true), delay);
     return () => clearTimeout(startTimeout);
   }, [delay, animate, text]);
 
@@ -55,17 +51,14 @@ const ScrambleText = ({
             ? letter
             : index <= iterationCount.current
               ? text[index]
-              : characterSet[getRandomInt(characterSet.length)]
-        )
+              : characterSet[getRandomInt(characterSet.length)],
+        ),
       );
 
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animateFrame);
-      }
+      if (progress < 1) animationFrameId = requestAnimationFrame(animateFrame);
     };
 
     animationFrameId = requestAnimationFrame(animateFrame);
-
     return () => cancelAnimationFrame(animationFrameId);
   }, [text, duration, isAnimating, characterSet, animate]);
 
@@ -92,17 +85,15 @@ const ScrambleText = ({
   );
 };
 
-const ScrambleNumber = ({ number, duration = 1000, delay = 100 }) => {
-  return (
-    <ScrambleText
-      text={number.toString()}
-      duration={duration}
-      delay={delay}
-      characterSet={NUMBER_CHARACTER_SET}
-      monospace={true}
-    />
-  );
-};
+const ScrambleNumber = ({ number, duration = 1000, delay = 100 }) => (
+  <ScrambleText
+    text={number.toString()}
+    duration={duration}
+    delay={delay}
+    characterSet={NUMBER_CHARACTER_SET}
+    monospace={true}
+  />
+);
 
 const NotFound = () => {
   const theme = useTheme();
@@ -112,10 +103,7 @@ const NotFound = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.15,
-      },
+      transition: { staggerChildren: 0.12, delayChildren: 0.15 },
     },
   };
 
@@ -138,37 +126,51 @@ const NotFound = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.5, ease: "easeOut" },
     },
     animate: {
       y: [-3, 3, -3],
       rotate: [-2, 2, -2],
       scale: [1, 1.02, 1],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
+      transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
     },
   };
 
   return (
     <>
-      <NextSeo
-        title="404 // Page Not Found"
-        description="The page you're looking for doesn't exist or has moved."
-        noindex={true}
-        nofollow={true}
-      />
       <Head>
-        <title>Page Not Found // Sync UI</title>
+        <title>404 // Page Not Found | Sync UI</title>
         <meta
           name="description"
           content="The page you're looking for doesn't exist or has moved."
         />
+        <meta name="robots" content="noindex, nofollow" />
+
+        <meta property="og:title" content="404 // Page Not Found | Sync UI" />
+        <meta
+          property="og:description"
+          content="The page you're looking for doesn't exist or has moved."
+        />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content="https://www.syncui.design/404" />
+        <meta property="og:type" content="website" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="404 // Page Not Found | Sync UI" />
+        <meta
+          name="twitter:description"
+          content="The page you're looking for doesn't exist or has moved."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/og-image.png"
+        />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"

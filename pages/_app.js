@@ -9,7 +9,6 @@ import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import "../styles/globals.css";
-import { DefaultSeo } from "next-seo";
 import { GitHubProvider } from "@/context/GithubContext";
 
 function MyApp({ Component, pageProps }) {
@@ -40,10 +39,67 @@ function MyApp({ Component, pageProps }) {
           sizes="512x512"
           href="/android-chrome-512x512.png"
         />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <meta name="theme-color" content="#000000" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="author" content="Abhi Varde" />
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
+        <meta
+          name="keywords"
+          content="React components, UI library, MUI, Motion, Framer Motion, Next.js, free components, UI blocks, React templates, design system"
+        />
+
+        <title>Sync UI // React Component Library for Design Engineers</title>
+        <meta
+          name="description"
+          content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
+        />
+        <link rel="canonical" href="https://www.syncui.design/" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:url" content="https://www.syncui.design/" />
+        <meta property="og:site_name" content="Sync UI" />
+        <meta
+          property="og:title"
+          content="Sync UI // React Component Library for Design Engineers"
+        />
+        <meta
+          property="og:description"
+          content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
+        />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="Sync UI - Free React Component Library"
+        />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@syncuidesign" />
+        <meta name="twitter:creator" content="@abhivarde" />
+        <meta
+          name="twitter:title"
+          content="Sync UI // React Component Library for Design Engineers"
+        />
+        <meta
+          name="twitter:description"
+          content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/og-image.png"
         />
 
         <script
@@ -81,7 +137,6 @@ function MyApp({ Component, pageProps }) {
             }),
           }}
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -102,7 +157,6 @@ function MyApp({ Component, pageProps }) {
             }),
           }}
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -125,53 +179,6 @@ function MyApp({ Component, pageProps }) {
           }}
         />
       </Head>
-
-      <DefaultSeo
-        title="Sync UI // React Component Library for Design Engineers"
-        titleTemplate="%s"
-        description="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
-        canonical="https://www.syncui.design/"
-        openGraph={{
-          type: "website",
-          locale: "en_US",
-          url: "https://www.syncui.design/",
-          siteName: "Sync UI",
-          title: "Sync UI // React Component Library for Design Engineers",
-          description:
-            "A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).",
-          images: [
-            {
-              url: "https://www.syncui.design/og-image.png",
-              width: 1200,
-              height: 630,
-              alt: "Sync UI - Free React Component Library",
-              type: "image/png",
-            },
-          ],
-        }}
-        twitter={{
-          cardType: "summary_large_image",
-          site: "@syncuidesign",
-          creator: "@abhivarde",
-        }}
-        additionalMetaTags={[
-          {
-            name: "keywords",
-            content:
-              "React components, UI library, MUI, Motion, Framer Motion, Next.js, free components, UI blocks, React templates, design system",
-          },
-          { name: "author", content: "Abhi Varde" },
-          {
-            name: "robots",
-            content:
-              "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-          },
-        ]}
-        additionalLinkTags={[
-          { rel: "sitemap", type: "application/xml", href: "/sitemap.xml" },
-          { rel: "canonical", href: "https://www.syncui.design/" },
-        ]}
-      />
 
       <ThemeProvider>
         <GitHubProvider>
@@ -213,11 +220,8 @@ function AppContent({ Component, pageProps }) {
     const handleStart = (url) => {
       const newSection = url.split("/")[1];
       const currentSection = window.location.pathname.split("/")[1];
-      if (newSection !== currentSection) {
-        setLoading(true);
-      }
+      if (newSection !== currentSection) setLoading(true);
     };
-
     const handleDone = () => setLoading(false);
 
     Router.events.on("routeChangeStart", handleStart);
