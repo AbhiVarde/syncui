@@ -83,13 +83,22 @@ const Blocks = () => {
           content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react)."
         />
         <meta
+          key="og-image"
           property="og:image"
           content="https://www.syncui.design/images/open-graph/block-image.png"
         />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Sync UI - 10+ Free UI Blocks" />
-        <meta property="og:image:type" content="image/png" />
+        <meta key="og-image-w" property="og:image:width" content="1200" />
+        <meta key="og-image-h" property="og:image:height" content="630" />
+        <meta
+          key="og-image-alt"
+          property="og:image:alt"
+          content="Sync UI - 10+ Free UI Blocks"
+        />
+        <meta
+          key="og-image-type"
+          property="og:image:type"
+          content="image/png"
+        />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
@@ -103,6 +112,7 @@ const Blocks = () => {
           content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion."
         />
         <meta
+          key="tw-image"
           name="twitter:image"
           content="https://www.syncui.design/images/open-graph/block-image.png"
         />

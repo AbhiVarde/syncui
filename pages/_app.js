@@ -75,16 +75,22 @@ function MyApp({ Component, pageProps }) {
           content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
         />
         <meta
+          key="og-image"
           property="og:image"
           content="https://www.syncui.design/og-image.png"
         />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta key="og-image-w" property="og:image:width" content="1200" />
+        <meta key="og-image-h" property="og:image:height" content="630" />
         <meta
+          key="og-image-alt"
           property="og:image:alt"
           content="Sync UI - Free React Component Library"
         />
-        <meta property="og:image:type" content="image/png" />
+        <meta
+          key="og-image-type"
+          property="og:image:type"
+          content="image/png"
+        />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
@@ -98,6 +104,7 @@ function MyApp({ Component, pageProps }) {
           content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
         />
         <meta
+          key="tw-image"
           name="twitter:image"
           content="https://www.syncui.design/og-image.png"
         />
@@ -176,6 +183,45 @@ function MyApp({ Component, pageProps }) {
                 "https://github.com/AbhiVarde/syncui",
               ],
             }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "SiteNavigationElement",
+                name: "Components",
+                description:
+                  "125+ free production-ready React components built with MUI & Motion",
+                url: "https://www.syncui.design/components",
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SiteNavigationElement",
+                name: "Blocks",
+                description:
+                  "10+ free UI blocks — Hero, Stats, Pricing, and CTA sections",
+                url: "https://www.syncui.design/blocks",
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SiteNavigationElement",
+                name: "Templates",
+                description:
+                  "Premium React templates for Startup, SaaS, and Portfolio websites",
+                url: "https://www.syncui.design/templates",
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SiteNavigationElement",
+                name: "Documentation",
+                description:
+                  "Installation guides and full component documentation",
+                url: "https://www.syncui.design/docs/installation",
+              },
+            ]),
           }}
         />
       </Head>

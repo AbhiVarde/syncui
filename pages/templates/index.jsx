@@ -102,16 +102,22 @@ const Templates = ({ docsTree }) => {
           content="Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29. Bundle: All 3 for $79."
         />
         <meta
+          key="og-image"
           property="og:image"
           content="https://www.syncui.design/images/open-graph/template-image.png"
         />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta key="og-image-w" property="og:image:width" content="1200" />
+        <meta key="og-image-h" property="og:image:height" content="630" />
         <meta
+          key="og-image-alt"
           property="og:image:alt"
           content="Sync UI Premium React Templates"
         />
-        <meta property="og:image:type" content="image/png" />
+        <meta
+          key="og-image-type"
+          property="og:image:type"
+          content="image/png"
+        />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
@@ -125,6 +131,7 @@ const Templates = ({ docsTree }) => {
           content="Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29."
         />
         <meta
+          key="tw-image"
           name="twitter:image"
           content="https://www.syncui.design/images/open-graph/template-image.png"
         />

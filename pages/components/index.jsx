@@ -71,16 +71,22 @@ const Components = ({ docsTree }) => {
           content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, and more."
         />
         <meta
+          key="og-image"
           property="og:image"
           content="https://www.syncui.design/images/open-graph/component-image.png"
         />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta key="og-image-w" property="og:image:width" content="1200" />
+        <meta key="og-image-h" property="og:image:height" content="630" />
         <meta
+          key="og-image-alt"
           property="og:image:alt"
           content="Sync UI - 125+ Free React Components"
         />
-        <meta property="og:image:type" content="image/png" />
+        <meta
+          key="og-image-type"
+          property="og:image:type"
+          content="image/png"
+        />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
@@ -94,6 +100,7 @@ const Components = ({ docsTree }) => {
           content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react)."
         />
         <meta
+          key="tw-image"
           name="twitter:image"
           content="https://www.syncui.design/images/open-graph/component-image.png"
         />
