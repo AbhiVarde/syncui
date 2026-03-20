@@ -15,7 +15,12 @@ import { LuPlus, LuHeart } from "react-icons/lu";
 import Head from "next/head";
 
 const RESOURCES = [
-  // { id: 1, name: "Sync UI", url: "https://syncui.design", sponsored: false },
+  {
+    id: 1,
+    name: "Next Icons",
+    url: "https://www.nexticons.com/",
+    sponsored: false,
+  },
 ];
 
 function getDomain(url) {
