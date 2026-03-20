@@ -75,7 +75,7 @@ const menuItems = [
     label: "Showcase",
     href: "/showcase",
     external: false,
-    icon: <HugeiconsIcon icon={Menu09Icon} size={20} />,
+    icon: <HugeiconsIcon icon={LayoutRightIcon} size={20} />,
   },
   {
     label: "Changelog",
