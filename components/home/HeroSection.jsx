@@ -33,7 +33,7 @@ const HeroSection = () => {
               "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
         >
-          <Link href="/docs/blocks/cta">
+          <Link href="/showcase">
             <Box
               component="button"
               sx={{
@@ -68,7 +68,20 @@ const HeroSection = () => {
                 },
               }}
             >
-              🧱 Introducing Blocks: Hero, CTA, Pricing & Stats
+              <Box
+                component="span"
+                sx={{ display: { xs: "inline", sm: "none" } }}
+              >
+                🌐 Introducing Showcase
+              </Box>
+
+              <Box
+                component="span"
+                sx={{ display: { xs: "none", sm: "inline" } }}
+              >
+                🌐 Introducing Showcase: Community projects & tools
+              </Box>
+
               <Box
                 className="chevron"
                 sx={{

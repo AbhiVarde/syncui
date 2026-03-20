@@ -72,6 +72,12 @@ const menuItems = [
     icon: <HugeiconsIcon icon={Layers01Icon} size={20} />,
   },
   {
+    label: "Showcase",
+    href: "/showcase",
+    external: false,
+    icon: <HugeiconsIcon icon={Menu09Icon} size={20} />,
+  },
+  {
     label: "Changelog",
     href: "/docs/changelog",
     external: false,
@@ -921,10 +927,37 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
                   <Button
                     component={Link}
+                    href="/showcase"
+                    sx={{
+                      px: 0,
+                      py: 0.25,
+                      fontSize: "15px",
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      textTransform: "none",
+                      minWidth: "auto",
+                      color: "text.primary",
+                      backgroundColor: "transparent",
+                      borderRadius: 1,
+                      transition: "color 0.15s ease, opacity 0.15s ease",
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        opacity: 0.85,
+                      },
+                    }}
+                  >
+                    Showcase
+                  </Button>
+
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
+                  />
+
+                  <Button
+                    component={Link}
                     href="/docs/changelog"
-                    endIcon={
-                      <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
-                    }
                     sx={{
                       px: 0,
                       py: 0.25,
