@@ -64,7 +64,6 @@ const menuItems = [
     href: "/blocks",
     external: false,
     icon: <HugeiconsIcon icon={DashboardSquare01Icon} size={20} />,
-    badge: "New",
   },
   {
     label: "Templates",
@@ -836,13 +835,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   >
                     Components
                   </Button>
-
                   <Divider
                     orientation="vertical"
                     flexItem
                     sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
-
                   <Button
                     component={Link}
                     href="/blocks"
@@ -855,9 +852,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                       textTransform: "none",
                       minWidth: "auto",
                       color: "text.primary",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 0.5,
                       backgroundColor: "transparent",
                       borderRadius: 1,
                       transition: "color 0.15s ease, opacity 0.15s ease",
@@ -868,34 +862,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     }}
                   >
                     Blocks
-                    <Box
-                      component="span"
-                      sx={{
-                        px: "6px",
-                        py: "1px",
-                        background: "linear-gradient(135deg, #007B83, #00B5AD)",
-                        color: "#fff",
-                        borderRadius: "6px",
-                        fontSize: "11px",
-                        fontWeight: 500,
-                        lineHeight: "14px",
-                        letterSpacing: "0.25px",
-                        minHeight: "18px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      New
-                    </Box>
                   </Button>
-
                   <Divider
                     orientation="vertical"
                     flexItem
                     sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
-
                   <Button
                     component={Link}
                     href="/templates"
@@ -919,13 +891,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   >
                     Templates
                   </Button>
-
                   <Divider
                     orientation="vertical"
                     flexItem
                     sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
-
                   <Button
                     component={Link}
                     href="/showcase"
@@ -949,13 +919,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   >
                     Showcase
                   </Button>
-
                   <Divider
                     orientation="vertical"
                     flexItem
                     sx={{ alignSelf: "center", mx: 0.5, height: 22 }}
                   />
-
                   <Button
                     component={Link}
                     href="/docs/changelog"

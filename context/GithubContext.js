@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
-import axios from "axios";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const GitHubContext = createContext();
 
@@ -17,71 +10,24 @@ export function GitHubProvider({ children }) {
     error: null,
   });
 
-  const isInitialLoad = useRef(true);
-  const previousStargazersRef = useRef([]);
-
-  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-
   const fetchGitHubData = async () => {
     try {
-      const headers = {
-        Accept: "application/vnd.github.v3+json",
-      };
+      const res = await fetch("/api/github-stats");
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
 
-      if (GITHUB_TOKEN) {
-        headers.Authorization = `token ${GITHUB_TOKEN}`;
-      }
-
-      const repoResponse = await axios.get(
-        "https://api.github.com/repos/AbhiVarde/syncui",
-        { headers },
-      );
-
-      const stargazersResponse = await axios.get(
-        "https://api.github.com/repos/AbhiVarde/syncui/stargazers",
-        {
-          headers,
-          params: {
-            per_page: 100,
-          },
-        },
-      );
-
-      const newStargazers = stargazersResponse.data;
-      const newStarsCount = repoResponse.data.stargazers_count;
-
-      if (isInitialLoad.current) {
-        setGitHubData({
-          stars: newStarsCount,
-          stargazers: newStargazers,
-          loading: false,
-          error: null,
-        });
-        isInitialLoad.current = false;
-        previousStargazersRef.current = newStargazers;
-      } else {
-        if (newStarsCount !== gitHubData.stars) {
-          setGitHubData({
-            stars: newStarsCount,
-            stargazers: newStargazers,
-            loading: false,
-            error: null,
-          });
-          previousStargazersRef.current = newStargazers;
-        }
-      }
-
-      if (process.env.NODE_ENV === "development") {
-        const rateLimit = repoResponse.headers["x-ratelimit-remaining"];
-      }
+      setGitHubData({
+        stars: data.stars,
+        stargazers: data.stargazers,
+        loading: false,
+        error: null,
+      });
     } catch (error) {
       console.error("GitHub API error:", error);
-
-      setGitHubData((prevData) => ({
-        ...prevData,
-        stars: prevData.stars || 0,
+      setGitHubData((prev) => ({
+        ...prev,
         loading: false,
-        error: error.response?.data?.message || "Failed to fetch GitHub data",
+        error: error.message,
       }));
     }
   };

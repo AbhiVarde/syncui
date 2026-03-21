@@ -37,7 +37,6 @@ const Components = ({ docsTree }) => {
         id: item.slug,
         title: item.title,
         route: item.url,
-        isNew: ["Skeletons", "Time Pickers"].includes(item.title),
       }))
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [docsTree]);
@@ -265,27 +264,9 @@ const Components = ({ docsTree }) => {
                   },
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Typography variant="body2" fontWeight={500}>
-                    {component.title}
-                  </Typography>
-                  {component.isNew && (
-                    <Box
-                      sx={{
-                        display: { xs: "none", sm: "inline-flex" },
-                        px: "6px",
-                        py: "1px",
-                        background: "linear-gradient(135deg, #007B83, #00B5AD)",
-                        color: "#fff",
-                        borderRadius: "6px",
-                        fontSize: 11,
-                        fontWeight: 500,
-                      }}
-                    >
-                      New
-                    </Box>
-                  )}
-                </Box>
+                <Typography variant="body2" fontWeight={500}>
+                  {component.title}
+                </Typography>
 
                 <IconButton disableRipple sx={{ p: 0 }}>
                   <Box
