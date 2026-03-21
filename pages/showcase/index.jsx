@@ -466,14 +466,14 @@ export default function ShowcasePage() {
       <Container
         maxWidth="xl"
         sx={{
-          px: "0px !important",
+          px: { xs: 2, md: 3, lg: 4 },
           display: "flex",
           flexDirection: "column",
           minHeight: "calc(100vh - 64px)",
         }}
       >
         <Box sx={{ flex: 1 }}>
-          <Box sx={{ px: { xs: 2, md: 4 }, pt: 3 }}>
+          <Box sx={{ pt: 3 }}>
             <Box
               sx={{
                 position: "relative",
@@ -497,7 +497,6 @@ export default function ShowcasePage() {
                 <Stack direction="column" gap={0.5} mb={2}>
                   <Typography
                     variant="body2"
-                    fontWeight={400}
                     color="text.secondary"
                     lineHeight={1.7}
                   >
@@ -506,7 +505,6 @@ export default function ShowcasePage() {
                   </Typography>
                   <Typography
                     variant="caption"
-                    fontWeight={400}
                     color="text.disabled"
                     lineHeight={1.6}
                   >
@@ -525,6 +523,7 @@ export default function ShowcasePage() {
                   >
                     Share yours
                   </OutlineButton>
+
                   <OutlineButton
                     href={SPONSOR_URL}
                     target="_blank"
@@ -538,7 +537,7 @@ export default function ShowcasePage() {
             </Box>
           </Box>
 
-          <Box sx={{ px: { xs: 2, md: 4 }, pt: 4, pb: 4 }}>
+          <Box sx={{ pt: 4, pb: 4 }}>
             {error && !loading && (
               <Box
                 sx={{
@@ -552,15 +551,16 @@ export default function ShowcasePage() {
                 <Typography variant="body2" fontWeight={500} mb={0.5}>
                   Could not load resources
                 </Typography>
+
                 <Typography
                   variant="caption"
-                  fontWeight={400}
                   color="text.secondary"
                   display="block"
                   mb={2.5}
                 >
                   Something went wrong. Please try again.
                 </Typography>
+
                 <OutlineButton
                   onClick={load}
                   startIcon={<LuRefreshCw size={11} />}
@@ -583,15 +583,16 @@ export default function ShowcasePage() {
                 <Typography variant="body2" fontWeight={500} mb={0.5}>
                   Nothing here yet
                 </Typography>
+
                 <Typography
                   variant="caption"
-                  fontWeight={400}
                   color="text.secondary"
                   display="block"
                   mb={2.5}
                 >
                   Be the first to share a tool with the community.
                 </Typography>
+
                 <OutlineButton
                   href={DISCUSS_URL}
                   target="_blank"
@@ -626,10 +627,8 @@ export default function ShowcasePage() {
           </Box>
         </Box>
 
-        <Box
-          sx={{ px: { xs: 2, md: 4 }, py: 3, textAlign: "center", mt: "auto" }}
-        >
-          <Typography variant="caption" fontWeight={400} color="text.disabled">
+        <Box sx={{ py: 3, textAlign: "center", mt: "auto" }}>
+          <Typography variant="caption" color="text.disabled">
             Design inspired by{" "}
             <Box
               component="a"
