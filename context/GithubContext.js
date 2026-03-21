@@ -20,7 +20,7 @@ export function GitHubProvider({ children }) {
   const isInitialLoad = useRef(true);
   const previousStargazersRef = useRef([]);
 
-  const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
   const fetchGitHubData = async () => {
     try {
@@ -34,7 +34,7 @@ export function GitHubProvider({ children }) {
 
       const repoResponse = await axios.get(
         "https://api.github.com/repos/AbhiVarde/syncui",
-        { headers }
+        { headers },
       );
 
       const stargazersResponse = await axios.get(
@@ -44,7 +44,7 @@ export function GitHubProvider({ children }) {
           params: {
             per_page: 100,
           },
-        }
+        },
       );
 
       const newStargazers = stargazersResponse.data;
