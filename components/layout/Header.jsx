@@ -50,6 +50,7 @@ import {
   Moon01Icon,
   Sun01Icon,
 } from "@hugeicons/core-free-icons";
+import { LayersLogoIcon } from "@hugeicons/core-free-icons/index";
 
 const menuItems = [
   {
@@ -75,7 +76,7 @@ const menuItems = [
     label: "Showcase",
     href: "/showcase",
     external: false,
-    icon: <HugeiconsIcon icon={LayoutRightIcon} size={20} />,
+    icon: <HugeiconsIcon icon={LayersLogoIcon} size={21} />,
   },
   {
     label: "Changelog",

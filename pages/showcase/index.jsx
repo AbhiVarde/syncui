@@ -473,7 +473,7 @@ export default function ShowcasePage() {
         }}
       >
         <Box sx={{ flex: 1 }}>
-          <Box sx={{ px: { xs: 2, md: 4 }, pt: { xs: 3, md: 5 } }}>
+          <Box sx={{ px: { xs: 2, md: 4 }, pt: 3 }}>
             <Box
               sx={{
                 position: "relative",
