@@ -260,7 +260,7 @@ function ResourceCard({ r }) {
 
   return (
     <Box
-      onClick={() => window.open(r.url, "_blank", "noopener,noreferrer")}
+      onClick={() => window.open(r.url, "_blank", "noopener")}
       sx={{
         border: "1px dashed",
         borderColor: r.sponsored
