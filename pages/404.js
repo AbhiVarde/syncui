@@ -75,7 +75,7 @@ const ScrambleText = ({
           key={index}
           initial={{ opacity: animate ? 0 : 1 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.08, delay: index * 0.015 }}
+          transition={{ duration: 0.06 }}
           style={{ display: "inline-block" }}
         >
           {letter === " " ? "\u00A0" : letter}
@@ -85,13 +85,11 @@ const ScrambleText = ({
   );
 };
 
-const ScrambleNumber = ({ number, duration = 1000, delay = 100 }) => (
+const ScrambleNumber = ({ number }) => (
   <ScrambleText
     text={number.toString()}
-    duration={duration}
-    delay={delay}
     characterSet={NUMBER_CHARACTER_SET}
-    monospace={true}
+    monospace
   />
 );
 
@@ -99,82 +97,11 @@ const NotFound = () => {
   const theme = useTheme();
   const router = useRouter();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.15 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 10, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.4,
-      },
-    },
-  };
-
-  const planeVariants = {
-    hidden: { y: -10, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-    animate: {
-      y: [-3, 3, -3],
-      rotate: [-2, 2, -2],
-      scale: [1, 1.02, 1],
-      transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-    },
-  };
-
   return (
     <>
       <Head>
-        <title>404 // Page Not Found | Sync UI</title>
-        <meta
-          name="description"
-          content="The page you're looking for doesn't exist or has moved."
-        />
+        <title>404 // Page Not Found</title>
         <meta name="robots" content="noindex, nofollow" />
-
-        <meta property="og:title" content="404 // Page Not Found | Sync UI" />
-        <meta
-          property="og:description"
-          content="The page you're looking for doesn't exist or has moved."
-        />
-        <meta
-          property="og:image"
-          content="https://www.syncui.design/og-image.png"
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:url" content="https://www.syncui.design/404" />
-        <meta property="og:type" content="website" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="404 // Page Not Found | Sync UI" />
-        <meta
-          name="twitter:description"
-          content="The page you're looking for doesn't exist or has moved."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.syncui.design/og-image.png"
-        />
-
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
       </Head>
 
       <Box
@@ -191,137 +118,107 @@ const NotFound = () => {
           color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
         }}
       >
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          style={{
+        <Box
+          sx={{
             width: "100%",
-            maxWidth: "600px",
+            maxWidth: "520px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <motion.div
-            variants={planeVariants}
-            initial="hidden"
-            animate={["visible", "animate"]}
-          >
+          <Box sx={{ mb: 0.5 }}>
             <LiaTelegramPlane
-              size={100}
-              color={theme.palette.mode === "dark" ? "#ffffff" : "#000000"}
+              size={90}
+              color={theme.palette.mode === "dark" ? "#fff" : "#000"}
             />
-          </motion.div>
+          </Box>
 
-          <motion.div variants={itemVariants}>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: "4rem", sm: "5rem" },
-                fontWeight: 600,
-                mb: 1,
-                color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
-                fontFamily: "'Roboto Mono', monospace",
-              }}
-            >
-              <ScrambleNumber number={404} />
-            </Typography>
-          </motion.div>
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: { xs: "4rem", sm: "5rem" },
+              fontWeight: 600,
+              mb: 1,
+              fontFamily: "'Roboto Mono', monospace",
+            }}
+          >
+            <ScrambleNumber number={404} />
+          </Typography>
 
-          <motion.div variants={itemVariants}>
-            <Typography
-              variant="h6"
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 500,
+              mb: 1,
+              color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333",
+            }}
+          >
+            Page not found
+          </Typography>
+
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 3,
+              color: theme.palette.mode === "dark" ? "#bdbdbd" : "#666",
+              maxWidth: "380px",
+            }}
+          >
+            The page you’re looking for doesn’t exist.
+          </Typography>
+
+          <Box sx={{ display: "flex", gap: 1.5 }}>
+            <Button
+              variant="contained"
+              onClick={() => router.push("/")}
               sx={{
+                px: 2,
+                py: 0.5,
+                borderRadius: "8px",
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#fff" : "#000",
+                color: theme.palette.mode === "dark" ? "#000" : "#fff",
                 fontWeight: 500,
-                mb: 1,
-                color: theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
-                height: "1.5em",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              Oops! Page took flight!
-            </Typography>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <Typography
-              variant="body1"
-              sx={{
-                mb: 4,
-                color: theme.palette.mode === "dark" ? "#bdbdbd" : "#666666",
-                maxWidth: "400px",
-                mx: "auto",
-              }}
-            >
-              Looks like this page decided to go on vacation. Maybe try our
-              homepage instead?
-            </Typography>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <Box
-              sx={{
-                display: "flex",
-                gap: 2,
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              <Button
-                variant="contained"
-                onClick={() => router.push("/")}
-                sx={{
-                  px: 2.5,
-                  py: 0.75,
-                  borderRadius: "12px",
+                fontSize: "13px",
+                textTransform: "none",
+                minHeight: "32px",
+                boxShadow: "none",
+                "&:hover": {
                   backgroundColor:
-                    theme.palette.mode === "dark" ? "#ffffff" : "#000000",
-                  color: theme.palette.mode === "dark" ? "#000000" : "#ffffff",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  textTransform: "none",
-                  minHeight: "36px",
-                  "&:hover": {
-                    backgroundColor:
-                      theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
-                    transform: "translateY(-1px)",
-                  },
-                  transition: "all 0.2s ease",
-                }}
-              >
-                Return Home
-              </Button>
+                    theme.palette.mode === "dark" ? "#e5e5e5" : "#222",
+                  boxShadow: "none",
+                },
+                transition: "background-color 0.15s ease",
+              }}
+            >
+              Home
+            </Button>
 
-              <Button
-                variant="outlined"
-                onClick={() => window.history.back()}
-                sx={{
-                  px: 2.5,
-                  py: 0.75,
-                  borderRadius: "12px",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  textTransform: "none",
-                  minHeight: "36px",
-                  borderColor:
-                    theme.palette.mode === "dark" ? "#ffffff" : "#000000",
-                  color: theme.palette.mode === "dark" ? "#ffffff" : "#000000",
-                  "&:hover": {
-                    transform: "translateY(-1px)",
-                    borderColor:
-                      theme.palette.mode === "dark" ? "#e0e0e0" : "#333333",
-                    backgroundColor: "transparent",
-                  },
-                  transition: "all 0.2s ease",
-                }}
-              >
-                Go Back
-              </Button>
-            </Box>
-          </motion.div>
-        </motion.div>
+            <Button
+              variant="outlined"
+              onClick={() => window.history.back()}
+              sx={{
+                px: 2,
+                py: 0.5,
+                borderRadius: "8px",
+                fontWeight: 500,
+                fontSize: "13px",
+                textTransform: "none",
+                minHeight: "32px",
+                borderColor: theme.palette.mode === "dark" ? "#fff" : "#000",
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                "&:hover": {
+                  borderColor: theme.palette.mode === "dark" ? "#ccc" : "#333",
+                  backgroundColor: "transparent",
+                },
+                transition: "border-color 0.15s ease",
+              }}
+            >
+              Back
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </>
   );

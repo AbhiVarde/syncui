@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { LuPlus, LuHeart, LuRefreshCw, LuStar } from "react-icons/lu";
 import Head from "next/head";
+import { getAllDocsSlugs } from "@/lib/docs";
 
 const DISCUSS_URL = "https://github.com/AbhiVarde/syncui/discussions/4";
 const SPONSOR_URL = "https://github.com/sponsors/AbhiVarde";
@@ -648,4 +649,11 @@ export default function ShowcasePage() {
       </Container>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const docsTree = await getAllDocsSlugs();
+  return {
+    props: { docsTree },
+  };
 }
