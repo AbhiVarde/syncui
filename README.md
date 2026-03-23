@@ -7,13 +7,13 @@
 [![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)](https://github.com/AbhiVarde/syncui)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)](https://github.com/AbhiVarde/syncui)
 
-**Free React UI library with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).**
+**Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).**
 
 ![Sync UI Preview](https://www.syncui.design/og-image.png)
 
 <div align="center">
 
-[🌐 Website](https://syncui.design) • [📚 Documentation](https://syncui.design/docs) • [🧩 Components](https://syncui.design/components) • [🧱 Blocks](https://syncui.design/blocks) • [🚀 Templates](https://syncui.design/templates)
+[🌐 Website](https://syncui.design) • [📚 Documentation](https://syncui.design/docs) • [🧩 Components](https://syncui.design/components) • [🧱 Blocks](https://syncui.design/blocks) • [🚀 Templates](https://syncui.design/templates) • [🌟 Showcase](https://syncui.design/showcase)
 
 </div>
 
@@ -43,13 +43,14 @@ Buttons, Cards, Tables, Forms, Date Pickers, Time Pickers, Autocompletes, Loader
 
 [→ Browse Components](https://syncui.design/components)
 
-### 🧱 10+ Free Blocks
+### 🧱 13+ Free Blocks
 
 Pre-built UI sections for landing pages:
 
 **Hero Blocks** (3) — Eye-catching landing page headers  
 **CTA Blocks** (4) — Call-to-action sections  
-**Pricing Blocks** (3) — Professional pricing tables
+**Pricing Blocks** (3) — Professional pricing tables  
+**Stats Blocks** (3) — Key metric sections with icons and cards
 
 [→ Explore Blocks](https://syncui.design/blocks)
 
@@ -154,6 +155,7 @@ Sync UI is open source and available under the [MIT License](https://choosealice
 **Components:** https://syncui.design/components  
 **Blocks:** https://syncui.design/blocks  
 **Templates:** https://syncui.design/templates  
+**Showcase:** https://syncui.design/showcase  
 **GitHub:** https://github.com/AbhiVarde/syncui  
 **Twitter:** https://x.com/syncuidesign  
 **Changelog:** https://syncui.design/docs/changelog
