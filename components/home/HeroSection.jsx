@@ -240,9 +240,9 @@ const HeroSection = () => {
               lineHeight: 1.6,
             }}
           >
-            125+ beautifully designed components and 3 premium templates that
-            you can customize and build on. Start here then make it your own.
-            Open Source. Open Code.
+            125+ beautifully designed components, 13+ blocks, and 3 premium
+            templates that you can customize and build on. Start here then make
+            it your own. Open Source. Open Code.
           </Typography>
         </Box>
 
