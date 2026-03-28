@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Button,
-  useTheme,
-  alpha,
-} from "@mui/material";
+import { Container, Typography, Box, Button, useTheme } from "@mui/material";
 import { getAllDocsSlugs } from "@/lib/docs";
 import Head from "next/head";
 import { motion } from "motion/react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  Tick02Icon,
-  ArrowRight01Icon,
-  PackageIcon,
-} from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, PackageIcon } from "@hugeicons/core-free-icons";
 
 const templatesData = [
   {
@@ -23,15 +12,14 @@ const templatesData = [
     title: "Startup Template",
     src: "/videos/templates/startup.mov",
     price: 29,
-    isNew: true,
     description:
-      "Complete startup landing page with all essential sections, ready to launch.",
+      "Complete landing page with all essential sections, ready to ship.",
     features: [
-      "Hero, About, Process, Pricing, FAQ, CTA",
-      "Announcement top bar",
-      "Terms & Privacy pages included",
-      "Multilingual support (Lingo.dev)",
-      "Production-ready, polished UI",
+      "Hero · About · Pricing · FAQ · CTA",
+      "Announcement bar included",
+      "Terms & Privacy pages",
+      "Multilingual via Lingo.dev",
+      "Production-ready",
     ],
     accessUrl: "https://abhivarde.gumroad.com/l/startup-template-syncui",
     demoUrl: "https://startup-syncui.vercel.app/",
@@ -41,14 +29,13 @@ const templatesData = [
     title: "SaaS Template",
     src: "/videos/templates/saas.mp4",
     price: 29,
-    isNew: false,
-    description: "Conversion-focused SaaS layout designed to ship faster.",
+    description: "Conversion-focused layout built to ship your SaaS faster.",
     features: [
+      "Features · Pricing · Contact",
       "Conversion-first structure",
-      "Features, Pricing, Contact sections",
       "Policy pages included",
-      "Scalable for product growth",
-      "Clean, modular codebase",
+      "Scalable & modular codebase",
+      "Clean, minimal design",
     ],
     accessUrl: "https://abhivarde.gumroad.com/l/saas-template-syncui",
     demoUrl: "https://saas-syncui.vercel.app/",
@@ -58,14 +45,13 @@ const templatesData = [
     title: "Portfolio Template",
     src: "/videos/templates/portfolio.mov",
     price: 29,
-    isNew: false,
-    description: "Modern animated portfolio built to showcase your work.",
+    description: "Animated portfolio designed to make your work stand out.",
     features: [
-      "Home, Work, Contact pages",
-      "Dark / light mode",
-      "Interactive project cards",
-      "Subtle motion & effects",
-      "Fully responsive layout",
+      "Home · Work · Contact",
+      "Dark & light mode",
+      "Animated project cards",
+      "Motion & scroll effects",
+      "Fully responsive",
     ],
     accessUrl: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
     demoUrl: "https://portfolio-syncui.vercel.app/",
@@ -89,7 +75,6 @@ const Templates = ({ docsTree }) => {
           name="keywords"
           content="React templates, premium templates, MUI templates, SaaS template, startup template, portfolio template, Next.js templates, Motion templates, paid UI templates"
         />
-
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.syncui.design/templates" />
         <meta property="og:site_name" content="Sync UI" />
@@ -118,7 +103,6 @@ const Templates = ({ docsTree }) => {
           property="og:image:type"
           content="image/png"
         />
-
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
         <meta name="twitter:creator" content="@abhivarde" />
@@ -135,7 +119,6 @@ const Templates = ({ docsTree }) => {
           name="twitter:image"
           content="https://www.syncui.design/images/open-graph/template-image.png"
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -212,7 +195,6 @@ const Templates = ({ docsTree }) => {
         <Box
           sx={{
             width: "100%",
-            height: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -225,16 +207,10 @@ const Templates = ({ docsTree }) => {
           <Box
             sx={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: isDarkMode
-                ? "rgba(0, 0, 0, 0.4)"
-                : "transparent",
+              inset: 0,
+              backgroundColor: isDarkMode ? "rgba(0,0,0,0.4)" : "transparent",
             }}
           />
-
           <Container
             maxWidth="md"
             sx={{ position: "relative", zIndex: 1, textAlign: "center" }}
@@ -262,19 +238,16 @@ const Templates = ({ docsTree }) => {
                     px: 2,
                     py: 0.5,
                     borderRadius: "12px",
-                    fontSize: 14,
                     fontWeight: 500,
-                    background:
-                      theme.palette.mode === "light"
-                        ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                        : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                    background: isDarkMode
+                      ? "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)"
+                      : "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)",
                     border: "1px solid",
                     borderColor: "divider",
                     backdropFilter: "blur(4px)",
                     textTransform: "none",
-                    color:
-                      theme.palette.mode === "light" ? "#008080" : "#00B5AD",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                    color: isDarkMode ? "#00B5AD" : "#008080",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                     pointerEvents: "none",
                   }}
                 >
@@ -291,7 +264,8 @@ const Templates = ({ docsTree }) => {
                 <Typography
                   variant="h2"
                   component="h1"
-                  sx={{ fontWeight: 600, mt: 1 }}
+                  fontWeight={500}
+                  sx={{ mt: 1 }}
                 >
                   Premium UI templates for web applications
                 </Typography>
@@ -305,27 +279,23 @@ const Templates = ({ docsTree }) => {
               >
                 <Typography
                   variant="h6"
-                  sx={{
-                    fontWeight: 400,
-                    maxWidth: "700px",
-                    mt: 2,
-                    lineHeight: 1.6,
-                  }}
+                  fontWeight={400}
+                  sx={{ maxWidth: "700px", mt: 2, lineHeight: 1.6 }}
                 >
                   <Box
                     component="span"
                     sx={{ display: { xs: "none", sm: "inline" } }}
                   >
                     Professionally designed, fully responsive UI templates built
-                    with MUI and Motion (motion/react). Customize easily and
-                    enhance your project instantly.
+                    with MUI and Motion. Customize easily and enhance your
+                    project instantly.
                   </Box>
                   <Box
                     component="span"
                     sx={{ display: { xs: "inline", sm: "none" } }}
                   >
                     Responsive UI templates built with MUI & Motion. Customize
-                    and enhance your project instantly.
+                    and ship instantly.
                   </Box>
                 </Typography>
               </Box>
@@ -356,9 +326,7 @@ const Templates = ({ docsTree }) => {
                     gap: 1,
                     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                     transition: "box-shadow 0.3s ease",
-                    "&:hover": {
-                      boxShadow: "0 4px 14px rgba(0, 181, 173, 0.4)",
-                    },
+                    "&:hover": { boxShadow: "0 4px 14px rgba(0,181,173,0.4)" },
                   }}
                 >
                   <HugeiconsIcon icon={PackageIcon} size={18} />
@@ -382,220 +350,220 @@ const Templates = ({ docsTree }) => {
           </Container>
         </Box>
 
-        <Container maxWidth="md" sx={{ px: { lg: 0 } }}>
+        <Container maxWidth="md" sx={{ px: { lg: 0 }, pb: 10 }}>
           {templatesData.map((template, index) => (
             <Box
               key={template.id}
+              component={motion.div}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               sx={{
-                borderRadius: 3,
+                my: { xs: 2, md: 3 },
+                borderRadius: "20px",
+                backgroundColor: isDarkMode ? "#0a0a0a" : "#fff",
                 border: "1px solid",
-                borderColor: "divider",
-                backgroundColor: "transparent",
-                display: "flex",
-                flexDirection: { xs: "column", md: "row" },
-                gap: { xs: 3, md: 6 },
-                alignItems: "center",
-                my: { xs: 3, md: 4 },
-                p: { xs: 3, md: 4 },
+                borderColor: isDarkMode
+                  ? "rgba(255,255,255,0.08)"
+                  : "rgba(0,0,0,0.08)",
+                overflow: "hidden",
               }}
             >
               <Box
                 sx={{
-                  flex: "1 1 50%",
-                  width: { xs: "100%", md: "50%" },
-                  order: { xs: 2, md: index % 2 === 0 ? 1 : 2 },
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", lg: "5fr 7fr" },
+                  p: { xs: 2.5, sm: 3, md: 3.5 },
+                  gap: { xs: 2.5, lg: 4 },
                 }}
               >
                 <Box
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-                >
-                  <Box
-                    component={motion.div}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <Typography variant="h4" fontWeight={600}>
-                      {template.title}
-                    </Typography>
-                    {template.isNew && (
-                      <Box
-                        component="span"
-                        sx={{
-                          ml: 1,
-                          px: 1,
-                          py: 0.25,
-                          borderRadius: 1.5,
-                          fontSize: "0.75rem",
-                          fontWeight: 500,
-                          border: "1px solid",
-                          borderColor: "divider",
-                          color: "teal",
-                          backgroundColor: "rgba(0,128,128,0.08)",
-                        }}
-                      >
-                        New
-                      </Box>
-                    )}
-                  </Box>
-
-                  <Typography
-                    component={motion.p}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.15 }}
-                    variant="body1"
-                    sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
-                  >
-                    {template.description}
-                  </Typography>
-
-                  <Box sx={{ mt: 1 }}>
-                    {template.features.map((feature, i) => (
-                      <Box
-                        component={motion.div}
-                        key={i}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: 0.2 + i * 0.06 }}
-                        sx={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          mb: 1.5,
-                        }}
-                      >
-                        <Box sx={{ mt: 0.5, mr: 1 }}>
-                          <HugeiconsIcon
-                            icon={Tick02Icon}
-                            size={18}
-                            style={{ color: "teal" }}
-                          />
-                        </Box>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: alpha(theme.palette.text.primary, 0.8) }}
-                        >
-                          {feature}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-              </Box>
-
-              <Box
-                sx={{
-                  flex: "1 1 50%",
-                  width: { xs: "100%", md: "50%" },
-                  order: { xs: 1, md: index % 2 === 0 ? 2 : 1 },
-                }}
-              >
-                <Box
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  sx={{
-                    position: "relative",
-                    borderRadius: 3,
-                    overflow: "hidden",
-                    border: "1px solid",
-                    borderColor: "divider",
-                    aspectRatio: "16/9",
-                    backgroundColor: "background.default",
-                  }}
-                >
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    src={template.src}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </Box>
-
-                <Box
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.15 }}
                   sx={{
                     display: "flex",
-                    gap: 2,
-                    mt: 3,
-                    flexDirection: { xs: "column", sm: "row" },
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: 2.5,
+                    order: { xs: 2, lg: 1 },
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    component="a"
-                    href={template.accessUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{
-                      flex: 1,
-                      py: 0.5,
-                      fontWeight: 500,
-                      borderRadius: 1.5,
-                      textTransform: "none",
-                      border: "1px solid",
-                      borderColor: "divider",
-                    }}
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
                   >
-                    Get access · ${template.price}
-                  </Button>
-
-                  <Button
-                    variant="text"
-                    component="a"
-                    href={template.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{
-                      flex: 1,
-                      py: 0.5,
-                      fontWeight: 500,
-                      borderRadius: 1.5,
-                      backgroundColor: "transparent",
-                      textTransform: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 0.5,
-                      color: "text.primary",
-                      "&:hover .chevron": { transform: "translateX(3px)" },
-                    }}
-                  >
-                    Live preview
                     <Box
-                      className="chevron"
+                      sx={{ display: "flex", alignItems: "baseline", gap: 1 }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        fontWeight={500}
+                        sx={{
+                          color: isDarkMode ? "#fff" : "#0a0a0a",
+                          letterSpacing: "-0.02em",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {template.title}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontWeight={400}
+                        sx={{
+                          color: isDarkMode
+                            ? "rgba(255,255,255,0.2)"
+                            : "rgba(0,0,0,0.2)",
+                        }}
+                      >
+                        {index + 1}/{templatesData.length}
+                      </Typography>
+                    </Box>
+
+                    <Typography
+                      variant="body2"
+                      fontWeight={400}
                       sx={{
-                        display: "inline-flex",
-                        transition: "transform 0.18s ease-out",
+                        color: isDarkMode
+                          ? "rgba(255,255,255,0.45)"
+                          : "rgba(0,0,0,0.45)",
+                        lineHeight: 1.65,
                       }}
                     >
-                      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+                      {template.description}
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 0.85,
+                      }}
+                    >
+                      {template.features.map((feature, i) => (
+                        <Box
+                          key={i}
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          <Typography
+                            variant="caption"
+                            fontWeight={400}
+                            sx={{
+                              color: isDarkMode
+                                ? "rgba(255,255,255,0.2)"
+                                : "rgba(0,0,0,0.2)",
+                              lineHeight: 1,
+                              flexShrink: 0,
+                            }}
+                          >
+                            →
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            fontWeight={400}
+                            sx={{
+                              color: isDarkMode
+                                ? "rgba(255,255,255,0.38)"
+                                : "rgba(0,0,0,0.38)",
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            {feature}
+                          </Typography>
+                        </Box>
+                      ))}
                     </Box>
-                  </Button>
+                  </Box>
+
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      component="a"
+                      href={template.accessUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 0.5,
+                        color: isDarkMode ? "#fff" : "#0a0a0a",
+                        textDecoration: "none",
+                        letterSpacing: "-0.01em",
+                        transition: "opacity 0.15s ease",
+                        "&:hover": { opacity: 0.45 },
+                      }}
+                    >
+                      Access · ${template.price}
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        width: "1px",
+                        height: "11px",
+                        flexShrink: 0,
+                        backgroundColor: isDarkMode
+                          ? "rgba(255,255,255,0.1)"
+                          : "rgba(0,0,0,0.1)",
+                      }}
+                    />
+
+                    <Typography
+                      variant="body2"
+                      fontWeight={400}
+                      component="a"
+                      href={template.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 0.5,
+                        color: isDarkMode
+                          ? "rgba(255,255,255,0.28)"
+                          : "rgba(0,0,0,0.28)",
+                        textDecoration: "none",
+                        transition: "opacity 0.15s ease",
+                        "&:hover": { opacity: 0.65 },
+                      }}
+                    >
+                      Preview
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ order: { xs: 1, lg: 2 }, width: "100%" }}>
+                  <Box
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    sx={{
+                      borderRadius: "12px",
+                      overflow: "hidden",
+                      aspectRatio: "16/9",
+                      width: "100%",
+                      backgroundColor: isDarkMode ? "#1a1a1a" : "#f0f0f0",
+                      border: "1px solid",
+                      borderColor: isDarkMode
+                        ? "rgba(255,255,255,0.06)"
+                        : "rgba(0,0,0,0.06)",
+                    }}
+                  >
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      src={template.src}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                      }}
+                    />
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -610,7 +578,5 @@ export default Templates;
 
 export async function getStaticProps() {
   const docsTree = await getAllDocsSlugs();
-  return {
-    props: { docsTree },
-  };
+  return { props: { docsTree } };
 }
