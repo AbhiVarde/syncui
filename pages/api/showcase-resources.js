@@ -30,7 +30,6 @@ function extractUrls(text) {
   const matches = text.match(/https?:\/\/[^\s)\]"'<>,]+/g) ?? [];
   return [...new Set(matches)].filter(
     (u) =>
-      !u.startsWith("https://github.com") &&
       !u.includes("avatars.githubusercontent") &&
       !u.includes("user-images.githubusercontent"),
   );
@@ -50,6 +49,24 @@ function parseDomain(url) {
 
 async function fetchOgData(url) {
   try {
+    const ghMatch = url.match(/^https:\/\/github\.com\/([^/]+)\/([^/\s?#]+)/);
+    if (ghMatch) {
+      const [, owner, repo] = ghMatch;
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+        headers: {
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+          Accept: "application/vnd.github+json",
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return {
+          title: data.full_name,
+          image: `https://opengraph.githubassets.com/1/${owner}/${repo}`,
+        };
+      }
+    }
+
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 7000);
     const res = await fetch(url, {
