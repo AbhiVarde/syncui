@@ -28,11 +28,19 @@ function parseDomain(url) {
 
 function cleanTitle(raw) {
   if (!raw) return raw;
-  return raw
+  const cleaned = raw
     .replace(/\s*:\s+.+$/, "")
     .replace(/\s+[-\u2013\u2014|]\s+.+$/, "")
     .replace(/\s+\/\/\s+.+$/, "")
     .trim();
+  if (
+    cleaned.toLowerCase().includes("attention required") ||
+    cleaned.toLowerCase().includes("just a moment") ||
+    cleaned.toLowerCase().includes("access denied")
+  ) {
+    return null;
+  }
+  return cleaned;
 }
 
 function HeroIllustration({ isDark }) {
@@ -255,9 +263,11 @@ function CardSkeleton() {
 function ResourceCard({ r }) {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
-  const [loaded, setLoaded] = useState(false);
   const domain = parseDomain(r.url);
   const title = cleanTitle(r.name) || domain;
+
+  const [loaded, setLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <Box
@@ -311,7 +321,7 @@ function ResourceCard({ r }) {
           </Box>
         )}
 
-        {r.image ? (
+        {r.image && !imgError ? (
           <>
             <img
               src={r.image}
@@ -333,6 +343,7 @@ function ResourceCard({ r }) {
               src={r.image}
               alt={title}
               onLoad={() => setLoaded(true)}
+              onError={() => setImgError(true)}
               loading="lazy"
               style={{
                 width: "100%",
@@ -416,7 +427,7 @@ export default function ShowcasePage() {
     setError(null);
     fetch("/api/showcase-resources")
       .then((r) => {
-        if (!r.ok) throw new Error("Failed to fetch");
+        if (!r.ok) throw new Error(`HTTP ${r.status}`); // was `res.status`
         return r.json();
       })
       .then((data) => {

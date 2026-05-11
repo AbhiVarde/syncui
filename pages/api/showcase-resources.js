@@ -19,24 +19,20 @@ function normalizeUrl(url) {
 function getSponsored() {
   try {
     const file = path.join(process.cwd(), "data", "sponsored.json");
-    const list = JSON.parse(fs.readFileSync(file, "utf8"));
-    return list.map(normalizeUrl);
+    return JSON.parse(fs.readFileSync(file, "utf8")).map(normalizeUrl);
   } catch {
     return [];
   }
 }
 
 function extractUrls(text) {
-  const matches = text.match(/https?:\/\/[^\s)\]"'<>,]+/g) ?? [];
-  return [...new Set(matches)].filter(
-    (u) =>
-      !u.includes("avatars.githubusercontent") &&
-      !u.includes("user-images.githubusercontent"),
-  );
-}
-
-function cleanUrl(raw) {
-  return raw.replace(/[.,;!?)]+$/, "");
+  return [...new Set(text.match(/https?:\/\/[^\s)\]"'<>,]+/g) ?? [])]
+    .map((u) => u.replace(/[.,;!?)]+$/, ""))
+    .filter(
+      (u) =>
+        !u.includes("avatars.githubusercontent") &&
+        !u.includes("user-images.githubusercontent"),
+    );
 }
 
 function parseDomain(url) {
@@ -47,79 +43,83 @@ function parseDomain(url) {
   }
 }
 
+function parseOgFromHtml(html) {
+  const get = (prop) =>
+    html.match(
+      new RegExp(
+        `<meta[^>]+property=["']${prop}["'][^>]+content=["']([^"']+)["']`,
+        "i",
+      ),
+    )?.[1] ??
+    html.match(
+      new RegExp(
+        `<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${prop}["']`,
+        "i",
+      ),
+    )?.[1] ??
+    null;
+
+  const title =
+    get("og:title") ??
+    html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim() ??
+    null;
+
+  const image = get("og:image") ?? null;
+
+  return { title, image };
+}
+
 async function fetchOgData(url) {
   try {
-    const ghMatch = url.match(/^https:\/\/github\.com\/([^/]+)\/([^/\s?#]+)/);
+    const ghMatch = url.match(/^https:\/\/github\.com\/([^/]+)\/([^/?#\s]+)/);
     if (ghMatch) {
       const [, owner, repo] = ghMatch;
-      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+      const r = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
         headers: {
           Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
           Accept: "application/vnd.github+json",
         },
       });
-      if (res.ok) {
-        const data = await res.json();
+      if (r.ok) {
+        const d = await r.json();
         return {
-          title: data.full_name,
+          title: d.full_name,
           image: `https://opengraph.githubassets.com/1/${owner}/${repo}`,
         };
       }
     }
 
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 7000);
-    const res = await fetch(url, {
+    const timer = setTimeout(() => controller.abort(), 8000);
+    const r = await fetch(url, {
+      signal: controller.signal,
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; SyncUI/1.0; +https://syncui.design)",
+          "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        Accept: "text/html",
       },
-      signal: controller.signal,
     });
     clearTimeout(timer);
-    const html = await res.text();
 
-    const ogTitle =
-      html.match(
-        /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i,
-      )?.[1] ||
-      html.match(
-        /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i,
-      )?.[1] ||
-      html.match(/<title[^>]*>([^<]{1,80})<\/title>/i)?.[1] ||
-      null;
+    if (!r.ok) return { title: null, image: null };
 
-    const ogImage =
-      html.match(
-        /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i,
-      )?.[1] ||
-      html.match(
-        /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i,
-      )?.[1] ||
-      null;
-
-    return {
-      title: ogTitle
-        ? ogTitle
-            .trim()
-            .replace(/\s+/g, " ")
-            .replace(/\s*[|\-–—]\s*.+$/, "")
-        : null,
-      image: ogImage ?? null,
-    };
+    const html = await r.text();
+    return parseOgFromHtml(html);
   } catch {
     return { title: null, image: null };
   }
 }
 
-async function fetchDiscussionEntries() {
+async function fetchDiscussionUrls() {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) throw new Error("GITHUB_TOKEN is not set");
+
   const query = `{
     repository(owner: "${OWNER}", name: "${REPO}") {
       discussion(number: ${DISCUSSION_NUMBER}) {
         comments(first: 100) {
           nodes {
-            body
-            createdAt
+            body createdAt
             author { login }
             replies(first: 50) {
               nodes { body createdAt author { login } }
@@ -130,10 +130,7 @@ async function fetchDiscussionEntries() {
     }
   }`;
 
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) throw new Error("GITHUB_TOKEN is not set");
-
-  const res = await fetch("https://api.github.com/graphql", {
+  const r = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -142,35 +139,26 @@ async function fetchDiscussionEntries() {
     body: JSON.stringify({ query }),
   });
 
-  if (!res.ok) throw new Error(`GitHub API responded with ${res.status}`);
+  if (!r.ok) throw new Error(`GitHub GraphQL responded with ${r.status}`);
 
-  const json = await res.json();
+  const json = await r.json();
   if (json.errors?.length) throw new Error(json.errors[0].message);
 
-  const comments = json?.data?.repository?.discussion?.comments?.nodes ?? [];
-  const entries = [];
-
-  for (const c of comments) {
-    entries.push({
-      body: c.body,
-      createdAt: c.createdAt,
-      author: c.author?.login ?? "unknown",
-    });
-    for (const r of c.replies?.nodes ?? []) {
-      entries.push({
-        body: r.body,
-        createdAt: r.createdAt,
-        author: r.author?.login ?? "unknown",
-      });
-    }
-  }
-
+  const nodes = json?.data?.repository?.discussion?.comments?.nodes ?? [];
   const seen = new Map();
-  for (const e of entries) {
-    for (const raw of extractUrls(e.body)) {
-      const url = cleanUrl(raw);
-      if (!seen.has(url))
-        seen.set(url, { url, createdAt: e.createdAt, author: e.author });
+
+  for (const node of nodes) {
+    const all = [node, ...(node.replies?.nodes ?? [])];
+    for (const entry of all) {
+      for (const url of extractUrls(entry.body)) {
+        if (!seen.has(url)) {
+          seen.set(url, {
+            url,
+            createdAt: entry.createdAt,
+            author: entry.author?.login ?? "unknown",
+          });
+        }
+      }
     }
   }
 
@@ -182,6 +170,11 @@ let _cacheTs = 0;
 const CACHE_TTL = process.env.NODE_ENV === "development" ? 0 : 30 * 60 * 1000;
 
 export default async function handler(req, res) {
+  if (req.query.clear === "1") {
+    _cache = null;
+    _cacheTs = 0;
+  }
+
   if (_cache && Date.now() - _cacheTs < CACHE_TTL) {
     res.setHeader("Cache-Control", "public, max-age=1800, s-maxage=1800");
     return res.status(200).json(_cache);
@@ -189,32 +182,25 @@ export default async function handler(req, res) {
 
   try {
     const sponsored = getSponsored();
-    const entries = await fetchDiscussionEntries();
+    const entries = await fetchDiscussionUrls();
 
-    const BATCH = 5;
-    const enriched = [];
+    const results = await Promise.all(
+      entries.map(async (e) => {
+        const { title, image } = await fetchOgData(e.url);
+        const domain = parseDomain(e.url);
+        return {
+          url: e.url,
+          name: title ?? domain,
+          domain,
+          image: image ?? null,
+          sponsored: sponsored.includes(normalizeUrl(e.url)),
+          author: e.author,
+          createdAt: e.createdAt,
+        };
+      }),
+    );
 
-    for (let i = 0; i < entries.length; i += BATCH) {
-      const batch = entries.slice(i, i + BATCH);
-      const results = await Promise.all(
-        batch.map(async (e) => {
-          const { title, image } = await fetchOgData(e.url);
-          const domain = parseDomain(e.url);
-          return {
-            url: e.url,
-            name: title ?? domain,
-            domain,
-            image,
-            sponsored: sponsored.includes(normalizeUrl(e.url)),
-            author: e.author,
-            createdAt: e.createdAt,
-          };
-        }),
-      );
-      enriched.push(...results);
-    }
-
-    const sorted = enriched.sort((a, b) => {
+    const sorted = results.sort((a, b) => {
       if (a.sponsored !== b.sponsored)
         return Number(b.sponsored) - Number(a.sponsored);
       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -227,10 +213,7 @@ export default async function handler(req, res) {
     return res.status(200).json(sorted);
   } catch (err) {
     console.error("[showcase-resources]", err.message);
-    if (_cache) {
-      res.setHeader("Cache-Control", "public, max-age=1800, s-maxage=1800");
-      return res.status(200).json(_cache);
-    }
+    if (_cache) return res.status(200).json(_cache);
     return res.status(500).json({ error: "Failed to load showcase resources" });
   }
 }
