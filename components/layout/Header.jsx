@@ -622,113 +622,69 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   };
 
   const renderHeaderIcons = () => (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: { xs: "space-between", lg: "flex-end" },
-        gap: { xs: 2, lg: 1.5 },
-        width: { xs: "100%", lg: "auto" },
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1.5,
-        }}
-      >
-        {(typeof stars === "number" || loading) && (
-          <Box
-            component="a"
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 0.5,
-              color: "text.primary",
-              textDecoration: "none",
-              cursor: "pointer",
-              transition: "opacity 0.1s ease",
-              "&:hover": {
-                opacity: 0.7,
-              },
-            }}
-          >
-            <HugeiconsIcon icon={GithubIcon} size={20} />
-            {!loading && stars > 0 && (
-              <Typography
-                variant="body2"
-                component="span"
-                fontWeight={500}
-                sx={{ fontSize: 14 }}
-              >
-                <AnimatedCounter
-                  value={stars}
-                  duration={1}
-                  formatter={(val) => val.toLocaleString()}
-                  delay={0}
-                />
-              </Typography>
-            )}
-          </Box>
-        )}
-
-        <IconButton
+    <>
+      {(typeof stars === "number" || loading) && (
+        <Box
           component="a"
-          href={TWITTER_URL}
+          href={GITHUB_URL}
           target="_blank"
           rel="noopener noreferrer"
-          onMouseLeave={(e) => e.target.blur()}
           sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
             color: "text.primary",
-            p: 0.5,
+            textDecoration: "none",
             cursor: "pointer",
-            "&:hover": {
-              backgroundColor: "transparent",
-              opacity: 0.7,
-            },
-            "&:focus": {
-              backgroundColor: "transparent",
-              opacity: 1,
-            },
-            "&:active": {
-              backgroundColor: "transparent",
-              opacity: 0.7,
-            },
+            transition: "opacity 0.1s ease",
+            "&:hover": { opacity: 0.7 },
           }}
         >
-          <HugeiconsIcon icon={NewTwitterIcon} size={18} />
-        </IconButton>
-      </Box>
+          <HugeiconsIcon icon={GithubIcon} size={20} />
+          {!loading && stars > 0 && (
+            <Typography
+              variant="body2"
+              component="span"
+              fontWeight={500}
+              sx={{ fontSize: 14 }}
+            >
+              <AnimatedCounter
+                value={stars}
+                duration={1}
+                formatter={(val) => val.toLocaleString()}
+                delay={0}
+              />
+            </Typography>
+          )}
+        </Box>
+      )}
+
+      <IconButton
+        component="a"
+        href={TWITTER_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{
+          color: "text.primary",
+          p: 0.5,
+          "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
+        }}
+      >
+        <HugeiconsIcon icon={NewTwitterIcon} size={18} />
+      </IconButton>
 
       <IconButton
         onClick={toggleTheme}
-        onMouseLeave={(e) => e.target.blur()}
         aria-label="Toggle theme"
         sx={{
           color: "text.primary",
           p: 0.5,
-          cursor: "pointer",
-          "&:hover": {
-            backgroundColor: "transparent",
-            opacity: 0.7,
-          },
-          "&:focus": {
-            backgroundColor: "transparent",
-            opacity: 1,
-          },
-          "&:active": {
-            backgroundColor: "transparent",
-            opacity: 0.7,
-          },
+          "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
         <HugeiconsIcon icon={isDarkMode ? Sun01Icon : Moon01Icon} size={22} />
       </IconButton>
-    </Box>
+    </>
   );
 
   return (
@@ -958,27 +914,15 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: { xs: 0.5, sm: 1 },
+                gap: 1.5,
               }}
             >
-              <Search docsTree={docsTree} isLargeUp={isLargeUp} />
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{
-                  alignSelf: "center",
-                  mx: 0.5,
-                  height: 24,
-                  borderColor: "divider",
-                }}
-              />
-
+              <Search docsTree={docsTree} />
+              {isLargeUp && renderHeaderIcons()}
               {!isLargeUp && (
                 <IconButton
                   onClick={handleToggle}
-                  sx={{
-                    color: "text.primary",
-                  }}
+                  sx={{ color: "text.primary", p: 0.5 }}
                 >
                   <HugeiconsIcon
                     icon={menuOpen ? Cancel01Icon : Menu09Icon}
@@ -986,8 +930,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   />
                 </IconButton>
               )}
-
-              {isLargeUp && renderHeaderIcons()}
             </Box>
           </Box>
         </Toolbar>
