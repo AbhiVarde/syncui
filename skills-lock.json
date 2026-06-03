@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "syncui": {
+      "source": "AbhiVarde/syncui",
+      "sourceType": "github",
+      "skillPath": "skills/syncui/SKILL.md",
+      "computedHash": "2cd4c34f24119defc67874bed3e9dbbaad59a789d7ad82d6e8244a9090975343"
+    }
+  }
+}
