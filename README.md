@@ -2,10 +2,12 @@
 
 # 🪴 Introducing Sync UI
 
-[![Follow on Twitter](https://img.shields.io/twitter/follow/syncuidesign?style=social)](https://x.com/syncuidesign)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
+[![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui)
 [![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)](https://github.com/AbhiVarde/syncui)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)](https://github.com/AbhiVarde/syncui)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/syncuidesign?style=social)](https://x.com/syncuidesign)
+
 
 **Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).**
 
