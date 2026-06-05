@@ -33,9 +33,14 @@ const HeroSection = () => {
               "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
           }}
         >
-          <Link href="/showcase">
+          <Link
+            href="https://www.skills.sh/abhivarde/syncui/syncui"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none" }}
+          >
             <Box
-              component="button"
+              component="span"
               sx={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -50,7 +55,6 @@ const HeroSection = () => {
                   theme.palette.mode === "light"
                     ? "rgba(0,0,0,0.05)"
                     : "rgba(255,255,255,0.08)",
-                border: "none",
                 color:
                   theme.palette.mode === "light"
                     ? theme.palette.text.primary
@@ -72,14 +76,14 @@ const HeroSection = () => {
                 component="span"
                 sx={{ display: { xs: "inline", sm: "none" } }}
               >
-                🌐 Introducing Showcase
+                🤖 New: AI Agent Skills
               </Box>
 
               <Box
                 component="span"
                 sx={{ display: { xs: "none", sm: "inline" } }}
               >
-                🌐 Introducing Showcase: Community projects & tools
+                🤖 Sync UI now works with AI coding tools
               </Box>
 
               <Box
