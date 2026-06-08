@@ -12,10 +12,9 @@ import {
   Popper,
   Paper,
   ClickAwayListener,
-  Fade,
 } from "@mui/material";
 import Link from "next/link";
-import { SiMarkdown, SiOpenai, SiClaude } from "react-icons/si";
+import { SiOpenai, SiClaude } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowRight01Icon,
@@ -29,9 +28,9 @@ import {
 const pillSx = {
   display: "flex",
   alignItems: "center",
-  height: 32,
+  height: 34,
   bgcolor: "background.paper",
-  border: "1.5px solid",
+  border: "1px solid",
   borderColor: "divider",
   borderRadius: "10px",
   overflow: "hidden",
@@ -41,14 +40,14 @@ const squareBtnSx = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: 32,
-  height: 32,
+  width: 34,
+  height: 34,
   flexShrink: 0,
   bgcolor: "background.paper",
-  border: "1.5px solid",
+  border: "1px solid",
   borderColor: "divider",
   borderRadius: "10px",
-  transition: "background-color 0.1s ease",
+  transition: "all 0.15s ease",
   "&:hover": { bgcolor: "action.hover" },
 };
 
@@ -56,42 +55,30 @@ const halfBtnSx = {
   display: "flex",
   alignItems: "center",
   height: "100%",
-  transition: "background-color 0.1s ease",
+  px: 1,
+  gap: 0.5,
+  transition: "background 0.15s ease",
   "&:hover": { bgcolor: "action.hover" },
 };
 
 const dividerSx = {
-  width: "1.5px",
+  width: "1px",
   alignSelf: "stretch",
   bgcolor: "divider",
   flexShrink: 0,
 };
 
 const dropdownItemSx = {
-  width: "100%",
   display: "flex",
   alignItems: "center",
-  gap: 1.25,
-  px: 0.875,
-  py: 0.625,
+  gap: 0.75,
+  width: "100%",
+  px: 0.75,
+  py: 0.75,
   borderRadius: "8px",
   textAlign: "left",
-  transition: "background-color 0.1s ease",
+  transition: "background 0.1s",
   "&:hover": { bgcolor: "action.hover" },
-};
-
-const iconBoxSx = {
-  width: 30,
-  height: 30,
-  flexShrink: 0,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  bgcolor: "action.hover",
-  border: "1.5px solid",
-  borderColor: "divider",
-  borderRadius: "7px",
-  color: "text.secondary",
 };
 
 const findAdjacentPages = (docsTree, currentSlug) => {
@@ -117,70 +104,15 @@ const NavButton = ({ page, direction }) => {
       disabled={!page}
       sx={{
         ...squareBtnSx,
-        opacity: page ? 1 : 0.3,
+        opacity: page ? 1 : 0.35,
         pointerEvents: page ? "auto" : "none",
       }}
     >
       <HugeiconsIcon icon={icon} size={14} strokeWidth={2} />
     </ButtonBase>
   );
-  return page ? (
-    <Link href={page.url} style={{ textDecoration: "none", display: "block" }}>
-      {btn}
-    </Link>
-  ) : (
-    btn
-  );
+  return page ? <Link href={page.url}>{btn}</Link> : btn;
 };
-
-const CopyIcon = ({ size }) => (
-  <HugeiconsIcon icon={Copy01Icon} size={size} strokeWidth={2} />
-);
-
-const DropdownItem = ({
-  IconComponent,
-  label,
-  description,
-  hasArrow,
-  onClick,
-}) => (
-  <ButtonBase onClick={onClick} sx={dropdownItemSx}>
-    <Box sx={iconBoxSx}>
-      <IconComponent size={13} />
-    </Box>
-    <Box sx={{ flex: 1, minWidth: 0 }}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
-        <Typography
-          variant="caption"
-          fontWeight={500}
-          color="text.primary"
-          noWrap
-        >
-          {label}
-        </Typography>
-        {hasArrow && (
-          <Typography
-            variant="caption"
-            color="text.disabled"
-            sx={{ lineHeight: 1 }}
-          >
-            ↗
-          </Typography>
-        )}
-      </Box>
-      {description && (
-        <Typography
-          variant="caption"
-          fontWeight={400}
-          color="text.secondary"
-          display="block"
-        >
-          {description}
-        </Typography>
-      )}
-    </Box>
-  </ButtonBase>
-);
 
 export const DocNavigationBar = ({ slug, docsTree, title }) => {
   const [open, setOpen] = useState(false);
@@ -224,14 +156,6 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
     }
   }, [slug, isCopying]);
 
-  const handleViewMarkdown = useCallback(() => {
-    window.open(
-      `/api/raw-mdx?slug=${encodeURIComponent(slug || "index")}`,
-      "_blank",
-    );
-    setOpen(false);
-  }, [slug]);
-
   const handleOpenAI = useCallback((type) => {
     const prompt = `I'm looking at this documentation: ${window.location.href}. Help me understand how to use it.`;
     window.open(
@@ -242,11 +166,6 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
     );
     setOpen(false);
   }, []);
-
-  const handleCopyFromMenu = useCallback(() => {
-    setOpen(false);
-    copyMarkdown();
-  }, [copyMarkdown]);
 
   const toggleOpen = useCallback(() => setOpen((v) => !v), []);
   const handleClose = useCallback(() => setOpen(false), []);
@@ -260,44 +179,35 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           justifyContent: "space-between",
           gap: 2,
           mb: 3,
-          width: "100%",
         }}
       >
         <Typography
           variant="h3"
           fontWeight={500}
-          sx={{ flex: "1 1 auto", minWidth: 0, wordBreak: "break-word" }}
+          sx={{ flex: 1, minWidth: 0, wordBreak: "break-word" }}
         >
           {title}
         </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 0.75,
-            flexShrink: 0,
-          }}
-        >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
           <Box ref={anchorRef} sx={pillSx}>
             <ButtonBase
               onClick={copyMarkdown}
               disabled={isCopying}
-              sx={{ ...halfBtnSx, gap: 0.75, pl: 1.125, pr: 1.25 }}
+              sx={halfBtnSx}
             >
               <HugeiconsIcon
                 icon={copied ? Tick02Icon : Copy01Icon}
-                size={13}
+                size={14}
                 strokeWidth={2}
               />
               <Typography
                 variant="caption"
                 fontWeight={500}
                 component="span"
-                noWrap
-                sx={{ display: { xs: "none", sm: "block" }, minWidth: 52 }}
+                sx={{ minWidth: 52 }}
               >
-                {copied ? "Copied!" : "Copy page"}
+                {copied ? "Copied!" : "Copy"}
               </Typography>
             </ButtonBase>
 
@@ -305,11 +215,15 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
 
             <ButtonBase
               onClick={toggleOpen}
-              sx={{ ...halfBtnSx, px: 0.75, justifyContent: "center" }}
+              sx={{
+                px: 1.25,
+                height: "100%",
+                "&:hover": { bgcolor: "action.hover" },
+              }}
             >
               <HugeiconsIcon
                 icon={open ? ArrowUp01Icon : ArrowDown01Icon}
-                size={13}
+                size={14}
                 strokeWidth={2}
               />
             </ButtonBase>
@@ -324,59 +238,58 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
         open={open}
         anchorEl={anchorRef.current}
         placement="bottom-end"
-        transition
-        style={{ zIndex: 1300 }}
-        modifiers={[{ name: "offset", options: { offset: [0, 6] } }]}
+        disablePortal={false}
+        modifiers={[
+          {
+            name: "offset",
+            options: { offset: [0, 8] },
+          },
+          {
+            name: "preventOverflow",
+            options: { padding: 8 },
+          },
+        ]}
+        sx={{
+          zIndex: 1300,
+          transition: "opacity 80ms ease",
+          opacity: open ? 1 : 0,
+        }}
       >
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={120}>
-            <Paper
-              elevation={0}
-              sx={{
-                minWidth: 240,
-                border: "1.5px solid",
-                borderColor: "divider",
-                borderRadius: "12px",
-                bgcolor: "background.paper",
-                p: 0.5,
-                boxShadow:
-                  "0 8px 28px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05)",
-              }}
-            >
-              <ClickAwayListener onClickAway={handleClose}>
-                <Box>
-                  <DropdownItem
-                    IconComponent={CopyIcon}
-                    label="Copy page"
-                    description="Copy page as Markdown for LLMs"
-                    onClick={handleCopyFromMenu}
-                  />
-                  <DropdownItem
-                    IconComponent={SiMarkdown}
-                    label="View as Markdown"
-                    description="View this page as plain text"
-                    hasArrow
-                    onClick={handleViewMarkdown}
-                  />
-                  <DropdownItem
-                    IconComponent={SiOpenai}
-                    label="Open in ChatGPT"
-                    description="Ask questions about this page"
-                    hasArrow
-                    onClick={() => handleOpenAI("chatgpt")}
-                  />
-                  <DropdownItem
-                    IconComponent={SiClaude}
-                    label="Open in Claude"
-                    description="Ask questions about this page"
-                    hasArrow
-                    onClick={() => handleOpenAI("claude")}
-                  />
-                </Box>
-              </ClickAwayListener>
-            </Paper>
-          </Fade>
-        )}
+        <Paper
+          elevation={0}
+          sx={{
+            minWidth: 180,
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: "12px",
+            bgcolor: "background.paper",
+            p: 0.5,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+          }}
+        >
+          <ClickAwayListener onClickAway={handleClose}>
+            <Box>
+              <ButtonBase
+                onClick={() => handleOpenAI("chatgpt")}
+                sx={dropdownItemSx}
+              >
+                <SiOpenai size={16} />
+                <Typography variant="body2" fontWeight={500}>
+                  Ask ChatGPT
+                </Typography>
+              </ButtonBase>
+              <ButtonBase
+                onClick={() => handleOpenAI("claude")}
+                sx={dropdownItemSx}
+              >
+                <SiClaude size={16} />
+                <Typography variant="body2" fontWeight={500}>
+                  Ask Claude
+                </Typography>
+              </ButtonBase>
+            </Box>
+          </ClickAwayListener>
+        </Paper>
       </Popper>
     </>
   );
