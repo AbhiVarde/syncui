@@ -208,6 +208,9 @@ const StyledTab = styled(Tab)(({ theme }) => ({
         ? "rgba(255,255,255,0.05)"
         : "rgba(0,0,0,0.05)",
   },
+  "&:first-of-type:hover": {
+    borderTopLeftRadius: theme.shape.borderRadius * 2, 
+  },
 }));
 
 const CodePreview = ({
