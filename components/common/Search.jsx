@@ -194,30 +194,29 @@ const Search = ({ docsTree = [] }) => {
         TransitionComponent={Fade}
         transitionDuration={100}
         keepMounted
-        PaperProps={{
-          sx: {
+        sx={{
+          "& .MuiDialog-paper": {
             backgroundImage: "none",
-            bgcolor: isDark ? "#0b0b0b" : "#fff",
+            backgroundColor: isDark ? "#111111" : "#FFFFFF",
             borderRadius: "24px",
-            border: `1px solid ${isDark ? "#1f1f1f" : "#ececec"}`,
-            height: "560px !important",
-            maxHeight: "560px !important",
-            minHeight: "560px",
+            border: `1px solid ${isDark ? "#1F1F1F" : "#EEEEEE"}`,
             overflow: "hidden",
+            height: "520px",
+            maxHeight: "520px",
+            minHeight: "520px",
             display: "flex",
             flexDirection: "column",
             boxShadow: isDark
               ? "0 20px 80px rgba(0,0,0,.55)"
               : "0 20px 80px rgba(0,0,0,.08)",
-            transform: "translateZ(0)",
           },
         }}
       >
         <Box
           sx={{
             p: 2,
-            borderBottom: `1px solid ${isDark ? "#181818" : "#f0f0f0"}`,
-            bgcolor: isDark ? "#0b0b0b" : "#fff",
+            borderBottom: `1px solid ${isDark ? "#1F1F1F" : "#EEEEEE"}`,
+            bgcolor: isDark ? "#111111" : "#FFFFFF",
           }}
         >
           <Box
@@ -233,7 +232,7 @@ const Search = ({ docsTree = [] }) => {
                 left: 14,
                 display: "flex",
                 alignItems: "center",
-                color: isDark ? "#5a5a5a" : "#9e9e9e",
+                color: isDark ? "#6B6B6B" : "#9E9E9E",
                 pointerEvents: "none",
               }}
             >
@@ -250,10 +249,10 @@ const Search = ({ docsTree = [] }) => {
               style={{
                 width: "100%",
                 height: "40px",
-                border: `1px solid ${isDark ? "#1f1f1f" : "#ebebeb"}`,
-                borderRadius: "14px",
-                background: isDark ? "#111" : "#fafafa",
-                color: isDark ? "#fff" : "#111",
+                border: `1px solid ${isDark ? "#1F1F1F" : "#EEEEEE"}`,
+                borderRadius: "14px !important",
+                background: isDark ? "#1A1A1A" : "#FAFAFA",
+                color: isDark ? "#FFFFFF" : "#111111",
                 padding: "0 40px",
                 outline: "none",
                 fontSize: "14px",
@@ -322,9 +321,11 @@ const Search = ({ docsTree = [] }) => {
                           }`,
                           bgcolor: isSelected
                             ? isDark
-                              ? "#171717"
-                              : "#F2F2F2"
-                            : "transparent",
+                              ? "#1F1F1F"
+                              : "#EEEEEE"
+                            : isDark
+                              ? "#111111"
+                              : "#FFFFFF",
                           transition: "background-color .1s ease",
                         }}
                       >
