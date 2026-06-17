@@ -7,6 +7,7 @@ import {
   GlobalStyles,
 } from "@mui/material";
 import Link from "next/link";
+import Image from "next/image";
 
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -71,10 +72,13 @@ const HeroSection = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
+              <Image
                 alt="Vercel OSS Program"
                 src="https://vercel.com/oss/program-badge-2026.svg"
-                style={{ display: "block" }}
+                width={240}
+                height={44}
+                unoptimized
+                style={{ display: "block", maxWidth: "100%", height: "auto" }}
               />
             </a>
           </Box>
