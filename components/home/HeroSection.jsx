@@ -1,120 +1,93 @@
-import { useState, useEffect } from "react";
-import { Typography, Button, Box, Container, useTheme } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Box,
+  Container,
+  useTheme,
+  GlobalStyles,
+} from "@mui/material";
 import Link from "next/link";
 
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 
+const TECH_ICONS = [
+  { Icon: SiMui, title: "MUI", color: "#007FFF", url: "https://mui.com/" },
+  {
+    Icon: SiJavascript,
+    title: "JavaScript",
+    color: "#F7DF1E",
+    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+  },
+  {
+    Icon: SiReact,
+    title: "React",
+    color: "#61DAFB",
+    url: "https://react.dev/",
+  },
+  {
+    Icon: SiNextdotjs,
+    title: "Next.js",
+    color: null,
+    url: "https://nextjs.org/",
+  },
+  { Icon: null, title: "Motion", url: "https://motion.dev/" },
+];
+
+const MotionIcon = () => (
+  <img
+    src="https://framerusercontent.com/images/3aQX5dnH5Yqgsn98QXKF2ZXxIE.png"
+    alt="Motion"
+    width={26}
+    height={26}
+  />
+);
+
+const fadeUp = (delay) => ({
+  animation: `heroFadeUp 0.35s ease-out ${delay}s both`,
+});
+
 const HeroSection = () => {
   const theme = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isDark = theme.palette.mode === "dark";
 
   return (
-    <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          opacity: mounted ? 1 : 0,
-          transform: mounted ? "translateY(0)" : "translateY(10px)",
-          transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
+    <>
+      <GlobalStyles
+        styles={{
+          "@keyframes heroFadeUp": {
+            from: { opacity: 0, transform: "translateY(10px)" },
+            to: { opacity: 1, transform: "translateY(0)" },
+          },
         }}
-      >
-        <Box
-          sx={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(8px)",
-            transition:
-              "opacity 0.2s ease-out 0.03s, transform 0.2s ease-out 0.03s",
-          }}
-        >
-          <Link
-            href="https://www.skills.sh/abhivarde/syncui/syncui"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <Box
-              component="span"
-              sx={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 0.5,
-                px: 1.25,
-                py: 0.75,
-                mb: 2,
-                borderRadius: theme.shape.borderRadius * 2,
-                fontSize: 14,
-                fontWeight: 500,
-                backgroundColor:
-                  theme.palette.mode === "light"
-                    ? "rgba(0,0,0,0.05)"
-                    : "rgba(255,255,255,0.08)",
-                color:
-                  theme.palette.mode === "light"
-                    ? theme.palette.text.primary
-                    : "rgba(255,255,255,0.9)",
-                cursor: "pointer",
-                transition: "background-color 0.15s ease",
-                "&:hover": {
-                  backgroundColor:
-                    theme.palette.mode === "light"
-                      ? "rgba(0,0,0,0.1)"
-                      : "rgba(255,255,255,0.12)",
-                  "& .chevron": {
-                    transform: "translateX(3px)",
-                  },
-                },
-              }}
+      />
+
+      <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ mb: 2, ...fadeUp(0) }}>
+            <a
+              href="https://vercel.com/open-source-program"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <Box
-                component="span"
-                sx={{ display: { xs: "inline", sm: "none" } }}
-              >
-                🤖 New: AI Agent Skills
-              </Box>
+              <img
+                alt="Vercel OSS Program"
+                src="https://vercel.com/oss/program-badge-2026.svg"
+                style={{ display: "block" }}
+              />
+            </a>
+          </Box>
 
-              <Box
-                component="span"
-                sx={{ display: { xs: "none", sm: "inline" } }}
-              >
-                🤖 Sync UI now works with AI coding tools
-              </Box>
-
-              <Box
-                className="chevron"
-                sx={{
-                  display: "inline-flex",
-                  transition: "transform 0.18s ease-out",
-                }}
-              >
-                <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-              </Box>
-            </Box>
-          </Link>
-        </Box>
-
-        <Box
-          sx={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(10px)",
-            transition:
-              "opacity 0.2s ease-out 0.06s, transform 0.2s ease-out 0.06s",
-          }}
-        >
           <Typography
             variant="h1"
             sx={{
               fontWeight: 600,
               letterSpacing: "-0.05em",
-              mb: 3,
+              mb: 1.5,
               display: "flex",
               flexDirection: "column",
+              ...fadeUp(0.07),
             }}
           >
             <Box component="span">Beautifully designed components</Box>
@@ -129,6 +102,7 @@ const HeroSection = () => {
             >
               and templates built with
               <Box
+                component="span"
                 sx={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -137,50 +111,14 @@ const HeroSection = () => {
                   ml: 0.5,
                 }}
               >
-                {[
-                  {
-                    Icon: SiMui,
-                    title: "MUI",
-                    color: "#007FFF",
-                    url: "https://mui.com/",
-                  },
-                  {
-                    Icon: SiJavascript,
-                    title: "JavaScript",
-                    color: "#F7DF1E",
-                    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-                  },
-                  {
-                    Icon: SiReact,
-                    title: "React",
-                    color: "#61DAFB",
-                    url: "https://react.dev/",
-                  },
-                  {
-                    Icon: SiNextdotjs,
-                    title: "Next.js",
-                    color:
-                      theme.palette.mode === "dark" ? "#FFFFFF" : "#000000",
-                    url: "https://nextjs.org/",
-                  },
-                  {
-                    Icon: () => (
-                      <img
-                        src="https://framerusercontent.com/images/3aQX5dnH5Yqgsn98QXKF2ZXxIE.png"
-                        alt="Motion"
-                        style={{ width: "26px", height: "26px" }}
-                      />
-                    ),
-                    title: "Motion",
-                    url: "https://motion.dev/",
-                  },
-                ].map(({ Icon, title, color, url }, index) => (
+                {TECH_ICONS.map(({ Icon, title, color, url }, index) => (
                   <Box
                     key={title}
                     component="a"
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    title={title}
                     sx={{
                       position: "relative",
                       display: "flex",
@@ -190,79 +128,67 @@ const HeroSection = () => {
                       height: { xs: "48px", sm: "52px" },
                       borderRadius: "50%",
                       border: "3px solid",
-                      borderColor:
-                        theme.palette.mode === "dark" ? "#000000" : "#ffffff",
-                      marginLeft: index > 0 ? { xs: "-8px", sm: "-15px" } : 0,
+                      borderColor: isDark ? "#000" : "#fff",
+                      ml: index > 0 ? { xs: "-8px", sm: "-15px" } : 0,
                       zIndex: 5 - index,
-                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-                      cursor: "pointer",
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1a1a1a" : "#ffffff",
-                      boxShadow:
-                        theme.palette.mode === "dark"
-                          ? "0 2px 8px rgba(0,0,0,0.4)"
-                          : "0 2px 8px rgba(0,0,0,0.1)",
+                      transition:
+                        "transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1)",
+                      backgroundColor: isDark ? "#1a1a1a" : "#fff",
+                      boxShadow: isDark
+                        ? "0 2px 8px rgba(0,0,0,0.4)"
+                        : "0 2px 8px rgba(0,0,0,0.1)",
                       overflow: "hidden",
                       textDecoration: "none",
                       "&:hover": {
                         transform: "translateY(-6px) scale(1.12)",
                         zIndex: 10,
-                        boxShadow:
-                          theme.palette.mode === "dark"
-                            ? "0 6px 16px rgba(0,0,0,0.5)"
-                            : "0 6px 16px rgba(0,0,0,0.2)",
+                        boxShadow: isDark
+                          ? "0 6px 16px rgba(0,0,0,0.5)"
+                          : "0 6px 16px rgba(0,0,0,0.2)",
                       },
                     }}
                   >
                     {title === "Motion" ? (
-                      <Icon />
+                      <MotionIcon />
                     ) : (
-                      <Icon size={26} color={color} />
+                      <Icon
+                        size={26}
+                        color={
+                          title === "Next.js"
+                            ? isDark
+                              ? "#fff"
+                              : "#000"
+                            : color
+                        }
+                      />
                     )}
                   </Box>
                 ))}
               </Box>
             </Box>
           </Typography>
-        </Box>
 
-        <Box
-          sx={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(10px)",
-            transition:
-              "opacity 0.2s ease-out 0.09s, transform 0.2s ease-out 0.09s",
-          }}
-        >
           <Typography
             variant="body1"
             sx={{
-              fontWeight: 400,
               color: "text.secondary",
               mb: 3,
               fontSize: { xs: "16px", sm: "18px" },
               lineHeight: 1.6,
+              ...fadeUp(0.14),
             }}
           >
-            125+ beautifully designed components, 13+ blocks, and 3 premium
-            templates that you can customize and build on. Start here then make
-            it your own. Open Source. Open Code.
+            125+ open-source components, 13+ blocks, and premium templates built
+            with MUI and Motion. Copy, customize, and ship faster.
           </Typography>
-        </Box>
 
-        <Box
-          sx={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(8px)",
-            transition: "opacity 0.25s ease-out, transform 0.25s ease-out",
-          }}
-        >
           <Box
             sx={{
               display: "flex",
               gap: { xs: 1.25, sm: 1.5 },
               alignItems: "center",
               flexWrap: "wrap",
+              ...fadeUp(0.2),
             }}
           >
             <Link href="/docs/installation">
@@ -274,15 +200,14 @@ const HeroSection = () => {
                   borderRadius: 1.5,
                   textTransform: "none",
                   fontWeight: 500,
-                  boxShadow:
-                    theme.palette.mode === "light"
-                      ? "0 1px 4px rgba(0,0,0,0.12)"
-                      : "0 4px 12px rgba(0,0,0,0.4)",
+                  boxShadow: isDark
+                    ? "0 4px 12px rgba(0,0,0,0.4)"
+                    : "0 1px 4px rgba(0,0,0,0.12)",
+                  transition: "box-shadow 0.2s ease",
                   "&:hover": {
-                    boxShadow:
-                      theme.palette.mode === "light"
-                        ? "0 4px 12px rgba(0,0,0,0.18)"
-                        : "0 6px 16px rgba(0,0,0,0.5)",
+                    boxShadow: isDark
+                      ? "0 6px 16px rgba(0,0,0,0.5)"
+                      : "0 4px 12px rgba(0,0,0,0.18)",
                   },
                 }}
               >
@@ -304,22 +229,20 @@ const HeroSection = () => {
                   alignItems: "center",
                   gap: 0.5,
                   "&:hover": {
-                    backgroundColor:
-                      theme.palette.mode === "dark"
-                        ? "rgba(255,255,255,0.04)"
-                        : "rgba(0,0,0,0.04)",
-                    "& .chevron": {
-                      transform: "translateX(3px)",
-                    },
+                    backgroundColor: isDark
+                      ? "rgba(255,255,255,0.04)"
+                      : "rgba(0,0,0,0.04)",
+                    "& .arrow": { transform: "translateX(3px)" },
                   },
                 }}
               >
                 View components
                 <Box
-                  className="chevron"
+                  component="span"
+                  className="arrow"
                   sx={{
                     display: "inline-flex",
-                    transition: "transform 0.18s ease-out",
+                    transition: "transform 0.18s ease",
                   }}
                 >
                   <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
@@ -328,8 +251,8 @@ const HeroSection = () => {
             </Link>
           </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 };
 

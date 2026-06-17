@@ -1,181 +1,77 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/abhivarde.in)
+# Sync UI
 
-# 🪴 Introducing Sync UI
+Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.
 
-[![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui)
-[![GitHub Repo Views](https://gitviews.com/repo/AbhiVarde/syncui.svg)](https://github.com/AbhiVarde/syncui)
-[![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)](https://github.com/AbhiVarde/syncui)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md)
-[![Follow on Twitter](https://img.shields.io/twitter/follow/syncuidesign?style=social)](https://x.com/syncuidesign)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) [![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui) <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="https://vercel.com/oss/program-badge-2026.svg" height="20" /></a>
 
+[Website](https://syncui.design) · [Docs](https://syncui.design/docs) · [Components](https://syncui.design/components) · [Blocks](https://syncui.design/blocks) · [Templates](https://syncui.design/templates) · [Showcase](https://syncui.design/showcase) · [GitHub](https://github.com/AbhiVarde/syncui) · [X](https://x.com/syncuidesign) · [Deploy](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/syncui)
 
-**Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).**
+## About
 
-![Sync UI Preview](https://www.syncui.design/og-image.png)
+Sync UI is an open-source component library for React. Copy and paste components directly into your project. No installation required. Built on top of MUI and Motion.
 
-<div align="center">
+## What's Inside
 
-[🌐 Website](https://syncui.design) • [📚 Documentation](https://syncui.design/docs) • [🧩 Components](https://syncui.design/components) • [🧱 Blocks](https://syncui.design/blocks) • [🚀 Templates](https://syncui.design/templates) • [🌟 Showcase](https://syncui.design/showcase)
+| Count | Includes |
+| --- | --- |
+| **125+ Components** | Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Accordions, Carousels, Dialogs, Docks, Tabs, and more |
+| **13+ Blocks** | Hero, CTA, Pricing, and Stats sections for landing pages |
+| **3 Templates** | Startup ($29), SaaS ($29), Portfolio ($29), Bundle — all three ($79) |
 
-</div>
+## Tech Stack
 
-## ⭐ Show Your Support
+| Category  | Technology            |
+| --------- | --------------------- |
+| Framework | React, Next.js        |
+| Styling   | Material UI (MUI)     |
+| Animation | Motion (motion/react) |
+| Analytics | Umami                 |
+| Deploy    | Vercel, Docker        |
 
-**If you find Sync UI helpful, please give it a star!** It helps other developers discover the project.
-
-<div align="center">
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AbhiVarde/syncui&type=date&legend=top-left)](https://star-history.com/#AbhiVarde/syncui&Date)
-
-</div>
-
-## 🏆 Recognition
-
-- **Featured on [Vercel Community Showcase](https://community.vercel.com/t/sync-ui-animated-ui-kit-with-mui-framer-motion-next-js-vercel/18039)**
-- **85+ GitHub Stars and growing**
-- **Trusted by developers in 100+ countries**
-
-## ✨ What's Included
-
-### 🧩 125+ Free Components
-
-Production-ready React components with smooth animations:
-
-Buttons, Cards, Tables, Forms, Date Pickers, Time Pickers, Autocompletes, Loaders, Avatars, Accordions, Carousels, Dialogs, Docks, Grids, Tabs, and more.
-
-[→ Browse Components](https://syncui.design/components)
-
-### 🧱 13+ Free Blocks
-
-Pre-built UI sections for landing pages:
-
-**Hero Blocks** (3) — Eye-catching landing page headers  
-**CTA Blocks** (4) — Call-to-action sections  
-**Pricing Blocks** (3) — Professional pricing tables  
-**Stats Blocks** (3) — Key metric sections with icons and cards
-
-[→ Explore Blocks](https://syncui.design/blocks)
-
-### 🚀 3 Premium Templates
-
-Professional templates to launch faster:
-
-**Startup Template** ($29) — Complete landing page with all essentials  
-**SaaS Template** ($29) — Conversion-focused layout  
-**Portfolio Template** ($29) — Modern animated portfolio  
-**Bundle** ($79) — All 3 templates (Save $8)
-
-[→ View Templates](https://syncui.design/templates)
-
-## 🐳 Run with Docker
+## Getting Started
 
 ```bash
 git clone https://github.com/AbhiVarde/syncui
 cd syncui
+npm install
+npm run dev
+```
+
+**Docker**
+
+```bash
 docker build -t syncui .
 docker run -p 3000:3000 syncui
 ```
 
-Open http://localhost:3000
+Open [http://localhost:3000](http://localhost:3000).
 
-## 🚀 Tech Stack
+## Contributing
 
-| Category       | Technologies          |
-| -------------- | --------------------- |
-| **Frontend**   | React, Next.js        |
-| **Styling**    | Material UI (MUI)     |
-| **Animation**  | Motion (motion/react) |
-| **Backend**    | Next.js API Routes    |
-| **Analytics**  | Umami Analytics       |
-| **Deployment** | Vercel + Docker       |
+Contributions are welcome.
 
-## 🎯 Why Sync UI?
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'feat: add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
 
-| Feature                   | Description                                   |
-| ------------------------- | --------------------------------------------- |
-| ✅ **Free & Open Source** | 125+ components, 10+ blocks — completely free |
-| 🎨 **Beautiful Design**   | Modern, polished UI with smooth animations    |
-| ⚡ **Production Ready**   | Battle-tested components for real projects    |
-| ♿ **Accessible**         | Built with accessibility best practices       |
-| 🔧 **Customizable**       | Easy to modify and extend                     |
-| 📱 **Responsive**         | Works perfectly on all devices                |
-| 🚀 **Next.js Ready**      | Optimized for Next.js projects                |
+Follow the existing code style, test across screen sizes, and ensure accessibility standards are met. Read the full [Contributing Guide](https://github.com/AbhiVarde/syncui/blob/main/CONTRIBUTING.md).
 
-## 💖 Support the Project
+## Support
 
-Your support helps keep Sync UI free and actively maintained!
+If Sync UI is useful to you, consider supporting the project.
 
-### One-Time Support
+[Buy Me a Coffee](https://buymeacoffee.com/abhivarde9h) · [Sponsor on GitHub](https://github.com/sponsors/AbhiVarde)
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-☕-orange?style=for-the-badge)](https://buymeacoffee.com/abhivarde9h)
+Sponsor tiers: $5/month for README recognition, $19/month for README and portfolio recognition, $49/month for README, portfolio, and promotion on Sync UI.
 
-### Monthly Sponsorship
+## License
 
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-💚-green?style=for-the-badge&logo=github)](https://github.com/sponsors/AbhiVarde)
+MIT. See [LICENSE](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) for details.
 
-**Sponsor Tiers:**
+## Author
 
-💚 **$5/month — Supporter** → GitHub README recognition  
-🌟 **$19/month — Sponsor** → README + Portfolio recognition  
-🚀 **$49/month — Featured Sponsor** → README + Portfolio + promotion on Sync UI
+Built and maintained by [Abhi Varde](https://www.abhivarde.in).
 
-## 🤝 Contributing
-
-We welcome contributions! Here's how to get started:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'feat: add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Contribution Guidelines
-
-Follow existing code style and conventions.  
-Test components across different screen sizes.  
-Ensure accessibility standards are met.  
-Write clear, descriptive commit messages.  
-Update documentation if needed.
-
-📝 [Read Full Contribution Guide](https://github.com/AbhiVarde/syncui/blob/main/CONTRIBUTING.md)
-
-## 📜 License
-
-Sync UI is open source and available under the [MIT License](https://choosealicense.com/licenses/mit/).
-
-## 👨‍💻 Author
-
-**Created and maintained by [Abhi Varde](https://www.abhivarde.in/)**
-
-[![X Follow](https://img.shields.io/twitter/follow/varde_abhi?style=social)](https://x.com/varde_abhi)
-[![GitHub followers](https://img.shields.io/github/followers/AbhiVarde?style=social)](https://github.com/AbhiVarde)
-
-## 🔗 Links
-
-**Website:** https://syncui.design  
-**Documentation:** https://syncui.design/docs  
-**Components:** https://syncui.design/components  
-**Blocks:** https://syncui.design/blocks  
-**Templates:** https://syncui.design/templates  
-**Showcase:** https://syncui.design/showcase  
-**GitHub:** https://github.com/AbhiVarde/syncui  
-**Twitter:** https://x.com/syncuidesign  
-**Changelog:** https://syncui.design/docs/changelog
-
-## 📊 Project Stats
-
-<div align="center">
-
-![GitHub stars](https://img.shields.io/github/stars/AbhiVarde/syncui?style=social)
-![GitHub forks](https://img.shields.io/github/forks/AbhiVarde/syncui?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/AbhiVarde/syncui?style=social)
-
-</div>
-
-<div align="center">
-
-**Built with ❤️ for the developer community**
-
-If you like Sync UI, please ⭐ star the repo!
-
-</div>
+[X](https://x.com/varde_abhi) · [GitHub](https://github.com/AbhiVarde)
