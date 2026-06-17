@@ -74,11 +74,14 @@ const HeroSection = () => {
             >
               <Image
                 alt="Vercel OSS Program"
-                src="https://vercel.com/oss/program-badge-2026.svg"
+                src="/vercel-oss.svg"
                 width={240}
                 height={44}
-                unoptimized
-                style={{ display: "block", maxWidth: "100%", height: "auto" }}
+                style={{
+                  display: "block",
+                  maxWidth: "100%",
+                  height: "auto",
+                }}
               />
             </a>
           </Box>
