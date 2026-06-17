@@ -15,15 +15,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
 const fadeUp = {
-  initial: { opacity: 0, y: 8 },
+  initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
 };
-
-const fadeUpDelayed = (delay = 0) => ({
-  ...fadeUp,
-  transition: { ...fadeUp.transition, delay },
-});
 
 const Components = ({ docsTree }) => {
   const theme = useTheme();
@@ -151,10 +145,15 @@ const Components = ({ docsTree }) => {
       <Container maxWidth="xl" sx={{ px: "0px !important" }}>
         <Box
           sx={{
+            width: "100%",
             position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: 260,
             backgroundImage: "radial-gradient(#9ca3af 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-            py: 8,
+            backgroundSize: "22px 22px",
           }}
         >
           <Box
@@ -169,64 +168,86 @@ const Components = ({ docsTree }) => {
 
           <Container maxWidth="md" sx={{ position: "relative", zIndex: 1 }}>
             <Box
-              component={motion.div}
-              {...fadeUp}
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
-                p: { md: 2, xs: 0 },
+                px: { xs: 2, md: 0 },
+                gap: 1.5,
               }}
             >
-              <Box component={motion.div} {...fadeUpDelayed(0.08)}>
+              <Box
+                component={motion.div}
+                {...fadeUp}
+                transition={{ duration: 0.4, delay: 0.05 }}
+              >
                 <Button
+                  disableRipple
                   sx={{
                     px: 2,
                     py: 0.5,
                     borderRadius: "12px",
-                    fontSize: 14,
                     fontWeight: 500,
-                    background: !isDarkMode
-                      ? "linear-gradient(120deg, rgba(255,255,255,0.9), rgba(245,245,245,0.9))"
-                      : "linear-gradient(120deg, rgba(30,30,30,0.9), rgba(50,50,50,0.9))",
+                    backgroundColor: "background.paper",
                     border: "1px solid",
                     borderColor: "divider",
                     textTransform: "none",
-                    color: !isDarkMode ? "#008080" : "#00B5AD",
+                    color: "text.primary",
                     pointerEvents: "none",
+                    "&:hover": { backgroundColor: "background.paper" },
                   }}
                 >
                   Sync UI Components
                 </Button>
               </Box>
 
-              <Box component={motion.div} {...fadeUpDelayed(0.16)}>
-                <Typography variant="h2" sx={{ fontWeight: 600, mt: 1 }}>
-                  Build faster with production-ready components
-                </Typography>
-              </Box>
-
-              <Box component={motion.div} {...fadeUpDelayed(0.24)}>
-                <Typography
-                  variant="h6"
-                  sx={{ mt: 2, maxWidth: 700, lineHeight: 1.6 }}
+              <Box>
+                <Box
+                  component={motion.div}
+                  {...fadeUp}
+                  transition={{ duration: 0.4, delay: 0.12 }}
                 >
-                  <Box sx={{ display: { xs: "none", sm: "inline" } }}>
-                    A growing set of reusable React components built with MUI
-                    and Motion. Copy, customize, and ship with confidence.
-                  </Box>
-                  <Box sx={{ display: { xs: "inline", sm: "none" } }}>
-                    Flexible React components powered by MUI and Motion.
-                  </Box>
-                </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: 600, letterSpacing: "-0.02em" }}
+                  >
+                    Production-ready components
+                  </Typography>
+                </Box>
+
+                <Box
+                  component={motion.div}
+                  {...fadeUp}
+                  transition={{ duration: 0.4, delay: 0.18 }}
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight={400}
+                    color="text.secondary"
+                  >
+                    <Box
+                      component="span"
+                      sx={{ display: { xs: "none", sm: "inline" } }}
+                    >
+                      Reusable React components built with MUI and Motion. Copy,
+                      customize, and ship.
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{ display: { xs: "inline", sm: "none" } }}
+                    >
+                      Reusable React components built with MUI and Motion.
+                    </Box>
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Container>
         </Box>
       </Container>
 
-      <Container maxWidth="md" sx={{ py: 6 }}>
+      <Container maxWidth="md" sx={{ py: 5 }}>
         <Box
           sx={{
             display: "grid",

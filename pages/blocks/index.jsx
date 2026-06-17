@@ -53,6 +53,11 @@ const blockCategories = [
   },
 ];
 
+const fadeUp = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+};
+
 const Blocks = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
@@ -201,23 +206,20 @@ const Blocks = () => {
         <Box
           sx={{
             width: "100%",
-            height: "100%",
+            position: "relative",
+            overflow: "hidden",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            position: "relative",
+            minHeight: 260,
             backgroundImage: "radial-gradient(#9ca3af 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-            py: 8,
+            backgroundSize: "22px 22px",
           }}
         >
           <Box
             sx={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              inset: 0,
               backgroundColor: isDarkMode
                 ? "rgba(0, 0, 0, 0.4)"
                 : "transparent",
@@ -229,99 +231,85 @@ const Blocks = () => {
             sx={{ position: "relative", zIndex: 1, textAlign: "center" }}
           >
             <Box
-              component={motion.div}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                p: { md: 2, xs: 0 },
+                px: { xs: 2, md: 0 },
+                gap: 1.5,
               }}
             >
               <Box
                 component={motion.div}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
+                {...fadeUp}
+                transition={{ duration: 0.4, delay: 0.05 }}
               >
                 <Button
+                  disableRipple
                   sx={{
                     px: 2,
                     py: 0.5,
                     borderRadius: "12px",
-                    fontSize: 14,
                     fontWeight: 500,
-                    background: !isDarkMode
-                      ? "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)"
-                      : "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)",
+                    backgroundColor: "background.paper",
                     border: "1px solid",
                     borderColor: "divider",
-                    backdropFilter: "blur(4px)",
                     textTransform: "none",
-                    color: !isDarkMode ? "#008080" : "#00B5AD",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                    color: "text.primary",
                     pointerEvents: "none",
+                    "&:hover": { backgroundColor: "background.paper" },
                   }}
                 >
                   Sync UI Blocks
                 </Button>
               </Box>
 
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-              >
-                <Typography
-                  variant="h2"
-                  component="h1"
-                  sx={{ fontWeight: 600, mt: 1 }}
+              <Box>
+                <Box
+                  component={motion.div}
+                  {...fadeUp}
+                  transition={{ duration: 0.4, delay: 0.12 }}
                 >
-                  Build faster with ready-made UI blocks
-                </Typography>
-              </Box>
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: 600, letterSpacing: "-0.02em" }}
+                  >
+                    Ready-made UI blocks
+                  </Typography>
+                </Box>
 
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: 400,
-                    maxWidth: "700px",
-                    mt: 2,
-                    lineHeight: 1.6,
-                  }}
+                <Box
+                  component={motion.div}
+                  {...fadeUp}
+                  transition={{ duration: 0.4, delay: 0.18 }}
                 >
-                  <Box
-                    component="span"
-                    sx={{ display: { xs: "none", sm: "inline" } }}
+                  <Typography
+                    variant="h6"
+                    fontWeight={400}
+                    color="text.secondary"
                   >
-                    A collection of production-ready UI blocks built with MUI
-                    and Motion (motion/react). Copy, customize, and integrate
-                    seamlessly into your projects.
-                  </Box>
-                  <Box
-                    component="span"
-                    sx={{ display: { xs: "inline", sm: "none" } }}
-                  >
-                    Production-ready UI blocks built with MUI & Motion. Copy and
-                    integrate instantly.
-                  </Box>
-                </Typography>
+                    <Box
+                      component="span"
+                      sx={{ display: { xs: "none", sm: "inline" } }}
+                    >
+                      Production-ready sections built with MUI and Motion. Copy,
+                      customize, and ship.
+                    </Box>
+                    <Box
+                      component="span"
+                      sx={{ display: { xs: "inline", sm: "none" } }}
+                    >
+                      Production-ready sections built with MUI and Motion.
+                    </Box>
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Container>
         </Box>
       </Container>
 
-      <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 6 }}>
+      <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
         <Box
           sx={{
             display: "grid",
@@ -385,7 +373,6 @@ const Blocks = () => {
                     display: "flex",
                     flexDirection: "column",
                     gap: 2,
-                    "&:hover .preview": { transform: "scale(1.04)" },
                     "&:hover .icon": { transform: "rotate(45deg)" },
                   }}
                 >
@@ -403,7 +390,7 @@ const Blocks = () => {
                       sx={{
                         position: "absolute",
                         inset: 0,
-                        transition: "transform 0.3s ease-out",
+                        transition: "none", // no scale animation
                       }}
                     >
                       <Image
@@ -441,7 +428,7 @@ const Blocks = () => {
                       aria-label={`View ${block.title} blocks`}
                       sx={{
                         p: 0,
-                        color: isDarkMode ? "#FFF" : "#000",
+                        color: "text.primary",
                         backgroundColor: "transparent",
                         "&:hover": { backgroundColor: "transparent" },
                       }}

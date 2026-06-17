@@ -58,6 +58,11 @@ const templatesData = [
   },
 ];
 
+const fadeUp = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+};
+
 const Templates = ({ docsTree }) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
@@ -195,162 +200,143 @@ const Templates = ({ docsTree }) => {
         <Box
           sx={{
             width: "100%",
+            position: "relative",
+            overflow: "hidden",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            position: "relative",
+            minHeight: 260,
             backgroundImage: "radial-gradient(#9ca3af 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-            py: 8,
+            backgroundSize: "22px 22px",
           }}
         >
-          <Box
-            sx={{
-              position: "absolute",
-              inset: 0,
-              backgroundColor: isDarkMode ? "rgba(0,0,0,0.4)" : "transparent",
-            }}
-          />
           <Container
             maxWidth="md"
-            sx={{ position: "relative", zIndex: 1, textAlign: "center" }}
+            sx={{
+              position: "relative",
+              zIndex: 1,
+              textAlign: "center",
+            }}
           >
             <Box
-              component={motion.div}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                p: { md: 2, xs: 0 },
+                px: { xs: 2, md: 0 },
+                gap: 1.5,
               }}
             >
               <Box
                 component={motion.div}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
+                {...fadeUp}
+                transition={{ duration: 0.35, delay: 0.05 }}
               >
                 <Button
+                  disableRipple
                   sx={{
                     px: 2,
                     py: 0.5,
-                    borderRadius: "12px",
+                    borderRadius: "999px",
                     fontWeight: 500,
-                    background: isDarkMode
-                      ? "linear-gradient(120deg, rgba(30,30,30,0.9) 30%, rgba(50,50,50,0.9) 100%)"
-                      : "linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(245,245,245,0.9) 100%)",
+                    backgroundColor: "background.paper",
                     border: "1px solid",
                     borderColor: "divider",
-                    backdropFilter: "blur(4px)",
                     textTransform: "none",
-                    color: isDarkMode ? "#00B5AD" : "#008080",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                    color: "text.primary",
                     pointerEvents: "none",
+                    "&:hover": {
+                      backgroundColor: "background.paper",
+                    },
                   }}
                 >
                   Sync UI Templates
                 </Button>
               </Box>
 
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-              >
-                <Typography
-                  variant="h2"
-                  component="h1"
-                  fontWeight={500}
-                  sx={{ mt: 1 }}
+              <Box>
+                <Box
+                  component={motion.div}
+                  {...fadeUp}
+                  transition={{ duration: 0.35, delay: 0.1 }}
                 >
-                  Premium UI templates for web applications
-                </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontWeight: 600,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    Premium UI templates
+                  </Typography>
+                </Box>
+
+                <Box
+                  component={motion.div}
+                  {...fadeUp}
+                  transition={{ duration: 0.35, delay: 0.15 }}
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight={400}
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
+                    <Box
+                      component="span"
+                      sx={{ display: { xs: "none", sm: "inline" } }}
+                    >
+                      Fully responsive templates built with MUI and Motion.
+                      Customize and ship.
+                    </Box>
+
+                    <Box
+                      component="span"
+                      sx={{ display: { xs: "inline", sm: "none" } }}
+                    >
+                      Fully responsive templates built with MUI and Motion.
+                    </Box>
+                  </Typography>
+                </Box>
               </Box>
 
               <Box
                 component={motion.div}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-              >
-                <Typography
-                  variant="h6"
-                  fontWeight={400}
-                  sx={{ maxWidth: "700px", mt: 2, lineHeight: 1.6 }}
-                >
-                  <Box
-                    component="span"
-                    sx={{ display: { xs: "none", sm: "inline" } }}
-                  >
-                    Professionally designed, fully responsive UI templates built
-                    with MUI and Motion. Customize easily and enhance your
-                    project instantly.
-                  </Box>
-                  <Box
-                    component="span"
-                    sx={{ display: { xs: "inline", sm: "none" } }}
-                  >
-                    Responsive UI templates built with MUI & Motion. Customize
-                    and ship instantly.
-                  </Box>
-                </Typography>
-              </Box>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                {...fadeUp}
+                transition={{ duration: 0.35, delay: 0.2 }}
                 onClick={() =>
                   window.open(
                     "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
                     "_blank",
                   )
                 }
-                style={{ marginTop: "16px", cursor: "pointer" }}
+                sx={{ cursor: "pointer" }}
               >
                 <Box
                   sx={{
                     px: 2,
-                    py: 1,
-                    borderRadius: 2,
-                    background: "linear-gradient(135deg, #007B83, #00B5AD)",
-                    color: "#fff",
+                    py: 0.75,
+                    borderRadius: "12px",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    backgroundColor: "background.paper",
+                    color: "text.primary",
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 1,
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                    transition: "box-shadow 0.3s ease",
-                    "&:hover": { boxShadow: "0 4px 14px rgba(0,181,173,0.4)" },
                   }}
                 >
-                  <HugeiconsIcon icon={PackageIcon} size={18} />
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    sx={{ display: { xs: "none", sm: "block" } }}
-                  >
-                    Bundle Offer: All 3 Templates for $79 (Save $8)
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    sx={{ display: { xs: "block", sm: "none" } }}
-                  >
-                    Bundle Offer: $79 (Save $8)
+                  <HugeiconsIcon icon={PackageIcon} size={16} />
+                  <Typography variant="body2" fontWeight={500}>
+                    Bundle: all 3 templates for $79
                   </Typography>
                 </Box>
-              </motion.div>
+              </Box>
             </Box>
           </Container>
         </Box>
 
-        <Container maxWidth="md" sx={{ px: { lg: 0 }, pb: 10 }}>
+        <Container maxWidth="md" sx={{ px: { lg: 0 }, pb: 8 }}>
           {templatesData.map((template, index) => (
             <Box
               key={template.id}
@@ -360,7 +346,7 @@ const Templates = ({ docsTree }) => {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               sx={{
-                my: { xs: 2, md: 3 },
+                my: { xs: 1.5, md: 2 },
                 borderRadius: "20px",
                 backgroundColor: isDarkMode ? "#0a0a0a" : "#fff",
                 border: "1px solid",
@@ -374,8 +360,8 @@ const Templates = ({ docsTree }) => {
                 sx={{
                   display: "grid",
                   gridTemplateColumns: { xs: "1fr", lg: "5fr 7fr" },
-                  p: { xs: 2.5, sm: 3, md: 3.5 },
-                  gap: { xs: 2.5, lg: 4 },
+                  p: { xs: 2, sm: 2.5, md: 3 },
+                  gap: { xs: 2, lg: 4 },
                 }}
               >
                 <Box
@@ -383,7 +369,7 @@ const Templates = ({ docsTree }) => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    gap: 2.5,
+                    gap: 2,
                     order: { xs: 2, lg: 1 },
                   }}
                 >
