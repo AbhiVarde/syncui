@@ -2,7 +2,7 @@
 
 Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.
 
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) [![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui) <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="https://vercel.com/oss/program-badge-2026.svg" height="20" /></a>
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) [![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui) <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" height="20" /></a>
 
 [Website](https://syncui.design) · [Docs](https://syncui.design/docs) · [Components](https://syncui.design/components) · [Blocks](https://syncui.design/blocks) · [Templates](https://syncui.design/templates) · [Showcase](https://syncui.design/showcase) · [GitHub](https://github.com/AbhiVarde/syncui) · [X](https://x.com/syncuidesign) · [Deploy](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/syncui)
 
