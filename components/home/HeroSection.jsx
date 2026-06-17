@@ -81,6 +81,7 @@ const HeroSection = () => {
                   display: "block",
                   maxWidth: "100%",
                   height: "auto",
+                  filter: !isDark ? "invert(1)" : "none",
                 }}
               />
             </a>
