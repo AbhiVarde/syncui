@@ -93,7 +93,7 @@ const StargazersSection = () => {
 
   if (error) return null;
 
-  const displayCount = isXs ? 6 : isSm ? 8 : 10;
+  const displayCount = isXs ? 8 : isSm ? 10 : 12;
   const latestStargazers = [...stargazers].reverse().slice(0, displayCount);
   const remainingCount = Math.max(0, stargazers.length - displayCount);
 
@@ -112,7 +112,6 @@ const StargazersSection = () => {
         sx={{
           borderRadius: 3,
           backgroundColor: "transparent",
-          p: { xs: 4, md: 5 },
           textAlign: "center",
         }}
       >
@@ -136,7 +135,6 @@ const StargazersSection = () => {
             borderColor: "divider",
             p: 4,
             borderRadius: 3,
-            maxWidth: 640,
             mx: "auto",
           }}
         >
