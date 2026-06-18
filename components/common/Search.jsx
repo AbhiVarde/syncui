@@ -25,39 +25,35 @@ const Search = ({ docsTree = [] }) => {
   const filteredTree = useMemo(() => {
     return docsTree.filter(
       (item) =>
-        !["Setup", "Changelog", "Templates", "The Story of Sync UI"].includes(
-          item.title,
-        ),
+        ![
+          "Changelog",
+          "Templates",
+          "The Story of Sync UI",
+          "Installation",
+          "llms.txt",
+        ].includes(item.title),
     );
   }, [docsTree]);
 
+  const getDisplayCategory = (item) => {
+    const slug = item.slug || item.title.toLowerCase().replace(/\s+/g, "-");
+
+    if (item.category === "Installation" || slug.startsWith("installation/")) {
+      return "Installation";
+    }
+
+    if (item.category === "Blocks" || slug.startsWith("blocks/")) {
+      return "All Blocks";
+    }
+
+    return "All Components";
+  };
+
   const defaultSuggestions = useMemo(() => {
-    const latestNames = ["Hero", "Pricing", "Skeletons", "Time Pickers"];
-
-    const latest = [];
-    const blocks = [];
-    const components = [];
-
-    filteredTree.forEach((item) => {
-      const slug = item.slug || item.title.toLowerCase().replace(/\s+/g, "-");
-
-      const doc = {
-        ...item,
-        category: slug.startsWith("blocks/") ? "All Blocks" : "All Components",
-      };
-
-      if (latestNames.includes(item.title)) {
-        latest.push({ ...doc, category: "Latest" });
-      }
-
-      if (slug.startsWith("blocks/")) {
-        blocks.push(doc);
-      } else {
-        components.push(doc);
-      }
-    });
-
-    return [...latest, ...blocks, ...components];
+    return filteredTree.map((item) => ({
+      ...item,
+      category: getDisplayCategory(item),
+    }));
   }, [filteredTree]);
 
   const filteredDocs = useMemo(() => {
@@ -67,16 +63,10 @@ const Search = ({ docsTree = [] }) => {
       .filter((doc) =>
         doc.title.toLowerCase().includes(searchQuery.toLowerCase()),
       )
-      .map((item) => {
-        const slug = item.slug || item.title.toLowerCase().replace(/\s+/g, "-");
-
-        return {
-          ...item,
-          category: slug.startsWith("blocks/")
-            ? "All Blocks"
-            : "Search Results",
-        };
-      });
+      .map((item) => ({
+        ...item,
+        category: getDisplayCategory(item),
+      }));
   }, [searchQuery, filteredTree, defaultSuggestions]);
 
   const groupedDocs = useMemo(() => {
@@ -93,12 +83,7 @@ const Search = ({ docsTree = [] }) => {
   }, [filteredDocs]);
 
   const sortedCategories = useMemo(() => {
-    const categoryOrder = [
-      "Latest",
-      "All Blocks",
-      "All Components",
-      "Search Results",
-    ];
+    const categoryOrder = ["Installation", "All Blocks", "All Components"];
 
     return Object.keys(groupedDocs).sort(
       (a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b),
