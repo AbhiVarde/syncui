@@ -1,5 +1,6 @@
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx"],
+  serverExternalPackages: ["mdx-bundler", "esbuild"],
   async redirects() {
     return [
       {
