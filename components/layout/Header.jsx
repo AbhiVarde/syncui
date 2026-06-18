@@ -31,6 +31,7 @@ import {
 
 const navItems = [
   { label: "Home", href: "/", external: false },
+  { label: "Docs", href: "/docs", external: false },
   { label: "Components", href: "/components", external: false },
   { label: "Blocks", href: "/blocks", external: false },
   { label: "Templates", href: "/templates", external: false },
