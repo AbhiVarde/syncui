@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import {
   Box,
   ButtonBase,
@@ -117,7 +111,6 @@ const NavButton = ({ page, direction }) => {
 export const DocNavigationBar = ({ slug, docsTree, title }) => {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [isCopying, setIsCopying] = useState(false);
   const anchorRef = useRef(null);
   const timerRef = useRef(null);
 
@@ -126,18 +119,8 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
     [docsTree, slug],
   );
 
-  useEffect(() => () => clearTimeout(timerRef.current), []);
-
-  useEffect(() => {
-    if (!open) return;
-    const close = () => setOpen(false);
-    window.addEventListener("scroll", close, { passive: true, capture: true });
-    return () => window.removeEventListener("scroll", close, { capture: true });
-  }, [open]);
-
   const copyMarkdown = useCallback(async () => {
-    if (isCopying) return;
-    setIsCopying(true);
+    if (copied) return;
     setCopied(true);
     try {
       const res = await fetch(
@@ -149,12 +132,9 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
       console.error(e);
     } finally {
       clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        setCopied(false);
-        setIsCopying(false);
-      }, 2000);
+      timerRef.current = setTimeout(() => setCopied(false), 2000);
     }
-  }, [slug, isCopying]);
+  }, [slug, copied]);
 
   const handleOpenAI = useCallback((type) => {
     const prompt = `I'm looking at this documentation: ${window.location.href}. Help me understand how to use it.`;
@@ -166,9 +146,6 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
     );
     setOpen(false);
   }, []);
-
-  const toggleOpen = useCallback(() => setOpen((v) => !v), []);
-  const handleClose = useCallback(() => setOpen(false), []);
 
   return (
     <>
@@ -189,108 +166,99 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
           {title}
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-          <Box ref={anchorRef} sx={pillSx}>
-            <ButtonBase
-              onClick={copyMarkdown}
-              disabled={isCopying}
-              sx={halfBtnSx}
-            >
-              <HugeiconsIcon
-                icon={copied ? Tick02Icon : Copy01Icon}
-                size={14}
-                strokeWidth={2}
-              />
-              <Typography
-                variant="caption"
-                fontWeight={500}
-                component="span"
-                sx={{ minWidth: 52 }}
-              >
-                {copied ? "Copied!" : "Copy"}
-              </Typography>
-            </ButtonBase>
-
-            <Box sx={dividerSx} />
-
-            <ButtonBase
-              onClick={toggleOpen}
-              sx={{
-                px: 1.25,
-                height: "100%",
-                "&:hover": { bgcolor: "action.hover" },
-              }}
-            >
-              <HugeiconsIcon
-                icon={open ? ArrowUp01Icon : ArrowDown01Icon}
-                size={14}
-                strokeWidth={2}
-              />
-            </ButtonBase>
-          </Box>
-
-          <NavButton page={prevPage} direction="prev" />
-          <NavButton page={nextPage} direction="next" />
-        </Box>
-      </Box>
-
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        placement="bottom-end"
-        disablePortal={false}
-        modifiers={[
-          {
-            name: "offset",
-            options: { offset: [0, 8] },
-          },
-          {
-            name: "preventOverflow",
-            options: { padding: 8 },
-          },
-        ]}
-        sx={{
-          zIndex: 1300,
-          transition: "opacity 80ms ease",
-          opacity: open ? 1 : 0,
-        }}
-      >
-        <Paper
-          elevation={0}
-          sx={{
-            minWidth: 180,
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: "12px",
-            bgcolor: "background.paper",
-            p: 0.5,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-          }}
+        <ClickAwayListener
+          onClickAway={() => setOpen(false)}
+          touchEvent="onTouchStart"
         >
-          <ClickAwayListener onClickAway={handleClose}>
-            <Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+            <Box ref={anchorRef} sx={pillSx}>
               <ButtonBase
-                onClick={() => handleOpenAI("chatgpt")}
-                sx={dropdownItemSx}
+                onClick={copyMarkdown}
+                disabled={copied}
+                sx={halfBtnSx}
               >
-                <SiOpenai size={16} />
-                <Typography variant="body2" fontWeight={500}>
-                  Ask ChatGPT
+                <HugeiconsIcon
+                  icon={copied ? Tick02Icon : Copy01Icon}
+                  size={14}
+                  strokeWidth={2}
+                />
+                <Typography
+                  variant="caption"
+                  fontWeight={500}
+                  component="span"
+                  sx={{ minWidth: 52 }}
+                >
+                  {copied ? "Copied!" : "Copy"}
                 </Typography>
               </ButtonBase>
+
+              <Box sx={dividerSx} />
+
               <ButtonBase
-                onClick={() => handleOpenAI("claude")}
-                sx={dropdownItemSx}
+                onClick={() => setOpen((v) => !v)}
+                sx={{
+                  px: 1.25,
+                  height: "100%",
+                  "&:hover": { bgcolor: "action.hover" },
+                }}
               >
-                <SiClaude size={16} />
-                <Typography variant="body2" fontWeight={500}>
-                  Ask Claude
-                </Typography>
+                <HugeiconsIcon
+                  icon={open ? ArrowUp01Icon : ArrowDown01Icon}
+                  size={14}
+                  strokeWidth={2}
+                />
               </ButtonBase>
             </Box>
-          </ClickAwayListener>
-        </Paper>
-      </Popper>
+
+            <NavButton page={prevPage} direction="prev" />
+            <NavButton page={nextPage} direction="next" />
+
+            <Popper
+              open={open}
+              anchorEl={anchorRef.current}
+              placement="bottom-end"
+              disablePortal
+              modifiers={[
+                { name: "offset", options: { offset: [0, 8] } },
+                { name: "preventOverflow", options: { padding: 8 } },
+              ]}
+              sx={{ zIndex: 1300 }}
+            >
+              <Paper
+                elevation={0}
+                sx={{
+                  minWidth: 180,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: "12px",
+                  bgcolor: "background.paper",
+                  p: 0.5,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                }}
+              >
+                <ButtonBase
+                  onClick={() => handleOpenAI("chatgpt")}
+                  sx={dropdownItemSx}
+                >
+                  <SiOpenai size={16} />
+                  <Typography variant="body2" fontWeight={500}>
+                    Ask ChatGPT
+                  </Typography>
+                </ButtonBase>
+                <ButtonBase
+                  onClick={() => handleOpenAI("claude")}
+                  sx={dropdownItemSx}
+                >
+                  <SiClaude size={16} />
+                  <Typography variant="body2" fontWeight={500}>
+                    Ask Claude
+                  </Typography>
+                </ButtonBase>
+              </Paper>
+            </Popper>
+          </Box>
+        </ClickAwayListener>
+      </Box>
     </>
   );
 };

@@ -209,7 +209,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
         : "rgba(0,0,0,0.05)",
   },
   "&:first-of-type:hover": {
-    borderTopLeftRadius: theme.shape.borderRadius * 2, 
+    borderTopLeftRadius: theme.shape.borderRadius * 2,
   },
 }));
 
@@ -243,7 +243,13 @@ const CodePreview = ({
           iconPosition="start"
         />
       </StyledTabs>
-      <Box sx={{ position: "relative", minHeight: "100%" }}>
+      <Box
+        sx={{
+          position: "relative",
+          minHeight: "100%",
+          p: tab === 0 && !noPadding ? { xs: 2, sm: 3 } : 0,
+        }}
+      >
         {[0, 1].map((index) => (
           <Box
             key={index}
@@ -256,7 +262,7 @@ const CodePreview = ({
             }}
           >
             {index === 0 ? (
-              <Box p={noPadding ? 0 : 3}>{preview}</Box>
+              <Box>{preview}</Box>
             ) : (
               <DynamicCodeBlock rounded={false} className="language-jsx">
                 {code}
