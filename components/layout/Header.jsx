@@ -44,6 +44,8 @@ const navItems = [
   },
 ];
 
+const ANIMATION_MS = 220;
+
 const FullScreenMenu = styled(Box)(({ theme }) => ({
   position: "fixed",
   top: 56,
@@ -59,7 +61,44 @@ const FullScreenMenu = styled(Box)(({ theme }) => ({
   zIndex: 1200,
   overflowY: "auto",
   overflowX: "hidden",
-  willChange: "transform",
+  willChange: "opacity, transform",
+  opacity: 0,
+  transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1)`,
+  "&.menu-visible": {
+    opacity: 1,
+  },
+}));
+
+const MenuPanel = styled(Box)(() => ({
+  maxWidth: 600,
+  margin: "0 auto",
+  padding: "32px 24px",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  opacity: 0,
+  transform: "translateY(-10px)",
+  willChange: "opacity, transform",
+  transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1), transform ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1)`,
+  "&.menu-visible": {
+    opacity: 1,
+    transform: "translateY(0)",
+  },
+}));
+
+const NavItemRow = styled(Box)(() => ({
+  textDecoration: "none",
+  opacity: 0,
+  transform: "translateY(-6px)",
+  transition:
+    "opacity 0.18s ease-out, transform 0.18s ease-out, color 0.15s ease",
+  "&.menu-visible": {
+    opacity: 1,
+    transform: "translateY(0)",
+  },
+  "&:hover": {
+    opacity: 0.6,
+  },
 }));
 
 const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
@@ -71,6 +110,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const isDocsPage = router.pathname.startsWith("/docs");
   const [activeId, setActiveId] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuMounted, setMenuMounted] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   // Mount animation
@@ -94,6 +134,18 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       document.body.style.overflow = "unset";
     };
   }, [menuOpen]);
+
+  useEffect(() => {
+    let timeoutId;
+
+    if (menuOpen) {
+      setMenuMounted(true);
+    } else if (menuMounted) {
+      timeoutId = setTimeout(() => setMenuMounted(false), ANIMATION_MS);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [menuOpen, menuMounted]);
 
   // Observe headings for breadcrumbs (docs pages only)
   useEffect(() => {
@@ -363,19 +415,9 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         </AppBar>
       )}
 
-      {menuOpen && !isLargeUp && (
-        <FullScreenMenu>
-          <Box
-            sx={{
-              maxWidth: 600,
-              mx: "auto",
-              px: 3,
-              py: 4,
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+      {menuMounted && !isLargeUp && (
+        <FullScreenMenu className={menuOpen ? "menu-visible" : ""}>
+          <MenuPanel className={menuOpen ? "menu-visible" : ""}>
             <Typography
               variant="body2"
               color="text.secondary"
@@ -394,8 +436,8 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 gap: 1.5,
               }}
             >
-              {navItems.map((item) => (
-                <Box
+              {navItems.map((item, index) => (
+                <NavItemRow
                   key={item.href}
                   component={item.external ? "a" : Link}
                   href={item.href}
@@ -404,13 +446,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     rel: "noopener noreferrer",
                   })}
                   onClick={handleClose}
+                  className={menuOpen ? "menu-visible" : ""}
                   sx={{
-                    textDecoration: "none",
                     color: "text.primary",
-                    transition: "opacity 0.15s ease",
-                    "&:hover": {
-                      opacity: 0.6,
-                    },
+                    transitionDelay: menuOpen ? `${index * 25}ms` : "0ms",
                   }}
                 >
                   <Typography
@@ -423,10 +462,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   >
                     {item.label}
                   </Typography>
-                </Box>
+                </NavItemRow>
               ))}
             </Box>
-          </Box>
+          </MenuPanel>
         </FullScreenMenu>
       )}
     </Fragment>
