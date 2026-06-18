@@ -10,13 +10,24 @@ Free React UI library with 125+ components, 13+ blocks, and 3 premium templates.
 
 Sync UI is an open-source component library for React. Copy and paste components directly into your project. No installation required. Built on top of MUI and Motion.
 
+## Agent Skill
+
+Use Sync UI components directly inside Cursor, Claude Code, Copilot, and more.
+
+```bash
+npx skills add AbhiVarde/syncui
+```
+
+Your AI coding tool will know every component, variant, and animation pattern without you explaining anything.
+
 ## What's Inside
 
-| Count | Includes |
-| --- | --- |
+| Count               | Includes                                                                                                             |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | **125+ Components** | Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Accordions, Carousels, Dialogs, Docks, Tabs, and more |
-| **13+ Blocks** | Hero, CTA, Pricing, and Stats sections for landing pages |
-| **3 Templates** | Startup ($29), SaaS ($29), Portfolio ($29), Bundle — all three ($79) |
+| **13+ Blocks**      | Hero, CTA, Pricing, and Stats sections for landing pages                                                             |
+| **3 Templates**     | Startup ($29), SaaS ($29), Portfolio ($29), Bundle — all three ($79)                                                 |
+| **Agent Skill**     | Full component and block reference for Cursor, Claude Code, Copilot, Windsurf                                        |
 
 ## Tech Stack
 
