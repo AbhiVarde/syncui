@@ -16,14 +16,14 @@ const findAdjacentPages = (docsTree, currentSlug) => {
   const currentCategory = currentDoc.category;
 
   const categoryPages = docsTree
-    .filter((item) => item.category === currentCategory)
+    .filter((item) => item.category === currentCategory && !item.external)
     .map((item) => ({
       title: item.title,
       url: item.url,
     }));
 
   const currentIndex = categoryPages.findIndex(
-    (item) => item.url === currentUrl
+    (item) => item.url === currentUrl,
   );
 
   return {
@@ -85,7 +85,7 @@ const NavButton = ({ page, direction }) => {
 export const DocPageNavigation = ({ slug, docsTree }) => {
   const { prevPage, nextPage } = React.useMemo(
     () => findAdjacentPages(docsTree, slug),
-    [docsTree, slug]
+    [docsTree, slug],
   );
 
   if (!prevPage && !nextPage) return null;
