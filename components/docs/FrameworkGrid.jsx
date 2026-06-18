@@ -2,6 +2,7 @@ import React from "react";
 import { Box, ButtonBase, Typography } from "@mui/material";
 import Link from "next/link";
 import { SiNextdotjs, SiVite, SiReact } from "react-icons/si";
+import { useTheme } from "@/context/ThemeContext";
 
 const frameworks = [
   { name: "Next.js", slug: "nextjs", icon: SiNextdotjs },
@@ -11,6 +12,8 @@ const frameworks = [
 ];
 
 export const FrameworkGrid = () => {
+  const { isDarkMode } = useTheme();
+
   return (
     <Box
       sx={{
@@ -42,7 +45,7 @@ export const FrameworkGrid = () => {
               transition: "all 0.2s ease",
               "&:hover": {
                 bgcolor: "action.hover",
-                borderColor: "primary.main",
+                borderColor: isDarkMode ? "#FFFFFF" : "#000000",
               },
             }}
           >
