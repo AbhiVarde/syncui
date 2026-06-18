@@ -52,13 +52,13 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           name="keywords"
-          content="React components, UI library, MUI, Motion, Framer Motion, Next.js, free components, UI blocks, React templates, design system"
+          content="React components, UI library, MUI, Motion, motion/react, Next.js, free components, UI blocks, React templates, design system, agent skills, AI coding tools, Vercel OSS"
         />
 
         <title>Sync UI // React Component Library for Design Engineers</title>
         <meta
           name="description"
-          content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
+          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of the Vercel Open Source Program."
         />
         <link rel="canonical" href="https://www.syncui.design/" />
 
@@ -72,7 +72,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           property="og:description"
-          content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
+          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of the Vercel Open Source Program."
         />
         <meta
           key="og-image"
@@ -101,7 +101,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           name="twitter:description"
-          content="A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react)."
+          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of the Vercel Open Source Program."
         />
         <meta
           key="tw-image"
@@ -118,7 +118,7 @@ function MyApp({ Component, pageProps }) {
               name: "Sync UI",
               alternateName: ["syncui", "syncui.design"],
               description:
-                "A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).",
+                "Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.",
               url: "https://www.syncui.design/",
               author: {
                 "@type": "Person",
@@ -154,12 +154,12 @@ function MyApp({ Component, pageProps }) {
               applicationCategory: "DeveloperApplication",
               operatingSystem: "Web",
               description:
-                "A sleek UI library for Design Engineers with 125+ components, 10+ blocks, and 3 premium templates. Built with MUI and Motion (motion/react).",
+                "Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.",
               offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: "4.8",
-                ratingCount: "85",
+                ratingCount: "97",
               },
             }),
           }}
@@ -194,7 +194,7 @@ function MyApp({ Component, pageProps }) {
                 "@type": "SiteNavigationElement",
                 name: "Components",
                 description:
-                  "125+ free production-ready React components built with MUI & Motion",
+                  "125+ free animated React components built with MUI and Motion",
                 url: "https://www.syncui.design/components",
               },
               {
@@ -202,7 +202,7 @@ function MyApp({ Component, pageProps }) {
                 "@type": "SiteNavigationElement",
                 name: "Blocks",
                 description:
-                  "10+ free UI blocks — Hero, Stats, Pricing, and CTA sections",
+                  "13+ free UI blocks including Hero, Stats, Pricing, and CTA sections",
                 url: "https://www.syncui.design/blocks",
               },
               {
@@ -225,7 +225,6 @@ function MyApp({ Component, pageProps }) {
           }}
         />
       </Head>
-
       <ThemeProvider>
         <GitHubProvider>
           <AppContent Component={Component} pageProps={pageProps} />

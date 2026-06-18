@@ -41,12 +41,12 @@ const Components = ({ docsTree }) => {
         <title>Components // Sync UI</title>
         <meta
           name="description"
-          content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, Date Pickers, Time Pickers, Accordions, Carousels, and more. Copy, customize, and integrate instantly."
+          content="Browse 125+ free animated React components built with MUI and Motion. Includes Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Dialogs, Docks, and more. Part of the Vercel Open Source Program."
         />
         <link rel="canonical" href="https://www.syncui.design/components" />
         <meta
           name="keywords"
-          content="React components, free UI components, MUI components, Motion components, buttons, cards, tables, date picker, time picker, Next.js components, production ready"
+          content="React components, free UI components, MUI components, Motion components, animated components, buttons, cards, tables, date picker, Next.js components, Vercel OSS"
         />
 
         <meta property="og:type" content="website" />
@@ -57,23 +57,23 @@ const Components = ({ docsTree }) => {
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
-          content="125+ Free React Components - Buttons, Cards, Tables & More | Sync UI"
+          content="125+ Free Animated React Components | Sync UI"
         />
         <meta
           property="og:description"
-          content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react). Includes Buttons, Loaders, Cards, Tables, and more."
+          content="Browse 125+ free animated React components built with MUI and Motion. Copy, customize, and ship."
         />
         <meta
           key="og-image"
           property="og:image"
-          content="https://www.syncui.design/images/open-graph/component-image.png"
+          content="https://www.syncui.design/og-image.png"
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
         <meta
           key="og-image-alt"
           property="og:image:alt"
-          content="Sync UI - 125+ Free React Components"
+          content="Sync UI Components"
         />
         <meta
           key="og-image-type"
@@ -86,16 +86,16 @@ const Components = ({ docsTree }) => {
         <meta name="twitter:creator" content="@abhivarde" />
         <meta
           name="twitter:title"
-          content="125+ Free React Components - Buttons, Cards, Tables & More | Sync UI"
+          content="125+ Free Animated React Components | Sync UI"
         />
         <meta
           name="twitter:description"
-          content="Browse 125+ free, production-ready React components built with MUI & Motion (motion/react)."
+          content="Browse 125+ free animated React components built with MUI and Motion. Copy, customize, and ship."
         />
         <meta
           key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/images/open-graph/component-image.png"
+          content="https://www.syncui.design/og-image.png"
         />
 
         <script
@@ -106,7 +106,7 @@ const Components = ({ docsTree }) => {
               "@type": "CollectionPage",
               name: "Sync UI Components",
               description:
-                "125+ free React components built with MUI & Motion (motion/react)",
+                "125+ free animated React components built with MUI and Motion",
               url: "https://www.syncui.design/components",
               numberOfItems: 125,
               publisher: {
@@ -246,7 +246,6 @@ const Components = ({ docsTree }) => {
           </Container>
         </Box>
       </Container>
-
       <Container maxWidth="md" sx={{ py: 5 }}>
         <Box
           sx={{

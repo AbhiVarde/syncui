@@ -53,7 +53,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
         <link rel="canonical" href={canonicalUrl} />
         <meta
           name="keywords"
-          content={`${frontmatter.title}, Sync UI, React components, MUI, Motion, documentation, tutorial, Next.js`}
+          content={`${frontmatter.title}, Sync UI, React components, MUI, Motion, documentation, Next.js, animated components`}
         />
 
         <meta property="og:type" content="article" />
@@ -106,7 +106,6 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
           }}
         />
       </Head>
-
       <DocsLayout toc={toc} docsTree={docsTree}>
         <article>
           {shouldShowNavigationBar && (

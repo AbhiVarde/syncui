@@ -450,13 +450,14 @@ export default function ShowcasePage() {
         <title>Showcase // Sync UI</title>
         <meta
           name="description"
-          content="Explore projects, tools, and libraries shared by the Sync UI community. Discover and get inspired by developer-built creations."
+          content="Explore projects, tools, and libraries shared by the Sync UI community. Discover what developers are building with MUI and Motion."
         />
         <link rel="canonical" href="https://www.syncui.design/showcase" />
         <meta
           name="keywords"
-          content="developer showcase, UI tools, web projects, open source showcase, developer tools, Sync UI showcase"
+          content="developer showcase, UI tools, web projects, open source showcase, developer tools, Sync UI community, MUI projects, Motion projects"
         />
+
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.syncui.design/showcase" />
         <meta property="og:site_name" content="Sync UI" />
@@ -465,13 +466,26 @@ export default function ShowcasePage() {
           property="og:description"
           content="Explore projects, tools, and libraries shared by the Sync UI community."
         />
-        <meta name="twitter:card" content="summary" />
+        <meta
+          property="og:image"
+          content="https://www.syncui.design/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Sync UI Developer Showcase" />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
         <meta name="twitter:creator" content="@abhivarde" />
         <meta name="twitter:title" content="Developer Showcase | Sync UI" />
         <meta
           name="twitter:description"
           content="Explore projects, tools, and libraries shared by the Sync UI community."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.syncui.design/og-image.png"
         />
       </Head>
 

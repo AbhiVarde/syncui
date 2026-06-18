@@ -68,12 +68,12 @@ const Blocks = () => {
         <title>Blocks // Sync UI</title>
         <meta
           name="description"
-          content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react). Perfect for landing pages and SaaS websites. Copy and integrate instantly."
+          content="Get 13+ free animated UI blocks including Hero sections, CTA blocks, Pricing tables, and Stats sections. Built with React, MUI, and Motion. Part of the Vercel Open Source Program."
         />
         <link rel="canonical" href="https://www.syncui.design/blocks" />
         <meta
           name="keywords"
-          content="React UI blocks, hero section, CTA blocks, pricing table, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Motion blocks"
+          content="React UI blocks, hero section, CTA blocks, pricing table, stats section, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Vercel OSS"
         />
 
         <meta property="og:type" content="website" />
@@ -81,23 +81,23 @@ const Blocks = () => {
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
-          content="10+ Free UI Blocks - Hero, CTA & Pricing Sections | Sync UI"
+          content="13+ Free Animated UI Blocks | Sync UI"
         />
         <meta
           property="og:description"
-          content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion (motion/react)."
+          content="Get 13+ free animated UI blocks including Hero, CTA, Pricing, and Stats sections. Built with React, MUI, and Motion."
         />
         <meta
           key="og-image"
           property="og:image"
-          content="https://www.syncui.design/images/open-graph/block-image.png"
+          content="https://www.syncui.design/og-image.png"
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
         <meta
           key="og-image-alt"
           property="og:image:alt"
-          content="Sync UI - 10+ Free UI Blocks"
+          content="Sync UI Blocks"
         />
         <meta
           key="og-image-type"
@@ -110,16 +110,16 @@ const Blocks = () => {
         <meta name="twitter:creator" content="@abhivarde" />
         <meta
           name="twitter:title"
-          content="10+ Free UI Blocks - Hero, CTA & Pricing Sections | Sync UI"
+          content="13+ Free Animated UI Blocks | Sync UI"
         />
         <meta
           name="twitter:description"
-          content="Get 10+ free, production-ready UI blocks including Hero sections, CTA blocks, and Pricing tables. Built with React, MUI & Motion."
+          content="Get 13+ free animated UI blocks including Hero, CTA, Pricing, and Stats sections. Built with React, MUI, and Motion."
         />
         <meta
           key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/images/open-graph/block-image.png"
+          content="https://www.syncui.design/og-image.png"
         />
 
         <script
@@ -130,7 +130,7 @@ const Blocks = () => {
               "@type": "CollectionPage",
               name: "Sync UI Blocks",
               description:
-                "13+ free UI blocks including Hero sections, Stats blocks, CTA blocks, and Pricing tables",
+                "13+ free animated UI blocks including Hero, Stats, Pricing, and CTA sections",
               url: "https://www.syncui.design/blocks",
               numberOfItems: 13,
               publisher: {

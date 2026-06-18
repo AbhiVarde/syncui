@@ -73,28 +73,29 @@ const Templates = ({ docsTree }) => {
         <title>Templates // Sync UI</title>
         <meta
           name="description"
-          content="Get premium React UI templates for $29 each. Includes Startup, SaaS, and Portfolio templates built with MUI and Motion (motion/react). Production-ready, fully customizable, and perfect for Next.js projects. Bundle offer: All 3 for $79."
+          content="Premium React templates starting at $29. Startup, SaaS, and Portfolio templates built with MUI and Motion. Production-ready, fully customizable, and perfect for Next.js projects. Bundle: all 3 for $79."
         />
         <link rel="canonical" href="https://www.syncui.design/templates" />
         <meta
           name="keywords"
           content="React templates, premium templates, MUI templates, SaaS template, startup template, portfolio template, Next.js templates, Motion templates, paid UI templates"
         />
+
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.syncui.design/templates" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
-          content="Premium React Templates - Startup, SaaS & Portfolio | Sync UI"
+          content="Premium React Templates - Startup, SaaS and Portfolio | Sync UI"
         />
         <meta
           property="og:description"
-          content="Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29. Bundle: All 3 for $79."
+          content="Production-ready React templates built with MUI and Motion. Startup, SaaS, and Portfolio templates starting at $29. Bundle: all 3 for $79."
         />
         <meta
           key="og-image"
           property="og:image"
-          content="https://www.syncui.design/images/open-graph/template-image.png"
+          content="https://www.syncui.design/og-image.png"
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -108,22 +109,24 @@ const Templates = ({ docsTree }) => {
           property="og:image:type"
           content="image/png"
         />
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@syncuidesign" />
         <meta name="twitter:creator" content="@abhivarde" />
         <meta
           name="twitter:title"
-          content="Premium React Templates - Startup, SaaS & Portfolio | Sync UI"
+          content="Premium React Templates - Startup, SaaS and Portfolio | Sync UI"
         />
         <meta
           name="twitter:description"
-          content="Production-ready React templates built with MUI & Motion. Startup, SaaS, and Portfolio templates starting at $29."
+          content="Production-ready React templates built with MUI and Motion. Starting at $29."
         />
         <meta
           key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/images/open-graph/template-image.png"
+          content="https://www.syncui.design/og-image.png"
         />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -132,7 +135,7 @@ const Templates = ({ docsTree }) => {
               "@type": "Product",
               name: "Sync UI Premium Templates",
               description:
-                "Production-ready React templates including Startup, SaaS, and Portfolio templates",
+                "Production-ready React templates including Startup, SaaS, and Portfolio",
               brand: { "@type": "Brand", name: "Sync UI" },
               offers: [
                 {
