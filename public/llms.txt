@@ -1,0 +1,76 @@
+# Sync UI
+
+> Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.
+
+Docs: https://syncui.design/docs
+Components: https://syncui.design/components
+Blocks: https://syncui.design/blocks
+GitHub: https://github.com/AbhiVarde/syncui
+
+## Setup
+
+npm install @mui/material @emotion/react @emotion/styled motion
+
+Wrap app in ThemeProvider:
+
+import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+const theme = createTheme({ palette: { mode: "dark" } });
+<ThemeProvider theme={theme}><CssBaseline />{children}</ThemeProvider>
+
+For Next.js App Router add "use client" to the provider wrapper.
+
+## Core pattern
+
+import { Button } from "@mui/material";
+import { motion } from "motion/react";
+const MotionButton = motion.create(Button);
+
+Use motion.create(MuiComponent) to animate any MUI component.
+Use motion.div, motion.span for plain HTML elements.
+Use sx prop for all styling. Never use className or plain CSS.
+Import from motion/react. Never from framer-motion.
+
+## Components
+
+Buttons: default, shimmer, neon variants
+Cards: hover lift with whileHover={{ y: -8 }}
+Dialogs: slide-up, blur, form, notification, sidebar variants
+Tabs: layoutId sliding underline, AnimatePresence mode="wait" for panels
+Avatars: overlapping, minimal-grid variants
+TextFields: otp, floating-label variants
+Autocomplete: viewport-aware dropdown, real-time filtering
+Date Picker: SingleDatePicker, 42-day grid, month navigation
+Time Picker: 12hour, 24hour, with-seconds, presets variants
+Accordions: MUI Accordion with motion expand
+Carousels: fade, scale, slide variants with image preloading
+Grids: standard, masonry, organic-shapes variants
+Loaders: shimmer, pulse, wave skeleton variants
+Tables: staggered row entrance with motion.create(TableRow)
+Marquees: horizontal, vertical infinite scroll
+Backgrounds: magnetic-connections, gemini-wave interactive variants
+Docks: macOS magnification with useMotionValue and useSpring
+Pagination: animated entrance
+
+## Blocks
+
+Hero: left-aligned, center-aligned, search variants
+CTA: centered, split, card variants
+Pricing: three-tier, two-tier, row variants
+Stats: simple, with-icons, cards variants
+
+Icon deps: @hugeicons/react for Hero and CTA, react-icons/fi for Stats
+
+## Animation presets
+
+Snappy: { type: "spring", stiffness: 400, damping: 17 }
+Smooth: { type: "spring", stiffness: 300, damping: 24 }
+Gentle: { duration: 0.4, ease: "easeOut" }
+Fast:   { duration: 0.15, ease: "easeInOut" }
+
+Always use AnimatePresence when conditionally unmounting components.
+Always use viewport={{ once: true }} for scroll-triggered animations.
+Always handle useReducedMotion for accessibility.
+
+## Agent skill
+
+npx skills add AbhiVarde/syncui
