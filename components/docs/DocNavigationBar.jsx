@@ -81,7 +81,7 @@ const findAdjacentPages = (docsTree, currentSlug) => {
   if (!currentDoc?.category) return { prevPage: null, nextPage: null };
 
   const categoryPages = docsTree
-    .filter((item) => item.category === currentDoc.category)
+    .filter((item) => item.category === currentDoc.category && !item.external)
     .map(({ title, url }) => ({ title, url }));
 
   const idx = categoryPages.findIndex((item) => item.url === currentUrl);
@@ -148,117 +148,111 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
   }, []);
 
   return (
-    <>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 2,
-          mb: 3,
-        }}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 2,
+        mb: 3,
+      }}
+    >
+      <Typography
+        variant="h3"
+        fontWeight={500}
+        sx={{ flex: 1, minWidth: 0, wordBreak: "break-word" }}
       >
-        <Typography
-          variant="h3"
-          fontWeight={500}
-          sx={{ flex: 1, minWidth: 0, wordBreak: "break-word" }}
-        >
-          {title}
-        </Typography>
+        {title}
+      </Typography>
 
-        <ClickAwayListener
-          onClickAway={() => setOpen(false)}
-          touchEvent="onTouchStart"
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-            <Box ref={anchorRef} sx={pillSx}>
-              <ButtonBase
-                onClick={copyMarkdown}
-                disabled={copied}
-                sx={halfBtnSx}
+      <ClickAwayListener
+        onClickAway={() => setOpen(false)}
+        touchEvent="onTouchStart"
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+          <Box ref={anchorRef} sx={pillSx}>
+            <ButtonBase onClick={copyMarkdown} disabled={copied} sx={halfBtnSx}>
+              <HugeiconsIcon
+                icon={copied ? Tick02Icon : Copy01Icon}
+                size={14}
+                strokeWidth={2}
+              />
+              <Typography
+                variant="caption"
+                fontWeight={500}
+                component="span"
+                sx={{ minWidth: 52 }}
               >
-                <HugeiconsIcon
-                  icon={copied ? Tick02Icon : Copy01Icon}
-                  size={14}
-                  strokeWidth={2}
-                />
-                <Typography
-                  variant="caption"
-                  fontWeight={500}
-                  component="span"
-                  sx={{ minWidth: 52 }}
-                >
-                  {copied ? "Copied!" : "Copy"}
+                {copied ? "Copied!" : "Copy"}
+              </Typography>
+            </ButtonBase>
+
+            <Box sx={dividerSx} />
+
+            <ButtonBase
+              onClick={() => setOpen((v) => !v)}
+              sx={{
+                px: 1.25,
+                height: "100%",
+                "&:hover": { bgcolor: "action.hover" },
+              }}
+            >
+              <HugeiconsIcon
+                icon={open ? ArrowUp01Icon : ArrowDown01Icon}
+                size={14}
+                strokeWidth={2}
+              />
+            </ButtonBase>
+          </Box>
+
+          <NavButton page={prevPage} direction="prev" />
+          <NavButton page={nextPage} direction="next" />
+
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            placement="bottom-end"
+            disablePortal
+            modifiers={[
+              { name: "offset", options: { offset: [0, 8] } },
+              { name: "preventOverflow", options: { padding: 8 } },
+            ]}
+            sx={{ zIndex: 1300 }}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                minWidth: 180,
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: "12px",
+                bgcolor: "background.paper",
+                p: 0.5,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+              }}
+            >
+              <ButtonBase
+                onClick={() => handleOpenAI("chatgpt")}
+                sx={dropdownItemSx}
+              >
+                <SiOpenai size={16} />
+                <Typography variant="body2" fontWeight={500}>
+                  Ask ChatGPT
                 </Typography>
               </ButtonBase>
-
-              <Box sx={dividerSx} />
-
               <ButtonBase
-                onClick={() => setOpen((v) => !v)}
-                sx={{
-                  px: 1.25,
-                  height: "100%",
-                  "&:hover": { bgcolor: "action.hover" },
-                }}
+                onClick={() => handleOpenAI("claude")}
+                sx={dropdownItemSx}
               >
-                <HugeiconsIcon
-                  icon={open ? ArrowUp01Icon : ArrowDown01Icon}
-                  size={14}
-                  strokeWidth={2}
-                />
+                <SiClaude size={16} />
+                <Typography variant="body2" fontWeight={500}>
+                  Ask Claude
+                </Typography>
               </ButtonBase>
-            </Box>
-
-            <NavButton page={prevPage} direction="prev" />
-            <NavButton page={nextPage} direction="next" />
-
-            <Popper
-              open={open}
-              anchorEl={anchorRef.current}
-              placement="bottom-end"
-              disablePortal
-              modifiers={[
-                { name: "offset", options: { offset: [0, 8] } },
-                { name: "preventOverflow", options: { padding: 8 } },
-              ]}
-              sx={{ zIndex: 1300 }}
-            >
-              <Paper
-                elevation={0}
-                sx={{
-                  minWidth: 180,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: "12px",
-                  bgcolor: "background.paper",
-                  p: 0.5,
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-                }}
-              >
-                <ButtonBase
-                  onClick={() => handleOpenAI("chatgpt")}
-                  sx={dropdownItemSx}
-                >
-                  <SiOpenai size={16} />
-                  <Typography variant="body2" fontWeight={500}>
-                    Ask ChatGPT
-                  </Typography>
-                </ButtonBase>
-                <ButtonBase
-                  onClick={() => handleOpenAI("claude")}
-                  sx={dropdownItemSx}
-                >
-                  <SiClaude size={16} />
-                  <Typography variant="body2" fontWeight={500}>
-                    Ask Claude
-                  </Typography>
-                </ButtonBase>
-              </Paper>
-            </Popper>
-          </Box>
-        </ClickAwayListener>
-      </Box>
-    </>
+            </Paper>
+          </Popper>
+        </Box>
+      </ClickAwayListener>
+    </Box>
   );
 };
