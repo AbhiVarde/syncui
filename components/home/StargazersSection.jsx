@@ -191,9 +191,12 @@ const StargazersSection = () => {
                   ml: "-12px",
                   border: "2px solid",
                   borderColor: "background.paper",
-                  bgcolor: "background.paper",
-                  fontWeight: 500,
-                  zIndex: 0,
+                  bgcolor:
+                    theme.palette.mode === "dark" ? "#f5f5f5" : "#111111",
+                  color: theme.palette.mode === "dark" ? "#111111" : "#f5f5f5",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  zIndex: displayCount + 1,
                 }}
               >
                 +{remainingCount}
