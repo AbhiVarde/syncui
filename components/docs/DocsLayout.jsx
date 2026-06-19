@@ -9,28 +9,52 @@ import LinkPreview from "../common/LinkPreview";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 
+const TOP_OFFSET = 60;
+const HEIGHT_CALC = "calc(100vh - 60px)";
+
+const groupDocsTree = (docsTree) => {
+  const grouped = new Map([
+    ["Getting Started", []],
+    ["Templates", []],
+    ["Blocks", []],
+    ["Components", []],
+  ]);
+
+  docsTree.forEach((item) => {
+    grouped.get(item.category)?.push(item);
+  });
+
+  grouped.get("Templates").push(
+    {
+      title: "Startup",
+      url: "https://abhivarde.gumroad.com/l/startup-template-syncui",
+    },
+    {
+      title: "SaaS",
+      url: "https://abhivarde.gumroad.com/l/saas-template-syncui",
+    },
+    {
+      title: "Portfolio",
+      url: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
+    },
+  );
+
+  return Object.fromEntries(grouped);
+};
+
+const getActiveCategory = (docsTree, path) =>
+  docsTree.find((item) => item.url === path)?.category || null;
+
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
   const [openCategories, setOpenCategories] = useState(() => new Set());
   const [activeUrl, setActiveUrl] = useState(router.asPath);
 
-  const topPosition = 60;
-  const heightCalc = "calc(100vh - 60px)";
-
-  const getActiveCategory = (docsTree, path) => {
-    const activeItem = docsTree.find((item) => item.url === path);
-    return activeItem?.category || null;
-  };
-
   useEffect(() => {
     const activeCategory = getActiveCategory(docsTree, router.asPath);
     if (!activeCategory) return;
 
-    setOpenCategories((prev) => {
-      const next = new Set(prev);
-      next.add(activeCategory);
-      return next;
-    });
+    setOpenCategories((prev) => new Set(prev).add(activeCategory));
   }, [router.asPath, docsTree]);
 
   useEffect(() => {
@@ -69,31 +93,10 @@ const DocsLayout = ({ children, toc, docsTree }) => {
               bgcolor: "action.hover",
               color: "text.primary",
             },
-            ...(isHighlighted && {
-              bgcolor: "action.hover",
-            }),
+            ...(isHighlighted && { bgcolor: "action.hover" }),
           }}
         >
-          <span>{item.title}</span>
-
-          {(item.title === "Skeletons" || item.title === "Time Pickers") && (
-            <Box
-              component="span"
-              sx={{
-                ml: 1,
-                px: 0.8,
-                py: 0.2,
-                bgcolor: "#008080",
-                color: "#ffffff",
-                borderRadius: "10px",
-                fontSize: "0.65rem",
-                fontWeight: 500,
-                lineHeight: 1,
-              }}
-            >
-              New
-            </Box>
-          )}
+          {item.title}
         </Typography>
       );
 
@@ -117,7 +120,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         </Link>
       );
     },
-    [activeUrl, router.asPath]
+    [activeUrl, router.asPath],
   );
 
   const renderCollapsibleCategory = useCallback(
@@ -172,8 +175,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                     renderNavigationItem(
                       item,
                       router.asPath === item.url,
-                      category === "Templates"
-                    )
+                      category === "Templates",
+                    ),
                   )}
                 </Box>
               </motion.div>
@@ -182,21 +185,20 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         </>
       );
     },
-    [openCategories, router.asPath, renderNavigationItem]
+    [openCategories, router.asPath, renderNavigationItem],
   );
 
   const groupedDocsTree = useMemo(() => groupDocsTree(docsTree), [docsTree]);
 
   return (
     <Box sx={{ display: "flex", flexGrow: 1 }}>
-      {/* Left nav */}
       <Box
         component="nav"
         sx={{
           width: 260,
-          height: heightCalc,
+          height: HEIGHT_CALC,
           position: "fixed",
-          top: topPosition,
+          top: TOP_OFFSET,
           display: { xs: "none", lg: "block" },
         }}
       >
@@ -224,8 +226,8 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                       renderNavigationItem(
                         item,
                         router.asPath === item.url ||
-                          (item.title === "Setup" && router.asPath === "/docs")
-                      )
+                          (item.title === "Setup" && router.asPath === "/docs"),
+                      ),
                     )}
                   </>
                 )}
@@ -252,7 +254,6 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         </Box>
       </Box>
 
-      {/* Content */}
       <Box
         component="main"
         sx={{
@@ -268,13 +269,12 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         {children}
       </Box>
 
-      {/* TOC */}
       <Box
         sx={{
           width: 260,
           position: "fixed",
-          top: topPosition,
-          height: heightCalc,
+          top: TOP_OFFSET,
+          height: HEIGHT_CALC,
           right: 0,
           display: { xs: "none", lg: "block" },
         }}
@@ -283,36 +283,6 @@ const DocsLayout = ({ children, toc, docsTree }) => {
       </Box>
     </Box>
   );
-};
-
-const groupDocsTree = (docsTree) => {
-  const grouped = new Map([
-    ["Getting Started", []],
-    ["Templates", []],
-    ["Blocks", []],
-    ["Components", []],
-  ]);
-
-  docsTree.forEach((item) => {
-    grouped.get(item.category)?.push(item);
-  });
-
-  grouped.get("Templates").push(
-    {
-      title: "Startup",
-      url: "https://abhivarde.gumroad.com/l/startup-template-syncui",
-    },
-    {
-      title: "SaaS",
-      url: "https://abhivarde.gumroad.com/l/saas-template-syncui",
-    },
-    {
-      title: "Portfolio",
-      url: "https://abhivarde.gumroad.com/l/portfolio-template-syncui",
-    }
-  );
-
-  return Object.fromEntries(grouped);
 };
 
 export default DocsLayout;
