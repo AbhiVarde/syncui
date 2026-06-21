@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -35,6 +36,10 @@
   },
   "overrides": {
     "postcss": "latest",
-    "uuid": "latest"
+    "uuid": "latest",
+    "js-yaml": "^4.2.0"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
   }
 }
