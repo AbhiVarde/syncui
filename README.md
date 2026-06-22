@@ -4,15 +4,21 @@ Free React UI library with 125+ components, 13+ blocks, and 3 premium templates.
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) [![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui) <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" height="20" /></a>
 
-[Website](https://syncui.design) · [Docs](https://syncui.design/docs) · [Components](https://syncui.design/components) · [Blocks](https://syncui.design/blocks) · [Templates](https://syncui.design/templates) · [Showcase](https://syncui.design/showcase) · [GitHub](https://github.com/AbhiVarde/syncui) · [X](https://x.com/syncuidesign) · [Deploy](https://vercel.com/new/clone?repository-url=https://github.com/AbhiVarde/syncui)
+[Website](https://syncui.design) · [Docs](https://syncui.design/docs) · [Components](https://syncui.design/components) · [Blocks](https://syncui.design/blocks) · [Templates](https://syncui.design/templates) · [Showcase](https://syncui.design/showcase) · [npm](https://www.npmjs.com/package/@abhivarde/syncui)
 
-## About
+## CLI
 
-Sync UI is an open-source component library for React. Copy and paste components directly into your project. No installation required. Built on top of MUI and Motion.
+Add any component or block directly into your project:
+
+```bash
+npx @abhivarde/syncui@latest add name/variant
+```
+
+Use `name/variant` to target exactly what you need, e.g. `accordion/brutalist` or `hero/centered`.
 
 ## Agent Skill
 
-Use Sync UI components directly inside Cursor, Claude Code, Copilot, and more.
+Use Sync UI inside Cursor, Claude Code, Copilot, Windsurf, and more:
 
 ```bash
 npx skills add AbhiVarde/syncui

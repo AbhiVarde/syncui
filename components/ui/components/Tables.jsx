@@ -37,7 +37,7 @@ const createData = (id, name, role, status, progress, date) => ({
   progress,
   date,
   details: {
-    email: `${name.toLowerCase().replace(" ", ".")}@example.com`,
+    email: name.toLowerCase().replace(" ", ".") + "@example.com",
     phone: "+1 (555) 000-0000",
     address: "123 Business Street, Tech City, 12345",
     department: "Technology",
@@ -313,7 +313,7 @@ const TableVariants = ({ variant = "modern" }) => {
                               size="small"
                               onClick={() =>
                                 setExpandedRow(
-                                  expandedRow === row.id ? null : row.id
+                                  expandedRow === row.id ? null : row.id,
                                 )
                               }
                               sx={{
@@ -383,7 +383,7 @@ const TableVariants = ({ variant = "modern" }) => {
                                   p: 3,
                                   bgcolor: alpha(
                                     theme.palette.primary.main,
-                                    0.04
+                                    0.04,
                                   ),
                                 }}
                               >
@@ -418,7 +418,7 @@ const TableVariants = ({ variant = "modern" }) => {
                                             : value}
                                         </Typography>
                                       </Box>
-                                    )
+                                    ),
                                   )}
                                 </Box>
                               </Box>
@@ -574,7 +574,7 @@ const TableVariants = ({ variant = "modern" }) => {
                     sortedData
                       .slice(
                         page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
+                        page * rowsPerPage + rowsPerPage,
                       )
                       .map((row, index) => {
                         const isSelected = selected.indexOf(row.id) !== -1;
@@ -678,6 +678,5 @@ const TableVariants = ({ variant = "modern" }) => {
 
   return renderVariant();
 };
-
 
 export default TableVariants;
