@@ -1,16 +1,17 @@
 ---
 title: Pointers
-description: Sync UI offers a variety of custom pointer styles to enhance user interaction and provide engaging feedback.
+description: Custom cursor effects for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of custom pointer styles to enhance user interaction and provide engaging feedback when users hover over interactive elements.
+Cursor effects built with Motion. Install via CLI or copy the code into your project.
 
 #### Glowing Dot
 
-A simple glowing dot that follows the cursor with a subtle glow effect.
+A glowing dot that follows the cursor.
 
 <CodePreview
   preview={<PointerVariants variant="glowingDot" />}
+  cli="pointers/glowingDot"
   code={`
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
@@ -95,10 +96,11 @@ export default PointerDemo;
 
 #### Following Ring
 
-A ring that follows the cursor with spring physics for smooth movement.
+A ring that follows the cursor with spring physics.
 
 <CodePreview
   preview={<PointerVariants variant="followingRing" />}
+  cli="pointers/followingRing"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
@@ -195,10 +197,11 @@ export default PointerDemo;
 
 #### Magnetic Arrow
 
-A rotating arrow that magnetically points and animates with a drawn path effect.
+A rotating arrow that points toward the cursor.
 
 <CodePreview
   preview={<PointerVariants variant="magneticArrow" />}
+  cli="pointers/magneticArrow"
   code={`
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
@@ -291,10 +294,11 @@ export default PointerDemo;
 
 #### Trailing Dots
 
-A series of dots that create a trail behind the cursor.
+A trail of dots that follows the cursor.
 
 <CodePreview
   preview={<PointerVariants variant="trailingDots" />}
+  cli="pointers/trailingDots"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
@@ -401,10 +405,11 @@ export default PointerDemo;
 
 #### Emoji Follower
 
-An animated emoji that follows the cursor and changes randomly.
+An emoji that follows the cursor and changes at random.
 
 <CodePreview
   preview={<PointerVariants variant="emojiFollower" />}
+  cli="pointers/emojiFollower"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
@@ -502,10 +507,11 @@ export default PointerDemo;
 
 #### Gradient Blob
 
-A soft gradient blob that follows the cursor with a subtle pulsating animation.
+A soft gradient blob that follows the cursor.
 
 <CodePreview
   preview={<PointerVariants variant="gradientBlob" />}
+  cli="pointers/gradientBlob"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";

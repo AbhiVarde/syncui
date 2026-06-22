@@ -1,16 +1,17 @@
 ---
 title: Tables
-description: Sync UI provides flexible and animated table components with various styles and features.
+description: Animated table components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers sophisticated table components with built-in animations, sorting, pagination, and multiple visual variants.
+Tables built with Motion. Install via CLI or copy the code into your project.
 
 #### Modern
 
-The default table variant with full features including row selection, sorting, and animated transitions.
+Row selection, sorting, and animated transitions.
 
 <CodePreview
   preview={<TableVariants variant="modern" />}
+  cli="tables/modern"
   code={`
 import React, { useState, useCallback, useMemo } from "react";
 import {
@@ -35,7 +36,6 @@ import { LuArrowUpDown, LuChevronDown } from "react-icons/lu";
 const MotionTableRow = motion.create(TableRow);
 const MotionPaper = motion.create(Paper);
 
-// Sample data
 const createData = (id, name, role, status, progress, date) => ({
   id,
   name,
@@ -44,15 +44,22 @@ const createData = (id, name, role, status, progress, date) => ({
   progress,
   date,
   details: {
-    email: \`\${name.toLowerCase().replace(" ", ".")}@example.com\`,
-    phone: "+1 (555) 000-0000",
-    // ... more details
+    email: `${name.toLowerCase().replace(" ", ".")}@example.com`,
+    phone: "+1 (555) 010-0000",
+    department: "Engineering",
+    location: "Remote",
   },
 });
 
 const sampleData = [
-  createData(1, "Alex Thompson", "Developer", "Active", 75, "2025-01-01"),
-  // ... more data
+  createData(1, "Alex Thompson", "Developer", "Active", 75, "2025-01-12"),
+  createData(2, "Sarah Chen", "Designer", "Active", 90, "2025-01-15"),
+  createData(3, "Marcus Johnson", "Product Manager", "Inactive", 40, "2025-01-08"),
+  createData(4, "Priya Patel", "Developer", "Active", 60, "2025-01-20"),
+  createData(5, "James Wilson", "QA Engineer", "Active", 85, "2025-01-18"),
+  createData(6, "Olivia Martinez", "Designer", "Inactive", 25, "2025-01-05"),
+  createData(7, "Daniel Kim", "Developer", "Active", 95, "2025-01-22"),
+  createData(8, "Emma Davis", "Product Manager", "Active", 70, "2025-01-14"),
 ];
 
 const ModernTable = () => {
@@ -284,10 +291,11 @@ export default ModernTable;
 
 #### Minimal
 
-A simplified table variant focused on essential data display with smooth animations.
+Essential data only, with smooth animations.
 
 <CodePreview
   preview={<TableVariants variant="minimal" />}
+  cli="tables/minimal"
   code={`
 import React, { useState } from "react";
 import {
@@ -305,6 +313,31 @@ import {
   alpha,
 } from "@mui/material";
 import { motion } from "motion/react";
+const createData = (id, name, role, status, progress, date) => ({
+  id,
+  name,
+  role,
+  status,
+  progress,
+  date,
+  details: {
+    email: `${name.toLowerCase().replace(" ", ".")}@example.com`,
+    phone: "+1 (555) 010-0000",
+    department: "Engineering",
+    location: "Remote",
+  },
+});
+
+const sampleData = [
+  createData(1, "Alex Thompson", "Developer", "Active", 75, "2025-01-12"),
+  createData(2, "Sarah Chen", "Designer", "Active", 90, "2025-01-15"),
+  createData(3, "Marcus Johnson", "Product Manager", "Inactive", 40, "2025-01-08"),
+  createData(4, "Priya Patel", "Developer", "Active", 60, "2025-01-20"),
+  createData(5, "James Wilson", "QA Engineer", "Active", 85, "2025-01-18"),
+  createData(6, "Olivia Martinez", "Designer", "Inactive", 25, "2025-01-05"),
+  createData(7, "Daniel Kim", "Developer", "Active", 95, "2025-01-22"),
+  createData(8, "Emma Davis", "Product Manager", "Active", 70, "2025-01-14"),
+];
 
 const MotionTableRow = motion.create(TableRow);
 const MotionPaper = motion.create(Paper);
@@ -444,10 +477,11 @@ export default MinimalTable;
 
 #### Expandable
 
-A table variant with expandable rows for displaying additional details.
+Rows expand to show additional details.
 
 <CodePreview
   preview={<TableVariants variant="expandable" />}
+  cli="tables/expandable"
   code={`
 import React, { useState } from "react";
 import {
@@ -469,6 +503,32 @@ import {
 } from "@mui/material";
 import { motion } from "motion/react";
 import { LuChevronDown, LuSearch, LuFilter } from "react-icons/lu";
+
+const createData = (id, name, role, status, progress, date) => ({
+  id,
+  name,
+  role,
+  status,
+  progress,
+  date,
+  details: {
+    email: `${name.toLowerCase().replace(" ", ".")}@example.com`,
+    phone: "+1 (555) 010-0000",
+    department: "Engineering",
+    location: "Remote",
+  },
+});
+
+const sampleData = [
+  createData(1, "Alex Thompson", "Developer", "Active", 75, "2025-01-12"),
+  createData(2, "Sarah Chen", "Designer", "Active", 90, "2025-01-15"),
+  createData(3, "Marcus Johnson", "Product Manager", "Inactive", 40, "2025-01-08"),
+  createData(4, "Priya Patel", "Developer", "Active", 60, "2025-01-20"),
+  createData(5, "James Wilson", "QA Engineer", "Active", 85, "2025-01-18"),
+  createData(6, "Olivia Martinez", "Designer", "Inactive", 25, "2025-01-05"),
+  createData(7, "Daniel Kim", "Developer", "Active", 95, "2025-01-22"),
+  createData(8, "Emma Davis", "Product Manager", "Active", 70, "2025-01-14"),
+];
 
 const MotionTableRow = motion.create(TableRow);
 const MotionPaper = motion.create(Paper);

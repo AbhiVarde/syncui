@@ -1,16 +1,17 @@
 ---
 title: Text Fields
-description: Sync UI offers a variety of text field styles with animated placeholders and modern designs to enhance your user interface.
+description: Animated text field components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of text field styles with animated placeholders and modern designs to enhance your user interface.
+Text fields built with Motion. Install via CLI or copy the code into your project.
 
 #### OTP
 
-A responsive OTP input with 6 individual fields, auto-focus navigation, paste support, and visual progress indicators with an animated placeholder.
+Six digits with auto-focus and paste support.
 
 <CodePreview
   preview={<TextFieldVariants variant="otp" />}
+  cli="text-fields/otp"
   code={`
 import React, { useState, useEffect } from "react";
 import {
@@ -235,10 +236,11 @@ export default OTPInput;
 
 #### End Icon
 
-A text field with an animated icon addon on the right side, perfect for email inputs.
+Icon addon on the right side.
 
 <CodePreview
   preview={<TextFieldVariants variant="endIcon" />}
+  cli="text-fields/end-icon"
   code={`
 import React, { useState, useEffect } from "react";
 import {
@@ -387,10 +389,11 @@ export default EndIconTextField;
 
 #### Start Inline
 
-A text field with an inline prefix addon, ideal for URL inputs.
+Prefix addon inline on the left.
 
 <CodePreview
   preview={<TextFieldVariants variant="startInline" />}
+  cli="text-fields/start-inline"
   code={`
 import React, { useState, useEffect } from "react";
 import {
@@ -534,10 +537,11 @@ export default StartInlineTextField;
 
 #### End Inline
 
-A text field with an inline suffix addon, perfect for domain inputs.
+Suffix addon inline on the right.
 
 <CodePreview
   preview={<TextFieldVariants variant="endInline" />}
+  cli="text-fields/end-inline"
   code={`
 import React, { useState, useEffect } from "react";
 import {
@@ -680,10 +684,11 @@ export default EndInlineTextField;
 
 #### Currency
 
-A text field with currency symbols on both sides, ideal for financial inputs.
+Currency symbols on both sides.
 
 <CodePreview
   preview={<TextFieldVariants variant="currency" />}
+  cli="text-fields/currency"
   code={`
 import React, { useState, useEffect } from "react";
 import {
@@ -867,10 +872,11 @@ export default CurrencyTextField;
 
 #### AI Prompt
 
-A multiline text field with model selection and action buttons, perfect for AI chat interfaces.
+Multiline input with model selector and send button.
 
 <CodePreview
   preview={<TextFieldVariants variant="aiPrompt" />}
+  cli="text-fields/ai-prompt"
   code={`
 import React, { useState, useEffect } from "react";
 import {

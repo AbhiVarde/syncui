@@ -1,6 +1,6 @@
 ---
 title: Autocompletes
-description: Sync UI offers a variety of autocomplete components with dynamic filtering and smooth animations.
+description: Autocomplete components for React. Use via CLI or copy the code.
 ---
 
 <style>{`
@@ -10,15 +10,16 @@ description: Sync UI offers a variety of autocomplete components with dynamic fi
     }
 `}</style>
 
-Sync UI provides a collection of versatile autocomplete components designed for seamless user interaction, featuring real-time filtering, multi-select capabilities, and customizable rendering options.
+Autocomplete inputs with real time filtering. Install via CLI or copy the code into your project.
 
 #### Basic
 
-A simple autocomplete with real-time filtering of options.
+A simple autocomplete with real time filtering.
 
 <CodePreview
   overflowVisible={true}
   preview={<AutocompleteVariants variant="basic" />}
+  cli="autocompletes/basic"
   code={`
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -238,11 +239,12 @@ export default BasicAutocomplete;
 
 #### Multi-Select
 
-An autocomplete allowing multiple selections with chip display.
+An autocomplete that supports multiple selections with chips.
 
 <CodePreview
   overflowVisible={true}
   preview={<AutocompleteVariants variant="multi-select" />}
+  cli="autocompletes/multi-select"
   code={`
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -532,11 +534,12 @@ export default MultiSelectAutocomplete;
 
 #### Async
 
-An autocomplete with simulated asynchronous data fetching.
+An autocomplete with simulated async data fetching.
 
 <CodePreview
   overflowVisible={true}
   preview={<AutocompleteVariants variant="async" />}
+  cli="autocompletes/async"
   code={`
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -814,11 +817,12 @@ export default AsyncAutocomplete;
 
 #### Grouped
 
-An autocomplete with results organized by categories.
+An autocomplete with results grouped by category.
 
 <CodePreview
   overflowVisible={true}
   preview={<AutocompleteVariants variant="grouped" />}
+  cli="autocompletes/grouped"
   code={`
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -1107,11 +1111,12 @@ export default GroupedAutocomplete;
 
 #### Custom Render
 
-An autocomplete with rich content rendering, including avatars and status indicators.
+An autocomplete with rich content, avatars, and status indicators.
 
 <CodePreview
   overflowVisible={true}
   preview={<AutocompleteVariants variant="custom-render" />}
+  cli="autocompletes/custom-render"
   code={`
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";

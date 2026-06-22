@@ -1,16 +1,17 @@
 ---
 title: Cards
-description: Sync UI offers a variety of card styles to enhance your user interface.
+description: Animated card components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of card styles to enhance your user interface and provide visually appealing components for your applications.
+Cards built with Motion. Install via CLI or copy the code into your project.
 
 #### Lens
 
-A card with an interactive magnifying lens effect on hover.
+Magnifying lens follows the cursor on hover.
 
 <CodePreview
   preview={<CardVariants variant="lens" />}
+  cli="cards/lens"
   code={`
 import React, { useState } from "react";
 import { Card, CardContent, Typography, Box, Button } from "@mui/material";
@@ -132,10 +133,11 @@ export default LensCard;
 
 #### Twitter Carousel
 
-A card with a smooth auto-scrolling image carousel.
+Images auto-scroll in a smooth carousel.
 
 <CodePreview
   preview={<CardVariants variant="twitterCarousel" />}
+  cli="cards/twitterCarousel"
   code={`
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
@@ -262,10 +264,11 @@ export default TwitterCarousel;
 
 #### Meteor Shower
 
-A card with a dynamic meteor shower animation in the background.
+Meteors streak across the background.
 
 <CodePreview
   preview={<CardVariants variant="meteorShower" />}
+  cli="cards/meteorShower"
   code={`
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
@@ -359,10 +362,11 @@ export default MeteorShowerCard;
 
 #### Dynamic Overlay
 
-A card with dynamic image overlay transitions on hover.
+Image overlay transitions on hover.
 
 <CodePreview
   preview={<CardVariants variant="dynamicOverlay" />}
+  cli="cards/dynamicOverlay"
   code={`
 import React from "react";
 import { Card, CardContent, Typography, useTheme } from "@mui/material";
@@ -477,10 +481,11 @@ export default DynamicOverlay;
 
 #### Content
 
-A card with dynamic image hover effects and interactive content layout.
+Image shifts on hover above a content layout.
 
 <CodePreview
   preview={<CardVariants variant="contentCard" />}
+  cli="cards/contentCard"
   code={`
 import React from "react";
 import { Card, CardContent, Typography, Box, Button } from "@mui/material";
@@ -619,10 +624,11 @@ export default ContentCard;
 
 #### Animated Border
 
-A card with a sleek animated glowing border effect.
+Gradient border rotates around the card.
 
 <CodePreview
   preview={<CardVariants variant="animatedBorder" />}
+  cli="cards/animatedBorder"
   code={`
 import React from "react";
 import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";

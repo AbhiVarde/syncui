@@ -1,16 +1,17 @@
 ---
 title: Forms
-description: Sync UI offers a variety of form styles and interactive elements to enhance your user experience.
+description: Animated form components for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides a collection of beautifully designed form components with smooth animations and intuitive interactions.
+Form components built with Motion. Install via CLI or copy the code into your project.
 
 #### Multi-Step
 
-A progressive form that breaks down complex inputs into manageable steps.
+Inputs split across progressive steps.
 
 <CodePreview
   preview={<FormVariants variant="multi-step" />}
+  cli="forms/multi-step"
   code={`
 import React, { useState } from "react";
 import {
@@ -293,10 +294,11 @@ export default MultiStepForm;
 
 #### Login
 
-A clean login form with password visibility toggle.
+Email and password with a visibility toggle.
 
 <CodePreview
   preview={<FormVariants variant="login" />}
+  cli="forms/login"
   code={`
 import React, { useState } from "react";
 import {
@@ -395,10 +397,11 @@ export default LoginForm;
 
 #### Registration
 
-A simple registration form with social login option.
+Email signup with a GitHub option.
 
 <CodePreview
   preview={<FormVariants variant="register" />}
+  cli="forms/register"
   code={`
 import React from "react";
 import {
@@ -492,10 +495,11 @@ export default RegistrationForm;
 
 #### Contact
 
-A contact form with message field and subject selection.
+Name, subject, and message fields.
 
 <CodePreview
   preview={<FormVariants variant="contact" />}
+  cli="forms/contact"
   code={`
 import React from "react";
 import {

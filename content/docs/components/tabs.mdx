@@ -1,16 +1,17 @@
 ---
 title: Tabs
-description: Sync UI offers a variety of responsive tab animation styles to enhance your user interface across all device sizes.
+description: Animated tab components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of tab animation styles to enhance your user interface and provide visual feedback during tab transitions. These animations are fully responsive and work seamlessly across all device sizes.
+Tab animations built with Motion. Install via CLI or copy the code into your project.
 
 ### Sliding Underline
 
-A smooth underline that slides to the active tab.
+An underline that slides smoothly to the active tab.
 
 <CodePreview
   preview={<TabVariants variant="slidingUnderline" />}
+  cli="tabs/slidingUnderline"
   code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -83,13 +84,13 @@ export default SlidingUnderlineTabs;
 `}
 />
 
-
 ### Floating Background
 
-A dynamic background that floats behind the active tab.
+A background that floats behind the active tab.
 
 <CodePreview
   preview={<TabVariants variant="floatingBackground" />}
+  cli="tabs/floatingBackground"
   code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -174,10 +175,11 @@ export default FloatingBackgroundTabs;
 
 ### Elevated Cards
 
-Cards rise when active with motion and shadows.
+Cards rise on hover with motion and shadow.
 
 <CodePreview
   preview={<TabVariants variant="elevatedCards" />}
+  cli="tabs/elevatedCards"
   code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -256,10 +258,11 @@ export default ElevatedCardsTabs;
 
 ### Growing Background
 
-Highlight grows smoothly behind the active tab.
+A highlight that grows smoothly behind the active tab.
 
 <CodePreview
   preview={<TabVariants variant="growingBackground" />}
+  cli="tabs/growingBackground"
   code={String.raw`
 import React, { useState } from "react";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";

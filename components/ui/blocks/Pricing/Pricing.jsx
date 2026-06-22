@@ -203,8 +203,8 @@ const PricingVariants = ({ variant = "threeTier" }) => {
 export default PricingVariants;
 
 const Header = () => (
-  <Box textAlign="center" mb={7}>
-    <Typography variant="h3" fontWeight={600} mb={1}>
+  <Box sx={{ mb: 7, textAlign: "center" }}>
+    <Typography variant="h3" fontWeight={600} sx={{ mb: 1 }}>
       Simple pricing
     </Typography>
     <Typography

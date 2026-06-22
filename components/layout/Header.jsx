@@ -42,6 +42,11 @@ const navItems = [
     href: "https://www.skills.sh/abhivarde/syncui/syncui",
     external: true,
   },
+  {
+    label: "CLI",
+    href: "https://www.npmjs.com/package/@abhivarde/syncui",
+    external: true,
+  },
 ];
 
 const ANIMATION_MS = 220;

@@ -1,16 +1,17 @@
 ---
 title: Paginations
-description: Sync UI offers a variety of pagination styles to enhance your user interface.
+description: Pagination components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of pagination animation styles to enhance your user interface and provide intuitive navigation through paginated content.
+Pagination styles built with Motion. Install via CLI or copy the code into your project.
 
 #### Simple
 
-A minimal pagination style with basic navigation controls.
+A minimal pagination with basic navigation.
 
 <CodePreview
   preview={<PaginationVariants variant="simple" />}
+  cli="paginations/simple"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -69,10 +70,11 @@ export default SimplePagination;
 
 #### Numbered
 
-Traditional pagination with visible page numbers and navigation controls.
+Traditional pagination with visible page numbers.
 
 <CodePreview
   preview={<PaginationVariants variant="numbered" />}
+  cli="paginations/numbered"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -162,10 +164,11 @@ export default NumberedPagination;
 
 #### Compact
 
-A space-efficient pagination style with first/last page controls.
+A space efficient pagination with first and last page controls.
 
 <CodePreview
   preview={<PaginationVariants variant="compact" />}
+  cli="paginations/compact"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -299,10 +302,11 @@ export default CompactPagination;
 
 #### With Dropdown
 
-Pagination with dropdown controls for page selection and rows per page.
+Pagination with dropdown controls for page and rows per page.
 
 <CodePreview
   preview={<PaginationVariants variant="with-dropdown" />}
+  cli="paginations/with-dropdown"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, Typography, Select, MenuItem } from "@mui/material";
@@ -375,10 +379,11 @@ export default DropdownPagination;
 
 #### Rows Per Page
 
-Pagination with rows per page selection and item range display.
+Pagination with rows per page selection and item range.
 
 <CodePreview
   preview={<PaginationVariants variant="rows-per-page" />}
+  cli="paginations/rows-per-page"
   code={`
 import React, { useState } from "react";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
@@ -431,10 +436,11 @@ export default RowsPerPagePagination;
 
 #### Fading
 
-A smooth fade animation when transitioning between pages.
+A smooth fade animation between pages.
 
 <CodePreview
   preview={<PaginationVariants variant="fading" />}
+  cli="paginations/fading"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
@@ -504,6 +510,7 @@ A horizontal sliding animation between page numbers.
 
 <CodePreview
   preview={<PaginationVariants variant="sliding" />}
+  cli="paginations/sliding"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, useTheme, useMediaQuery } from "@mui/material";
@@ -581,10 +588,11 @@ export default SlidingPagination;
 
 #### Expanding
 
-An expanding/collapsing animation for page indicators.
+An expanding and collapsing animation for page indicators.
 
 <CodePreview
   preview={<PaginationVariants variant="expanding" />}
+  cli="paginations/expanding"
   code={`
 import React, { useState } from "react";
 import { Box, IconButton, useTheme, useMediaQuery } from "@mui/material";

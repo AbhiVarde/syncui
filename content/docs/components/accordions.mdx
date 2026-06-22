@@ -1,18 +1,17 @@
 ---
 title: Accordions
-description: Sync UI offers various accordion styles with lightweight animations and precise layouts for organizing collapsible content efficiently.
+description: Animated accordion components for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides several accordion styles with minimal animations and theme-aware designs — ensuring smooth performance, clean visuals, and accessibility.
-
-Each style below is fully responsive, centered, and takes up the full available width.
+Accordions built with Motion. Install via CLI or copy the code into your project.
 
 #### Brutalist
 
-A bold accordion with sharp edges, solid borders, and subtle motion for a distinctive brutalist aesthetic.
+Sharp edges and solid borders with subtle motion.
 
 <CodePreview
   preview={<AccordionVariants variant="brutalist" />}
+  cli="accordions/brutalist"
   code={`
 import React, { useState } from "react";
 import {
@@ -112,10 +111,11 @@ export default BrutalistAccordion;
 
 #### Dashed
 
-A creative accordion with dashed borders that subtly animate into solid lines when expanded.
+Dashed borders animate solid on expand.
 
 <CodePreview
   preview={<AccordionVariants variant="dashed" />}
+  cli="accordions/dashed"
   code={`
 import React, { useState } from "react";
 import {
@@ -208,10 +208,11 @@ export default DashedAccordion;
 
 #### Minimal
 
-A lightweight accordion with thin dividers and subtle hover feedback — perfect for minimalist UIs.
+Thin dividers with subtle hover feedback.
 
 <CodePreview
   preview={<AccordionVariants variant="minimal" />}
+  cli="accordions/minimal"
   code={`
 import React, { useState } from "react";
 import {
@@ -307,10 +308,11 @@ export default MinimalAccordion;
 
 #### Modern
 
-A clean, modern accordion with rounded corners, soft shadows, and simple plus/minus icons for clarity.
+Rounded corners with plus and minus icons.
 
 <CodePreview
   preview={<AccordionVariants variant="modern" />}
+  cli="accordions/modern"
   code={`
 import React, { useState } from "react";
 import {

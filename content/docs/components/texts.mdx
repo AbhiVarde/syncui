@@ -1,15 +1,17 @@
 ---
 title: Texts
-description: Sync UI offers a variety of text animation styles to enhance your user interface.
+description: Animated text components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of text animation styles to enhance your user interface.
+Text animations built with Motion. Install via CLI or copy the code into your project.
 
 #### Video Text
-Text with video content visible through text mask.
+
+Video plays through a text-shaped mask.
 
 <CodePreview
   preview={<TextVariants variant="videoText" />}
+  cli="texts/videoText"
   code={`
 import React from "react";
 import { Box, Typography } from "@mui/material";
@@ -105,14 +107,18 @@ const VideoText = ({ text, videoSrc = "/videos/nature.mp4" }) => {
     </Box>
   );
 };
+
+export default VideoText;
 `}
 />
 
 #### Blur In
-Text that cycles through blur states with opacity changes.
+
+Text blurs in and fades out repeatedly.
 
 <CodePreview
   preview={<TextVariants variant="blurIn" />}
+  cli="texts/blurIn"
   code={`
 import { Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -135,14 +141,18 @@ const BlurIn = ({ text }) => (
     </Typography>
   </motion.div>
 );
+
+export default BlurIn;
 `}
 />
 
 #### Split Reveal
-Text that reveals characters with a sliding motion.
+
+Characters slide up into view.
 
 <CodePreview
   preview={<TextVariants variant="splitReveal" />}
+  cli="texts/splitReveal"
   code={`
 import React from "react";
 import { Box, Typography } from "@mui/material";
@@ -192,14 +202,18 @@ const SplitReveal = ({ text }) => {
     </Box>
   );
 };
+
+export default SplitReveal;
 `}
 />
 
 #### Staggered Scale
-Characters that pulse in a wave pattern.
+
+Characters pulse in sequence.
 
 <CodePreview
   preview={<TextVariants variant="staggeredScale" />}
+  cli="texts/staggeredScale"
   code={`
 import { Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -219,14 +233,18 @@ const StaggeredScale = ({ text }) => (
     ))}
   </div>
 );
+
+export default StaggeredScale;
 `}
 />
 
 #### Letters Pull Up
-Individual letters that rise and fade repeatedly.
+
+Letters rise and fade in sequence.
 
 <CodePreview
   preview={<TextVariants variant="lettersPullUp" />}
+  cli="texts/lettersPullUp"
   code={`
 import { Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -246,14 +264,18 @@ const LettersPullUp = ({ text }) => (
     ))}
   </motion.div>
 );
+
+export default LettersPullUp;
 `}
 />
 
 #### Wave Effect
-Characters that move in a vertical wave pattern.
+
+Characters move in a vertical wave.
 
 <CodePreview
   preview={<TextVariants variant="waveEffect" />}
+  cli="texts/waveEffect"
   code={`
 import { Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -273,14 +295,18 @@ const WaveEffect = ({ text }) => (
     ))}
   </div>
 );
+
+export default WaveEffect;
 `}
 />
 
 #### Neon Glow
-Text with pulsating neon effect in national colors.
+
+Text pulses with a tricolor neon glow.
 
 <CodePreview
   preview={<TextVariants variant="neonGlow" />}
+  cli="texts/neonGlow"
   code={`
 import { Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -309,14 +335,18 @@ const NeonGlow = ({ text }) => (
     </Typography>
   </motion.div>
 );
+
+export default NeonGlow;
 `}
 />
 
 #### Words Pull Up
-Complete words that smoothly rise into view.
+
+Words rise into view in sequence.
 
 <CodePreview
   preview={<TextVariants variant="wordsPullUp" />}
+  cli="texts/wordsPullUp"
   code={`
 import { Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -346,14 +376,18 @@ const WordsPullUp = ({ text }) => (
     ))}
   </motion.div>
 );
+
+export default WordsPullUp;
 `}
 />
 
 #### Typewriter
-Classic typing effect with blinking cursor.
+
+Text types out with a blinking cursor.
 
 <CodePreview
   preview={<TextVariants variant="typewriter" />}
+  cli="texts/typewriter"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
@@ -395,14 +429,18 @@ const TypewriterEffect = ({ text }) => {
     </Box>
   );
 };
+
+export default TypewriterEffect;
 `}
 />
 
 #### Rotate Words
-Text that cycles through words with smooth transitions.
+
+One word cycles after fixed text.
 
 <CodePreview
   preview={<TextVariants variant="rotateWords" />}
+  cli="texts/rotateWords"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
@@ -441,14 +479,18 @@ const RotateWords = ({ text, words }) => {
     </Box>
   );
 };
+
+export default RotateWords;
 `}
 />
 
 #### Morphing Text
-Words that smoothly transition between different values.
+
+Words morph smoothly between values.
 
 <CodePreview
   preview={<TextVariants variant="morphingText" />}
+  cli="texts/morphingText"
   code={`
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
@@ -482,5 +524,7 @@ const MorphingText = ({ words }) => {
     </Box>
   );
 };
+
+export default MorphingText;
 `}
 />

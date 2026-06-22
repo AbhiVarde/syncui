@@ -1,17 +1,18 @@
 ---
 title: Time Pickers
-description: Sync UI offers a variety of time picker components with smooth animations and flexible selection modes.
+description: Animated time picker components for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides a collection of versatile time picker components designed for seamless time selection, featuring 12-hour format, 24-hour format, seconds selection, and preset options capabilities.
+Time pickers built with Motion. Install via CLI or copy the code into your project.
 
 #### 12-Hour
 
-A standard time picker for selecting hours and minutes in 12-hour format with AM/PM.
+Hours and minutes in 12-hour format with AM/PM.
 
 <CodePreview
   overflowVisible={true}
   preview={<TimePickerVariants variant="12hour" />}
+  cli="time-pickers/12hour"
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
@@ -410,16 +411,17 @@ const TwelveHourTimePicker = () => {
   );
 };
 
-export default TwentyFourHourTimePicker;`}
+export default TwelveHourTimePicker;`}
 />
 
 #### With Seconds
 
-Time picker with hours, minutes, and seconds selection.
+Hours, minutes, and seconds selection.
 
 <CodePreview
   overflowVisible={true}
   preview={<TimePickerVariants variant="with-seconds" />}
+  cli="time-pickers/with-seconds"
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
@@ -765,9 +767,6 @@ const TimePickerWithSeconds = () => {
               fontWeight: "400 !important",
               pl: "36px !important",
               pr: "12px !important !important",
-              fontWeight: "400 !important",
-              pl: "36px !important",
-              pr: "12px !important",
             },
             "& .MuiInputAdornment-root": {
               position: "absolute !important",
@@ -913,16 +912,17 @@ const TimePickerWithSeconds = () => {
   );
 };
 
-export default TwelveHourTimePicker;`}
+export default TimePickerWithSeconds;`}
 />
 
 #### 24-Hour
 
-Time picker with 24-hour format (00:00 to 23:59).
+24-hour format from 00:00 to 23:59.
 
 <CodePreview
   overflowVisible={true}
   preview={<TimePickerVariants variant="24hour" />}
+  cli="time-pickers/24-hour"
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
@@ -1325,11 +1325,12 @@ export default TwentyFourHourTimePicker;`}
 
 #### With Presets
 
-Quick select with preset time options.
+Preset times for quick selection.
 
 <CodePreview
   overflowVisible={true}
   preview={<TimePickerVariants variant="presets" />}
+  cli="time-pickers/presets"
   code={`import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";

@@ -3,33 +3,33 @@ title: React Router
 description: Set up Sync UI with React Router.
 ---
 
-#### Create a new project
+#### Prerequisites
 
-Create a new React application:
-
-<PackageManagerTabs
-  npm="npx create-react-app my-app"
-  yarn="yarn create react-app my-app"
-  pnpm="pnpm create react-app my-app"
-  bun="bun create react-app my-app"
-/>
-
-Navigate to your project:
-
-```bash
-cd my-app
-```
+You'll need an existing React Router project with a package manager installed (npm, yarn, pnpm, or bun).
 
 #### Install dependencies
 
-Add React Router and the required packages for Sync UI:
+Add the required packages for Sync UI to your project:
 
 <PackageManagerTabs
-  npm="npm install react-router-dom @mui/material @emotion/react @emotion/styled motion react-icons"
-  yarn="yarn add react-router-dom @mui/material @emotion/react @emotion/styled motion react-icons"
-  pnpm="pnpm add react-router-dom @mui/material @emotion/react @emotion/styled motion react-icons"
-  bun="bun add react-router-dom @mui/material @emotion/react @emotion/styled motion react-icons"
+  npm="npm install @mui/material @emotion/react @emotion/styled motion react-icons"
+  yarn="yarn add @mui/material @emotion/react @emotion/styled motion react-icons"
+  pnpm="pnpm add @mui/material @emotion/react @emotion/styled motion react-icons"
+  bun="bun add @mui/material @emotion/react @emotion/styled motion react-icons"
 />
+
+#### Use the CLI
+
+Add a component or block directly into your project:
+
+<PackageManagerTabs
+  npm="npx @abhivarde/syncui@latest add accordion"
+  yarn="yarn dlx @abhivarde/syncui@latest add accordion"
+  pnpm="pnpm dlx @abhivarde/syncui@latest add accordion"
+  bun="bunx --bun @abhivarde/syncui@latest add accordion"
+/>
+
+Add a specific variant with `name/variant`, for example `accordion/brutalist`.
 
 #### Start development
 
@@ -44,14 +44,12 @@ Launch your development server:
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see your app running.
 
-#### You're all set!
+#### You're all set
 
-Browse our library and start building:
+Browse our library and start building.
 
-→ Check out [Components](/components) – Copy-paste ready UI elements
+→ Check out [Components](/components), copy paste ready UI elements
 
-→ Explore [Blocks](/blocks) – Pre-built page sections
+→ Explore [Blocks](/blocks), pre-built page sections
 
-→ Customize freely – All code is yours to modify
-
-Simply copy any component code and paste it into your project. No additional setup needed!
+→ Customize freely, all code is yours to modify

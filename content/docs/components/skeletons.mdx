@@ -1,18 +1,17 @@
 ---
 title: Skeletons
-description: Loading skeletons with smooth animations for better perceived performance and modern UI feedback.
+description: Animated skeleton loaders for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides clean skeleton loaders with custom animations built on motion/react — offering shimmer, pulse, and wave effects that feel premium and polished.
-
-Each variant is fully customizable with width, height, and rounded props for complete flexibility.
+Skeleton loaders built with Motion. Install via CLI or copy the code into your project.
 
 #### Shimmer
 
-A smooth gradient sweep animation that gives users the "premium app" feel seen in Netflix, Instagram, and LinkedIn.
+Gradient sweeps across the skeleton.
 
 <CodePreview
   preview={<SkeletonVariants variant="shimmer" width={200} height={20} />}
+  cli="skeletons/shimmer"
   code={`
 import React from "react";
 import { Box, useTheme } from "@mui/material";
@@ -56,10 +55,11 @@ export default ShimmerSkeleton;
 
 #### Pulse
 
-A subtle breathing effect with smooth opacity transitions — minimal, accessible, and less distracting than shimmer.
+Opacity fades in and out smoothly.
 
 <CodePreview
   preview={<SkeletonVariants variant="pulse" width={200} height={20} />}
+  cli="skeletons/pulse"
   code={`
 import React from "react";
 import { useTheme } from "@mui/material";
@@ -89,10 +89,11 @@ export default PulseSkeleton;
 
 #### Wave
 
-A unique staggered animation with flowing bars — eye-catching and modern, perfect for dashboard cards and content feeds.
+Bars fade in a staggered sequence.
 
 <CodePreview
   preview={<SkeletonVariants variant="wave" width={200} height={20} />}
+  cli="skeletons/wave"
   code={`
 import React from "react";
 import { Box, useTheme } from "@mui/material";

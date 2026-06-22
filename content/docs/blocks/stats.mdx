@@ -1,17 +1,18 @@
 ---
 title: Stats
-description: Sync UI offers a variety of stats section styles to showcase key metrics and social proof.
+description: Animated stats section blocks for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of stats section styles to showcase key metrics and social proof.
+Stats sections built with Motion. Install via CLI or copy the code into your project.
 
 #### Simple
 
-A minimalist row of large numbers with clean typography and staggered animations — great as a divider between sections.
+Large numbers in a row, staggered in on load.
 
 <CodePreview
   noPadding
   preview={<StatsVariants variant="simple" />}
+  cli="stats/simple"
   code={`
 import React from "react";
 import { Box, Typography, Container, useTheme } from "@mui/material";
@@ -93,11 +94,12 @@ export default SimpleStats;
 
 #### With Icons
 
-A centered stats section with icon badges, large numbers, labels, and subtle column dividers — ideal for trust-building above the fold.
+Icon badges with numbers and column dividers.
 
 <CodePreview
   noPadding
   preview={<StatsVariants variant="with-icons" />}
+  cli="stats/with-icons"
   code={`
 import React from "react";
 import { Box, Typography, Container, useTheme } from "@mui/material";
@@ -239,11 +241,12 @@ export default WithIconsStats;
 
 #### Cards
 
-A 3×2 grid of bordered stat cards with equal heights, icons, numbers, and descriptions — perfect for a dedicated metrics section with full context.
+Bordered cards with icons, numbers, and descriptions.
 
 <CodePreview
   noPadding
   preview={<StatsVariants variant="cards" />}
+  cli="stats/cards"
   code={`
 import React from "react";
 import { Box, Typography, Container, useTheme } from "@mui/material";

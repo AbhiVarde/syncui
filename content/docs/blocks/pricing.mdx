@@ -1,17 +1,18 @@
 ---
 title: Pricing
-description: Sync UI offers beautiful, responsive pricing sections to clearly communicate your plans and drive conversions.
+description: Animated pricing section blocks for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers beautiful, responsive pricing sections to clearly communicate your plans and drive conversions.
+Pricing sections built with Motion. Install via CLI or copy the code into your project.
 
 #### Three Tier
 
-A clean and modern three-tier pricing table with subtle animations, feature checkmarks, plan icons, and a highlighted primary plan. Ideal for SaaS products with free, pro, and enterprise offerings.
+Three plans with checkmarks and a highlighted tier.
 
 <CodePreview
   noPadding
   preview={<PricingVariants variant="threeTier" />}
+  cli="pricing/threeTier"
   code={`
 import React from "react";
 import {
@@ -32,7 +33,7 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const PricingVariants = ({ variant = "threeTier" }) => {
+const ThreeTierPricing = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -151,17 +152,18 @@ const PricingVariants = ({ variant = "threeTier" }) => {
   );
 };
 
-export default PricingVariants;
+export default ThreeTierPricing ;
 `}
 />
 
 #### Two Tier
 
-A sleek two-tier pricing layout with softer card radii and rectangular buttons. Perfect for simpler offerings like personal vs. team plans.
+Two plans with softer card edges.
 
 <CodePreview
   noPadding
   preview={<PricingVariants variant="twoTier" />}
+  cli="pricing/twoTier"
   code={`
 import React from "react";
 import {
@@ -181,7 +183,7 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const PricingVariants = ({ variant = "threeTier" }) => {
+const TwoTierPricing  = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -288,17 +290,18 @@ const PricingVariants = ({ variant = "threeTier" }) => {
   );
 };
 
-export default PricingVariants;
+export default ThreeTierPricing ;
 `}
 />
 
 #### Row Layout
 
-A compact, horizontal row-based pricing comparison. Great for space-constrained pages, landing pages, or when you want a lightweight alternative to full cards. Shows key features inline with plan name and pricing.
+Plans laid out as horizontal rows.
 
 <CodePreview
   noPadding
   preview={<PricingVariants variant="row" />}
+  cli="pricing/row"
   code={`
 import React from "react";
 import {
@@ -319,7 +322,7 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const PricingVariants = ({ variant = "threeTier" }) => {
+const RowPricing = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -456,6 +459,6 @@ const PricingVariants = ({ variant = "threeTier" }) => {
   );
 };
 
-export default PricingVariants;
+export default RowPricing;
 `}
 />

@@ -1,17 +1,18 @@
 ---
 title: CTA
-description: Sync UI offers a variety of call-to-action section styles to drive conversions and user engagement.
+description: Animated CTA section blocks for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of call-to-action section styles to drive conversions and user engagement.
+CTA sections built with Motion. Install via CLI or copy the code into your project.
 
 #### Centered
 
-A centered CTA section with prominent headline and dual action buttons.
+Centered headline with two action buttons.
 
 <CodePreview
   noPadding 
   preview={<CTAVariants variant="centered" />}
+  cli="cta/centered"
   code={`
 import React from "react";
 import {
@@ -178,11 +179,12 @@ export default CenteredCTA;
 
 #### Split
 
-A split layout CTA with headline on the left and action buttons on the right.
+Headline on the left, buttons on the right.
 
 <CodePreview
   noPadding 
   preview={<CTAVariants variant="split" />}
+  cli="cta/split"
   code={`
 import React from "react";
 import {
@@ -332,11 +334,12 @@ export default SplitCTA;
 
 #### Grid
 
-A comprehensive CTA with centered content and additional feature cards below (inspired by [Mintlify](https://mintlify.com)).
+Centered CTA with feature cards below, inspired by [Mintlify](https://mintlify.com).
 
 <CodePreview
   noPadding 
   preview={<CTAVariants variant="grid" />}
+  cli="cta/grid"
   code={`
 import React from "react";
 import {
@@ -546,7 +549,7 @@ const GridCTA = () => {
                   transition: "transform 0.2s ease",
                 }}
               >
-                <LuChevronRight size={16} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Box>
             </Button>
           </Box>
@@ -626,7 +629,7 @@ const GridCTA = () => {
                   transition: "transform 0.2s ease",
                 }}
               >
-                <LuChevronRight size={16} />
+                <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
               </Box>
             </Button>
           </Box>
@@ -642,11 +645,12 @@ export default GridCTA;
 
 #### Columns
 
-A multi-column layout showcasing key features with links alongside the main CTA (inspired by [Stripe](https://stripe.com)).
+Multi-column layout with feature links, inspired by [Stripe](https://stripe.com).
 
 <CodePreview
   noPadding 
   preview={<CTAVariants variant="columns" />}
+  cli="cta/columns"
   code={`
 import React from "react";
 import {

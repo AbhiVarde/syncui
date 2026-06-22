@@ -38,14 +38,11 @@ export const FrameworkGrid = () => {
               flexDirection: "column",
               gap: 2.5,
               bgcolor: "background.paper",
-              border: 1,
-              borderColor: "divider",
               borderRadius: 2,
               minHeight: 160,
               transition: "all 0.2s ease",
               "&:hover": {
                 bgcolor: "action.hover",
-                borderColor: isDarkMode ? "#FFFFFF" : "#000000",
               },
             }}
           >

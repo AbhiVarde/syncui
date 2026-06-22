@@ -15,9 +15,9 @@ const HEIGHT_CALC = "calc(100vh - 60px)";
 const groupDocsTree = (docsTree) => {
   const grouped = new Map([
     ["Getting Started", []],
-    ["Templates", []],
     ["Blocks", []],
     ["Components", []],
+    ["Templates", []],
   ]);
 
   docsTree.forEach((item) => {

@@ -1,16 +1,17 @@
 ---
 title: Carousels
-description: Sync UI offers a collection of animated carousel components with various transition effects and interaction patterns for showcasing content.
+description: Animated carousel components for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides a versatile carousel component with multiple animation variants, touch/drag support, and responsive design. These carousels are perfect for showcasing images, products, or any content that benefits from sequential navigation.
+Carousels built with Motion. Install via CLI or copy the code into your project.
 
 #### Scale Animation
 
-A carousel with smooth scaling transitions between slides, featuring overlay content and dot navigation.
+Slides scale in and out with dot navigation.
 
 <CodePreview
   preview={<CarouselVariants variant="scale" />}
+  cli="carousels/scale"
   code={`
 import React, { useState, useCallback, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
@@ -18,7 +19,6 @@ import { motion, AnimatePresence } from "motion/react";
 
 const MotionBox = motion.create(Box);
 
-// Sample data
 const imageSlides = [
   {
     id: 1,
@@ -26,7 +26,24 @@ const imageSlides = [
     title: "Modern Architecture",
     description: "Exploring contemporary design principles",
   },
-  // ... more slides
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=800",
+    title: "Urban Landscapes",
+    description: "Cities reimagined through bold geometry",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800",
+    title: "Natural Light",
+    description: "Spaces shaped by sun and shadow",
+  },
+  {
+    id: 4,
+    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800",
+    title: "Minimalist Interiors",
+    description: "Less, but better",
+  },
 ];
 
 const ScaleCarousel = () => {
@@ -114,10 +131,11 @@ export default ScaleCarousel;
 
 #### Parallax Effect
 
-A dynamic carousel with parallax scrolling effects and gradient overlays, creating depth and visual interest.
+Slides shift horizontally with a gradient overlay.
 
 <CodePreview
   preview={<CarouselVariants variant="parallax" />}
+  cli="carousels/parallax"
   code={`
 import React, { useState, useCallback, useEffect } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -133,7 +151,24 @@ const imageSlidesContent = [
     title: "Quantum Computing",
     description: "Revolutionizing computational possibilities",
   },
-  // ... more slides
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800",
+    title: "Neural Networks",
+    description: "Mapping the architecture of intelligence",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800",
+    title: "Data Visualization",
+    description: "Turning complexity into clarity",
+  },
+  {
+    id: 4,
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800",
+    title: "Cloud Infrastructure",
+    description: "Scaling systems without limits",
+  },
 ];
 
 const ParallaxCarousel = () => {
@@ -243,10 +278,11 @@ export default ParallaxCarousel;
 
 #### Fade Transition
 
-A simple yet elegant carousel with smooth fade transitions and navigation arrows.
+Slides fade between each other with arrow controls.
 
 <CodePreview
   preview={<CarouselVariants variant="fade" />}
+  cli="carousels/fade"
   code={`
 import React, { useState, useCallback } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -344,10 +380,11 @@ export default FadeCarousel;
 
 #### Card Stack
 
-An interactive card-based carousel with 3D perspective and overlapping cards.
+Cards stack with a 3D perspective offset.
 
 <CodePreview
   preview={<CarouselVariants variant="cards" />}
+  cli="carousels/cards"
   code={`
 import React, { useState, useCallback } from "react";
 import { Box, Typography, IconButton, Paper } from "@mui/material";

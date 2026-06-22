@@ -1,16 +1,17 @@
 ---
 title: Docks
-description: Sync UI provides various dock styles to enhance your application's navigation experience.
+description: Animated dock components for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides various dock styles to enhance your application's navigation experience.
+Dock navigation built with Motion. Install via CLI or copy the code into your project.
 
 #### Modern
 
-A modern dock with smooth animations and gradient effects.
+Icons scale with a smooth gradient hover.
 
 <CodePreview
   preview={<DockVariants variant="modern" />}
+  cli="docks/modern"
   code={`
 import React, { useState } from "react";
 import { Box, Tooltip, Paper, useTheme, useMediaQuery } from "@mui/material";
@@ -152,10 +153,11 @@ export default ModernDock;
 
 #### Categorical
 
-A structured dock interface with grouped items and visual separators, perfect for organizing related actions and tools.
+Icons grouped with dividers between sections.
 
 <CodePreview
   preview={<DockVariants variant="categorical" />}
+  cli="docks/categorical"
   code={`
 import React, { useState } from "react";
 import { Box, Tooltip, Paper, Divider, useTheme, useMediaQuery } from "@mui/material";
@@ -306,10 +308,11 @@ export default CategoricalDock;
 
 #### Dynamic
 
-An interactive dock with smooth animations and scaling effects.
+Icons scale based on hover distance.
 
 <CodePreview
   preview={<DockVariants variant="dynamic" />}
+  cli="docks/dynamic"
   code={`
 import React, { useState } from "react";
 import { Box, Tooltip, Paper, useTheme } from "@mui/material";
@@ -458,10 +461,11 @@ export default DynamicDock;
 
 #### Glass
 
-A translucent dock with blur effects and smooth animations.
+Icons sit on a frosted, translucent blur.
 
 <CodePreview
   preview={<DockVariants variant="glass" />}
+  cli="docks/glass"
   code={`
 import React, { useState } from "react";
 import { Box, Tooltip, useTheme } from "@mui/material";

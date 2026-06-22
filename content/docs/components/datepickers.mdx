@@ -1,17 +1,18 @@
 ---
 title: Date Pickers
-description: Sync UI offers a variety of date picker components with smooth animations and flexible selection modes.
+description: Date picker components for React. Use via CLI or copy the code.
 ---
 
-Sync UI provides a collection of versatile date picker components designed for seamless date selection, featuring single date, date range, preset options, and time selection capabilities.
+Date pickers with flexible selection modes. Install via CLI or copy the code into your project.
 
 #### Single
 
-A standard calendar date picker for selecting a single date.
+A standard calendar picker for selecting a single date.
 
 <CodePreview
   overflowVisible={true}
   preview={<DatePickerVariants variant="single" />}
+  cli="datepickers/single"
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import {
@@ -327,11 +328,12 @@ export default SingleDatePicker;`}
 
 #### Range
 
-Select start and end dates for a date range.
+Select a start and end date for a date range.
 
 <CodePreview
   overflowVisible={true}
   preview={<DatePickerVariants variant="range" />}
+  cli="datepickers/range"
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import {
@@ -690,6 +692,7 @@ Quick select with preset date range options.
 <CodePreview
   overflowVisible={true}
   preview={<DatePickerVariants variant="presets" />}
+  cli="datepickers/presets"
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import { LuCalendar, LuChevronLeft, LuChevronRight } from "react-icons/lu";
@@ -1156,6 +1159,7 @@ Combined date and time selection with hours, minutes, and AM/PM.
 <CodePreview
   overflowVisible={true}
   preview={<DatePickerVariants variant="with-time" />}
+  cli="datepickers/with-time"
   code={`import React, { useState, useMemo } from "react";
 import { Typography, useTheme, Box, TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import {

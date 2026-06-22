@@ -1,16 +1,17 @@
 ---
 title: Buttons
-description: Sync UI offers a variety of button styles and animations to enhance your user interface.
+description: Animated button components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of button styles and animations to enhance your user interface.
+Buttons built with Motion. Install via CLI or copy the code into your project.
 
 #### Neubrutalism
 
-A bold, blocky button style with a distinctive shadow.
+Blocky button with a hard offset shadow.
 
 <CodePreview
   preview={<ButtonVariants variant="neubrutalism" />}
+  cli="buttons/neubrutalism"
   code={`
 import { Button, useTheme } from "@mui/material";
 import { motion } from "motion/react";
@@ -49,10 +50,11 @@ export default NeubrutalismButton;
 
 #### Animated Border
 
-A button with an animated border effect.
+Border rotates with a conic gradient.
 
 <CodePreview
   preview={<ButtonVariants variant="animatedBorder" />}
+  cli="buttons/animatedBorder"
   code={`
 import { Button, Box, useTheme, Typography } from "@mui/material";
 import { motion } from "motion/react";
@@ -126,10 +128,11 @@ export default AnimatedBorderButton;
 
 #### Gradient Shine
 
-A button with a gradient shine effect.
+Gradient sweeps across on a loop.
 
 <CodePreview
   preview={<ButtonVariants variant="gradientShine" />}
+  cli="buttons/gradientShine"
   code={`
 import { Button, useTheme } from "@mui/material";
 import { motion } from "motion/react";
@@ -172,10 +175,11 @@ export default GradientShineButton;
 
 #### Underline
 
-A text button with an animated underline effect on hover.
+Underline slides in on hover.
 
 <CodePreview
   preview={<ButtonVariants variant="underline" />}
+  cli="buttons/underline"
   code={`
 import { Button } from "@mui/material";
 import { motion } from "motion/react";
@@ -221,10 +225,11 @@ export default UnderlineButton;
 
 #### Send Icon
 
-A button that transitions from text to an icon on hover.
+Text swaps for an icon on hover.
 
 <CodePreview
   preview={<ButtonVariants variant="sendIcon" />}
+  cli="buttons/sendIcon"
   code={`
 import { Button, useTheme } from "@mui/material";
 import { motion } from "motion/react";
@@ -290,10 +295,11 @@ export default SendIconButton;
 
 #### Expand
 
-A button that expands to reveal an icon on hover.
+Icon slides in and expands the button.
 
 <CodePreview
   preview={<ButtonVariants variant="expand" />}
+  cli="buttons/expand"
   code={`
 import { useState } from "react";
 import { Button, Box } from "@mui/material";
@@ -343,10 +349,11 @@ export default ExpandButton;
 
 #### Hover Arrow
 
-A button with an animated arrow that appears on hover.
+Arrow swaps sides on hover.
 
 <CodePreview
   preview={<ButtonVariants variant="hoverArrow" />}
+  cli="buttons/hoverArrow"
   code={`
 import { useState } from "react";
 import { Button, Box } from "@mui/material";
@@ -415,10 +422,11 @@ export default HoverArrowButton;
 
 #### Glitch
 
-A button with a glitch effect.
+Text glitches with a clipped offset.
 
 <CodePreview
   preview={<ButtonVariants variant="glitch" />}
+  cli="buttons/glitch"
   code={`
 import { Button, useTheme } from "@mui/material";
 import { motion } from "motion/react";
@@ -480,10 +488,11 @@ export default GlitchButton;
 
 #### Outline Fill
 
-A button that fills with color on hover.
+Outline fills with color on hover.
 
 <CodePreview
   preview={<ButtonVariants variant="outlineFill" />}
+  cli="buttons/outlineFill"
   code={`
 import { Button } from "@mui/material";
 import { motion } from "motion/react";
@@ -533,10 +542,11 @@ export default OutlineFillButton;
 
 #### Elastic Slide
 
-A button with an elastic sliding effect that reveals an icon.
+Text slides and reveals an icon with spring motion.
 
 <CodePreview
   preview={<ButtonVariants variant="elasticSlide" />}
+  cli="buttons/elasticSlide"
   code={`
 import { Button } from "@mui/material";
 import { motion } from "motion/react";

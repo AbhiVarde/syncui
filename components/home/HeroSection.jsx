@@ -1,13 +1,7 @@
-import {
-  Typography,
-  Button,
-  Box,
-  Container,
-  useTheme,
-  GlobalStyles,
-} from "@mui/material";
+import { Typography, Button, Box, Container, useTheme } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -45,222 +39,225 @@ const MotionIcon = () => (
   />
 );
 
-const fadeUp = (delay) => ({
-  animation: `heroFadeUp 0.35s ease-out ${delay}s both`,
-});
+const item = {
+  hidden: { opacity: 0, y: 8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.22, ease: [0.25, 0.1, 0.25, 1] },
+  },
+};
 
 const HeroSection = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
   return (
-    <>
-      <GlobalStyles
-        styles={{
-          "@keyframes heroFadeUp": {
-            from: { opacity: 0, transform: "translateY(10px)" },
-            to: { opacity: 1, transform: "translateY(0)" },
-          },
+    <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={{ show: { transition: { staggerChildren: 0.055 } } }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          willChange: "transform",
         }}
-      />
+      >
+        <motion.div variants={item} style={{ marginBottom: 16 }}>
+          <a
+            href="https://vercel.com/open-source-program"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              alt="Vercel OSS Program"
+              src="/vercel-oss.svg"
+              width={240}
+              height={44}
+              style={{
+                display: "block",
+                maxWidth: "100%",
+                height: "auto",
+                filter: !isDark ? "invert(1)" : "none",
+              }}
+            />
+          </a>
+        </motion.div>
 
-      <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Box sx={{ mb: 2, ...fadeUp(0) }}>
-            <a
-              href="https://vercel.com/open-source-program"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                alt="Vercel OSS Program"
-                src="/vercel-oss.svg"
-                width={240}
-                height={44}
-                style={{
-                  display: "block",
-                  maxWidth: "100%",
-                  height: "auto",
-                  filter: !isDark ? "invert(1)" : "none",
-                }}
-              />
-            </a>
-          </Box>
-
-          <Typography
-            variant="h1"
+        <Typography
+          component={motion.h1}
+          variants={item}
+          variant="h1"
+          sx={{
+            fontWeight: 600,
+            letterSpacing: "-0.05em",
+            mb: 1.5,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box component="span">Beautifully designed components</Box>
+          <Box
+            component="span"
             sx={{
-              fontWeight: 600,
-              letterSpacing: "-0.05em",
-              mb: 1.5,
               display: "flex",
-              flexDirection: "column",
-              ...fadeUp(0.07),
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 1,
             }}
           >
-            <Box component="span">Beautifully designed components</Box>
+            and templates built with
             <Box
               component="span"
               sx={{
-                display: "flex",
+                display: "inline-flex",
                 alignItems: "center",
-                flexWrap: "wrap",
-                gap: 1,
+                height: { xs: "48px", sm: "52px" },
+                ml: 0.5,
               }}
             >
-              and templates built with
-              <Box
-                component="span"
-                sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  position: "relative",
-                  height: { xs: "48px", sm: "52px" },
-                  ml: 0.5,
-                }}
-              >
-                {TECH_ICONS.map(({ Icon, title, color, url }, index) => (
-                  <Box
-                    key={title}
-                    component="a"
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={title}
-                    sx={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: { xs: "48px", sm: "52px" },
-                      height: { xs: "48px", sm: "52px" },
-                      borderRadius: "50%",
-                      border: "3px solid",
-                      borderColor: isDark ? "#000" : "#fff",
-                      ml: index > 0 ? { xs: "-8px", sm: "-15px" } : 0,
-                      zIndex: 5 - index,
-                      transition:
-                        "transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1)",
-                      backgroundColor: isDark ? "#1a1a1a" : "#fff",
-                      boxShadow: isDark
-                        ? "0 2px 8px rgba(0,0,0,0.4)"
-                        : "0 2px 8px rgba(0,0,0,0.1)",
-                      overflow: "hidden",
-                      textDecoration: "none",
-                      "&:hover": {
-                        transform: "translateY(-6px) scale(1.12)",
-                        zIndex: 10,
-                        boxShadow: isDark
-                          ? "0 6px 16px rgba(0,0,0,0.5)"
-                          : "0 6px 16px rgba(0,0,0,0.2)",
-                      },
-                    }}
-                  >
-                    {title === "Motion" ? (
-                      <MotionIcon />
-                    ) : (
-                      <Icon
-                        size={26}
-                        color={
-                          title === "Next.js"
-                            ? isDark
-                              ? "#fff"
-                              : "#000"
-                            : color
-                        }
-                      />
-                    )}
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </Typography>
-
-          <Typography
-            variant="body1"
-            sx={{
-              color: "text.secondary",
-              mb: 3,
-              fontSize: { xs: "16px", sm: "18px" },
-              lineHeight: 1.6,
-              ...fadeUp(0.14),
-            }}
-          >
-            125+ open-source components, 13+ blocks, and premium templates built
-            with MUI and Motion. Copy, customize, and ship faster.
-          </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              gap: { xs: 1.25, sm: 1.5 },
-              alignItems: "center",
-              flexWrap: "wrap",
-              ...fadeUp(0.2),
-            }}
-          >
-            <Link href="/docs/installation">
-              <Button
-                variant="contained"
-                sx={{
-                  px: { xs: 2, sm: 2.5 },
-                  py: 0.4,
-                  borderRadius: 1.5,
-                  textTransform: "none",
-                  fontWeight: 500,
-                  boxShadow: isDark
-                    ? "0 4px 12px rgba(0,0,0,0.4)"
-                    : "0 1px 4px rgba(0,0,0,0.12)",
-                  transition: "box-shadow 0.2s ease",
-                  "&:hover": {
-                    boxShadow: isDark
-                      ? "0 6px 16px rgba(0,0,0,0.5)"
-                      : "0 4px 12px rgba(0,0,0,0.18)",
-                  },
-                }}
-              >
-                Get started
-              </Button>
-            </Link>
-
-            <Link href="/components">
-              <Button
-                variant="text"
-                sx={{
-                  px: { xs: 2, sm: 2.5 },
-                  py: 0.4,
-                  borderRadius: 1.5,
-                  textTransform: "none",
-                  fontWeight: 500,
-                  color: "text.primary",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 0.5,
-                  "&:hover": {
-                    backgroundColor: isDark
-                      ? "rgba(255,255,255,0.04)"
-                      : "rgba(0,0,0,0.04)",
-                    "& .arrow": { transform: "translateX(3px)" },
-                  },
-                }}
-              >
-                View components
+              {TECH_ICONS.map(({ Icon, title, color, url }, index) => (
                 <Box
-                  component="span"
-                  className="arrow"
+                  key={title}
+                  component="a"
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={title}
                   sx={{
-                    display: "inline-flex",
-                    transition: "transform 0.18s ease",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: { xs: "48px", sm: "52px" },
+                    height: { xs: "48px", sm: "52px" },
+                    borderRadius: "50%",
+                    border: "3px solid",
+                    borderColor: isDark ? "#000" : "#fff",
+                    ml: index > 0 ? { xs: "-8px", sm: "-15px" } : 0,
+                    zIndex: 5 - index,
+                    backgroundColor: isDark ? "#1a1a1a" : "#fff",
+                    boxShadow: isDark
+                      ? "0 2px 8px rgba(0,0,0,0.4)"
+                      : "0 2px 8px rgba(0,0,0,0.1)",
+                    overflow: "hidden",
+                    textDecoration: "none",
+                    willChange: "transform",
+                    transition:
+                      "transform 0.18s cubic-bezier(0.4,0,0.2,1), box-shadow 0.18s cubic-bezier(0.4,0,0.2,1)",
+                    "&:hover": {
+                      transform: "translateY(-6px) scale(1.12)",
+                      zIndex: 10,
+                      boxShadow: isDark
+                        ? "0 6px 16px rgba(0,0,0,0.5)"
+                        : "0 6px 16px rgba(0,0,0,0.2)",
+                    },
                   }}
                 >
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+                  {title === "Motion" ? (
+                    <MotionIcon />
+                  ) : (
+                    <Icon
+                      size={26}
+                      color={
+                        title === "Next.js" ? (isDark ? "#fff" : "#000") : color
+                      }
+                    />
+                  )}
                 </Box>
-              </Button>
-            </Link>
+              ))}
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </>
+        </Typography>
+
+        <Typography
+          component={motion.p}
+          variants={item}
+          variant="body1"
+          sx={{
+            color: "text.secondary",
+            mb: 3,
+            fontSize: { xs: "16px", sm: "18px" },
+            lineHeight: 1.6,
+          }}
+        >
+          125+ components, 13+ blocks, and premium templates built with MUI and
+          Motion. Add anything via CLI or copy directly into your project.
+        </Typography>
+
+        <motion.div
+          variants={item}
+          style={{
+            display: "flex",
+            gap: 12,
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/docs">
+            <Button
+              variant="contained"
+              sx={{
+                px: { xs: 2, sm: 2.5 },
+                py: 0.4,
+                borderRadius: 1.5,
+                textTransform: "none",
+                fontWeight: 500,
+                boxShadow: isDark
+                  ? "0 4px 12px rgba(0,0,0,0.4)"
+                  : "0 1px 4px rgba(0,0,0,0.12)",
+                transition: "box-shadow 0.18s ease",
+                "&:hover": {
+                  boxShadow: isDark
+                    ? "0 6px 16px rgba(0,0,0,0.5)"
+                    : "0 4px 12px rgba(0,0,0,0.18)",
+                },
+              }}
+            >
+              Get started
+            </Button>
+          </Link>
+
+          <Button
+            component="a"
+            href="https://www.npmjs.com/package/@abhivarde/syncui"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="text"
+            sx={{
+              px: { xs: 2, sm: 2.5 },
+              py: 0.4,
+              borderRadius: 1.5,
+              textTransform: "none",
+              fontWeight: 500,
+              color: "text.primary",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 0.5,
+              "&:hover": {
+                backgroundColor: isDark
+                  ? "rgba(255,255,255,0.04)"
+                  : "rgba(0,0,0,0.04)",
+                "& .arrow": { transform: "translateX(3px)" },
+              },
+            }}
+          >
+            Install CLI
+            <Box
+              component="span"
+              className="arrow"
+              sx={{
+                display: "inline-flex",
+                transition: "transform 0.15s ease",
+                willChange: "transform",
+              }}
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+            </Box>
+          </Button>
+        </motion.div>
+      </motion.div>
+    </Container>
   );
 };
 

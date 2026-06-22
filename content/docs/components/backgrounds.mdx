@@ -1,16 +1,17 @@
 ---
 title: Backgrounds
-description: Sync UI offers a variety of background animation styles to enhance your user interface.
+description: Animated background components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of background animation styles to enhance your user interface and provide visually appealing backgrounds for your components.
+Backgrounds built with Motion. Install via CLI or copy the code into your project.
 
 #### Gemini Wave
 
-A gradient background with animated wave-like patterns.
+Wave-like patterns move across a gradient.
 
 <CodePreview
   preview={<BackgroundVariants variant="geminiWave" />}
+  cli="backgrounds/geminiWave"
   code={`
 import React from "react";
 import { Box, Typography } from "@mui/material";
@@ -93,10 +94,11 @@ export default GeminiWave;
 
 #### Gradient Mesh
 
-A dynamic gradient background with multiple color focal points.
+Color focal points shift across the gradient.
 
 <CodePreview
   preview={<BackgroundVariants variant="gradientMesh" />}
+  cli="backgrounds/gradientMesh"
   code={`
 import React, { useRef } from "react";
 import { Box, Typography } from "@mui/material";
@@ -155,10 +157,11 @@ export default GradientMesh;
 
 #### Moving Shapes
 
-Animated geometric shapes moving across a gradient background.
+Shapes drift across a gradient background.
 
 <CodePreview
   preview={<BackgroundVariants variant="movingShapes" />}
+  cli="backgrounds/movingShapes"
   code={`
 import React, { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
@@ -248,10 +251,11 @@ export default MovingShapes;
 
 #### Flickering Grid
 
-A grid of squares with random flickering effects.
+Squares flicker at random.
 
 <CodePreview
   preview={<BackgroundVariants variant="flickeringGrid" />}
+  cli="backgrounds/flickeringGrid"
   code={`
 import React, { useMemo } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
@@ -337,10 +341,11 @@ export default FlickeringGrid;
 
 #### Interactive Grid
 
-A grid of squares that respond to hover interactions.
+Squares highlight on hover.
 
 <CodePreview
   preview={<BackgroundVariants variant="interactiveGrid" />}
+  cli="backgrounds/interactiveGrid"
   code={`
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
@@ -449,10 +454,11 @@ export default InteractiveGrid;
 
 #### Grid
 
-A simple grid background pattern.
+Simple grid line pattern.
 
 <CodePreview
   preview={<BackgroundVariants variant="grid" />}
+  cli="backgrounds/grid"
   code={`
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
@@ -489,10 +495,11 @@ export default GridBackground;
 
 #### Magnetic Connections
 
-Interactive dots that connect to the mouse cursor with magnetic effects.
+Dots connect to the cursor with lines.
 
 <CodePreview
   preview={<BackgroundVariants variant="magneticConnections" />}
+  cli="backgrounds/magneticConnections"
   code={`
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
@@ -673,10 +680,11 @@ export default MagneticConnections;
 
 #### Dots
 
-A simple dotted background pattern.
+Dotted background pattern.
 
 <CodePreview
   preview={<BackgroundVariants variant="dots" />}
+  cli="backgrounds/dots"
   code={`
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";

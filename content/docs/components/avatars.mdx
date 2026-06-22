@@ -1,16 +1,17 @@
 ---
 title: Avatars
-description: Sync UI offers a variety of avatar styles to enhance your user interface.
+description: Animated avatar components for React. Use via CLI or copy the code.
 ---
 
-Sync UI offers a variety of avatar styles to enhance your user interface.
+Avatars built with Motion. Install via CLI or copy the code into your project.
 
 #### Modern Showcase
 
-A modern layout with animated entrance and hover effects.
+Avatars scale in on entrance and hover.
 
 <CodePreview
   preview={<AvatarVariants variant="modernShowcase" totalUsers={60} />}
+  cli="avatars/modernShowcase"
   code={`
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Avatar, useMediaQuery, useTheme, Skeleton } from "@mui/material";
@@ -126,10 +127,11 @@ export default ModernShowcase;
 
 #### Floating Cards
 
-Animated avatar cards with hover effects.
+Cards lift on hover.
 
 <CodePreview
   preview={<AvatarVariants variant="floatingCards" />}
+  cli="avatars/floatingCards"
   code={`
 import React, { useEffect, useState } from "react";
 import { Box, Avatar, Paper, useMediaQuery, useTheme, Skeleton } from "@mui/material";
@@ -247,10 +249,11 @@ export default FloatingCards;
 
 #### Minimal Grid
 
-A grid layout of avatars with hover animations.
+Avatars arranged in a grid, scale on hover.
 
 <CodePreview
   preview={<AvatarVariants variant="minimalGrid" />}
+  cli="avatars/minimalGrid"
   code={`
 import React, { useEffect, useState } from "react";
 import { Box, Avatar, useMediaQuery, useTheme, Skeleton } from "@mui/material";
@@ -360,10 +363,11 @@ export default MinimalGrid;
 
 #### Overlapping Circles
 
-A set of overlapping avatar circles, ideal for displaying group members or collaborators.
+Avatars overlap in a row, lift on hover.
 
 <CodePreview
   preview={<AvatarVariants variant="overlappingCircles" />}
+  cli="avatars/overlappingCircles"
   code={`
 import React, { useEffect, useState } from "react";
 import { Box, Tooltip, Avatar, useMediaQuery, useTheme, Skeleton } from "@mui/material";

@@ -194,7 +194,7 @@ const CTAVariants = ({ variant = "centered" }) => {
                   }}
                 >
                   <Box sx={{ maxWidth: 560 }}>
-                    <Typography variant="h3" fontWeight={600} mb={1}>
+                    <Typography variant="h3" fontWeight={600} sx={{ mb: 1 }}>
                       Accelerate your workflow today
                     </Typography>
 
@@ -597,7 +597,7 @@ const CTAVariants = ({ variant = "centered" }) => {
                   justifyContent: "center",
                 }}
               >
-                <Typography variant="h4" fontWeight={600} mb={1}>
+                <Typography variant="h4" fontWeight={600} sx={{ mb: 1 }}>
                   Everything you need to ship faster
                 </Typography>
 
