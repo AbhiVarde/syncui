@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { Toaster } from "sonner";
-import Router from "next/router";
 import Head from "next/head";
 import Script from "next/script";
 import Layout from "../components/layout/Layout";
-import Loader from "@/components/loader";
 import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import "../styles/globals.css";
@@ -236,49 +234,7 @@ function MyApp({ Component, pageProps }) {
 
 function AppContent({ Component, pageProps }) {
   const { isDarkMode, toggleTheme } = useTheme();
-  const [loading, setLoading] = useState(false);
   const theme = isDarkMode ? darkTheme : lightTheme;
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
-      console.log(
-        "%c                                  .__         .___            .__               \n" +
-          "  _________.__. ____   ____  __ __|__|      __| _/____   _____|__| ____   ____  \n" +
-          " /  ___<   |  |/    \\_/ ___\\|  |  \\  |     / __ |/ __ \\ /  ___/  |/ ___\\ /    \\ \n" +
-          " \\___ \\ \\___  |   |  \\  \\___|  |  /  |    / /_/ \\  ___/ \\___ \\|  / /_/  >   |  \\\n" +
-          "/____  >/ ____|___|  /\\___  >____/|__| /\\ \\____ |\\___  >____  >__\\___  /|___|  /\n" +
-          "     \\/ \\/         \\/     \\/           \\/      \\/    \\/     \\/  /_____/      \\/ \n",
-        "color: #ffffff; font-family: monospace; font-size: 11px; font-weight: bold;",
-      );
-      console.log(
-        "%c🚀 Sync UI: trusted by creators in 100+ countries 🌍\n⭐ 85+ GitHub stars and growing fast\n🐦 Follow updates → https://x.com/syncuidesign",
-        "color: #ffffff; font-family: monospace; font-size: 12px; font-weight: bold;",
-      );
-      console.log(
-        "%cBrought to you by https://abhivarde.in",
-        "color: #ffffff; font-family: monospace; font-size: 13px; font-weight: bold; margin-top: 8px;",
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleStart = (url) => {
-      const newSection = url.split("/")[1];
-      const currentSection = window.location.pathname.split("/")[1];
-      if (newSection !== currentSection) setLoading(true);
-    };
-    const handleDone = () => setLoading(false);
-
-    Router.events.on("routeChangeStart", handleStart);
-    Router.events.on("routeChangeComplete", handleDone);
-    Router.events.on("routeChangeError", handleDone);
-
-    return () => {
-      Router.events.off("routeChangeStart", handleStart);
-      Router.events.off("routeChangeComplete", handleDone);
-      Router.events.off("routeChangeError", handleDone);
-    };
-  }, []);
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -290,18 +246,14 @@ function AppContent({ Component, pageProps }) {
         richColors
         closeButton
       />
-      {loading ? (
-        <Loader />
-      ) : (
-        <Layout
-          toggleTheme={toggleTheme}
-          isDarkMode={isDarkMode}
-          docsTree={pageProps.docsTree}
-          toc={pageProps.toc}
-        >
-          <Component {...pageProps} isDarkMode={isDarkMode} />
-        </Layout>
-      )}
+      <Layout
+        toggleTheme={toggleTheme}
+        isDarkMode={isDarkMode}
+        docsTree={pageProps.docsTree}
+        toc={pageProps.toc}
+      >
+        <Component {...pageProps} isDarkMode={isDarkMode} />
+      </Layout>
     </MuiThemeProvider>
   );
 }
