@@ -63,7 +63,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
         <meta property="og:description" content={pageDescription} />
         <meta
           property="og:image"
-          content="https://www.syncui.design/og-image.png"
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(frontmatter.title)}&type=Docs`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -80,7 +80,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
         <meta name="twitter:description" content={pageDescription} />
         <meta
           name="twitter:image"
-          content="https://www.syncui.design/og-image.png"
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(frontmatter.title)}&type=Docs`}
         />
 
         <script

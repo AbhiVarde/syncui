@@ -1,27 +1,11 @@
 import { ImageResponse } from "next/og";
-import fs from "fs";
-import path from "path";
 
 export const config = {
-  runtime: "nodejs",
+  runtime: "edge",
 };
 
-const geistBold = fs.readFileSync(
-  path.join(
-    process.cwd(),
-    "node_modules/geist/dist/fonts/geist-sans/Geist-Bold.woff2",
-  ),
-);
-const geistMono = fs.readFileSync(
-  path.join(
-    process.cwd(),
-    "node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2",
-  ),
-);
-
-export default function handler(req) {
+export default async function handler(req) {
   const { searchParams } = new URL(req.url);
-
   const title = searchParams.get("title") || "React Component Library";
   const type = searchParams.get("type") || "";
 
@@ -36,7 +20,7 @@ export default function handler(req) {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "72px 80px",
-        fontFamily: "Geist",
+        fontFamily: "system-ui",
       }}
     >
       <div
@@ -49,21 +33,21 @@ export default function handler(req) {
           maxWidth: "580px",
         }}
       >
-        {type ? (
+        {type && (
           <div
             style={{
               display: "flex",
-              fontFamily: "GeistMono",
               fontSize: "13px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               color: "rgba(255,255,255,0.35)",
               marginBottom: "24px",
+              fontWeight: 500,
             }}
           >
             {type}
           </div>
-        ) : null}
+        )}
 
         <div
           style={{
@@ -82,11 +66,11 @@ export default function handler(req) {
         <div
           style={{
             display: "flex",
-            fontFamily: "GeistMono",
             fontSize: "14px",
             color: "rgba(255,255,255,0.3)",
             letterSpacing: "0.04em",
             marginTop: "48px",
+            fontWeight: 500,
           }}
         >
           Sync UI — syncui.design
@@ -136,10 +120,6 @@ export default function handler(req) {
     {
       width: 1200,
       height: 630,
-      fonts: [
-        { name: "Geist", data: geistBold, weight: 700, style: "normal" },
-        { name: "GeistMono", data: geistMono, weight: 400, style: "normal" },
-      ],
     },
   );
 }
