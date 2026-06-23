@@ -18,7 +18,7 @@ function customResponsiveFontSizes({ sm, md, lg }) {
 
 const baseTheme = {
   typography: {
-    fontFamily: '"Montserrat", "Helvetica", "Arial", sans-serif',
+    fontFamily: "var(--font-sans)",
     h1: {
       fontWeight: 700,
       lineHeight: 1.25,
@@ -103,6 +103,13 @@ const baseTheme = {
     borderRadius: 8,
   },
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          fontFamily: "var(--font-sans)",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -112,6 +119,7 @@ const baseTheme = {
           transition: "all 0.3s ease-in-out",
           padding: "8px 20px",
           fontSize: "16px",
+          fontFamily: "var(--font-sans)",
         },
       },
       variants: [
@@ -150,6 +158,7 @@ const baseTheme = {
           padding: "6px",
           borderRadius: "4px",
           fontWeight: 500,
+          fontFamily: "var(--font-sans)",
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
         },
         arrow: {

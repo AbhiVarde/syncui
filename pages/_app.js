@@ -1,5 +1,9 @@
 import React from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { GeistPixelGrid, GeistPixelTriangle } from "geist/font/pixel";
 import { Toaster } from "sonner";
 import Head from "next/head";
 import Script from "next/script";
@@ -9,15 +13,37 @@ import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import "../styles/globals.css";
 import { GitHubProvider } from "@/context/GithubContext";
 
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <div
+      className={`
+    ${geistSans.variable}
+    ${geistSans.className}
+    ${geistMono.variable}
+    ${GeistPixelGrid.variable}
+    ${GeistPixelTriangle.variable}
+  `}
+    >
       <Script
         defer
         src="https://analytics.umami.is/script.js"
         data-website-id="47d79797-9fe5-4ccc-b84f-e38d955f2684"
         strategy="afterInteractive"
       />
+      <Analytics />
+      <SpeedInsights />
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <link
@@ -75,7 +101,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           key="og-image"
           property="og:image"
-          content="https://www.syncui.design/og-image.png"
+          content="https://www.syncui.design/api/og"
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -104,7 +130,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/og-image.png"
+          content="https://www.syncui.design/api/og"
         />
 
         <script
@@ -228,7 +254,7 @@ function MyApp({ Component, pageProps }) {
           <AppContent Component={Component} pageProps={pageProps} />
         </GitHubProvider>
       </ThemeProvider>
-    </>
+    </div>
   );
 }
 
