@@ -71,6 +71,39 @@ Always use AnimatePresence when conditionally unmounting components.
 Always use viewport={{ once: true }} for scroll-triggered animations.
 Always handle useReducedMotion for accessibility.
 
+## Accessibility
+
+Every interactive element must have a discernible accessible name.
+
+Icon-only links: add aria-label describing the destination.
+<Box component="a" href={url} aria-label="Star Sync UI on GitHub (opens in new tab)">
+  <HugeiconsIcon icon={GithubIcon} aria-hidden="true" />
+</Box>
+
+Icon-only buttons: add aria-label describing the action.
+<IconButton aria-label="Switch to dark mode">
+  <HugeiconsIcon icon={Moon01Icon} aria-hidden="true" />
+</IconButton>
+
+Toggle buttons: reflect current state in aria-label.
+<IconButton aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}>
+
+Disclosure buttons (menus, drawers): add aria-expanded and aria-controls.
+<Button aria-expanded={open} aria-controls="nav-menu-id">Menu</Button>
+<nav id="nav-menu-id">...</nav>
+
+Decorative images inside labelled links: use empty alt and aria-hidden.
+<img src="logo.png" alt="" aria-hidden="true" />
+
+react-icons and HugeiconsIcon inside labelled containers: add aria-hidden and focusable="false".
+<SiReact aria-hidden="true" focusable="false" />
+<HugeiconsIcon icon={StarIcon} aria-hidden="true" />
+
+Images used as links: the <a> wrapping an <Image> needs its own aria-label.
+<a href="/about" aria-label="About Sync UI">
+  <Image src="/logo.png" alt="Sync UI logo" />
+</a>
+
 ## Agent skill
 
 npx skills add AbhiVarde/syncui

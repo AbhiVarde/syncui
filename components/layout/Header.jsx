@@ -209,6 +209,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           href={GITHUB_URL}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`Star Sync UI on GitHub${!loading && stars > 0 ? ` — ${stars.toLocaleString()} stars` : ""} (opens in new tab)`}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -220,7 +221,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             "&:hover": { opacity: 0.7 },
           }}
         >
-          <HugeiconsIcon icon={GithubIcon} size={20} />
+          <HugeiconsIcon icon={GithubIcon} size={20} aria-hidden="true" />
           {!loading && stars > 0 && (
             <Typography
               variant="body2"
@@ -244,25 +245,30 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
         href={TWITTER_URL}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Follow Sync UI on X / Twitter (opens in new tab)"
         sx={{
           color: "text.primary",
           p: 0.5,
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        <HugeiconsIcon icon={NewTwitterIcon} size={18} />
+        <HugeiconsIcon icon={NewTwitterIcon} size={18} aria-hidden="true" />
       </IconButton>
 
       <IconButton
         onClick={toggleTheme}
-        aria-label="Toggle theme"
+        aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
         sx={{
           color: "text.primary",
           p: 0.5,
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        <HugeiconsIcon icon={isDarkMode ? Sun01Icon : Moon01Icon} size={22} />
+        <HugeiconsIcon
+          icon={isDarkMode ? Sun01Icon : Moon01Icon}
+          size={22}
+          aria-hidden="true"
+        />
       </IconButton>
     </Box>
   );
@@ -307,10 +313,16 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                 <Button
                   onClick={handleToggle}
                   disableRipple
+                  aria-expanded={menuOpen}
+                  aria-controls="mobile-nav-menu"
+                  aria-label={
+                    menuOpen ? "Close navigation menu" : "Open navigation menu"
+                  }
                   startIcon={
                     <HugeiconsIcon
                       icon={menuOpen ? Cancel01Icon : Menu09Icon}
                       size={24}
+                      aria-hidden="true"
                     />
                   }
                   sx={{
@@ -400,7 +412,13 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       )}
 
       {menuMounted && !isLargeUp && (
-        <FullScreenMenu className={menuOpen ? "menu-visible" : ""}>
+        <FullScreenMenu
+          id="mobile-nav-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+          className={menuOpen ? "menu-visible" : ""}
+        >
           <MenuPanel className={menuOpen ? "menu-visible" : ""}>
             <Typography
               variant="body2"

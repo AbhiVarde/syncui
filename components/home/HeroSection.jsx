@@ -32,7 +32,8 @@ const TECH_ICONS = [
 const MotionIcon = () => (
   <img
     src="https://framerusercontent.com/images/3aQX5dnH5Yqgsn98QXKF2ZXxIE.png"
-    alt="Motion"
+    alt=""
+    aria-hidden="true"
     width={26}
     height={26}
   />
@@ -60,6 +61,7 @@ const HeroSection = () => {
             href="https://vercel.com/open-source-program"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Vercel Open Source Program (opens in new tab)"
           >
             <Image
               alt="Vercel OSS Program"
@@ -116,6 +118,7 @@ const HeroSection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   title={title}
+                  aria-label={`${title} (opens in new tab)`}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -151,6 +154,8 @@ const HeroSection = () => {
                   ) : (
                     <Icon
                       size={26}
+                      aria-hidden="true"
+                      focusable="false"
                       color={
                         title === "Next.js" ? (isDark ? "#fff" : "#000") : color
                       }
