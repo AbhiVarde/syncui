@@ -1,7 +1,6 @@
 import { Typography, Button, Box, Container, useTheme } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "motion/react";
 
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -39,32 +38,24 @@ const MotionIcon = () => (
   />
 );
 
-const item = {
-  hidden: { opacity: 0, y: 8 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.22, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
-
 const HeroSection = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
   return (
     <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={{ show: { transition: { staggerChildren: 0.055 } } }}
-        style={{
+      <Box
+        sx={{
           display: "flex",
           flexDirection: "column",
-          willChange: "transform",
+          animation: "heroFadeIn 0.35s cubic-bezier(0.25,0.1,0.25,1) both",
+          "@keyframes heroFadeIn": {
+            from: { opacity: 0 },
+            to: { opacity: 1 },
+          },
         }}
       >
-        <motion.div variants={item} style={{ marginBottom: 16 }}>
+        <Box sx={{ mb: 2 }}>
           <a
             href="https://vercel.com/open-source-program"
             target="_blank"
@@ -75,6 +66,7 @@ const HeroSection = () => {
               src="/vercel-oss.svg"
               width={240}
               height={44}
+              priority
               style={{
                 display: "block",
                 maxWidth: "100%",
@@ -83,11 +75,10 @@ const HeroSection = () => {
               }}
             />
           </a>
-        </motion.div>
+        </Box>
 
         <Typography
-          component={motion.h1}
-          variants={item}
+          component="h1"
           variant="h1"
           sx={{
             fontWeight: 600,
@@ -142,6 +133,7 @@ const HeroSection = () => {
                       : "0 2px 8px rgba(0,0,0,0.1)",
                     overflow: "hidden",
                     textDecoration: "none",
+                    // GPU-composited — only transform & opacity, never layout props
                     willChange: "transform",
                     transition:
                       "transform 0.18s cubic-bezier(0.4,0,0.2,1), box-shadow 0.18s cubic-bezier(0.4,0,0.2,1)",
@@ -171,8 +163,7 @@ const HeroSection = () => {
         </Typography>
 
         <Typography
-          component={motion.p}
-          variants={item}
+          component="p"
           variant="body1"
           sx={{
             color: "text.secondary",
@@ -185,11 +176,10 @@ const HeroSection = () => {
           Motion. Add anything via CLI or copy directly into your project.
         </Typography>
 
-        <motion.div
-          variants={item}
-          style={{
+        <Box
+          sx={{
             display: "flex",
-            gap: 12,
+            gap: 1.5,
             alignItems: "center",
             flexWrap: "wrap",
           }}
@@ -255,8 +245,8 @@ const HeroSection = () => {
               <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
             </Box>
           </Button>
-        </motion.div>
-      </motion.div>
+        </Box>
+      </Box>
     </Container>
   );
 };

@@ -3,7 +3,8 @@ import { Box } from "@mui/material";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useRouter } from "next/router";
-import BotNewsletter from "../common/BotNewsletter";
+
+const HEADER_HEIGHT = 56;
 
 const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
   const router = useRouter();
@@ -33,22 +34,14 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          mt: !is404Page ? "60px" : 0,
+          mt: is404Page ? 0 : `${HEADER_HEIGHT}px`,
           ...(isDocsPage && { display: "flex" }),
         }}
       >
-        <Box
-          sx={{
-            flexGrow: 1,
-            overflow: "hidden",
-          }}
-        >
-          {children}
-        </Box>
+        <Box sx={{ flexGrow: 1, overflow: "hidden" }}>{children}</Box>
       </Box>
 
       {!isDocsPage && !is404Page && <Footer />}
-      {/* {!is404Page && <BotNewsletter isDarkMode={isDarkMode} />} */}
     </Box>
   );
 };

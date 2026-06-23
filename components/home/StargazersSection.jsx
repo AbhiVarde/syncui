@@ -11,10 +11,9 @@ import {
   Paper,
 } from "@mui/material";
 import { useGitHub } from "@/context/GithubContext";
-import { useState, memo, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
-import { motion } from "motion/react";
 
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -24,28 +23,26 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const ContributorAvatar = memo(({ user, index }) => {
-  const [visible, setVisible] = useState(false);
-
+function useFadeInRef() {
+  const ref = useRef(null);
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), index * 40);
-    return () => clearTimeout(t);
-  }, [index]);
-
-  return (
-    <Box
-      sx={{ opacity: visible ? 1 : 0, transition: "opacity 0.25s ease-out" }}
-    >
-      <Avatar
-        src={user?.avatar_url}
-        alt={user?.login}
-        sx={{ width: 44, height: 44, bgcolor: "background.paper" }}
-      />
-    </Box>
-  );
-});
-
-ContributorAvatar.displayName = "ContributorAvatar";
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1";
+          el.style.transform = "none";
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
 
 const TextLink = ({ children, href }) => (
   <Button
@@ -65,19 +62,14 @@ const TextLink = ({ children, href }) => (
       gap: 0.5,
       "&:hover": {
         backgroundColor: "transparent",
-        "& .chevron": {
-          transform: "translateX(4px)",
-        },
+        "& .chevron": { transform: "translateX(4px)" },
       },
     }}
   >
     {children}
     <Box
       className="chevron"
-      sx={{
-        display: "inline-flex",
-        transition: "transform 0.18s ease",
-      }}
+      sx={{ display: "inline-flex", transition: "transform 0.18s ease" }}
     >
       <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
     </Box>
@@ -87,6 +79,7 @@ const TextLink = ({ children, href }) => (
 const StargazersSection = () => {
   const { stars, stargazers, loading, error } = useGitHub();
   const theme = useTheme();
+  const revealRef = useFadeInRef();
 
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -103,16 +96,16 @@ const StargazersSection = () => {
   return (
     <Container maxWidth="md" sx={{ py: { xs: 6, md: 8 } }}>
       <Paper
-        component={motion.div}
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        ref={revealRef}
         elevation={0}
         sx={{
           borderRadius: 3,
           backgroundColor: "transparent",
           textAlign: "center",
+          opacity: 0,
+          transform: "translateY(12px)",
+          transition: "opacity 0.32s ease-out, transform 0.32s ease-out",
+          willChange: "transform, opacity",
         }}
       >
         <Typography variant="h3" fontWeight={500} gutterBottom>
@@ -266,7 +259,6 @@ const StargazersSection = () => {
                   <HugeiconsIcon icon={GithubIcon} size={18} />
                   Star on GitHub
                 </TextLink>
-
                 <TextLink href={SPONSOR_URL}>
                   <HugeiconsIcon icon={FavouriteIcon} size={18} />
                   Support Sync UI

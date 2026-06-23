@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Box, Container, Paper, Typography, Button } from "@mui/material";
-import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -13,54 +12,83 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const MotionPaper = motion.create(Paper);
+function useFadeInRef(delay = 0) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          requestAnimationFrame(() => {
+            el.style.transitionDelay = `${delay}ms`;
+            el.style.opacity = "1";
+            el.style.transform = "none";
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [delay]);
+  return ref;
+}
 
-const TextLink = ({ children, disabled, onClick }) => {
-  return (
-    <Button
-      variant="text"
-      disabled={disabled}
-      onClick={onClick}
-      sx={{
-        px: 0,
-        py: 0.25,
-        fontWeight: 500,
-        textTransform: "none",
-        color: disabled ? "text.disabled" : "text.primary",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 0.5,
-        backgroundColor: "transparent",
-        "&:hover": {
-          backgroundColor: "transparent",
-          "& .chevron": {
-            transform: "translateX(4px)",
-          },
-        },
-      }}
-    >
-      {children}
-      <Box
-        className="chevron"
-        sx={{
-          display: "inline-flex",
-          transition: "transform 0.18s ease",
-        }}
-      >
-        <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-      </Box>
-    </Button>
-  );
+const revealStyle = {
+  opacity: 0,
+  transform: "translateY(12px)",
+  transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
+  willChange: "transform, opacity",
 };
 
-const FeatureCard = ({ icon, title, description, cta, disabled, onClick }) => {
+const TextLink = ({ children, disabled, onClick }) => (
+  <Button
+    variant="text"
+    disabled={disabled}
+    onClick={onClick}
+    sx={{
+      px: 0,
+      py: 0.25,
+      fontWeight: 500,
+      textTransform: "none",
+      color: disabled ? "text.disabled" : "text.primary",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 0.5,
+      backgroundColor: "transparent",
+      "&:hover": {
+        backgroundColor: "transparent",
+        "& .chevron": { transform: "translateX(4px)" },
+      },
+    }}
+  >
+    {children}
+    <Box
+      className="chevron"
+      sx={{ display: "inline-flex", transition: "transform 0.18s ease" }}
+    >
+      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+    </Box>
+  </Button>
+);
+
+const FeatureCard = ({
+  icon,
+  title,
+  description,
+  cta,
+  disabled,
+  onClick,
+  delay,
+}) => {
+  const ref = useFadeInRef(delay);
   return (
-    <MotionPaper
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.28, ease: "easeOut" }}
+    <Paper
+      ref={ref}
       elevation={0}
+      style={revealStyle}
       sx={{
         height: "100%",
         borderRadius: 3,
@@ -89,28 +117,26 @@ const FeatureCard = ({ icon, title, description, cta, disabled, onClick }) => {
       <TextLink disabled={disabled} onClick={onClick}>
         {cta}
       </TextLink>
-    </MotionPaper>
+    </Paper>
   );
 };
 
 const FeaturesSection = () => {
   const router = useRouter();
+  const headerRef = useFadeInRef(0);
+  const componentCardRef = useFadeInRef(80);
 
   return (
     <Box sx={{ py: { xs: 6, md: 10 } }}>
       <Container maxWidth="md">
         <Box
-          component={motion.div}
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          ref={headerRef}
+          style={revealStyle}
           sx={{ textAlign: "center", mb: 6 }}
         >
           <Typography variant="h3" fontWeight={500} gutterBottom>
             Designed for modern product teams
           </Typography>
-
           <Typography
             variant="body1"
             fontWeight={400}
@@ -137,24 +163,22 @@ const FeaturesSection = () => {
             description="Ready made templates for SaaS, startup, and portfolio websites. Available individually or as a complete bundle."
             cta="View templates"
             onClick={() => router.push("/templates")}
+            delay={0}
           />
-
           <FeatureCard
             icon={DashboardSquare01Icon}
             title="Blocks"
             description="Reusable sections such as heroes, feature layouts, and pricing tables. Designed to integrate seamlessly."
             cta="Browse blocks"
             onClick={() => router.push("/blocks")}
-            // disabled
+            delay={60}
           />
         </Box>
 
-        <MotionPaper
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.28, ease: "easeOut" }}
+        <Paper
+          ref={componentCardRef}
           elevation={0}
+          style={revealStyle}
           sx={{
             height: "100%",
             borderRadius: 3,
@@ -185,7 +209,7 @@ const FeaturesSection = () => {
           <TextLink onClick={() => router.push("/components")}>
             Browse components
           </TextLink>
-        </MotionPaper>
+        </Paper>
       </Container>
     </Box>
   );

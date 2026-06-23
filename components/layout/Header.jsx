@@ -49,7 +49,7 @@ const navItems = [
   },
 ];
 
-const ANIMATION_MS = 220;
+const ANIMATION_MS = 200;
 
 const FullScreenMenu = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -59,14 +59,14 @@ const FullScreenMenu = styled(Box)(({ theme }) => ({
   bottom: 0,
   backgroundColor:
     theme.palette.mode === "dark"
-      ? "rgba(0, 0, 0, 0.8)"
-      : "rgba(255, 255, 255, 0.8)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
+      ? "rgba(0, 0, 0, 0.85)"
+      : "rgba(255, 255, 255, 0.85)",
+  backdropFilter: "blur(20px)",
+  WebkitBackdropFilter: "blur(20px)",
   zIndex: 1200,
   overflowY: "auto",
   overflowX: "hidden",
-  willChange: "opacity, transform",
+  willChange: "opacity",
   opacity: 0,
   transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1)`,
   "&.menu-visible": {
@@ -82,7 +82,7 @@ const MenuPanel = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   opacity: 0,
-  transform: "translateY(-10px)",
+  transform: "translateY(-8px)",
   willChange: "opacity, transform",
   transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1), transform ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1)`,
   "&.menu-visible": {
@@ -94,9 +94,10 @@ const MenuPanel = styled(Box)(() => ({
 const NavItemRow = styled(Box)(() => ({
   textDecoration: "none",
   opacity: 0,
-  transform: "translateY(-6px)",
+  transform: "translateY(-4px)",
+  willChange: "opacity, transform",
   transition:
-    "opacity 0.18s ease-out, transform 0.18s ease-out, color 0.15s ease",
+    "opacity 0.16s ease-out, transform 0.16s ease-out, color 0.12s ease",
   "&.menu-visible": {
     opacity: 1,
     transform: "translateY(0)",
@@ -116,12 +117,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const [activeId, setActiveId] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuMounted, setMenuMounted] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // Mount animation
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -130,11 +125,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = menuOpen ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -142,13 +133,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
   useEffect(() => {
     let timeoutId;
-
     if (menuOpen) {
       setMenuMounted(true);
     } else if (menuMounted) {
       timeoutId = setTimeout(() => setMenuMounted(false), ANIMATION_MS);
     }
-
     return () => clearTimeout(timeoutId);
   }, [menuOpen, menuMounted]);
 
@@ -311,8 +300,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              opacity: mounted ? 1 : 0,
-              transition: "opacity 0.1s ease-out",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -334,9 +321,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     fontWeight: 500,
                     textTransform: "none",
                     color: "text.primary",
-                    "&:hover": {
-                      bgcolor: "transparent",
-                    },
+                    "&:hover": { bgcolor: "transparent" },
                   }}
                 >
                   Menu
@@ -346,11 +331,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
               {isLargeUp && (
                 <Box
                   component="nav"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 0,
-                  }}
+                  sx={{ display: "flex", alignItems: "center", gap: 0 }}
                 >
                   {navItems.map((item) => (
                     <Button
@@ -373,9 +354,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         color: "text.primary",
                         transition:
                           "background-color 0.15s ease, color 0.15s ease",
-                        "&:hover": {
-                          bgcolor: "action.hover",
-                        },
+                        "&:hover": { bgcolor: "action.hover" },
                       }}
                     >
                       {item.label}
@@ -426,21 +405,12 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{
-                fontWeight: 500,
-                mb: 3,
-              }}
+              sx={{ fontWeight: 500, mb: 3 }}
             >
               Menu
             </Typography>
 
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1.5,
-              }}
-            >
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
               {navItems.map((item, index) => (
                 <NavItemRow
                   key={item.href}
@@ -454,7 +424,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   className={menuOpen ? "menu-visible" : ""}
                   sx={{
                     color: "text.primary",
-                    transitionDelay: menuOpen ? `${index * 25}ms` : "0ms",
+                    transitionDelay: menuOpen ? `${index * 20}ms` : "0ms",
                   }}
                 >
                   <Typography
