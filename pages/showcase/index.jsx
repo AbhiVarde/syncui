@@ -467,8 +467,9 @@ export default function ShowcasePage() {
           content="Explore projects, tools, and libraries shared by the Sync UI community."
         />
         <meta
+          key="og-image"
           property="og:image"
-          content="https://www.syncui.design/og-image.png"
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -484,8 +485,9 @@ export default function ShowcasePage() {
           content="Explore projects, tools, and libraries shared by the Sync UI community."
         />
         <meta
+          key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/og-image.png"
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
         />
       </Head>
 

@@ -66,7 +66,7 @@ const Components = ({ docsTree }) => {
         <meta
           key="og-image"
           property="og:image"
-          content="https://www.syncui.design/og-image.png"
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("125+ Free Animated React Components")}&type=Components`}
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -95,7 +95,7 @@ const Components = ({ docsTree }) => {
         <meta
           key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/og-image.png"
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("125+ Free Animated React Components")}&type=Components`}
         />
 
         <script
