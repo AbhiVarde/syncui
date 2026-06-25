@@ -68,7 +68,7 @@ const Blocks = () => {
         <title>Blocks // Sync UI</title>
         <meta
           name="description"
-          content="Get 13+ free animated UI blocks including Hero sections, CTA blocks, Pricing tables, and Stats sections. Built with React, MUI, and Motion. Part of the Vercel Open Source Program."
+          content="Get 13+ free animated UI blocks including Hero sections, CTA blocks, Pricing tables, and Stats sections. Built with React, MUI, and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
         <link rel="canonical" href="https://www.syncui.design/blocks" />
         <meta

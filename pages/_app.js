@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }) {
         <title>Sync UI // React Component Library for Design Engineers</title>
         <meta
           name="description"
-          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of the Vercel Open Source Program."
+          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
         <link rel="canonical" href="https://www.syncui.design/" />
 
@@ -96,7 +96,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           property="og:description"
-          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of the Vercel Open Source Program."
+          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
         <meta
           key="og-image"
@@ -125,7 +125,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           name="twitter:description"
-          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of the Vercel Open Source Program."
+          content="Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
         <meta
           key="tw-image"

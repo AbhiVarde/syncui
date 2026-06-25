@@ -41,7 +41,7 @@ const Components = ({ docsTree }) => {
         <title>Components // Sync UI</title>
         <meta
           name="description"
-          content="Browse 125+ free animated React components built with MUI and Motion. Includes Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Dialogs, Docks, and more. Part of the Vercel Open Source Program."
+          content="Browse 125+ free animated React components built with MUI and Motion. Includes Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Dialogs, Docks, and more. Part of ▲ Vercel OSS Program Spring '26."
         />
         <link rel="canonical" href="https://www.syncui.design/components" />
         <meta
