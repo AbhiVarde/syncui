@@ -35,16 +35,21 @@ const navItems = [
   { label: "Components", href: "/components", external: false },
   { label: "Blocks", href: "/blocks", external: false },
   { label: "Templates", href: "/templates", external: false },
+  {
+    label: "CLI",
+    href: "https://www.npmjs.com/package/@abhivarde/syncui",
+    external: true,
+  },
+  {
+    label: "MCP",
+    href: "https://www.npmjs.com/package/@abhivarde/syncui-mcp",
+    external: true,
+  },
   { label: "Showcase", href: "/showcase", external: false },
   { label: "Changelog", href: "/docs/changelog", external: false },
   {
     label: "Skills",
     href: "https://www.skills.sh/abhivarde/syncui/syncui",
-    external: true,
-  },
-  {
-    label: "CLI",
-    href: "https://www.npmjs.com/package/@abhivarde/syncui",
     external: true,
   },
 ];
