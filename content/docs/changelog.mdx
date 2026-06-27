@@ -3,7 +3,32 @@ title: Changelog
 description: Latest updates and announcements for Sync UI
 ---
 
-#### 📦 Jun '26 – CLI, ▲ Vercel OSS Program · Spring '26 & Agent Skills
+#### 📦 Jun '26 – CLI, MCP, ▲ Vercel OSS Program · Spring '26 & Agent Skills
+
+##### v1.2.0 – MCP
+
+**New:**  
+→ **MCP Server** – Let your AI agent add components directly into your project  
+→ Published on npm: [@abhivarde/syncui-mcp](https://www.npmjs.com/package/@abhivarde/syncui-mcp)
+
+**Setup:**  
+→ Add to your MCP client config (Claude Code, Cursor, Windsurf, Codex, OpenCode)
+
+```json
+{
+  "mcpServers": {
+    "syncui": {
+      "command": "npx",
+      "args": ["-y", "@abhivarde/syncui-mcp"]
+    }
+  }
+}
+```
+
+**Why it matters:**  
+→ No commands, no docs tab  
+→ Just tell your agent which component you want  
+→ You still own the code
 
 ##### v1.1.0 – CLI
 
