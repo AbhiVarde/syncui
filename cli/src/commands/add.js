@@ -1,27 +1,23 @@
 const fs = require("fs");
 const path = require("path");
 
-function loadRegistry() {
-  const dir = path.join(__dirname, "..", "..", "registry");
-  const components = JSON.parse(
-    fs.readFileSync(path.join(dir, "components.json"), "utf8"),
-  );
-  const blocks = JSON.parse(
-    fs.readFileSync(path.join(dir, "blocks.json"), "utf8"),
-  );
-  return { ...components, ...blocks };
+const REGISTRY_URL = "https://syncui.design/r";
+
+async function fetchJSON(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
 }
 
-function loadVariants() {
-  const file = path.join(__dirname, "..", "..", "registry", "variants.json");
-  return JSON.parse(fs.readFileSync(file, "utf8"));
-}
-
-function resolveKey(input, registry) {
-  if (registry[input]) return input;
-  if (registry[input + "s"]) return input + "s";
-  if (registry[input + "es"]) return input + "es";
-  if (input.endsWith("s") && registry[input.slice(0, -1)])
+function resolveKey(input, keys) {
+  if (keys.includes(input)) return input;
+  if (keys.includes(input + "s")) return input + "s";
+  if (keys.includes(input + "es")) return input + "es";
+  if (input.endsWith("s") && keys.includes(input.slice(0, -1)))
     return input.slice(0, -1);
   return null;
 }
@@ -31,32 +27,54 @@ function getDefaultBase() {
   return hasSrc ? path.join(process.cwd(), "src") : process.cwd();
 }
 
-function add(rawName, options) {
-  const registry = loadRegistry();
-  const variantsData = loadVariants();
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-  const [rawCategory, rawVariant] = rawName.toLowerCase().split("/");
-  const category = resolveKey(rawCategory, registry);
-
-  if (!category || !variantsData[category]) {
-    console.error(`✗ No component or block called "${rawCategory}".`);
-    console.error(`  Available: ${Object.keys(registry).sort().join(", ")}`);
+async function add(rawName, options) {
+  if (typeof fetch === "undefined") {
+    console.error("✗ fetch is not available. Please upgrade to Node.js 18+.");
     process.exit(1);
   }
 
-  const entry = registry[category];
-  const categoryVariants = variantsData[category];
+  const [rawCategory, rawVariant] = rawName.toLowerCase().split("/");
 
-  const variantName = rawVariant || categoryVariants.default;
-  const variant = categoryVariants.variants[variantName];
+  process.stdout.write("  Fetching registry...\r");
 
-  if (!variant) {
-    console.error(`✗ No variant "${variantName}" for "${category}".`);
+  const index = await fetchJSON(`${REGISTRY_URL}/index.json`);
+  if (!index) {
     console.error(
-      `  Available variants: ${Object.keys(categoryVariants.variants).join(", ")}`,
+      "✗ Could not reach the syncui registry. Check your connection.",
     );
     process.exit(1);
   }
+
+  const allNames = [...(index.components || []), ...(index.blocks || [])];
+  const category = resolveKey(rawCategory, allNames);
+
+  if (!category) {
+    console.error(`✗ No component or block called "${rawCategory}".`);
+    console.error(`  Available: ${allNames.sort().join(", ")}`);
+    process.exit(1);
+  }
+
+  const entry = await fetchJSON(`${REGISTRY_URL}/${category}.json`);
+  if (!entry) {
+    console.error(`✗ Failed to fetch "${category}" from registry.`);
+    process.exit(1);
+  }
+
+  const variantName = rawVariant || entry.default;
+  const variants = entry.variants || {};
+
+  if (!variants[variantName]) {
+    console.error(`✗ No variant "${variantName}" for "${category}".`);
+    console.error(`  Available variants: ${Object.keys(variants).join(", ")}`);
+    process.exit(1);
+  }
+
+  const variant = variants[variantName];
+  const isBlock = entry.type === "block";
 
   const outDir =
     options.path ||
@@ -64,7 +82,7 @@ function add(rawName, options) {
       getDefaultBase(),
       "components",
       "syncui",
-      entry.type === "block" ? "blocks" : "components",
+      isBlock ? "blocks" : "components",
     );
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -86,13 +104,15 @@ function add(rawName, options) {
   const label = rawVariant
     ? `${category}/${rawVariant}`
     : `${category} (default: ${variantName})`;
-  console.log(`✓ Added ${label} -> ${path.relative(process.cwd(), outFile)}`);
 
-  if (entry.dependencies.length) {
+  process.stdout.write("                      \r");
+  console.log(`✓ Added ${label} → ${path.relative(process.cwd(), outFile)}`);
+
+  if (entry.dependencies && entry.dependencies.length) {
     console.log("");
     console.log("Install dependencies if you haven't already:");
     console.log(`  npm install ${entry.dependencies.join(" ")}`);
   }
 }
 
-module.exports = { add, loadRegistry, loadVariants };
+module.exports = { add };

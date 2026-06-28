@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 const { Command } = require("commander");
-const { add, loadRegistry } = require("../src/commands/add");
+const { add } = require("../src/commands/add");
 const packageJson = require("../package.json");
+
+const REGISTRY_URL = "https://syncui.design/r";
 
 const program = new Command();
 
@@ -15,23 +17,29 @@ program
   .description("Add a component or block, e.g. `syncui add accordion`")
   .option("-p, --path <dir>", "output directory")
   .option("-o, --overwrite", "overwrite if file exists", false)
-  .action((name, options) => add(name, options));
+  .action((name, options) =>
+    add(name, options).catch((e) => {
+      console.error(e.message);
+      process.exit(1);
+    }),
+  );
 
 program
   .command("list")
   .description("List everything available")
-  .action(() => {
-    const registry = loadRegistry();
-    const components = Object.entries(registry).filter(
-      ([, v]) => v.type === "component",
-    );
-    const blocks = Object.entries(registry).filter(
-      ([, v]) => v.type === "block",
-    );
+  .action(async () => {
+    const res = await fetch(`${REGISTRY_URL}/index.json`).catch(() => null);
+    if (!res || !res.ok) {
+      console.error(
+        "✗ Could not reach the syncui registry. Check your connection.",
+      );
+      process.exit(1);
+    }
+    const index = await res.json();
     console.log("Components:");
-    components.forEach(([k]) => console.log(`  - ${k}`));
+    (index.components || []).forEach((k) => console.log(`  - ${k}`));
     console.log("\nBlocks:");
-    blocks.forEach(([k]) => console.log(`  - ${k}`));
+    (index.blocks || []).forEach((k) => console.log(`  - ${k}`));
   });
 
 program.parse();
