@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "components": [
+    "accordions",
+    "autocompletes",
+    "avatars",
+    "backgrounds",
+    "buttons",
+    "cards",
+    "carousels",
+    "datepickers",
+    "dialogs",
+    "docks",
+    "forms",
+    "grids",
+    "loaders",
+    "paginations",
+    "pointers",
+    "separators",
+    "skeletons",
+    "tables",
+    "tabs",
+    "textfields",
+    "texts",
+    "timepickers"
+  ],
+  "blocks": [
+    "cta",
+    "hero",
+    "pricing",
+    "stats"
+  ]
+}

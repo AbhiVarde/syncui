@@ -1,0 +1,24 @@
+{
+  "name": "skeletons",
+  "type": "component",
+  "fileName": "Skeletons.jsx",
+  "dependencies": [
+    "@mui/material",
+    "motion"
+  ],
+  "default": "shimmer",
+  "variants": {
+    "shimmer": {
+      "label": "Shimmer",
+      "code": "import React from \"react\";\nimport { Box, useTheme } from \"@mui/material\";\nimport { motion } from \"motion/react\";\n\nconst ShimmerSkeleton = ({ width = \"100%\", height = 20, rounded = false }) => {\n  const theme = useTheme();\n  const baseColor = theme.palette.mode === \"dark\" ? \"#2a2a2a\" : \"#e8e8e8\";\n  const highlightColor = theme.palette.mode === \"dark\" ? \"#3a3a3a\" : \"#f5f5f5\";\n\n  return (\n    <Box\n      sx={{\n        width,\n        height,\n        borderRadius: rounded ? 1 : 0,\n        overflow: \"hidden\",\n        position: \"relative\",\n        backgroundColor: baseColor,\n      }}\n    >\n      <motion.div\n        animate={{ x: [\"-100%\", \"100%\"] }}\n        transition={{ duration: 1.5, repeat: Infinity, ease: \"easeInOut\" }}\n        style={{\n          position: \"absolute\",\n          top: 0,\n          left: 0,\n          right: 0,\n          bottom: 0,\n          background: `linear-gradient(90deg, transparent, ${highlightColor}, transparent)`,\n        }}\n      />\n    </Box>\n  );\n};\n\nexport default ShimmerSkeleton;"
+    },
+    "pulse": {
+      "label": "Pulse",
+      "code": "import React from \"react\";\nimport { useTheme } from \"@mui/material\";\nimport { motion } from \"motion/react\";\n\nconst PulseSkeleton = ({ width = \"100%\", height = 20, rounded = false }) => {\n  const theme = useTheme();\n  const baseColor = theme.palette.mode === \"dark\" ? \"#2a2a2a\" : \"#e8e8e8\";\n\n  return (\n    <motion.div\n      animate={{ opacity: [0.5, 1, 0.5] }}\n      transition={{ duration: 1.5, repeat: Infinity, ease: \"easeInOut\" }}\n      style={{\n        width,\n        height,\n        borderRadius: rounded ? \"8px\" : 0,\n        backgroundColor: baseColor,\n      }}\n    />\n  );\n};\n\nexport default PulseSkeleton;"
+    },
+    "wave": {
+      "label": "Wave",
+      "code": "import React from \"react\";\nimport { Box, useTheme } from \"@mui/material\";\nimport { motion } from \"motion/react\";\n\nconst WaveSkeleton = ({ width = \"100%\", height = 20, rounded = false }) => {\n  const theme = useTheme();\n  const baseColor = theme.palette.mode === \"dark\" ? \"#2a2a2a\" : \"#e8e8e8\";\n\n  return (\n    <Box\n      sx={{\n        width,\n        height,\n        borderRadius: rounded ? 1 : 0,\n        overflow: \"hidden\",\n        position: \"relative\",\n      }}\n    >\n      {[0, 1, 2, 3, 4].map((i) => (\n        <motion.div\n          key={i}\n          animate={{ opacity: [0.3, 1, 0.3] }}\n          transition={{\n            duration: 1.2,\n            repeat: Infinity,\n            ease: \"easeInOut\",\n            delay: i * 0.1,\n          }}\n          style={{\n            position: \"absolute\",\n            top: 0,\n            left: `${i * 20}%`,\n            width: \"20%\",\n            height: \"100%\",\n            backgroundColor: baseColor,\n          }}\n        />\n      ))}\n    </Box>\n  );\n};\n\nexport default WaveSkeleton;"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "separators",
+  "type": "component",
+  "fileName": "Separators.jsx",
+  "dependencies": [
+    "@mui/material",
+    "@mui/system",
+    "react-icons"
+  ],
+  "default": "dashed",
+  "variants": {
+    "dashed": {
+      "label": "Dashed",
+      "code": "import React from 'react';\nimport { Divider, Typography, Box } from '@mui/material';\nimport { styled } from '@mui/system';\n\nconst StyledDivider = styled(Divider)(({ theme }) => ({\n  width: '100%',\n  borderStyle: 'dashed',\n  borderWidth: '1.5px',\n}));\n\nconst DashedSeparator = ({ label }) => (\n\n  <Box sx={{ width: \"100%\" }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: \"center\" }}\n      >\n        {label}\n      </Typography>\n    )}\n    <StyledDivider />\n  </Box>\n);\n\nexport default DashedSeparator;"
+    },
+    "icon": {
+      "label": "Icon",
+      "code": "import React from 'react';\nimport { Divider, Typography, Box } from '@mui/material';\nimport { styled } from '@mui/system';\nimport { RxPlus } from 'react-icons/rx';\n\nconst StyledDivider = styled(Divider)(({ theme }) => ({\n  width: '100%',\n}));\n\nconst IconWrapper = styled(Box)(({ theme }) => ({\n  display: 'flex',\n  alignItems: 'center',\n  justifyContent: 'center',\n  padding: theme.spacing(1, 2),\n  border: `1px solid ${theme.palette.divider}`,\n  borderRadius: '9999px',\n}));\n\nconst IconSeparator = ({ label }) => (\n\n  <Box sx={{ width: \"100%\" }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: \"center\" }}\n      >\n        {label}\n      </Typography>\n    )}\n    <Box sx={{ display: \"flex\", alignItems: \"center\", width: \"100%\" }}>\n      <StyledDivider sx={{ flex: 1 }} />\n      <IconWrapper>\n        <RxPlus />\n      </IconWrapper>\n      <StyledDivider sx={{ flex: 1 }} />\n    </Box>\n  </Box>\n);\n\nexport default IconSeparator;"
+    },
+    "zigzag": {
+      "label": "Zigzag",
+      "code": "import React from 'react';\nimport { Typography, Box, useTheme } from '@mui/material';\n\nconst ZigzagSeparator = ({ label }) => {\nconst theme = useTheme();\n\nreturn (\n\n  <Box sx={{ width: '100%' }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: 'center' }}\n      >\n        {label}\n      </Typography>\n    )}\n    <Box\n      sx={{\n        width: '100%',\n        height: '10px',\n        backgroundImage: `linear-gradient(135deg, ${theme.palette.divider} 25%, transparent 25%, transparent 50%, ${theme.palette.divider} 50%, ${theme.palette.divider} 75%, transparent 75%, transparent 100%)`,\n        backgroundSize: '20px 20px',\n      }}\n    />\n  </Box>\n  );\n};\n\nexport default ZigzagSeparator;"
+    },
+    "gradient": {
+      "label": "Gradient",
+      "code": "import React from 'react';\nimport { Typography, Box, useTheme } from '@mui/material';\n\nconst GradientSeparator = ({ label }) => {\nconst theme = useTheme();\n\nreturn (\n\n  <Box sx={{ width: '100%' }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: 'center' }} \n      >\n        {label}\n      </Typography>\n    )}\n    <Box\n      sx={{\n        width: '100%',\n        height: '2px',\n        background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,\n      }}\n    />\n  </Box>\n  );\n};\n\nexport default GradientSeparator;"
+    },
+    "shimmer": {
+      "label": "Shimmer",
+      "code": "import React from 'react';\nimport { Typography, Box, useTheme } from '@mui/material';\nimport { keyframes } from '@mui/system';\n\nconst shimmer = keyframes`\n  0% { background-position: -1000px 0; }\n  100% { background-position: 1000px 0; }\n`;\n\nconst ShimmerSeparator = ({ label }) => {\nconst theme = useTheme();\n\nreturn (\n\n  <Box sx={{ width: '100%' }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: 'center' }} \n      >\n        {label}\n      </Typography>\n    )}\n    <Box\n      sx={{\n        width: '100%',\n        height: '2px',\n        background: `linear-gradient(to right, ${theme.palette.background.paper}, ${theme.palette.primary.main}, ${theme.palette.background.paper})`,          backgroundSize: '1000px 100%',\n        animation: `${shimmer} 5s infinite linear`,\n      }}\n    />\n  </Box>\n  );\n};\n\nexport default ShimmerSeparator;"
+    },
+    "dotted": {
+      "label": "Dotted",
+      "code": "import React from 'react';\nimport { Typography, Box, useTheme } from '@mui/material';\n\nconst DottedSeparator = ({ label }) => {\nconst theme = useTheme();\n\nreturn (\n\n  <Box sx={{ width: '100%' }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: 'center' }} \n      >\n        {label}\n      </Typography>\n    )}\n    <Box\n      sx={{\n        width: '100%',\n        height: '5px',\n        backgroundImage: `radial-gradient(circle, ${theme.palette.divider} 1.5px, transparent 1.5px)`,\n        backgroundSize: '10px 10px',\n      }}\n    />\n  </Box>\n  );\n};\n\nexport default DottedSeparator;"
+    },
+    "starry": {
+      "label": "Starry",
+      "code": "import React, { useState } from \"react\";\nimport { Divider, Typography, Box, useTheme } from '@mui/material';\nimport { RxStarFilled, RxStar } from 'react-icons/rx';\n\nconst StarrySeparator = ({ label }) => {\n\n  const theme = useTheme();\n  const [isStarFilled, setIsStarFilled] = useState(false);\n\n  const handleStarClick = () => {\n    setIsStarFilled(!isStarFilled);\n  };\n\nreturn (\n\n  <Box sx={{ width: \"100%\" }}>\n    {label && (\n      <Typography\n        variant=\"body2\"\n        color=\"textSecondary\"\n        sx={{ mb: 1, textAlign: \"center\" }}\n      >\n        {label}\n      </Typography>\n    )}\n    <Box sx={{ display: \"flex\", alignItems: \"center\", width: \"100%\" }}>\n      <Divider sx={{ flex: 1 }} />\n      <Box sx={{ mx: 2, cursor: \"pointer\" }} onClick={handleStarClick}>\n        {isStarFilled ? <RxStarFilled size={22} /> : <RxStar size={22} />}\n       </Box>\n      <Divider sx={{ flex: 1 }} />\n    </Box>\n  </Box>\n  ); \n};\n\nexport default StarrySeparator;"
+    }
+  }
+}
