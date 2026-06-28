@@ -16,6 +16,34 @@ npx @abhivarde/syncui@latest add name/variant
 
 Use `name/variant` to target exactly what you need, e.g. `accordion/brutalist` or `hero/centered`.
 
+## MCP
+
+Let your AI agent add components directly without any commands:
+
+```json
+{
+  "mcpServers": {
+    "syncui": {
+      "command": "npx",
+      "args": ["-y", "@abhivarde/syncui-mcp"]
+    }
+  }
+}
+```
+
+Add to your MCP client config (Claude Code, Cursor, Windsurf, Codex, OpenCode).
+
+## Registry
+
+Components are served from a hosted registry. Fetch any component directly:
+
+```
+https://syncui.design/r/index.json
+https://syncui.design/r/{name}.json
+```
+
+This is what the CLI and MCP use under the hood. New components are available the moment the site deploys — no package update needed.
+
 ## Agent Skill
 
 Use Sync UI inside Cursor, Claude Code, Copilot, Windsurf, and more:

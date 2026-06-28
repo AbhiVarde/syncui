@@ -1,9 +1,9 @@
 {
   "name": "@abhivarde/syncui",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Add Sync UI components and blocks to your project with a single command, like shadcn/ui.",
   "bin": {
-    "syncui": "./bin/syncui.js"
+    "syncui": "bin/syncui.js"
   },
   "main": "bin/syncui.js",
   "files": [
@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AbhiVarde/syncui.git",
+    "url": "git+https://github.com/AbhiVarde/syncui.git",
     "directory": "cli"
   },
   "homepage": "https://syncui.design",
