@@ -1,10 +1,34 @@
-# Sync UI
+<p align="center">
+  <img alt="Sync UI" src="public/og-image.png" />
+</p>
 
-Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.
+<br />
 
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) [![skills.sh](https://skills.sh/b/AbhiVarde/syncui)](https://skills.sh/AbhiVarde/syncui) <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" height="20" /></a>
+<p align="center">
+  <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" /></a>
+</p>
 
-[Website](https://syncui.design) · [Docs](https://syncui.design/docs) · [Components](https://syncui.design/components) · [Blocks](https://syncui.design/blocks) · [Templates](https://syncui.design/templates) · [Showcase](https://syncui.design/showcase) · [npm](https://www.npmjs.com/package/@abhivarde/syncui)
+<br />
+
+<p align="center">
+  Free React UI library with 125+ components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.
+  <br />
+  <br />
+  <a href="https://github.com/AbhiVarde/syncui/stargazers"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=dark&font=geist" /><img alt="GitHub Stars" src="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=light&font=geist" /></picture></a>
+  <a href="https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/license/AbhiVarde/syncui.svg?variant=ghost&size=xs&mode=dark&font=geist" /><img alt="License" src="https://www.shieldcn.dev/github/license/AbhiVarde/syncui.svg?variant=ghost&size=xs&mode=light&font=geist" /></picture></a>
+  <a href="https://x.com/syncuidesign"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/x/follow/syncuidesign.svg?variant=branded&size=xs&mode=dark&font=geist" /><img alt="X Follow" src="https://www.shieldcn.dev/x/follow/syncuidesign.svg?variant=branded&size=xs&mode=light&font=geist" /></picture></a>
+  <a href="https://vercel.com/oss"><img alt="Vercel OSS Program Member" src="https://shieldcn.dev/badge/Vercel_OSS_Program_Member.svg?variant=branded&size=xs&theme=zinc&logo=vercel" /></a>
+</p>
+
+<p align="center">
+  <a href="https://syncui.design">Website</a> ·
+  <a href="https://syncui.design/docs">Docs</a> ·
+  <a href="https://syncui.design/components">Components</a> ·
+  <a href="https://syncui.design/blocks">Blocks</a> ·
+  <a href="https://syncui.design/templates">Templates</a> ·
+  <a href="https://syncui.design/showcase">Showcase</a> ·
+  <a href="https://www.npmjs.com/package/@abhivarde/syncui">npm</a>
+</p>
 
 ## CLI
 
