@@ -22,6 +22,15 @@ const Search = ({ docsTree = [] }) => {
 
   const isDark = theme.palette.mode === "dark";
 
+  const fg = isDark ? "#FFFFFF" : "#000000";
+  const bg = isDark ? "#000000" : "#FFFFFF";
+  const border = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+  const borderSoft = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const muted = isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)";
+  const faint = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
+  const hover = isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)";
+  const inputBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)";
+
   const filteredTree = useMemo(() => {
     return docsTree.filter(
       (item) =>
@@ -164,11 +173,7 @@ const Search = ({ docsTree = [] }) => {
           p: "4px",
         }}
       >
-        <HugeiconsIcon
-          icon={Search01Icon}
-          size={22}
-          color={isDark ? "#fff" : "#000"}
-        />
+        <HugeiconsIcon icon={Search01Icon} size={22} color={fg} />
       </IconButton>
 
       <Dialog
@@ -182,9 +187,9 @@ const Search = ({ docsTree = [] }) => {
         sx={{
           "& .MuiDialog-paper": {
             backgroundImage: "none",
-            backgroundColor: isDark ? "#111111" : "#FFFFFF",
+            backgroundColor: bg,
             borderRadius: "24px",
-            border: `1px solid ${isDark ? "#1F1F1F" : "#EEEEEE"}`,
+            border: `1px solid ${border}`,
             overflow: "hidden",
             height: "520px",
             maxHeight: "520px",
@@ -192,16 +197,16 @@ const Search = ({ docsTree = [] }) => {
             display: "flex",
             flexDirection: "column",
             boxShadow: isDark
-              ? "0 20px 80px rgba(0,0,0,.55)"
-              : "0 20px 80px rgba(0,0,0,.08)",
+              ? "0 20px 80px rgba(0,0,0,.6)"
+              : "0 20px 80px rgba(0,0,0,.1)",
           },
         }}
       >
         <Box
           sx={{
             p: 2,
-            borderBottom: `1px solid ${isDark ? "#1F1F1F" : "#EEEEEE"}`,
-            bgcolor: isDark ? "#111111" : "#FFFFFF",
+            borderBottom: `1px solid ${border}`,
+            bgcolor: bg,
           }}
         >
           <Box
@@ -217,7 +222,7 @@ const Search = ({ docsTree = [] }) => {
                 left: 14,
                 display: "flex",
                 alignItems: "center",
-                color: isDark ? "#6B6B6B" : "#9E9E9E",
+                color: muted,
                 pointerEvents: "none",
               }}
             >
@@ -234,10 +239,10 @@ const Search = ({ docsTree = [] }) => {
               style={{
                 width: "100%",
                 height: "40px",
-                border: `1px solid ${isDark ? "#1F1F1F" : "#EEEEEE"}`,
+                border: `1px solid ${border}`,
                 borderRadius: "14px",
-                background: isDark ? "#1A1A1A" : "#FAFAFA",
-                color: isDark ? "#FFFFFF" : "#111111",
+                background: inputBg,
+                color: fg,
                 padding: "0 40px",
                 outline: "none",
                 fontSize: "14px",
@@ -270,11 +275,9 @@ const Search = ({ docsTree = [] }) => {
                       fontWeight: 600,
                       textTransform: "uppercase",
                       letterSpacing: ".6px",
-                      color: isDark ? "#666" : "#999",
-                      bgcolor: isDark ? "#0f0f0f" : "#F1F1F1",
-                      borderBottom: `1px solid ${
-                        isDark ? "#181818" : "#f3f3f3"
-                      }`,
+                      color: muted,
+                      bgcolor: faint,
+                      borderBottom: `1px solid ${borderSoft}`,
                     }}
                   >
                     {category}
@@ -303,29 +306,21 @@ const Search = ({ docsTree = [] }) => {
                           px: 2,
                           py: 1.1,
                           cursor: "pointer",
-                          borderBottom: `1px solid ${
-                            isDark ? "#141414" : "#f7f7f7"
-                          }`,
-                          bgcolor: isSelected
-                            ? isDark
-                              ? "#1F1F1F"
-                              : "#EEEEEE"
-                            : isDark
-                              ? "#111111"
-                              : "#FFFFFF",
+                          borderBottom: `1px solid ${borderSoft}`,
+                          bgcolor: isSelected ? hover : bg,
                           transition: "background-color .1s ease",
                         }}
                       >
                         <HugeiconsIcon
                           icon={File02Icon}
                           size={16}
-                          color={isDark ? "#5e5e5e" : "#b0b0b0"}
+                          color={muted}
                         />
 
                         <Typography
                           sx={{
                             fontSize: "14px",
-                            color: isDark ? "#f2f2f2" : "#111",
+                            color: fg,
                             lineHeight: 1.2,
                           }}
                         >
@@ -342,10 +337,10 @@ const Search = ({ docsTree = [] }) => {
               sx={{
                 py: 10,
                 textAlign: "center",
-                color: isDark ? "#666" : "#aaa",
+                color: muted,
               }}
             >
-              <HugeiconsIcon icon={Search01Icon} size={28} />
+              <HugeiconsIcon icon={Search01Icon} size={28} color={muted} />
 
               <Typography
                 sx={{
