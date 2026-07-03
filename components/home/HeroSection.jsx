@@ -1,10 +1,9 @@
-import { Typography, Button, Box, Container, useTheme } from "@mui/material";
-import Link from "next/link";
+import { useState } from "react";
+import { Typography, Box, Container, useTheme } from "@mui/material";
 import Image from "next/image";
 
 import { SiReact, SiNextdotjs, SiJavascript, SiMui } from "react-icons/si";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { LuCopy, LuCheck } from "react-icons/lu";
 
 const TECH_ICONS = [
   { Icon: SiMui, title: "MUI", color: "#007FFF", url: "https://mui.com/" },
@@ -29,6 +28,13 @@ const TECH_ICONS = [
   { Icon: null, title: "Motion", url: "https://motion.dev/" },
 ];
 
+const COMMANDS = {
+  humans: "npx @abhivarde/syncui@latest add button",
+  agents: "npx skills add AbhiVarde/syncui",
+};
+
+const EASE = "cubic-bezier(0.22,1,0.36,1)";
+
 const MotionIcon = () => (
   <img
     src="https://framerusercontent.com/images/3aQX5dnH5Yqgsn98QXKF2ZXxIE.png"
@@ -36,8 +42,157 @@ const MotionIcon = () => (
     aria-hidden="true"
     width={26}
     height={26}
+    loading="lazy"
   />
 );
+
+const CommandBar = ({ isDark }) => {
+  const [mode, setMode] = useState("humans");
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(COMMANDS[mode]);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1200);
+  };
+
+  return (
+    <Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.25, mb: 1.25 }}>
+        {["humans", "agents"].map((tab, i) => (
+          <Box
+            key={tab}
+            sx={{ display: "flex", alignItems: "center", gap: 1.25 }}
+          >
+            {i > 0 && (
+              <Box
+                sx={{
+                  width: "1px",
+                  height: 12,
+                  backgroundColor: isDark
+                    ? "rgba(255,255,255,0.16)"
+                    : "rgba(0,0,0,0.16)",
+                }}
+              />
+            )}
+            <Box
+              component="button"
+              onClick={() => setMode(tab)}
+              sx={{
+                background: "none",
+                border: "none",
+                p: 0,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 500,
+                color: mode === tab ? "text.primary" : "text.secondary",
+                textShadow: mode === tab ? "0 0 0.3px currentColor" : "none",
+                transition: `color 0.2s ${EASE}, text-shadow 0.2s ${EASE}`,
+              }}
+            >
+              For {tab}
+            </Box>
+          </Box>
+        ))}
+      </Box>
+
+      <Box
+        sx={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 1,
+          px: 1.75,
+          py: 0.9,
+          borderRadius: 1.5,
+          border: "1px solid",
+          borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+          backgroundColor: isDark ? "#0a0a0a" : "#fafafa",
+          fontFamily: "monospace",
+          fontSize: 13,
+          maxWidth: "100%",
+          transition: `border-color 0.2s ${EASE}`,
+        }}
+      >
+        <Box component="span" sx={{ color: "text.secondary", flexShrink: 0 }}>
+          $
+        </Box>
+        <Box
+          sx={{
+            display: "inline-block",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            width: `${COMMANDS[mode].length + 0.5}ch`,
+            transition: `width 0.28s ${EASE}`,
+          }}
+        >
+          <Box
+            key={mode}
+            component="span"
+            sx={{
+              display: "inline-block",
+              animation: `cmdIn 0.28s ${EASE}`,
+              "@keyframes cmdIn": {
+                from: { opacity: 0, transform: "translateY(4px)" },
+                to: { opacity: 1, transform: "translateY(0)" },
+              },
+            }}
+          >
+            {COMMANDS[mode]}
+          </Box>
+        </Box>
+        <Box
+          component="button"
+          onClick={handleCopy}
+          aria-label="Copy command"
+          sx={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 15,
+            height: 15,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            color: "text.secondary",
+            flexShrink: 0,
+            ml: 0.5,
+            "&:hover": { color: "text.primary" },
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: copied ? 0 : 1,
+              transform: copied ? "scale(0.6)" : "scale(1)",
+              transition: `opacity 0.15s ${EASE}, transform 0.15s ${EASE}`,
+            }}
+          >
+            <LuCopy size={15} />
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: copied ? 1 : 0,
+              transform: copied ? "scale(1)" : "scale(0.6)",
+              transition: `opacity 0.15s ${EASE}, transform 0.15s ${EASE}`,
+            }}
+          >
+            <LuCheck size={15} />
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
 
 const HeroSection = () => {
   const theme = useTheme();
@@ -45,17 +200,7 @@ const HeroSection = () => {
 
   return (
     <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 } }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          animation: "heroFadeIn 0.35s cubic-bezier(0.25,0.1,0.25,1) both",
-          "@keyframes heroFadeIn": {
-            from: { opacity: 0 },
-            to: { opacity: 1 },
-          },
-        }}
-      >
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ mb: 2 }}>
           <a
             href="https://vercel.com/open-source-program"
@@ -85,7 +230,7 @@ const HeroSection = () => {
           sx={{
             fontWeight: 600,
             letterSpacing: "-0.05em",
-            mb: 1.5,
+            mb: 1,
             display: "flex",
             flexDirection: "column",
           }}
@@ -106,7 +251,7 @@ const HeroSection = () => {
               sx={{
                 display: "inline-flex",
                 alignItems: "center",
-                height: { xs: "48px", sm: "52px" },
+                height: { xs: 48, sm: 52 },
                 ml: 0.5,
               }}
             >
@@ -123,29 +268,20 @@ const HeroSection = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    width: { xs: "48px", sm: "52px" },
-                    height: { xs: "48px", sm: "52px" },
+                    width: { xs: 48, sm: 52 },
+                    height: { xs: 48, sm: 52 },
                     borderRadius: "50%",
                     border: "3px solid",
                     borderColor: isDark ? "#000" : "#fff",
                     ml: index > 0 ? { xs: "-8px", sm: "-15px" } : 0,
                     zIndex: 5 - index,
                     backgroundColor: isDark ? "#1a1a1a" : "#fff",
-                    boxShadow: isDark
-                      ? "0 2px 8px rgba(0,0,0,0.4)"
-                      : "0 2px 8px rgba(0,0,0,0.1)",
                     overflow: "hidden",
                     textDecoration: "none",
-                    // GPU-composited — only transform & opacity, never layout props
-                    willChange: "transform",
-                    transition:
-                      "transform 0.18s cubic-bezier(0.4,0,0.2,1), box-shadow 0.18s cubic-bezier(0.4,0,0.2,1)",
+                    transition: `transform 0.15s ${EASE}`,
                     "&:hover": {
-                      transform: "translateY(-6px) scale(1.12)",
+                      transform: "translateY(-4px) scale(1.1)",
                       zIndex: 10,
-                      boxShadow: isDark
-                        ? "0 6px 16px rgba(0,0,0,0.5)"
-                        : "0 6px 16px rgba(0,0,0,0.2)",
                     },
                   }}
                 >
@@ -172,85 +308,15 @@ const HeroSection = () => {
           variant="body1"
           sx={{
             color: "text.secondary",
-            mb: 3,
-            fontSize: { xs: "16px", sm: "18px" },
-            lineHeight: 1.6,
+            mb: 2,
+            fontSize: { xs: 16, sm: 18 },
           }}
         >
-          125+ components, 13+ blocks, and premium templates built with MUI and
-          Motion. Add anything via CLI or copy directly into your project.
+          Animated components, blocks, and templates for React. Copy them in,
+          install with a CLI, or hand them to your coding agent.
         </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1.5,
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <Link href="/docs">
-            <Button
-              variant="contained"
-              sx={{
-                px: { xs: 2, sm: 2.5 },
-                py: 0.4,
-                borderRadius: 1.5,
-                textTransform: "none",
-                fontWeight: 500,
-                boxShadow: isDark
-                  ? "0 4px 12px rgba(0,0,0,0.4)"
-                  : "0 1px 4px rgba(0,0,0,0.12)",
-                transition: "box-shadow 0.18s ease",
-                "&:hover": {
-                  boxShadow: isDark
-                    ? "0 6px 16px rgba(0,0,0,0.5)"
-                    : "0 4px 12px rgba(0,0,0,0.18)",
-                },
-              }}
-            >
-              Get started
-            </Button>
-          </Link>
-
-          <Button
-            component="a"
-            href="https://www.npmjs.com/package/@abhivarde/syncui"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="text"
-            sx={{
-              px: { xs: 2, sm: 2.5 },
-              py: 0.4,
-              borderRadius: 1.5,
-              textTransform: "none",
-              fontWeight: 500,
-              color: "text.primary",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 0.5,
-              "&:hover": {
-                backgroundColor: isDark
-                  ? "rgba(255,255,255,0.04)"
-                  : "rgba(0,0,0,0.04)",
-                "& .arrow": { transform: "translateX(3px)" },
-              },
-            }}
-          >
-            Install CLI
-            <Box
-              component="span"
-              className="arrow"
-              sx={{
-                display: "inline-flex",
-                transition: "transform 0.15s ease",
-                willChange: "transform",
-              }}
-            >
-              <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-            </Box>
-          </Button>
-        </Box>
+        <CommandBar isDark={isDark} />
       </Box>
     </Container>
   );
