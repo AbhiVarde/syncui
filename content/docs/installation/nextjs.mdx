@@ -7,33 +7,74 @@ description: Set up Sync UI in your Next.js project.
 
 You'll need an existing Next.js project with a package manager installed (npm, yarn, pnpm, or bun).
 
-#### Install dependencies
-
-Add the required packages for Sync UI to your project:
+#### Initialize Sync UI
 
 <PackageManagerTabs
-  npm="npm install @mui/material @emotion/react @emotion/styled motion react-icons"
-  yarn="yarn add @mui/material @emotion/react @emotion/styled motion react-icons"
-  pnpm="pnpm add @mui/material @emotion/react @emotion/styled motion react-icons"
-  bun="bun add @mui/material @emotion/react @emotion/styled motion react-icons"
+  npm="npx @abhivarde/syncui@latest init"
+  yarn="yarn dlx @abhivarde/syncui@latest init"
+  pnpm="pnpm dlx @abhivarde/syncui@latest init"
+  bun="bunx --bun @abhivarde/syncui@latest init"
 />
 
-#### Use the CLI
+This creates a `components.json` config and installs the base dependencies.
 
-Add a component or block directly into your project:
+#### Wrap your app in ThemeProvider
+
+App Router needs a client boundary at the provider level.
+
+```jsx
+"use client";
+import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+
+const theme = createTheme({
+  palette: { mode: "dark" },
+  typography: { fontFamily: "inherit" },
+});
+
+export function Providers({ children }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+<br />
+
+```jsx
+import { Providers } from "@/components/providers";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+<br />
+
+Using Pages Router instead? See [Manual Setup](/docs/installation/manual).
+
+Any Sync UI component used inside the App Router also needs `"use client"` at the top.
+
+#### Add your first component
 
 <PackageManagerTabs
-  npm="npx @abhivarde/syncui@latest add accordion"
-  yarn="yarn dlx @abhivarde/syncui@latest add accordion"
-  pnpm="pnpm dlx @abhivarde/syncui@latest add accordion"
-  bun="bunx --bun @abhivarde/syncui@latest add accordion"
+  npm="npx @abhivarde/syncui@latest add hero"
+  yarn="yarn dlx @abhivarde/syncui@latest add hero"
+  pnpm="pnpm dlx @abhivarde/syncui@latest add hero"
+  bun="bunx --bun @abhivarde/syncui@latest add hero"
 />
 
-Add a specific variant with `name/variant`, for example `accordion/brutalist`.
+Add a specific variant with `name/variant`, for example `hero/left`. Dependencies install automatically, pass `--skip-install` to skip.
 
 #### Start development
-
-Launch your development server:
 
 <PackageManagerTabs
   npm="npm run dev"
@@ -42,11 +83,9 @@ Launch your development server:
   bun="bun dev"
 />
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see your app running.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 #### You're all set
-
-Browse our library and start building.
 
 → Check out [Components](/components), copy paste ready UI elements
 

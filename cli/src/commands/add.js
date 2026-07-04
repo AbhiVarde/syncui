@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const { runInstall } = require("../utils/install");
+const { detectExistingAlias } = require("../utils/aliases");
 
 const REGISTRY_URL = "https://syncui.design/r";
 
@@ -22,6 +24,26 @@ function resolveKey(input, keys) {
   return null;
 }
 
+function loadConfig() {
+  const configPath = path.join(process.cwd(), "components.json");
+  if (!fs.existsSync(configPath)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  } catch {
+    return null;
+  }
+}
+
+function resolveAliasPath(aliasString, tsx) {
+  if (!aliasString) return null;
+
+  const resolved = detectExistingAlias(tsx);
+  if (!resolved) return null;
+
+  const rest = aliasString.replace(`${resolved.prefix}/`, "");
+  return path.join(process.cwd(), resolved.target, rest);
+}
+
 function getDefaultBase() {
   const hasSrc = fs.existsSync(path.join(process.cwd(), "src"));
   return hasSrc ? path.join(process.cwd(), "src") : process.cwd();
@@ -38,6 +60,7 @@ async function add(rawName, options) {
   }
 
   const [rawCategory, rawVariant] = rawName.toLowerCase().split("/");
+  const config = loadConfig();
 
   process.stdout.write("  Fetching registry...\r");
 
@@ -78,6 +101,11 @@ async function add(rawName, options) {
 
   const outDir =
     options.path ||
+    (config &&
+      resolveAliasPath(
+        isBlock ? config.aliases?.blocks : config.aliases?.components,
+        config.tsx,
+      )) ||
     path.join(
       getDefaultBase(),
       "components",
@@ -108,10 +136,21 @@ async function add(rawName, options) {
   process.stdout.write("                      \r");
   console.log(`✓ Added ${label} → ${path.relative(process.cwd(), outFile)}`);
 
-  if (entry.dependencies && entry.dependencies.length) {
-    console.log("");
-    console.log("Install dependencies if you haven't already:");
-    console.log(`  npm install ${entry.dependencies.join(" ")}`);
+  const result = runInstall(entry.dependencies, {
+    skipInstall: options.skipInstall,
+  });
+
+  console.log("");
+  if (result.alreadySatisfied) {
+    console.log("✓ All dependencies already installed");
+  } else if (result.skipped) {
+    console.log("Skipped install (--skip-install). Install manually:");
+    console.log(`  ${result.cmd}`);
+  } else if (result.success) {
+    console.log("✓ Dependencies installed");
+  } else if (result.cmd) {
+    console.error("✗ Auto-install failed. Run this manually:");
+    console.error(`  ${result.cmd}`);
   }
 }
 

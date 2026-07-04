@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { Command } = require("commander");
 const { add } = require("../src/commands/add");
+const { init } = require("../src/commands/init");
 const packageJson = require("../package.json");
 
 const REGISTRY_URL = "https://syncui.design/r";
@@ -13,10 +14,25 @@ program
   .version(packageJson.version);
 
 program
+  .command("init")
+  .description(
+    "Set up Sync UI in your project (creates components.json, installs base deps)",
+  )
+  .option("-o, --overwrite", "overwrite existing components.json", false)
+  .option("--skip-install", "skip automatic dependency installation", false)
+  .action((options) =>
+    init(options).catch((e) => {
+      console.error(e.message);
+      process.exit(1);
+    }),
+  );
+
+program
   .command("add <name>")
   .description("Add a component or block, e.g. `syncui add accordion`")
   .option("-p, --path <dir>", "output directory")
   .option("-o, --overwrite", "overwrite if file exists", false)
+  .option("--skip-install", "skip automatic dependency installation", false)
   .action((name, options) =>
     add(name, options).catch((e) => {
       console.error(e.message);

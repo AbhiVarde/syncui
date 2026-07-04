@@ -7,33 +7,47 @@ description: Set up Sync UI in your Vite project.
 
 You'll need an existing Vite project with a package manager installed (npm, yarn, pnpm, or bun).
 
-#### Install dependencies
-
-Add the required packages for Sync UI to your project:
+#### Initialize Sync UI
 
 <PackageManagerTabs
-  npm="npm install @mui/material @emotion/react @emotion/styled motion react-icons"
-  yarn="yarn add @mui/material @emotion/react @emotion/styled motion react-icons"
-  pnpm="pnpm add @mui/material @emotion/react @emotion/styled motion react-icons"
-  bun="bun add @mui/material @emotion/react @emotion/styled motion react-icons"
+  npm="npx @abhivarde/syncui@latest init"
+  yarn="yarn dlx @abhivarde/syncui@latest init"
+  pnpm="pnpm dlx @abhivarde/syncui@latest init"
+  bun="bunx --bun @abhivarde/syncui@latest init"
 />
 
-#### Use the CLI
+This creates a `components.json` config and installs the base dependencies.
 
-Add a component or block directly into your project:
+#### Wrap your app in ThemeProvider
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+import App from "./App";
+
+const theme = createTheme({ palette: { mode: "dark" } });
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
+);
+```
+
+#### Add your first component
 
 <PackageManagerTabs
-  npm="npx @abhivarde/syncui@latest add accordion"
-  yarn="yarn dlx @abhivarde/syncui@latest add accordion"
-  pnpm="pnpm dlx @abhivarde/syncui@latest add accordion"
-  bun="bunx --bun @abhivarde/syncui@latest add accordion"
+  npm="npx @abhivarde/syncui@latest add hero"
+  yarn="yarn dlx @abhivarde/syncui@latest add hero"
+  pnpm="pnpm dlx @abhivarde/syncui@latest add hero"
+  bun="bunx --bun @abhivarde/syncui@latest add hero"
 />
 
-Add a specific variant with `name/variant`, for example `accordion/brutalist`.
+Add a specific variant with `name/variant`, for example `hero/left`. Dependencies install automatically, pass `--skip-install` to skip.
 
 #### Start development
-
-Launch your development server:
 
 <PackageManagerTabs
   npm="npm run dev"
@@ -42,11 +56,9 @@ Launch your development server:
   bun="bun dev"
 />
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to see your app running.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 #### You're all set
-
-Browse our library and start building.
 
 → Check out [Components](/components), copy paste ready UI elements
 
