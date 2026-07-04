@@ -29,7 +29,7 @@ const TECH_ICONS = [
 ];
 
 const COMMANDS = {
-  humans: "npx @abhivarde/syncui@latest add button",
+  humans: "npx @abhivarde/syncui@latest add hero",
   agents: "npx skills add AbhiVarde/syncui",
 };
 
