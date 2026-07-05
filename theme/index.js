@@ -173,6 +173,9 @@ const createResponsiveTheme = (palette) => {
   const theme = createTheme({
     ...baseTheme,
     palette,
+    cssVariables: {
+      cssVarPrefix: "syncui",
+    },
     components: {
       ...baseTheme.components,
       MuiTooltip: {
