@@ -212,6 +212,65 @@ server.tool(
   },
 );
 
+server.tool(
+  "get_design_system",
+  "Get the full Sync UI design system: styling approach, theme modes, and every component/block with its variants. Use this to import Sync UI as a design system for AI-assisted design or code generation.",
+  {},
+  async () => {
+    const components = load("components.json");
+    const blocks = load("blocks.json");
+    const variants = load("variants.json");
+
+    const format = (registry, type) =>
+      Object.keys(registry).map((name) => {
+        const v = variants[name];
+        const variantKeys = v ? Object.keys(v.variants) : [];
+        return {
+          name,
+          type,
+          fileName: registry[name].fileName,
+          defaultVariant: v?.default ?? variantKeys[0] ?? null,
+          variants: variantKeys,
+          dependencies: registry[name].dependencies,
+        };
+      });
+
+    const manifest = [
+      ...format(components, "component"),
+      ...format(blocks, "block"),
+    ];
+
+    const designSystem = {
+      name: "syncui",
+      description:
+        "Animated React component library built with MUI (Material UI) and Motion (motion/react)",
+      styling: {
+        library: "@mui/material",
+        stylingApproach: "sx prop, no className or plain CSS",
+        animation: "motion/react",
+        animationNote: "never import from framer-motion, use motion/react",
+        themeModes: ["light", "dark"],
+        themeSystem:
+          "MUI ThemeProvider with palette.mode, see setup docs for framework-specific wiring",
+      },
+      totalComponents: Object.keys(components).length,
+      totalBlocks: Object.keys(blocks).length,
+      manifest,
+      docsUrl: "https://syncui.design/docs",
+      registryUrl: "https://syncui.design/r/index.json",
+    };
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(designSystem, null, 2),
+        },
+      ],
+    };
+  },
+);
+
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);

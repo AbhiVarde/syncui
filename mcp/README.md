@@ -23,12 +23,13 @@ Add the same config to your MCP settings file.
 
 ## Tools
 
-| Tool                 | Description                                         |
-| -------------------- | --------------------------------------------------- |
-| `list_components`    | List all components and blocks with variants        |
-| `get_component`      | Get source code for a specific component or variant |
-| `get_component_full` | Get the full multi-variant source file              |
-| `search_components`  | Search by keyword, dependency, or type              |
+| Tool                 | Description                                                    |
+| -------------------- | -------------------------------------------------------------- |
+| `list_components`    | List all components and blocks with variants                   |
+| `get_component`      | Get source code for a specific component or variant            |
+| `get_component_full` | Get the full multi-variant source file                         |
+| `search_components`  | Search by keyword, dependency, or type                         |
+| `get_design_system`  | Get the full design system: styling, theme modes, and manifest |
 
 ## Usage
 
@@ -37,6 +38,7 @@ Once connected, ask your AI agent:
 - "List all Sync UI components"
 - "Get the neubrutalism button from Sync UI"
 - "Add the lens card from Sync UI to my project"
+- "Import the Sync UI design system"
 
 ## Links
 
