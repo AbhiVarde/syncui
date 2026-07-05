@@ -1,6 +1,6 @@
 {
   "name": "@abhivarde/syncui-mcp",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "MCP server for Sync UI",
   "main": "src/index.js",
   "bin": {

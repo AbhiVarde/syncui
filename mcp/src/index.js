@@ -9,9 +9,20 @@ const path = require("path");
 const fs = require("fs");
 
 const REGISTRY = path.join(__dirname, "../../cli/registry");
+const TOKENS_URL = "https://syncui.design/tokens.json";
 
 const load = (file) =>
   JSON.parse(fs.readFileSync(path.join(REGISTRY, file), "utf-8"));
+
+async function fetchTokens() {
+  try {
+    const res = await fetch(TOKENS_URL);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
 
 const server = new McpServer({
   name: "syncui",
@@ -214,12 +225,13 @@ server.tool(
 
 server.tool(
   "get_design_system",
-  "Get the full Sync UI design system: styling approach, theme modes, and every component/block with its variants. Use this to import Sync UI as a design system for AI-assisted design or code generation.",
+  "Get the full Sync UI design system: theme tokens, styling approach, theme modes, and every component/block with its variants. Use this to import Sync UI as a design system for AI-assisted design or code generation.",
   {},
   async () => {
     const components = load("components.json");
     const blocks = load("blocks.json");
     const variants = load("variants.json");
+    const tokens = await fetchTokens();
 
     const format = (registry, type) =>
       Object.keys(registry).map((name) => {
@@ -253,6 +265,10 @@ server.tool(
         themeSystem:
           "MUI ThemeProvider with palette.mode, see setup docs for framework-specific wiring",
       },
+      tokens: tokens || null,
+      tokensNote: tokens
+        ? undefined
+        : `Could not fetch live tokens from ${TOKENS_URL}. Static fallback: see https://syncui.design/tokens.json directly.`,
       totalComponents: Object.keys(components).length,
       totalBlocks: Object.keys(blocks).length,
       manifest,
