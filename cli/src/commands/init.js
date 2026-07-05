@@ -34,7 +34,6 @@ function detectTypeScript() {
 
 function writeConfig(framework, tsx, alias) {
   const config = {
-    $schema: "https://syncui.design/schema.json",
     style: "default",
     framework,
     tsx,

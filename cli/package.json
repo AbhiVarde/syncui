@@ -1,6 +1,6 @@
 {
   "name": "@abhivarde/syncui",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Add Sync UI components and blocks to your project with a single command, like shadcn/ui.",
   "bin": {
     "syncui": "bin/syncui.js"
