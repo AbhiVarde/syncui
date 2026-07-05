@@ -5,23 +5,43 @@ const {
   StdioServerTransport,
 } = require("@modelcontextprotocol/sdk/server/stdio.js");
 const { z } = require("zod");
-const path = require("path");
-const fs = require("fs");
 
-const REGISTRY = path.join(__dirname, "../../cli/registry");
+const REGISTRY_URL = "https://syncui.design/r";
 const TOKENS_URL = "https://syncui.design/tokens.json";
 
-const load = (file) =>
-  JSON.parse(fs.readFileSync(path.join(REGISTRY, file), "utf-8"));
-
-async function fetchTokens() {
+async function fetchJSON(url) {
   try {
-    const res = await fetch(TOKENS_URL);
+    const res = await fetch(url);
     if (!res.ok) return null;
     return await res.json();
   } catch {
     return null;
   }
+}
+
+async function fetchIndex() {
+  return fetchJSON(`${REGISTRY_URL}/index.json`);
+}
+
+async function fetchEntry(name) {
+  return fetchJSON(`${REGISTRY_URL}/${name}.json`);
+}
+
+async function fetchAllEntries() {
+  const index = await fetchIndex();
+  if (!index) return { index: null, entries: {} };
+
+  const names = [...(index.components || []), ...(index.blocks || [])];
+  const results = await Promise.all(
+    names.map(async (name) => [name, await fetchEntry(name)]),
+  );
+
+  const entries = {};
+  for (const [name, entry] of results) {
+    if (entry) entries[name] = entry;
+  }
+
+  return { index, entries };
 }
 
 const server = new McpServer({
@@ -34,27 +54,24 @@ server.tool(
   "List all Sync UI components and blocks with variants",
   {},
   async () => {
-    const components = load("components.json");
-    const blocks = load("blocks.json");
-    const variants = load("variants.json");
+    const { index, entries } = await fetchAllEntries();
 
-    const format = (registry, type) =>
-      Object.keys(registry).map((name) => {
-        const v = variants[name];
-        const variantKeys = v ? Object.keys(v.variants) : [];
-        return {
-          name,
-          type,
-          defaultVariant: v?.default ?? variantKeys[0] ?? null,
-          variants: variantKeys,
-          dependencies: registry[name].dependencies,
-        };
-      });
+    if (!index) {
+      return {
+        isError: true,
+        content: [
+          { type: "text", text: "Could not reach the syncui registry." },
+        ],
+      };
+    }
 
-    const result = [
-      ...format(components, "component"),
-      ...format(blocks, "block"),
-    ];
+    const result = Object.entries(entries).map(([name, entry]) => ({
+      name,
+      type: entry.type,
+      defaultVariant: entry.default,
+      variants: Object.keys(entry.variants || {}),
+      dependencies: entry.dependencies,
+    }));
 
     return {
       content: [
@@ -82,43 +99,37 @@ server.tool(
       .describe("Variant name e.g. neubrutalism, lens. Omit for default."),
   },
   async ({ name, variant }) => {
-    const registry = { ...load("components.json"), ...load("blocks.json") };
-    const variants = load("variants.json");
+    const entry = await fetchEntry(name.toLowerCase());
 
-    const item = registry[name];
-    if (!item) {
+    if (!entry) {
+      const index = await fetchIndex();
+      const available = index
+        ? [...(index.components || []), ...(index.blocks || [])].join(", ")
+        : "unknown";
       return {
         isError: true,
         content: [
           {
             type: "text",
-            text: `"${name}" not found. Available: ${Object.keys(registry).join(", ")}`,
+            text: `"${name}" not found. Available: ${available}`,
           },
         ],
       };
     }
 
-    const v = variants[name];
-    let code, resolvedVariant;
+    const resolvedVariant = variant || entry.default;
+    const variantEntry = entry.variants?.[resolvedVariant];
 
-    if (v) {
-      resolvedVariant = variant || v.default;
-      const entry = v.variants[resolvedVariant];
-      if (!entry) {
-        return {
-          isError: true,
-          content: [
-            {
-              type: "text",
-              text: `Variant "${resolvedVariant}" not found. Available: ${Object.keys(v.variants).join(", ")}`,
-            },
-          ],
-        };
-      }
-      code = entry.code;
-    } else {
-      code = item.code;
-      resolvedVariant = "default";
+    if (!variantEntry) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: "text",
+            text: `Variant "${resolvedVariant}" not found. Available: ${Object.keys(entry.variants || {}).join(", ")}`,
+          },
+        ],
+      };
     }
 
     return {
@@ -129,11 +140,11 @@ server.tool(
             {
               name,
               variant: resolvedVariant,
-              type: item.type,
-              fileName: item.fileName,
-              dependencies: item.dependencies,
-              installCommand: `npm install ${item.dependencies.join(" ")}`,
-              code,
+              type: entry.type,
+              fileName: entry.fileName,
+              dependencies: entry.dependencies,
+              installCommand: `npm install ${(entry.dependencies || []).join(" ")}`,
+              code: variantEntry.code,
             },
             null,
             2,
@@ -146,19 +157,22 @@ server.tool(
 
 server.tool(
   "get_component_full",
-  "Get the full multi-variant source file for a component",
+  "Get every variant's source code for a component in one call",
   { name: z.string().describe("Component name") },
   async ({ name }) => {
-    const registry = { ...load("components.json"), ...load("blocks.json") };
-    const item = registry[name];
+    const entry = await fetchEntry(name.toLowerCase());
 
-    if (!item) {
+    if (!entry) {
+      const index = await fetchIndex();
+      const available = index
+        ? [...(index.components || []), ...(index.blocks || [])].join(", ")
+        : "unknown";
       return {
         isError: true,
         content: [
           {
             type: "text",
-            text: `"${name}" not found. Available: ${Object.keys(registry).join(", ")}`,
+            text: `"${name}" not found. Available: ${available}`,
           },
         ],
       };
@@ -171,11 +185,12 @@ server.tool(
           text: JSON.stringify(
             {
               name,
-              type: item.type,
-              fileName: item.fileName,
-              dependencies: item.dependencies,
-              installCommand: `npm install ${item.dependencies.join(" ")}`,
-              code: item.code,
+              type: entry.type,
+              fileName: entry.fileName,
+              dependencies: entry.dependencies,
+              installCommand: `npm install ${(entry.dependencies || []).join(" ")}`,
+              default: entry.default,
+              variants: entry.variants,
             },
             null,
             2,
@@ -191,21 +206,21 @@ server.tool(
   "Search Sync UI components by keyword",
   { query: z.string().describe("Search term e.g. form, animation, mui") },
   async ({ query }) => {
-    const registry = { ...load("components.json"), ...load("blocks.json") };
+    const { entries } = await fetchAllEntries();
     const q = query.toLowerCase();
 
-    const results = Object.entries(registry)
+    const results = Object.entries(entries)
       .filter(
-        ([name, item]) =>
+        ([name, entry]) =>
           name.includes(q) ||
-          item.type.includes(q) ||
-          item.dependencies.some((d) => d.includes(q)),
+          entry.type?.includes(q) ||
+          (entry.dependencies || []).some((d) => d.includes(q)),
       )
-      .map(([name, item]) => ({
+      .map(([name, entry]) => ({
         name,
-        type: item.type,
-        fileName: item.fileName,
-        dependencies: item.dependencies,
+        type: entry.type,
+        fileName: entry.fileName,
+        dependencies: entry.dependencies,
       }));
 
     return {
@@ -228,29 +243,26 @@ server.tool(
   "Get the full Sync UI design system: theme tokens, styling approach, theme modes, and every component/block with its variants. Use this to import Sync UI as a design system for AI-assisted design or code generation.",
   {},
   async () => {
-    const components = load("components.json");
-    const blocks = load("blocks.json");
-    const variants = load("variants.json");
-    const tokens = await fetchTokens();
+    const { index, entries } = await fetchAllEntries();
+    const tokens = await fetchJSON(TOKENS_URL);
 
-    const format = (registry, type) =>
-      Object.keys(registry).map((name) => {
-        const v = variants[name];
-        const variantKeys = v ? Object.keys(v.variants) : [];
-        return {
-          name,
-          type,
-          fileName: registry[name].fileName,
-          defaultVariant: v?.default ?? variantKeys[0] ?? null,
-          variants: variantKeys,
-          dependencies: registry[name].dependencies,
-        };
-      });
+    if (!index) {
+      return {
+        isError: true,
+        content: [
+          { type: "text", text: "Could not reach the syncui registry." },
+        ],
+      };
+    }
 
-    const manifest = [
-      ...format(components, "component"),
-      ...format(blocks, "block"),
-    ];
+    const manifest = Object.entries(entries).map(([name, entry]) => ({
+      name,
+      type: entry.type,
+      fileName: entry.fileName,
+      defaultVariant: entry.default,
+      variants: Object.keys(entry.variants || {}),
+      dependencies: entry.dependencies,
+    }));
 
     const designSystem = {
       name: "syncui",
@@ -268,9 +280,9 @@ server.tool(
       tokens: tokens || null,
       tokensNote: tokens
         ? undefined
-        : `Could not fetch live tokens from ${TOKENS_URL}. Static fallback: see https://syncui.design/tokens.json directly.`,
-      totalComponents: Object.keys(components).length,
-      totalBlocks: Object.keys(blocks).length,
+        : `Could not fetch live tokens from ${TOKENS_URL}.`,
+      totalComponents: (index.components || []).length,
+      totalBlocks: (index.blocks || []).length,
       manifest,
       docsUrl: "https://syncui.design/docs",
       registryUrl: "https://syncui.design/r/index.json",
