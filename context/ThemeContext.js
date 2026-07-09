@@ -7,29 +7,9 @@ const ThemeContext = createContext({
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    // Prevent flash by setting theme immediately
-    if (savedTheme) {
-      const isDark = savedTheme === "dark";
-      setIsDarkMode(isDark);
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      // Default to dark theme
-      setIsDarkMode(true);
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
-
-    // Mark as initialized after theme is set
-    setIsInitialized(true);
+    setIsDarkMode(document.documentElement.classList.contains("dark"));
   }, []);
 
   const switchTheme = () => {
@@ -46,20 +26,15 @@ export const ThemeProvider = ({ children }) => {
   };
 
   const toggleTheme = () => {
-    if (!document.startViewTransition || !isInitialized) {
+    if (!document.startViewTransition) {
       switchTheme();
       return;
     }
 
-    // Use view transition for smooth animation
     document.startViewTransition(() => {
       switchTheme();
     });
   };
-
-  if (!isInitialized) {
-    return null;
-  }
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
