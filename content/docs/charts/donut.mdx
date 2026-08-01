@@ -1,0 +1,321 @@
+---
+title: Donut
+description: Animated donut chart component for React. Use via CLI or copy the code.
+---
+
+Donut charts built with Recharts, styled in black and white with your MUI theme, with an animated running total centered in the ring. Install via CLI or copy the code into your project.
+
+#### Default
+
+A single ring with the total counting up at the center.
+
+<CodePreview
+  preview={<Donut variant="default" />}
+  cli="charts/donut/default"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+} from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const data = [
+  { label: "Passing", value: 640 },
+  { label: "Flagged", value: 90 },
+  { label: "Failing", value: 30 },
+];
+
+const RING_SIZE = 200;
+
+const CustomTooltip = ({ active, payload, mono }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <Box
+      sx={{
+        bgcolor: mono.bg,
+        border: "1px solid",
+        borderColor: mono.fg,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" sx={{ color: mono.fg, opacity: 0.6 }}>
+        {payload[0].name}
+      </Typography>
+      <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+        {payload[0].value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
+const CenterValue = ({ value, mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.8, ease: "easeOut" });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const DonutDefault = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    bg: isDark ? "#000000" : "#FFFFFF",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  const total = data.reduce((sum, d) => sum + d.value, 0);
+  const colors = data.map((_, i) => (i === 0 ? mono.fg : \`\${mono.fg}\${Math.max(15, 55 - i * 18)}\`));
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Box sx={{ position: "relative", width: RING_SIZE, height: RING_SIZE }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Tooltip content={<CustomTooltip mono={mono} />} />
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="label"
+              innerRadius="68%"
+              outerRadius="100%"
+              paddingAngle={3}
+              cornerRadius={4}
+              isAnimationActive
+              animationDuration={700}
+              stroke="none"
+            >
+              {data.map((_, i) => (
+                <Cell key={i} fill={colors[i]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 500 }}>
+            <CenterValue value={total} mono={mono} />
+          </Typography>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            Total
+          </Typography>
+        </Box>
+      </Box>
+    </MotionPaper>
+  );
+};
+
+export default DonutDefault;
+`}
+/>
+
+#### Legend
+
+Same fixed-size ring paired with a side legend, so it never shrinks relative to Default.
+
+<CodePreview
+  preview={<Donut variant="legend" />}
+  cli="charts/donut/legend"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, Stack, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+} from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const data = [
+  { label: "Passing", value: 640 },
+  { label: "Flagged", value: 90 },
+  { label: "Failing", value: 30 },
+];
+
+const RING_SIZE = 200;
+
+const CustomTooltip = ({ active, payload, mono }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <Box
+      sx={{
+        bgcolor: mono.bg,
+        border: "1px solid",
+        borderColor: mono.fg,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" sx={{ color: mono.fg, opacity: 0.6 }}>
+        {payload[0].name}
+      </Typography>
+      <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+        {payload[0].value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
+const CenterValue = ({ value, mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.8, ease: "easeOut" });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const Legend = ({ colors, mono }) => (
+  <Stack spacing={1.25} justifyContent="center" sx={{ minWidth: 0 }}>
+    {data.map((d, i) => (
+      <Stack key={d.label} direction="row" spacing={1} alignItems="center">
+        <Box sx={{ width: 8, height: 8, borderRadius: "2px", bgcolor: colors[i], flexShrink: 0 }} />
+        <Typography variant="body2" sx={{ color: mono.fg, whiteSpace: "nowrap" }}>
+          {d.label}
+        </Typography>
+        <Typography variant="caption" sx={{ color: mono.axis, ml: "auto !important", pl: 2 }}>
+          {d.value.toLocaleString()}
+        </Typography>
+      </Stack>
+    ))}
+  </Stack>
+);
+
+const DonutLegend = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    bg: isDark ? "#000000" : "#FFFFFF",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  const total = data.reduce((sum, d) => sum + d.value, 0);
+  const colors = data.map((_, i) => (i === 0 ? mono.fg : \`\${mono.fg}\${Math.max(15, 55 - i * 18)}\`));
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Stack direction="row" spacing={4} alignItems="center" justifyContent="center">
+        <Box sx={{ position: "relative", width: RING_SIZE, height: RING_SIZE, flexShrink: 0 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Tooltip content={<CustomTooltip mono={mono} />} />
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="label"
+                innerRadius="68%"
+                outerRadius="100%"
+                paddingAngle={3}
+                cornerRadius={4}
+                isAnimationActive
+                animationDuration={700}
+                stroke="none"
+              >
+                {data.map((_, i) => (
+                  <Cell key={i} fill={colors[i]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              pointerEvents: "none",
+            }}
+          >
+            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+              <CenterValue value={total} mono={mono} />
+            </Typography>
+            <Typography variant="caption" sx={{ color: mono.axis }}>
+              Total
+            </Typography>
+          </Box>
+        </Box>
+        <Legend colors={colors} mono={mono} />
+      </Stack>
+    </MotionPaper>
+  );
+};
+
+export default DonutLegend;
+`}
+/>

@@ -14,11 +14,7 @@ import {
 
 const containerVariants = {
   hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
+  show: { transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants = {
@@ -26,19 +22,32 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
-const StatsVariants = ({ variant = "simple" }) => {
+const StatsVariants = ({ variant = "simple", height }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+  const compact = Boolean(height);
 
   const renderStats = () => {
     switch (variant) {
-      case "simple":
+      case "simple": {
+        const stats = [
+          { value: "1B+", label: "API requests per day" },
+          { value: "99.9%", label: "Uptime guaranteed" },
+          { value: "<200ms", label: "Median latency" },
+          { value: "180+", label: "Countries served" },
+        ];
+        const visible = compact ? stats.slice(0, 3) : stats;
+
         return (
           <Box
             sx={{
               backgroundColor: isDark ? "#000" : "#FFF",
               color: isDark ? "#FFF" : "#000",
-              py: { xs: 6, md: 10 },
+              py: compact ? 2 : { xs: 6, md: 10 },
+              height: compact ? height : undefined,
+              overflow: compact ? "hidden" : "visible",
+              display: compact ? "flex" : "block",
+              alignItems: compact ? "center" : undefined,
             }}
           >
             <Container maxWidth="lg">
@@ -52,18 +61,13 @@ const StatsVariants = ({ variant = "simple" }) => {
                     display: "grid",
                     gridTemplateColumns: {
                       xs: "1fr 1fr",
-                      md: "repeat(4, 1fr)",
+                      md: `repeat(${visible.length}, 1fr)`,
                     },
-                    gap: { xs: 4, md: 2 },
+                    gap: compact ? 2 : { xs: 4, md: 2 },
                     px: { xs: 2, sm: 3 },
                   }}
                 >
-                  {[
-                    { value: "1B+", label: "API requests per day" },
-                    { value: "99.9%", label: "Uptime guaranteed" },
-                    { value: "<200ms", label: "Median latency" },
-                    { value: "180+", label: "Countries served" },
-                  ].map((stat, i) => (
+                  {visible.map((stat, i) => (
                     <motion.div key={i} variants={itemVariants}>
                       <Box
                         sx={{
@@ -73,7 +77,7 @@ const StatsVariants = ({ variant = "simple" }) => {
                         }}
                       >
                         <Typography
-                          variant="h3"
+                          variant={compact ? "h5" : "h3"}
                           sx={{
                             fontWeight: 500,
                             lineHeight: 1,
@@ -83,7 +87,7 @@ const StatsVariants = ({ variant = "simple" }) => {
                           {stat.value}
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant={compact ? "caption" : "body2"}
                           sx={{
                             fontWeight: 400,
                             color: isDark
@@ -102,14 +106,47 @@ const StatsVariants = ({ variant = "simple" }) => {
             </Container>
           </Box>
         );
+      }
 
-      case "with-icons":
+      case "with-icons": {
+        const stats = [
+          {
+            icon: FiUsers,
+            value: "50K+",
+            label: "Developers",
+            sublabel: "Building with our API",
+          },
+          {
+            icon: FiTrendingUp,
+            value: "10x",
+            label: "Faster shipping",
+            sublabel: "Reported by customers",
+          },
+          {
+            icon: FiShield,
+            value: "99.9%",
+            label: "Uptime SLA",
+            sublabel: "Enterprise reliability",
+          },
+          {
+            icon: FiStar,
+            value: "4.9",
+            label: "Rating",
+            sublabel: "From 12,000+ reviews",
+          },
+        ];
+        const visible = compact ? stats.slice(0, 2) : stats;
+
         return (
           <Box
             sx={{
               backgroundColor: isDark ? "#000" : "#FFF",
               color: isDark ? "#FFF" : "#000",
-              py: { xs: 6, md: 10 },
+              py: compact ? 2 : { xs: 6, md: 10 },
+              height: compact ? height : undefined,
+              overflow: compact ? "hidden" : "visible",
+              display: compact ? "flex" : "block",
+              alignItems: compact ? "center" : undefined,
             }}
           >
             <Container maxWidth="lg">
@@ -118,76 +155,38 @@ const StatsVariants = ({ variant = "simple" }) => {
                 initial="hidden"
                 animate="show"
               >
-                <motion.div variants={itemVariants}>
-                  <Box
-                    sx={{ px: { xs: 2, sm: 3 }, mb: 6, textAlign: "center" }}
-                  >
-                    <Typography
-                      variant="overline"
-                      sx={{
-                        fontWeight: 500,
-                        color: isDark
-                          ? "rgba(255,255,255,0.4)"
-                          : "rgba(0,0,0,0.4)",
-                      }}
+                {!compact && (
+                  <motion.div variants={itemVariants}>
+                    <Box
+                      sx={{ px: { xs: 2, sm: 3 }, mb: 6, textAlign: "center" }}
                     >
-                      Trusted by AI teams globally
-                    </Typography>
-                  </Box>
-                </motion.div>
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          fontWeight: 500,
+                          color: isDark
+                            ? "rgba(255,255,255,0.4)"
+                            : "rgba(0,0,0,0.4)",
+                        }}
+                      >
+                        Trusted by AI teams globally
+                      </Typography>
+                    </Box>
+                  </motion.div>
+                )}
 
                 <Box
                   sx={{
                     display: "grid",
                     gridTemplateColumns: {
                       xs: "1fr",
-                      sm: "repeat(2, 1fr)",
-                      md: "repeat(4, 1fr)",
+                      sm: `repeat(${visible.length}, 1fr)`,
                     },
                     px: { xs: 2, sm: 3 },
-                    "& > *:not(:last-child)": {
-                      borderRight: {
-                        md: `1px solid ${
-                          isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"
-                        }`,
-                      },
-                      borderBottom: {
-                        xs: `1px solid ${
-                          isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"
-                        }`,
-                        md: "none",
-                      },
-                      pb: { xs: 4, md: 0 },
-                      mb: { xs: 4, md: 0 },
-                    },
+                    gap: compact ? 2 : 0,
                   }}
                 >
-                  {[
-                    {
-                      icon: FiUsers,
-                      value: "50K+",
-                      label: "Developers",
-                      sublabel: "Building with our API",
-                    },
-                    {
-                      icon: FiTrendingUp,
-                      value: "10x",
-                      label: "Faster shipping",
-                      sublabel: "Reported by customers",
-                    },
-                    {
-                      icon: FiShield,
-                      value: "99.9%",
-                      label: "Uptime SLA",
-                      sublabel: "Enterprise reliability",
-                    },
-                    {
-                      icon: FiStar,
-                      value: "4.9",
-                      label: "Rating",
-                      sublabel: "From 12,000+ reviews",
-                    },
-                  ].map((stat, i) => (
+                  {visible.map((stat, i) => (
                     <motion.div key={i} variants={itemVariants}>
                       <Box
                         sx={{
@@ -195,31 +194,33 @@ const StatsVariants = ({ variant = "simple" }) => {
                           flexDirection: "column",
                           alignItems: "center",
                           textAlign: "center",
-                          gap: 1.5,
+                          gap: compact ? 0.75 : 1.5,
                           px: { xs: 0, md: 3 },
                         }}
                       >
-                        <Box
-                          sx={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 1.5,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: isDark
-                              ? "rgba(255,255,255,0.06)"
-                              : "rgba(0,0,0,0.05)",
-                          }}
-                        >
-                          <stat.icon
-                            size={18}
-                            style={{ opacity: isDark ? 0.8 : 0.7 }}
-                          />
-                        </Box>
+                        {!compact && (
+                          <Box
+                            sx={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: 1.5,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor: isDark
+                                ? "rgba(255,255,255,0.06)"
+                                : "rgba(0,0,0,0.05)",
+                            }}
+                          >
+                            <stat.icon
+                              size={18}
+                              style={{ opacity: isDark ? 0.8 : 0.7 }}
+                            />
+                          </Box>
+                        )}
                         <Box>
                           <Typography
-                            variant="h4"
+                            variant={compact ? "h6" : "h4"}
                             sx={{
                               fontWeight: 500,
                               lineHeight: 1,
@@ -229,7 +230,7 @@ const StatsVariants = ({ variant = "simple" }) => {
                             {stat.value}
                           </Typography>
                           <Typography
-                            variant="body2"
+                            variant={compact ? "caption" : "body2"}
                             sx={{
                               fontWeight: 500,
                               mt: 0.75,
@@ -238,19 +239,21 @@ const StatsVariants = ({ variant = "simple" }) => {
                           >
                             {stat.label}
                           </Typography>
-                          <Typography
-                            variant="caption"
-                            sx={{
-                              fontWeight: 400,
-                              display: "block",
-                              color: isDark
-                                ? "rgba(255,255,255,0.4)"
-                                : "rgba(0,0,0,0.4)",
-                              mt: 0.25,
-                            }}
-                          >
-                            {stat.sublabel}
-                          </Typography>
+                          {!compact && (
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                fontWeight: 400,
+                                display: "block",
+                                color: isDark
+                                  ? "rgba(255,255,255,0.4)"
+                                  : "rgba(0,0,0,0.4)",
+                                mt: 0.25,
+                              }}
+                            >
+                              {stat.sublabel}
+                            </Typography>
+                          )}
                         </Box>
                       </Box>
                     </motion.div>
@@ -260,14 +263,43 @@ const StatsVariants = ({ variant = "simple" }) => {
             </Container>
           </Box>
         );
+      }
 
-      case "cards":
+      case "cards": {
+        const stats = [
+          {
+            icon: FiUsers,
+            value: "50K+",
+            label: "Developers",
+            description:
+              "Teams across startups and enterprises ship faster with our platform.",
+          },
+          {
+            icon: FiUploadCloud,
+            value: "1B+",
+            label: "Daily API calls",
+            description:
+              "Handling production AI workloads with zero cold starts.",
+          },
+          {
+            icon: FiZap,
+            value: "10x",
+            label: "Faster deployment",
+            description: "From model to production in minutes, not weeks.",
+          },
+        ];
+        const visible = compact ? stats.slice(0, 3) : stats;
+
         return (
           <Box
             sx={{
               backgroundColor: isDark ? "#000" : "#FFF",
               color: isDark ? "#FFF" : "#000",
-              py: { xs: 6, md: 10 },
+              py: compact ? 2 : { xs: 6, md: 10 },
+              height: compact ? height : undefined,
+              overflow: compact ? "hidden" : "visible",
+              display: compact ? "flex" : "block",
+              alignItems: compact ? "center" : undefined,
             }}
           >
             <Container maxWidth="lg">
@@ -276,141 +308,79 @@ const StatsVariants = ({ variant = "simple" }) => {
                 initial="hidden"
                 animate="show"
               >
-                <motion.div variants={itemVariants}>
-                  <Box
-                    sx={{
-                      px: { xs: 2, sm: 3 },
-                      mb: 6,
-                      maxWidth: 520,
-                    }}
-                  >
-                    <Typography variant="h4" sx={{ fontWeight: 500, mb: 1 }}>
-                      Infrastructure built for AI scale
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: 400,
-                        color: isDark
-                          ? "rgba(255,255,255,0.5)"
-                          : "rgba(0,0,0,0.5)",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      Real numbers from production workloads not benchmarks.
-                    </Typography>
-                  </Box>
-                </motion.div>
+                {!compact && (
+                  <motion.div variants={itemVariants}>
+                    <Box sx={{ px: { xs: 2, sm: 3 }, mb: 6, maxWidth: 520 }}>
+                      <Typography variant="h4" sx={{ fontWeight: 500, mb: 1 }}>
+                        Infrastructure built for AI scale
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontWeight: 400,
+                          color: isDark
+                            ? "rgba(255,255,255,0.5)"
+                            : "rgba(0,0,0,0.5)",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        Real numbers from production workloads not benchmarks.
+                      </Typography>
+                    </Box>
+                  </motion.div>
+                )}
 
                 <Box
                   sx={{
                     display: "grid",
                     gridTemplateColumns: {
                       xs: "1fr",
-                      sm: "repeat(2, 1fr)",
-                      md: "repeat(3, 1fr)",
+                      sm: `repeat(${visible.length}, 1fr)`,
                     },
-                    gap: 1.5,
+                    gap: compact ? 1 : 1.5,
                     px: { xs: 2, sm: 3 },
                   }}
                 >
-                  {[
-                    {
-                      icon: FiUsers,
-                      value: "50K+",
-                      label: "Developers",
-                      description:
-                        "Teams across startups and enterprises ship faster with our platform.",
-                    },
-                    {
-                      icon: FiUploadCloud,
-                      value: "1B+",
-                      label: "Daily API calls",
-                      description:
-                        "Handling production AI workloads with zero cold starts.",
-                    },
-                    {
-                      icon: FiShield,
-                      value: "99.9%",
-                      label: "Uptime SLA",
-                      description:
-                        "SOC 2 compliant infrastructure with 24/7 monitoring.",
-                    },
-                    {
-                      icon: FiClock,
-                      value: "<200ms",
-                      label: "Median latency",
-                      description:
-                        "Low latency inference across all major regions.",
-                    },
-                    {
-                      icon: FiGlobe,
-                      value: "180+",
-                      label: "Countries",
-                      description:
-                        "Global edge network with regional data residency.",
-                    },
-                    {
-                      icon: FiZap,
-                      value: "10x",
-                      label: "Faster deployment",
-                      description:
-                        "From model to production in minutes, not weeks.",
-                    },
-                  ].map((stat, i) => (
+                  {visible.map((stat, i) => (
                     <motion.div key={i} variants={itemVariants}>
                       <Box
                         sx={{
-                          p: 3,
+                          p: compact ? 1.5 : 3,
                           borderRadius: 2,
-                          border: `1px solid ${
-                            isDark
-                              ? "rgba(255,255,255,0.08)"
-                              : "rgba(0,0,0,0.08)"
-                          }`,
+                          border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
                           backgroundColor: isDark
                             ? "rgba(255,255,255,0.02)"
                             : "rgba(0,0,0,0.01)",
                           display: "flex",
                           flexDirection: "column",
-                          gap: 1.5,
+                          gap: compact ? 0.5 : 1.5,
                           height: "100%",
-                          transition:
-                            "border 0.2s ease-out, background 0.2s ease-out",
-                          "&:hover": {
-                            border: `1px solid ${
-                              isDark
-                                ? "rgba(255,255,255,0.18)"
-                                : "rgba(0,0,0,0.18)"
-                            }`,
-                            backgroundColor: isDark
-                              ? "rgba(255,255,255,0.04)"
-                              : "rgba(0,0,0,0.02)",
-                          },
                         }}
                       >
-                        <Box
-                          sx={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: 1.25,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: isDark
-                              ? "rgba(255,255,255,0.06)"
-                              : "rgba(0,0,0,0.05)",
-                          }}
-                        >
-                          <stat.icon
-                            size={16}
-                            style={{ opacity: isDark ? 0.75 : 0.65 }}
-                          />
-                        </Box>
+                        {!compact && (
+                          <Box
+                            sx={{
+                              width: 36,
+                              height: 36,
+                              borderRadius: 1.25,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor: isDark
+                                ? "rgba(255,255,255,0.06)"
+                                : "rgba(0,0,0,0.05)",
+                            }}
+                          >
+                            <stat.icon
+                              size={16}
+                              style={{ opacity: isDark ? 0.75 : 0.65 }}
+                            />
+                          </Box>
+                        )}
 
                         <Box>
                           <Typography
-                            variant="h5"
+                            variant={compact ? "body1" : "h5"}
                             sx={{
                               fontWeight: 500,
                               lineHeight: 1,
@@ -420,28 +390,27 @@ const StatsVariants = ({ variant = "simple" }) => {
                             {stat.value}
                           </Typography>
                           <Typography
-                            variant="body2"
-                            sx={{
-                              fontWeight: 600,
-                              mt: 0.5,
-                            }}
+                            variant={compact ? "caption" : "body2"}
+                            sx={{ fontWeight: 600, mt: 0.5 }}
                           >
                             {stat.label}
                           </Typography>
                         </Box>
 
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            fontWeight: 400,
-                            color: isDark
-                              ? "rgba(255,255,255,0.4)"
-                              : "rgba(0,0,0,0.4)",
-                            lineHeight: 1.5,
-                          }}
-                        >
-                          {stat.description}
-                        </Typography>
+                        {!compact && (
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: 400,
+                              color: isDark
+                                ? "rgba(255,255,255,0.4)"
+                                : "rgba(0,0,0,0.4)",
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            {stat.description}
+                          </Typography>
+                        )}
                       </Box>
                     </motion.div>
                   ))}
@@ -450,6 +419,7 @@ const StatsVariants = ({ variant = "simple" }) => {
             </Container>
           </Box>
         );
+      }
 
       default:
         return null;

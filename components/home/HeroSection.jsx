@@ -29,8 +29,8 @@ const TECH_ICONS = [
 ];
 
 const COMMANDS = {
-  humans: "npx @abhivarde/syncui@latest add hero",
-  agents: "npx skills add AbhiVarde/syncui",
+  you: "npx @abhivarde/syncui@latest add hero",
+  "your agent": "npx skills add AbhiVarde/syncui",
 };
 
 const EASE = "cubic-bezier(0.22,1,0.36,1)";
@@ -47,7 +47,7 @@ const MotionIcon = () => (
 );
 
 const CommandBar = ({ isDark }) => {
-  const [mode, setMode] = useState("humans");
+  const [mode, setMode] = useState("you");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -59,7 +59,7 @@ const CommandBar = ({ isDark }) => {
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.25, mb: 1.25 }}>
-        {["humans", "agents"].map((tab, i) => (
+        {["you", "your agent"].map((tab, i) => (
           <Box
             key={tab}
             sx={{ display: "flex", alignItems: "center", gap: 1.25 }}

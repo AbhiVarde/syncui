@@ -1,0 +1,243 @@
+---
+title: Progress
+description: Animated progress component for React. Use via CLI or copy the code.
+---
+
+Progress indicators styled in black and white with your MUI theme, with the fill and the percentage animating in on mount. Built for quota, usage, and limit displays. Install via CLI or copy the code into your project.
+
+#### Linear
+
+A labeled track with the fill sliding in and a value readout beneath.
+
+<CodePreview
+  preview={<Progress variant="linear" />}
+  cli="charts/progress/linear"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, Stack, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+
+const label = "Storage used";
+const value = 420;
+const max = 1000;
+const unit = "GB";
+
+const AnimatedPercent = ({ value, mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => \`\${Math.round(v)}%\`);
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.9, ease: "easeOut" });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const ProgressLinear = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+    fade: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)",
+  };
+
+  const percent = Math.min(100, Math.round((value / max) * 100));
+
+  return (
+    <Paper
+      component={motion.div}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+      }}
+    >
+      <Stack spacing={1.5} sx={{ width: "100%" }}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="baseline"
+          sx={{ width: "100%" }}
+        >
+          <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+            {label}
+          </Typography>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            <AnimatedPercent value={percent} mono={mono} />
+          </Typography>
+        </Stack>
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: 8,
+            borderRadius: 999,
+            bgcolor: mono.fade,
+            overflow: "hidden",
+          }}
+        >
+          <Box
+            component={motion.div}
+            initial={{ width: 0 }}
+            animate={{ width: \`\${percent}%\` }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            sx={{ position: "absolute", inset: 0, borderRadius: 999, bgcolor: mono.fg }}
+          />
+        </Box>
+        <Typography variant="caption" sx={{ color: mono.axis }}>
+          {value.toLocaleString()} / {max.toLocaleString()} {unit}
+        </Typography>
+      </Stack>
+    </Paper>
+  );
+};
+
+export default ProgressLinear;
+`}
+/>
+
+#### Radial
+
+A stroke-based ring gauge with the percentage counting up at the center, centered in the card.
+
+<CodePreview
+  preview={<Progress variant="radial" />}
+  cli="charts/progress/radial"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, Stack, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+
+const label = "Storage used";
+const value = 420;
+const max = 1000;
+const unit = "GB";
+const RING_SIZE = 128;
+
+const AnimatedPercent = ({ value, mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => \`\${Math.round(v)}%\`);
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.9, ease: "easeOut" });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const ProgressRadial = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+    fade: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)",
+  };
+
+  const percent = Math.min(100, Math.round((value / max) * 100));
+  const size = RING_SIZE;
+  const stroke = 10;
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percent / 100) * circumference;
+
+  return (
+    <Paper
+      component={motion.div}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Stack
+        direction="row"
+        spacing={3}
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box sx={{ position: "relative", width: size, height: size, flexShrink: 0 }}>
+          <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+            <circle cx={size / 2} cy={size / 2} r={radius} stroke={mono.fade} strokeWidth={stroke} fill="none" />
+            <motion.circle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              stroke={mono.fg}
+              strokeWidth={stroke}
+              fill="none"
+              strokeLinecap="round"
+              strokeDasharray={circumference}
+              initial={{ strokeDashoffset: circumference }}
+              animate={{ strokeDashoffset: offset }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+            />
+          </svg>
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h5" sx={{ fontWeight: 500 }}>
+              <AnimatedPercent value={percent} mono={mono} />
+            </Typography>
+          </Box>
+        </Box>
+        <Stack spacing={0.5}>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            {label}
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: 500 }}>
+            {value.toLocaleString()} {unit}
+          </Typography>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            of {max.toLocaleString()} {unit}
+          </Typography>
+        </Stack>
+      </Stack>
+    </Paper>
+  );
+};
+
+export default ProgressRadial;
+`}
+/>

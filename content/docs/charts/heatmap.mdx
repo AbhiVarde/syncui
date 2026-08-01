@@ -1,0 +1,255 @@
+---
+title: Heatmap
+description: Animated activity heatmap component for React. Use via CLI or copy the code.
+---
+
+A GitHub-style activity grid styled in black and white with your MUI theme, with cells fading in to their true intensity on mount and a hover tooltip per day. Install via CLI or copy the code into your project.
+
+#### Grid
+
+48 weeks of activity, weighted toward lighter days so the grid reads like real usage instead of flat noise.
+
+<CodePreview
+  preview={<Heatmap variant="grid" />}
+  cli="charts/heatmap/grid"
+  code={`
+import React, { useMemo } from "react";
+import { Box, Paper, Typography, Stack, Tooltip, useTheme } from "@mui/material";
+import { motion } from "motion/react";
+
+const DAY_MS = 86400000;
+const LEVEL_OPACITY = [0.06, 0.22, 0.42, 0.64, 1];
+const LEVEL_WEIGHTS = [0.45, 0.25, 0.15, 0.1, 0.05];
+const WEEKS = 48;
+
+const weightedLevel = () => {
+  const r = Math.random();
+  let acc = 0;
+  for (let i = 0; i < LEVEL_WEIGHTS.length; i++) {
+    acc += LEVEL_WEIGHTS[i];
+    if (r <= acc) return i;
+  }
+  return LEVEL_WEIGHTS.length - 1;
+};
+
+const generateData = () => {
+  const days = WEEKS * 7;
+  const today = new Date();
+  const data = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(today.getTime() - i * DAY_MS);
+    data.push({ date, level: weightedLevel() });
+  }
+  return data;
+};
+
+const HeatmapGrid = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  const cells = useMemo(() => generateData(), []);
+  const columns = useMemo(() => {
+    const cols = [];
+    for (let i = 0; i < cells.length; i += 7) {
+      cols.push(cells.slice(i, i + 7));
+    }
+    return cols;
+  }, [cells]);
+
+  return (
+    <Paper
+      component={motion.div}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+      }}
+    >
+      <Stack spacing={1.5} sx={{ width: "100%" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <Box sx={{ display: "flex", gap: "3px", overflowX: "auto", pb: 0.5 }}>
+            {columns.map((col, i) => (
+              <Stack key={i} spacing="3px">
+                {col.map((d, j) => (
+                  <Tooltip
+                    key={j}
+                    title={\`\${d.date.toLocaleDateString(undefined, { month: "short", day: "numeric" })} — \${d.level === 0 ? "no activity" : \`level \${d.level}\`}\`}
+                    arrow
+                  >
+                    <Box
+                      component={motion.div}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: LEVEL_OPACITY[d.level], scale: 1 }}
+                      transition={{ duration: 0.2 }}
+                      sx={{
+                        width: 11,
+                        height: 11,
+                        borderRadius: "2px",
+                        bgcolor: mono.fg,
+                        cursor: "pointer",
+                        flexShrink: 0,
+                      }}
+                    />
+                  </Tooltip>
+                ))}
+              </Stack>
+            ))}
+          </Box>  
+        </Box>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={0.75} sx={{ width: "100%" }}>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            Less
+          </Typography>
+          {LEVEL_OPACITY.map((op, i) => (
+            <Box key={i} sx={{ width: 10, height: 10, borderRadius: "2px", bgcolor: mono.fg, opacity: op }} />
+          ))}
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            More
+          </Typography>
+        </Stack>
+      </Stack>
+    </Paper>
+  );
+};
+
+export default HeatmapGrid;
+`}
+/>
+
+#### Compact
+
+24 weeks, for sidebars and smaller cards where the full grid doesn't fit.
+
+<CodePreview
+  preview={<Heatmap variant="compact" />}
+  cli="charts/heatmap/compact"
+  code={`
+import React, { useMemo } from "react";
+import { Box, Paper, Typography, Stack, Tooltip, useTheme } from "@mui/material";
+import { motion } from "motion/react";
+
+const DAY_MS = 86400000;
+const LEVEL_OPACITY = [0.06, 0.22, 0.42, 0.64, 1];
+const LEVEL_WEIGHTS = [0.45, 0.25, 0.15, 0.1, 0.05];
+const WEEKS = 24;
+
+const weightedLevel = () => {
+  const r = Math.random();
+  let acc = 0;
+  for (let i = 0; i < LEVEL_WEIGHTS.length; i++) {
+    acc += LEVEL_WEIGHTS[i];
+    if (r <= acc) return i;
+  }
+  return LEVEL_WEIGHTS.length - 1;
+};
+
+const generateData = () => {
+  const days = WEEKS * 7;
+  const today = new Date();
+  const data = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(today.getTime() - i * DAY_MS);
+    data.push({ date, level: weightedLevel() });
+  }
+  return data;
+};
+
+const HeatmapCompact = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  const cells = useMemo(() => generateData(), []);
+  const columns = useMemo(() => {
+    const cols = [];
+    for (let i = 0; i < cells.length; i += 7) {
+      cols.push(cells.slice(i, i + 7));
+    }
+    return cols;
+  }, [cells]);
+
+  return (
+    <Paper
+      component={motion.div}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Stack spacing={1.5} sx={{ width: "100%" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <Box sx={{ display: "flex", gap: "3px", overflowX: "auto", pb: 0.5, width: "fit-content", maxWidth: "100%" }}>      
+              {columns.map((col, i) => (
+                <Stack key={i} spacing="3px">
+                  {col.map((d, j) => (
+                    <Tooltip
+                      key={j}
+                      title={\`\${d.date.toLocaleDateString(undefined, { month: "short", day: "numeric" })} — \${d.level === 0 ? "no activity" : \`level \${d.level}\`}\`}
+                      arrow
+                    >
+                      <Box
+                        component={motion.div}
+                        initial={{ opacity: 0, scale: 0.6 }}
+                        animate={{ opacity: LEVEL_OPACITY[d.level], scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                        sx={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: "2px",
+                          bgcolor: mono.fg,
+                          cursor: "pointer",
+                          flexShrink: 0,
+                        }}
+                      />
+                    </Tooltip>
+                  ))}
+                </Stack>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+        <Stack direction="row" spacing={0.75} sx={{ width: "100%", alignItems: "center", justifyContent: "center" }}>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            Less
+          </Typography>
+          {LEVEL_OPACITY.map((op, i) => (
+            <Box key={i} sx={{ width: 10, height: 10, borderRadius: "2px", bgcolor: mono.fg, opacity: op }} />
+          ))}
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            More
+          </Typography>
+        </Stack>
+      </Stack>
+    </Paper>
+  );
+};
+
+export default HeatmapCompact;
+`}
+/>

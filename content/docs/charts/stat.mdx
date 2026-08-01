@@ -1,0 +1,238 @@
+---
+title: Stat
+description: Animated stat card component for React. Use via CLI or copy the code.
+---
+
+Single-metric stat cards styled in black and white with your MUI theme, with the headline number counting up on mount and a chart in every variant. Both variants share the same card height, so they sit flush next to each other in a grid. Install via CLI or copy the code into your project.
+
+#### Default
+
+Label and animated value above a trend area that grows to fill the card.
+
+<CodePreview
+  preview={<Stat variant="default" />}
+  cli="charts/stat/default"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, Stack, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+import { ResponsiveContainer, AreaChart, Area } from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const CARD_HEIGHT = 200;
+
+const label = "Active agents";
+const value = 1280;
+const delta = 12.4;
+const trend = [
+  { value: 12 }, { value: 18 }, { value: 15 }, { value: 24 },
+  { value: 21 }, { value: 30 }, { value: 28 }, { value: 36 },
+];
+
+const AnimatedNumber = ({ mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.9, ease: "easeOut" });
+    return controls.stop;
+  }, []);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const TrendArea = ({ mono }) => (
+  <ResponsiveContainer width="100%" height="100%">
+    <AreaChart data={trend} margin={{ top: 4, right: 0, left: 0, bottom: 0 }}>
+      <defs>
+        <linearGradient id="statFadeFull" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={mono.fg} stopOpacity={0.24} />
+          <stop offset="100%" stopColor={mono.fg} stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <Area
+        type="monotone"
+        dataKey="value"
+        stroke={mono.fg}
+        strokeWidth={1.5}
+        fill="url(#statFadeFull)"
+        isAnimationActive
+        animationDuration={800}
+      />
+    </AreaChart>
+  </ResponsiveContainer>
+);
+
+const StatDefault = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+  const isUp = delta >= 0;
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+        height: CARD_HEIGHT,
+        display: "flex",
+        overflow: "hidden",
+      }}
+    >
+      <Stack spacing={2} sx={{ width: "100%", height: "100%" }}>
+        <Box sx={{ flexShrink: 0 }}>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            {label}
+          </Typography>
+          <Typography variant="h4" sx={{ fontWeight: 500, mt: 0.5 }}>
+            <AnimatedNumber mono={mono} />
+          </Typography>
+          <Typography variant="caption" sx={{ color: isUp ? mono.fg : mono.axis, fontWeight: 500 }}>
+            {isUp ? "↑" : "↓"} {Math.abs(delta)}%
+          </Typography>
+        </Box>
+        <Box sx={{ width: "100%", flexGrow: 1 }}>
+          <TrendArea mono={mono} />
+        </Box>
+      </Stack>
+    </MotionPaper>
+  );
+};
+
+export default StatDefault;
+`}
+/>
+
+#### Spark
+
+Same fixed card height, with a compact trailing chart instead of a full-width one.
+
+<CodePreview
+  preview={<Stat variant="spark" />}
+  cli="charts/stat/spark"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, Stack, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+import { ResponsiveContainer, AreaChart, Area } from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const CARD_HEIGHT = 200;
+
+const label = "Active agents";
+const value = 1280;
+const delta = 12.4;
+const trend = [
+  { value: 12 }, { value: 18 }, { value: 15 }, { value: 24 },
+  { value: 21 }, { value: 30 }, { value: 28 }, { value: 36 },
+];
+
+const AnimatedNumber = ({ mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.9, ease: "easeOut" });
+    return controls.stop;
+  }, []);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const TrendArea = ({ mono }) => (
+  <ResponsiveContainer width="100%" height="100%">
+    <AreaChart data={trend}>
+      <defs>
+        <linearGradient id="statFadeSpark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={mono.fg} stopOpacity={0.3} />
+          <stop offset="100%" stopColor={mono.fg} stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <Area
+        type="monotone"
+        dataKey="value"
+        stroke={mono.fg}
+        strokeWidth={1.5}
+        fill="url(#statFadeSpark)"
+        isAnimationActive
+        animationDuration={800}
+      />
+    </AreaChart>
+  </ResponsiveContainer>
+);
+
+const StatSpark = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+  const isUp = delta >= 0;
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+        height: CARD_HEIGHT,
+        display: "flex",
+        overflow: "hidden",
+      }}
+    >
+      <Stack direction="row" alignItems="stretch" spacing={2} sx={{ width: "100%", height: "100%" }}>
+        <Box sx={{ flexShrink: 0 }}>
+          <Typography variant="caption" sx={{ color: mono.axis }}>
+            {label}
+          </Typography>
+          <Typography variant="h4" sx={{ fontWeight: 500, mt: 0.5 }}>
+            <AnimatedNumber mono={mono} />
+          </Typography>
+          <Typography variant="caption" sx={{ color: isUp ? mono.fg : mono.axis, fontWeight: 500 }}>
+            {isUp ? "↑" : "↓"} {Math.abs(delta)}%
+          </Typography>
+        </Box>
+        <Box sx={{ width: "100%", flexGrow: 1, alignSelf: "stretch" }}>
+          <TrendArea mono={mono} />
+        </Box>
+      </Stack>
+    </MotionPaper>
+  );
+};
+
+export default StatSpark;
+`}
+/>

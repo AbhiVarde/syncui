@@ -17,8 +17,9 @@ import {
   SparklesIcon,
 } from "@hugeicons/core-free-icons";
 
-const HeroVariants = ({ variant = "dark" }) => {
+const HeroVariants = ({ variant = "dark", height }) => {
   const theme = useTheme();
+  const compact = Boolean(height);
 
   const renderHero = () => {
     switch (variant) {
@@ -28,12 +29,13 @@ const HeroVariants = ({ variant = "dark" }) => {
             sx={{
               backgroundColor: theme.palette.mode === "dark" ? "#000" : "#FFF",
               color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-              minHeight: "60vh",
+              minHeight: compact ? height : "60vh",
+              height: compact ? height : undefined,
+              overflow: compact ? "hidden" : "visible",
               display: "flex",
               flexDirection: "column",
               position: "relative",
-              overflow: "hidden",
-              py: { xs: 6, md: 10 },
+              py: compact ? 2 : { xs: 6, md: 10 },
             }}
           >
             <Container
@@ -56,54 +58,54 @@ const HeroVariants = ({ variant = "dark" }) => {
                     mx: { xs: 2, sm: 3 },
                     display: "flex",
                     flexDirection: "column",
-                    gap: 3,
+                    gap: compact ? 1.5 : 3,
                   }}
                 >
                   <Typography
-                    variant="h1"
-                    sx={{
-                      fontWeight: 500,
-                    }}
+                    variant={compact ? "h5" : "h1"}
+                    sx={{ fontWeight: 500 }}
                   >
                     Transform your workflow with intelligent automation
                   </Typography>
 
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 0.5,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
+                  {!compact && (
+                    <Box
                       sx={{
-                        color:
-                          theme.palette.mode === "dark"
-                            ? "rgba(255,255,255,0.7)"
-                            : "rgba(0,0,0,0.7)",
-                        fontWeight: 400,
-                        lineHeight: 1.5,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 0.5,
                       }}
                     >
-                      Streamline operations, enhance productivity, and scale
-                      effortlessly.
-                    </Typography>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.7)"
+                              : "rgba(0,0,0,0.7)",
+                          fontWeight: 400,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        Streamline operations, enhance productivity, and scale
+                        effortlessly.
+                      </Typography>
 
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        color:
-                          theme.palette.mode === "dark"
-                            ? "rgba(255,255,255,0.5)"
-                            : "rgba(0,0,0,0.5)",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      Empower teams with cutting-edge tools built for modern
-                      challenges.
-                    </Typography>
-                  </Box>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.5)"
+                              : "rgba(0,0,0,0.5)",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        Empower teams with cutting-edge tools built for modern
+                        challenges.
+                      </Typography>
+                    </Box>
+                  )}
 
                   <Box
                     sx={{
@@ -115,8 +117,9 @@ const HeroVariants = ({ variant = "dark" }) => {
                   >
                     <Button
                       variant="contained"
+                      size={compact ? "small" : "medium"}
                       sx={{
-                        px: 3,
+                        px: compact ? 2 : 3,
                         py: 0.4,
                         fontWeight: 500,
                         textTransform: "none",
@@ -137,49 +140,49 @@ const HeroVariants = ({ variant = "dark" }) => {
                       Get Started
                     </Button>
 
-                    <Button
-                      variant="text"
-                      sx={{
-                        px: 3,
-                        py: 0.4,
-                        fontWeight: 500,
-                        textTransform: "none",
-                        borderRadius: 1.5,
-                        minHeight: "auto",
-                        color:
-                          theme.palette.mode === "dark"
-                            ? "rgba(255,255,255,0.7)"
-                            : "rgba(0,0,0,0.7)",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 1,
-                        transition: "all 0.2s ease-out",
-                        "&:hover": {
-                          backgroundColor:
-                            theme.palette.mode === "dark"
-                              ? "rgba(255,255,255,0.05)"
-                              : "rgba(0,0,0,0.05)",
-                          color:
-                            theme.palette.mode === "dark" ? "#FFF" : "#000",
-                          "& .arrow-icon": {
-                            transform: "translateX(4px)",
-                          },
-                        },
-                      }}
-                    >
-                      New: AI Integration
-                      <Box
-                        component="span"
-                        className="arrow-icon"
+                    {!compact && (
+                      <Button
+                        variant="text"
                         sx={{
+                          px: 3,
+                          py: 0.4,
+                          fontWeight: 500,
+                          textTransform: "none",
+                          borderRadius: 1.5,
+                          minHeight: "auto",
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.7)"
+                              : "rgba(0,0,0,0.7)",
                           display: "inline-flex",
                           alignItems: "center",
-                          transition: "transform 0.2s ease-out",
+                          gap: 1,
+                          transition: "all 0.2s ease-out",
+                          "&:hover": {
+                            backgroundColor:
+                              theme.palette.mode === "dark"
+                                ? "rgba(255,255,255,0.05)"
+                                : "rgba(0,0,0,0.05)",
+                            color:
+                              theme.palette.mode === "dark" ? "#FFF" : "#000",
+                            "& .arrow-icon": { transform: "translateX(4px)" },
+                          },
                         }}
                       >
-                        <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-                      </Box>
-                    </Button>
+                        New: AI Integration
+                        <Box
+                          component="span"
+                          className="arrow-icon"
+                          sx={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            transition: "transform 0.2s ease-out",
+                          }}
+                        >
+                          <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+                        </Box>
+                      </Button>
+                    )}
                   </Box>
                 </Box>
               </motion.div>
@@ -192,9 +195,10 @@ const HeroVariants = ({ variant = "dark" }) => {
           <Box
             sx={{
               position: "relative",
-              overflow: "hidden",
-              minHeight: "60vh",
-              py: { xs: 6, md: 10 },
+              minHeight: compact ? height : "60vh",
+              height: compact ? height : undefined,
+              overflow: compact ? "hidden" : "visible",
+              py: compact ? 2 : { xs: 6, md: 10 },
               backgroundColor: theme.palette.mode === "dark" ? "#000" : "#FFF",
               color: theme.palette.mode === "dark" ? "#FFF" : "#000",
               display: "flex",
@@ -223,37 +227,44 @@ const HeroVariants = ({ variant = "dark" }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 3,
+                    gap: compact ? 1.5 : 3,
                     textAlign: "center",
                   }}
                 >
-                  <Typography variant="h2" sx={{ fontWeight: 500 }}>
+                  <Typography
+                    variant={compact ? "h5" : "h2"}
+                    sx={{ fontWeight: 500 }}
+                  >
                     Beyond authentication, Complete Access Control
                   </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 0.75,
-                      maxWidth: "800px",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
+
+                  {!compact && (
+                    <Box
                       sx={{
-                        color:
-                          theme.palette.mode === "dark"
-                            ? "rgba(255,255,255,0.7)"
-                            : "rgba(0,0,0,0.7)",
-                        fontWeight: 400,
-                        lineHeight: 1.5,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 0.75,
+                        maxWidth: "800px",
                       }}
                     >
-                      Need comprehensive security? Our platform provides
-                      enterprise-grade access management so you can deploy
-                      quickly and scale efficiently.
-                    </Typography>
-                  </Box>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.7)"
+                              : "rgba(0,0,0,0.7)",
+                          fontWeight: 400,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        Need comprehensive security? Our platform provides
+                        enterprise-grade access management so you can deploy
+                        quickly and scale efficiently.
+                      </Typography>
+                    </Box>
+                  )}
+
                   <Box
                     sx={{
                       display: "flex",
@@ -265,8 +276,9 @@ const HeroVariants = ({ variant = "dark" }) => {
                   >
                     <Button
                       variant="contained"
+                      size={compact ? "small" : "medium"}
                       sx={{
-                        px: 3,
+                        px: compact ? 2 : 3,
                         py: 0.4,
                         fontWeight: 500,
                         textTransform: "none",
@@ -286,71 +298,73 @@ const HeroVariants = ({ variant = "dark" }) => {
                     >
                       Start building for free
                     </Button>
-                    <Button
-                      variant="text"
-                      sx={{
-                        px: 3,
-                        py: 0.4,
-                        fontWeight: 500,
-                        textTransform: "none",
-                        borderRadius: 6,
-                        minHeight: "auto",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color:
-                          theme.palette.mode === "dark"
-                            ? "rgba(255,255,255,0.7)"
-                            : "rgba(0,0,0,0.7)",
-                        transition: "all 0.2s ease-out",
-                        "& .play-icon": {
-                          transition:
-                            "transform 0.2s ease-out, opacity 0.2s ease-out",
-                          opacity: 0.8,
-                          display: "flex",
-                          alignItems: "center",
-                        },
-                        "&:hover": {
-                          backgroundColor:
-                            theme.palette.mode === "dark"
-                              ? "rgba(255,255,255,0.05)"
-                              : "rgba(0,0,0,0.05)",
-                          color:
-                            theme.palette.mode === "dark" ? "#FFF" : "#000",
-                          "& .play-icon": {
-                            transform: "translateX(3px)",
-                            opacity: 1,
-                          },
-                        },
-                      }}
-                    >
-                      <Box component="span" className="play-icon">
-                        <HugeiconsIcon icon={PlayIcon} size={18} />
-                      </Box>
-                      <Box
+                    {!compact && (
+                      <Button
+                        variant="text"
                         sx={{
+                          px: 3,
+                          py: 0.4,
+                          fontWeight: 500,
+                          textTransform: "none",
+                          borderRadius: 6,
+                          minHeight: "auto",
                           display: "inline-flex",
                           alignItems: "center",
-                          gap: 0.5,
-                        }}
-                      >
-                        <span>Watch demo</span>
-                        <Box
-                          component="span"
-                          sx={{
-                            fontSize: "0.8rem",
-                            color:
-                              theme.palette.mode === "dark"
-                                ? "rgba(255,255,255,0.5)"
-                                : "rgba(0,0,0,0.5)",
+                          gap: 1,
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.7)"
+                              : "rgba(0,0,0,0.7)",
+                          transition: "all 0.2s ease-out",
+                          "& .play-icon": {
+                            transition:
+                              "transform 0.2s ease-out, opacity 0.2s ease-out",
+                            opacity: 0.8,
                             display: "flex",
                             alignItems: "center",
+                          },
+                          "&:hover": {
+                            backgroundColor:
+                              theme.palette.mode === "dark"
+                                ? "rgba(255,255,255,0.05)"
+                                : "rgba(0,0,0,0.05)",
+                            color:
+                              theme.palette.mode === "dark" ? "#FFF" : "#000",
+                            "& .play-icon": {
+                              transform: "translateX(3px)",
+                              opacity: 1,
+                            },
+                          },
+                        }}
+                      >
+                        <Box component="span" className="play-icon">
+                          <HugeiconsIcon icon={PlayIcon} size={18} />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 0.5,
                           }}
                         >
-                          3 min
+                          <span>Watch demo</span>
+                          <Box
+                            component="span"
+                            sx={{
+                              fontSize: "0.8rem",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "rgba(255,255,255,0.5)"
+                                  : "rgba(0,0,0,0.5)",
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            3 min
+                          </Box>
                         </Box>
-                      </Box>
-                    </Button>
+                      </Button>
+                    )}
                   </Box>
                 </Box>
               </motion.div>
@@ -363,9 +377,10 @@ const HeroVariants = ({ variant = "dark" }) => {
           <Box
             sx={{
               position: "relative",
-              overflow: "hidden",
-              minHeight: "60vh",
-              py: { xs: 6, md: 10 },
+              minHeight: compact ? height : "60vh",
+              height: compact ? height : undefined,
+              overflow: compact ? "hidden" : "visible",
+              py: compact ? 2 : { xs: 6, md: 10 },
               backgroundColor: theme.palette.mode === "dark" ? "#000" : "#FFF",
               color: theme.palette.mode === "dark" ? "#FFF" : "#000",
               display: "flex",
@@ -394,11 +409,14 @@ const HeroVariants = ({ variant = "dark" }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 3,
+                    gap: compact ? 1.5 : 3,
                     textAlign: "center",
                   }}
                 >
-                  <Typography variant="h2" sx={{ fontWeight: 500 }}>
+                  <Typography
+                    variant={compact ? "h5" : "h2"}
+                    sx={{ fontWeight: 500 }}
+                  >
                     Search powered by Intelligence
                   </Typography>
                   <Box sx={{ width: "100%", maxWidth: 600 }}>
@@ -416,13 +434,6 @@ const HeroVariants = ({ variant = "dark" }) => {
                           theme.palette.mode === "dark"
                             ? "0 2px 10px rgba(0,0,0,0.4)"
                             : "0 2px 10px rgba(0,0,0,0.08)",
-                        transition: "border 0.2s ease-out",
-                        "&:hover": {
-                          border:
-                            theme.palette.mode === "dark"
-                              ? "1px solid rgba(255,255,255,0.25)"
-                              : "1px solid rgba(0,0,0,0.25)",
-                        },
                       }}
                     >
                       <Box
@@ -439,8 +450,8 @@ const HeroVariants = ({ variant = "dark" }) => {
                       <TextField
                         fullWidth
                         multiline
-                        minRows={3}
-                        maxRows={6}
+                        minRows={compact ? 1 : 3}
+                        maxRows={compact ? 1 : 6}
                         placeholder="VP of Marketing…"
                         variant="outlined"
                         sx={{
@@ -454,121 +465,98 @@ const HeroVariants = ({ variant = "dark" }) => {
                             fontWeight: 400,
                             lineHeight: 1.4,
                             paddingTop: "12px",
-                            paddingBottom: "48px",
+                            paddingBottom: compact ? "12px" : "48px",
                             paddingLeft: "44px",
                             paddingRight: "16px",
                             resize: "none",
                           },
-                          "& textarea::placeholder": {
-                            opacity: 0.6,
-                          },
+                          "& textarea::placeholder": { opacity: 0.6 },
                         }}
                       />
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          bottom: 10,
-                          right: 12,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                        }}
-                      >
-                        <HugeiconsIcon
-                          icon={SparklesIcon}
-                          size={18}
-                          style={{ opacity: 0.45 }}
-                        />
+                      {!compact && (
                         <Box
                           sx={{
-                            width: 26,
-                            height: 26,
-                            borderRadius: 0.75,
+                            position: "absolute",
+                            bottom: 10,
+                            right: 12,
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            backgroundColor:
-                              theme.palette.mode === "dark"
-                                ? "rgba(255,255,255,0.05)"
-                                : "rgba(0,0,0,0.05)",
-                            transition: "all 0.2s ease-out",
-                            "&:hover": {
-                              backgroundColor:
-                                theme.palette.mode === "dark"
-                                  ? "rgba(255,255,255,0.12)"
-                                  : "rgba(0,0,0,0.12)",
-                            },
+                            gap: 1,
                           }}
                         >
-                          <HugeiconsIcon icon={ArrowRight02Icon} size={18} />
+                          <HugeiconsIcon
+                            icon={SparklesIcon}
+                            size={18}
+                            style={{ opacity: 0.45 }}
+                          />
+                          <Box
+                            sx={{
+                              width: 26,
+                              height: 26,
+                              borderRadius: 0.75,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "rgba(255,255,255,0.05)"
+                                  : "rgba(0,0,0,0.05)",
+                            }}
+                          >
+                            <HugeiconsIcon icon={ArrowRight02Icon} size={18} />
+                          </Box>
                         </Box>
-                      </Box>
+                      )}
                     </Box>
                   </Box>
 
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1.5,
-                      flexWrap: "wrap",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
+                  {!compact && (
+                    <Box
                       sx={{
-                        px: 3,
-                        py: 0.4,
-                        fontWeight: 500,
-                        textTransform: "none",
-                        borderRadius: 1.5,
-                        minHeight: "auto",
-                        backgroundColor:
-                          theme.palette.mode === "dark" ? "#FFF" : "#000",
-                        color: theme.palette.mode === "dark" ? "#000" : "#FFF",
-                        transition: "all 0.2s ease-out",
-                        "&:hover": {
-                          backgroundColor:
-                            theme.palette.mode === "dark"
-                              ? "rgba(255,255,255,0.9)"
-                              : "rgba(0,0,0,0.85)",
-                        },
+                        display: "flex",
+                        gap: 1.5,
+                        flexWrap: "wrap",
+                        justifyContent: "center",
                       }}
                     >
-                      Try the API for free
-                    </Button>
-
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        px: 3,
-                        py: 0.4,
-                        fontWeight: 500,
-                        textTransform: "none",
-                        borderRadius: 1.5,
-                        minHeight: "auto",
-                        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-                        borderColor:
-                          theme.palette.mode === "dark"
-                            ? "rgba(255,255,255,0.25)"
-                            : "rgba(0,0,0,0.25)",
-                        transition: "all 0.2s ease-out",
-                        "&:hover": {
+                      <Button
+                        variant="contained"
+                        sx={{
+                          px: 3,
+                          py: 0.4,
+                          fontWeight: 500,
+                          textTransform: "none",
+                          borderRadius: 1.5,
+                          minHeight: "auto",
+                          backgroundColor:
+                            theme.palette.mode === "dark" ? "#FFF" : "#000",
+                          color:
+                            theme.palette.mode === "dark" ? "#000" : "#FFF",
+                        }}
+                      >
+                        Try the API for free
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          px: 3,
+                          py: 0.4,
+                          fontWeight: 500,
+                          textTransform: "none",
+                          borderRadius: 1.5,
+                          minHeight: "auto",
+                          color:
+                            theme.palette.mode === "dark" ? "#FFF" : "#000",
                           borderColor:
                             theme.palette.mode === "dark"
-                              ? "rgba(255,255,255,0.45)"
-                              : "rgba(0,0,0,0.45)",
-                          backgroundColor:
-                            theme.palette.mode === "dark"
-                              ? "rgba(255,255,255,0.03)"
-                              : "rgba(0,0,0,0.03)",
-                        },
-                      }}
-                    >
-                      Try Collections
-                    </Button>
-                  </Box>
+                              ? "rgba(255,255,255,0.25)"
+                              : "rgba(0,0,0,0.25)",
+                        }}
+                      >
+                        Try Collections
+                      </Button>
+                    </Box>
+                  )}
                 </Box>
               </motion.div>
             </Container>

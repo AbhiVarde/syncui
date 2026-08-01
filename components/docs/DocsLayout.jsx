@@ -17,6 +17,7 @@ const groupDocsTree = (docsTree) => {
     ["Getting Started", []],
     ["Blocks", []],
     ["Components", []],
+    ["Charts", []],
     ["Templates", []],
   ]);
 
@@ -212,7 +213,9 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           <Box sx={{ height: "calc(100% - 60px)", overflowY: "auto", p: 2 }}>
             {Object.entries(groupedDocsTree).map(([category, items]) => (
               <Box key={category} sx={{ mb: 2 }}>
-                {["Components", "Blocks", "Templates"].includes(category) ? (
+                {["Components", "Blocks", "Charts", "Templates"].includes(
+                  category,
+                ) ? (
                   renderCollapsibleCategory(category, items)
                 ) : (
                   <>

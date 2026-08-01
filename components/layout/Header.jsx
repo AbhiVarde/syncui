@@ -34,6 +34,7 @@ const navItems = [
   { label: "Docs", href: "/docs", external: false },
   { label: "Components", href: "/components", external: false },
   { label: "Blocks", href: "/blocks", external: false },
+  { label: "Charts", href: "/charts", external: false },
   { label: "Templates", href: "/templates", external: false },
   { label: "Showcase", href: "/showcase", external: false },
   { label: "Changelog", href: "/docs/changelog", external: false },

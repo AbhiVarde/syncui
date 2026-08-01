@@ -55,6 +55,10 @@ const Search = ({ docsTree = [] }) => {
       return "All Blocks";
     }
 
+    if (item.category === "Charts" || slug.startsWith("charts/")) {
+      return "All Charts";
+    }
+
     return "All Components";
   };
 
@@ -92,8 +96,12 @@ const Search = ({ docsTree = [] }) => {
   }, [filteredDocs]);
 
   const sortedCategories = useMemo(() => {
-    const categoryOrder = ["Installation", "All Blocks", "All Components"];
-
+    const categoryOrder = [
+      "Installation",
+      "All Blocks",
+      "All Charts",
+      "All Components",
+    ];
     return Object.keys(groupedDocs).sort(
       (a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b),
     );

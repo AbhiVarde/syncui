@@ -19,14 +19,17 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
-const PricingVariants = ({ variant = "threeTier" }) => {
+const PricingVariants = ({ variant = "threeTier", height }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+  const compact = Boolean(height);
 
   const baseWrapper = {
     backgroundColor: isDark ? "#000" : "#FFF",
     color: isDark ? "#FFF" : "#000",
-    py: { xs: 8, md: 12 },
+    py: compact ? 2 : { xs: 8, md: 12 },
+    height: compact ? height : undefined,
+    overflow: compact ? "hidden" : "visible",
   };
 
   const renderPricing = () => {
@@ -81,9 +84,13 @@ const PricingVariants = ({ variant = "threeTier" }) => {
         return (
           <Box sx={baseWrapper}>
             <Container maxWidth="lg">
-              <Header />
-
-              <PricingGrid plans={plans} cardRadius={3} buttonRadius="999px" />
+              <Header compact={compact} />
+              <PricingGrid
+                plans={plans}
+                cardRadius={3}
+                buttonRadius="999px"
+                compact={compact}
+              />
             </Container>
           </Box>
         );
@@ -128,9 +135,13 @@ const PricingVariants = ({ variant = "threeTier" }) => {
         return (
           <Box sx={baseWrapper}>
             <Container maxWidth="md">
-              <Header />
-
-              <PricingGrid plans={plans} cardRadius={2} buttonRadius={1} />
+              <Header compact={compact} />
+              <PricingGrid
+                plans={plans}
+                cardRadius={2}
+                buttonRadius={1}
+                compact={compact}
+              />
             </Container>
           </Box>
         );
@@ -185,8 +196,8 @@ const PricingVariants = ({ variant = "threeTier" }) => {
         return (
           <Box sx={baseWrapper}>
             <Container maxWidth="lg">
-              <Header />
-              <PricingRow plans={plans} />
+              <Header compact={compact} />
+              <PricingRow plans={plans} compact={compact} />
             </Container>
           </Box>
         );
@@ -202,23 +213,31 @@ const PricingVariants = ({ variant = "threeTier" }) => {
 
 export default PricingVariants;
 
-const Header = () => (
-  <Box sx={{ mb: 7, textAlign: "center" }}>
-    <Typography variant="h3" fontWeight={600} sx={{ mb: 1 }}>
+const Header = ({ compact }) => (
+  <Box sx={{ mb: compact ? 2 : 7, textAlign: "center" }}>
+    <Typography
+      variant={compact ? "h6" : "h3"}
+      fontWeight={600}
+      sx={{ mb: compact ? 0 : 1 }}
+    >
       Simple pricing
     </Typography>
-    <Typography
-      variant="body1"
-      sx={{ maxWidth: 520, mx: "auto", opacity: 0.65 }}
-    >
-      Clear plans designed to scale with your workflow.
-    </Typography>
+    {!compact && (
+      <Typography
+        variant="body1"
+        sx={{ maxWidth: 520, mx: "auto", opacity: 0.65 }}
+      >
+        Clear plans designed to scale with your workflow.
+      </Typography>
+    )}
   </Box>
 );
 
-const PricingGrid = ({ plans, cardRadius, buttonRadius }) => {
+const PricingGrid = ({ plans, cardRadius, buttonRadius, compact }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+  const visiblePlans = compact ? plans.slice(0, 2) : plans;
+  const maxFeatures = compact ? 2 : Infinity;
 
   return (
     <Box
@@ -226,12 +245,12 @@ const PricingGrid = ({ plans, cardRadius, buttonRadius }) => {
         display: "grid",
         gridTemplateColumns: {
           xs: "1fr",
-          md: `repeat(${plans.length}, 1fr)`,
+          md: `repeat(${visiblePlans.length}, 1fr)`,
         },
-        gap: 3,
+        gap: compact ? 1.5 : 3,
       }}
     >
-      {plans.map((plan, index) => (
+      {visiblePlans.map((plan, index) => (
         <motion.div
           key={plan.name}
           initial={{ opacity: 0, y: 20 }}
@@ -241,7 +260,7 @@ const PricingGrid = ({ plans, cardRadius, buttonRadius }) => {
           <Box
             sx={{
               height: "100%",
-              p: 4,
+              p: compact ? 2 : 4,
               borderRadius: cardRadius,
               border: "1px solid",
               borderColor: isDark
@@ -249,37 +268,32 @@ const PricingGrid = ({ plans, cardRadius, buttonRadius }) => {
                 : "rgba(0,0,0,0.12)",
               display: "flex",
               flexDirection: "column",
-              transition: "border-color 0.2s ease",
-              "&:hover": {
-                borderColor: isDark
-                  ? "rgba(255,255,255,0.3)"
-                  : "rgba(0,0,0,0.3)",
-              },
             }}
           >
-            <Stack spacing={3} flex={1}>
+            <Stack spacing={compact ? 1.25 : 3} flex={1}>
               <Box textAlign="center">
-                <Box
-                  sx={{
-                    display: "inline-flex",
-                    p: 1.25,
-                    borderRadius: 2,
-                    mb: 2,
-                    backgroundColor: isDark
-                      ? "rgba(255,255,255,0.08)"
-                      : "rgba(0,0,0,0.06)",
-                  }}
-                >
-                  <HugeiconsIcon icon={plan.icon} size={24} />
-                </Box>
-
-                <Typography variant="h6" fontWeight={600}>
+                {!compact && (
+                  <Box
+                    sx={{
+                      display: "inline-flex",
+                      p: 1.25,
+                      borderRadius: 2,
+                      mb: 2,
+                      backgroundColor: isDark
+                        ? "rgba(255,255,255,0.08)"
+                        : "rgba(0,0,0,0.06)",
+                    }}
+                  >
+                    <HugeiconsIcon icon={plan.icon} size={24} />
+                  </Box>
+                )}
+                <Typography variant={compact ? "body2" : "h6"} fontWeight={600}>
                   {plan.name}
                 </Typography>
               </Box>
 
               <Box textAlign="center">
-                <Typography variant="h4" fontWeight={600}>
+                <Typography variant={compact ? "h6" : "h4"} fontWeight={600}>
                   {plan.price}
                   {plan.suffix && (
                     <Typography
@@ -291,33 +305,164 @@ const PricingGrid = ({ plans, cardRadius, buttonRadius }) => {
                     </Typography>
                   )}
                 </Typography>
-
-                <Typography variant="body2" sx={{ mt: 1, opacity: 0.65 }}>
-                  {plan.description}
-                </Typography>
+                {!compact && (
+                  <Typography variant="body2" sx={{ mt: 1, opacity: 0.65 }}>
+                    {plan.description}
+                  </Typography>
+                )}
               </Box>
 
-              <Stack spacing={1.25}>
-                {plan.features.map((feature) => (
+              <Stack spacing={compact ? 0.5 : 1.25}>
+                {plan.features.slice(0, maxFeatures).map((feature) => (
                   <Stack
                     key={feature}
                     direction="row"
                     spacing={1.25}
                     alignItems="center"
                   >
-                    <HugeiconsIcon icon={CheckmarkCircle02Icon} size={18} />
-                    <Typography variant="body2">{feature}</Typography>
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle02Icon}
+                      size={compact ? 14 : 18}
+                    />
+                    <Typography variant={compact ? "caption" : "body2"}>
+                      {feature}
+                    </Typography>
                   </Stack>
                 ))}
               </Stack>
 
-              <Box mt="auto" pt={3}>
+              {!compact && (
+                <Box mt="auto" pt={3}>
+                  <Button
+                    fullWidth
+                    variant={plan.primary ? "contained" : "text"}
+                    sx={{
+                      py: 0.6,
+                      borderRadius: buttonRadius,
+                      fontWeight: 500,
+                      textTransform: "none",
+                      backgroundColor: plan.primary
+                        ? isDark
+                          ? "#FFF"
+                          : "#000"
+                        : "transparent",
+                      color: plan.primary
+                        ? isDark
+                          ? "#000"
+                          : "#FFF"
+                        : "inherit",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 0.5,
+                    }}
+                  >
+                    {plan.cta}
+                    <Box sx={{ display: "inline-flex" }}>
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+                    </Box>
+                  </Button>
+                </Box>
+              )}
+            </Stack>
+          </Box>
+        </motion.div>
+      ))}
+    </Box>
+  );
+};
+
+const PricingRow = ({ plans, compact }) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+  const visiblePlans = compact ? plans.slice(0, 2) : plans;
+
+  return (
+    <Stack spacing={compact ? 1 : 2}>
+      {visiblePlans.map((plan, index) => (
+        <motion.div
+          key={plan.name}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.06 }}
+        >
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: compact ? "2fr 1.5fr" : "2fr 3fr 1.5fr",
+              },
+              gap: compact ? 1.5 : 3,
+              p: compact ? 1.5 : 3,
+              borderRadius: 2,
+              border: "1px solid",
+              borderColor: isDark
+                ? "rgba(255,255,255,0.12)"
+                : "rgba(0,0,0,0.12)",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                {!compact && <HugeiconsIcon icon={plan.icon} size={22} />}
+                <Typography
+                  fontWeight={600}
+                  variant={compact ? "body2" : "body1"}
+                >
+                  {plan.name}
+                </Typography>
+              </Stack>
+              {!compact && (
+                <Typography variant="body2" sx={{ opacity: 0.65, mt: 0.5 }}>
+                  {plan.description}
+                </Typography>
+              )}
+            </Box>
+
+            {!compact && (
+              <Stack spacing={0.75}>
+                {plan.features.slice(0, 3).map((feature) => (
+                  <Stack
+                    key={feature}
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                  >
+                    <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} />
+                    <Typography variant="body2">{feature}</Typography>
+                  </Stack>
+                ))}
+              </Stack>
+            )}
+
+            <Box
+              textAlign={{ xs: "center", md: "right" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: { xs: "center", md: "flex-end" },
+              }}
+            >
+              <Typography
+                fontWeight={600}
+                variant={compact ? "body2" : "body1"}
+              >
+                {plan.price}
+                {plan.suffix && (
+                  <Typography component="span" variant="body2">
+                    {plan.suffix}
+                  </Typography>
+                )}
+              </Typography>
+
+              {!compact && (
                 <Button
-                  fullWidth
                   variant={plan.primary ? "contained" : "text"}
                   sx={{
-                    py: 0.6,
-                    borderRadius: buttonRadius,
+                    mt: 1,
+                    py: 0.9,
+                    px: 1.8,
+                    borderRadius: "999px",
                     fontWeight: 500,
                     textTransform: "none",
                     backgroundColor: plan.primary
@@ -330,147 +475,12 @@ const PricingGrid = ({ plans, cardRadius, buttonRadius }) => {
                         ? "#000"
                         : "#FFF"
                       : "inherit",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                    "&:hover .arrow": {
-                      transform: "translateX(4px)",
-                    },
                   }}
+                  endIcon={<HugeiconsIcon icon={ArrowRight01Icon} size={18} />}
                 >
                   {plan.cta}
-                  <Box
-                    className="arrow"
-                    sx={{
-                      display: "inline-flex",
-                      transition: "transform 0.2s ease",
-                    }}
-                  >
-                    <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-                  </Box>
                 </Button>
-              </Box>
-            </Stack>
-          </Box>
-        </motion.div>
-      ))}
-    </Box>
-  );
-};
-
-const PricingRow = ({ plans }) => {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
-
-  return (
-    <Stack spacing={2}>
-      {plans.map((plan, index) => (
-        <motion.div
-          key={plan.name}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.06 }}
-        >
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                md: "2fr 3fr 1.5fr",
-              },
-              gap: 3,
-              p: 3,
-              borderRadius: 2,
-              border: "1px solid",
-              borderColor: isDark
-                ? "rgba(255,255,255,0.12)"
-                : "rgba(0,0,0,0.12)",
-              alignItems: "center",
-            }}
-          >
-            <Box>
-              <Stack direction="row" spacing={1.5} alignItems="center">
-                <HugeiconsIcon icon={plan.icon} size={22} />
-                <Typography fontWeight={600}>{plan.name}</Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ opacity: 0.65, mt: 0.5 }}>
-                {plan.description}
-              </Typography>
-            </Box>
-
-            <Stack spacing={0.75}>
-              {plan.features.slice(0, 3).map((feature) => (
-                <Stack
-                  key={feature}
-                  direction="row"
-                  spacing={1}
-                  alignItems="center"
-                >
-                  <HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} />
-                  <Typography variant="body2">{feature}</Typography>
-                </Stack>
-              ))}
-            </Stack>
-
-            <Box
-              textAlign={{ xs: "center", md: "right" }}
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", md: "column" },
-                alignItems: { xs: "center", md: "flex-end" },
-              }}
-            >
-              <Typography fontWeight={600}>
-                {plan.price}
-                {plan.suffix && (
-                  <Typography component="span" variant="body2">
-                    {plan.suffix}
-                  </Typography>
-                )}
-              </Typography>
-
-              <Button
-                variant={plan.primary ? "contained" : "text"}
-                sx={{
-                  mt: 1,
-                  py: 0.9,
-                  px: 1.8,
-                  borderRadius: "999px",
-                  fontWeight: 500,
-                  textTransform: "none",
-                  minHeight: 36,
-                  lineHeight: 1.2,
-                  fontSize: "15px !important",
-
-                  backgroundColor: plan.primary
-                    ? isDark
-                      ? "#FFF"
-                      : "#000"
-                    : "transparent",
-                  color: plan.primary ? (isDark ? "#000" : "#FFF") : "inherit",
-
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 0.5,
-
-                  "&:hover .arrow": {
-                    transform: "translateX(4px)",
-                  },
-                }}
-                endIcon={
-                  <Box
-                    className="arrow"
-                    sx={{
-                      display: "inline-flex",
-                      transition: "transform 0.2s ease",
-                    }}
-                  >
-                    <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-                  </Box>
-                }
-              >
-                {plan.cta}
-              </Button>
+              )}
             </Box>
           </Box>
         </motion.div>

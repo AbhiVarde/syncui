@@ -151,9 +151,27 @@ const Components = ({ docsTree }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            minHeight: 260,
-            backgroundImage: "radial-gradient(#9ca3af 1px, transparent 1px)",
-            backgroundSize: "22px 22px",
+            minHeight: 280,
+            backgroundColor: "background.default",
+            backgroundImage: isDarkMode
+              ? `
+          repeating-linear-gradient(
+            -60deg,
+            transparent 0px,
+            transparent 9px,
+            rgba(255,255,255,0.12) 9px,
+            rgba(255,255,255,0.12) 10px
+          )
+        `
+              : `
+          repeating-linear-gradient(
+            -60deg,
+            transparent 0px,
+            transparent 9px,
+            rgba(0,0,0,0.08) 9px,
+            rgba(0,0,0,0.08) 10px
+          )
+        `,
           }}
         >
           <Box
@@ -161,20 +179,33 @@ const Components = ({ docsTree }) => {
               position: "absolute",
               inset: 0,
               backgroundColor: isDarkMode
-                ? "rgba(0, 0, 0, 0.4)"
-                : "transparent",
+                ? "rgba(0,0,0,0.35)"
+                : "rgba(255,255,255,0.25)",
             }}
           />
 
-          <Container maxWidth="md" sx={{ position: "relative", zIndex: 1 }}>
+          <Container
+            maxWidth="md"
+            sx={{
+              position: "relative",
+              zIndex: 1,
+              textAlign: "center",
+              backgroundColor: "background.paper",
+              border: "1px solid",
+              borderColor: isDarkMode
+                ? "rgba(255,255,255,0.08)"
+                : "rgba(0,0,0,0.08)",
+              mx: 2,
+              p: { xs: 3, sm: 4, md: 5 },
+              borderRadius: 2.5,
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                textAlign: "center",
-                px: { xs: 2, md: 0 },
-                gap: 1.5,
+                gap: 2,
               }}
             >
               <Box
@@ -187,6 +218,7 @@ const Components = ({ docsTree }) => {
                   sx={{
                     px: 2,
                     py: 0.5,
+                    minHeight: 32,
                     borderRadius: "12px",
                     fontWeight: 500,
                     backgroundColor: "background.paper",
@@ -195,14 +227,23 @@ const Components = ({ docsTree }) => {
                     textTransform: "none",
                     color: "text.primary",
                     pointerEvents: "none",
-                    "&:hover": { backgroundColor: "background.paper" },
+                    "&:hover": {
+                      backgroundColor: "background.paper",
+                    },
                   }}
                 >
                   Sync UI Components
                 </Button>
               </Box>
 
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1.5,
+                  alignItems: "center",
+                }}
+              >
                 <Box
                   component={motion.div}
                   {...fadeUp}
@@ -210,7 +251,11 @@ const Components = ({ docsTree }) => {
                 >
                   <Typography
                     variant="h3"
-                    sx={{ fontWeight: 600, letterSpacing: "-0.02em" }}
+                    sx={{
+                      fontWeight: 600,
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.15,
+                    }}
                   >
                     Production-ready components
                   </Typography>
@@ -223,8 +268,12 @@ const Components = ({ docsTree }) => {
                 >
                   <Typography
                     variant="h6"
-                    fontWeight={400}
-                    color="text.secondary"
+                    sx={{
+                      fontWeight: 400,
+                      color: "text.secondary",
+                      lineHeight: 1.6,
+                      mx: "auto",
+                    }}
                   >
                     <Box
                       component="span"
@@ -233,6 +282,7 @@ const Components = ({ docsTree }) => {
                       Reusable React components built with MUI and Motion. Copy,
                       customize, and ship.
                     </Box>
+
                     <Box
                       component="span"
                       sx={{ display: { xs: "inline", sm: "none" } }}
@@ -246,6 +296,7 @@ const Components = ({ docsTree }) => {
           </Container>
         </Box>
       </Container>
+
       <Container maxWidth="md" sx={{ py: 5 }}>
         <Box
           sx={{

@@ -1,0 +1,257 @@
+---
+title: Bar
+description: Animated bar chart component for React. Use via CLI or copy the code.
+---
+
+Bar charts built with Recharts, styled in black and white with your MUI theme, and grown in with real Motion spring physics instead of default easing. Install via CLI or copy the code into your project.
+
+#### Default
+
+Slim monochrome bars with the leading value highlighted, grid, axis, and tooltip.
+
+<CodePreview
+  preview={<BarChart variant="default" />}
+  cli="charts/bar/default"
+  code={`
+import React from "react";
+import { Box, Paper, Typography, useTheme, alpha } from "@mui/material";
+import { motion } from "motion/react";
+import {
+  ResponsiveContainer,
+  BarChart as RBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const data = [
+  { label: "Agents", value: 920 },
+  { label: "MCP", value: 780 },
+  { label: "Context Eng.", value: 640 },
+  { label: "Multi-Agent", value: 560 },
+  { label: "RAG", value: 430 },
+  { label: "Evals", value: 340 },
+  { label: "Guardrails", value: 260 },
+];
+
+const CustomTooltip = ({ active, payload, label, mono }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <Box
+      sx={{
+        bgcolor: mono.bg,
+        border: "1px solid",
+        borderColor: mono.fg,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" sx={{ color: mono.fg, opacity: 0.6 }}>
+        {label}
+      </Typography>
+      <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+        {payload[0].value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
+const AnimatedBar = ({ x, y, width, height, fill, index }) => (
+  <motion.rect
+    x={x}
+    width={width}
+    rx={4}
+    ry={4}
+    fill={fill}
+    initial={{ height: 0, y: y + height }}
+    animate={{ height, y }}
+    transition={{ type: "spring", stiffness: 300, damping: 24 }}
+  />
+);
+
+const BarChartDefault = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    bg: isDark ? "#000000" : "#FFFFFF",
+    grid: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+    fade: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)",
+  };
+
+  const maxIndex = data.reduce(
+    (best, item, i) => (item.value > data[best].value ? i : best),
+    0
+  );
+
+  const HighlightBar = (props) => (
+    <AnimatedBar {...props} fill={props.index === maxIndex ? mono.fg : mono.fade} />
+  );
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+      }}
+    >
+      <ResponsiveContainer width="100%" height={280}>
+        <RBarChart data={data} barCategoryGap="35%" margin={{ top: 8, right: 12, left: -12, bottom: 0 }}>
+          <CartesianGrid stroke={mono.grid} vertical={false} />
+          <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <YAxis axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <Tooltip content={<CustomTooltip mono={mono} />} cursor={{ fill: alpha(mono.fg, 0.06) }} />
+          <Bar dataKey="value" barSize={28} shape={HighlightBar} />
+        </RBarChart>
+      </ResponsiveContainer>
+    </MotionPaper>
+  );
+};
+
+export default BarChartDefault;
+`}
+/>
+
+#### Ranked
+
+Data sorted high to low, bars stagger in by rank, ticks prefixed with position — built for "what's trending" leaderboards.
+
+<CodePreview
+  preview={<BarChart variant="ranked" />}
+  cli="charts/bar/ranked"
+  code={`
+import React, { useMemo } from "react";
+import { Box, Paper, Typography, useTheme, alpha } from "@mui/material";
+import { motion } from "motion/react";
+import {
+  ResponsiveContainer,
+  BarChart as RBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const data = [
+  { label: "Agents", value: 920 },
+  { label: "MCP", value: 780 },
+  { label: "Context Eng.", value: 640 },
+  { label: "Multi-Agent", value: 560 },
+  { label: "RAG", value: 430 },
+  { label: "Evals", value: 340 },
+  { label: "Guardrails", value: 260 },
+];
+
+const CustomTooltip = ({ active, payload, label, mono }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <Box
+      sx={{
+        bgcolor: mono.bg,
+        border: "1px solid",
+        borderColor: mono.fg,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" sx={{ color: mono.fg, opacity: 0.6 }}>
+        {label}
+      </Typography>
+      <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+        {payload[0].value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
+const AnimatedBar = ({ x, y, width, height, fill, index }) => (
+  <motion.rect
+    x={x}
+    width={width}
+    rx={4}
+    ry={4}
+    fill={fill}
+    initial={{ height: 0, y: y + height }}
+    animate={{ height, y }}
+    transition={{ type: "spring", stiffness: 300, damping: 24, delay: index * 0.05 }}
+  />
+);
+
+const BarChartRanked = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    bg: isDark ? "#000000" : "#FFFFFF",
+    grid: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+    fade: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)",
+  };
+
+  const ranked = useMemo(() => [...data].sort((a, b) => b.value - a.value), []);
+
+  const maxIndex = ranked.reduce(
+    (best, item, i) => (item.value > ranked[best].value ? i : best),
+    0
+  );
+
+  const rankTick = (value) => {
+    const idx = ranked.findIndex((d) => d.label === value);
+    return \`\${String(idx + 1).padStart(2, "0")}  \${value}\`;
+  };
+
+  const HighlightBar = (props) => (
+    <AnimatedBar {...props} fill={props.index === maxIndex ? mono.fg : mono.fade} />
+  );
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+      }}
+    >
+      <ResponsiveContainer width="100%" height={280}>
+        <RBarChart data={ranked} barCategoryGap="35%" margin={{ top: 8, right: 12, left: -12, bottom: 0 }}>
+          <CartesianGrid stroke={mono.grid} vertical={false} />
+          <XAxis dataKey="label" axisLine={false} tickLine={false} tickFormatter={rankTick} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <YAxis axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <Tooltip content={<CustomTooltip mono={mono} />} cursor={{ fill: alpha(mono.fg, 0.06) }} />
+          <Bar dataKey="value" barSize={28} shape={HighlightBar} />
+        </RBarChart>
+      </ResponsiveContainer>
+    </MotionPaper>
+  );
+};
+
+export default BarChartRanked;
+`}
+/>

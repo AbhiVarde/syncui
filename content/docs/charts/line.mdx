@@ -1,0 +1,290 @@
+---
+title: Line
+description: Animated line chart component for React. Use via CLI or copy the code.
+---
+
+Line charts built with Recharts, styled in black and white with your MUI theme, with an animated headline value and a Motion pulsing marker on the latest point. Install via CLI or copy the code into your project.
+
+#### Default
+
+Straight-line trend with a counting headline value and a pulsing marker on the latest point.
+
+<CodePreview
+  preview={<LineChart variant="default" />}
+  cli="charts/line/default"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+import {
+  ResponsiveContainer,
+  LineChart as RLineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const data = [
+  { label: "Feb", value: 320 },
+  { label: "Mar", value: 410 },
+  { label: "Apr", value: 480 },
+  { label: "May", value: 590 },
+  { label: "Jun", value: 710 },
+  { label: "Jul", value: 860 },
+  { label: "Aug", value: 940 },
+];
+
+const CustomTooltip = ({ active, payload, label, mono }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <Box
+      sx={{
+        bgcolor: mono.bg,
+        border: "1px solid",
+        borderColor: mono.fg,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" sx={{ color: mono.fg, opacity: 0.6 }}>
+        {label}
+      </Typography>
+      <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+        {payload[0].value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
+const AnimatedValue = ({ value, mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.8, ease: "easeOut" });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const LiveDot = (props) => {
+  const { cx, cy, index, dataLength, mono } = props;
+  if (index !== dataLength - 1) return null;
+
+  return (
+    <g>
+      <motion.circle
+        cx={cx}
+        cy={cy}
+        r={10}
+        fill="none"
+        stroke={mono.fg}
+        strokeWidth={2}
+        animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: \`\${cx}px \${cy}px\` }}
+      />
+      <circle cx={cx} cy={cy} r={4} fill={mono.fg} />
+    </g>
+  );
+};
+
+const LineChartDefault = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    bg: isDark ? "#000000" : "#FFFFFF",
+    grid: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  const latest = data[data.length - 1].value;
+
+  const renderDot = (props) => (
+    <LiveDot {...props} dataLength={data.length} mono={mono} key={props.index} />
+  );
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+      }}
+    >
+      <Box sx={{ mb: 1.5 }}>
+        <Typography variant="caption" sx={{ color: mono.axis }}>
+          Latest value
+        </Typography>
+        <Typography variant="h5" sx={{ fontWeight: 500 }}>
+          <AnimatedValue value={latest} mono={mono} />
+        </Typography>
+      </Box>
+      <ResponsiveContainer width="100%" height={280}>
+        <RLineChart data={data} margin={{ top: 16, right: 20, left: -12, bottom: 0 }}>
+          <CartesianGrid stroke={mono.grid} vertical={false} />
+          <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <YAxis axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <Tooltip content={<CustomTooltip mono={mono} />} cursor={{ stroke: mono.grid, strokeWidth: 1 }} />
+          <Line type="linear" dataKey="value" stroke={mono.fg} strokeWidth={2} dot={renderDot} isAnimationActive animationDuration={700} />
+        </RLineChart>
+      </ResponsiveContainer>
+    </MotionPaper>
+  );
+};
+
+export default LineChartDefault;
+`}
+/>
+
+#### Area
+
+Gradient-filled trend line, for when the shape under the curve should carry weight.
+
+<CodePreview
+  preview={<LineChart variant="area" />}
+  cli="charts/line/area"
+  code={`
+import React, { useEffect } from "react";
+import { Box, Paper, Typography, useTheme } from "@mui/material";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "motion/react";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
+
+const MotionPaper = motion.create(Paper);
+
+const data = [
+  { label: "Feb", value: 320 },
+  { label: "Mar", value: 410 },
+  { label: "Apr", value: 480 },
+  { label: "May", value: 590 },
+  { label: "Jun", value: 710 },
+  { label: "Jul", value: 860 },
+  { label: "Aug", value: 940 },
+];
+
+const CustomTooltip = ({ active, payload, label, mono }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <Box
+      sx={{
+        bgcolor: mono.bg,
+        border: "1px solid",
+        borderColor: mono.fg,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" sx={{ color: mono.fg, opacity: 0.6 }}>
+        {label}
+      </Typography>
+      <Typography variant="body2" sx={{ fontWeight: 500, color: mono.fg }}>
+        {payload[0].value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
+const AnimatedValue = ({ value, mono }) => {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    const controls = animate(mv, value, { duration: 0.8, ease: "easeOut" });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span style={{ color: mono.fg }}>{rounded}</motion.span>;
+};
+
+const LineChartArea = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
+  const mono = {
+    fg: isDark ? "#FFFFFF" : "#111111",
+    bg: isDark ? "#000000" : "#FFFFFF",
+    grid: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+    axis: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+  };
+
+  const latest = data[data.length - 1].value;
+
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      elevation={0}
+      sx={{
+        p: { xs: 2, md: 3 },
+        borderRadius: 2,
+        border: "1px solid",
+        borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
+        bgcolor: "background.paper",
+        width: "100%",
+      }}
+    >
+      <Box sx={{ mb: 1.5 }}>
+        <Typography variant="caption" sx={{ color: mono.axis }}>
+          Latest value
+        </Typography>
+        <Typography variant="h5" sx={{ fontWeight: 500 }}>
+          <AnimatedValue value={latest} mono={mono} />
+        </Typography>
+      </Box>
+      <ResponsiveContainer width="100%" height={280}>
+        <AreaChart data={data} margin={{ top: 16, right: 20, left: -12, bottom: 0 }}>
+          <defs>
+            <linearGradient id="syncFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={mono.fg} stopOpacity={0.25} />
+              <stop offset="100%" stopColor={mono.fg} stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid stroke={mono.grid} vertical={false} />
+          <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <YAxis axisLine={false} tickLine={false} tick={{ fill: mono.axis, fontSize: 12 }} />
+          <Tooltip content={<CustomTooltip mono={mono} />} cursor={{ stroke: mono.grid, strokeWidth: 1 }} />
+          <Area type="monotone" dataKey="value" stroke={mono.fg} strokeWidth={2} fill="url(#syncFade)" isAnimationActive animationDuration={800} />
+        </AreaChart>
+      </ResponsiveContainer>
+    </MotionPaper>
+  );
+};
+
+export default LineChartArea;
+`}
+/>

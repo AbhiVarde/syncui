@@ -123,7 +123,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                         cursor: "pointer",
                       }}
                     >
-                      {/* small motion wrapper for micro-interaction */}
                       <motion.div {...subtleButtonTap} style={{ margin: 0 }}>
                         <FiMail
                           size={20}
@@ -159,7 +158,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
               }}
             />
 
-            {/* Animated Placeholder */}
             {!isFocused && !value && (
               <Box
                 sx={{

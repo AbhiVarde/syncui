@@ -229,7 +229,6 @@ const BotNewsletter = ({ isDarkMode }) => {
                   </Button>
                 </form>
 
-                {/* Powered by Resend footer */}
                 <Box
                   sx={{
                     display: "flex",
@@ -259,7 +258,6 @@ const BotNewsletter = ({ isDarkMode }) => {
                       alignItems: "center",
                     }}
                   >
-                    {/* Appwrite */}
                     <Box
                       sx={{
                         display: "flex",
@@ -302,7 +300,6 @@ const BotNewsletter = ({ isDarkMode }) => {
                     >
                       &
                     </Typography>
-                    {/* Resend */}
                     <Box
                       sx={{
                         display: "flex",

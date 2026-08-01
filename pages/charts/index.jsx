@@ -12,43 +12,61 @@ import Head from "next/head";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
-import HeroVariants from "@/components/ui/blocks/Hero/Hero";
-import CTAVariants from "@/components/ui/blocks/CTA/Cta";
-import PricingVariants from "@/components/ui/blocks/Pricing/Pricing";
-import StatsVariants from "@/components/ui/blocks/Stats/Stats";
+import LineChart from "@/components/ui/charts/line";
+import BarChart from "@/components/ui/charts/bar";
+import Donut from "@/components/ui/charts/donut";
+import Stat from "@/components/ui/charts/stat";
+import Progress from "@/components/ui/charts/progress";
+import Heatmap from "@/components/ui/charts/heatmap";
 
-const blockCategories = [
+const chartCategories = [
   {
     id: 1,
-    title: "Hero",
-    preview: <HeroVariants variant="center" height={180} />,
-    count: 3,
-    route: "/docs/blocks/hero",
-    description: "Eye-catching hero sections for landing pages",
+    title: "Line",
+    preview: <LineChart variant="area" height={160} />,
+    variants: 2,
+    route: "/docs/charts/line",
+    description: "Trend lines with an animated headline value",
   },
   {
     id: 2,
-    title: "Stats",
-    preview: <StatsVariants variant="simple" height={180} />,
-    count: 3,
-    route: "/docs/blocks/stats",
-    description: "Professional statistics and metrics sections",
+    title: "Bar",
+    preview: <BarChart variant="ranked" height={160} />,
+    variants: 2,
+    route: "/docs/charts/bar",
+    description: "Comparisons with spring-physics growth",
   },
   {
     id: 3,
-    title: "Pricing",
-    preview: <PricingVariants variant="threeTier" height={180} />,
-    count: 3,
-    route: "/docs/blocks/pricing",
-    description: "Professional pricing tables and plans",
+    title: "Donut",
+    preview: <Donut variant="default" height={160} />,
+    variants: 2,
+    route: "/docs/charts/donut",
+    description: "Breakdowns with a counting center total",
   },
   {
     id: 4,
-    title: "CTA",
-    preview: <CTAVariants variant="centered" height={180} />,
-    count: 4,
-    route: "/docs/blocks/cta",
-    description: "Call-to-action sections to drive conversions",
+    title: "Stat",
+    preview: <Stat variant="default" />,
+    variants: 2,
+    route: "/docs/charts/stat",
+    description: "Single-metric cards for dashboards",
+  },
+  {
+    id: 5,
+    title: "Progress",
+    preview: <Progress variant="radial" />,
+    variants: 2,
+    route: "/docs/charts/progress",
+    description: "Linear and radial gauges for quota and usage",
+  },
+  {
+    id: 6,
+    title: "Heatmap",
+    preview: <Heatmap variant="compact" />,
+    variants: 2,
+    route: "/docs/charts/heatmap",
+    description: "GitHub-style activity grids with weighted intensity",
   },
 ];
 
@@ -57,46 +75,46 @@ const fadeUp = {
   animate: { opacity: 1, y: 0 },
 };
 
-const Blocks = () => {
+const Charts = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
   return (
     <>
       <Head>
-        <title>Blocks // Sync UI</title>
+        <title>Charts // Sync UI</title>
         <meta
           name="description"
-          content="Get 13+ free animated UI blocks including Hero sections, CTA blocks, Pricing tables, and Stats sections. Built with React, MUI, and Motion. Part of ▲ Vercel OSS Program Spring '26."
+          content="Get free animated chart components including Line, Bar, Donut, Stat, Progress, and Heatmap. Built with Recharts, MUI, and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
-        <link rel="canonical" href="https://www.syncui.design/blocks" />
+        <link rel="canonical" href="https://www.syncui.design/charts" />
         <meta
           name="keywords"
-          content="React UI blocks, hero section, CTA blocks, pricing table, stats section, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Vercel OSS"
+          content="React chart components, Recharts, animated charts, line chart, bar chart, donut chart, stat card, progress gauge, activity heatmap, dashboard components, Next.js charts, MUI charts, Vercel OSS"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.syncui.design/blocks" />
+        <meta property="og:url" content="https://www.syncui.design/charts" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
-          content="13+ Free Animated UI Blocks | Sync UI"
+          content="Free Animated Chart Components | Sync UI"
         />
         <meta
           property="og:description"
-          content="Get 13+ free animated UI blocks including Hero, CTA, Pricing, and Stats sections. Built with React, MUI, and Motion."
+          content="Get free animated chart components including Line, Bar, Donut, Stat, Progress, and Heatmap. Built with Recharts, MUI, and Motion."
         />
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Blocks")}&type=Blocks`}
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Charts")}&type=Charts`}
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
         <meta
           key="og-image-alt"
           property="og:image:alt"
-          content="Sync UI Blocks"
+          content="Sync UI Charts"
         />
         <meta
           key="og-image-type"
@@ -109,16 +127,16 @@ const Blocks = () => {
         <meta name="twitter:creator" content="@abhivarde" />
         <meta
           name="twitter:title"
-          content="13+ Free Animated UI Blocks | Sync UI"
+          content="Free Animated Chart Components | Sync UI"
         />
         <meta
           name="twitter:description"
-          content="Get 13+ free animated UI blocks including Hero, CTA, Pricing, and Stats sections. Built with React, MUI, and Motion."
+          content="Get free animated chart components including Line, Bar, Donut, Stat, Progress, and Heatmap. Built with Recharts, MUI, and Motion."
         />
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Blocks")}&type=Blocks`}
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Charts")}&type=Charts`}
         />
 
         <script
@@ -127,11 +145,11 @@ const Blocks = () => {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "CollectionPage",
-              name: "Sync UI Blocks",
+              name: "Sync UI Charts",
               description:
-                "13+ free animated UI blocks including Hero, Stats, Pricing, and CTA sections",
-              url: "https://www.syncui.design/blocks",
-              numberOfItems: 13,
+                "Free animated chart components including Line, Bar, Donut, Stat, Progress, and Heatmap",
+              url: "https://www.syncui.design/charts",
+              numberOfItems: 6,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
@@ -156,8 +174,8 @@ const Blocks = () => {
                 {
                   "@type": "ListItem",
                   position: 2,
-                  name: "Blocks",
-                  item: "https://www.syncui.design/blocks",
+                  name: "Charts",
+                  item: "https://www.syncui.design/charts",
                 },
               ],
             }),
@@ -169,31 +187,43 @@ const Blocks = () => {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ItemList",
-              name: "Sync UI Block Categories",
+              name: "Sync UI Chart Categories",
               itemListElement: [
                 {
                   "@type": "ListItem",
                   position: 1,
-                  name: "Hero Blocks",
-                  url: "https://www.syncui.design/docs/blocks/hero",
+                  name: "Line Charts",
+                  url: "https://www.syncui.design/docs/charts/line",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
-                  name: "Stats Blocks",
-                  url: "https://www.syncui.design/docs/blocks/stats",
+                  name: "Bar Charts",
+                  url: "https://www.syncui.design/docs/charts/bar",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
-                  name: "Pricing Blocks",
-                  url: "https://www.syncui.design/docs/blocks/pricing",
+                  name: "Donut Charts",
+                  url: "https://www.syncui.design/docs/charts/donut",
                 },
                 {
                   "@type": "ListItem",
                   position: 4,
-                  name: "CTA Blocks",
-                  url: "https://www.syncui.design/docs/blocks/cta",
+                  name: "Stat Cards",
+                  url: "https://www.syncui.design/docs/charts/stat",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 5,
+                  name: "Progress Gauges",
+                  url: "https://www.syncui.design/docs/charts/progress",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 6,
+                  name: "Activity Heatmap",
+                  url: "https://www.syncui.design/docs/charts/heatmap",
                 },
               ],
             }),
@@ -291,7 +321,7 @@ const Blocks = () => {
                     },
                   }}
                 >
-                  Sync UI Blocks
+                  Sync UI Charts
                 </Button>
               </Box>
 
@@ -316,7 +346,7 @@ const Blocks = () => {
                       lineHeight: 1.15,
                     }}
                   >
-                    Ready-made UI blocks
+                    Data, visualized cleanly
                   </Typography>
                 </Box>
 
@@ -338,15 +368,15 @@ const Blocks = () => {
                       component="span"
                       sx={{ display: { xs: "none", sm: "inline" } }}
                     >
-                      Production-ready sections built with MUI and Motion. Copy,
-                      customize, and ship.
+                      Animated chart components built with Recharts, MUI, and
+                      Motion. Copy, customize, and ship.
                     </Box>
 
                     <Box
                       component="span"
                       sx={{ display: { xs: "inline", sm: "none" } }}
                     >
-                      Production-ready sections built with MUI and Motion.
+                      Animated chart components built with Recharts and Motion.
                     </Box>
                   </Typography>
                 </Box>
@@ -364,10 +394,10 @@ const Blocks = () => {
             gap: { xs: 4, sm: 5, md: 6 },
           }}
         >
-          {blockCategories.map((block) => (
+          {chartCategories.map((chart) => (
             <Link
-              key={block.id}
-              href={block.route}
+              key={chart.id}
+              href={chart.route}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Box
@@ -403,7 +433,7 @@ const Blocks = () => {
                   }}
                 >
                   <Box sx={{ width: "100%", transform: "scale(0.94)" }}>
-                    {block.preview}
+                    {chart.preview}
                   </Box>
                 </Box>
 
@@ -417,15 +447,15 @@ const Blocks = () => {
                 >
                   <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
                     <Typography variant="h6" fontWeight={500}>
-                      {block.title}
+                      {chart.title}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      {block.count} blocks
+                      {chart.variants} variants
                     </Typography>
                   </Box>
                   <IconButton
                     disableRipple
-                    aria-label={`View ${block.title} blocks`}
+                    aria-label={`View ${chart.title} chart`}
                     sx={{
                       p: 0,
                       color: "text.primary",
@@ -452,7 +482,7 @@ const Blocks = () => {
                   color="text.secondary"
                   sx={{ px: 0.5, mt: -1.5 }}
                 >
-                  {block.description}
+                  {chart.description}
                 </Typography>
               </Box>
             </Link>
@@ -463,4 +493,4 @@ const Blocks = () => {
   );
 };
 
-export default Blocks;
+export default Charts;

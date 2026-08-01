@@ -45,6 +45,12 @@ import HeroVariants from "./ui/blocks/Hero/Hero";
 import CTAVariants from "./ui/blocks/CTA/Cta";
 import PricingVariants from "./ui/blocks/Pricing/Pricing";
 import StatsVariants from "./ui/blocks/Stats/Stats";
+import LineChart from "./ui/charts/line";
+import BarChart from "./ui/charts/bar";
+import Donut from "./ui/charts/donut";
+import Stat from "./ui/charts/stat";
+import Progress from "./ui/charts/progress";
+import Heatmap from "./ui/charts/heatmap";
 
 const headingSizes = {
   h1: { fontSize: "32px", lineHeight: 1.2, fontWeight: 600 },
@@ -384,6 +390,12 @@ export const MDXComponents = {
   CTAVariants,
   PricingVariants,
   StatsVariants,
+  LineChart,
+  BarChart,
+  Donut,
+  Stat,
+  Progress,
+  Heatmap,
   CodePreview,
   PackageManagerTabs,
   h1: createHeading("h1"),

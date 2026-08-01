@@ -208,17 +208,53 @@ const Templates = ({ docsTree }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            minHeight: 260,
-            backgroundImage: "radial-gradient(#9ca3af 1px, transparent 1px)",
-            backgroundSize: "22px 22px",
+            minHeight: 280,
+            backgroundColor: "background.default",
+            backgroundImage: isDarkMode
+              ? `
+          repeating-linear-gradient(
+            -60deg,
+            transparent 0px,
+            transparent 9px,
+            rgba(255,255,255,0.12) 9px,
+            rgba(255,255,255,0.12) 10px
+          )
+        `
+              : `
+          repeating-linear-gradient(
+            -60deg,
+            transparent 0px,
+            transparent 9px,
+            rgba(0,0,0,0.08) 9px,
+            rgba(0,0,0,0.08) 10px
+          )
+        `,
           }}
         >
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: isDarkMode
+                ? "rgba(0,0,0,0.35)"
+                : "rgba(255,255,255,0.25)",
+            }}
+          />
+
           <Container
             maxWidth="md"
             sx={{
               position: "relative",
               zIndex: 1,
               textAlign: "center",
+              backgroundColor: "background.paper",
+              border: "1px solid",
+              borderColor: isDarkMode
+                ? "rgba(255,255,255,0.08)"
+                : "rgba(0,0,0,0.08)",
+              mx: 2,
+              p: { xs: 2, sm: 3, md: 4 },
+              borderRadius: 2.5,
             }}
           >
             <Box
@@ -226,21 +262,21 @@ const Templates = ({ docsTree }) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                px: { xs: 2, md: 0 },
-                gap: 1.5,
+                gap: 2,
               }}
             >
               <Box
                 component={motion.div}
                 {...fadeUp}
-                transition={{ duration: 0.35, delay: 0.05 }}
+                transition={{ duration: 0.4, delay: 0.05 }}
               >
                 <Button
                   disableRipple
                   sx={{
                     px: 2,
                     py: 0.5,
-                    borderRadius: "999px",
+                    minHeight: 32,
+                    borderRadius: "12px",
                     fontWeight: 500,
                     backgroundColor: "background.paper",
                     border: "1px solid",
@@ -257,17 +293,25 @@ const Templates = ({ docsTree }) => {
                 </Button>
               </Box>
 
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1.5,
+                  alignItems: "center",
+                }}
+              >
                 <Box
                   component={motion.div}
                   {...fadeUp}
-                  transition={{ duration: 0.35, delay: 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.12 }}
                 >
                   <Typography
                     variant="h3"
                     sx={{
                       fontWeight: 600,
                       letterSpacing: "-0.02em",
+                      lineHeight: 1.15,
                     }}
                   >
                     Premium UI templates
@@ -277,13 +321,16 @@ const Templates = ({ docsTree }) => {
                 <Box
                   component={motion.div}
                   {...fadeUp}
-                  transition={{ duration: 0.35, delay: 0.15 }}
+                  transition={{ duration: 0.4, delay: 0.18 }}
                 >
                   <Typography
                     variant="h6"
-                    fontWeight={400}
-                    color="text.secondary"
-                    sx={{ mt: 1 }}
+                    sx={{
+                      fontWeight: 400,
+                      color: "text.secondary",
+                      lineHeight: 1.6,
+                      mx: "auto",
+                    }}
                   >
                     <Box
                       component="span"
@@ -306,7 +353,7 @@ const Templates = ({ docsTree }) => {
               <Box
                 component={motion.div}
                 {...fadeUp}
-                transition={{ duration: 0.35, delay: 0.2 }}
+                transition={{ duration: 0.4, delay: 0.24 }}
                 onClick={() =>
                   window.open(
                     "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
@@ -339,7 +386,7 @@ const Templates = ({ docsTree }) => {
           </Container>
         </Box>
 
-        <Container maxWidth="md" sx={{ px: { lg: 0 }, pb: 8 }}>
+        <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
           {templatesData.map((template, index) => (
             <Box
               key={template.id}
