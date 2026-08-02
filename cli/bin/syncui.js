@@ -29,7 +29,7 @@ program
 
 program
   .command("add <name>")
-  .description("Add a component or block, e.g. `syncui add accordion`")
+  .description("Add a component, block, or chart, e.g. `syncui add accordion`")
   .option("-p, --path <dir>", "output directory")
   .option("-o, --overwrite", "overwrite if file exists", false)
   .option("--skip-install", "skip automatic dependency installation", false)
@@ -56,6 +56,8 @@ program
     (index.components || []).forEach((k) => console.log(`  - ${k}`));
     console.log("\nBlocks:");
     (index.blocks || []).forEach((k) => console.log(`  - ${k}`));
+    console.log("\nCharts:");
+    (index.charts || []).forEach((k) => console.log(`  - ${k}`));
   });
 
 program.parse();

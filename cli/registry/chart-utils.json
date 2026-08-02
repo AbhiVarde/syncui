@@ -1,0 +1,14 @@
+{
+  "useChartTheme": {
+    "type": "hook",
+    "fileName": "useChartTheme.js",
+    "targetDir": "hooks",
+    "code": "import { useTheme } from \"@mui/material\";\n\nexport const useChartTheme = () => {\n  const theme = useTheme();\n  const isDark = theme.palette.mode === \"dark\";\n\n  return {\n    isDark,\n    fg: isDark ? \"#FFFFFF\" : \"#111111\",\n    bg: isDark ? \"#000000\" : \"#FFFFFF\",\n    grid: isDark ? \"rgba(255,255,255,0.08)\" : \"rgba(0,0,0,0.08)\",\n    axis: isDark ? \"rgba(255,255,255,0.45)\" : \"rgba(0,0,0,0.45)\",\n    fade: isDark ? \"rgba(255,255,255,0.2)\" : \"rgba(0,0,0,0.15)\",\n    border: isDark ? \"rgba(255,255,255,0.12)\" : \"rgba(0,0,0,0.12)\",\n  };\n};\n"
+  },
+  "chartTooltip": {
+    "type": "component",
+    "fileName": "ChartTooltip.jsx",
+    "targetDir": "components",
+    "code": "import { Box, Typography } from \"@mui/material\";\nimport { motion } from \"motion/react\";\n\nconst ChartTooltip = ({ active, payload, label, mono, formatter }) => {\n  if (!active || !payload?.length) return null;\n  const value = payload[0].value;\n\n  return (\n    <Box\n      component={motion.div}\n      initial={{ opacity: 0, y: 4 }}\n      animate={{ opacity: 1, y: 0 }}\n      transition={{ duration: 0.15 }}\n      sx={{\n        bgcolor: mono.bg,\n        border: \"1px solid\",\n        borderColor: mono.fg,\n        borderRadius: 1,\n        px: 1.5,\n        py: 1,\n      }}\n    >\n      <Typography variant=\"caption\" sx={{ color: mono.fg, opacity: 0.6 }}>\n        {label}\n      </Typography>\n      <Typography variant=\"body2\" sx={{ fontWeight: 500, color: mono.fg }}>\n        {formatter ? formatter(value) : value.toLocaleString()}\n      </Typography>\n    </Box>\n  );\n};\n\nexport default ChartTooltip;\n"
+  }
+}

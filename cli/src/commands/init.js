@@ -40,6 +40,7 @@ function writeConfig(framework, tsx, alias) {
     aliases: {
       components: `${alias.prefix}/components/syncui/components`,
       blocks: `${alias.prefix}/components/syncui/blocks`,
+      hooks: `${alias.prefix}/hooks`,
     },
   };
 

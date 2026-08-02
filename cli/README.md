@@ -1,6 +1,6 @@
 # syncui
 
-A CLI for setting up and adding components and blocks to your project.
+A CLI for setting up and adding components, blocks, and charts to your project.
 
 ## Install
 
@@ -30,7 +30,7 @@ syncui init
 
 ## add
 
-Use the `add` command to add a component or block to your project.
+Use the `add` command to add a component, block, or chart to your project.
 
 The `add` command writes the code directly into your project and installs any missing dependencies automatically. Nothing is added as a package dependency, you own the code.
 
@@ -50,16 +50,19 @@ Running `add` without a variant uses the default style. To add a specific varian
 syncui add card/lens
 ```
 
-This works the same way for blocks.
+This works the same way for blocks and charts.
 
 ```bash
 syncui add hero
 syncui add hero/left
+
+syncui add bar
+syncui add line/dashed
 ```
 
 ## list
 
-Use the `list` command to view every component and block available.
+Use the `list` command to view every component, block, and chart available.
 
 ```bash
 syncui list
@@ -80,10 +83,10 @@ If you'd rather not install globally, the same commands work with any package ma
 
 ```bash
 npx @abhivarde/syncui@latest init
-npx @abhivarde/syncui@latest add accordion
-pnpm dlx @abhivarde/syncui@latest add accordion
-yarn dlx @abhivarde/syncui@latest add accordion
-bunx --bun @abhivarde/syncui@latest add accordion
+npx @abhivarde/syncui@latest add card
+pnpm dlx @abhivarde/syncui@latest add card
+yarn dlx @abhivarde/syncui@latest add card
+bunx --bun @abhivarde/syncui@latest add card
 ```
 
 ## Documentation

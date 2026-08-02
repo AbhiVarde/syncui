@@ -1,0 +1,44 @@
+{
+  "line": {
+    "type": "chart",
+    "name": "line",
+    "fileName": "Line.jsx",
+    "dependencies": ["@mui/material", "recharts", "motion"],
+    "registryDependencies": ["useChartTheme", "chartTooltip"]
+  },
+  "bar": {
+    "type": "chart",
+    "name": "bar",
+    "fileName": "Bar.jsx",
+    "dependencies": ["@mui/material", "recharts", "motion"],
+    "registryDependencies": ["useChartTheme", "chartTooltip"]
+  },
+  "donut": {
+    "type": "chart",
+    "name": "donut",
+    "fileName": "Donut.jsx",
+    "dependencies": ["@mui/material", "recharts", "motion"],
+    "registryDependencies": ["useChartTheme", "chartTooltip"]
+  },
+  "stat": {
+    "type": "chart",
+    "name": "stat",
+    "fileName": "Stat.jsx",
+    "dependencies": ["@mui/material", "recharts", "motion"],
+    "registryDependencies": ["useChartTheme"]
+  },
+  "progress": {
+    "type": "chart",
+    "name": "progress",
+    "fileName": "Progress.jsx",
+    "dependencies": ["@mui/material", "motion"],
+    "registryDependencies": ["useChartTheme"]
+  },
+  "heatmap": {
+    "type": "chart",
+    "name": "heatmap",
+    "fileName": "Heatmap.jsx",
+    "dependencies": ["@mui/material", "motion"],
+    "registryDependencies": ["useChartTheme"]
+  }
+}

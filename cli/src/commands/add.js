@@ -53,6 +53,22 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function getRegistryDepDir(dep, config) {
+  if (config?.aliases?.[dep.targetDir]) {
+    const resolved = resolveAliasPath(
+      config.aliases[dep.targetDir],
+      config.tsx,
+    );
+    if (resolved) return resolved;
+  }
+
+  if (dep.targetDir === "components") {
+    return path.join(getDefaultBase(), "components", "syncui", "components");
+  }
+
+  return path.join(getDefaultBase(), dep.targetDir);
+}
+
 async function add(rawName, options) {
   if (typeof fetch === "undefined") {
     console.error("✗ fetch is not available. Please upgrade to Node.js 18+.");
@@ -72,11 +88,15 @@ async function add(rawName, options) {
     process.exit(1);
   }
 
-  const allNames = [...(index.components || []), ...(index.blocks || [])];
+  const allNames = [
+    ...(index.components || []),
+    ...(index.blocks || []),
+    ...(index.charts || []),
+  ];
   const category = resolveKey(rawCategory, allNames);
 
   if (!category) {
-    console.error(`✗ No component or block called "${rawCategory}".`);
+    console.error(`✗ No component, block, or chart called "${rawCategory}".`);
     console.error(`  Available: ${allNames.sort().join(", ")}`);
     process.exit(1);
   }
@@ -135,6 +155,23 @@ async function add(rawName, options) {
 
   process.stdout.write("                      \r");
   console.log(`✓ Added ${label} → ${path.relative(process.cwd(), outFile)}`);
+
+  if (entry.registryDependencies?.length) {
+    for (const dep of entry.registryDependencies) {
+      const depDir = getRegistryDepDir(dep, config);
+      fs.mkdirSync(depDir, { recursive: true });
+
+      const depFile = path.join(depDir, dep.fileName);
+      if (fs.existsSync(depFile) && !options.overwrite) {
+        continue;
+      }
+
+      fs.writeFileSync(depFile, dep.code);
+      console.log(
+        `✓ Added shared dependency → ${path.relative(process.cwd(), depFile)}`,
+      );
+    }
+  }
 
   const result = runInstall(entry.dependencies, {
     skipInstall: options.skipInstall,

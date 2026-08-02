@@ -12,8 +12,10 @@ function main() {
   const components = readJSON(path.join(REGISTRY_DIR, "components.json"));
   const blocks = readJSON(path.join(REGISTRY_DIR, "blocks.json"));
   const variants = readJSON(path.join(REGISTRY_DIR, "variants.json"));
+  const charts = readJSON(path.join(REGISTRY_DIR, "charts.json"));
+  const chartUtils = readJSON(path.join(REGISTRY_DIR, "chart-utils.json"));
 
-  const all = { ...components, ...blocks };
+  const all = { ...components, ...blocks, ...charts };
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
@@ -21,6 +23,7 @@ function main() {
     version: "1.0.0",
     components: Object.keys(components).sort(),
     blocks: Object.keys(blocks).sort(),
+    charts: Object.keys(charts).sort(),
   };
 
   fs.writeFileSync(
@@ -49,6 +52,24 @@ function main() {
       default: variantData.default,
       variants: variantData.variants,
     };
+
+    if (entry.registryDependencies?.length) {
+      output.registryDependencies = entry.registryDependencies.map((dep) => {
+        const util = chartUtils[dep];
+        if (!util) {
+          throw new Error(
+            `Missing chart util "${dep}" referenced by "${name}" in charts.json`,
+          );
+        }
+        return {
+          name: dep,
+          type: util.type,
+          fileName: util.fileName,
+          targetDir: util.targetDir,
+          code: util.code,
+        };
+      });
+    }
 
     fs.writeFileSync(
       path.join(OUT_DIR, `${name}.json`),

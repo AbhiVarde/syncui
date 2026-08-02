@@ -29,5 +29,13 @@
     "hero",
     "pricing",
     "stats"
+  ],
+  "charts": [
+    "bar",
+    "donut",
+    "heatmap",
+    "line",
+    "progress",
+    "stat"
   ]
 }
