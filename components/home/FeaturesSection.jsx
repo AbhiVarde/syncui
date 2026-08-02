@@ -9,6 +9,7 @@ import {
   Layers01Icon,
   IceCubesIcon,
   DashboardSquare01Icon,
+  ChartLineData01Icon,
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 
@@ -121,10 +122,40 @@ const FeatureCard = ({
   );
 };
 
+const FEATURES = [
+  {
+    icon: IceCubesIcon,
+    title: "Components",
+    description: "125+ animated components built with MUI and motion/react.",
+    cta: "Browse components",
+    path: "/components",
+  },
+  {
+    icon: DashboardSquare01Icon,
+    title: "Blocks",
+    description: "Ready to use sections. Heroes, pricing tables, and more.",
+    cta: "Browse blocks",
+    path: "/blocks",
+  },
+  {
+    icon: ChartLineData01Icon,
+    title: "Charts",
+    description: "Bar, line, donut, and more. Animated, two variants each.",
+    cta: "Browse charts",
+    path: "/charts",
+  },
+  {
+    icon: Layers01Icon,
+    title: "Templates",
+    description: "SaaS, startup, and portfolio. Individually or as a bundle.",
+    cta: "View templates",
+    path: "/templates",
+  },
+];
+
 const FeaturesSection = () => {
   const router = useRouter();
   const headerRef = useFadeInRef(0);
-  const componentCardRef = useFadeInRef(80);
 
   return (
     <Box sx={{ py: { xs: 6, md: 10 } }}>
@@ -143,9 +174,8 @@ const FeaturesSection = () => {
             color="text.secondary"
             sx={{ maxWidth: 700, mx: "auto" }}
           >
-            Sync UI provides carefully crafted components, templates, and
-            reusable blocks for building React and Next.js applications with
-            clarity and consistency.
+            Components, blocks, charts, and templates for building React and
+            Next.js applications with clarity and consistency.
           </Typography>
         </Box>
 
@@ -154,62 +184,20 @@ const FeaturesSection = () => {
             display: "grid",
             gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
             gap: 3,
-            mb: 3,
           }}
         >
-          <FeatureCard
-            icon={Layers01Icon}
-            title="Templates"
-            description="Ready made templates for SaaS, startup, and portfolio websites. Available individually or as a complete bundle."
-            cta="View templates"
-            onClick={() => router.push("/templates")}
-            delay={0}
-          />
-          <FeatureCard
-            icon={DashboardSquare01Icon}
-            title="Blocks"
-            description="Reusable sections such as heroes, feature layouts, and pricing tables. Designed to integrate seamlessly."
-            cta="Browse blocks"
-            onClick={() => router.push("/blocks")}
-            delay={60}
-          />
+          {FEATURES.map((feature, index) => (
+            <FeatureCard
+              key={feature.title}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+              cta={feature.cta}
+              onClick={() => router.push(feature.path)}
+              delay={index * 40}
+            />
+          ))}
         </Box>
-
-        <Paper
-          ref={componentCardRef}
-          elevation={0}
-          style={revealStyle}
-          sx={{
-            height: "100%",
-            borderRadius: 3,
-            border: "1px solid",
-            borderColor: "divider",
-            backgroundColor: "transparent",
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <HugeiconsIcon icon={IceCubesIcon} size={20} />
-            <Typography variant="h6" fontWeight={600}>
-              Components
-            </Typography>
-          </Box>
-
-          <Typography variant="body2" fontWeight={400} color="text.secondary">
-            Over 125 free animated components built with MUI and motion/react.
-            Designed for React and Next.js projects with a focus on clarity,
-            consistency, and production readiness.
-          </Typography>
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          <TextLink onClick={() => router.push("/components")}>
-            Browse components
-          </TextLink>
-        </Paper>
       </Container>
     </Box>
   );
