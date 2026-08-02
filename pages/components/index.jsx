@@ -456,10 +456,17 @@ const Components = ({ docsTree }) => {
           }}
         >
           {componentsList.map((component, index) => (
-            <Link
+            <Box
               key={component.id}
+              component={Link}
               href={component.route}
-              style={{ textDecoration: "none", color: "inherit" }}
+              sx={{
+                display: "block",
+                textDecoration: "none",
+                color: "inherit",
+                minWidth: 0,
+                overflow: "hidden",
+              }}
             >
               {component.preview ? (
                 <Box
@@ -480,6 +487,8 @@ const Components = ({ docsTree }) => {
                     backgroundColor: "transparent",
                     p: 1.5,
                     minWidth: 0,
+                    width: "100%",
+                    overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
                     gap: 1.5,
@@ -513,16 +522,27 @@ const Components = ({ docsTree }) => {
                       alignItems: "center",
                       justifyContent: "space-between",
                       px: 0.5,
+                      minWidth: 0,
                     }}
                   >
                     <Box
-                      sx={{ display: "flex", alignItems: "baseline", gap: 1 }}
+                      sx={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        gap: 1,
+                        minWidth: 0,
+                        overflow: "hidden",
+                      }}
                     >
-                      <Typography variant="body1" fontWeight={500}>
+                      <Typography variant="body1" fontWeight={500} noWrap>
                         {component.title}
                       </Typography>
                       {component.count && (
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          noWrap
+                        >
                           {component.count} variants
                         </Typography>
                       )}
@@ -532,6 +552,7 @@ const Components = ({ docsTree }) => {
                       sx={{
                         p: 0,
                         color: "text.primary",
+                        flexShrink: 0,
                         "&:hover": { backgroundColor: "transparent" },
                       }}
                     >
@@ -552,7 +573,13 @@ const Components = ({ docsTree }) => {
                     <Typography
                       variant="caption"
                       color="text.secondary"
-                      sx={{ px: 0.5, mt: -1 }}
+                      noWrap
+                      sx={{
+                        px: 0.5,
+                        mt: -1,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
                     >
                       {component.description}
                     </Typography>
@@ -574,6 +601,9 @@ const Components = ({ docsTree }) => {
                     borderRadius: 1.5,
                     backgroundColor: "background.paper",
                     p: 1.5,
+                    minWidth: 0,
+                    width: "100%",
+                    overflow: "hidden",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -581,10 +611,10 @@ const Components = ({ docsTree }) => {
                     "&:hover .icon": { transform: "rotate(45deg)" },
                   }}
                 >
-                  <Typography variant="body2" fontWeight={500}>
+                  <Typography variant="body2" fontWeight={500} noWrap>
                     {component.title}
                   </Typography>
-                  <IconButton disableRipple sx={{ p: 0 }}>
+                  <IconButton disableRipple sx={{ p: 0, flexShrink: 0 }}>
                     <Box
                       className="icon"
                       sx={{
@@ -598,7 +628,7 @@ const Components = ({ docsTree }) => {
                   </IconButton>
                 </Box>
               )}
-            </Link>
+            </Box>
           ))}
         </Box>
       </Container>
