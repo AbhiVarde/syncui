@@ -11,7 +11,7 @@
 <br />
 
 <p align="center">
-  Free React UI library with 125+ components, 13+ blocks, 6 charts, and 3 premium templates. Built with MUI and Motion.
+  A UI system with 125+ components, 13+ blocks, 12 chart variants, and 3 premium templates. Copy the code, install with a CLI, or connect via MCP and agent skills. Built for React, ready for your coding agent.
   <br />
   <br />
   <a href="https://github.com/AbhiVarde/syncui/stargazers"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=dark&font=geist" /><img alt="GitHub Stars" src="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=light&font=geist" /></picture></a>
@@ -25,6 +25,7 @@
   <a href="https://syncui.design/docs">Docs</a> ·
   <a href="https://syncui.design/components">Components</a> ·
   <a href="https://syncui.design/blocks">Blocks</a> ·
+  <a href="https://syncui.design/charts">Charts</a> ·
   <a href="https://syncui.design/templates">Templates</a> ·
   <a href="https://syncui.design/showcase">Showcase</a> ·
   <a href="https://www.npmjs.com/package/@abhivarde/syncui">npm</a>
@@ -38,11 +39,11 @@ Add any component, block, or chart directly into your project:
 npx @abhivarde/syncui@latest add name/variant
 ```
 
-Use `name/variant` to target exactly what you need, e.g. `accordion/brutalist`, `hero/centered`, or `line/dashed`.
+Use `name/variant` to target exactly what you need, for example `accordion/brutalist`, `hero/centered`, or `line/dashed`.
 
 ## MCP
 
-Let your AI agent add components, blocks, and charts directly without any commands:
+Let your AI agent add components, blocks, and charts directly, no commands needed:
 
 ```json
 {
@@ -66,7 +67,7 @@ https://syncui.design/r/index.json
 https://syncui.design/r/{name}.json
 ```
 
-This is what the CLI and MCP use under the hood. New entries are available the moment the site deploys — no package update needed.
+This is what the CLI and MCP use under the hood. New entries go live the moment the site deploys, no package update needed.
 
 ## Agent Skill
 
@@ -80,13 +81,13 @@ Your AI coding tool will know every component, variant, and animation pattern wi
 
 ## What's Inside
 
-| Count               | Includes                                                                                                             |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **125+ Components** | Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Accordions, Carousels, Dialogs, Docks, Tabs, and more |
-| **13+ Blocks**      | Hero, CTA, Pricing, and Stats sections for landing pages                                                             |
-| **6 Charts**        | Bar, Donut, Heatmap, Line, Progress, and Stat — animated, MUI-styled, dark mode included                             |
-| **3 Templates**     | Startup ($29), SaaS ($29), Portfolio ($29), Bundle — all three ($79)                                                 |
-| **Agent Skill**     | Full component and block reference for Cursor, Claude Code, Copilot, Windsurf                                        |
+| Count                 | Includes                                                                                                             |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **125+ Components**   | Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Accordions, Carousels, Dialogs, Docks, Tabs, and more |
+| **13+ Blocks**        | Hero, CTA, Pricing, and Stats sections for landing pages                                                             |
+| **12 Chart Variants** | Bar, Donut, Heatmap, Line, Progress, and Stat, two variants each, animated and MUI styled                            |
+| **3 Templates**       | Startup ($29), SaaS ($29), Portfolio ($29), Bundle, all three for $79                                                |
+| **Agent Skill**       | Full component and block reference for Cursor, Claude Code, Copilot, Windsurf                                        |
 
 ## Tech Stack
 
