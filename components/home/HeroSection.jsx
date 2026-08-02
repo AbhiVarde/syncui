@@ -33,7 +33,8 @@ const COMMANDS = {
   "your agent": "npx skills add AbhiVarde/syncui",
 };
 
-const EASE = "cubic-bezier(0.22,1,0.36,1)";
+const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+const DURATION = "0.22s";
 
 const MotionIcon = () => (
   <img
@@ -58,42 +59,55 @@ const CommandBar = ({ isDark }) => {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1.25, mb: 1.25 }}>
-        {["you", "your agent"].map((tab, i) => (
-          <Box
-            key={tab}
-            sx={{ display: "flex", alignItems: "center", gap: 1.25 }}
-          >
-            {i > 0 && (
-              <Box
-                sx={{
-                  width: "1px",
-                  height: 12,
-                  backgroundColor: isDark
-                    ? "rgba(255,255,255,0.16)"
-                    : "rgba(0,0,0,0.16)",
-                }}
-              />
-            )}
+      <Box
+        sx={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 0.25,
+          mb: 1.25,
+          p: 0.4,
+          borderRadius: 1.5,
+          bgcolor: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+        }}
+      >
+        {["you", "your agent"].map((tab) => {
+          const isActive = mode === tab;
+          return (
             <Box
+              key={tab}
               component="button"
               onClick={() => setMode(tab)}
+              aria-pressed={isActive}
               sx={{
                 background: "none",
                 border: "none",
-                p: 0,
+                px: 1.25,
+                py: 0.5,
+                borderRadius: 1.2,
                 cursor: "pointer",
                 fontSize: 14,
                 fontWeight: 500,
-                color: mode === tab ? "text.primary" : "text.secondary",
-                textShadow: mode === tab ? "0 0 0.3px currentColor" : "none",
-                transition: `color 0.2s ${EASE}, text-shadow 0.2s ${EASE}`,
+                color: isActive ? "text.primary" : "text.secondary",
+                bgcolor: isActive
+                  ? isDark
+                    ? "rgba(255,255,255,0.08)"
+                    : "#ffffff"
+                  : "transparent",
+                boxShadow: isActive
+                  ? isDark
+                    ? "none"
+                    : "0 1px 2px rgba(0,0,0,0.06)"
+                  : "none",
+                transition: `background-color ${DURATION} ${EASE}, color ${DURATION} ${EASE}, box-shadow ${DURATION} ${EASE}`,
+                "&:hover": {
+                  color: "text.primary",
+                },
               }}
             >
               For {tab}
             </Box>
-          </Box>
-        ))}
+          );
+        })}
       </Box>
 
       <Box
@@ -107,32 +121,40 @@ const CommandBar = ({ isDark }) => {
           border: "1px solid",
           borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
           backgroundColor: isDark ? "#0a0a0a" : "#fafafa",
-          fontFamily: "monospace",
-          fontSize: 13,
+          fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+          fontSize: 14,
+          letterSpacing: "-0.01em",
           maxWidth: "100%",
-          transition: `border-color 0.2s ${EASE}`,
+          overflow: "hidden",
+          transition: `width ${DURATION} ${EASE}`,
         }}
       >
         <Box component="span" sx={{ color: "text.secondary", flexShrink: 0 }}>
           $
         </Box>
+
         <Box
           sx={{
+            position: "relative",
             display: "inline-block",
             overflow: "hidden",
             whiteSpace: "nowrap",
-            width: `${COMMANDS[mode].length + 0.5}ch`,
-            transition: `width 0.28s ${EASE}`,
+            width: `${COMMANDS[mode].length}ch`,
+            height: "1.2em",
+            transition: `width ${DURATION} ${EASE}`,
           }}
         >
           <Box
             key={mode}
             component="span"
             sx={{
+              position: "absolute",
+              inset: 0,
               display: "inline-block",
-              animation: `cmdIn 0.28s ${EASE}`,
+              opacity: 0,
+              transform: "translateY(3px)",
+              animation: `cmdIn ${DURATION} ${EASE} forwards`,
               "@keyframes cmdIn": {
-                from: { opacity: 0, transform: "translateY(4px)" },
                 to: { opacity: 1, transform: "translateY(0)" },
               },
             }}
@@ -140,6 +162,7 @@ const CommandBar = ({ isDark }) => {
             {COMMANDS[mode]}
           </Box>
         </Box>
+
         <Box
           component="button"
           onClick={handleCopy}
@@ -245,7 +268,7 @@ const HeroSection = () => {
               gap: 1,
             }}
           >
-            and templates built with
+            blocks and charts built with
             <Box
               component="span"
               sx={{
@@ -312,8 +335,8 @@ const HeroSection = () => {
             fontSize: { xs: 16, sm: 18 },
           }}
         >
-          Animated components, blocks, and templates for React. Copy them in,
-          install with a CLI, or hand them to your coding agent.
+          Copy the code, install with a CLI, or connect via MCP and agent
+          skills. Built for React, ready for your coding agent.
         </Typography>
 
         <CommandBar isDark={isDark} />
