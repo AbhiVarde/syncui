@@ -55,8 +55,8 @@ const CardVariants = ({ variant, preview = false }) => {
   }, [variant, preview]);
 
   const commonCardStyle = {
-    width: { xs: "100%", sm: "350px" },
-    maxWidth: "350px",
+    width: preview ? "100%" : { xs: "100%", sm: "350px" },
+    maxWidth: preview ? "100%" : "350px",
     height: "300px",
     borderRadius: 2,
     backgroundColor: theme.palette.background.paper,

@@ -37,21 +37,14 @@ import TextFieldVariants from "@/components/ui/components/TextFields";
 import TextVariants from "@/components/ui/components/Texts";
 import TimePickerVariants from "@/components/ui/components/TimePickers";
 
-// docsTree only knows title + route (from each .mdx's frontmatter).
-// The live preview, variant count, and card description live here,
-// keyed by the exact doc title. Lookup is normalized (lowercased,
-// whitespace-stripped) so "Date Pickers" in frontmatter still matches
-// the "DatePickers" key below. Any component without an entry here
-// still renders — just as a plain text row instead of a live preview
-// card, same fallback pattern used before this page had previews.
 const componentMeta = {
   Accordions: {
-    preview: <AccordionVariants variant="modern" preview />,
+    preview: <AccordionVariants variant="minimal" />,
     count: 4,
     description: "Expandable content panels",
   },
   Autocompletes: {
-    preview: <AutocompleteVariants variant="basic" preview />,
+    preview: <AutocompleteVariants variant="basic" />,
     count: 5,
     description: "Searchable dropdown inputs",
   },
@@ -71,7 +64,7 @@ const componentMeta = {
     description: "Interactive button styles",
   },
   Cards: {
-    preview: <CardVariants variant="contentCard" />,
+    preview: <CardVariants variant="dynamicOverlay" preview />,
     count: 6,
     description: "Content and media cards",
   },
@@ -81,7 +74,7 @@ const componentMeta = {
     description: "Image and content carousels",
   },
   DatePickers: {
-    preview: <DatePickerVariants variant="single" preview />,
+    preview: <DatePickerVariants variant="single" />,
     count: 4,
     description: "Calendar date selection",
   },
@@ -91,7 +84,7 @@ const componentMeta = {
     description: "Modal and dialog windows",
   },
   Docks: {
-    preview: <DockVariants variant="modern" preview />,
+    preview: <DockVariants variant="modern" />,
     count: 4,
     description: "macOS-style app docks",
   },
@@ -101,27 +94,27 @@ const componentMeta = {
     description: "Login, register, and contact forms",
   },
   Grids: {
-    preview: <GridVariants variant="minimalCards" preview />,
+    preview: <GridVariants variant="minimalCards" />,
     count: 5,
     description: "Image and content grid layouts",
   },
   Loaders: {
-    preview: <LoaderVariants variant="pulsatingDots" />,
+    preview: <LoaderVariants variant="fadingSquares" />,
     count: 8,
     description: "Loading state animations",
   },
   Paginations: {
-    preview: <PaginationVariants variant="simple" preview />,
+    preview: <PaginationVariants variant="simple" />,
     count: 8,
     description: "Page navigation controls",
   },
   Pointers: {
-    preview: <PointerVariants variant="glowingDot" />,
+    preview: <PointerVariants variant="followingRing" />,
     count: 6,
     description: "Custom cursor effects",
   },
   Separators: {
-    preview: <SeparatorVariants variant="gradient" />,
+    preview: <SeparatorVariants variant="zigzag" />,
     count: 7,
     description: "Section divider styles",
   },
@@ -131,17 +124,17 @@ const componentMeta = {
     description: "Loading placeholder skeletons",
   },
   Tables: {
-    preview: <TableVariants variant="minimal" preview />,
+    preview: <TableVariants variant="modern" preview />,
     count: 3,
     description: "Data tables with sorting",
   },
   Tabs: {
-    preview: <TabVariants variant="slidingUnderline" />,
+    preview: <TabVariants variant="floatingBackground" />,
     count: 4,
     description: "Tabbed navigation",
   },
   TextFields: {
-    preview: <TextFieldVariants variant="endIcon" preview />,
+    preview: <TextFieldVariants variant="endIcon" />,
     count: 6,
     description: "Text input variations",
   },
@@ -151,16 +144,12 @@ const componentMeta = {
     description: "Animated text effects",
   },
   TimePickers: {
-    preview: <TimePickerVariants variant="12hour" preview />,
+    preview: <TimePickerVariants variant="12hour" />,
     count: 4,
     description: "Time selection inputs",
   },
 };
 
-// Normalize a title for lookup: lowercase + strip all whitespace.
-// "Date Pickers", "DatePickers", and "date-pickers" (after replacing
-// hyphens upstream if needed) all resolve to the same key, so a
-// frontmatter title mismatch no longer silently drops the preview.
 const normalize = (s) => (s || "").toLowerCase().replace(/\s+/g, "");
 
 const componentMetaByNormalizedTitle = Object.fromEntries(
@@ -220,7 +209,9 @@ const Components = ({ docsTree }) => {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("125+ Free Animated React Components")}&type=Components`}
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(
+            "125+ Free Animated React Components",
+          )}&type=Components`}
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -249,7 +240,9 @@ const Components = ({ docsTree }) => {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("125+ Free Animated React Components")}&type=Components`}
+          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(
+            "125+ Free Animated React Components",
+          )}&type=Components`}
         />
 
         <script
@@ -455,7 +448,10 @@ const Components = ({ docsTree }) => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+            },
             gap: 2,
           }}
         >
@@ -500,13 +496,17 @@ const Components = ({ docsTree }) => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      pointerEvents: "none",
                       bgcolor: "background.default",
+                      pointerEvents: "none",
+                      userSelect: "none",
+                      "& *": {
+                        pointerEvents: "none !important",
+                        userSelect: "none !important",
+                      },
                     }}
                   >
                     {component.preview}
                   </Box>
-
                   <Box
                     sx={{
                       display: "flex",

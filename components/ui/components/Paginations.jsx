@@ -24,7 +24,6 @@ const PaginationVariants = ({
   preview = false,
 }) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [goToPage, setGoToPage] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -54,39 +53,25 @@ const PaginationVariants = ({
     return [1, "...", current - 1, current, current + 1, "...", total];
   };
 
-  const renderPageControl = (showText = true) => (
-    <Box display="flex" alignItems="center" gap={1}>
-      <IconButton
-        onClick={handlePrevPage}
-        disabled={currentPage === 1}
-        size={isMobile ? "small" : "medium"}
-      >
-        <RxChevronLeft style={{ color: textColor }} />
-      </IconButton>
-      {showText && (
-        <Typography variant="body2">
-          Page {currentPage} of {totalPages}
-        </Typography>
-      )}
-      <IconButton
-        onClick={handleNextPage}
-        disabled={currentPage === totalPages}
-        size={isMobile ? "small" : "medium"}
-      >
-        <RxChevronRight style={{ color: textColor }} />
-      </IconButton>
-    </Box>
-  );
-
   const renderPagination = () => {
     switch (variant) {
       case "simple":
         return (
-          <Box display="flex" alignItems="center" gap={isMobile ? 1 : 2}>
-            <Typography variant="body2" color={textColor}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: isMobile ? 1 : 2,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ color: textColor, whiteSpace: "nowrap" }}
+            >
               Page {currentPage} of {totalPages}
             </Typography>
-            <Box display="flex" gap={0.5}>
+            <Box sx={{ display: "flex", flexDirection: "row", gap: 0.5 }}>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -125,7 +110,15 @@ const PaginationVariants = ({
 
       case "numbered":
         return (
-          <Box display="flex" alignItems="center" gap={0.5}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0.5,
+              flexWrap: "nowrap",
+            }}
+          >
             <IconButton
               onClick={handlePrevPage}
               disabled={currentPage === 1}
@@ -133,12 +126,12 @@ const PaginationVariants = ({
             >
               <RxChevronLeft style={{ color: textColor }} />
             </IconButton>
+
             {getPageNumbers(currentPage, totalPages).map((page, index) =>
               page === "..." ? (
                 <Typography
                   key={`ellipsis-${index}`}
-                  color={secondaryColor}
-                  px={0.5}
+                  sx={{ color: secondaryColor, px: 0.5 }}
                 >
                   ...
                 </Typography>
@@ -150,20 +143,21 @@ const PaginationVariants = ({
                   transition={{ duration: 0.1 }}
                 >
                   <Box
-                    width={isMobile ? 28 : 36}
-                    height={isMobile ? 28 : 36}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    borderRadius={0.5}
-                    cursor="pointer"
                     onClick={() => setCurrentPage(page)}
                     sx={{
+                      width: isMobile ? 28 : 36,
+                      height: isMobile ? 28 : 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 1,
+                      cursor: "pointer",
                       backgroundColor:
                         page === currentPage ? bubbleColor : "transparent",
                       fontWeight: page === currentPage ? 600 : 400,
                       color: textColor,
                       transition: "background-color 0.15s",
+                      fontSize: 14,
                     }}
                   >
                     {page}
@@ -171,6 +165,7 @@ const PaginationVariants = ({
                 </motion.div>
               ),
             )}
+
             <IconButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
@@ -184,12 +179,15 @@ const PaginationVariants = ({
       case "compact":
         return (
           <Box
-            display="flex"
-            alignItems="center"
-            gap={0.5}
-            border={`1px solid ${theme.palette.divider}`}
-            borderRadius={1}
-            overflow="hidden"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0,
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 1,
+              overflow: "hidden",
+            }}
           >
             <IconButton
               onClick={handleFirstPage}
@@ -211,49 +209,47 @@ const PaginationVariants = ({
                 style={{ color: textColor, fontSize: isMobile ? 16 : 20 }}
               />
             </IconButton>
+
             {getPageNumbers(currentPage, totalPages)
               .slice(0, 5)
               .map((page, index) =>
                 page === "..." ? (
                   <Typography
                     key={`ellipsis-${index}`}
-                    color={secondaryColor}
-                    px={0.5}
+                    sx={{ color: secondaryColor, px: 0.5 }}
                   >
                     ...
                   </Typography>
                 ) : (
-                  <motion.div
+                  <Box
                     key={`page-${page}`}
-                    whileHover={{
+                    onClick={() => setCurrentPage(page)}
+                    sx={{
+                      width: isMobile ? 28 : 36,
+                      height: isMobile ? 28 : 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
                       backgroundColor:
-                        page !== currentPage
-                          ? theme.palette.action.hover
-                          : bubbleColor,
-                    }}
-                    initial={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
-                  >
-                    <Box
-                      width={isMobile ? 28 : 36}
-                      height={isMobile ? 28 : 36}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      cursor="pointer"
-                      onClick={() => setCurrentPage(page)}
-                      sx={{
+                        page === currentPage ? bubbleColor : "transparent",
+                      fontWeight: page === currentPage ? 600 : 400,
+                      color: textColor,
+                      transition: "background-color 0.15s",
+                      fontSize: 14,
+                      "&:hover": {
                         backgroundColor:
-                          page === currentPage ? bubbleColor : "transparent",
-                        fontWeight: page === currentPage ? 600 : 400,
-                        color: textColor,
-                        transition: "background-color 0.15s",
-                      }}
-                    >
-                      {page}
-                    </Box>
-                  </motion.div>
+                          page !== currentPage
+                            ? theme.palette.action.hover
+                            : bubbleColor,
+                      },
+                    }}
+                  >
+                    {page}
+                  </Box>
                 ),
               )}
+
             <IconButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
@@ -279,14 +275,27 @@ const PaginationVariants = ({
 
       case "with-dropdown":
         return (
-          <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
-            <Box display="flex" alignItems="center" gap={1}>
-              <Typography variant="body2">Rows per page</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 2,
+              flexWrap: "wrap",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: textColor, whiteSpace: "nowrap" }}
+              >
+                Rows per page
+              </Typography>
               <Select
                 value={rowsPerPage}
                 onChange={handleRowsPerPageChange}
                 size="small"
-                sx={{ minWidth: 100 }}
+                sx={{ minWidth: 80 }}
                 IconComponent={RxChevronDown}
               >
                 {[10, 25, 50, 100].map((num) => (
@@ -297,8 +306,22 @@ const PaginationVariants = ({
               </Select>
             </Box>
 
-            <Box display="flex" alignItems="center" gap={1}>
-              {renderPageControl(false)}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <IconButton
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                size={isMobile ? "small" : "medium"}
+              >
+                <RxChevronLeft style={{ color: textColor }} />
+              </IconButton>
+              <IconButton
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                size={isMobile ? "small" : "medium"}
+              >
+                <RxChevronRight style={{ color: textColor }} />
+              </IconButton>
+
               <Select
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
@@ -325,36 +348,51 @@ const PaginationVariants = ({
 
         return (
           <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            width="100%"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 2,
+            }}
           >
-            <Box display="flex" alignItems="center" gap={2}>
-              <Typography variant="body2">Rows per page</Typography>
-              <Select
-                value={rowsPerPage}
-                onChange={handleRowsPerPageChange}
-                size="small"
-                sx={{ minWidth: 100 }}
-                IconComponent={RxChevronDown}
-              >
-                {[10, 25, 50, 100].map((num) => (
-                  <MenuItem key={num} value={num}>
-                    {num}
-                  </MenuItem>
-                ))}
-              </Select>
-              <Typography variant="body2">{`${start}-${end} of ${
-                totalPages * rowsPerPage
-              }`}</Typography>
-            </Box>
+            <Typography
+              variant="body2"
+              sx={{ color: textColor, whiteSpace: "nowrap" }}
+            >
+              Rows per page
+            </Typography>
+            <Select
+              value={rowsPerPage}
+              onChange={handleRowsPerPageChange}
+              size="small"
+              sx={{ minWidth: 80 }}
+              IconComponent={RxChevronDown}
+            >
+              {[10, 25, 50, 100].map((num) => (
+                <MenuItem key={num} value={num}>
+                  {num}
+                </MenuItem>
+              ))}
+            </Select>
+            <Typography
+              variant="body2"
+              sx={{ color: textColor, whiteSpace: "nowrap" }}
+            >
+              {`${start}-${end} of ${totalPages * rowsPerPage}`}
+            </Typography>
           </Box>
         );
 
       case "fading":
         return (
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <IconButton
               onClick={handlePrevPage}
               disabled={currentPage === 1}
@@ -362,7 +400,8 @@ const PaginationVariants = ({
             >
               <RxChevronLeft style={{ color: textColor }} />
             </IconButton>
-            <Box position="relative" width={40} height={40}>
+
+            <Box sx={{ position: "relative", width: 40, height: 40 }}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentPage}
@@ -386,6 +425,7 @@ const PaginationVariants = ({
                 </motion.div>
               </AnimatePresence>
             </Box>
+
             <IconButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
@@ -398,7 +438,14 @@ const PaginationVariants = ({
 
       case "sliding":
         return (
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <IconButton
               onClick={handlePrevPage}
               disabled={currentPage === 1}
@@ -406,17 +453,21 @@ const PaginationVariants = ({
             >
               <RxChevronLeft style={{ color: textColor }} />
             </IconButton>
+
             <Box
-              width={isMobile ? 90 : 120}
-              height={30}
-              overflow="hidden"
-              position="relative"
+              sx={{
+                width: isMobile ? 90 : 120,
+                height: 30,
+                overflow: "hidden",
+                position: "relative",
+              }}
             >
               <motion.div
                 animate={{ x: -((currentPage - 1) * (isMobile ? 30 : 40)) }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 style={{
                   display: "flex",
+                  flexDirection: "row",
                   position: "absolute",
                   height: "100%",
                 }}
@@ -431,7 +482,8 @@ const PaginationVariants = ({
                       alignItems: "center",
                       justifyContent: "center",
                       color: i + 1 === currentPage ? textColor : secondaryColor,
-                      scale: i + 1 === currentPage ? 1.2 : 0.9,
+                      transform:
+                        i + 1 === currentPage ? "scale(1.2)" : "scale(0.9)",
                       fontWeight: i + 1 === currentPage ? 600 : 400,
                       transition: "all 0.15s",
                     }}
@@ -441,6 +493,7 @@ const PaginationVariants = ({
                 ))}
               </motion.div>
             </Box>
+
             <IconButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
@@ -453,7 +506,14 @@ const PaginationVariants = ({
 
       case "expanding":
         return (
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <IconButton
               onClick={handlePrevPage}
               disabled={currentPage === 1}
@@ -461,7 +521,16 @@ const PaginationVariants = ({
             >
               <RxChevronLeft style={{ color: textColor }} />
             </IconButton>
-            <Box display="flex" gap={0.5} height={30} alignItems="center">
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 0.5,
+                height: 30,
+                alignItems: "center",
+              }}
+            >
               {Array.from({ length: totalPages }).map((_, i) => (
                 <motion.div
                   key={i}
@@ -469,7 +538,7 @@ const PaginationVariants = ({
                     width: i + 1 === currentPage ? 30 : 8,
                     opacity: i + 1 === currentPage ? 1 : 0.6,
                     backgroundColor:
-                      i + 1 === currentPage ? bubbleColor : "rgba(0, 0, 0, 0)",
+                      i + 1 === currentPage ? bubbleColor : "transparent",
                   }}
                   transition={{ duration: 0.2 }}
                   style={{
@@ -501,6 +570,7 @@ const PaginationVariants = ({
                 </motion.div>
               ))}
             </Box>
+
             <IconButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
@@ -518,14 +588,14 @@ const PaginationVariants = ({
 
   return (
     <Box
-      p={preview ? 0 : 2}
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={2}
-      bgcolor={preview ? "transparent" : theme.palette.background.paper}
-      borderRadius={1}
       sx={{
+        p: preview ? 0 : 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 2,
+        bgcolor: preview ? "transparent" : theme.palette.background.paper,
+        borderRadius: 1,
         pointerEvents: preview ? "none" : "auto",
         transform: preview ? "scale(0.85)" : "none",
       }}

@@ -3,7 +3,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { motion, AnimatePresence } from "motion/react";
 import { useRouter } from "next/router";
 
-const LoaderVariants = ({ variant }) => {
+const LoaderVariants = ({ variant, preview = false }) => {
   const theme = useTheme();
   const router = useRouter();
   const { asPath } = router;
@@ -267,11 +267,12 @@ const LoaderVariants = ({ variant }) => {
           transition={{ duration: 0.2 }}
         >
           <Box sx={loaderStyle}>
-            {asPath !== "/docs/components/loaders" && (
-              <Typography variant="body1" sx={typographyStyle}>
-                {variant.charAt(0).toUpperCase() + variant.slice(1)}
-              </Typography>
-            )}
+            {asPath !== "/docs/components/loaders" ||
+              (!preview && (
+                <Typography variant="body1" sx={typographyStyle}>
+                  {variant.charAt(0).toUpperCase() + variant.slice(1)}
+                </Typography>
+              ))}
             {renderLoader()}
           </Box>
         </motion.div>
