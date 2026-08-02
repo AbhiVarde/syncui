@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   TextField,
-  InputAdornment,
   Select,
   MenuItem,
   FormControl,
@@ -55,7 +54,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
     text: isDark ? "#ffffff" : "#212121",
     textSecondary: isDark ? "#b0b0b0" : "#757575",
     addon: isDark ? "#1e1e1e" : "#f5f5f5",
-    hover: isDark ? "#2a2a2a" : "#f0f0f0",
   };
 
   useEffect(() => {
@@ -90,73 +88,87 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
     whileTap: { scale: 0.96 },
   };
 
+  const Addon = ({ children, onClick }) => (
+    <Box
+      onClick={onClick}
+      sx={{
+        height: 42,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: "12px",
+        backgroundColor: colors.addon,
+        borderRadius: "6px",
+        border: "transparent",
+        flexShrink: 0,
+        cursor: onClick ? "pointer" : "default",
+        mx: "0px !important",
+      }}
+    >
+      {children}
+    </Box>
+  );
+
   const renderVariant = () => {
     switch (variant) {
       case "endIcon":
         return (
           <Box sx={{ position: "relative", width: "100%" }}>
-            <TextField
-              fullWidth
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment
-                    position="end"
-                    sx={{
-                      m: 0,
-                      height: "100%",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        height: "42px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        px: "12px !important",
-                        backgroundColor: colors.addon,
-                        borderRadius: "6px",
-                        border: `1px solid ${colors.border}`,
-                        cursor: "pointer",
-                      }}
-                    >
-                      <motion.div {...subtleButtonTap} style={{ margin: 0 }}>
-                        <FiMail
-                          size={20}
-                          style={{ color: colors.textSecondary }}
-                        />
-                      </motion.div>
-                    </Box>
-                  </InputAdornment>
-                ),
-              }}
+            <Box
               sx={{
-                "& .MuiOutlinedInput-root": {
-                  height: "42px",
-                  borderRadius: "10px",
-                  backgroundColor: colors.background,
-                  pr: 0,
-                  "& fieldset": {
-                    borderColor: colors.border,
-                    borderWidth: "1px",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: colors.borderFocus,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: colors.borderFocus,
-                    borderWidth: "2px",
-                  },
-                },
-                "& .MuiInputBase-input": {
-                  color: colors.text,
-                  fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+                height: 42,
+                borderRadius: "10px",
+                border: `1px solid ${isFocused ? colors.borderFocus : colors.border}`,
+                backgroundColor: colors.background,
+                overflow: "hidden",
+                transition: "border-color 0.15s ease",
+                "&:hover": {
+                  borderColor: colors.borderFocus,
                 },
               }}
-            />
+            >
+              <TextField
+                fullWidth
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                variant="standard"
+                InputProps={{ disableUnderline: true }}
+                sx={{
+                  flex: 1,
+                  "& .MuiInputBase-root": {
+                    height: 42,
+                  },
+                  "& .MuiInputBase-input": {
+                    color: colors.text,
+                    fontSize: "14px",
+                    height: 42,
+                    px: 2,
+                    py: 0,
+                  },
+                  "& .MuiInput-underline:before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline.Mui-focused:after": {
+                    borderBottom: "none !important",
+                  },
+                }}
+              />
+              <Box sx={{ px: "0px !important" }}>
+                <Addon>
+                  <FiMail size={20} style={{ color: colors.textSecondary }} />
+                </Addon>
+              </Box>
+            </Box>
 
             {!isFocused && !value && (
               <Box
@@ -192,70 +204,69 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
       case "startInline":
         return (
           <Box sx={{ position: "relative", width: "100%" }}>
-            <TextField
-              fullWidth
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: 42,
+                borderRadius: "10px",
+                border: `1px solid ${isFocused ? colors.borderFocus : colors.border}`,
+                backgroundColor: colors.background,
+                overflow: "hidden",
+                transition: "border-color 0.15s ease",
+                "&:hover": { borderColor: colors.borderFocus },
+              }}
+            >
+              <Box sx={{ px: "0px !important" }}>
+                <Addon>
+                  <Typography
                     sx={{
-                      m: 0,
-                      height: "100%",
+                      fontSize: "13px",
+                      color: colors.textSecondary,
+                      fontWeight: 500,
+                      lineHeight: 1,
                     }}
                   >
-                    <Box
-                      sx={{
-                        height: "42px",
-                        display: "flex",
-                        alignItems: "center",
-                        px: "10px",
-                        backgroundColor: colors.addon,
-                        borderRadius: "6px",
-                        border: `1px solid ${colors.border}`,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "13px",
-                          color: colors.textSecondary,
-                          fontWeight: 500,
-                          lineHeight: "1",
-                        }}
-                      >
-                        https://
-                      </Typography>
-                    </Box>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  height: "42px",
-                  borderRadius: "10px",
-                  backgroundColor: colors.background,
-                  pl: 0,
-                  "& fieldset": {
-                    borderColor: colors.border,
+                    https://
+                  </Typography>
+                </Addon>
+              </Box>
+              <TextField
+                fullWidth
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                variant="standard"
+                InputProps={{ disableUnderline: true }}
+                sx={{
+                  flex: 1,
+                  "& .MuiInputBase-root": {
+                    height: 42,
                   },
-                  "&:hover fieldset": {
-                    borderColor: colors.borderFocus,
+                  "& .MuiInputBase-input": {
+                    color: colors.text,
+                    fontSize: "14px",
+                    height: 42,
+                    px: 1.5,
+                    py: 0,
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: colors.borderFocus,
-                    borderWidth: "2px",
+                  // Completely remove underline
+                  "& .MuiInput-underline:before": {
+                    borderBottom: "none !important",
                   },
-                },
-                "& .MuiInputBase-input": {
-                  color: colors.text,
-                  fontSize: "14px",
-                  pl: 1,
-                },
-              }}
-            />
+                  "& .MuiInput-underline:after": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline.Mui-focused:after": {
+                    borderBottom: "none !important",
+                  },
+                }}
+              />
+            </Box>
 
             {!isFocused && !value && (
               <Box
@@ -290,69 +301,69 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
       case "endInline":
         return (
           <Box sx={{ position: "relative", width: "100%" }}>
-            <TextField
-              fullWidth
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment
-                    position="end"
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: 42,
+                borderRadius: "10px",
+                border: `1px solid ${isFocused ? colors.borderFocus : colors.border}`,
+                backgroundColor: colors.background,
+                overflow: "hidden",
+                transition: "border-color 0.15s ease",
+                "&:hover": { borderColor: colors.borderFocus },
+              }}
+            >
+              <TextField
+                fullWidth
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                variant="standard"
+                InputProps={{ disableUnderline: true }}
+                sx={{
+                  flex: 1,
+                  "& .MuiInputBase-root": {
+                    height: 42,
+                  },
+                  "& .MuiInputBase-input": {
+                    color: colors.text,
+                    fontSize: "14px",
+                    height: 42,
+                    px: 2,
+                    py: 0,
+                  },
+                  // Completely remove underline
+                  "& .MuiInput-underline:before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline.Mui-focused:after": {
+                    borderBottom: "none !important",
+                  },
+                }}
+              />
+              <Box sx={{ px: "0px !important" }}>
+                <Addon>
+                  <Typography
                     sx={{
-                      m: 0,
-                      height: "100%",
+                      fontSize: "13px",
+                      color: colors.textSecondary,
+                      fontWeight: 500,
+                      lineHeight: 1,
                     }}
                   >
-                    <Box
-                      sx={{
-                        height: "42px",
-                        display: "flex",
-                        alignItems: "center",
-                        px: "10px",
-                        backgroundColor: colors.addon,
-                        borderRadius: "6px",
-                        border: `1px solid ${colors.border}`,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "13px",
-                          color: colors.textSecondary,
-                          fontWeight: 500,
-                          lineHeight: "1",
-                        }}
-                      >
-                        .com
-                      </Typography>
-                    </Box>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  height: "42px",
-                  borderRadius: "10px",
-                  backgroundColor: colors.background,
-                  pr: 0,
-                  "& fieldset": {
-                    borderColor: colors.border,
-                  },
-                  "&:hover fieldset": {
-                    borderColor: colors.borderFocus,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: colors.borderFocus,
-                    borderWidth: "2px",
-                  },
-                },
-                "& .MuiInputBase-input": {
-                  color: colors.text,
-                  fontSize: "14px",
-                },
-              }}
-            />
+                    .com
+                  </Typography>
+                </Addon>
+              </Box>
+            </Box>
 
             {!isFocused && !value && (
               <Box
@@ -387,102 +398,83 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
       case "currency":
         return (
           <Box sx={{ position: "relative", width: "100%" }}>
-            <TextField
-              fullWidth
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    sx={{
-                      m: 0,
-                      height: "100%",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        height: "42px",
-                        display: "flex",
-                        alignItems: "center",
-                        px: "10px",
-                        backgroundColor: colors.addon,
-                        borderRadius: "6px",
-                        border: `1px solid ${colors.border}`,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "13px",
-                          fontWeight: 500,
-                          color: colors.textSecondary,
-                          lineHeight: "1",
-                        }}
-                      >
-                        €
-                      </Typography>
-                    </Box>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment
-                    position="end"
-                    sx={{
-                      m: 0,
-                      height: "100%",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        height: "42px",
-                        display: "flex",
-                        alignItems: "center",
-                        px: "10px",
-                        backgroundColor: colors.addon,
-                        borderRadius: "6px",
-                        border: `1px solid ${colors.border}`,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "13px",
-                          fontWeight: 500,
-                          color: colors.textSecondary,
-                          lineHeight: "1",
-                        }}
-                      >
-                        EUR
-                      </Typography>
-                    </Box>
-                  </InputAdornment>
-                ),
-              }}
+            <Box
               sx={{
-                "& .MuiOutlinedInput-root": {
-                  height: "42px",
-                  borderRadius: "10px",
-                  backgroundColor: colors.background,
-                  px: 0,
-                  "& fieldset": {
-                    borderColor: colors.border,
-                  },
-                  "&:hover fieldset": {
-                    borderColor: colors.borderFocus,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: colors.borderFocus,
-                    borderWidth: "2px",
-                  },
-                },
-                "& .MuiInputBase-input": {
-                  color: colors.text,
-                  fontSize: "14px",
-                  px: 1,
-                },
+                display: "flex",
+                alignItems: "center",
+                height: 42,
+                borderRadius: "10px",
+                border: `1px solid ${isFocused ? colors.borderFocus : colors.border}`,
+                backgroundColor: colors.background,
+                overflow: "hidden",
+                transition: "border-color 0.15s ease",
+                "&:hover": { borderColor: colors.borderFocus },
               }}
-            />
+            >
+              <Box sx={{ px: "0px !important" }}>
+                <Addon>
+                  <Typography
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: colors.textSecondary,
+                      lineHeight: 1,
+                    }}
+                  >
+                    €
+                  </Typography>
+                </Addon>
+              </Box>
+              <TextField
+                fullWidth
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                variant="standard"
+                InputProps={{ disableUnderline: true }}
+                sx={{
+                  flex: 1,
+                  "& .MuiInputBase-root": {
+                    height: 42,
+                  },
+                  "& .MuiInputBase-input": {
+                    color: colors.text,
+                    fontSize: "14px",
+                    height: 42,
+                    px: 1.5,
+                    py: 0,
+                  },
+                  // Completely remove underline
+                  "& .MuiInput-underline:before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiInput-underline.Mui-focused:after": {
+                    borderBottom: "none !important",
+                  },
+                }}
+              />
+              <Box sx={{ px: "0px !important" }}>
+                <Addon>
+                  <Typography
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: colors.textSecondary,
+                      lineHeight: 1,
+                    }}
+                  >
+                    EUR
+                  </Typography>
+                </Addon>
+              </Box>
+            </Box>
 
             {!isFocused && !value && (
               <Box
@@ -594,9 +586,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                     backgroundColor: isDark ? "#FFF" : "#000",
                     borderRadius: "8px",
                     p: "8px",
-                    "&:hover": {
-                      backgroundColor: isDark ? "#FFF" : "#000",
-                    },
+                    "&:hover": { backgroundColor: isDark ? "#FFF" : "#000" },
                   }}
                 >
                   <FiPaperclip size={18} />
@@ -610,9 +600,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                     backgroundColor: isDark ? "#FFF" : "#000",
                     borderRadius: "8px",
                     p: "8px",
-                    "&:hover": {
-                      backgroundColor: isDark ? "#FFF" : "#000",
-                    },
+                    "&:hover": { backgroundColor: isDark ? "#FFF" : "#000" },
                   }}
                 >
                   <FiArrowUp size={18} />
@@ -630,7 +618,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder=" "
-              InputProps={{}}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   minHeight: 100,
@@ -640,12 +627,8 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   px: 1,
                   pt: 1,
                   pb: 6,
-                  "& fieldset": {
-                    borderColor: colors.border,
-                  },
-                  "&:hover fieldset": {
-                    borderColor: colors.borderFocus,
-                  },
+                  "& fieldset": { borderColor: colors.border },
+                  "&:hover fieldset": { borderColor: colors.borderFocus },
                   "&.Mui-focused fieldset": {
                     borderColor: colors.borderFocus,
                     borderWidth: "2px",
@@ -698,11 +681,11 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
 
       case "otp":
         return (
-          <Box sx={{ position: "relative", width: "100%" }}>
+          <Box sx={{ width: "100%" }}>
             <Box
               sx={{
                 display: "flex",
-                gap: { xs: 1, sm: 1.5 },
+                gap: { xs: 0.8, sm: 1.2 },
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -716,17 +699,17 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                       y: 0,
                       transition: { duration: 0.12, delay: index * 0.03 },
                     }}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.97 }}
                   >
                     <TextField
                       inputProps={{
                         maxLength: 1,
                         style: {
                           textAlign: "center",
-                          fontSize: "16px",
+                          fontSize: "15px",
                           fontWeight: 500,
-                          padding: "10px 0",
+                          padding: "0",
                         },
                         autoComplete: "one-time-code",
                       }}
@@ -737,7 +720,6 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                           const newOtpValues = [...otpValues];
                           newOtpValues[index] = newValue;
                           setOtpValues(newOtpValues);
-
                           if (newValue && index < 5) {
                             document
                               .querySelector(`input[data-index="${index + 1}"]`)
@@ -764,26 +746,14 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                             .querySelector(`input[data-index="${index - 1}"]`)
                             ?.focus();
                         }
-                        if (e.key === "v" && (e.ctrlKey || e.metaKey)) {
-                          e.preventDefault();
-                          navigator.clipboard.readText().then((text) => {
-                            const digits = text
-                              .replace(/[^0-9]/g, "")
-                              .slice(0, 6)
-                              .split("");
-                            setOtpValues([
-                              ...digits,
-                              ...Array(6 - digits.length).fill(""),
-                            ]);
-                          });
-                        }
                       }}
                       onFocus={() => setIsFocused(true)}
                       onBlur={() => setIsFocused(false)}
                       sx={{
-                        width: { xs: 40, sm: 46 },
-                        height: { xs: 40, sm: 46 },
+                        width: { xs: 36, sm: 40 },
+                        height: { xs: 36, sm: 40 },
                         "& .MuiOutlinedInput-root": {
+                          height: { xs: 36, sm: 40 },
                           borderRadius: "8px",
                           backgroundColor: digit
                             ? colors.addon
@@ -796,11 +766,15 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                             borderColor: colors.border,
                           },
                           "&.Mui-focused fieldset": {
-                            borderColor: colors.border,
-                            borderWidth: "1px",
+                            borderColor: colors.borderFocus,
+                            borderWidth: "1.5px",
                           },
                         },
-                        "& .MuiInputBase-input": { color: colors.text },
+                        "& .MuiInputBase-input": {
+                          color: colors.text,
+                          height: "100%",
+                          boxSizing: "border-box",
+                        },
                       }}
                       inputRef={(input) =>
                         input?.setAttribute("data-index", index)
@@ -811,32 +785,26 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                   {index === 2 && (
                     <Box
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: { xs: 40, sm: 46 },
+                        width: 6,
+                        height: 1.5,
+                        backgroundColor: colors.textSecondary,
+                        borderRadius: 1,
+                        opacity: 0.35,
+                        mx: 0.2,
                       }}
-                    >
-                      <Box
-                        sx={{
-                          width: 8,
-                          height: 1.5,
-                          backgroundColor: colors.textSecondary,
-                          borderRadius: 1,
-                          opacity: 0.4,
-                        }}
-                      />
-                    </Box>
+                    />
                   )}
                 </React.Fragment>
               ))}
             </Box>
 
+            {/* Progress dots */}
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                mt: 2,
-                gap: 0.5,
+                mt: 1.8,
+                gap: 0.6,
               }}
             >
               {otpValues.map((digit, index) => (
@@ -848,8 +816,8 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                 >
                   <Box
                     sx={{
-                      width: 6,
-                      height: 6,
+                      width: 5,
+                      height: 5,
                       borderRadius: "50%",
                       backgroundColor: digit
                         ? isDark
@@ -858,6 +826,7 @@ const TextFieldVariants = ({ variant = "endIcon" }) => {
                         : isDark
                           ? "#333333"
                           : "#e0e0e0",
+                      transition: "background-color 0.15s ease",
                     }}
                   />
                 </motion.div>

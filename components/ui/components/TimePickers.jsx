@@ -11,7 +11,6 @@ import {
   Box,
   TextField,
   Button,
-  InputAdornment,
   IconButton,
 } from "@mui/material";
 import { LuClock, LuChevronUp, LuChevronDown } from "react-icons/lu";
@@ -52,9 +51,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isTogglingRef.current) {
-        return;
-      }
+      if (isTogglingRef.current) return;
 
       if (
         containerRef.current &&
@@ -67,9 +64,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     };
 
     const handleScroll = () => {
-      if (isOpen) {
-        setIsOpen(false);
-      }
+      if (isOpen) setIsOpen(false);
     };
 
     if (isOpen) {
@@ -93,18 +88,14 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
       window.removeEventListener("scroll", handleScroll, true);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [isOpen, calculatePosition]);
 
   useEffect(() => {
     const handleResize = () => {
       if (isOpen) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-        }
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
         rafRef.current = requestAnimationFrame(calculatePosition);
       }
     };
@@ -112,9 +103,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [isOpen, calculatePosition]);
 
@@ -133,10 +122,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
   const handleTimeChange = useCallback(
     (field, value) => {
       if (value === "") {
-        setSelectedTime((prev) => ({
-          ...prev,
-          [field]: "",
-        }));
+        setSelectedTime((prev) => ({ ...prev, [field]: "" }));
         return;
       }
 
@@ -146,22 +132,15 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         const max = variant === "24hour" ? 23 : 12;
         const min = variant === "24hour" ? 0 : 1;
         let num = parseInt(numValue);
-        if (num > max) {
-          numValue = max.toString();
-        } else if (num < min && numValue.length === 2) {
+        if (num > max) numValue = max.toString();
+        else if (num < min && numValue.length === 2)
           numValue = min.toString().padStart(2, "0");
-        }
       } else {
         let num = parseInt(numValue);
-        if (num > 59) {
-          numValue = "59";
-        }
+        if (num > 59) numValue = "59";
       }
 
-      setSelectedTime((prev) => ({
-        ...prev,
-        [field]: numValue,
-      }));
+      setSelectedTime((prev) => ({ ...prev, [field]: numValue }));
     },
     [variant],
   );
@@ -173,11 +152,14 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         let newValue;
 
         if (field === "hour") {
-          if (variant === "24hour") {
-            newValue = current === 23 ? 0 : current + 1;
-          } else {
-            newValue = current === 12 ? 1 : current + 1;
-          }
+          newValue =
+            variant === "24hour"
+              ? current === 23
+                ? 0
+                : current + 1
+              : current === 12
+                ? 1
+                : current + 1;
         } else {
           newValue = current === 59 ? 0 : current + 1;
         }
@@ -198,11 +180,14 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
         let newValue;
 
         if (field === "hour") {
-          if (variant === "24hour") {
-            newValue = current === 0 ? 23 : current - 1;
-          } else {
-            newValue = current === 1 ? 12 : current - 1;
-          }
+          newValue =
+            variant === "24hour"
+              ? current === 0
+                ? 23
+                : current - 1
+              : current === 1
+                ? 12
+                : current - 1;
         } else {
           newValue = current === 0 ? 59 : current - 1;
         }
@@ -239,7 +224,7 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
             hour: hour12.toString().padStart(2, "0"),
             minute: minutes.toString().padStart(2, "0"),
             second: seconds.toString().padStart(2, "0"),
-            period: period,
+            period,
           }));
         }
       } else {
@@ -259,13 +244,10 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     const minute = selectedTime.minute || "00";
     const second = selectedTime.second || "00";
 
-    if (variant === "24hour") {
-      return `${hour}:${minute}`;
-    } else if (variant === "with-seconds") {
+    if (variant === "24hour") return `${hour}:${minute}`;
+    if (variant === "with-seconds")
       return `${hour}:${minute}:${second} ${selectedTime.period}`;
-    } else {
-      return `${hour}:${minute} ${selectedTime.period}`;
-    }
+    return `${hour}:${minute} ${selectedTime.period}`;
   }, [selectedTime, variant]);
 
   const getPlaceholder = useCallback(() => {
@@ -326,35 +308,35 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     (field, label) => (
       <Box
         sx={{
-          display: "flex !important",
-          flexDirection: "column !important",
-          alignItems: "center !important",
-          gap: "4px !important",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "4px",
         }}
       >
         <IconButton
           onClick={() => handleIncrement(field)}
           disableRipple
           sx={{
-            p: "2px !important",
-            borderRadius: "4px !important",
-            color: `${isDark ? "#fff" : "#000"} !important`,
-            bgcolor: "transparent !important",
-            transition: "background-color 0.15s ease !important",
-            touchAction: "manipulation !important",
+            p: "2px",
+            borderRadius: "4px",
+            color: isDark ? "#fff" : "#000",
+            bgcolor: "transparent",
+            transition: "background-color 0.15s ease",
             "&:hover": {
-              bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
+              bgcolor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
             },
           }}
         >
           <LuChevronUp size={12} />
         </IconButton>
+
         <Box
           sx={{
-            display: "flex !important",
-            flexDirection: "column !important",
-            alignItems: "center !important",
-            gap: "3px !important",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "3px",
           }}
         >
           <TextField
@@ -368,60 +350,62 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
               autoComplete: "off",
             }}
             sx={{
-              width: "48px !important",
+              width: 48,
               "& .MuiOutlinedInput-root": {
-                height: "40px !important",
-                bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.02)"} !important`,
-                borderRadius: "8px !important",
+                height: 40,
+                bgcolor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.02)",
+                borderRadius: "8px",
                 transition:
-                  "border-color 0.15s ease, background-color 0.15s ease !important",
+                  "border-color 0.15s ease, background-color 0.15s ease",
                 "& fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: isDark ? "#333" : "#e0e0e0",
                 },
                 "&:hover fieldset": {
-                  borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
+                  borderColor: isDark ? "#444" : "#d0d0d0",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: `${isDark ? "#555" : "#bbb"} !important`,
-                  borderWidth: "1px !important",
+                  borderColor: isDark ? "#555" : "#bbb",
+                  borderWidth: "1px",
                 },
                 "&.Mui-focused": {
-                  bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.04)"} !important`,
+                  bgcolor: isDark
+                    ? "rgba(255,255,255,0.08)"
+                    : "rgba(0,0,0,0.04)",
                 },
               },
               "& .MuiOutlinedInput-input": {
-                p: "0 !important",
-                textAlign: "center !important",
-                color: `${isDark ? "#fff" : "#000"} !important`,
-                fontSize: "16px !important",
-                fontWeight: "500 !important",
+                p: 0,
+                textAlign: "center",
+                color: isDark ? "#fff" : "#000",
+                fontSize: 16,
+                fontWeight: 500,
               },
             }}
           />
           <Typography
             sx={{
-              fontSize: "10px !important",
-              fontWeight: "500 !important",
-              color: `${isDark ? "#666" : "#999"} !important`,
-              textTransform: "uppercase !important",
-              letterSpacing: "0.5px !important",
+              fontSize: 10,
+              fontWeight: 500,
+              color: isDark ? "#666" : "#999",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
             }}
           >
             {label}
           </Typography>
         </Box>
+
         <IconButton
           onClick={() => handleDecrement(field)}
           disableRipple
           sx={{
-            p: "2px !important",
-            borderRadius: "4px !important",
-            color: `${isDark ? "#fff" : "#000"} !important`,
-            bgcolor: "transparent !important",
-            transition: "background-color 0.15s ease !important",
-            touchAction: "manipulation !important",
+            p: "2px",
+            borderRadius: "4px",
+            color: isDark ? "#fff" : "#000",
+            bgcolor: "transparent",
+            transition: "background-color 0.15s ease",
             "&:hover": {
-              bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
+              bgcolor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
             },
           }}
         >
@@ -446,36 +430,29 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
       <Box
         ref={pickerRef}
         sx={{
-          position: "absolute !important",
+          position: "absolute",
           ...(pickerPosition === "top"
-            ? {
-                bottom: "calc(100% + 6px) !important",
-              }
-            : {
-                top: "calc(100% + 6px) !important",
-              }),
-          left: "0 !important",
-          right: "0 !important",
-          bgcolor: `${isDark ? "#1a1a1a" : "#fff"} !important`,
-          border: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
-          borderRadius: "12px !important",
-          p: "14px !important",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.12) !important",
-          zIndex: "1000 !important",
-          willChange: "transform, opacity",
-          transform: "translateZ(0)",
-          touchAction: "manipulation !important",
+            ? { bottom: "calc(100% + 6px)" }
+            : { top: "calc(100% + 6px)" }),
+          left: 0,
+          right: 0,
+          bgcolor: isDark ? "#1a1a1a" : "#fff",
+          border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+          borderRadius: "12px",
+          p: "14px",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+          zIndex: 1000,
         }}
       >
         {variant === "presets" && (
           <Box
             sx={{
-              display: "flex !important",
-              flexWrap: "wrap !important",
-              gap: "6px !important",
-              mb: "14px !important",
-              pb: "14px !important",
-              borderBottom: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "6px",
+              mb: "14px",
+              pb: "14px",
+              borderBottom: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
             }}
           >
             {presets.map((preset, index) => (
@@ -487,32 +464,31 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                 disableRipple
                 disableElevation
                 sx={{
-                  p: "6px 12px !important",
-                  minWidth: "auto !important",
-                  minHeight: "auto !important",
-                  fontSize: "12px !important",
-                  fontWeight: "400 !important",
-                  color: `${isDark ? "#fff" : "#000"} !important`,
-                  bgcolor: `${
+                  p: "6px 12px",
+                  minWidth: "auto",
+                  minHeight: "auto",
+                  fontSize: 12,
+                  fontWeight: 400,
+                  color: isDark ? "#fff" : "#000",
+                  bgcolor:
                     hoveredPreset === index
                       ? isDark
                         ? "rgba(255,255,255,0.1)"
                         : "rgba(0,0,0,0.08)"
                       : isDark
                         ? "rgba(255,255,255,0.05)"
-                        : "rgba(0,0,0,0.04)"
-                  } !important`,
-                  borderRadius: "6px !important",
-                  textTransform: "none !important",
+                        : "rgba(0,0,0,0.04)",
+                  borderRadius: "6px",
+                  textTransform: "none",
                   transition:
-                    "background-color 0.15s ease, transform 0.1s ease !important",
-                  whiteSpace: "nowrap !important",
+                    "background-color 0.15s ease, transform 0.1s ease",
+                  whiteSpace: "nowrap",
                   transform:
                     hoveredPreset === index ? "scale(1.02)" : "scale(1)",
-                  willChange: "transform, background-color",
-                  touchAction: "manipulation !important",
                   "&:hover": {
-                    bgcolor: `${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important`,
+                    bgcolor: isDark
+                      ? "rgba(255,255,255,0.1)"
+                      : "rgba(0,0,0,0.08)",
                   },
                 }}
               >
@@ -524,28 +500,28 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
 
         <Box
           sx={{
-            display: "flex !important",
-            flexDirection: "column !important",
-            alignItems: "center !important",
-            gap: "12px !important",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "12px",
           }}
         >
           <Box
             sx={{
-              display: "flex !important",
-              alignItems: "center !important",
-              justifyContent: "center !important",
-              gap: "10px !important",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
             }}
           >
             {renderTimeInput("hour", "Hour")}
 
             <Typography
               sx={{
-                fontSize: "20px !important",
-                fontWeight: "300 !important",
-                color: `${isDark ? "#666" : "#999"} !important`,
-                mt: "-20px !important",
+                fontSize: 20,
+                fontWeight: 300,
+                color: isDark ? "#666" : "#999",
+                mt: "-20px",
               }}
             >
               :
@@ -557,10 +533,10 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
               <>
                 <Typography
                   sx={{
-                    fontSize: "20px !important",
-                    fontWeight: "300 !important",
-                    color: `${isDark ? "#666" : "#999"} !important`,
-                    mt: "-20px !important",
+                    fontSize: 20,
+                    fontWeight: 300,
+                    color: isDark ? "#666" : "#999",
+                    mt: "-20px",
                   }}
                 >
                   :
@@ -572,10 +548,10 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
             {variant !== "24hour" && variant !== "with-seconds" && (
               <Box
                 sx={{
-                  display: "flex !important",
-                  flexDirection: "column !important",
-                  gap: "4px !important",
-                  ml: "2px !important",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                  ml: "2px",
                 }}
               >
                 <Button
@@ -585,43 +561,37 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                   disableRipple
                   disableElevation
                   sx={{
-                    p: "6px 10px !important",
-                    minWidth: "44px !important",
-                    minHeight: "auto !important",
-                    fontSize: "11px !important",
-                    fontWeight: "600 !important",
+                    p: "6px 10px",
+                    minWidth: 44,
+                    minHeight: "auto",
+                    fontSize: 11,
+                    fontWeight: 600,
                     color:
                       selectedTime.period === "AM"
-                        ? `${isDark ? "#000" : "#fff"} !important`
-                        : `${isDark ? "#999" : "#666"} !important`,
-                    bgcolor: `${
+                        ? isDark
+                          ? "#000"
+                          : "#fff"
+                        : isDark
+                          ? "#999"
+                          : "#666",
+                    bgcolor:
                       selectedTime.period === "AM"
                         ? isDark
                           ? "#fff"
                           : "#000"
-                        : "transparent"
-                    } !important`,
-                    border: "none !important",
-                    borderRadius: "6px !important",
-                    textTransform: "none !important",
-                    transition:
-                      "background-color 0.15s ease, transform 0.1s ease !important",
-                    willChange: "transform, background-color",
-                    touchAction: "manipulation !important",
+                        : "transparent",
+                    borderRadius: "6px",
+                    textTransform: "none",
+                    transition: "background-color 0.15s ease",
                     "&:hover": {
-                      bgcolor: `${
+                      bgcolor:
                         selectedTime.period === "AM"
                           ? isDark
                             ? "#fff"
                             : "#000"
                           : isDark
                             ? "rgba(255,255,255,0.05)"
-                            : "rgba(0,0,0,0.04)"
-                      } !important`,
-                      transform:
-                        selectedTime.period === "AM"
-                          ? "scale(1)"
-                          : "scale(1.05)",
+                            : "rgba(0,0,0,0.04)",
                     },
                   }}
                 >
@@ -634,43 +604,37 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                   disableRipple
                   disableElevation
                   sx={{
-                    p: "6px 10px !important",
-                    minWidth: "44px !important",
-                    minHeight: "auto !important",
-                    fontSize: "11px !important",
-                    fontWeight: "600 !important",
+                    p: "6px 10px",
+                    minWidth: 44,
+                    minHeight: "auto",
+                    fontSize: 11,
+                    fontWeight: 600,
                     color:
                       selectedTime.period === "PM"
-                        ? `${isDark ? "#000" : "#fff"} !important`
-                        : `${isDark ? "#999" : "#666"} !important`,
-                    bgcolor: `${
+                        ? isDark
+                          ? "#000"
+                          : "#fff"
+                        : isDark
+                          ? "#999"
+                          : "#666",
+                    bgcolor:
                       selectedTime.period === "PM"
                         ? isDark
                           ? "#fff"
                           : "#000"
-                        : "transparent"
-                    } !important`,
-                    border: "none !important",
-                    borderRadius: "6px !important",
-                    textTransform: "none !important",
-                    transition:
-                      "background-color 0.15s ease, transform 0.1s ease !important",
-                    willChange: "transform, background-color",
-                    touchAction: "manipulation !important",
+                        : "transparent",
+                    borderRadius: "6px",
+                    textTransform: "none",
+                    transition: "background-color 0.15s ease",
                     "&:hover": {
-                      bgcolor: `${
+                      bgcolor:
                         selectedTime.period === "PM"
                           ? isDark
                             ? "#fff"
                             : "#000"
                           : isDark
                             ? "rgba(255,255,255,0.05)"
-                            : "rgba(0,0,0,0.04)"
-                      } !important`,
-                      transform:
-                        selectedTime.period === "PM"
-                          ? "scale(1)"
-                          : "scale(1.05)",
+                            : "rgba(0,0,0,0.04)",
                     },
                   }}
                 >
@@ -683,9 +647,9 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
           {variant === "with-seconds" && (
             <Box
               sx={{
-                display: "flex !important",
-                gap: "6px !important",
-                justifyContent: "center !important",
+                display: "flex",
+                gap: "6px",
+                justifyContent: "center",
               }}
             >
               <Button
@@ -695,41 +659,37 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                 disableRipple
                 disableElevation
                 sx={{
-                  p: "6px 16px !important",
-                  minWidth: "60px !important",
-                  minHeight: "auto !important",
-                  fontSize: "11px !important",
-                  fontWeight: "600 !important",
+                  p: "6px 16px",
+                  minWidth: 60,
+                  minHeight: "auto",
+                  fontSize: 11,
+                  fontWeight: 600,
                   color:
                     selectedTime.period === "AM"
-                      ? `${isDark ? "#000" : "#fff"} !important`
-                      : `${isDark ? "#999" : "#666"} !important`,
-                  bgcolor: `${
+                      ? isDark
+                        ? "#000"
+                        : "#fff"
+                      : isDark
+                        ? "#999"
+                        : "#666",
+                  bgcolor:
                     selectedTime.period === "AM"
                       ? isDark
                         ? "#fff"
                         : "#000"
-                      : "transparent"
-                  } !important`,
-                  border: "none !important",
-                  borderRadius: "6px !important",
-                  textTransform: "none !important",
-                  transition:
-                    "background-color 0.15s ease, transform 0.1s ease !important",
-                  willChange: "transform, background-color",
-                  touchAction: "manipulation !important",
+                      : "transparent",
+                  borderRadius: "6px",
+                  textTransform: "none",
+                  transition: "background-color 0.15s ease",
                   "&:hover": {
-                    bgcolor: `${
+                    bgcolor:
                       selectedTime.period === "AM"
                         ? isDark
                           ? "#fff"
                           : "#000"
                         : isDark
                           ? "rgba(255,255,255,0.05)"
-                          : "rgba(0,0,0,0.04)"
-                    } !important`,
-                    transform:
-                      selectedTime.period === "AM" ? "scale(1)" : "scale(1.05)",
+                          : "rgba(0,0,0,0.04)",
                   },
                 }}
               >
@@ -742,41 +702,37 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
                 disableRipple
                 disableElevation
                 sx={{
-                  p: "6px 16px !important",
-                  minWidth: "60px !important",
-                  minHeight: "auto !important",
-                  fontSize: "11px !important",
-                  fontWeight: "600 !important",
+                  p: "6px 16px",
+                  minWidth: 60,
+                  minHeight: "auto",
+                  fontSize: 11,
+                  fontWeight: 600,
                   color:
                     selectedTime.period === "PM"
-                      ? `${isDark ? "#000" : "#fff"} !important`
-                      : `${isDark ? "#999" : "#666"} !important`,
-                  bgcolor: `${
+                      ? isDark
+                        ? "#000"
+                        : "#fff"
+                      : isDark
+                        ? "#999"
+                        : "#666",
+                  bgcolor:
                     selectedTime.period === "PM"
                       ? isDark
                         ? "#fff"
                         : "#000"
-                      : "transparent"
-                  } !important`,
-                  border: "none !important",
-                  borderRadius: "6px !important",
-                  textTransform: "none !important",
-                  transition:
-                    "background-color 0.15s ease, transform 0.1s ease !important",
-                  willChange: "transform, background-color",
-                  touchAction: "manipulation !important",
+                      : "transparent",
+                  borderRadius: "6px",
+                  textTransform: "none",
+                  transition: "background-color 0.15s ease",
                   "&:hover": {
-                    bgcolor: `${
+                    bgcolor:
                       selectedTime.period === "PM"
                         ? isDark
                           ? "#fff"
                           : "#000"
                         : isDark
                           ? "rgba(255,255,255,0.05)"
-                          : "rgba(0,0,0,0.04)"
-                    } !important`,
-                    transform:
-                      selectedTime.period === "PM" ? "scale(1)" : "scale(1.05)",
+                          : "rgba(0,0,0,0.04)",
                   },
                 }}
               >
@@ -803,81 +759,82 @@ const TimePickerVariants = ({ variant = "12hour" }) => {
     <Box
       ref={containerRef}
       sx={{
-        width: "100% !important",
-        maxWidth: "320px !important",
-        margin: "0 auto !important",
-        position: "relative !important",
+        width: "100%",
+        maxWidth: 320,
+        margin: "0 auto",
+        position: "relative",
       }}
     >
       <Typography
         variant="body2"
         sx={{
-          mb: "6px !important",
-          textAlign: "center !important",
-          fontSize: "13px !important",
-          color: `${isDark ? "#999" : "#666"} !important`,
+          mb: "6px",
+          textAlign: "center",
+          fontSize: 13,
+          color: isDark ? "#999" : "#666",
         }}
       >
         {getDescription()}
       </Typography>
-      <Box sx={{ position: "relative !important" }}>
-        <TextField
-          fullWidth
-          placeholder={getPlaceholder()}
-          value={formatTime()}
+
+      <Box sx={{ position: "relative" }}>
+        {/* Custom clean input (no InputAdornment) */}
+        <Box
           onClick={handleToggle}
-          inputProps={{
-            autoComplete: "off",
-            readOnly: true,
-          }}
-          InputProps={{
-            readOnly: true,
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                sx={{ ml: "0 !important", mr: "0 !important" }}
-              >
-                <LuClock size={16} color={isDark ? "#666" : "#999"} />
-              </InputAdornment>
-            ),
-          }}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              height: "44px !important",
-              bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
-              borderRadius: "10px !important",
-              cursor: "pointer !important",
-              transition:
-                "border-color 0.15s ease, background-color 0.15s ease !important",
-              touchAction: "manipulation !important",
-              "& fieldset": {
-                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
-              },
-              "&:hover fieldset": {
-                borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: `${isDark ? "#555" : "#bbb"} !important`,
-                borderWidth: "1px !important",
-              },
-              "&:hover": {
-                bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.02)"} !important`,
-              },
-            },
-            "& .MuiOutlinedInput-input": {
-              cursor: "pointer !important",
-              color: `${isDark ? "#fff" : "#000"} !important`,
-              fontSize: "16px !important",
-              fontWeight: "400 !important",
-              pl: "36px !important",
-              pr: "12px !important",
-            },
-            "& .MuiInputAdornment-root": {
-              position: "absolute !important",
-              left: "12px !important",
+            display: "flex",
+            alignItems: "center",
+            height: 44,
+            borderRadius: "10px",
+            border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+            backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+            cursor: "pointer",
+            transition: "border-color 0.15s ease, background-color 0.15s ease",
+            overflow: "hidden",
+            "&:hover": {
+              borderColor: isDark ? "#444" : "#d0d0d0",
+              backgroundColor: isDark
+                ? "rgba(255,255,255,0.05)"
+                : "rgba(0,0,0,0.02)",
             },
           }}
-        />
+        >
+          {/* Custom clock icon box */}
+          <Box
+            sx={{
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              px: "12px",
+              flexShrink: 0,
+            }}
+          >
+            <LuClock size={16} color={isDark ? "#666" : "#999"} />
+          </Box>
+
+          {/* Value */}
+          <Box
+            sx={{
+              flex: 1,
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              color: isDark ? "#fff" : "#000",
+              fontSize: 16,
+              fontWeight: 400,
+              pr: "12px",
+              userSelect: "none",
+            }}
+          >
+            {formatTime() || (
+              <span style={{ color: isDark ? "#666" : "#999" }}>
+                {getPlaceholder()}
+              </span>
+            )}
+          </Box>
+        </Box>
+
         {renderPicker}
       </Box>
     </Box>

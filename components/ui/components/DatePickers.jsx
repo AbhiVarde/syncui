@@ -5,7 +5,6 @@ import {
   Box,
   TextField,
   Button,
-  InputAdornment,
   IconButton,
 } from "@mui/material";
 import {
@@ -44,11 +43,11 @@ const DatePickerVariants = ({ variant = "single" }) => {
     const spaceBelow = viewportHeight - rect.bottom;
     const spaceAbove = rect.top;
 
-    if (spaceBelow < calendarHeight && spaceAbove > calendarHeight) {
-      setCalendarPosition("top");
-    } else {
-      setCalendarPosition("bottom");
-    }
+    setCalendarPosition(
+      spaceBelow < calendarHeight && spaceAbove > calendarHeight
+        ? "top"
+        : "bottom",
+    );
   };
 
   useEffect(() => {
@@ -64,9 +63,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
     };
 
     const handleScroll = () => {
-      if (isOpen) {
-        setIsOpen(false);
-      }
+      if (isOpen) setIsOpen(false);
     };
 
     if (isOpen) {
@@ -83,11 +80,8 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (isOpen) {
-        calculatePosition();
-      }
+      if (isOpen) calculatePosition();
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [isOpen]);
@@ -160,7 +154,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
         },
       },
     ],
-    []
+    [],
   );
 
   const days = useMemo(() => {
@@ -237,9 +231,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
       }
     } else {
       setSelectedDate(date);
-      if (variant !== "with-time") {
-        setIsOpen(false);
-      }
+      if (variant !== "with-time") setIsOpen(false);
     }
   };
 
@@ -256,10 +248,7 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
   const handleTimeChange = (field, value) => {
     if (value === "") {
-      setSelectedTime({
-        ...selectedTime,
-        [field]: "",
-      });
+      setSelectedTime({ ...selectedTime, [field]: "" });
       return;
     }
 
@@ -267,22 +256,14 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
     if (field === "hour") {
       let num = parseInt(numValue);
-      if (num > 12) {
-        numValue = "12";
-      } else if (num < 1 && numValue.length === 2) {
-        numValue = "01";
-      }
+      if (num > 12) numValue = "12";
+      else if (num < 1 && numValue.length === 2) numValue = "01";
     } else {
       let num = parseInt(numValue);
-      if (num > 59) {
-        numValue = "59";
-      }
+      if (num > 59) numValue = "59";
     }
 
-    setSelectedTime({
-      ...selectedTime,
-      [field]: numValue,
-    });
+    setSelectedTime({ ...selectedTime, [field]: numValue });
   };
 
   const formatDate = (date) => {
@@ -358,24 +339,22 @@ const DatePickerVariants = ({ variant = "single" }) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: "14px !important",
-      fontWeight: isCurrentDay ? "500 !important" : "400 !important",
+      fontSize: 14,
+      fontWeight: isCurrentDay ? 500 : 400,
       borderRadius: "8px",
       cursor: shouldShowDate ? "pointer" : "default",
-      color: `${
-        !shouldShowDate
+      color: !shouldShowDate
+        ? isDark
+          ? "#333"
+          : "#ccc"
+        : isSelected || isStart || isEnd
           ? isDark
-            ? "#333"
-            : "#ccc"
-          : isSelected || isStart || isEnd
-            ? isDark
-              ? "#000"
-              : "#fff"
-            : isDark
-              ? "#fff"
-              : "#000"
-      } !important`,
-      backgroundColor: `${
+            ? "#000"
+            : "#fff"
+          : isDark
+            ? "#fff"
+            : "#000",
+      backgroundColor:
         isSelected || isStart || isEnd
           ? isDark
             ? "#fff"
@@ -384,15 +363,12 @@ const DatePickerVariants = ({ variant = "single" }) => {
             ? isDark
               ? "rgba(255,255,255,0.1)"
               : "rgba(0,0,0,0.06)"
-            : "transparent"
-      } !important`,
-      border: `${
+            : "transparent",
+      border:
         isCurrentDay && !isSelected && !isStart && !isEnd
           ? `1px solid ${isDark ? "#666" : "#999"}`
-          : "1px solid transparent"
-      } !important`,
-      transition:
-        "background-color 0.15s ease, transform 0.15s ease !important",
+          : "1px solid transparent",
+      transition: "background-color 0.15s ease, transform 0.15s ease",
     };
   };
 
@@ -405,33 +381,29 @@ const DatePickerVariants = ({ variant = "single" }) => {
     <Box
       ref={calendarRef}
       sx={{
-        position: "absolute !important",
+        position: "absolute",
         ...(calendarPosition === "top"
-          ? {
-              bottom: "calc(100% + 6px) !important",
-            }
-          : {
-              top: "calc(100% + 6px) !important",
-            }),
-        left: "0 !important",
-        right: "0 !important",
-        bgcolor: `${isDark ? "#1a1a1a" : "#fff"} !important`,
-        border: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
-        borderRadius: "12px !important",
-        p: "12px !important",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.12) !important",
-        zIndex: "1000 !important",
+          ? { bottom: "calc(100% + 6px)" }
+          : { top: "calc(100% + 6px)" }),
+        left: 0,
+        right: 0,
+        bgcolor: isDark ? "#1a1a1a" : "#fff",
+        border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+        borderRadius: "12px",
+        p: "12px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+        zIndex: 1000,
       }}
     >
       {variant === "presets" && (
         <Box
           sx={{
-            display: "flex !important",
-            flexWrap: "wrap !important",
-            gap: "4px !important",
-            mb: "12px !important",
-            pb: "12px !important",
-            borderBottom: `1px solid ${isDark ? "#333" : "#e0e0e0"} !important`,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "4px",
+            mb: "12px",
+            pb: "12px",
+            borderBottom: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
           }}
         >
           {presets.map((preset) => (
@@ -441,19 +413,21 @@ const DatePickerVariants = ({ variant = "single" }) => {
               disableRipple
               disableElevation
               sx={{
-                p: "6px 10px !important",
-                minWidth: "auto !important",
-                minHeight: "auto !important",
-                fontSize: "12px !important",
-                fontWeight: "400 !important",
-                color: `${isDark ? "#fff" : "#000"} !important`,
-                bgcolor: `${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"} !important`,
-                borderRadius: "6px !important",
-                textTransform: "none !important",
-                transition: "background-color 0.15s ease !important",
-                whiteSpace: "nowrap !important",
+                p: "6px 10px",
+                minWidth: "auto",
+                minHeight: "auto",
+                fontSize: 12,
+                fontWeight: 400,
+                color: isDark ? "#fff" : "#000",
+                bgcolor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+                borderRadius: "6px",
+                textTransform: "none",
+                transition: "background-color 0.15s ease",
+                whiteSpace: "nowrap",
                 "&:hover": {
-                  bgcolor: `${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"} !important`,
+                  bgcolor: isDark
+                    ? "rgba(255,255,255,0.1)"
+                    : "rgba(0,0,0,0.08)",
                 },
               }}
             >
@@ -465,56 +439,58 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
       <Box
         sx={{
-          display: "flex !important",
-          justifyContent: "space-between !important",
-          alignItems: "center !important",
-          mb: "12px !important",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: "12px",
         }}
       >
         <IconButton
           onClick={() =>
             setCurrentMonth(
-              new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+              new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
             )
           }
           disableRipple
           sx={{
-            p: "6px !important",
-            borderRadius: "6px !important",
-            color: `${isDark ? "#fff" : "#000"} !important`,
-            bgcolor: "transparent !important",
-            transition: "background-color 0.15s ease !important",
+            p: "6px",
+            borderRadius: "6px",
+            color: isDark ? "#fff" : "#000",
+            bgcolor: "transparent",
+            transition: "background-color 0.15s ease",
             "&:hover": {
-              bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
+              bgcolor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
             },
           }}
         >
           <LuChevronLeft size={16} />
         </IconButton>
+
         <Typography
           sx={{
-            fontSize: "14px !important",
-            fontWeight: "500 !important",
-            color: `${isDark ? "#fff" : "#000"} !important`,
+            fontSize: 14,
+            fontWeight: 500,
+            color: isDark ? "#fff" : "#000",
           }}
         >
           {monthYear}
         </Typography>
+
         <IconButton
           onClick={() =>
             setCurrentMonth(
-              new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+              new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1),
             )
           }
           disableRipple
           sx={{
-            p: "6px !important",
-            borderRadius: "6px !important",
-            color: `${isDark ? "#fff" : "#000"} !important`,
-            bgcolor: "transparent !important",
-            transition: "background-color 0.15s ease !important",
+            p: "6px",
+            borderRadius: "6px",
+            color: isDark ? "#fff" : "#000",
+            bgcolor: "transparent",
+            transition: "background-color 0.15s ease",
             "&:hover": {
-              bgcolor: `${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"} !important`,
+              bgcolor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
             },
           }}
         >
@@ -524,21 +500,21 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
       <Box
         sx={{
-          display: "grid !important",
-          gridTemplateColumns: "repeat(7, 1fr) !important",
-          gap: "2px !important",
-          mb: "6px !important",
+          display: "grid",
+          gridTemplateColumns: "repeat(7, 1fr)",
+          gap: "2px",
+          mb: "6px",
         }}
       >
         {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
           <Typography
             key={day}
             sx={{
-              fontSize: "12px !important",
-              fontWeight: "500 !important",
-              color: `${isDark ? "#666" : "#999"} !important`,
-              textAlign: "center !important",
-              py: "6px !important",
+              fontSize: 12,
+              fontWeight: 500,
+              color: isDark ? "#666" : "#999",
+              textAlign: "center",
+              py: "6px",
             }}
           >
             {day}
@@ -548,9 +524,9 @@ const DatePickerVariants = ({ variant = "single" }) => {
 
       <Box
         sx={{
-          display: "grid !important",
-          gridTemplateColumns: "repeat(7, 1fr) !important",
-          gap: "4px !important",
+          display: "grid",
+          gridTemplateColumns: "repeat(7, 1fr)",
+          gap: "4px",
         }}
       >
         {days.map((day, index) => (
@@ -592,14 +568,14 @@ const DatePickerVariants = ({ variant = "single" }) => {
       {variant === "with-time" && selectedDate && (
         <Box
           sx={{
-            display: "flex !important",
-            alignItems: "center !important",
-            justifyContent: "center !important",
-            gap: "6px !important",
-            mt: "12px !important",
-            p: "10px !important",
-            bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)"} !important`,
-            borderRadius: "10px !important",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "6px",
+            mt: "12px",
+            p: "10px",
+            bgcolor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+            borderRadius: "10px",
           }}
         >
           <LuClock size={14} color={isDark ? "#666" : "#999"} />
@@ -619,38 +595,33 @@ const DatePickerVariants = ({ variant = "single" }) => {
             }}
             inputProps={{ maxLength: 2 }}
             sx={{
-              width: "42px !important",
+              width: 42,
               "& .MuiOutlinedInput-root": {
-                height: "32px !important",
-                bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
-                borderRadius: "6px !important",
-                transition: "border-color 0.15s ease !important",
+                height: 32,
+                bgcolor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+                borderRadius: "6px",
+                transition: "border-color 0.15s ease",
                 "& fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: isDark ? "#333" : "#e0e0e0",
                 },
                 "&:hover fieldset": {
-                  borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
+                  borderColor: isDark ? "#444" : "#d0d0d0",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: `${isDark ? "#555" : "#bbb"} !important`,
-                  borderWidth: "1px !important",
+                  borderColor: isDark ? "#555" : "#bbb",
+                  borderWidth: "1px",
                 },
               },
               "& .MuiOutlinedInput-input": {
-                p: "0 6px !important",
-                textAlign: "center !important",
-                color: `${isDark ? "#fff" : "#000"} !important`,
-                fontSize: "14px !important",
-                fontWeight: "400 !important",
+                p: "0 6px",
+                textAlign: "center",
+                color: isDark ? "#fff" : "#000",
+                fontSize: 14,
+                fontWeight: 400,
               },
             }}
           />
-          <Typography
-            sx={{
-              color: `${isDark ? "#666" : "#999"} !important`,
-              fontSize: "12px !important",
-            }}
-          >
+          <Typography sx={{ color: isDark ? "#666" : "#999", fontSize: 12 }}>
             :
           </Typography>
           <TextField
@@ -669,68 +640,69 @@ const DatePickerVariants = ({ variant = "single" }) => {
             }}
             inputProps={{ maxLength: 2 }}
             sx={{
-              width: "42px !important",
+              width: 42,
               "& .MuiOutlinedInput-root": {
-                height: "32px !important",
-                bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
-                borderRadius: "6px !important",
-                transition: "border-color 0.15s ease !important",
+                height: 32,
+                bgcolor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+                borderRadius: "6px",
+                transition: "border-color 0.15s ease",
                 "& fieldset": {
-                  borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
+                  borderColor: isDark ? "#333" : "#e0e0e0",
                 },
                 "&:hover fieldset": {
-                  borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
+                  borderColor: isDark ? "#444" : "#d0d0d0",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: `${isDark ? "#555" : "#bbb"} !important`,
-                  borderWidth: "1px !important",
+                  borderColor: isDark ? "#555" : "#bbb",
+                  borderWidth: "1px",
                 },
               },
               "& .MuiOutlinedInput-input": {
-                p: "0 6px !important",
-                textAlign: "center !important",
-                color: `${isDark ? "#fff" : "#000"} !important`,
-                fontSize: "14px !important",
-                fontWeight: "400 !important",
+                p: "0 6px",
+                textAlign: "center",
+                color: isDark ? "#fff" : "#000",
+                fontSize: 14,
+                fontWeight: 400,
               },
             }}
           />
-          <Box sx={{ display: "flex !important", gap: "3px !important" }}>
+          <Box sx={{ display: "flex", gap: "3px" }}>
             <Button
               onClick={() => setSelectedTime({ ...selectedTime, period: "AM" })}
               disableRipple
               disableElevation
               sx={{
-                p: "6px 10px !important",
-                minWidth: "auto !important",
-                minHeight: "auto !important",
-                fontSize: "12px !important",
-                fontWeight: "500 !important",
+                p: "6px 10px",
+                minWidth: "auto",
+                minHeight: "auto",
+                fontSize: 12,
+                fontWeight: 500,
                 color:
                   selectedTime.period === "AM"
-                    ? `${isDark ? "#000" : "#fff"} !important`
-                    : `${isDark ? "#999" : "#666"} !important`,
-                bgcolor: `${
+                    ? isDark
+                      ? "#000"
+                      : "#fff"
+                    : isDark
+                      ? "#999"
+                      : "#666",
+                bgcolor:
                   selectedTime.period === "AM"
                     ? isDark
                       ? "#fff"
                       : "#000"
-                    : "transparent"
-                } !important`,
-                border: "none !important",
-                borderRadius: "6px !important",
-                textTransform: "none !important",
-                transition: "background-color 0.15s ease !important",
+                    : "transparent",
+                borderRadius: "6px",
+                textTransform: "none",
+                transition: "background-color 0.15s ease",
                 "&:hover": {
-                  bgcolor: `${
+                  bgcolor:
                     selectedTime.period === "AM"
                       ? isDark
                         ? "#fff"
                         : "#000"
                       : isDark
                         ? "rgba(255,255,255,0.05)"
-                        : "rgba(0,0,0,0.04)"
-                  } !important`,
+                        : "rgba(0,0,0,0.04)",
                 },
               }}
             >
@@ -741,36 +713,37 @@ const DatePickerVariants = ({ variant = "single" }) => {
               disableRipple
               disableElevation
               sx={{
-                p: "6px 10px !important",
-                minWidth: "auto !important",
-                minHeight: "auto !important",
-                fontSize: "12px !important",
-                fontWeight: "500 !important",
+                p: "6px 10px",
+                minWidth: "auto",
+                minHeight: "auto",
+                fontSize: 12,
+                fontWeight: 500,
                 color:
                   selectedTime.period === "PM"
-                    ? `${isDark ? "#000" : "#fff"} !important`
-                    : `${isDark ? "#999" : "#666"} !important`,
-                bgcolor: `${
+                    ? isDark
+                      ? "#000"
+                      : "#fff"
+                    : isDark
+                      ? "#999"
+                      : "#666",
+                bgcolor:
                   selectedTime.period === "PM"
                     ? isDark
                       ? "#fff"
                       : "#000"
-                    : "transparent"
-                } !important`,
-                border: "none !important",
-                borderRadius: "6px !important",
-                textTransform: "none !important",
-                transition: "background-color 0.15s ease !important",
+                    : "transparent",
+                borderRadius: "6px",
+                textTransform: "none",
+                transition: "background-color 0.15s ease",
                 "&:hover": {
-                  bgcolor: `${
+                  bgcolor:
                     selectedTime.period === "PM"
                       ? isDark
                         ? "#fff"
                         : "#000"
                       : isDark
                         ? "rgba(255,255,255,0.05)"
-                        : "rgba(0,0,0,0.04)"
-                  } !important`,
+                        : "rgba(0,0,0,0.04)",
                 },
               }}
             >
@@ -786,75 +759,85 @@ const DatePickerVariants = ({ variant = "single" }) => {
     <Box
       ref={containerRef}
       sx={{
-        width: "100% !important",
-        maxWidth: "320px !important",
-        margin: "0 auto !important",
-        position: "relative !important",
+        width: "100%",
+        maxWidth: 320,
+        margin: "0 auto",
+        position: "relative",
       }}
     >
       <Typography
         variant="body2"
         sx={{
-          mb: "6px !important",
-          textAlign: "center !important",
-          fontSize: "13px !important",
-          color: `${isDark ? "#999" : "#666"} !important`,
+          mb: "6px",
+          textAlign: "center",
+          fontSize: 13,
+          color: isDark ? "#999" : "#666",
         }}
       >
         {getDescription()}
       </Typography>
-      <Box sx={{ position: "relative !important" }}>
-        <TextField
-          fullWidth
-          placeholder={getPlaceholder()}
-          value={getInputValue()}
+
+      <Box sx={{ position: "relative" }}>
+        {/* Custom clean input (no InputAdornment) */}
+        <Box
           onClick={() => {
             calculatePosition();
             setIsOpen(!isOpen);
           }}
-          InputProps={{
-            readOnly: true,
-            startAdornment: (
-              <InputAdornment
-                position="start"
-                sx={{ ml: "0 !important", mr: "0 !important" }}
-              >
-                <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
-              </InputAdornment>
-            ),
-          }}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              height: "44px !important",
-              bgcolor: `${isDark ? "rgba(255,255,255,0.03)" : "#fff"} !important`,
-              borderRadius: "10px !important",
-              cursor: "pointer !important",
-              transition: "border-color 0.15s ease !important",
-              "& fieldset": {
-                borderColor: `${isDark ? "#333" : "#e0e0e0"} !important`,
-              },
-              "&:hover fieldset": {
-                borderColor: `${isDark ? "#444" : "#d0d0d0"} !important`,
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: `${isDark ? "#555" : "#bbb"} !important`,
-                borderWidth: "1px !important",
-              },
-            },
-            "& .MuiOutlinedInput-input": {
-              cursor: "pointer !important",
-              color: `${isDark ? "#fff" : "#000"} !important`,
-              fontSize: "14px !important",
-              fontWeight: "400 !important",
-              pl: "36px !important",
-              pr: "12px !important",
-            },
-            "& .MuiInputAdornment-root": {
-              position: "absolute !important",
-              left: "12px !important",
+            display: "flex",
+            alignItems: "center",
+            height: 44,
+            borderRadius: "10px",
+            border: `1px solid ${isDark ? "#333" : "#e0e0e0"}`,
+            backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "#fff",
+            cursor: "pointer",
+            transition: "border-color 0.15s ease, background-color 0.15s ease",
+            overflow: "hidden",
+            "&:hover": {
+              borderColor: isDark ? "#444" : "#d0d0d0",
+              backgroundColor: isDark
+                ? "rgba(255,255,255,0.05)"
+                : "rgba(0,0,0,0.02)",
             },
           }}
-        />
+        >
+          {/* Custom calendar icon */}
+          <Box
+            sx={{
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              px: "12px",
+              flexShrink: 0,
+            }}
+          >
+            <LuCalendar size={16} color={isDark ? "#666" : "#999"} />
+          </Box>
+
+          {/* Value / Placeholder */}
+          <Box
+            sx={{
+              flex: 1,
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              color: isDark ? "#fff" : "#000",
+              fontSize: 14,
+              fontWeight: 400,
+              pr: "12px",
+              userSelect: "none",
+            }}
+          >
+            {getInputValue() || (
+              <span style={{ color: isDark ? "#666" : "#999" }}>
+                {getPlaceholder()}
+              </span>
+            )}
+          </Box>
+        </Box>
+
         {isOpen && renderCalendar()}
       </Box>
     </Box>

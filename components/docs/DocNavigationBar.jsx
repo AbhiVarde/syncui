@@ -8,7 +8,7 @@ import {
   ClickAwayListener,
 } from "@mui/material";
 import Link from "next/link";
-import { SiOpenai, SiClaude } from "react-icons/si";
+import { BsOpenai, BsClaude } from "react-icons/bs";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowRight01Icon,
@@ -235,7 +235,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
                 onClick={() => handleOpenAI("chatgpt")}
                 sx={dropdownItemSx}
               >
-                <SiOpenai size={16} />
+                <BsOpenai size={16} />
                 <Typography variant="body2" fontWeight={500}>
                   Ask ChatGPT
                 </Typography>
@@ -244,7 +244,7 @@ export const DocNavigationBar = ({ slug, docsTree, title }) => {
                 onClick={() => handleOpenAI("claude")}
                 sx={dropdownItemSx}
               >
-                <SiClaude size={16} />
+                <BsClaude size={16} />
                 <Typography variant="body2" fontWeight={500}>
                   Ask Claude
                 </Typography>
