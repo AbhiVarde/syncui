@@ -1,4 +1,3 @@
-// forms.jsx - Optimized with motion/react
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -36,7 +35,7 @@ const MotionPaper = motion.create(Paper);
 const MotionBox = motion.create(Box);
 const MotionButton = motion.create(Button);
 
-const FormVariants = ({ variant = "register" }) => {
+const FormVariants = ({ variant = "register", preview = false }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
@@ -947,7 +946,7 @@ const FormVariants = ({ variant = "register" }) => {
     }
   };
 
-  return (
+  const content = (
     <ThemeProvider theme={minimalTheme}>
       <AnimatePresence>
         {isLoaded && (
@@ -970,6 +969,28 @@ const FormVariants = ({ variant = "register" }) => {
       </AnimatePresence>
     </ThemeProvider>
   );
+
+  if (preview) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        <Box sx={{ transform: "scale(0.4)", transformOrigin: "center" }}>
+          {content}
+        </Box>
+      </Box>
+    );
+  }
+
+  return content;
 };
 
 export default FormVariants;

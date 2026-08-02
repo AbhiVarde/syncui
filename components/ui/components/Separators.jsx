@@ -25,12 +25,13 @@ const shimmer = keyframes`
   100% { background-position: 1000px 0; }
 `;
 
-const SeparatorVariants = ({ variant, label, ...props }) => {
+const SeparatorVariants = ({ variant, label, preview = false, ...props }) => {
   const theme = useTheme();
 
   const [isStarFilled, setIsStarFilled] = useState(false);
 
   const handleStarClick = () => {
+    if (preview) return;
     setIsStarFilled(!isStarFilled);
   };
 
@@ -42,8 +43,10 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
         return (
           <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
             <StyledDivider sx={{ flex: 1 }} {...props} />
-            <IconWrapper>
-              <RxPlus size={19} />
+            <IconWrapper
+              sx={preview ? { padding: (t) => t.spacing(0.5, 1) } : undefined}
+            >
+              <RxPlus size={preview ? 14 : 19} />
             </IconWrapper>
             <StyledDivider sx={{ flex: 1 }} {...props} />
           </Box>
@@ -96,8 +99,18 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
         return (
           <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
             <StyledDivider sx={{ flex: 1 }} {...props} />
-            <Box sx={{ mx: 2, cursor: "pointer" }} onClick={handleStarClick}>
-              {isStarFilled ? <RxStarFilled size={22} /> : <RxStar size={22} />}
+            <Box
+              sx={{
+                mx: preview ? 1 : 2,
+                cursor: preview ? "default" : "pointer",
+              }}
+              onClick={handleStarClick}
+            >
+              {isStarFilled ? (
+                <RxStarFilled size={preview ? 16 : 22} />
+              ) : (
+                <RxStar size={preview ? 16 : 22} />
+              )}
             </Box>
             <StyledDivider sx={{ flex: 1 }} {...props} />
           </Box>
@@ -107,7 +120,16 @@ const SeparatorVariants = ({ variant, label, ...props }) => {
     }
   };
 
-  return <Box sx={{ width: "100%" }}>{renderSeparator()}</Box>;
+  return (
+    <Box
+      sx={{
+        width: preview ? "80%" : "100%",
+        pointerEvents: preview ? "none" : "auto",
+      }}
+    >
+      {renderSeparator()}
+    </Box>
+  );
 };
 
 export default SeparatorVariants;

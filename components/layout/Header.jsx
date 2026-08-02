@@ -17,17 +17,15 @@ import { useGitHub } from "@/context/GithubContext";
 import Search from "../common/Search";
 import AnimatedCounter from "../AnimatedCounter";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
-import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Menu02Icon,
-  ArrowRight01Icon,
-  Cancel01Icon,
-  Menu09Icon,
-  GithubIcon,
-  NewTwitterIcon,
-  Moon01Icon,
-  Sun01Icon,
-} from "@hugeicons/core-free-icons";
+  LuMenu,
+  LuChevronRight,
+  LuX,
+  LuGithub,
+  LuTwitter,
+  LuMoon,
+  LuSun,
+} from "react-icons/lu";
 
 const navItems = [
   { label: "Home", href: "/", external: false },
@@ -39,11 +37,6 @@ const navItems = [
   { label: "Showcase", href: "/showcase", external: false },
   { label: "Changelog", href: "/docs/changelog", external: false },
   {
-    label: "Skills",
-    href: "https://www.skills.sh/abhivarde/syncui/syncui",
-    external: true,
-  },
-  {
     label: "CLI",
     href: "https://www.npmjs.com/package/@abhivarde/syncui",
     external: true,
@@ -51,6 +44,11 @@ const navItems = [
   {
     label: "MCP",
     href: "https://www.npmjs.com/package/@abhivarde/syncui-mcp",
+    external: true,
+  },
+  {
+    label: "Skills",
+    href: "https://www.skills.sh/abhivarde/syncui/syncui",
     external: true,
   },
 ];
@@ -124,12 +122,10 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuMounted, setMenuMounted] = useState(false);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMenuOpen(false);
   }, [router.asPath]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "unset";
     return () => {
@@ -147,7 +143,6 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
     return () => clearTimeout(timeoutId);
   }, [menuOpen, menuMounted]);
 
-  // Observe headings for breadcrumbs (docs pages only)
   useEffect(() => {
     if (!isDocsPage) return;
     const observer = new IntersectionObserver(
@@ -173,7 +168,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
     return (
       <Breadcrumbs
-        separator={<HugeiconsIcon icon={ArrowRight01Icon} size={18} />}
+        separator={<LuChevronRight size={18} />}
         aria-label="breadcrumb"
         sx={{ display: { xs: "flex", lg: "none" } }}
       >
@@ -187,7 +182,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             fontWeight: 500,
           }}
         >
-          <HugeiconsIcon icon={Menu02Icon} size={20} /> On this page
+          <LuMenu size={20} /> On this page
         </Typography>
         {activeText && (
           <Typography
@@ -227,7 +222,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             "&:hover": { opacity: 0.7 },
           }}
         >
-          <HugeiconsIcon icon={GithubIcon} size={20} aria-hidden="true" />
+          <LuGithub size={20} aria-hidden="true" />
           {!loading && stars > 0 && (
             <Typography
               variant="body2"
@@ -258,7 +253,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        <HugeiconsIcon icon={NewTwitterIcon} size={18} aria-hidden="true" />
+        <LuTwitter size={18} aria-hidden="true" />
       </IconButton>
 
       <IconButton
@@ -270,11 +265,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        <HugeiconsIcon
-          icon={isDarkMode ? Sun01Icon : Moon01Icon}
-          size={22}
-          aria-hidden="true"
-        />
+        {isDarkMode ? (
+          <LuSun size={22} aria-hidden="true" />
+        ) : (
+          <LuMoon size={22} aria-hidden="true" />
+        )}
       </IconButton>
     </Box>
   );
@@ -325,11 +320,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     menuOpen ? "Close navigation menu" : "Open navigation menu"
                   }
                   startIcon={
-                    <HugeiconsIcon
-                      icon={menuOpen ? Cancel01Icon : Menu09Icon}
-                      size={24}
-                      aria-hidden="true"
-                    />
+                    menuOpen ? (
+                      <LuX size={24} aria-hidden="true" />
+                    ) : (
+                      <LuMenu size={24} aria-hidden="true" />
+                    )
                   }
                   sx={{
                     minWidth: "auto",

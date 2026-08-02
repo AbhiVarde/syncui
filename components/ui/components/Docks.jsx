@@ -18,7 +18,7 @@ import {
   FiTerminal,
 } from "react-icons/fi";
 
-const DockVariants = ({ variant = "minimal" }) => {
+const DockVariants = ({ variant = "minimal", preview = false }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
   const theme = useTheme();
@@ -442,11 +442,13 @@ const DockVariants = ({ variant = "minimal" }) => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "flex-end",
+        alignItems: "center",
         width: "100%",
-        minHeight: isMobile ? 70 : 90,
-        padding: isMobile ? 1 : 2,
+        minHeight: preview ? "auto" : isMobile ? 70 : 90,
+        padding: preview ? 0 : isMobile ? 1 : 2,
         overflowX: "hidden",
+        pointerEvents: preview ? "none" : "auto",
+        transform: preview ? "scale(0.8)" : "none",
       }}
     >
       {renderVariant()}

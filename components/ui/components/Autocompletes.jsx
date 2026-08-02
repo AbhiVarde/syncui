@@ -109,7 +109,7 @@ const sampleData = {
   ],
 };
 
-const AutocompleteVariants = ({ variant = "basic" }) => {
+const AutocompleteVariants = ({ variant = "basic", preview = false }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -175,7 +175,7 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 800));
     const filtered = sampleData.basic.filter((item) =>
-      item.toLowerCase().includes(query.toLowerCase())
+      item.toLowerCase().includes(query.toLowerCase()),
     );
     setFilteredOptions(filtered);
     setIsLoading(false);
@@ -204,14 +204,14 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
     switch (variant) {
       case "basic":
         options = sampleData.basic.filter((item) =>
-          item.toLowerCase().includes(query.toLowerCase())
+          item.toLowerCase().includes(query.toLowerCase()),
         );
         break;
       case "multi-select":
         options = sampleData.multiSelect.filter(
           (item) =>
             item.toLowerCase().includes(query.toLowerCase()) &&
-            !selectedValues.includes(item)
+            !selectedValues.includes(item),
         );
         break;
       case "grouped":
@@ -221,7 +221,7 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
         options = sampleData.customRender.filter(
           (item) =>
             item.name.toLowerCase().includes(query.toLowerCase()) ||
-            item.role.toLowerCase().includes(query.toLowerCase())
+            item.role.toLowerCase().includes(query.toLowerCase()),
         );
         break;
       default:
@@ -245,7 +245,7 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
 
   const handleChipDelete = (valueToDelete) => {
     setSelectedValues(
-      selectedValues.filter((value) => value !== valueToDelete)
+      selectedValues.filter((value) => value !== valueToDelete),
     );
   };
 
@@ -694,7 +694,7 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
     if (inputValue.length > 0) {
       Object.entries(sampleData.grouped).forEach(([groupName, items]) => {
         const filtered = items.filter((item) =>
-          item.name.toLowerCase().includes(inputValue.toLowerCase())
+          item.name.toLowerCase().includes(inputValue.toLowerCase()),
         );
         if (filtered.length > 0) {
           groupedResults[groupName] = filtered;
@@ -836,7 +836,7 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
                       </Box>
                     ))}
                   </Box>
-                )
+                ),
               )}
             </Box>
           )}
@@ -1024,13 +1024,22 @@ const AutocompleteVariants = ({ variant = "basic" }) => {
       ref={containerRef}
       sx={{
         width: "100%",
-        maxWidth: "400px",
+        maxWidth: preview ? 260 : "400px",
         margin: "0 auto",
         position: "relative",
-        zIndex: "auto",
+        pointerEvents: preview ? "none" : "auto",
       }}
     >
-      <Typography variant="body1" sx={{ mb: 1, textAlign: "center" }}>
+      <Typography
+        variant={preview ? "caption" : "body1"}
+        sx={{
+          mb: 1,
+          textAlign: "center",
+          whiteSpace: preview ? "nowrap" : "normal",
+          overflow: preview ? "hidden" : "visible",
+          textOverflow: preview ? "ellipsis" : "unset",
+        }}
+      >
         {getDescription()}
       </Typography>
       {renderAutocomplete()}

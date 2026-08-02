@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 
 const MotionBox = motion.create(Box);
 
-const GridVariants = ({ variant = "masonry" }) => {
+const GridVariants = ({ variant = "masonry", preview = false }) => {
   const theme = useTheme();
   const pathname = usePathname();
-  const shouldShowHeading = pathname !== "/docs/components/grids";
+  const shouldShowHeading = !preview && pathname !== "/docs/components/grids";
 
   const unsplashImages = [
     "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=60",
@@ -288,21 +288,43 @@ const GridVariants = ({ variant = "masonry" }) => {
     }
   };
 
+  if (preview) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+          pointerEvents: "none",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            transform: "scale(0.4)",
+            transformOrigin: "top center",
+            width: "250%",
+            mt: -1,
+          }}
+        >
+          {renderVariant()}
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
       {shouldShowHeading && (
         <Typography
           variant="h4"
-          sx={{
-            mb: 2,
-            fontWeight: 500,
-            textAlign: "center",
-          }}
+          sx={{ mb: 2, fontWeight: 500, textAlign: "center" }}
         >
           {getVariantName(variant)}
         </Typography>
       )}
-
       <AnimatePresence mode="wait">{renderVariant()}</AnimatePresence>
     </Box>
   );

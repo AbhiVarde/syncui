@@ -390,8 +390,8 @@ const Charts = () => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
-            gap: { xs: 4, sm: 5, md: 6 },
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+            gap: 2,
           }}
         >
           {chartCategories.map((chart) => (
@@ -412,10 +412,11 @@ const Charts = () => {
                   border: "1px solid",
                   borderColor: "divider",
                   backgroundColor: "transparent",
-                  p: 2,
+                  p: 1.5,
+                  minWidth: 0,
                   display: "flex",
                   flexDirection: "column",
-                  gap: 2,
+                  gap: 1.5,
                   "&:hover .icon": { transform: "rotate(45deg)" },
                 }}
               >

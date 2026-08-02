@@ -95,8 +95,8 @@ export const DocPageNavigation = ({ slug, docsTree }) => {
       sx={{
         display: "flex",
         gap: 2,
-        mt: 6,
-        pt: 4,
+        mt: 4,
+        pt: 2,
         borderTop: 1,
         borderColor: "divider",
       }}

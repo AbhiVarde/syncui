@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Box,
   Container,
@@ -10,6 +10,7 @@ import {
 import { motion } from "motion/react";
 import Head from "next/head";
 import Link from "next/link";
+import { getAllDocsSlugs } from "@/lib/docs";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import HeroVariants from "@/components/ui/blocks/Hero/Hero";
@@ -17,47 +18,52 @@ import CTAVariants from "@/components/ui/blocks/CTA/Cta";
 import PricingVariants from "@/components/ui/blocks/Pricing/Pricing";
 import StatsVariants from "@/components/ui/blocks/Stats/Stats";
 
-const blockCategories = [
-  {
-    id: 1,
-    title: "Hero",
+const blockMeta = {
+  Hero: {
     preview: <HeroVariants variant="center" height={180} />,
     count: 3,
-    route: "/docs/blocks/hero",
     description: "Eye-catching hero sections for landing pages",
   },
-  {
-    id: 2,
-    title: "Stats",
+  Stats: {
     preview: <StatsVariants variant="simple" height={180} />,
     count: 3,
-    route: "/docs/blocks/stats",
     description: "Professional statistics and metrics sections",
   },
-  {
-    id: 3,
-    title: "Pricing",
+  Pricing: {
     preview: <PricingVariants variant="threeTier" height={180} />,
     count: 3,
-    route: "/docs/blocks/pricing",
     description: "Professional pricing tables and plans",
   },
-  {
-    id: 4,
-    title: "CTA",
+  CTA: {
     preview: <CTAVariants variant="centered" height={180} />,
     count: 4,
-    route: "/docs/blocks/cta",
     description: "Call-to-action sections to drive conversions",
   },
-];
+};
+
+const blockOrder = ["Hero", "Stats", "Pricing", "CTA"];
 
 const fadeUp = {
   initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
 };
 
-const Blocks = () => {
+const Blocks = ({ docsTree }) => {
+  const blockCategories = useMemo(() => {
+    if (!docsTree) return [];
+    return docsTree
+      .filter((item) => item.category === "Blocks" && blockMeta[item.title])
+      .map((item) => ({
+        id: item.slug,
+        title: item.title,
+        route: item.url,
+        ...blockMeta[item.title],
+      }))
+      .sort(
+        (a, b) => blockOrder.indexOf(a.title) - blockOrder.indexOf(b.title),
+      );
+  }, [docsTree]);
+
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
@@ -360,8 +366,8 @@ const Blocks = () => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
-            gap: { xs: 4, sm: 5, md: 6 },
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+            gap: 2,
           }}
         >
           {blockCategories.map((block) => (
@@ -382,10 +388,11 @@ const Blocks = () => {
                   border: "1px solid",
                   borderColor: "divider",
                   backgroundColor: "transparent",
-                  p: 2,
+                  p: 1.5,
+                  minWidth: 0,
                   display: "flex",
                   flexDirection: "column",
-                  gap: 2,
+                  gap: 1.5,
                   "&:hover .icon": { transform: "rotate(45deg)" },
                 }}
               >
@@ -400,11 +407,10 @@ const Blocks = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     pointerEvents: "none",
+                    bgcolor: "background.default",
                   }}
                 >
-                  <Box sx={{ width: "100%", transform: "scale(0.94)" }}>
-                    {block.preview}
-                  </Box>
+                  {block.preview}
                 </Box>
 
                 <Box
@@ -464,3 +470,10 @@ const Blocks = () => {
 };
 
 export default Blocks;
+
+export async function getStaticProps() {
+  const docsTree = await getAllDocsSlugs();
+  return {
+    props: { docsTree },
+  };
+}

@@ -4,22 +4,23 @@ import Link from "next/link";
 import { TableOfContents } from "./TableOfContents";
 import { useRouter } from "next/router";
 import { motion, AnimatePresence } from "motion/react";
-import LinkPreview from "../common/LinkPreview";
 
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 
 const TOP_OFFSET = 60;
 const HEIGHT_CALC = "calc(100vh - 60px)";
+const COLLAPSIBLE_CATEGORIES = ["Components", "Blocks", "Charts", "Templates"];
+const CATEGORY_ORDER = [
+  "Getting Started",
+  "Components",
+  "Blocks",
+  "Charts",
+  "Templates",
+];
 
 const groupDocsTree = (docsTree) => {
-  const grouped = new Map([
-    ["Getting Started", []],
-    ["Blocks", []],
-    ["Components", []],
-    ["Charts", []],
-    ["Templates", []],
-  ]);
+  const grouped = new Map(CATEGORY_ORDER.map((category) => [category, []]));
 
   docsTree.forEach((item) => {
     grouped.get(item.category)?.push(item);
@@ -48,19 +49,23 @@ const getActiveCategory = (docsTree, path) =>
 
 const DocsLayout = ({ children, toc, docsTree }) => {
   const router = useRouter();
-  const [openCategories, setOpenCategories] = useState(() => new Set());
+  const [openCategory, setOpenCategory] = useState(null);
   const [activeUrl, setActiveUrl] = useState(router.asPath);
 
   useEffect(() => {
     const activeCategory = getActiveCategory(docsTree, router.asPath);
-    if (!activeCategory) return;
-
-    setOpenCategories((prev) => new Set(prev).add(activeCategory));
+    if (activeCategory && COLLAPSIBLE_CATEGORIES.includes(activeCategory)) {
+      setOpenCategory(activeCategory);
+    }
   }, [router.asPath, docsTree]);
 
   useEffect(() => {
     setActiveUrl(router.asPath);
   }, [router.asPath]);
+
+  const toggleCategory = useCallback((category) => {
+    setOpenCategory((prev) => (prev === category ? null : category));
+  }, []);
 
   const renderNavigationItem = useCallback(
     (item, isActive, isExternal = false) => {
@@ -126,18 +131,12 @@ const DocsLayout = ({ children, toc, docsTree }) => {
 
   const renderCollapsibleCategory = useCallback(
     (category, items) => {
-      const isOpen = openCategories.has(category);
+      const isOpen = openCategory === category;
 
       return (
         <>
           <Box
-            onClick={() =>
-              setOpenCategories((prev) => {
-                const next = new Set(prev);
-                next.has(category) ? next.delete(category) : next.add(category);
-                return next;
-              })
-            }
+            onClick={() => toggleCategory(category)}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -171,7 +170,20 @@ const DocsLayout = ({ children, toc, docsTree }) => {
                 transition={{ duration: 0.18 }}
                 style={{ display: "grid", overflow: "hidden" }}
               >
-                <Box sx={{ overflow: "hidden" }}>
+                <Box
+                  sx={{
+                    overflow: "hidden",
+                    maxHeight: 280,
+                    overflowY: items.length > 8 ? "auto" : "visible",
+                    pr: items.length > 8 ? 0.5 : 0,
+                    "&::-webkit-scrollbar": { width: 4 },
+                    "&::-webkit-scrollbar-track": { background: "transparent" },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "rgba(128,128,128,0.3)",
+                      borderRadius: 1,
+                    },
+                  }}
+                >
                   {items.map((item) =>
                     renderNavigationItem(
                       item,
@@ -186,7 +198,7 @@ const DocsLayout = ({ children, toc, docsTree }) => {
         </>
       );
     },
-    [openCategories, router.asPath, renderNavigationItem],
+    [openCategory, router.asPath, renderNavigationItem, toggleCategory],
   );
 
   const groupedDocsTree = useMemo(() => groupDocsTree(docsTree), [docsTree]);
@@ -211,48 +223,35 @@ const DocsLayout = ({ children, toc, docsTree }) => {
           }}
         >
           <Box sx={{ height: "calc(100% - 60px)", overflowY: "auto", p: 2 }}>
-            {Object.entries(groupedDocsTree).map(([category, items]) => (
-              <Box key={category} sx={{ mb: 2 }}>
-                {["Components", "Blocks", "Charts", "Templates"].includes(
-                  category,
-                ) ? (
-                  renderCollapsibleCategory(category, items)
-                ) : (
-                  <>
-                    <Typography
-                      variant="body2"
-                      sx={{ fontSize: "0.8rem", fontWeight: 500, mb: 1 }}
-                    >
-                      {category}
-                    </Typography>
-                    {items.map((item) =>
-                      renderNavigationItem(
-                        item,
-                        router.asPath === item.url ||
-                          (item.title === "Setup" && router.asPath === "/docs"),
-                      ),
-                    )}
-                  </>
-                )}
-              </Box>
-            ))}
-          </Box>
+            {CATEGORY_ORDER.map((category) => {
+              const items = groupedDocsTree[category] || [];
+              if (items.length === 0) return null;
 
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-              borderTop: "1.5px dashed",
-              borderColor: "divider",
-              p: 1.5,
-            }}
-          >
-            <Typography variant="caption">
-              Brought to you by{" "}
-              <LinkPreview url="https://abhivarde.in">abhivarde.in</LinkPreview>
-              .
-            </Typography>
+              return (
+                <Box key={category} sx={{ mb: 2 }}>
+                  {COLLAPSIBLE_CATEGORIES.includes(category) ? (
+                    renderCollapsibleCategory(category, items)
+                  ) : (
+                    <>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontSize: "0.8rem", fontWeight: 500, mb: 1 }}
+                      >
+                        {category}
+                      </Typography>
+                      {items.map((item) =>
+                        renderNavigationItem(
+                          item,
+                          router.asPath === item.url ||
+                            (item.title === "Setup" &&
+                              router.asPath === "/docs"),
+                        ),
+                      )}
+                    </>
+                  )}
+                </Box>
+              );
+            })}
           </Box>
         </Box>
       </Box>

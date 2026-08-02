@@ -11,7 +11,7 @@ import {
 import { motion } from "motion/react";
 import { RxChevronDown, RxChevronRight, RxPlus, RxMinus } from "react-icons/rx";
 
-const AccordionVariants = ({ variant = "modern" }) => {
+const AccordionVariants = ({ variant = "modern", preview = false }) => {
   const theme = useTheme();
   const [expandedPanels, setExpandedPanels] = useState({});
 
@@ -36,6 +36,8 @@ const AccordionVariants = ({ variant = "modern" }) => {
     },
   ];
 
+  const visibleData = preview ? accordionData.slice(0, 2) : accordionData;
+
   const baseContainerStyle = {
     width: "100%",
     display: "flex",
@@ -53,7 +55,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
         return (
           <Box sx={baseContainerStyle}>
             <Box sx={baseInnerStyle}>
-              {accordionData.map((item) => (
+              {visibleData.map((item) => (
                 <Accordion
                   key={item.id}
                   expanded={expandedPanels[item.id] || false}
@@ -113,7 +115,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
         return (
           <Box sx={baseContainerStyle}>
             <Box sx={baseInnerStyle}>
-              {accordionData.map((item) => (
+              {visibleData.map((item) => (
                 <Accordion
                   key={item.id}
                   expanded={expandedPanels[item.id] || false}
@@ -166,7 +168,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
         return (
           <Box sx={baseContainerStyle}>
             <Box sx={baseInnerStyle}>
-              {accordionData.map((item) => (
+              {visibleData.map((item) => (
                 <Accordion
                   key={item.id}
                   expanded={expandedPanels[item.id] || false}
@@ -221,7 +223,7 @@ const AccordionVariants = ({ variant = "modern" }) => {
         return (
           <Box sx={baseContainerStyle}>
             <Box sx={baseInnerStyle}>
-              {accordionData.map((item) => (
+              {visibleData.map((item) => (
                 <Paper
                   key={item.id}
                   sx={{
@@ -282,6 +284,33 @@ const AccordionVariants = ({ variant = "modern" }) => {
         );
     }
   };
+
+  if (preview) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        <Box
+          sx={{
+            transform: "scale(0.62)",
+            transformOrigin: "top center",
+            width: "160%",
+            mt: -0.5,
+          }}
+        >
+          {renderAccordion()}
+        </Box>
+      </Box>
+    );
+  }
 
   return <Box sx={{ width: "100%" }}>{renderAccordion()}</Box>;
 };

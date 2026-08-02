@@ -14,6 +14,159 @@ import { getAllDocsSlugs } from "@/lib/docs";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
+import AccordionVariants from "@/components/ui/components/Accordions";
+import AutocompleteVariants from "@/components/ui/components/Autocompletes";
+import AvatarVariants from "@/components/ui/components/Avatars";
+import BackgroundVariants from "@/components/ui/components/Backgrounds";
+import ButtonVariants from "@/components/ui/components/Buttons";
+import CardVariants from "@/components/ui/components/Cards";
+import CarouselVariants from "@/components/ui/components/Carousels";
+import DatePickerVariants from "@/components/ui/components/DatePickers";
+import DialogVariants from "@/components/ui/components/Dialogs";
+import DockVariants from "@/components/ui/components/Docks";
+import FormVariants from "@/components/ui/components/Forms";
+import GridVariants from "@/components/ui/components/Grids";
+import LoaderVariants from "@/components/ui/components/Loaders";
+import PaginationVariants from "@/components/ui/components/Paginations";
+import PointerVariants from "@/components/ui/components/Pointers";
+import SeparatorVariants from "@/components/ui/components/Separators";
+import { SkeletonCard } from "@/components/ui/components/Skeletons";
+import TableVariants from "@/components/ui/components/Tables";
+import TabVariants from "@/components/ui/components/Tabs";
+import TextFieldVariants from "@/components/ui/components/TextFields";
+import TextVariants from "@/components/ui/components/Texts";
+import TimePickerVariants from "@/components/ui/components/TimePickers";
+
+// docsTree only knows title + route (from each .mdx's frontmatter).
+// The live preview, variant count, and card description live here,
+// keyed by the exact doc title. Lookup is normalized (lowercased,
+// whitespace-stripped) so "Date Pickers" in frontmatter still matches
+// the "DatePickers" key below. Any component without an entry here
+// still renders — just as a plain text row instead of a live preview
+// card, same fallback pattern used before this page had previews.
+const componentMeta = {
+  Accordions: {
+    preview: <AccordionVariants variant="modern" preview />,
+    count: 4,
+    description: "Expandable content panels",
+  },
+  Autocompletes: {
+    preview: <AutocompleteVariants variant="basic" preview />,
+    count: 5,
+    description: "Searchable dropdown inputs",
+  },
+  Avatars: {
+    preview: <AvatarVariants variant="overlappingCircles" />,
+    count: 4,
+    description: "User avatar groups and stacks",
+  },
+  Backgrounds: {
+    preview: <BackgroundVariants variant="geminiWave" />,
+    count: 8,
+    description: "Animated section backgrounds",
+  },
+  Buttons: {
+    preview: <ButtonVariants variant="neubrutalism" />,
+    count: 10,
+    description: "Interactive button styles",
+  },
+  Cards: {
+    preview: <CardVariants variant="contentCard" />,
+    count: 6,
+    description: "Content and media cards",
+  },
+  Carousels: {
+    preview: <CarouselVariants variant="fade" preview />,
+    count: 4,
+    description: "Image and content carousels",
+  },
+  DatePickers: {
+    preview: <DatePickerVariants variant="single" preview />,
+    count: 4,
+    description: "Calendar date selection",
+  },
+  Dialogs: {
+    preview: <DialogVariants variant="slideUp" />,
+    count: 8,
+    description: "Modal and dialog windows",
+  },
+  Docks: {
+    preview: <DockVariants variant="modern" preview />,
+    count: 4,
+    description: "macOS-style app docks",
+  },
+  Forms: {
+    preview: <FormVariants variant="login" preview />,
+    count: 4,
+    description: "Login, register, and contact forms",
+  },
+  Grids: {
+    preview: <GridVariants variant="minimalCards" preview />,
+    count: 5,
+    description: "Image and content grid layouts",
+  },
+  Loaders: {
+    preview: <LoaderVariants variant="pulsatingDots" />,
+    count: 8,
+    description: "Loading state animations",
+  },
+  Paginations: {
+    preview: <PaginationVariants variant="simple" preview />,
+    count: 8,
+    description: "Page navigation controls",
+  },
+  Pointers: {
+    preview: <PointerVariants variant="glowingDot" />,
+    count: 6,
+    description: "Custom cursor effects",
+  },
+  Separators: {
+    preview: <SeparatorVariants variant="gradient" />,
+    count: 7,
+    description: "Section divider styles",
+  },
+  Skeletons: {
+    preview: <SkeletonCard variant="shimmer" />,
+    count: 3,
+    description: "Loading placeholder skeletons",
+  },
+  Tables: {
+    preview: <TableVariants variant="minimal" preview />,
+    count: 3,
+    description: "Data tables with sorting",
+  },
+  Tabs: {
+    preview: <TabVariants variant="slidingUnderline" />,
+    count: 4,
+    description: "Tabbed navigation",
+  },
+  TextFields: {
+    preview: <TextFieldVariants variant="endIcon" preview />,
+    count: 6,
+    description: "Text input variations",
+  },
+  Texts: {
+    preview: <TextVariants variant="videoText" />,
+    count: 11,
+    description: "Animated text effects",
+  },
+  TimePickers: {
+    preview: <TimePickerVariants variant="12hour" preview />,
+    count: 4,
+    description: "Time selection inputs",
+  },
+};
+
+// Normalize a title for lookup: lowercase + strip all whitespace.
+// "Date Pickers", "DatePickers", and "date-pickers" (after replacing
+// hyphens upstream if needed) all resolve to the same key, so a
+// frontmatter title mismatch no longer silently drops the preview.
+const normalize = (s) => (s || "").toLowerCase().replace(/\s+/g, "");
+
+const componentMetaByNormalizedTitle = Object.fromEntries(
+  Object.entries(componentMeta).map(([key, val]) => [normalize(key), val]),
+);
+
 const fadeUp = {
   initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
@@ -31,6 +184,7 @@ const Components = ({ docsTree }) => {
         id: item.slug,
         title: item.title,
         route: item.url,
+        ...componentMetaByNormalizedTitle[normalize(item.title)],
       }))
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [docsTree]);
@@ -297,12 +451,12 @@ const Components = ({ docsTree }) => {
         </Box>
       </Container>
 
-      <Container maxWidth="md" sx={{ py: 5 }}>
+      <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
-            gap: { xs: 1.5, sm: 2 },
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+            gap: 2,
           }}
         >
           {componentsList.map((component, index) => (
@@ -311,48 +465,139 @@ const Components = ({ docsTree }) => {
               href={component.route}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{
-                  duration: 0.24,
-                  ease: "easeOut",
-                  delay: index * 0.012,
-                }}
-                sx={{
-                  cursor: "pointer",
-                  borderRadius: 1.5,
-                  backgroundColor: "background.paper",
-                  p: 1.5,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  "&:hover": { backgroundColor: "action.hover" },
-                  "&:hover .icon": {
-                    "@media (hover: hover)": { transform: "rotate(45deg)" },
-                  },
-                }}
-              >
-                <Typography variant="body2" fontWeight={500}>
-                  {component.title}
-                </Typography>
-
-                <IconButton disableRipple sx={{ p: 0 }}>
+              {component.preview ? (
+                <Box
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{
+                    duration: 0.24,
+                    ease: "easeOut",
+                    delay: index * 0.012,
+                  }}
+                  sx={{
+                    cursor: "pointer",
+                    borderRadius: 3,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    backgroundColor: "transparent",
+                    p: 1.5,
+                    minWidth: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1.5,
+                    "&:hover .icon": { transform: "rotate(45deg)" },
+                  }}
+                >
                   <Box
-                    className="icon"
                     sx={{
-                      display: "inline-flex",
-                      willChange: "transform",
-                      transition:
-                        "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+                      position: "relative",
+                      width: "100%",
+                      height: 150,
+                      overflow: "hidden",
+                      borderRadius: 2,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      pointerEvents: "none",
+                      bgcolor: "background.default",
                     }}
                   >
-                    <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
+                    {component.preview}
                   </Box>
-                </IconButton>
-              </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      px: 0.5,
+                    }}
+                  >
+                    <Box
+                      sx={{ display: "flex", alignItems: "baseline", gap: 1 }}
+                    >
+                      <Typography variant="body1" fontWeight={500}>
+                        {component.title}
+                      </Typography>
+                      {component.count && (
+                        <Typography variant="caption" color="text.secondary">
+                          {component.count} variants
+                        </Typography>
+                      )}
+                    </Box>
+                    <IconButton
+                      disableRipple
+                      sx={{
+                        p: 0,
+                        color: "text.primary",
+                        "&:hover": { backgroundColor: "transparent" },
+                      }}
+                    >
+                      <Box
+                        className="icon"
+                        sx={{
+                          display: "inline-flex",
+                          transition:
+                            "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+                        }}
+                      >
+                        <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
+                      </Box>
+                    </IconButton>
+                  </Box>
+
+                  {component.description && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ px: 0.5, mt: -1 }}
+                    >
+                      {component.description}
+                    </Typography>
+                  )}
+                </Box>
+              ) : (
+                <Box
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{
+                    duration: 0.24,
+                    ease: "easeOut",
+                    delay: index * 0.012,
+                  }}
+                  sx={{
+                    cursor: "pointer",
+                    borderRadius: 1.5,
+                    backgroundColor: "background.paper",
+                    p: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    "&:hover": { backgroundColor: "action.hover" },
+                    "&:hover .icon": { transform: "rotate(45deg)" },
+                  }}
+                >
+                  <Typography variant="body2" fontWeight={500}>
+                    {component.title}
+                  </Typography>
+                  <IconButton disableRipple sx={{ p: 0 }}>
+                    <Box
+                      className="icon"
+                      sx={{
+                        display: "inline-flex",
+                        transition:
+                          "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+                      }}
+                    >
+                      <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
+                    </Box>
+                  </IconButton>
+                </Box>
+              )}
             </Link>
           ))}
         </Box>

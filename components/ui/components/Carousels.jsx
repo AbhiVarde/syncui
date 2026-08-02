@@ -26,7 +26,7 @@ const preloadImages = async (images) => {
         img.onload = resolve;
         img.onerror = resolve;
       });
-    })
+    }),
   );
 };
 
@@ -78,7 +78,7 @@ const imageSlidesContent = [
   },
 ];
 
-const CarouselVariants = ({ variant = "classic" }) => {
+const CarouselVariants = ({ variant = "classic", preview = false }) => {
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
@@ -463,6 +463,31 @@ const CarouselVariants = ({ variant = "classic" }) => {
         return null;
     }
   };
+
+  if (preview) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+          pointerEvents: "none",
+          position: "relative",
+          borderRadius: 2,
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            backgroundImage: `url(${slides[active]?.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ position: "relative", width: "100%" }}>

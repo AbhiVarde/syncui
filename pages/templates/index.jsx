@@ -253,7 +253,7 @@ const Templates = ({ docsTree }) => {
                 ? "rgba(255,255,255,0.08)"
                 : "rgba(0,0,0,0.08)",
               mx: 2,
-              p: { xs: 2, sm: 3, md: 4 },
+              p: { xs: 3, sm: 4, md: 5 },
               borderRadius: 2.5,
             }}
           >
@@ -346,39 +346,6 @@ const Templates = ({ docsTree }) => {
                     >
                       Fully responsive templates built with MUI and Motion.
                     </Box>
-                  </Typography>
-                </Box>
-              </Box>
-
-              <Box
-                component={motion.div}
-                {...fadeUp}
-                transition={{ duration: 0.4, delay: 0.24 }}
-                onClick={() =>
-                  window.open(
-                    "https://abhivarde.gumroad.com/l/syncui-templates-bundle",
-                    "_blank",
-                  )
-                }
-                sx={{ cursor: "pointer" }}
-              >
-                <Box
-                  sx={{
-                    px: 2,
-                    py: 0.75,
-                    borderRadius: "12px",
-                    border: "1px solid",
-                    borderColor: "divider",
-                    backgroundColor: "background.paper",
-                    color: "text.primary",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <HugeiconsIcon icon={PackageIcon} size={16} />
-                  <Typography variant="body2" fontWeight={500}>
-                    Bundle: all 3 templates for $79
                   </Typography>
                 </Box>
               </Box>

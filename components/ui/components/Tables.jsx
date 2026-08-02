@@ -54,7 +54,7 @@ const sampleData = [
   createData(5, "James Wilson", "Developer", "Inactive", 30, "2025-01-05"),
 ];
 
-const TableVariants = ({ variant = "modern" }) => {
+const TableVariants = ({ variant = "modern", preview = false }) => {
   const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -675,6 +675,37 @@ const TableVariants = ({ variant = "modern" }) => {
         );
     }
   };
+
+  const content = renderVariant();
+
+  if (preview) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        <Box
+          sx={{
+            transform: "scale(0.55)",
+            transformOrigin: "top center",
+            width: "182%",
+            mt: -1,
+          }}
+        >
+          {content}
+        </Box>
+      </Box>
+    );
+  }
+
+  return content;
 
   return renderVariant();
 };

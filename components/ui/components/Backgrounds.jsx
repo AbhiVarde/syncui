@@ -10,7 +10,7 @@ import { motion, useInView } from "motion/react";
 
 const MotionBox = motion.create(Box);
 
-const BackgroundVariants = ({ variant }) => {
+const BackgroundVariants = ({ variant, preview = false }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
 
@@ -24,23 +24,23 @@ const BackgroundVariants = ({ variant }) => {
   const renderBackground = () => {
     switch (variant) {
       case "geminiWave":
-        return <GeminiWave />;
+        return <GeminiWave preview={preview} />;
       case "magneticConnections":
-        return <MagneticConnections ref={ref} />;
+        return <MagneticConnections ref={ref} preview={preview} />;
       case "gradientMesh":
-        return <GradientMesh ref={ref} isInView={isInView} />;
+        return <GradientMesh ref={ref} isInView={isInView} preview={preview} />;
       case "movingShapes":
-        return <MovingShapes />;
+        return <MovingShapes preview={preview} />;
       case "interactiveGrid":
-        return <InteractiveGrid />;
+        return <InteractiveGrid preview={preview} />;
       case "flickeringGrid":
-        return <FlickeringGrid />;
+        return <FlickeringGrid preview={preview} />;
       case "grid":
-        return <GridBackground />;
+        return <GridBackground preview={preview} />;
       case "dots":
-        return <DotsBackground />;
+        return <DotsBackground preview={preview} />;
       default:
-        return <DefaultBackground />;
+        return <DefaultBackground preview={preview} />;
     }
   };
 
@@ -48,9 +48,10 @@ const BackgroundVariants = ({ variant }) => {
     <Box
       sx={{
         width: "100%",
-        height: "300px",
+        height: preview ? "100%" : "300px",
         overflow: "hidden",
-        borderRadius, // ✅ controlled here
+        borderRadius,
+        pointerEvents: preview ? "none" : "auto",
       }}
     >
       {renderBackground()}
@@ -58,7 +59,7 @@ const BackgroundVariants = ({ variant }) => {
   );
 };
 
-const GeminiWave = React.memo(() => (
+const GeminiWave = React.memo(({ preview }) => (
   <MotionBox
     sx={{
       width: "100%",
@@ -121,14 +122,17 @@ const GeminiWave = React.memo(() => (
         </MotionBox>
       ))}
     </MotionBox>
-    <Typography variant="h4" sx={{ fontWeight: 500, color: "#fff", zIndex: 1 }}>
+    <Typography
+      variant={preview ? "body2" : "h4"}
+      sx={{ fontWeight: 500, color: "#fff", zIndex: 1 }}
+    >
       Gemini Wave
     </Typography>
   </MotionBox>
 ));
 
 const MagneticConnections = React.memo(
-  React.forwardRef((props, ref) => {
+  React.forwardRef(({ preview }, ref) => {
     const [mousePos, setMousePos] = useState(null);
     const [dots, setDots] = useState([]);
     const rafRef = useRef(null);
@@ -171,18 +175,22 @@ const MagneticConnections = React.memo(
       return () => window.removeEventListener("resize", calculateDots);
     }, []);
 
-    const handleMouseMove = useCallback((e) => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    const handleMouseMove = useCallback(
+      (e) => {
+        if (preview) return;
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
 
-      rafRef.current = requestAnimationFrame(() => {
-        if (!ref.current) return;
-        const rect = ref.current.getBoundingClientRect();
-        setMousePos({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
+        rafRef.current = requestAnimationFrame(() => {
+          if (!ref.current) return;
+          const rect = ref.current.getBoundingClientRect();
+          setMousePos({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+          });
         });
-      });
-    }, []);
+      },
+      [preview],
+    );
 
     const handleMouseLeave = useCallback(() => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -206,7 +214,7 @@ const MagneticConnections = React.memo(
           background: theme.palette.background.default,
           position: "relative",
           overflow: "hidden",
-          cursor: "pointer",
+          cursor: preview ? "default" : "pointer",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -281,7 +289,7 @@ const MagneticConnections = React.memo(
         })}
 
         <Typography
-          variant="h4"
+          variant={preview ? "body2" : "h4"}
           sx={{
             fontWeight: 500,
             position: "relative",
@@ -292,11 +300,11 @@ const MagneticConnections = React.memo(
         </Typography>
       </MotionBox>
     );
-  })
+  }),
 );
 
 const GradientMesh = React.memo(
-  React.forwardRef(({ isInView }, ref) => (
+  React.forwardRef(({ isInView, preview }, ref) => (
     <MotionBox
       ref={ref}
       initial={{ opacity: 0 }}
@@ -323,7 +331,7 @@ const GradientMesh = React.memo(
       }}
     >
       <Typography
-        variant="h4"
+        variant={preview ? "body2" : "h4"}
         sx={{
           fontWeight: 500,
           position: "relative",
@@ -334,10 +342,10 @@ const GradientMesh = React.memo(
         Gradient Mesh
       </Typography>
     </MotionBox>
-  ))
+  )),
 );
 
-const MovingShapes = React.memo(() => {
+const MovingShapes = React.memo(({ preview }) => {
   const shapes = useMemo(() => {
     const gradients = [
       { start: "#00C853", end: "#B2FF59" },
@@ -374,8 +382,8 @@ const MovingShapes = React.memo(() => {
           key={shape.id}
           sx={{
             position: "absolute",
-            width: shape.size,
-            height: shape.size,
+            width: preview ? shape.size * 0.6 : shape.size,
+            height: preview ? shape.size * 0.6 : shape.size,
             borderRadius: shape.borderRadius,
             background: `linear-gradient(135deg, ${shape.gradient.start}, ${shape.gradient.end})`,
             opacity: 0.4,
@@ -400,7 +408,7 @@ const MovingShapes = React.memo(() => {
         />
       ))}
       <Typography
-        variant="h4"
+        variant={preview ? "body2" : "h4"}
         sx={{
           color: "#fff",
           zIndex: 1,
@@ -413,7 +421,7 @@ const MovingShapes = React.memo(() => {
   );
 });
 
-const InteractiveGrid = React.memo(() => {
+const InteractiveGrid = React.memo(({ preview }) => {
   const theme = useTheme();
 
   const [gridDimensions, setGridDimensions] = useState({ width: 0, height: 0 });
@@ -476,7 +484,7 @@ const InteractiveGrid = React.memo(() => {
               <MotionBox
                 key={index}
                 sx={{
-                  cursor: "pointer",
+                  cursor: preview ? "default" : "pointer",
                   position: "absolute",
                   top: y,
                   left: x,
@@ -484,11 +492,13 @@ const InteractiveGrid = React.memo(() => {
                   height: squareHeight,
                   border: "0.5px solid rgba(128, 128, 128, 0.3)",
                   backgroundColor:
-                    hoveredSquare === index ? "#FF416C" : "transparent",
+                    !preview && hoveredSquare === index
+                      ? "#FF416C"
+                      : "transparent",
                 }}
-                onMouseEnter={() => setHoveredSquare(index)}
-                onMouseLeave={() => setHoveredSquare(null)}
-                whileHover={{ scale: 1.05 }}
+                onMouseEnter={() => !preview && setHoveredSquare(index)}
+                onMouseLeave={() => !preview && setHoveredSquare(null)}
+                whileHover={preview ? undefined : { scale: 1.05 }}
                 transition={{ duration: 0.1, ease: "easeOut" }}
               />
             );
@@ -496,7 +506,7 @@ const InteractiveGrid = React.memo(() => {
         </Box>
       )}
       <Typography
-        variant="h4"
+        variant={preview ? "body2" : "h4"}
         sx={{
           fontWeight: 500,
           position: "absolute",
@@ -509,7 +519,7 @@ const InteractiveGrid = React.memo(() => {
   );
 });
 
-const FlickeringGrid = React.memo(() => {
+const FlickeringGrid = React.memo(({ preview }) => {
   const theme = useTheme();
 
   const squareSize = 2;
@@ -568,7 +578,7 @@ const FlickeringGrid = React.memo(() => {
         />
       ))}
       <Typography
-        variant="h4"
+        variant={preview ? "body2" : "h4"}
         sx={{
           fontWeight: 500,
           position: "absolute",
@@ -581,7 +591,7 @@ const FlickeringGrid = React.memo(() => {
   );
 });
 
-const GridBackground = React.memo(() => {
+const GridBackground = React.memo(({ preview }) => {
   const theme = useTheme();
   return (
     <MotionBox
@@ -597,14 +607,17 @@ const GridBackground = React.memo(() => {
         alignItems: "center",
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: 500, zIndex: 1 }}>
+      <Typography
+        variant={preview ? "body2" : "h4"}
+        sx={{ fontWeight: 500, zIndex: 1 }}
+      >
         Grid
       </Typography>
     </MotionBox>
   );
 });
 
-const DotsBackground = React.memo(() => {
+const DotsBackground = React.memo(({ preview }) => {
   const theme = useTheme();
   return (
     <MotionBox
@@ -622,14 +635,17 @@ const DotsBackground = React.memo(() => {
         alignItems: "center",
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: 500, zIndex: 1 }}>
+      <Typography
+        variant={preview ? "body2" : "h4"}
+        sx={{ fontWeight: 500, zIndex: 1 }}
+      >
         Dots
       </Typography>
     </MotionBox>
   );
 });
 
-const DefaultBackground = React.memo(() => {
+const DefaultBackground = React.memo(({ preview }) => {
   const theme = useTheme();
 
   return (
@@ -643,7 +659,7 @@ const DefaultBackground = React.memo(() => {
         alignItems: "center",
       }}
     >
-      <Typography variant="h4" sx={{ color: "#fff" }}>
+      <Typography variant={preview ? "body2" : "h4"} sx={{ color: "#fff" }}>
         Default Background
       </Typography>
     </Box>

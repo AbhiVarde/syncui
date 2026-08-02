@@ -22,7 +22,7 @@ const twitterImages = [
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
 ];
 
-const CardVariants = ({ variant }) => {
+const CardVariants = ({ variant, preview = false }) => {
   const theme = useTheme();
   const [meteors, setMeteors] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -39,7 +39,7 @@ const CardVariants = ({ variant }) => {
   }, [variant]);
 
   useEffect(() => {
-    if (variant === "meteorShower") {
+    if (variant === "meteorShower" && !preview) {
       const createMeteor = () => {
         const newMeteor = {
           id: Math.random(),
@@ -52,7 +52,7 @@ const CardVariants = ({ variant }) => {
       const interval = setInterval(createMeteor, 500);
       return () => clearInterval(interval);
     }
-  }, [variant]);
+  }, [variant, preview]);
 
   const commonCardStyle = {
     width: { xs: "100%", sm: "350px" },
@@ -65,7 +65,7 @@ const CardVariants = ({ variant }) => {
     borderColor: theme.palette.divider,
     overflow: "hidden",
     position: "relative",
-    cursor: "pointer",
+    cursor: preview ? "default" : "pointer",
   };
 
   const renderCard = () => {
@@ -93,6 +93,7 @@ const CardVariants = ({ variant }) => {
                   },
                 }}
                 onMouseMove={(e) => {
+                  if (preview) return;
                   const container = e.currentTarget.getBoundingClientRect();
                   const x =
                     ((e.clientX - container.left) / container.width) * 100;
@@ -100,8 +101,8 @@ const CardVariants = ({ variant }) => {
                     ((e.clientY - container.top) / container.height) * 100;
                   setLensPosition({ x, y });
                 }}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onMouseEnter={() => !preview && setIsHovered(true)}
+                onMouseLeave={() => !preview && setIsHovered(false)}
               >
                 <Box
                   sx={{
@@ -112,7 +113,7 @@ const CardVariants = ({ variant }) => {
                     backgroundPosition: "center",
                   }}
                 />
-                {isHovered && (
+                {isHovered && !preview && (
                   <Box
                     className="lens"
                     sx={{
@@ -233,12 +234,12 @@ const CardVariants = ({ variant }) => {
                   {twitterImages.map((_, index) => (
                     <Box
                       key={index}
-                      onClick={() => setCurrentImageIndex(index)}
+                      onClick={() => !preview && setCurrentImageIndex(index)}
                       sx={{
                         width: 6,
                         height: 6,
                         borderRadius: "50%",
-                        cursor: "pointer",
+                        cursor: preview ? "default" : "pointer",
                         backgroundColor:
                           index === currentImageIndex
                             ? "primary.main"
@@ -306,13 +307,13 @@ const CardVariants = ({ variant }) => {
         return (
           <MotionCard
             initial="initial"
-            whileHover="hover"
+            whileHover={preview ? undefined : "hover"}
             sx={{
               ...commonCardStyle,
               backgroundImage: `url('https://cdn.webshopapp.com/shops/268192/files/433182622/tommy-shelby.jpg')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              cursor: "pointer",
+              cursor: preview ? "default" : "pointer",
               overflow: "hidden",
               position: "relative",
               border: "1px solid",
@@ -401,9 +402,7 @@ const CardVariants = ({ variant }) => {
           <MotionCard
             sx={commonCardStyle}
             style={{ y: 0 }}
-            whileHover={{
-              y: -5,
-            }}
+            whileHover={preview ? undefined : { y: -5 }}
             transition={{
               duration: 0.3,
               ease: "easeOut",
@@ -429,10 +428,14 @@ const CardVariants = ({ variant }) => {
                   overflow: "hidden",
                   borderRadius: "16px",
                 }}
-                whileHover={{
-                  backgroundImage: `url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3N0Ym81cmZ1Zmgxanh4eTJreDF1dWhrYXRjYnE1MDc3MTMxMWc4biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3og0ISMA5iGiROl4U8/giphy.gif')`,
-                  scale: 1.02,
-                }}
+                whileHover={
+                  preview
+                    ? undefined
+                    : {
+                        backgroundImage: `url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3N0Ym81cmZ1Zmgxanh4eTJreDF1dWhrYXRjYnE1MDc3MTMxMWc4biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3og0ISMA5iGiROl4U8/giphy.gif')`,
+                        scale: 1.02,
+                      }
+                }
                 transition={{
                   duration: 0.3,
                   ease: "easeOut",
@@ -571,7 +574,7 @@ const CardVariants = ({ variant }) => {
     }
   };
 
-  return (
+  const content = (
     <AnimatePresence mode="wait">
       <motion.div
         initial={{ opacity: 0 }}
@@ -584,6 +587,28 @@ const CardVariants = ({ variant }) => {
       </motion.div>
     </AnimatePresence>
   );
+
+  if (preview) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        <Box sx={{ transform: "scale(0.42)", transformOrigin: "center" }}>
+          {content}
+        </Box>
+      </Box>
+    );
+  }
+
+  return content;
 };
 
 export default CardVariants;

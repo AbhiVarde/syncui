@@ -17,7 +17,12 @@ import {
   RxDoubleArrowRight,
 } from "react-icons/rx";
 
-const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
+const PaginationVariants = ({
+  variant,
+  initialPage = 1,
+  totalPages = 10,
+  preview = false,
+}) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [goToPage, setGoToPage] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -164,7 +169,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                     {page}
                   </Box>
                 </motion.div>
-              )
+              ),
             )}
             <IconButton
               onClick={handleNextPage}
@@ -247,7 +252,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
                       {page}
                     </Box>
                   </motion.div>
-                )
+                ),
               )}
             <IconButton
               onClick={handleNextPage}
@@ -315,7 +320,7 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
         const start = (currentPage - 1) * rowsPerPage + 1;
         const end = Math.min(
           currentPage * rowsPerPage,
-          totalPages * rowsPerPage
+          totalPages * rowsPerPage,
         );
 
         return (
@@ -513,13 +518,17 @@ const PaginationVariants = ({ variant, initialPage = 1, totalPages = 10 }) => {
 
   return (
     <Box
-      p={2}
+      p={preview ? 0 : 2}
       display="flex"
       flexDirection="column"
       alignItems="center"
       gap={2}
-      bgcolor={theme.palette.background.paper}
+      bgcolor={preview ? "transparent" : theme.palette.background.paper}
       borderRadius={1}
+      sx={{
+        pointerEvents: preview ? "none" : "auto",
+        transform: preview ? "scale(0.85)" : "none",
+      }}
     >
       {renderPagination()}
     </Box>

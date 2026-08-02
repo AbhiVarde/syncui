@@ -3,7 +3,7 @@ import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence } from "motion/react";
 import { useRouter } from "next/router";
 
-const TabVariants = ({ variant }) => {
+const TabVariants = ({ variant, preview = false }) => {
   const theme = useTheme();
   const router = useRouter();
   const { asPath } = router;
@@ -12,12 +12,17 @@ const TabVariants = ({ variant }) => {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const handleTabClick = (index) => {
+    if (preview) return;
+    setActiveTab(index);
+  };
+
   const getTabStyle = (index) => ({
-    padding: isMobile ? "8px 12px" : "10px 20px",
-    cursor: "pointer",
+    padding: preview ? "6px 10px" : isMobile ? "8px 12px" : "10px 20px",
+    cursor: preview ? "default" : "pointer",
     position: "relative",
     color: theme.palette.mode === "dark" ? "#fff" : "#000",
-    fontSize: isMobile ? "0.875rem" : "1rem",
+    fontSize: preview ? "0.75rem" : isMobile ? "0.875rem" : "1rem",
   });
 
   const renderTabs = () => {
@@ -27,7 +32,7 @@ const TabVariants = ({ variant }) => {
           <Box
             sx={{
               display: "flex",
-              flexWrap: "wrap",
+              flexWrap: preview ? "nowrap" : "wrap",
               justifyContent: "center",
               borderBottom: `1px solid ${
                 theme.palette.mode === "dark"
@@ -40,10 +45,12 @@ const TabVariants = ({ variant }) => {
               <Box
                 key={tab}
                 sx={getTabStyle(index)}
-                onClick={() => setActiveTab(index)}
+                onClick={() => handleTabClick(index)}
               >
                 <Typography
                   sx={{
+                    fontSize: "inherit",
+                    whiteSpace: "nowrap",
                     textShadow:
                       activeTab === index
                         ? theme.palette.mode === "dark"
@@ -79,8 +86,8 @@ const TabVariants = ({ variant }) => {
           <Box
             sx={{
               display: "flex",
-              flexWrap: "wrap",
-              gap: 1.5,
+              flexWrap: preview ? "nowrap" : "wrap",
+              gap: preview ? 1 : 1.5,
               padding: 1,
               background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               justifyContent: "center",
@@ -92,7 +99,7 @@ const TabVariants = ({ variant }) => {
                 key={tab}
                 sx={{
                   ...getTabStyle(index),
-                  padding: "6px 12px",
+                  padding: preview ? "4px 8px" : "6px 12px",
                   borderRadius: "8px",
                   overflow: "hidden",
                   backgroundColor:
@@ -103,10 +110,12 @@ const TabVariants = ({ variant }) => {
                       : "transparent",
                   transition: "background-color 0.2s",
                 }}
-                onClick={() => setActiveTab(index)}
+                onClick={() => handleTabClick(index)}
               >
                 <Typography
                   sx={{
+                    fontSize: "inherit",
+                    whiteSpace: "nowrap",
                     position: "relative",
                     zIndex: 1,
                     textShadow:
@@ -129,8 +138,8 @@ const TabVariants = ({ variant }) => {
           <Box
             sx={{
               display: "flex",
-              flexWrap: "wrap",
-              gap: 1.5,
+              flexWrap: preview ? "nowrap" : "wrap",
+              gap: preview ? 1 : 1.5,
               padding: 1,
               background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               borderRadius: "12px",
@@ -142,7 +151,7 @@ const TabVariants = ({ variant }) => {
                 key={tab}
                 style={{
                   ...getTabStyle(index),
-                  padding: "6px 12px",
+                  padding: preview ? "4px 8px" : "6px 12px",
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#222" : "#fff",
                   borderRadius: "8px",
@@ -153,15 +162,17 @@ const TabVariants = ({ variant }) => {
                         : "0 10px 20px rgba(0,0,0,0.1)"
                       : "none",
                 }}
-                whileHover={{ y: -5 }}
+                whileHover={preview ? undefined : { y: -5 }}
                 animate={{
                   y: activeTab === index ? -8 : 0,
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                onClick={() => setActiveTab(index)}
+                onClick={() => handleTabClick(index)}
               >
                 <Typography
                   sx={{
+                    fontSize: "inherit",
+                    whiteSpace: "nowrap",
                     textShadow:
                       activeTab === index
                         ? theme.palette.mode === "dark"
@@ -190,8 +201,8 @@ const TabVariants = ({ variant }) => {
           <Box
             sx={{
               display: "flex",
-              flexWrap: "wrap",
-              gap: 1.5,
+              flexWrap: preview ? "nowrap" : "wrap",
+              gap: preview ? 1 : 1.5,
               padding: 1,
               background: theme.palette.mode === "dark" ? "#1A1A1A" : "#F0F0F0",
               borderRadius: "12px",
@@ -205,15 +216,17 @@ const TabVariants = ({ variant }) => {
                 key={tab}
                 style={{
                   ...getTabStyle(index),
-                  padding: "6px 12px",
+                  padding: preview ? "4px 8px" : "6px 12px",
                   borderRadius: 2,
                   position: "relative",
                   zIndex: 1,
                 }}
-                onClick={() => setActiveTab(index)}
+                onClick={() => handleTabClick(index)}
               >
                 <Typography
                   sx={{
+                    fontSize: "inherit",
+                    whiteSpace: "nowrap",
                     textShadow:
                       activeTab === index
                         ? theme.palette.mode === "dark"
@@ -267,7 +280,8 @@ const TabVariants = ({ variant }) => {
         flexDirection: "column",
         alignItems: "center",
         gap: 2,
-        padding: isMobile ? 1 : 2,
+        padding: preview ? 0 : isMobile ? 1 : 2,
+        pointerEvents: preview ? "none" : "auto",
       }}
     >
       {renderTabs()}
