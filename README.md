@@ -1,17 +1,10 @@
 <p align="center">
-  <img alt="Sync UI" src="public/og-image.png" />
-</p>
-
-<br />
-
-<p align="center">
   <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" /></a>
 </p>
 
-<br />
 
 <p align="center">
-  A UI system with 125+ components, 13+ blocks, 12 chart variants, and 3 premium templates. Copy the code, install with a CLI, or connect via MCP and agent skills. Built for React, ready for your coding agent.
+  Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP and agent skills. Built for React, ready for your coding agent.
   <br />
   <br />
   <a href="https://github.com/AbhiVarde/syncui/stargazers"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=dark&font=geist" /><img alt="GitHub Stars" src="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=light&font=geist" /></picture></a>
