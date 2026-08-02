@@ -8,13 +8,10 @@ import {
   Skeleton,
   alpha,
   Button,
-  Paper,
 } from "@mui/material";
 import { useGitHub } from "@/context/GithubContext";
-import { useEffect, useRef } from "react";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
-
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   GithubIcon,
@@ -22,27 +19,6 @@ import {
   FavouriteIcon,
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
-
-function useFadeInRef() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.style.opacity = "1";
-          el.style.transform = "none";
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  return ref;
-}
 
 const TextLink = ({ children, href }) => (
   <Button
@@ -56,6 +32,7 @@ const TextLink = ({ children, href }) => (
       py: 0.25,
       fontWeight: 500,
       textTransform: "none",
+      fontSize: 14,
       color: "text.primary",
       display: "inline-flex",
       alignItems: "center",
@@ -71,7 +48,7 @@ const TextLink = ({ children, href }) => (
       className="chevron"
       sx={{ display: "inline-flex", transition: "transform 0.18s ease" }}
     >
-      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+      <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
     </Box>
   </Button>
 );
@@ -79,77 +56,51 @@ const TextLink = ({ children, href }) => (
 const StargazersSection = () => {
   const { stars, stargazers, loading, error } = useGitHub();
   const theme = useTheme();
-  const revealRef = useFadeInRef();
-
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
   if (error) return null;
 
-  const displayCount = isXs ? 8 : isSm ? 10 : 12;
+  const displayCount = isXs ? 6 : 8;
   const latestStargazers = [...stargazers].reverse().slice(0, displayCount);
   const remainingCount = Math.max(0, stargazers.length - displayCount);
-
   const skeletonBg =
     theme.palette.mode === "dark" ? alpha("#fff", 0.1) : alpha("#000", 0.06);
 
   return (
-    <Container maxWidth="md" sx={{ py: { xs: 6, md: 8 } }}>
-      <Paper
-        ref={revealRef}
-        elevation={0}
+    <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
+      <Box
         sx={{
           borderRadius: 3,
-          backgroundColor: "transparent",
-          textAlign: "center",
-          opacity: 0,
-          transform: "translateY(12px)",
-          transition: "opacity 0.32s ease-out, transform 0.32s ease-out",
-          willChange: "transform, opacity",
+          border: "1px solid",
+          borderColor: "divider",
+          px: { xs: 2.5, sm: 3.5 },
+          py: { xs: 2.5, sm: 3 },
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2.5,
         }}
       >
-        <Typography variant="h3" fontWeight={500} gutterBottom>
-          Trusted by developers
-        </Typography>
-
-        <Typography
-          variant="body1"
-          fontWeight={400}
-          color="text.secondary"
-          sx={{ maxWidth: 520, mx: "auto", mb: 5 }}
-        >
-          Open source and community driven. Built with feedback from developers
-          shipping real products.
-        </Typography>
-
         <Box
           sx={{
-            border: "1px solid",
-            borderColor: "divider",
-            p: 4,
-            borderRadius: 3,
-            mx: "auto",
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+            flexWrap: "wrap",
+            justifyContent: "center",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              position: "relative",
-              height: 44,
-              mb: 2.5,
-            }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             {loading
               ? Array.from({ length: displayCount }).map((_, index) => (
                   <Skeleton
                     key={index}
                     variant="circular"
-                    width={44}
-                    height={44}
+                    width={36}
+                    height={36}
                     sx={{
-                      ml: index > 0 ? "-12px" : 0,
+                      ml: index > 0 ? "-10px" : 0,
                       flexShrink: 0,
                       border: "2px solid",
                       borderColor: "background.paper",
@@ -165,9 +116,9 @@ const StargazersSection = () => {
                     src={user?.avatar_url}
                     alt={user?.login}
                     sx={{
-                      width: 44,
-                      height: 44,
-                      ml: index > 0 ? "-12px" : 0,
+                      width: 36,
+                      height: 36,
+                      ml: index > 0 ? "-10px" : 0,
                       border: "2px solid",
                       borderColor: "background.paper",
                       bgcolor: "background.paper",
@@ -179,16 +130,16 @@ const StargazersSection = () => {
             {!loading && remainingCount > 0 && (
               <Avatar
                 sx={{
-                  width: 44,
-                  height: 44,
-                  ml: "-12px",
+                  width: 36,
+                  height: 36,
+                  ml: "-10px",
                   border: "2px solid",
                   borderColor: "background.paper",
                   bgcolor:
                     theme.palette.mode === "dark" ? "#f5f5f5" : "#111111",
                   color: theme.palette.mode === "dark" ? "#111111" : "#f5f5f5",
                   fontWeight: 600,
-                  fontSize: 13,
+                  fontSize: 12,
                   zIndex: displayCount + 1,
                 }}
               >
@@ -197,77 +148,60 @@ const StargazersSection = () => {
             )}
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 1,
-              mb: 3,
-            }}
-          >
-            {loading ? (
+          {loading ? (
+            <Skeleton
+              variant="rounded"
+              width={130}
+              height={18}
+              sx={{ borderRadius: 1, bgcolor: skeletonBg }}
+            />
+          ) : (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+              <HugeiconsIcon icon={StarIcon} size={16} />
+              <Typography variant="body2" fontWeight={500}>
+                <AnimatedCounter value={stars || 0} duration={1.6} />
+              </Typography>
+              <Typography
+                variant="body2"
+                fontWeight={400}
+                color="text.secondary"
+              >
+                GitHub stars
+              </Typography>
+            </Box>
+          )}
+        </Box>
+
+        <Box sx={{ display: "flex", gap: 2.5, flexShrink: 0 }}>
+          {loading ? (
+            <>
               <Skeleton
                 variant="rounded"
-                width={148}
-                height={20}
+                width={100}
+                height={18}
                 sx={{ borderRadius: 1, bgcolor: skeletonBg }}
               />
-            ) : (
-              <>
-                <HugeiconsIcon icon={StarIcon} size={18} />
-                <Typography variant="body1" fontWeight={500}>
-                  <AnimatedCounter value={stars || 0} duration={1.6} />
-                </Typography>
-                <Typography
-                  variant="body2"
-                  fontWeight={400}
-                  color="text.secondary"
-                >
-                  GitHub stars
-                </Typography>
-              </>
-            )}
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 3,
-              flexWrap: "wrap",
-            }}
-          >
-            {loading ? (
-              <>
-                <Skeleton
-                  variant="rounded"
-                  width={120}
-                  height={20}
-                  sx={{ borderRadius: 1, bgcolor: skeletonBg }}
-                />
-                <Skeleton
-                  variant="rounded"
-                  width={136}
-                  height={20}
-                  sx={{ borderRadius: 1, bgcolor: skeletonBg }}
-                />
-              </>
-            ) : (
-              <>
-                <TextLink href={GITHUB_URL}>
-                  <HugeiconsIcon icon={GithubIcon} size={18} />
-                  Star on GitHub
-                </TextLink>
-                <TextLink href={SPONSOR_URL}>
-                  <HugeiconsIcon icon={FavouriteIcon} size={18} />
-                  Support Sync UI
-                </TextLink>
-              </>
-            )}
-          </Box>
+              <Skeleton
+                variant="rounded"
+                width={116}
+                height={18}
+                sx={{ borderRadius: 1, bgcolor: skeletonBg }}
+              />
+            </>
+          ) : (
+            <>
+              <TextLink href={GITHUB_URL}>
+                <HugeiconsIcon icon={GithubIcon} size={16} />
+                Star on GitHub
+              </TextLink>
+              <TextLink href={SPONSOR_URL}>
+                <HugeiconsIcon icon={FavouriteIcon} size={16} />
+                Support Sync UI
+              </TextLink>
+            </>
+          )}
         </Box>
-      </Paper>
+      </Box>
     </Container>
   );
 };

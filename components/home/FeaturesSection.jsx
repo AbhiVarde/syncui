@@ -1,205 +1,194 @@
-"use client";
-
-import React, { useRef, useEffect } from "react";
-import { Box, Container, Paper, Typography, Button } from "@mui/material";
-import { useRouter } from "next/navigation";
-
+import React from "react";
+import { Box, Container, Typography, IconButton } from "@mui/material";
+import { motion } from "motion/react";
+import Link from "next/link";
+import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  Layers01Icon,
-  IceCubesIcon,
-  DashboardSquare01Icon,
-  ChartLineData01Icon,
-  ArrowRight01Icon,
-} from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
-function useFadeInRef(delay = 0) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          requestAnimationFrame(() => {
-            el.style.transitionDelay = `${delay}ms`;
-            el.style.opacity = "1";
-            el.style.transform = "none";
-          });
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.08 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [delay]);
-  return ref;
-}
-
-const revealStyle = {
-  opacity: 0,
-  transform: "translateY(12px)",
-  transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
-  willChange: "transform, opacity",
-};
-
-const TextLink = ({ children, disabled, onClick }) => (
-  <Button
-    variant="text"
-    disabled={disabled}
-    onClick={onClick}
-    sx={{
-      px: 0,
-      py: 0.25,
-      fontWeight: 500,
-      textTransform: "none",
-      color: disabled ? "text.disabled" : "text.primary",
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 0.5,
-      backgroundColor: "transparent",
-      "&:hover": {
-        backgroundColor: "transparent",
-        "& .chevron": { transform: "translateX(4px)" },
-      },
-    }}
-  >
-    {children}
-    <Box
-      className="chevron"
-      sx={{ display: "inline-flex", transition: "transform 0.18s ease" }}
-    >
-      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-    </Box>
-  </Button>
-);
-
-const FeatureCard = ({
-  icon,
-  title,
-  description,
-  cta,
-  disabled,
-  onClick,
-  delay,
-}) => {
-  const ref = useFadeInRef(delay);
-  return (
-    <Paper
-      ref={ref}
-      elevation={0}
-      style={revealStyle}
-      sx={{
-        height: "100%",
-        borderRadius: 3,
-        border: "1px solid",
-        borderColor: "divider",
-        backgroundColor: "transparent",
-        p: 4,
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-      }}
-    >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <HugeiconsIcon icon={icon} size={18} />
-        <Typography variant="h6" fontWeight={600}>
-          {title}
-        </Typography>
-      </Box>
-
-      <Typography variant="body2" fontWeight={400} color="text.secondary">
-        {description}
-      </Typography>
-
-      <Box sx={{ flexGrow: 1 }} />
-
-      <TextLink disabled={disabled} onClick={onClick}>
-        {cta}
-      </TextLink>
-    </Paper>
-  );
-};
+import ButtonVariants from "@/components/ui/components/Buttons";
+import HeroVariants from "@/components/ui/blocks/Hero/Hero";
+import BarChart from "@/components/ui/charts/bar";
 
 const FEATURES = [
   {
-    icon: IceCubesIcon,
     title: "Components",
-    description: "125+ animated components built with MUI and motion/react.",
-    cta: "Browse components",
-    path: "/components",
+    preview: <ButtonVariants variant="neubrutalism" />,
+    count: "125+ variants",
+    description: "Buttons, cards, tables, dialogs, and more",
+    route: "/components",
   },
   {
-    icon: DashboardSquare01Icon,
     title: "Blocks",
-    description: "Ready to use sections. Heroes, pricing tables, and more.",
-    cta: "Browse blocks",
-    path: "/blocks",
+    preview: <HeroVariants variant="center" height={150} />,
+    count: "13+ blocks",
+    description: "Ready-to-use sections for landing pages",
+    route: "/blocks",
   },
   {
-    icon: ChartLineData01Icon,
     title: "Charts",
-    description: "Bar, line, donut, and more. Animated, two variants each.",
-    cta: "Browse charts",
-    path: "/charts",
+    preview: <BarChart variant="ranked" height={150} />,
+    count: "12+ variants",
+    description: "Line, bar, donut, stat, progress, and heatmap",
+    route: "/charts",
   },
   {
-    icon: Layers01Icon,
     title: "Templates",
-    description: "SaaS, startup, and portfolio. Individually or as a bundle.",
-    cta: "View templates",
-    path: "/templates",
+    image: "/template-img.png",
+    count: "3 templates",
+    description: "SaaS, startup, and portfolio, ready to launch",
+    route: "/templates",
   },
 ];
 
+const fadeUp = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+};
+
 const FeaturesSection = () => {
-  const router = useRouter();
-  const headerRef = useFadeInRef(0);
-
   return (
-    <Box sx={{ py: { xs: 6, md: 10 } }}>
-      <Container maxWidth="md">
-        <Box
-          ref={headerRef}
-          style={revealStyle}
-          sx={{ textAlign: "center", mb: 6 }}
-        >
-          <Typography variant="h3" fontWeight={500} gutterBottom>
-            Designed for modern product teams
-          </Typography>
-          <Typography
-            variant="body1"
-            fontWeight={400}
-            color="text.secondary"
-            sx={{ maxWidth: 700, mx: "auto" }}
+    <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+          gap: 2,
+        }}
+      >
+        {FEATURES.map((feature, index) => (
+          <Box
+            key={feature.title}
+            component={Link}
+            href={feature.route}
+            sx={{
+              display: "block",
+              textDecoration: "none",
+              color: "inherit",
+              minWidth: 0,
+            }}
           >
-            Components, blocks, charts, and templates for building React and
-            Next.js applications with clarity and consistency.
-          </Typography>
-        </Box>
+            <Box
+              component={motion.div}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: 0.24,
+                ease: "easeOut",
+                delay: index * 0.03,
+              }}
+              sx={{
+                cursor: "pointer",
+                borderRadius: 3,
+                border: "1px solid",
+                borderColor: "divider",
+                backgroundColor: "transparent",
+                p: 1.5,
+                minWidth: 0,
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                gap: 1.5,
+                "&:hover .icon": { transform: "rotate(45deg)" },
+              }}
+            >
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  height: 150,
+                  overflow: "hidden",
+                  borderRadius: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "background.default",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                  "& *": {
+                    pointerEvents: "none !important",
+                    userSelect: "none !important",
+                  },
+                }}
+              >
+                {feature.image ? (
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 600px) 100vw, 50vw"
+                  />
+                ) : (
+                  feature.preview
+                )}
+              </Box>
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-            gap: 3,
-          }}
-        >
-          {FEATURES.map((feature, index) => (
-            <FeatureCard
-              key={feature.title}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-              cta={feature.cta}
-              onClick={() => router.push(feature.path)}
-              delay={index * 40}
-            />
-          ))}
-        </Box>
-      </Container>
-    </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  px: 0.5,
+                  minWidth: 0,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: 1,
+                    minWidth: 0,
+                  }}
+                >
+                  <Typography variant="body1" fontWeight={500} noWrap>
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" noWrap>
+                    {feature.count}
+                  </Typography>
+                </Box>
+                <IconButton
+                  disableRipple
+                  sx={{
+                    p: 0,
+                    color: "text.primary",
+                    flexShrink: 0,
+                    "&:hover": { backgroundColor: "transparent" },
+                  }}
+                >
+                  <Box
+                    className="icon"
+                    sx={{
+                      display: "inline-flex",
+                      transition:
+                        "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+                    }}
+                  >
+                    <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
+                  </Box>
+                </IconButton>
+              </Box>
+
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                noWrap
+                sx={{
+                  px: 0.5,
+                  mt: -1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {feature.description}
+              </Typography>
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    </Container>
   );
 };
 
