@@ -17,15 +17,17 @@ import { useGitHub } from "@/context/GithubContext";
 import Search from "../common/Search";
 import AnimatedCounter from "../AnimatedCounter";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  LuMenu,
-  LuChevronRight,
-  LuX,
-  LuGithub,
-  LuTwitter,
-  LuMoon,
-  LuSun,
-} from "react-icons/lu";
+  Menu02Icon,
+  ArrowRight01Icon,
+  Cancel01Icon,
+  Menu09Icon,
+  GithubIcon,
+  NewTwitterIcon,
+  Moon01Icon,
+  Sun01Icon,
+} from "@hugeicons/core-free-icons";
 
 const navItems = [
   { label: "Home", href: "/", external: false },
@@ -168,7 +170,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
     return (
       <Breadcrumbs
-        separator={<LuChevronRight size={18} />}
+        separator={<HugeiconsIcon icon={ArrowRight01Icon} size={18} />}
         aria-label="breadcrumb"
         sx={{ display: { xs: "flex", lg: "none" } }}
       >
@@ -182,7 +184,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             fontWeight: 500,
           }}
         >
-          <LuMenu size={20} /> On this page
+          <HugeiconsIcon icon={Menu02Icon} size={20} /> On this page
         </Typography>
         {activeText && (
           <Typography
@@ -222,7 +224,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
             "&:hover": { opacity: 0.7 },
           }}
         >
-          <LuGithub size={20} aria-hidden="true" />
+          <HugeiconsIcon icon={GithubIcon} size={20} aria-hidden="true" />
           {!loading && stars > 0 && (
             <Typography
               variant="body2"
@@ -253,7 +255,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        <LuTwitter size={18} aria-hidden="true" />
+        <HugeiconsIcon icon={NewTwitterIcon} size={18} aria-hidden="true" />
       </IconButton>
 
       <IconButton
@@ -265,11 +267,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        {isDarkMode ? (
-          <LuSun size={22} aria-hidden="true" />
-        ) : (
-          <LuMoon size={22} aria-hidden="true" />
-        )}
+        <HugeiconsIcon
+          icon={isDarkMode ? Sun01Icon : Moon01Icon}
+          size={22}
+          aria-hidden="true"
+        />
       </IconButton>
     </Box>
   );
@@ -320,11 +322,11 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                     menuOpen ? "Close navigation menu" : "Open navigation menu"
                   }
                   startIcon={
-                    menuOpen ? (
-                      <LuX size={24} aria-hidden="true" />
-                    ) : (
-                      <LuMenu size={24} aria-hidden="true" />
-                    )
+                    <HugeiconsIcon
+                      icon={menuOpen ? Cancel01Icon : Menu09Icon}
+                      size={24}
+                      aria-hidden="true"
+                    />
                   }
                   sx={{
                     minWidth: "auto",
