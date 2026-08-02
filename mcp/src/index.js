@@ -31,7 +31,12 @@ async function fetchAllEntries() {
   const index = await fetchIndex();
   if (!index) return { index: null, entries: {} };
 
-  const names = [...(index.components || []), ...(index.blocks || [])];
+  const names = [
+    ...(index.components || []),
+    ...(index.blocks || []),
+    ...(index.charts || []),
+  ];
+
   const results = await Promise.all(
     names.map(async (name) => [name, await fetchEntry(name)]),
   );
@@ -104,7 +109,11 @@ server.tool(
     if (!entry) {
       const index = await fetchIndex();
       const available = index
-        ? [...(index.components || []), ...(index.blocks || [])].join(", ")
+        ? [
+            ...(index.components || []),
+            ...(index.blocks || []),
+            ...(index.charts || []),
+          ].join(", ")
         : "unknown";
       return {
         isError: true,
@@ -283,6 +292,7 @@ server.tool(
         : `Could not fetch live tokens from ${TOKENS_URL}.`,
       totalComponents: (index.components || []).length,
       totalBlocks: (index.blocks || []).length,
+      totalCharts: (index.charts || []).length,
       manifest,
       docsUrl: "https://syncui.design/docs",
       registryUrl: "https://syncui.design/r/index.json",
