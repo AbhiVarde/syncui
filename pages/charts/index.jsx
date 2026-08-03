@@ -386,7 +386,10 @@ const Charts = () => {
         </Box>
       </Container>
 
-      <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
+      <Container
+        maxWidth="md"
+        sx={{ px: { lg: 0 }, py: 5, overflowX: "hidden" }}
+      >
         <Box
           sx={{
             display: "grid",
@@ -414,6 +417,8 @@ const Charts = () => {
                   backgroundColor: "transparent",
                   p: 1.5,
                   minWidth: 0,
+                  width: "100%",
+                  overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",
                   gap: 1.5,
@@ -433,7 +438,13 @@ const Charts = () => {
                     pointerEvents: "none",
                   }}
                 >
-                  <Box sx={{ width: "100%", transform: "scale(0.94)" }}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: "100%",
+                      transform: "scale(0.94)",
+                    }}
+                  >
                     {chart.preview}
                   </Box>
                 </Box>
@@ -444,13 +455,22 @@ const Charts = () => {
                     alignItems: "center",
                     justifyContent: "space-between",
                     px: 0.5,
+                    minWidth: 0,
                   }}
                 >
-                  <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
-                    <Typography variant="h6" fontWeight={500}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: 1,
+                      minWidth: 0,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight={500} noWrap>
                       {chart.title}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" noWrap>
                       {chart.variants} variants
                     </Typography>
                   </Box>
@@ -460,6 +480,7 @@ const Charts = () => {
                     sx={{
                       p: 0,
                       color: "text.primary",
+                      flexShrink: 0,
                       backgroundColor: "transparent",
                       "&:hover": { backgroundColor: "transparent" },
                     }}
@@ -481,7 +502,13 @@ const Charts = () => {
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ px: 0.5, mt: -1.5 }}
+                  noWrap
+                  sx={{
+                    px: 0.5,
+                    mt: -1.5,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
                 >
                   {chart.description}
                 </Typography>
