@@ -386,10 +386,7 @@ const Charts = () => {
         </Box>
       </Container>
 
-      <Container
-        maxWidth="md"
-        sx={{ px: { lg: 0 }, py: 5, overflowX: "hidden" }}
-      >
+      <Container maxWidth="md" sx={{ px: { lg: 0 }, py: 5 }}>
         <Box
           sx={{
             display: "grid",
@@ -398,10 +395,16 @@ const Charts = () => {
           }}
         >
           {chartCategories.map((chart) => (
-            <Link
+            <Box
               key={chart.id}
+              component={Link}
               href={chart.route}
-              style={{ textDecoration: "none", color: "inherit" }}
+              sx={{
+                display: "block",
+                textDecoration: "none",
+                color: "inherit",
+                minWidth: 0,
+              }}
             >
               <Box
                 component={motion.div}
@@ -417,7 +420,6 @@ const Charts = () => {
                   backgroundColor: "transparent",
                   p: 1.5,
                   minWidth: 0,
-                  width: "100%",
                   overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",
@@ -438,13 +440,7 @@ const Charts = () => {
                     pointerEvents: "none",
                   }}
                 >
-                  <Box
-                    sx={{
-                      width: "100%",
-                      maxWidth: "100%",
-                      transform: "scale(0.94)",
-                    }}
-                  >
+                  <Box sx={{ width: "100%", transform: "scale(0.94)" }}>
                     {chart.preview}
                   </Box>
                 </Box>
@@ -513,7 +509,7 @@ const Charts = () => {
                   {chart.description}
                 </Typography>
               </Box>
-            </Link>
+            </Box>
           ))}
         </Box>
       </Container>

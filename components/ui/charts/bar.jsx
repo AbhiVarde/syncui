@@ -90,13 +90,14 @@ const BarChart = ({
         borderColor: mono.border,
         bgcolor: "background.paper",
         width: "100%",
+        overflow: "hidden",
       }}
     >
       <ResponsiveContainer width="100%" height={height}>
         <RBarChart
           data={chartData}
           barCategoryGap="35%"
-          margin={{ top: 8, right: 12, left: -12, bottom: 0 }}
+          margin={{ top: 8, right: 12, left: 0, bottom: 0 }}
         >
           <CartesianGrid stroke={mono.grid} vertical={false} />
           <XAxis

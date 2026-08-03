@@ -85,7 +85,7 @@ const LineChart = ({
       return (
         <RAreaChart
           data={data}
-          margin={{ top: 16, right: 20, left: -12, bottom: 0 }}
+          margin={{ top: 16, right: 12, left: 0, bottom: 0 }}
         >
           <defs>
             <linearGradient id="syncFade" x1="0" y1="0" x2="0" y2="1">
@@ -125,7 +125,7 @@ const LineChart = ({
     return (
       <RLineChart
         data={data}
-        margin={{ top: 16, right: 20, left: -12, bottom: 0 }}
+        margin={{ top: 16, right: 12, left: 0, bottom: 0 }}
       >
         <CartesianGrid stroke={mono.grid} vertical={false} />
         <XAxis
@@ -169,6 +169,7 @@ const LineChart = ({
         borderColor: mono.border,
         bgcolor: "background.paper",
         width: "100%",
+        overflow: "hidden",
       }}
     >
       <Box sx={{ mb: 1.5 }}>
