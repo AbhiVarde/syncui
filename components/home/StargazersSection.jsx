@@ -9,6 +9,7 @@ import {
   alpha,
   Button,
 } from "@mui/material";
+import Image from "next/image";
 import { useGitHub } from "@/context/GithubContext";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
@@ -113,7 +114,6 @@ const StargazersSection = () => {
               : latestStargazers.map((user, index) => (
                   <Avatar
                     key={user?.id || index}
-                    src={user?.avatar_url}
                     alt={user?.login}
                     sx={{
                       width: 36,
@@ -123,8 +123,20 @@ const StargazersSection = () => {
                       borderColor: "background.paper",
                       bgcolor: "background.paper",
                       zIndex: displayCount - index,
+                      position: "relative",
+                      overflow: "hidden",
                     }}
-                  />
+                  >
+                    {user?.avatar_url && (
+                      <Image
+                        src={`${user.avatar_url}&s=72`}
+                        alt={user?.login}
+                        fill
+                        sizes="36px"
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
+                  </Avatar>
                 ))}
 
             {!loading && remainingCount > 0 && (

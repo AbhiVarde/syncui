@@ -2,6 +2,14 @@ const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx"],
   serverExternalPackages: ["mdx-bundler", "esbuild"],
   transpilePackages: ["geist"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+    ],
+  },
   async redirects() {
     return [
       {

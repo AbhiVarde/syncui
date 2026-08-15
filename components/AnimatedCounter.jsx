@@ -11,6 +11,7 @@ const AnimatedCounter = memo(
     const [counter, setCounter] = useState(0);
     const previousValueRef = useRef(0);
     const isFirstRender = useRef(true);
+    const rafRef = useRef(null);
 
     useEffect(() => {
       if (isFirstRender.current) {
@@ -30,38 +31,37 @@ const AnimatedCounter = memo(
 
       if (difference === 0) return;
 
-      const steps = Math.abs(difference);
-      const incrementValue = difference / steps;
-      const incrementTime = (duration * 1000) / steps;
-
       const delayTimer = setTimeout(() => {
-        let current = startValue;
+        let startTime = null;
 
-        setCounter(current);
+        const step = (timestamp) => {
+          if (startTime === null) startTime = timestamp;
 
-        const timer = setInterval(() => {
-          current += incrementValue;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / (duration * 1000), 1);
+          const current = startValue + difference * progress;
 
-          if (
-            (incrementValue > 0 && current >= endValue) ||
-            (incrementValue < 0 && current <= endValue)
-          ) {
-            clearInterval(timer);
+          setCounter(current);
+
+          if (progress < 1) {
+            rafRef.current = requestAnimationFrame(step);
+          } else {
             setCounter(endValue);
             previousValueRef.current = endValue;
-          } else {
-            setCounter(current);
           }
-        }, incrementTime);
+        };
 
-        return () => clearInterval(timer);
+        rafRef.current = requestAnimationFrame(step);
       }, delay * 1000);
 
-      return () => clearTimeout(delayTimer);
+      return () => {
+        clearTimeout(delayTimer);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      };
     }, [value, duration, delay]);
 
     return <span className={className}>{formatter(Math.round(counter))}</span>;
-  }
+  },
 );
 
 export default AnimatedCounter;
