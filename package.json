@@ -43,6 +43,14 @@
     "js-yaml": "^4.2.0"
   },
   "devDependencies": {
+    "critters": "^0.0.23",
     "patch-package": "^8.0.1"
-  }
+  },
+  "browserslist": [
+    "chrome >= 100",
+    "edge >= 100",
+    "firefox >= 100",
+    "safari >= 15",
+    "not dead"
+  ]
 }

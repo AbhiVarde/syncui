@@ -12,12 +12,26 @@ import Head from "next/head";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
-import LineChart from "@/components/ui/charts/line";
-import BarChart from "@/components/ui/charts/bar";
-import Donut from "@/components/ui/charts/donut";
-import Stat from "@/components/ui/charts/stat";
-import Progress from "@/components/ui/charts/progress";
-import Heatmap from "@/components/ui/charts/heatmap";
+import dynamic from "next/dynamic";
+
+const LineChart = dynamic(() => import("@/components/ui/charts/line"), {
+  ssr: false,
+});
+const BarChart = dynamic(() => import("@/components/ui/charts/bar"), {
+  ssr: false,
+});
+const Donut = dynamic(() => import("@/components/ui/charts/donut"), {
+  ssr: false,
+});
+const Stat = dynamic(() => import("@/components/ui/charts/stat"), {
+  ssr: false,
+});
+const Progress = dynamic(() => import("@/components/ui/charts/progress"), {
+  ssr: false,
+});
+const Heatmap = dynamic(() => import("@/components/ui/charts/heatmap"), {
+  ssr: false,
+});
 
 const chartCategories = [
   {

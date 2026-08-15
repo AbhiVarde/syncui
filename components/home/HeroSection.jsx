@@ -81,7 +81,7 @@ const HeroSection = () => {
                   alt="Vercel OSS Program"
                   width={180}
                   height={32}
-                  priority
+                  loading="eager"
                   style={{
                     display: "block",
                     maxWidth: "100%",

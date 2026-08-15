@@ -14,28 +14,93 @@ import { getAllDocsSlugs } from "@/lib/docs";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
-import AccordionVariants from "@/components/ui/components/Accordions";
-import AutocompleteVariants from "@/components/ui/components/Autocompletes";
-import AvatarVariants from "@/components/ui/components/Avatars";
-import BackgroundVariants from "@/components/ui/components/Backgrounds";
-import ButtonVariants from "@/components/ui/components/Buttons";
-import CardVariants from "@/components/ui/components/Cards";
-import CarouselVariants from "@/components/ui/components/Carousels";
-import DatePickerVariants from "@/components/ui/components/DatePickers";
-import DialogVariants from "@/components/ui/components/Dialogs";
-import DockVariants from "@/components/ui/components/Docks";
-import FormVariants from "@/components/ui/components/Forms";
-import GridVariants from "@/components/ui/components/Grids";
-import LoaderVariants from "@/components/ui/components/Loaders";
-import PaginationVariants from "@/components/ui/components/Paginations";
-import PointerVariants from "@/components/ui/components/Pointers";
-import SeparatorVariants from "@/components/ui/components/Separators";
-import { SkeletonCard } from "@/components/ui/components/Skeletons";
-import TableVariants from "@/components/ui/components/Tables";
-import TabVariants from "@/components/ui/components/Tabs";
-import TextFieldVariants from "@/components/ui/components/TextFields";
-import TextVariants from "@/components/ui/components/Texts";
-import TimePickerVariants from "@/components/ui/components/TimePickers";
+import dynamic from "next/dynamic";
+
+const AccordionVariants = dynamic(
+  () => import("@/components/ui/components/Accordions"),
+  { ssr: false },
+);
+const AutocompleteVariants = dynamic(
+  () => import("@/components/ui/components/Autocompletes"),
+  { ssr: false },
+);
+const AvatarVariants = dynamic(
+  () => import("@/components/ui/components/Avatars"),
+  { ssr: false },
+);
+const BackgroundVariants = dynamic(
+  () => import("@/components/ui/components/Backgrounds"),
+  { ssr: false },
+);
+const ButtonVariants = dynamic(
+  () => import("@/components/ui/components/Buttons"),
+  { ssr: false },
+);
+const CardVariants = dynamic(() => import("@/components/ui/components/Cards"), {
+  ssr: false,
+});
+const CarouselVariants = dynamic(
+  () => import("@/components/ui/components/Carousels"),
+  { ssr: false },
+);
+const DatePickerVariants = dynamic(
+  () => import("@/components/ui/components/DatePickers"),
+  { ssr: false },
+);
+const DialogVariants = dynamic(
+  () => import("@/components/ui/components/Dialogs"),
+  { ssr: false },
+);
+const DockVariants = dynamic(() => import("@/components/ui/components/Docks"), {
+  ssr: false,
+});
+const FormVariants = dynamic(() => import("@/components/ui/components/Forms"), {
+  ssr: false,
+});
+const GridVariants = dynamic(() => import("@/components/ui/components/Grids"), {
+  ssr: false,
+});
+const LoaderVariants = dynamic(
+  () => import("@/components/ui/components/Loaders"),
+  { ssr: false },
+);
+const PaginationVariants = dynamic(
+  () => import("@/components/ui/components/Paginations"),
+  { ssr: false },
+);
+const PointerVariants = dynamic(
+  () => import("@/components/ui/components/Pointers"),
+  { ssr: false },
+);
+const SeparatorVariants = dynamic(
+  () => import("@/components/ui/components/Separators"),
+  { ssr: false },
+);
+const SkeletonCard = dynamic(
+  () =>
+    import("@/components/ui/components/Skeletons").then(
+      (mod) => mod.SkeletonCard,
+    ),
+  { ssr: false },
+);
+const TableVariants = dynamic(
+  () => import("@/components/ui/components/Tables"),
+  { ssr: false },
+);
+const TabVariants = dynamic(() => import("@/components/ui/components/Tabs"), {
+  ssr: false,
+});
+const TextFieldVariants = dynamic(
+  () => import("@/components/ui/components/TextFields"),
+  { ssr: false },
+);
+const TextVariants = dynamic(() => import("@/components/ui/components/Texts"), {
+  ssr: false,
+});
+const TimePickerVariants = dynamic(
+  () => import("@/components/ui/components/TimePickers"),
+  { ssr: false },
+);
 
 const componentMeta = {
   Accordions: {

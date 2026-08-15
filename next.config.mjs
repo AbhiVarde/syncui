@@ -9,6 +9,7 @@ const nextConfig = {
       "react-icons",
       "motion",
     ],
+    optimizeCss: true,
   },
   images: {
     remotePatterns: [

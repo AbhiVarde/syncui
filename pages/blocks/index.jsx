@@ -13,10 +13,22 @@ import Link from "next/link";
 import { getAllDocsSlugs } from "@/lib/docs";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
-import HeroVariants from "@/components/ui/blocks/Hero/Hero";
-import CTAVariants from "@/components/ui/blocks/CTA/Cta";
-import PricingVariants from "@/components/ui/blocks/Pricing/Pricing";
-import StatsVariants from "@/components/ui/blocks/Stats/Stats";
+import dynamic from "next/dynamic";
+
+const HeroVariants = dynamic(() => import("@/components/ui/blocks/Hero/Hero"), {
+  ssr: false,
+});
+const CTAVariants = dynamic(() => import("@/components/ui/blocks/CTA/Cta"), {
+  ssr: false,
+});
+const PricingVariants = dynamic(
+  () => import("@/components/ui/blocks/Pricing/Pricing"),
+  { ssr: false },
+);
+const StatsVariants = dynamic(
+  () => import("@/components/ui/blocks/Stats/Stats"),
+  { ssr: false },
+);
 
 const blockMeta = {
   Hero: {

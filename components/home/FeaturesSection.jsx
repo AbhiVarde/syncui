@@ -6,9 +6,18 @@ import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
-import ButtonVariants from "@/components/ui/components/Buttons";
-import HeroVariants from "@/components/ui/blocks/Hero/Hero";
-import BarChart from "@/components/ui/charts/bar";
+import dynamic from "next/dynamic";
+
+const ButtonVariants = dynamic(
+  () => import("@/components/ui/components/Buttons"),
+  { ssr: false },
+);
+const HeroVariants = dynamic(() => import("@/components/ui/blocks/Hero/Hero"), {
+  ssr: false,
+});
+const BarChart = dynamic(() => import("@/components/ui/charts/bar"), {
+  ssr: false,
+});
 
 const FEATURES = [
   {
