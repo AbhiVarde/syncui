@@ -2,6 +2,14 @@ const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx"],
   serverExternalPackages: ["mdx-bundler", "esbuild"],
   transpilePackages: ["geist"],
+  experimental: {
+    optimizePackageImports: [
+      "@mui/material",
+      "@hugeicons/react",
+      "react-icons",
+      "motion",
+    ],
+  },
   images: {
     remotePatterns: [
       {
