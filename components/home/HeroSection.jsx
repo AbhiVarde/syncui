@@ -1,14 +1,15 @@
-// components/home/HeroSection.jsx
 import React from "react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import { motion } from "motion/react";
 import Image from "next/image";
 import CommandBar from "./CommandBar";
 
-const fadeUp = {
-  initial: { opacity: 0, y: 10 },
-  animate: { opacity: 1, y: 0 },
-};
+const fadeUpStyle = (delay) => ({
+  animation: `heroFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s both`,
+  willChange: "transform, opacity",
+  "@media (prefers-reduced-motion: reduce)": {
+    animation: "none",
+  },
+});
 
 const HeroSection = () => {
   const theme = useTheme();
@@ -29,6 +30,10 @@ const HeroSection = () => {
           backgroundImage: isDarkMode
             ? `repeating-linear-gradient(-60deg, transparent 0px, transparent 9px, rgba(255,255,255,0.12) 9px, rgba(255,255,255,0.12) 10px)`
             : `repeating-linear-gradient(-60deg, transparent 0px, transparent 9px, rgba(0,0,0,0.08) 9px, rgba(0,0,0,0.08) 10px)`,
+          "@keyframes heroFadeUp": {
+            from: { opacity: 0, transform: "translateY(10px)" },
+            to: { opacity: 1, transform: "translateY(0)" },
+          },
         }}
       >
         <Box
@@ -65,11 +70,7 @@ const HeroSection = () => {
               gap: 2,
             }}
           >
-            <Box
-              component={motion.div}
-              {...fadeUp}
-              transition={{ duration: 0.4, delay: 0.05 }}
-            >
+            <Box sx={fadeUpStyle(0.05)}>
               <a
                 href="https://vercel.com/open-source-program"
                 target="_blank"
@@ -100,47 +101,31 @@ const HeroSection = () => {
                 gap: 2,
               }}
             >
-              <Box
-                component={motion.div}
-                {...fadeUp}
-                transition={{ duration: 0.4, delay: 0.12 }}
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 600,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.15,
+                }}
               >
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontWeight: 600,
-                    letterSpacing: "-0.03em",
-                    lineHeight: 1.15,
-                  }}
-                >
-                  Ship interfaces, not boilerplate
-                </Typography>
-              </Box>
+                Ship interfaces, not boilerplate
+              </Typography>
 
-              <Box
-                component={motion.div}
-                {...fadeUp}
-                transition={{ duration: 0.4, delay: 0.18 }}
+              <Typography
+                color="text.secondary"
+                sx={{
+                  maxWidth: 500,
+                  lineHeight: 1.55,
+                }}
               >
-                <Typography
-                  color="text.secondary"
-                  sx={{
-                    maxWidth: 500,
-                    lineHeight: 1.55,
-                  }}
-                >
-                  Components, blocks, and charts built with MUI and Motion.
-                  <br />
-                  Copy the code, install with a CLI, or connect via MCP.
-                </Typography>
-              </Box>
+                Components, blocks, and charts built with MUI and Motion.
+                <br />
+                Copy the code, install with a CLI, or connect via MCP.
+              </Typography>
             </Box>
 
-            <Box
-              component={motion.div}
-              {...fadeUp}
-              transition={{ duration: 0.4, delay: 0.24 }}
-            >
+            <Box sx={fadeUpStyle(0.24)}>
               <CommandBar isDark={isDarkMode} />
             </Box>
           </Box>

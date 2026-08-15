@@ -33,13 +33,20 @@ export function GitHubProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchGitHubData();
+    const idleId = window.requestIdleCallback
+      ? window.requestIdleCallback(fetchGitHubData, { timeout: 3000 })
+      : setTimeout(fetchGitHubData, 1000);
 
-    const intervalId = setInterval(() => {
-      fetchGitHubData();
-    }, 60000);
+    const intervalId = setInterval(fetchGitHubData, 60000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      if (window.requestIdleCallback && window.cancelIdleCallback) {
+        window.cancelIdleCallback(idleId);
+      } else {
+        clearTimeout(idleId);
+      }
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (
