@@ -1,5 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
+import { useRouter } from "next/router";
 import Header from "./Header";
 import { GitHubProvider } from "@/context/GithubContext";
 
@@ -7,39 +8,48 @@ const HEADER_HEIGHT = 56;
 
 const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
   const router = useRouter();
+  const isDocsPage = router.pathname.startsWith("/docs");
   const is404Page = router.pathname === "/404";
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        position: "relative",
-      }}
-    >
-      {!is404Page && (
-        <GitHubProvider>
-          <Header
-            toggleTheme={toggleTheme}
-            isDarkMode={isDarkMode}
-            docsTree={docsTree}
-            toc={toc}
-          />
-        </GitHubProvider>
-      )}
-
+  if (is404Page) {
+    return (
       <Box
-        component="main"
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
+        {children}
+      </Box>
+    );
+  }
+
+  return (
+    <GitHubProvider>
+      <Box
         sx={{
-          flexGrow: 1,
-          mt: is404Page ? 0 : `${HEADER_HEIGHT}px`,
-          ...(router.pathname.startsWith("/docs") && { display: "flex" }),
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          position: "relative",
         }}
       >
-        <Box sx={{ flexGrow: 1, overflow: "hidden" }}>{children}</Box>
+        <Header
+          toggleTheme={toggleTheme}
+          isDarkMode={isDarkMode}
+          docsTree={docsTree}
+          toc={toc}
+        />
+
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            mt: `${HEADER_HEIGHT}px`,
+            ...(isDocsPage && { display: "flex" }),
+          }}
+        >
+          <Box sx={{ flexGrow: 1, overflow: "hidden" }}>{children}</Box>
+        </Box>
       </Box>
-    </Box>
+    </GitHubProvider>
   );
 };
 
