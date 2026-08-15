@@ -34,7 +34,7 @@ const FEATURES = [
   },
   {
     title: "Templates",
-    image: "/template-img.png",
+    image: "/template-img.webp",
     count: "3 templates",
     description: "SaaS, startup, and portfolio, ready to launch",
     route: "/templates",
