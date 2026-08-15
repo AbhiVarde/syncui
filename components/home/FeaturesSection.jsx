@@ -119,6 +119,7 @@ const FeaturesSection = () => {
                     fill
                     style={{ objectFit: "cover" }}
                     sizes="(max-width: 600px) 100vw, 50vw"
+                    priority
                   />
                 ) : (
                   feature.preview

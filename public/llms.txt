@@ -1,11 +1,17 @@
 # Sync UI
 
-> Free React UI library with 125+ animated components, 13+ blocks, and 3 premium templates. Built with MUI and Motion.
+> Open source React UI library with 125+ animated components, 13+ blocks, and 12 chart variants. Built with MUI and Motion. Add via CLI, MCP, or agent skill.
 
-Docs: https://syncui.design/docs
-Components: https://syncui.design/components
-Blocks: https://syncui.design/blocks
-GitHub: https://github.com/AbhiVarde/syncui
+Website: [https://syncui.design](https://syncui.design)
+Docs: [https://syncui.design/docs](https://syncui.design/docs)
+Components: [https://syncui.design/components](https://syncui.design/components)
+Blocks: [https://syncui.design/blocks](https://syncui.design/blocks)
+Charts: [https://syncui.design/charts](https://syncui.design/charts)
+Templates: [https://syncui.design/templates](https://syncui.design/templates)
+Showcase: [https://syncui.design/showcase](https://syncui.design/showcase)
+GitHub: [https://github.com/AbhiVarde/syncui](https://github.com/AbhiVarde/syncui)
+npm: [https://www.npmjs.com/package/@abhivarde/syncui](https://www.npmjs.com/package/@abhivarde/syncui)
+Registry: [https://syncui.design/r/index.json](https://syncui.design/r/index.json)
 
 ## Setup
 
@@ -18,6 +24,48 @@ const theme = createTheme({ palette: { mode: "dark" } });
 <ThemeProvider theme={theme}><CssBaseline />{children}</ThemeProvider>
 
 For Next.js App Router add "use client" to the provider wrapper.
+
+## CLI
+
+Add any component, block, or chart directly into your project:
+
+npx @abhivarde/syncui@latest add name/variant
+
+Use name/variant to target exactly what you need, for example accordion/brutalist, hero/centered, or line/dashed.
+
+## MCP
+
+Let your AI agent add components, blocks, and charts directly, no commands needed.
+
+Add to your MCP client config (Claude Code, Cursor, Windsurf, Codex, OpenCode):
+
+{
+  "mcpServers": {
+    "syncui": {
+      "command": "npx",
+      "args": ["-y", "@abhivarde/syncui-mcp"]
+    }
+  }
+}
+
+MCP package: [https://www.npmjs.com/package/@abhivarde/syncui-mcp](https://www.npmjs.com/package/@abhivarde/syncui-mcp)
+
+## Registry
+
+Components, blocks, and charts are served from a hosted registry. Fetch any entry directly:
+
+https://syncui.design/r/index.json
+https://syncui.design/r/{name}.json
+
+This is what the CLI and MCP use under the hood. New entries go live the moment the site deploys, no package update needed.
+
+## Agent skill
+
+Use Sync UI inside Cursor, Claude Code, Copilot, Windsurf, and more:
+
+npx skills add AbhiVarde/syncui
+
+Your AI coding tool will know every component, variant, and animation pattern without you explaining anything.
 
 ## Core pattern
 
@@ -32,6 +80,8 @@ Import from motion/react. Never from framer-motion.
 
 ## Components
 
+22 categories, 125+ variants total: Accordions, Autocompletes, Avatars, Backgrounds, Buttons, Cards, Carousels, Date Pickers, Dialogs, Docks, Forms, Grids, Loaders, Paginations, Pointers, Separators, Skeletons, Tables, Tabs, TextFields, Texts, Time Pickers.
+
 Buttons: default, shimmer, neon variants
 Cards: hover lift with whileHover={{ y: -8 }}
 Dialogs: slide-up, blur, form, notification, sidebar variants
@@ -39,12 +89,13 @@ Tabs: layoutId sliding underline, AnimatePresence mode="wait" for panels
 Avatars: overlapping, minimal-grid variants
 TextFields: otp, floating-label variants
 Autocomplete: viewport-aware dropdown, real-time filtering
-Date Picker: SingleDatePicker, 42-day grid, month navigation
+Date Picker: single, range, presets, with-time variants
 Time Picker: 12hour, 24hour, with-seconds, presets variants
 Accordions: MUI Accordion with motion expand
 Carousels: fade, scale, slide variants with image preloading
 Grids: standard, masonry, organic-shapes variants
 Loaders: shimmer, pulse, wave skeleton variants
+Skeletons: lightweight loading placeholders for cards, lists, text, and content blocks
 Tables: staggered row entrance with motion.create(TableRow)
 Marquees: horizontal, vertical infinite scroll
 Backgrounds: magnetic-connections, gemini-wave interactive variants
@@ -53,6 +104,8 @@ Pagination: animated entrance
 
 ## Blocks
 
+4 blocks, 13+ variants total: Hero, CTA, Pricing, Stats.
+
 Hero: left-aligned, center-aligned, search variants
 CTA: centered, split, card variants
 Pricing: three-tier, two-tier, row variants
@@ -60,12 +113,24 @@ Stats: simple, with-icons, cards variants
 
 Icon deps: @hugeicons/react for Hero and CTA, react-icons/fi for Stats
 
+## Charts
+
+6 chart types, 12 variants total (two each): Bar, Donut, Heatmap, Line, Progress, Stat.
+
+Animated and MUI-styled. Fully themeable, dark mode included out of the box.
+
+## Templates
+
+3 templates: Startup, SaaS, Portfolio, $29 each. Bundle: all three for $79.
+
+Templates: [https://syncui.design/templates](https://syncui.design/templates)
+
 ## Animation presets
 
 Snappy: { type: "spring", stiffness: 400, damping: 17 }
 Smooth: { type: "spring", stiffness: 300, damping: 24 }
 Gentle: { duration: 0.4, ease: "easeOut" }
-Fast:   { duration: 0.15, ease: "easeInOut" }
+Fast: { duration: 0.15, ease: "easeInOut" }
 
 Always use AnimatePresence when conditionally unmounting components.
 Always use viewport={{ once: true }} for scroll-triggered animations.
@@ -104,6 +169,24 @@ Images used as links: the <a> wrapping an <Image> needs its own aria-label.
   <Image src="/logo.png" alt="Sync UI logo" />
 </a>
 
-## Agent skill
+## Tech stack
 
-npx skills add AbhiVarde/syncui
+Framework: React, Next.js
+Styling: Material UI (MUI)
+Animation: Motion (motion/react)
+Analytics: Umami
+Deploy: Vercel, Docker
+
+## Recognition
+
+Sync UI is a member of the Vercel Open Source Program, Spring 2026 cohort.
+
+Vercel OSS Program: [https://vercel.com/open-source-program](https://vercel.com/open-source-program)
+
+## Author
+
+Built and maintained by Abhi Varde.
+
+Portfolio: [https://www.abhivarde.in](https://www.abhivarde.in)
+X: [https://x.com/varde_abhi](https://x.com/varde_abhi)
+GitHub: [https://github.com/AbhiVarde](https://github.com/AbhiVarde)

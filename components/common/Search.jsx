@@ -177,11 +177,17 @@ const Search = ({ docsTree = [] }) => {
     <>
       <IconButton
         onClick={handleOpen}
+        aria-label="Open search"
         sx={{
           p: "4px",
         }}
       >
-        <HugeiconsIcon icon={Search01Icon} size={22} color={fg} />
+        <HugeiconsIcon
+          icon={Search01Icon}
+          size={22}
+          color={fg}
+          aria-hidden="true"
+        />
       </IconButton>
 
       <Dialog
