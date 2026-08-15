@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+const DOCS_ROOT = path.join(process.cwd(), "content", "docs");
+
 export default function handler(req, res) {
   const { slug } = req.query;
 
@@ -8,7 +10,7 @@ export default function handler(req, res) {
     return res.status(400).json({ error: "Slug parameter is required" });
   }
 
-  const docsDirectory = path.join(process.cwd(), "content/docs");
+  const docsDirectory = DOCS_ROOT;
   const componentsDirectory = path.join(docsDirectory, "components");
 
   let fullPath;
@@ -30,12 +32,15 @@ export default function handler(req, res) {
   }
 
   // Check if file exists
-  if (!fs.existsSync(fullPath)) {
+  if (!fs.existsSync(/* turbopackIgnore: true */ fullPath)) {
     return res.status(404).json({ error: "MDX file not found" });
   }
 
   try {
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const fileContents = fs.readFileSync(
+      /* turbopackIgnore: true */ fullPath,
+      "utf8",
+    );
 
     // Set headers for proper display
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
