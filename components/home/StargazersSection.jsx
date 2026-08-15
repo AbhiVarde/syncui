@@ -14,12 +14,10 @@ import { useGitHub } from "@/context/GithubContext";
 import { GITHUB_URL, SPONSOR_URL } from "../../utils/constants";
 import AnimatedCounter from "../AnimatedCounter";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  GithubIcon,
-  StarIcon,
-  FavouriteIcon,
-  ArrowRight01Icon,
-} from "@hugeicons/core-free-icons";
+import GithubIcon from "@hugeicons/core-free-icons/GithubIcon";
+import StarIcon from "@hugeicons/core-free-icons/StarIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
 
 const TextLink = ({ children, href }) => (
   <Button

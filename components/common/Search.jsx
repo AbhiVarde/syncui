@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Search01Icon, File02Icon } from "@hugeicons/core-free-icons";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+import File02Icon from "@hugeicons/core-free-icons/File02Icon";
 
 const Search = ({ docsTree = [] }) => {
   const [searchQuery, setSearchQuery] = useState("");

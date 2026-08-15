@@ -3,7 +3,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import ArrowUpRight01Icon from "@hugeicons/core-free-icons/ArrowUpRight01Icon";
 import dynamic from "next/dynamic";
 
 const ButtonVariants = dynamic(

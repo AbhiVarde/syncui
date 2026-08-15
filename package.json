@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "analyze": "next experimental-analyze",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "patch-package"
@@ -43,7 +44,9 @@
     "js-yaml": "^4.2.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.3.1",
     "critters": "^0.0.23",
+    "cross-env": "^7.0.3",
     "patch-package": "^8.0.1"
   },
   "browserslist": [

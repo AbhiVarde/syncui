@@ -13,11 +13,23 @@ import {
   ButtonBase,
   useTheme,
 } from "@mui/material";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { LuCopy, LuCheck } from "react-icons/lu";
 import PackageManagerTabs from "./docs/PackageManagerTabs";
 import { FrameworkGrid } from "./docs/FrameworkGrid";
+
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
+import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash";
+import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
+import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
+import css from "react-syntax-highlighter/dist/esm/languages/prism/css";
+
+SyntaxHighlighter.registerLanguage("jsx", jsx);
+SyntaxHighlighter.registerLanguage("bash", bash);
+SyntaxHighlighter.registerLanguage("json", json);
+SyntaxHighlighter.registerLanguage("typescript", typescript);
+SyntaxHighlighter.registerLanguage("css", css);
 
 const CardVariants = dynamic(() => import("./ui/components/Cards"));
 const ButtonVariants = dynamic(() => import("./ui/components/Buttons"));

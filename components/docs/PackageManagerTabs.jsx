@@ -1,8 +1,11 @@
 import { useState, useCallback, useMemo } from "react";
 import { Box, Paper, ButtonBase } from "@mui/material";
 import { LuCopy, LuCheck } from "react-icons/lu";
-import SyntaxHighlighter from "react-syntax-highlighter";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash";
+
+SyntaxHighlighter.registerLanguage("bash", bash);
 
 const PackageManagerTabs = ({ npm, yarn, pnpm, bun }) => {
   const [activeTab, setActiveTab] = useState(0);

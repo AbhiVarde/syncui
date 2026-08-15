@@ -17,16 +17,14 @@ import { useGitHub } from "@/context/GithubContext";
 import AnimatedCounter from "../AnimatedCounter";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  Menu02Icon,
-  ArrowRight01Icon,
-  Cancel01Icon,
-  Menu09Icon,
-  GithubIcon,
-  NewTwitterIcon,
-  Moon01Icon,
-  Sun01Icon,
-} from "@hugeicons/core-free-icons";
+import Menu02Icon from "@hugeicons/core-free-icons/Menu02Icon";
+import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import Menu09Icon from "@hugeicons/core-free-icons/Menu09Icon";
+import GithubIcon from "@hugeicons/core-free-icons/GithubIcon";
+import NewTwitterIcon from "@hugeicons/core-free-icons/NewTwitterIcon";
+import Moon01Icon from "@hugeicons/core-free-icons/Moon01Icon";
+import Sun01Icon from "@hugeicons/core-free-icons/Sun01Icon";
 import dynamic from "next/dynamic";
 
 const Search = dynamic(() => import("../common/Search"), { ssr: false });
