@@ -11,7 +11,6 @@ import Layout from "../components/layout/Layout";
 import { lightTheme, darkTheme } from "../theme";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import "../styles/globals.css";
-import { GitHubProvider } from "@/context/GithubContext";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -23,6 +22,100 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
   display: "swap",
+});
+
+const STRUCTURED_DATA = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "Sync UI",
+      alternateName: ["syncui", "syncui.design"],
+      description:
+        "Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP.",
+      url: "https://www.syncui.design/",
+      author: {
+        "@type": "Person",
+        name: "Abhi Varde",
+        url: "https://www.abhivarde.in/",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Sync UI",
+        url: "https://www.syncui.design/",
+        logo: "https://www.syncui.design/logo.png",
+      },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://www.syncui.design/search?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+      sameAs: [
+        "https://x.com/syncuidesign",
+        "https://github.com/AbhiVarde/syncui",
+      ],
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Sync UI",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web",
+      description:
+        "Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        ratingCount: "97",
+      },
+    },
+    {
+      "@type": "Organization",
+      name: "Sync UI",
+      url: "https://www.syncui.design/",
+      logo: "https://www.syncui.design/logo.png",
+      founder: {
+        "@type": "Person",
+        name: "Abhi Varde",
+        url: "https://www.abhivarde.in/",
+      },
+      sameAs: [
+        "https://x.com/syncuidesign",
+        "https://github.com/AbhiVarde/syncui",
+      ],
+    },
+    {
+      "@type": "SiteNavigationElement",
+      name: "Components",
+      description: "125+ animated React components built with MUI and Motion",
+      url: "https://www.syncui.design/components",
+    },
+    {
+      "@type": "SiteNavigationElement",
+      name: "Blocks",
+      description:
+        "13+ UI blocks including Hero, Stats, Pricing, and CTA sections",
+      url: "https://www.syncui.design/blocks",
+    },
+    {
+      "@type": "SiteNavigationElement",
+      name: "Charts",
+      description: "12 animated chart variants including Line, Bar, and Donut",
+      url: "https://www.syncui.design/charts",
+    },
+    {
+      "@type": "SiteNavigationElement",
+      name: "Templates",
+      description: "React templates for Startup, SaaS, and Portfolio websites",
+      url: "https://www.syncui.design/templates",
+    },
+    {
+      "@type": "SiteNavigationElement",
+      name: "Documentation",
+      description: "Installation guides and full component documentation",
+      url: "https://www.syncui.design/docs/installation",
+    },
+  ],
 });
 
 function MyApp({ Component, pageProps }) {
@@ -135,132 +228,11 @@ function MyApp({ Component, pageProps }) {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Sync UI",
-              alternateName: ["syncui", "syncui.design"],
-              description:
-                "Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP.",
-              url: "https://www.syncui.design/",
-              author: {
-                "@type": "Person",
-                name: "Abhi Varde",
-                url: "https://www.abhivarde.in/",
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "Sync UI",
-                url: "https://www.syncui.design/",
-                logo: "https://www.syncui.design/logo.png",
-              },
-              potentialAction: {
-                "@type": "SearchAction",
-                target:
-                  "https://www.syncui.design/search?q={search_term_string}",
-                "query-input": "required name=search_term_string",
-              },
-              sameAs: [
-                "https://x.com/syncuidesign",
-                "https://github.com/AbhiVarde/syncui",
-              ],
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "Sync UI",
-              applicationCategory: "DeveloperApplication",
-              operatingSystem: "Web",
-              description:
-                "Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP.",
-              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4.8",
-                ratingCount: "97",
-              },
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Sync UI",
-              url: "https://www.syncui.design/",
-              logo: "https://www.syncui.design/logo.png",
-              founder: {
-                "@type": "Person",
-                name: "Abhi Varde",
-                url: "https://www.abhivarde.in/",
-              },
-              sameAs: [
-                "https://x.com/syncuidesign",
-                "https://github.com/AbhiVarde/syncui",
-              ],
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "SiteNavigationElement",
-                name: "Components",
-                description:
-                  "125+ animated React components built with MUI and Motion",
-                url: "https://www.syncui.design/components",
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SiteNavigationElement",
-                name: "Blocks",
-                description:
-                  "13+ UI blocks including Hero, Stats, Pricing, and CTA sections",
-                url: "https://www.syncui.design/blocks",
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SiteNavigationElement",
-                name: "Charts",
-                description:
-                  "12 animated chart variants including Line, Bar, and Donut",
-                url: "https://www.syncui.design/charts",
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SiteNavigationElement",
-                name: "Templates",
-                description:
-                  "React templates for Startup, SaaS, and Portfolio websites",
-                url: "https://www.syncui.design/templates",
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SiteNavigationElement",
-                name: "Documentation",
-                description:
-                  "Installation guides and full component documentation",
-                url: "https://www.syncui.design/docs/installation",
-              },
-            ]),
-          }}
+          dangerouslySetInnerHTML={{ __html: STRUCTURED_DATA }}
         />
       </Head>
       <ThemeProvider>
-        <GitHubProvider>
-          <AppContent Component={Component} pageProps={pageProps} />
-        </GitHubProvider>
+        <AppContent Component={Component} pageProps={pageProps} />
       </ThemeProvider>
     </div>
   );

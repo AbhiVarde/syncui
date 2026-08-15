@@ -197,7 +197,6 @@ const Search = ({ docsTree = [] }) => {
         maxWidth="sm"
         TransitionComponent={Fade}
         transitionDuration={100}
-        keepMounted
         sx={{
           "& .MuiDialog-paper": {
             backgroundImage: "none",

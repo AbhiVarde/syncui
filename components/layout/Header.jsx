@@ -14,7 +14,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useGitHub } from "@/context/GithubContext";
-import Search from "../common/Search";
 import AnimatedCounter from "../AnimatedCounter";
 import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -28,6 +27,9 @@ import {
   Moon01Icon,
   Sun01Icon,
 } from "@hugeicons/core-free-icons";
+import dynamic from "next/dynamic";
+
+const Search = dynamic(() => import("../common/Search"), { ssr: false });
 
 const navItems = [
   { label: "Home", href: "/", external: false },
@@ -55,7 +57,7 @@ const navItems = [
   },
 ];
 
-const ANIMATION_MS = 200;
+const ANIMATION_MS = 150;
 
 const FullScreenMenu = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -74,7 +76,7 @@ const FullScreenMenu = styled(Box)(({ theme }) => ({
   overflowX: "hidden",
   willChange: "opacity",
   opacity: 0,
-  transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1)`,
+  transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
   "&.menu-visible": {
     opacity: 1,
   },
@@ -88,9 +90,9 @@ const MenuPanel = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   opacity: 0,
-  transform: "translateY(-8px)",
+  transform: "translateY(-6px)",
   willChange: "opacity, transform",
-  transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1), transform ${ANIMATION_MS}ms cubic-bezier(0.32, 0.72, 0, 1)`,
+  transition: `opacity ${ANIMATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1), transform ${ANIMATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
   "&.menu-visible": {
     opacity: 1,
     transform: "translateY(0)",
@@ -100,10 +102,10 @@ const MenuPanel = styled(Box)(() => ({
 const NavItemRow = styled(Box)(() => ({
   textDecoration: "none",
   opacity: 0,
-  transform: "translateY(-4px)",
+  transform: "translateY(-3px)",
   willChange: "opacity, transform",
   transition:
-    "opacity 0.16s ease-out, transform 0.16s ease-out, color 0.12s ease",
+    "opacity 0.12s ease-out, transform 0.12s ease-out, color 0.1s ease",
   "&.menu-visible": {
     opacity: 1,
     transform: "translateY(0)",
@@ -368,7 +370,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                         textTransform: "none",
                         color: "text.primary",
                         transition:
-                          "background-color 0.15s ease, color 0.15s ease",
+                          "background-color 0.12s ease, color 0.12s ease",
                         "&:hover": { bgcolor: "action.hover" },
                       }}
                     >
@@ -445,7 +447,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
                   className={menuOpen ? "menu-visible" : ""}
                   sx={{
                     color: "text.primary",
-                    transitionDelay: menuOpen ? `${index * 20}ms` : "0ms",
+                    transitionDelay: menuOpen ? `${index * 15}ms` : "0ms",
                   }}
                 >
                   <Typography

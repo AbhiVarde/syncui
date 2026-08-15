@@ -1,13 +1,12 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Header from "./Header";
-import { useRouter } from "next/router";
+import { GitHubProvider } from "@/context/GithubContext";
 
 const HEADER_HEIGHT = 56;
 
 const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
   const router = useRouter();
-  const isDocsPage = router.pathname.startsWith("/docs");
   const is404Page = router.pathname === "/404";
 
   return (
@@ -20,13 +19,14 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
       }}
     >
       {!is404Page && (
-        <Header
-          toggleTheme={toggleTheme}
-          isDarkMode={isDarkMode}
-          docsTree={docsTree}
-          isDocsPage={isDocsPage}
-          toc={toc}
-        />
+        <GitHubProvider>
+          <Header
+            toggleTheme={toggleTheme}
+            isDarkMode={isDarkMode}
+            docsTree={docsTree}
+            toc={toc}
+          />
+        </GitHubProvider>
       )}
 
       <Box
@@ -34,7 +34,7 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
         sx={{
           flexGrow: 1,
           mt: is404Page ? 0 : `${HEADER_HEIGHT}px`,
-          ...(isDocsPage && { display: "flex" }),
+          ...(router.pathname.startsWith("/docs") && { display: "flex" }),
         }}
       >
         <Box sx={{ flexGrow: 1, overflow: "hidden" }}>{children}</Box>

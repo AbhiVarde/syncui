@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { LiaTelegramPlane } from "react-icons/lia";
 import Head from "next/head";
@@ -71,15 +70,20 @@ const ScrambleText = ({
       }}
     >
       {displayText.map((letter, index) => (
-        <motion.span
+        <Box
+          component="span"
           key={index}
-          initial={{ opacity: animate ? 0 : 1 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.06 }}
-          style={{ display: "inline-block" }}
+          sx={{
+            display: "inline-block",
+            animation: animate ? "scrambleCharIn 0.06s ease-out" : "none",
+            "@keyframes scrambleCharIn": {
+              from: { opacity: 0 },
+              to: { opacity: 1 },
+            },
+          }}
         >
           {letter === " " ? "\u00A0" : letter}
-        </motion.span>
+        </Box>
       ))}
     </Box>
   );
