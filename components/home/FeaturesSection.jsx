@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Typography, IconButton } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -150,13 +150,12 @@ const FeaturesSection = () => {
                     {feature.count}
                   </Typography>
                 </Box>
-                <IconButton
-                  disableRipple
+                <Box
+                  aria-hidden="true"
                   sx={{
-                    p: 0,
+                    display: "inline-flex",
                     color: "text.primary",
                     flexShrink: 0,
-                    "&:hover": { backgroundColor: "transparent" },
                   }}
                 >
                   <Box
@@ -167,9 +166,13 @@ const FeaturesSection = () => {
                         "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
                     }}
                   >
-                    <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />
+                    <HugeiconsIcon
+                      icon={ArrowUpRight01Icon}
+                      size={18}
+                      aria-hidden="true"
+                    />
                   </Box>
-                </IconButton>
+                </Box>
               </Box>
 
               <Typography
