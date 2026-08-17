@@ -57,11 +57,13 @@ const StargazersSection = () => {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (error) return null;
+  if (error && !stars && stargazers.length === 0) return null;
 
   const displayCount = isXs ? 6 : 8;
-  const latestStargazers = [...stargazers].reverse().slice(0, displayCount);
-  const remainingCount = Math.max(0, stargazers.length - displayCount);
+  const latestStargazers = Array.isArray(stargazers)
+    ? [...stargazers].reverse().slice(0, displayCount)
+    : [];
+  const remainingCount = Math.max(0, (stargazers?.length || 0) - displayCount);
   const skeletonBg =
     theme.palette.mode === "dark" ? alpha("#fff", 0.1) : alpha("#000", 0.06);
 

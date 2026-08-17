@@ -18,7 +18,7 @@ export function GitHubProvider({ children }) {
 
       setGitHubData({
         stars: data.stars,
-        stargazers: data.stargazers,
+        stargazers: Array.isArray(data.stargazers) ? data.stargazers : [],
         loading: false,
         error: null,
       });
