@@ -331,7 +331,6 @@ const Blocks = ({ docsTree }) => {
                       fontWeight: 600,
                       letterSpacing: "-0.02em",
                       lineHeight: 1.15,
-                      fontSize: { xs: "2rem", sm: "3rem" },
                     }}
                   >
                     Ready-made UI blocks

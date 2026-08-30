@@ -466,7 +466,6 @@ const Components = ({ docsTree }) => {
                       fontWeight: 600,
                       letterSpacing: "-0.02em",
                       lineHeight: 1.15,
-                      fontSize: { xs: "2rem", sm: "3rem" },
                     }}
                   >
                     Production-ready components

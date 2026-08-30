@@ -107,7 +107,6 @@ const HeroSection = () => {
                   fontWeight: 600,
                   letterSpacing: "-0.03em",
                   lineHeight: 1.15,
-                  fontSize: { xs: "2rem", sm: "3rem" },
                 }}
               >
                 Ship interfaces, not boilerplate
