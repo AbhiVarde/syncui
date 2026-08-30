@@ -286,7 +286,6 @@ const Charts = () => {
                 : "rgba(255,255,255,0.25)",
             }}
           />
-
           <Container
             maxWidth="md"
             sx={{
@@ -299,8 +298,8 @@ const Charts = () => {
                 ? "rgba(255,255,255,0.08)"
                 : "rgba(0,0,0,0.08)",
               mx: 2,
-              p: { xs: 3, sm: 4, md: 5 },
-              borderRadius: 2.5,
+              p: { xs: 2, sm: 4, md: 5 },
+              borderRadius: { xs: 2, sm: 2.5 },
             }}
           >
             <Box
@@ -308,7 +307,7 @@ const Charts = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 2,
+                gap: { xs: 1.5, sm: 2 },
               }}
             >
               <Box
@@ -343,7 +342,7 @@ const Charts = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   alignItems: "center",
                 }}
               >
@@ -358,6 +357,7 @@ const Charts = () => {
                       fontWeight: 600,
                       letterSpacing: "-0.02em",
                       lineHeight: 1.15,
+                      fontSize: { xs: "2rem", sm: "3rem" },
                     }}
                   >
                     Data, visualized cleanly
@@ -368,6 +368,7 @@ const Charts = () => {
                   component={motion.div}
                   {...fadeUp}
                   transition={{ duration: 0.4, delay: 0.18 }}
+                  sx={{ display: { xs: "none", sm: "block" } }}
                 >
                   <Typography
                     variant="h6"
@@ -378,20 +379,8 @@ const Charts = () => {
                       mx: "auto",
                     }}
                   >
-                    <Box
-                      component="span"
-                      sx={{ display: { xs: "none", sm: "inline" } }}
-                    >
-                      Animated chart components built with Recharts, MUI, and
-                      Motion. Copy, customize, and ship.
-                    </Box>
-
-                    <Box
-                      component="span"
-                      sx={{ display: { xs: "inline", sm: "none" } }}
-                    >
-                      Animated chart components built with Recharts and Motion.
-                    </Box>
+                    Animated chart components built with Recharts, MUI, and
+                    Motion. Copy, customize, and ship.
                   </Typography>
                 </Box>
               </Box>

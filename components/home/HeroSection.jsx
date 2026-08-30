@@ -57,8 +57,8 @@ const HeroSection = () => {
             borderColor: isDarkMode
               ? "rgba(255,255,255,0.08)"
               : "rgba(0,0,0,0.08)",
-            borderRadius: 2.5,
-            p: 3,
+            borderRadius: { xs: 2, sm: 2.5 },
+            p: { xs: 2, sm: 3 },
             mx: 2,
           }}
         >
@@ -67,7 +67,7 @@ const HeroSection = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: 2,
+              gap: { xs: 1.5, sm: 2 },
             }}
           >
             <Box sx={fadeUpStyle(0.05)}>
@@ -98,7 +98,7 @@ const HeroSection = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 2,
+                gap: { xs: 1, sm: 2 },
               }}
             >
               <Typography
@@ -107,6 +107,7 @@ const HeroSection = () => {
                   fontWeight: 600,
                   letterSpacing: "-0.03em",
                   lineHeight: 1.15,
+                  fontSize: { xs: "2rem", sm: "3rem" },
                 }}
               >
                 Ship interfaces, not boilerplate
@@ -117,6 +118,7 @@ const HeroSection = () => {
                 sx={{
                   maxWidth: 500,
                   lineHeight: 1.55,
+                  display: { xs: "none", sm: "block" },
                 }}
               >
                 Components, blocks, and charts built with MUI and Motion.
