@@ -91,7 +91,7 @@ bunx --bun @abhivarde/syncui@latest add card
 
 ## Documentation
 
-Visit https://syncui.design to browse the full component library and preview every variant.
+Visit https://ui.abhivarde.in to browse the full component library and preview every variant.
 
 ## License
 

@@ -251,17 +251,14 @@ const Components = ({ docsTree }) => {
           name="description"
           content="Browse 125+ free animated React components built with MUI and Motion. Includes Buttons, Cards, Tables, Forms, Date Pickers, Loaders, Avatars, Dialogs, Docks, and more. Part of ▲ Vercel OSS Program Spring '26."
         />
-        <link rel="canonical" href="https://www.syncui.design/components" />
+        <link rel="canonical" href="https://ui.abhivarde.in/components" />
         <meta
           name="keywords"
           content="React components, free UI components, MUI components, Motion components, animated components, buttons, cards, tables, date picker, Next.js components, Vercel OSS"
         />
 
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.syncui.design/components"
-        />
+        <meta property="og:url" content="https://ui.abhivarde.in/components" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
@@ -274,7 +271,7 @@ const Components = ({ docsTree }) => {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent(
             "125+ Free Animated React Components",
           )}&type=Components`}
         />
@@ -305,7 +302,7 @@ const Components = ({ docsTree }) => {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent(
             "125+ Free Animated React Components",
           )}&type=Components`}
         />
@@ -319,12 +316,12 @@ const Components = ({ docsTree }) => {
               name: "Sync UI Components",
               description:
                 "125+ free animated React components built with MUI and Motion",
-              url: "https://www.syncui.design/components",
+              url: "https://ui.abhivarde.in/components",
               numberOfItems: 125,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
-                logo: "https://www.syncui.design/logo.png",
+                logo: "https://ui.abhivarde.in/logo.png",
               },
             }),
           }}
@@ -340,13 +337,13 @@ const Components = ({ docsTree }) => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://www.syncui.design/",
+                  item: "https://ui.abhivarde.in/",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Components",
-                  item: "https://www.syncui.design/components",
+                  item: "https://ui.abhivarde.in/components",
                 },
               ],
             }),

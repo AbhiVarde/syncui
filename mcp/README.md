@@ -1,6 +1,6 @@
 # @abhivarde/syncui-mcp
 
-MCP server for [Sync UI](https://syncui.design) — animated React components built with MUI and Motion.
+MCP server for [Sync UI](https://ui.abhivarde.in) — animated React components built with MUI and Motion.
 
 ## Setup
 
@@ -42,6 +42,6 @@ Once connected, ask your AI agent:
 
 ## Links
 
-- [Documentation](https://syncui.design/docs)
+- [Documentation](https://ui.abhivarde.in/docs)
 - [GitHub](https://github.com/AbhiVarde/syncui)
 - [npm](https://npmjs.com/package/@abhivarde/syncui)

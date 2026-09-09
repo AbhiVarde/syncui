@@ -2,16 +2,16 @@
 
 > Open source React UI library with 125+ animated components, 13+ blocks, and 12 chart variants. Built with MUI and Motion. Add via CLI, MCP, or agent skill.
 
-Website: [https://syncui.design](https://syncui.design)
-Docs: [https://syncui.design/docs](https://syncui.design/docs)
-Components: [https://syncui.design/components](https://syncui.design/components)
-Blocks: [https://syncui.design/blocks](https://syncui.design/blocks)
-Charts: [https://syncui.design/charts](https://syncui.design/charts)
-Templates: [https://syncui.design/templates](https://syncui.design/templates)
-Showcase: [https://syncui.design/showcase](https://syncui.design/showcase)
+Website: [https://ui.abhivarde.in](https://ui.abhivarde.in)
+Docs: [https://ui.abhivarde.in/docs](https://ui.abhivarde.in/docs)
+Components: [https://ui.abhivarde.in/components](https://ui.abhivarde.in/components)
+Blocks: [https://ui.abhivarde.in/blocks](https://ui.abhivarde.in/blocks)
+Charts: [https://ui.abhivarde.in/charts](https://ui.abhivarde.in/charts)
+Templates: [https://ui.abhivarde.in/templates](https://ui.abhivarde.in/templates)
+Showcase: [https://ui.abhivarde.in/showcase](https://ui.abhivarde.in/showcase)
 GitHub: [https://github.com/AbhiVarde/syncui](https://github.com/AbhiVarde/syncui)
 npm: [https://www.npmjs.com/package/@abhivarde/syncui](https://www.npmjs.com/package/@abhivarde/syncui)
-Registry: [https://syncui.design/r/index.json](https://syncui.design/r/index.json)
+Registry: [https://ui.abhivarde.in/r/index.json](https://ui.abhivarde.in/r/index.json)
 
 ## Setup
 
@@ -54,8 +54,8 @@ MCP package: [https://www.npmjs.com/package/@abhivarde/syncui-mcp](https://www.n
 
 Components, blocks, and charts are served from a hosted registry. Fetch any entry directly:
 
-https://syncui.design/r/index.json
-https://syncui.design/r/{name}.json
+https://ui.abhivarde.in/r/index.json
+https://ui.abhivarde.in/r/{name}.json
 
 This is what the CLI and MCP use under the hood. New entries go live the moment the site deploys, no package update needed.
 
@@ -123,7 +123,7 @@ Animated and MUI-styled. Fully themeable, dark mode included out of the box.
 
 3 templates: Startup, SaaS, Portfolio, $29 each. Bundle: all three for $79.
 
-Templates: [https://syncui.design/templates](https://syncui.design/templates)
+Templates: [https://ui.abhivarde.in/templates](https://ui.abhivarde.in/templates)
 
 ## Animation presets
 

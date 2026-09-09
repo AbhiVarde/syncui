@@ -75,14 +75,14 @@ const Templates = ({ docsTree }) => {
           name="description"
           content="Premium React templates starting at $29. Startup, SaaS, and Portfolio templates built with MUI and Motion. Production-ready, fully customizable, and perfect for Next.js projects. Bundle: all 3 for $79."
         />
-        <link rel="canonical" href="https://www.syncui.design/templates" />
+        <link rel="canonical" href="https://ui.abhivarde.in/templates" />
         <meta
           name="keywords"
           content="React templates, premium templates, MUI templates, SaaS template, startup template, portfolio template, Next.js templates, Motion templates, paid UI templates"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.syncui.design/templates" />
+        <meta property="og:url" content="https://ui.abhivarde.in/templates" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
@@ -95,7 +95,7 @@ const Templates = ({ docsTree }) => {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Templates for Sync UI")}&type=Templates`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Templates for Sync UI")}&type=Templates`}
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -124,7 +124,7 @@ const Templates = ({ docsTree }) => {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Templates for Sync UI")}&type=Templates`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Templates for Sync UI")}&type=Templates`}
         />
 
         <script
@@ -185,13 +185,13 @@ const Templates = ({ docsTree }) => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://www.syncui.design/",
+                  item: "https://ui.abhivarde.in/",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Templates",
-                  item: "https://www.syncui.design/templates",
+                  item: "https://ui.abhivarde.in/templates",
                 },
               ],
             }),

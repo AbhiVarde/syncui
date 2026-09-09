@@ -14,4 +14,4 @@ Allow: /
 # Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://www.syncui.design/sitemap.xml
+Sitemap: https://ui.abhivarde.in/sitemap.xml

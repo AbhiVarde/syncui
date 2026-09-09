@@ -84,7 +84,7 @@ export default async function handler(req) {
           }}
         >
           <span style={{ opacity: 0.4 }}>Sync UI —</span>
-          <span>syncui.design</span>
+          <span>ui.abhivarde.in</span>
         </div>
       </div>
 

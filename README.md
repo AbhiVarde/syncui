@@ -2,7 +2,6 @@
   <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" /></a>
 </p>
 
-
 <p align="center">
   Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP and agent skills. Built for React, ready for your coding agent.
   <br />
@@ -14,13 +13,13 @@
 </p>
 
 <p align="center">
-  <a href="https://syncui.design">Website</a> ·
-  <a href="https://syncui.design/docs">Docs</a> ·
-  <a href="https://syncui.design/components">Components</a> ·
-  <a href="https://syncui.design/blocks">Blocks</a> ·
-  <a href="https://syncui.design/charts">Charts</a> ·
-  <a href="https://syncui.design/templates">Templates</a> ·
-  <a href="https://syncui.design/showcase">Showcase</a> ·
+  <a href="https://ui.abhivarde.in">Website</a> ·
+  <a href="https://ui.abhivarde.in/docs">Docs</a> ·
+  <a href="https://ui.abhivarde.in/components">Components</a> ·
+  <a href="https://ui.abhivarde.in/blocks">Blocks</a> ·
+  <a href="https://ui.abhivarde.in/charts">Charts</a> ·
+  <a href="https://ui.abhivarde.in/templates">Templates</a> ·
+  <a href="https://ui.abhivarde.in/showcase">Showcase</a> ·
   <a href="https://www.npmjs.com/package/@abhivarde/syncui">npm</a>
 </p>
 
@@ -56,8 +55,8 @@ Add to your MCP client config (Claude Code, Cursor, Windsurf, Codex, OpenCode).
 Components, blocks, and charts are served from a hosted registry. Fetch any entry directly:
 
 ```
-https://syncui.design/r/index.json
-https://syncui.design/r/{name}.json
+https://ui.abhivarde.in/r/index.json
+https://ui.abhivarde.in/r/{name}.json
 ```
 
 This is what the CLI and MCP use under the hood. New entries go live the moment the site deploys, no package update needed.

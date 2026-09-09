@@ -30,10 +30,10 @@ const STRUCTURED_DATA = JSON.stringify({
     {
       "@type": "WebSite",
       name: "Sync UI",
-      alternateName: ["syncui", "syncui.design"],
+      alternateName: ["syncui", "ui.abhivarde.in"],
       description:
         "Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP.",
-      url: "https://www.syncui.design/",
+      url: "https://ui.abhivarde.in/",
       author: {
         "@type": "Person",
         name: "Abhi Varde",
@@ -42,12 +42,12 @@ const STRUCTURED_DATA = JSON.stringify({
       publisher: {
         "@type": "Organization",
         name: "Sync UI",
-        url: "https://www.syncui.design/",
-        logo: "https://www.syncui.design/logo.png",
+        url: "https://ui.abhivarde.in/",
+        logo: "https://ui.abhivarde.in/logo.png",
       },
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://www.syncui.design/search?q={search_term_string}",
+        target: "https://ui.abhivarde.in/search?q={search_term_string}",
         "query-input": "required name=search_term_string",
       },
       sameAs: [
@@ -72,8 +72,8 @@ const STRUCTURED_DATA = JSON.stringify({
     {
       "@type": "Organization",
       name: "Sync UI",
-      url: "https://www.syncui.design/",
-      logo: "https://www.syncui.design/logo.png",
+      url: "https://ui.abhivarde.in/",
+      logo: "https://ui.abhivarde.in/logo.png",
       founder: {
         "@type": "Person",
         name: "Abhi Varde",
@@ -88,32 +88,32 @@ const STRUCTURED_DATA = JSON.stringify({
       "@type": "SiteNavigationElement",
       name: "Components",
       description: "125+ animated React components built with MUI and Motion",
-      url: "https://www.syncui.design/components",
+      url: "https://ui.abhivarde.in/components",
     },
     {
       "@type": "SiteNavigationElement",
       name: "Blocks",
       description:
         "13+ UI blocks including Hero, Stats, Pricing, and CTA sections",
-      url: "https://www.syncui.design/blocks",
+      url: "https://ui.abhivarde.in/blocks",
     },
     {
       "@type": "SiteNavigationElement",
       name: "Charts",
       description: "12 animated chart variants including Line, Bar, and Donut",
-      url: "https://www.syncui.design/charts",
+      url: "https://ui.abhivarde.in/charts",
     },
     {
       "@type": "SiteNavigationElement",
       name: "Templates",
       description: "React templates for Startup, SaaS, and Portfolio websites",
-      url: "https://www.syncui.design/templates",
+      url: "https://ui.abhivarde.in/templates",
     },
     {
       "@type": "SiteNavigationElement",
       name: "Documentation",
       description: "Installation guides and full component documentation",
-      url: "https://www.syncui.design/docs/installation",
+      url: "https://ui.abhivarde.in/docs/installation",
     },
   ],
 });
@@ -177,11 +177,11 @@ function MyApp({ Component, pageProps }) {
           name="description"
           content="Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP. Part of ▲ Vercel OSS Program Spring '26."
         />
-        <link rel="canonical" href="https://www.syncui.design/" />
+        <link rel="canonical" href="https://ui.abhivarde.in/" />
 
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:url" content="https://www.syncui.design/" />
+        <meta property="og:url" content="https://ui.abhivarde.in/" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
@@ -194,7 +194,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           key="og-image"
           property="og:image"
-          content="https://www.syncui.design/og-image.webp"
+          content="https://ui.abhivarde.in/og-image.webp"
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -223,7 +223,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           key="tw-image"
           name="twitter:image"
-          content="https://www.syncui.design/og-image.webp"
+          content="https://ui.abhivarde.in/og-image.webp"
         />
 
         <script

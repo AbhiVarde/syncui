@@ -307,14 +307,14 @@ export default function ShowcasePage() {
           name="description"
           content="Explore projects, tools, and libraries shared by the Sync UI community. Discover what developers are building with MUI and Motion."
         />
-        <link rel="canonical" href="https://www.syncui.design/showcase" />
+        <link rel="canonical" href="https://ui.abhivarde.in/showcase" />
         <meta
           name="keywords"
           content="developer showcase, UI tools, web projects, open source showcase, developer tools, Sync UI community, MUI projects, Motion projects"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.syncui.design/showcase" />
+        <meta property="og:url" content="https://ui.abhivarde.in/showcase" />
         <meta property="og:site_name" content="Sync UI" />
         <meta property="og:title" content="Developer Showcase | Sync UI" />
         <meta
@@ -324,7 +324,7 @@ export default function ShowcasePage() {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -342,7 +342,7 @@ export default function ShowcasePage() {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
         />
       </Head>
 

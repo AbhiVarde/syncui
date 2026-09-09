@@ -87,14 +87,14 @@ const Blocks = ({ docsTree }) => {
           name="description"
           content="Get 13+ free animated UI blocks including Hero sections, CTA blocks, Pricing tables, and Stats sections. Built with React, MUI, and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
-        <link rel="canonical" href="https://www.syncui.design/blocks" />
+        <link rel="canonical" href="https://ui.abhivarde.in/blocks" />
         <meta
           name="keywords"
           content="React UI blocks, hero section, CTA blocks, pricing table, stats section, landing page sections, free UI blocks, Next.js blocks, MUI blocks, Vercel OSS"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.syncui.design/blocks" />
+        <meta property="og:url" content="https://ui.abhivarde.in/blocks" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
@@ -107,7 +107,7 @@ const Blocks = ({ docsTree }) => {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Blocks")}&type=Blocks`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Production-ready Blocks")}&type=Blocks`}
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -136,7 +136,7 @@ const Blocks = ({ docsTree }) => {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Blocks")}&type=Blocks`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Production-ready Blocks")}&type=Blocks`}
         />
 
         <script
@@ -148,12 +148,12 @@ const Blocks = ({ docsTree }) => {
               name: "Sync UI Blocks",
               description:
                 "13+ free animated UI blocks including Hero, Stats, Pricing, and CTA sections",
-              url: "https://www.syncui.design/blocks",
+              url: "https://ui.abhivarde.in/blocks",
               numberOfItems: 13,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
-                logo: "https://www.syncui.design/logo.png",
+                logo: "https://ui.abhivarde.in/logo.png",
               },
             }),
           }}
@@ -169,13 +169,13 @@ const Blocks = ({ docsTree }) => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://www.syncui.design/",
+                  item: "https://ui.abhivarde.in/",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Blocks",
-                  item: "https://www.syncui.design/blocks",
+                  item: "https://ui.abhivarde.in/blocks",
                 },
               ],
             }),
@@ -193,25 +193,25 @@ const Blocks = ({ docsTree }) => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Hero Blocks",
-                  url: "https://www.syncui.design/docs/blocks/hero",
+                  url: "https://ui.abhivarde.in/docs/blocks/hero",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Stats Blocks",
-                  url: "https://www.syncui.design/docs/blocks/stats",
+                  url: "https://ui.abhivarde.in/docs/blocks/stats",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: "Pricing Blocks",
-                  url: "https://www.syncui.design/docs/blocks/pricing",
+                  url: "https://ui.abhivarde.in/docs/blocks/pricing",
                 },
                 {
                   "@type": "ListItem",
                   position: 4,
                   name: "CTA Blocks",
-                  url: "https://www.syncui.design/docs/blocks/cta",
+                  url: "https://ui.abhivarde.in/docs/blocks/cta",
                 },
               ],
             }),

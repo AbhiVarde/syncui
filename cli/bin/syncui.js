@@ -4,7 +4,7 @@ const { add } = require("../src/commands/add");
 const { init } = require("../src/commands/init");
 const packageJson = require("../package.json");
 
-const REGISTRY_URL = "https://syncui.design/r";
+const REGISTRY_URL = "https://ui.abhivarde.in/r";
 
 const program = new Command();
 

@@ -43,7 +43,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
   const pageDescription =
     frontmatter.description ||
     `Complete documentation for ${frontmatter.title}. Learn implementation, customization, and integration with React and Next.js.`;
-  const canonicalUrl = `https://www.syncui.design/docs/${slug}`;
+  const canonicalUrl = `https://ui.abhivarde.in/docs/${slug}`;
 
   return (
     <>
@@ -64,7 +64,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(frontmatter.title)}&type=Docs`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent(frontmatter.title)}&type=Docs`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -82,7 +82,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent(frontmatter.title)}&type=Docs`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent(frontmatter.title)}&type=Docs`}
         />
 
         <script
@@ -97,7 +97,7 @@ export default function DocPage({ code, frontmatter, toc, docsTree, slug }) {
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
-                logo: "https://www.syncui.design/logo.png",
+                logo: "https://ui.abhivarde.in/logo.png",
               },
               author: {
                 "@type": "Person",

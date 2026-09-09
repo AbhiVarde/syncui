@@ -101,14 +101,14 @@ const Charts = () => {
           name="description"
           content="Get free animated chart components including Line, Bar, Donut, Stat, Progress, and Heatmap. Built with Recharts, MUI, and Motion. Part of ▲ Vercel OSS Program Spring '26."
         />
-        <link rel="canonical" href="https://www.syncui.design/charts" />
+        <link rel="canonical" href="https://ui.abhivarde.in/charts" />
         <meta
           name="keywords"
           content="React chart components, Recharts, animated charts, line chart, bar chart, donut chart, stat card, progress gauge, activity heatmap, dashboard components, Next.js charts, MUI charts, Vercel OSS"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.syncui.design/charts" />
+        <meta property="og:url" content="https://ui.abhivarde.in/charts" />
         <meta property="og:site_name" content="Sync UI" />
         <meta
           property="og:title"
@@ -121,7 +121,7 @@ const Charts = () => {
         <meta
           key="og-image"
           property="og:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Charts")}&type=Charts`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Production-ready Charts")}&type=Charts`}
         />
         <meta key="og-image-w" property="og:image:width" content="1200" />
         <meta key="og-image-h" property="og:image:height" content="630" />
@@ -150,7 +150,7 @@ const Charts = () => {
         <meta
           key="tw-image"
           name="twitter:image"
-          content={`https://www.syncui.design/api/og?title=${encodeURIComponent("Production-ready Charts")}&type=Charts`}
+          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Production-ready Charts")}&type=Charts`}
         />
 
         <script
@@ -162,12 +162,12 @@ const Charts = () => {
               name: "Sync UI Charts",
               description:
                 "Free animated chart components including Line, Bar, Donut, Stat, Progress, and Heatmap",
-              url: "https://www.syncui.design/charts",
+              url: "https://ui.abhivarde.in/charts",
               numberOfItems: 6,
               publisher: {
                 "@type": "Organization",
                 name: "Sync UI",
-                logo: "https://www.syncui.design/logo.png",
+                logo: "https://ui.abhivarde.in/logo.png",
               },
             }),
           }}
@@ -183,13 +183,13 @@ const Charts = () => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://www.syncui.design/",
+                  item: "https://ui.abhivarde.in/",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Charts",
-                  item: "https://www.syncui.design/charts",
+                  item: "https://ui.abhivarde.in/charts",
                 },
               ],
             }),
@@ -207,37 +207,37 @@ const Charts = () => {
                   "@type": "ListItem",
                   position: 1,
                   name: "Line Charts",
-                  url: "https://www.syncui.design/docs/charts/line",
+                  url: "https://ui.abhivarde.in/docs/charts/line",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Bar Charts",
-                  url: "https://www.syncui.design/docs/charts/bar",
+                  url: "https://ui.abhivarde.in/docs/charts/bar",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: "Donut Charts",
-                  url: "https://www.syncui.design/docs/charts/donut",
+                  url: "https://ui.abhivarde.in/docs/charts/donut",
                 },
                 {
                   "@type": "ListItem",
                   position: 4,
                   name: "Stat Cards",
-                  url: "https://www.syncui.design/docs/charts/stat",
+                  url: "https://ui.abhivarde.in/docs/charts/stat",
                 },
                 {
                   "@type": "ListItem",
                   position: 5,
                   name: "Progress Gauges",
-                  url: "https://www.syncui.design/docs/charts/progress",
+                  url: "https://ui.abhivarde.in/docs/charts/progress",
                 },
                 {
                   "@type": "ListItem",
                   position: 6,
                   name: "Activity Heatmap",
-                  url: "https://www.syncui.design/docs/charts/heatmap",
+                  url: "https://ui.abhivarde.in/docs/charts/heatmap",
                 },
               ],
             }),
