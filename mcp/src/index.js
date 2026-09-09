@@ -6,8 +6,8 @@ const {
 } = require("@modelcontextprotocol/sdk/server/stdio.js");
 const { z } = require("zod");
 
-const REGISTRY_URL = "https://syncui.design/r";
-const TOKENS_URL = "https://syncui.design/tokens.json";
+const REGISTRY_URL = "https://ui.abhivarde.in/r";
+const TOKENS_URL = "https://ui.abhivarde.in/tokens.json";
 
 async function fetchJSON(url) {
   try {
@@ -294,8 +294,8 @@ server.tool(
       totalBlocks: (index.blocks || []).length,
       totalCharts: (index.charts || []).length,
       manifest,
-      docsUrl: "https://syncui.design/docs",
-      registryUrl: "https://syncui.design/r/index.json",
+      docsUrl: "https://ui.abhivarde.in/docs",
+      registryUrl: "https://ui.abhivarde.in/r/index.json",
     };
 
     return {

@@ -68,7 +68,7 @@ function setupDocsUrl(framework) {
     "react-router": "react-router",
     unknown: "manual",
   };
-  return `https://syncui.design/docs/installation/${slugs[framework] || "manual"}`;
+  return `https://ui.abhivarde.in/docs/installation/${slugs[framework] || "manual"}`;
 }
 
 async function init(options) {

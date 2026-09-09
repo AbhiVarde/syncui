@@ -3,7 +3,7 @@ const path = require("path");
 const { runInstall } = require("../utils/install");
 const { detectExistingAlias } = require("../utils/aliases");
 
-const REGISTRY_URL = "https://syncui.design/r";
+const REGISTRY_URL = "https://ui.abhivarde.in/r";
 
 async function fetchJSON(url) {
   try {
