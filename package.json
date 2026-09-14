@@ -41,7 +41,9 @@
   "overrides": {
     "postcss": "latest",
     "uuid": "latest",
-    "js-yaml": "^4.2.0"
+    "js-yaml": "^4.3.2",
+    "sharp": "^0.35.4",
+    "toml": "^4.1.2"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.3.1",
