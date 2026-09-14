@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP and agent skills. Built for React, ready for your coding agent.
+  Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP and agent skills. Works with Next.js, Vite, Astro, TanStack Start, and React Router.
   <br />
   <br />
   <a href="https://github.com/AbhiVarde/syncui/stargazers"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=dark&font=geist" /><img alt="GitHub Stars" src="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=light&font=geist" /></picture></a>
@@ -22,6 +22,21 @@
   <a href="https://ui.abhivarde.in/showcase">Showcase</a> ·
   <a href="https://www.npmjs.com/package/@abhivarde/syncui">npm</a>
 </p>
+
+## Framework Support
+
+Sync UI installs into any of these React setups:
+
+| Framework      | Guide                                                                     |
+| -------------- | ------------------------------------------------------------------------- |
+| Next.js        | [Install guide](https://ui.abhivarde.in/docs/installation/nextjs)         |
+| Vite           | [Install guide](https://ui.abhivarde.in/docs/installation/vite)           |
+| Astro          | [Install guide](https://ui.abhivarde.in/docs/installation/astro)          |
+| TanStack Start | [Install guide](https://ui.abhivarde.in/docs/installation/tanstack-start) |
+| React Router   | [Install guide](https://ui.abhivarde.in/docs/installation/react-router)   |
+| Manual         | [Install guide](https://ui.abhivarde.in/docs/installation/manual)         |
+
+Same CLI, same components, same output pattern, no matter which framework you pick.
 
 ## CLI
 
@@ -83,13 +98,15 @@ Your AI coding tool will know every component, variant, and animation pattern wi
 
 ## Tech Stack
 
-| Category  | Technology            |
-| --------- | --------------------- |
-| Framework | React, Next.js        |
-| Styling   | Material UI (MUI)     |
-| Animation | Motion (motion/react) |
-| Analytics | Umami                 |
-| Deploy    | Vercel, Docker        |
+| Category   | Technology            |
+| ---------- | --------------------- |
+| Built with | React, Next.js        |
+| Styling    | Material UI (MUI)     |
+| Animation  | Motion (motion/react) |
+| Analytics  | Umami                 |
+| Deploy     | Vercel, Docker        |
+
+This is the stack the Sync UI website itself runs on. See [Framework Support](#framework-support) above for what you can install Sync UI into.
 
 ## Getting Started
 
