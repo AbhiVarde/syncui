@@ -61,7 +61,7 @@ const STRUCTURED_DATA = JSON.stringify({
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Web",
       description:
-        "Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP.",
+        "Components, blocks, and charts built with MUI and Motion for Next.js, Vite, Astro, TanStack Start, and React Router. Copy the code, install with a CLI, or connect via MCP.",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       aggregateRating: {
         "@type": "AggregateRating",
@@ -169,7 +169,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           name="keywords"
-          content="React components, UI library, MUI, Motion, motion/react, Next.js, free components, UI blocks, chart components, React templates, design system, agent skills, AI coding tools, Vercel OSS"
+          content="React components, UI library, MUI, Motion, motion/react, Next.js, Vite, Astro, TanStack Start, React Router, free components, UI blocks, chart components, React templates, design system, agent skills, AI coding tools, Vercel OSS"
         />
 
         <title>Sync UI // React Component Library for Design Engineers</title>

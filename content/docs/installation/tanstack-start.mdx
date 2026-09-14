@@ -1,11 +1,11 @@
 ---
-title: React Router
-description: Set up Sync UI with React Router.
+title: TanStack Start
+description: Set up Sync UI in your TanStack Start project.
 ---
 
 #### Prerequisites
 
-An existing React Router project with a package manager installed.
+An existing TanStack Start project with a package manager installed.
 
 #### Initialize
 
@@ -20,28 +20,41 @@ Creates `components.json` and installs base dependencies.
 
 #### Wrap your app
 
+TanStack Start renders through a root route.
+
 ```jsx
+// app/routes/__root.tsx
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
 const theme = createTheme({ palette: { mode: "dark" } });
 
-export function Layout({ children }) {
+function RootDocument({ children }) {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <html>
+      <head>
+        <Meta />
+      </head>
+      <body>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+        <Scripts />
+      </body>
+    </html>
   );
 }
 ```
 
+Keep `createTheme` static. Runtime values like `Date.now()` will cause a hydration mismatch.
+
 #### Run dev
 
 <PackageManagerTabs
-  npm="npm start"
-  yarn="yarn start"
-  pnpm="pnpm start"
-  bun="bun start"
+  npm="npm run dev"
+  yarn="yarn dev"
+  pnpm="pnpm dev"
+  bun="bun dev"
 />
 
 Open [http://localhost:3000](http://localhost:3000).

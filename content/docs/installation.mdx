@@ -1,12 +1,25 @@
 ---
 title: Installation
-description: Set up Sync UI in your React project and start building.
+description: Add Sync UI to your React project.
 ---
 
-Get started with Sync UI by choosing your preferred React framework below.
+Sync UI gives you components, blocks, charts, and templates built with MUI and Motion. Copy the code, install with the CLI, connect via MCP, or use the agent skill, your agent handles the rest.
 
 #### Pick your framework
 
-Select your framework to see the specific setup instructions. All our components work seamlessly across different React environments, and the CLI works the same way no matter which one you pick.
-
 <FrameworkGrid />
+
+Every guide covers the same three steps: initialize, wrap your theme, run dev. Pick your framework and follow it end to end.
+
+#### Add anything with the CLI
+
+Once initialized, add any component, block, or chart the same way, on any framework.
+
+<PackageManagerTabs
+  npm="npx @abhivarde/syncui@latest add hero"
+  yarn="yarn dlx @abhivarde/syncui@latest add hero"
+  pnpm="pnpm dlx @abhivarde/syncui@latest add hero"
+  bun="bunx --bun @abhivarde/syncui@latest add hero"
+/>
+
+Use `name/variant` for a specific style, for example `hero/left`.

@@ -1,0 +1,72 @@
+---
+title: Astro
+description: Set up Sync UI in your Astro project.
+---
+
+Astro ships no JavaScript by default. Every component needs a client directive to hydrate, and the theme wraps inside the component, not the page.
+
+#### Prerequisites
+
+<PackageManagerTabs
+  npm="npx astro add react"
+  yarn="yarn dlx astro add react"
+  pnpm="pnpm dlx astro add react"
+  bun="bunx astro add react"
+/>
+
+#### Initialize
+
+<PackageManagerTabs
+  npm="npx @abhivarde/syncui@latest init"
+  yarn="yarn dlx @abhivarde/syncui@latest init"
+  pnpm="pnpm dlx @abhivarde/syncui@latest init"
+  bun="bunx --bun @abhivarde/syncui@latest init"
+/>
+
+Creates `components.json` and installs base dependencies.
+
+#### Wrap the component
+
+```jsx
+// src/components/Hero.jsx
+import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+
+const theme = createTheme({ palette: { mode: "dark" } });
+
+export default function Hero() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {/* component content */}
+    </ThemeProvider>
+  );
+}
+```
+
+#### Add a client directive
+
+```astro
+---
+import Hero from "../components/Hero.jsx";
+---
+<Hero client:load />
+```
+
+Without a directive, the component renders unstyled and static.
+
+#### Run dev
+
+<PackageManagerTabs
+  npm="npm run dev"
+  yarn="yarn dev"
+  pnpm="pnpm dev"
+  bun="bun dev"
+/>
+
+Open [http://localhost:4321](http://localhost:4321).
+
+#### Known limitation
+
+MUI styles can flash unstyled on first paint under partial hydration. Use `client:load` above the fold to reduce it.
+
+You're all set. Add any component, block, or chart with the CLI, or copy the code straight from [Components](/components), [Blocks](/blocks), and [Charts](/charts).

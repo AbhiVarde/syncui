@@ -5,9 +5,9 @@ description: Set up Sync UI in your Vite project.
 
 #### Prerequisites
 
-You'll need an existing Vite project with a package manager installed (npm, yarn, pnpm, or bun).
+An existing Vite project with a package manager installed.
 
-#### Initialize Sync UI
+#### Initialize
 
 <PackageManagerTabs
   npm="npx @abhivarde/syncui@latest init"
@@ -16,9 +16,9 @@ You'll need an existing Vite project with a package manager installed (npm, yarn
   bun="bunx --bun @abhivarde/syncui@latest init"
 />
 
-This creates a `components.json` config and installs the base dependencies.
+Creates `components.json` and installs base dependencies.
 
-#### Wrap your app in ThemeProvider
+#### Wrap your app
 
 ```jsx
 import React from "react";
@@ -36,18 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 ```
 
-#### Add your first component
-
-<PackageManagerTabs
-  npm="npx @abhivarde/syncui@latest add hero"
-  yarn="yarn dlx @abhivarde/syncui@latest add hero"
-  pnpm="pnpm dlx @abhivarde/syncui@latest add hero"
-  bun="bunx --bun @abhivarde/syncui@latest add hero"
-/>
-
-Add a specific variant with `name/variant`, for example `hero/left`. Dependencies install automatically, pass `--skip-install` to skip.
-
-#### Start development
+#### Run dev
 
 <PackageManagerTabs
   npm="npm run dev"
@@ -56,12 +45,6 @@ Add a specific variant with `name/variant`, for example `hero/left`. Dependencie
   bun="bun dev"
 />
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173](http://localhost:5173).
 
-#### You're all set
-
-→ Check out [Components](/components), copy paste ready UI elements
-
-→ Explore [Blocks](/blocks), pre-built page sections
-
-→ Customize freely, all code is yours to modify
+You're all set. Add any component, block, or chart with the CLI, or copy the code straight from [Components](/components), [Blocks](/blocks), and [Charts](/charts).

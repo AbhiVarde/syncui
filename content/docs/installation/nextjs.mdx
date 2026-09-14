@@ -5,9 +5,9 @@ description: Set up Sync UI in your Next.js project.
 
 #### Prerequisites
 
-You'll need an existing Next.js project with a package manager installed (npm, yarn, pnpm, or bun).
+An existing Next.js project with a package manager installed.
 
-#### Initialize Sync UI
+#### Initialize
 
 <PackageManagerTabs
   npm="npx @abhivarde/syncui@latest init"
@@ -16,20 +16,17 @@ You'll need an existing Next.js project with a package manager installed (npm, y
   bun="bunx --bun @abhivarde/syncui@latest init"
 />
 
-This creates a `components.json` config and installs the base dependencies.
+Creates `components.json` and installs base dependencies.
 
-#### Wrap your app in ThemeProvider
+#### Wrap your app
 
-App Router needs a client boundary at the provider level.
+App Router needs a client boundary.
 
 ```jsx
 "use client";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
-const theme = createTheme({
-  palette: { mode: "dark" },
-  typography: { fontFamily: "inherit" },
-});
+const theme = createTheme({ palette: { mode: "dark" } });
 
 export function Providers({ children }) {
   return (
@@ -40,8 +37,6 @@ export function Providers({ children }) {
   );
 }
 ```
-
-<br />
 
 ```jsx
 import { Providers } from "@/components/providers";
@@ -57,24 +52,9 @@ export default function RootLayout({ children }) {
 }
 ```
 
-<br />
+Using Pages Router? See [Manual](/docs/installation/manual). Any Sync UI component inside App Router also needs `"use client"`.
 
-Using Pages Router instead? See [Manual Setup](/docs/installation/manual).
-
-Any Sync UI component used inside the App Router also needs `"use client"` at the top.
-
-#### Add your first component
-
-<PackageManagerTabs
-  npm="npx @abhivarde/syncui@latest add hero"
-  yarn="yarn dlx @abhivarde/syncui@latest add hero"
-  pnpm="pnpm dlx @abhivarde/syncui@latest add hero"
-  bun="bunx --bun @abhivarde/syncui@latest add hero"
-/>
-
-Add a specific variant with `name/variant`, for example `hero/left`. Dependencies install automatically, pass `--skip-install` to skip.
-
-#### Start development
+#### Run dev
 
 <PackageManagerTabs
   npm="npm run dev"
@@ -83,12 +63,6 @@ Add a specific variant with `name/variant`, for example `hero/left`. Dependencie
   bun="bun dev"
 />
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-#### You're all set
-
-→ Check out [Components](/components), copy paste ready UI elements
-
-→ Explore [Blocks](/blocks), pre-built page sections
-
-→ Customize freely, all code is yours to modify
+You're all set. Add any component, block, or chart with the CLI, or copy the code straight from [Components](/components), [Blocks](/blocks), and [Charts](/charts).

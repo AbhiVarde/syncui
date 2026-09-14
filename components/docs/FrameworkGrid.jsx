@@ -1,13 +1,22 @@
 import React from "react";
 import { Box, ButtonBase, Typography } from "@mui/material";
 import Link from "next/link";
-import { SiNextdotjs, SiVite, SiReact } from "react-icons/si";
+import {
+  SiNextdotjs,
+  SiVite,
+  SiReactrouter,
+  SiAstro,
+  SiReact,
+} from "react-icons/si";
+import { TanStackIcon } from "@/components/icons/TanStackIcon";
 import { useTheme } from "@/context/ThemeContext";
 
 const frameworks = [
   { name: "Next.js", slug: "nextjs", icon: SiNextdotjs },
+  { name: "TanStack Start", slug: "tanstack-start", icon: TanStackIcon },
+  { name: "Astro", slug: "astro", icon: SiAstro },
   { name: "Vite", slug: "vite", icon: SiVite },
-  { name: "React Router", slug: "react-router", icon: SiReact },
+  { name: "React Router", slug: "react-router", icon: SiReactrouter },
   { name: "Manual", slug: "manual", icon: SiReact },
 ];
 
