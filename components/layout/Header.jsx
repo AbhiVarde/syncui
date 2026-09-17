@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useGitHub } from "@/context/GithubContext";
 import AnimatedCounter from "../AnimatedCounter";
-import { GITHUB_URL, TWITTER_URL } from "@/utils/constants";
+import { GITHUB_URL, TWITTER_URL, SPONSOR_URL } from "@/utils/constants";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Menu02Icon from "@hugeicons/core-free-icons/Menu02Icon";
 import ArrowRight01Icon from "@hugeicons/core-free-icons/ArrowRight01Icon";
@@ -23,6 +23,7 @@ import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import Menu09Icon from "@hugeicons/core-free-icons/Menu09Icon";
 import GithubIcon from "@hugeicons/core-free-icons/GithubIcon";
 import NewTwitterIcon from "@hugeicons/core-free-icons/NewTwitterIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
 import Moon01Icon from "@hugeicons/core-free-icons/Moon01Icon";
 import Sun01Icon from "@hugeicons/core-free-icons/Sun01Icon";
 import dynamic from "next/dynamic";
@@ -245,6 +246,21 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
 
       <IconButton
         component="a"
+        href={SPONSOR_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Sponsor Sync UI on GitHub (opens in new tab)"
+        sx={{
+          color: "text.primary",
+          p: 0.5,
+          "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
+        }}
+      >
+        <HugeiconsIcon icon={FavouriteIcon} size={20} aria-hidden="true" />
+      </IconButton>
+
+      <IconButton
+        component="a"
         href={TWITTER_URL}
         target="_blank"
         rel="noopener noreferrer"
@@ -255,7 +271,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
           "&:hover": { backgroundColor: "transparent", opacity: 0.7 },
         }}
       >
-        <HugeiconsIcon icon={NewTwitterIcon} size={18} aria-hidden="true" />
+        <HugeiconsIcon icon={NewTwitterIcon} size={20} aria-hidden="true" />
       </IconButton>
 
       <IconButton
@@ -269,7 +285,7 @@ const Header = ({ toggleTheme, isDarkMode, docsTree, toc }) => {
       >
         <HugeiconsIcon
           icon={isDarkMode ? Sun01Icon : Moon01Icon}
-          size={22}
+          size={20}
           aria-hidden="true"
         />
       </IconButton>
