@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
+const { execFileSync } = require("child_process");
 
 function detectPackageManager() {
   const cwd = process.cwd();
@@ -22,6 +22,19 @@ function installCommandFor(pm, deps) {
       return `bun add ${list}`;
     default:
       return `npm install ${list}`;
+  }
+}
+
+function installArgsFor(pm, deps) {
+  switch (pm) {
+    case "yarn":
+      return ["yarn", ["add", ...deps]];
+    case "pnpm":
+      return ["pnpm", ["add", ...deps]];
+    case "bun":
+      return ["bun", ["add", ...deps]];
+    default:
+      return ["npm", ["install", ...deps]];
   }
 }
 
@@ -65,7 +78,8 @@ function runInstall(deps, options = {}) {
   console.log(`  ${cmd}`);
 
   try {
-    execSync(cmd, { stdio: "inherit" });
+    const [bin, args] = installArgsFor(pm, missing);
+    execFileSync(bin, args, { stdio: "inherit", shell: process.platform === "win32" });
     return { installed: missing, skipped: false, success: true, cmd, pm };
   } catch {
     return { installed: missing, skipped: false, success: false, cmd, pm };
