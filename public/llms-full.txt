@@ -1,0 +1,225 @@
+# Sync UI full variant list
+
+Install any entry with: npx @abhivarde/syncui@latest add name/variant
+Registry entry: https://ui.abhivarde.in/r/{name}.json
+
+## components
+
+### accordions
+- accordions/brutalist
+- accordions/dashed
+- accordions/minimal
+- accordions/modern
+
+### autocompletes
+- autocompletes/basic
+- autocompletes/multi-select
+- autocompletes/async
+- autocompletes/grouped
+- autocompletes/custom-render
+
+### avatars
+- avatars/modernShowcase
+- avatars/floatingCards
+- avatars/minimalGrid
+- avatars/overlappingCircles
+
+### backgrounds
+- backgrounds/geminiWave
+- backgrounds/gradientMesh
+- backgrounds/movingShapes
+- backgrounds/flickeringGrid
+- backgrounds/interactiveGrid
+- backgrounds/grid
+- backgrounds/magneticConnections
+- backgrounds/dots
+
+### buttons
+- buttons/neubrutalism
+- buttons/animatedBorder
+- buttons/gradientShine
+- buttons/underline
+- buttons/sendIcon
+- buttons/expand
+- buttons/hoverArrow
+- buttons/glitch
+- buttons/outlineFill
+- buttons/elasticSlide
+
+### cards
+- cards/lens
+- cards/twitterCarousel
+- cards/meteorShower
+- cards/dynamicOverlay
+- cards/contentCard
+- cards/animatedBorder
+
+### carousels
+- carousels/scale
+- carousels/parallax
+- carousels/fade
+- carousels/cards
+
+### datepickers
+- datepickers/single
+- datepickers/range
+- datepickers/presets
+- datepickers/with-time
+
+### dialogs
+- dialogs/default
+- dialogs/slideUp
+- dialogs/blur
+- dialogs/form
+- dialogs/info
+- dialogs/fullscreen
+- dialogs/sidebar
+- dialogs/notification
+
+### docks
+- docks/modern
+- docks/categorical
+- docks/dynamic
+- docks/glass
+
+### forms
+- forms/multi-step
+- forms/login
+- forms/register
+- forms/contact
+
+### grids
+- grids/masonry
+- grids/bento
+- grids/glassmorphism
+- grids/organicShapes
+- grids/minimalCards
+
+### loaders
+- loaders/pulsatingDots
+- loaders/morphingCube
+- loaders/pulsatingRing
+- loaders/circularSweep
+- loaders/fadingSquares
+- loaders/orbitalSpin
+- loaders/triadicOrbit
+- loaders/barWave
+
+### paginations
+- paginations/simple
+- paginations/numbered
+- paginations/compact
+- paginations/with-dropdown
+- paginations/rows-per-page
+- paginations/fading
+- paginations/sliding
+- paginations/expanding
+
+### pointers
+- pointers/glowingDot
+- pointers/followingRing
+- pointers/magneticArrow
+- pointers/trailingDots
+- pointers/emojiFollower
+- pointers/gradientBlob
+
+### separators
+- separators/dashed
+- separators/icon
+- separators/zigzag
+- separators/gradient
+- separators/shimmer
+- separators/dotted
+- separators/starry
+
+### skeletons
+- skeletons/shimmer
+- skeletons/pulse
+- skeletons/wave
+
+### tables
+- tables/modern
+- tables/minimal
+- tables/expandable
+
+### tabs
+- tabs/slidingUnderline
+- tabs/floatingBackground
+- tabs/elevatedCards
+- tabs/growingBackground
+
+### textfields
+- textfields/otp
+- textfields/endIcon
+- textfields/startInline
+- textfields/endInline
+- textfields/currency
+- textfields/aiPrompt
+
+### texts
+- texts/videoText
+- texts/blurIn
+- texts/splitReveal
+- texts/staggeredScale
+- texts/lettersPullUp
+- texts/waveEffect
+- texts/neonGlow
+- texts/wordsPullUp
+- texts/typewriter
+- texts/rotateWords
+- texts/morphingText
+
+### timepickers
+- timepickers/12hour
+- timepickers/with-seconds
+- timepickers/24hour
+- timepickers/presets
+
+## blocks
+
+### cta
+- cta/centered
+- cta/split
+- cta/grid
+- cta/columns
+
+### hero
+- hero/left
+- hero/center
+- hero/search
+
+### pricing
+- pricing/threeTier
+- pricing/twoTier
+- pricing/row
+
+### stats
+- stats/simple
+- stats/with-icons
+- stats/cards
+
+## charts
+
+### bar
+- bar/default
+- bar/ranked
+
+### donut
+- donut/default
+- donut/legend
+
+### heatmap
+- heatmap/grid
+- heatmap/compact
+
+### line
+- line/default
+- line/area
+
+### progress
+- progress/linear
+- progress/radial
+
+### stat
+- stat/default
+- stat/spark

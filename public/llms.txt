@@ -1,6 +1,6 @@
 # Sync UI
 
-> Open source React UI library with 125+ animated components, 13+ blocks, and 12 chart variants. Built with MUI and Motion. Add via CLI, MCP, or agent skill.
+> Open source React UI library with 125+ animated components, 13+ block variants, and 12 chart variants. Built with MUI and Motion. Add via CLI, MCP, or agent skill.
 
 Website: [https://ui.abhivarde.in](https://ui.abhivarde.in)
 Docs: [https://ui.abhivarde.in/docs](https://ui.abhivarde.in/docs)
@@ -12,6 +12,7 @@ Showcase: [https://ui.abhivarde.in/showcase](https://ui.abhivarde.in/showcase)
 GitHub: [https://github.com/AbhiVarde/syncui](https://github.com/AbhiVarde/syncui)
 npm: [https://www.npmjs.com/package/@abhivarde/syncui](https://www.npmjs.com/package/@abhivarde/syncui)
 Registry: [https://ui.abhivarde.in/r/index.json](https://ui.abhivarde.in/r/index.json)
+Full variant list: [https://ui.abhivarde.in/llms-full.txt](https://ui.abhivarde.in/llms-full.txt)
 
 ## Setup
 
@@ -25,13 +26,16 @@ const theme = createTheme({ palette: { mode: "dark" } });
 
 For Next.js App Router add "use client" to the provider wrapper.
 
+Frameworks: Next.js, Vite, Astro, TanStack Start, React Router, Manual.
+Guides: https://ui.abhivarde.in/docs/installation/{nextjs|vite|astro|tanstack-start|react-router|manual}
+
 ## CLI
 
 Add any component, block, or chart directly into your project:
 
 npx @abhivarde/syncui@latest add name/variant
 
-Use name/variant to target exactly what you need, for example accordion/brutalist, hero/centered, or line/dashed.
+Use name/variant to target exactly what you need. Exact names for every component, block, and chart are in llms-full.txt. Always copy them from there.
 
 ## MCP
 
@@ -82,34 +86,22 @@ Import from motion/react. Never from framer-motion.
 
 22 categories, 125+ variants total: Accordions, Autocompletes, Avatars, Backgrounds, Buttons, Cards, Carousels, Date Pickers, Dialogs, Docks, Forms, Grids, Loaders, Paginations, Pointers, Separators, Skeletons, Tables, Tabs, TextFields, Texts, Time Pickers.
 
-Buttons: default, shimmer, neon variants
+Variant names are listed in llms-full.txt.
+
 Cards: hover lift with whileHover={{ y: -8 }}
-Dialogs: slide-up, blur, form, notification, sidebar variants
 Tabs: layoutId sliding underline, AnimatePresence mode="wait" for panels
-Avatars: overlapping, minimal-grid variants
-TextFields: otp, floating-label variants
-Autocomplete: viewport-aware dropdown, real-time filtering
-Date Picker: single, range, presets, with-time variants
-Time Picker: 12hour, 24hour, with-seconds, presets variants
+Autocompletes: viewport-aware dropdown, real-time filtering
 Accordions: MUI Accordion with motion expand
-Carousels: fade, scale, slide variants with image preloading
-Grids: standard, masonry, organic-shapes variants
-Loaders: shimmer, pulse, wave skeleton variants
 Skeletons: lightweight loading placeholders for cards, lists, text, and content blocks
 Tables: staggered row entrance with motion.create(TableRow)
-Marquees: horizontal, vertical infinite scroll
-Backgrounds: magnetic-connections, gemini-wave interactive variants
 Docks: macOS magnification with useMotionValue and useSpring
-Pagination: animated entrance
+Paginations: animated entrance
 
 ## Blocks
 
 4 blocks, 13+ variants total: Hero, CTA, Pricing, Stats.
 
-Hero: left-aligned, center-aligned, search variants
-CTA: centered, split, card variants
-Pricing: three-tier, two-tier, row variants
-Stats: simple, with-icons, cards variants
+Variant names are listed in llms-full.txt.
 
 Icon deps: @hugeicons/react for Hero and CTA, react-icons/fi for Stats
 

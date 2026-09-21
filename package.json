@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/generate-llms-full.mjs",
     "build": "next build",
     "analyze": "next experimental-analyze",
     "start": "next start",
