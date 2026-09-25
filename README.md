@@ -1,48 +1,16 @@
-<p align="center">
-  <a href="https://vercel.com/open-source-program"><img alt="Vercel OSS Program" src="public/vercel-oss.svg" /></a>
-</p>
+[![Vercel OSS Program](https://github.com/AbhiVarde/syncui/raw/main/public/vercel-oss.svg)](https://vercel.com/open-source-program)
 
-<p align="center">
-  Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP and agent skills. Works with Next.js, Vite, Astro, TanStack Start, and React Router.
-  <br />
-  <br />
-  <a href="https://github.com/AbhiVarde/syncui/stargazers"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=dark&font=geist" /><img alt="GitHub Stars" src="https://www.shieldcn.dev/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=light&font=geist" /></picture></a>
-  <a href="https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/license/AbhiVarde/syncui.svg?variant=ghost&size=xs&mode=dark&font=geist" /><img alt="License" src="https://www.shieldcn.dev/github/license/AbhiVarde/syncui.svg?variant=ghost&size=xs&mode=light&font=geist" /></picture></a>
-  <a href="https://x.com/syncuidesign"><picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/x/follow/syncuidesign.svg?variant=branded&size=xs&mode=dark&font=geist" /><img alt="X Follow" src="https://www.shieldcn.dev/x/follow/syncuidesign.svg?variant=branded&size=xs&mode=light&font=geist" /></picture></a>
-  <a href="https://vercel.com/oss"><img alt="Vercel OSS Program Member" src="https://shieldcn.dev/badge/Vercel_OSS_Program_Member.svg?variant=branded&size=xs&theme=zinc&logo=vercel" /></a>
-</p>
+Components, blocks, and charts built with MUI and Motion. Copy the code, install with a CLI, or connect via MCP and agent skills. Built for React, ready for your coding agent.
 
-<p align="center">
-  <a href="https://ui.abhivarde.in">Website</a> ·
-  <a href="https://ui.abhivarde.in/docs">Docs</a> ·
-  <a href="https://ui.abhivarde.in/components">Components</a> ·
-  <a href="https://ui.abhivarde.in/blocks">Blocks</a> ·
-  <a href="https://ui.abhivarde.in/charts">Charts</a> ·
-  <a href="https://ui.abhivarde.in/templates">Templates</a> ·
-  <a href="https://ui.abhivarde.in/showcase">Showcase</a> ·
-  <a href="https://www.npmjs.com/package/@abhivarde/syncui">npm</a>
-</p>
+[![GitHub Stars](https://img.shields.io/github/stars/AbhiVarde/syncui.svg?variant=secondary&size=xs&mode=light&font=geist)](https://github.com/AbhiVarde/syncui/stargazers) [![License](https://img.shields.io/github/license/AbhiVarde/syncui.svg?variant=ghost&size=xs&mode=light&font=geist)](https://github.com/AbhiVarde/syncui/blob/main/LICENSE.md) [![X Follow](https://img.shields.io/x/follow/syncuidesign.svg?variant=branded&size=xs&mode=light&font=geist)](https://x.com/syncuidesign) [![Vercel OSS Program Member](https://shieldcn.dev/badge/Vercel_OSS_Program_Member.svg?variant=branded&size=xs&theme=zinc&logo=vercel)](https://vercel.com/oss)
 
-## Framework Support
-
-Sync UI installs into any of these React setups:
-
-| Framework      | Guide                                                                     |
-| -------------- | ------------------------------------------------------------------------- |
-| Next.js        | [Install guide](https://ui.abhivarde.in/docs/installation/nextjs)         |
-| Vite           | [Install guide](https://ui.abhivarde.in/docs/installation/vite)           |
-| Astro          | [Install guide](https://ui.abhivarde.in/docs/installation/astro)          |
-| TanStack Start | [Install guide](https://ui.abhivarde.in/docs/installation/tanstack-start) |
-| React Router   | [Install guide](https://ui.abhivarde.in/docs/installation/react-router)   |
-| Manual         | [Install guide](https://ui.abhivarde.in/docs/installation/manual)         |
-
-Same CLI, same components, same output pattern, no matter which framework you pick.
+[Website](https://ui.abhivarde.in) · [Docs](https://ui.abhivarde.in/docs) · [Components](https://ui.abhivarde.in/components) · [Blocks](https://ui.abhivarde.in/blocks) · [Charts](https://ui.abhivarde.in/charts) · [Templates](https://ui.abhivarde.in/templates) · [Showcase](https://ui.abhivarde.in/showcase) · [npm](https://www.npmjs.com/package/@abhivarde/syncui)
 
 ## CLI
 
 Add any component, block, or chart directly into your project:
 
-```bash
+```
 npx @abhivarde/syncui@latest add name/variant
 ```
 
@@ -52,7 +20,7 @@ Use `name/variant` to target exactly what you need, for example `accordion/bruta
 
 Let your AI agent add components, blocks, and charts directly, no commands needed:
 
-```json
+```
 {
   "mcpServers": {
     "syncui": {
@@ -80,11 +48,37 @@ This is what the CLI and MCP use under the hood. New entries go live the moment 
 
 Use Sync UI inside Cursor, Claude Code, Copilot, Windsurf, and more:
 
-```bash
+```
 npx skills add AbhiVarde/syncui
 ```
 
 Your AI coding tool will know every component, variant, and animation pattern without you explaining anything.
+
+## Architecture
+
+How the CLI, MCP server, Agent Skill, and hosted registry fit together:
+
+```mermaid
+flowchart TD
+  Dev[Developer or AI coding agent] -->|npx add name/variant| CLI[Sync UI CLI]
+  Dev -->|MCP client config| MCP[Sync UI MCP Server]
+  Dev -->|npx skills add| Skill[Agent Skill]
+
+  CLI --> Registry[(Hosted Registry ui.abhivarde.in/r)]
+  MCP --> Registry
+  Skill --> Registry
+
+  Registry --> JSON[Component / Block / Chart JSON]
+  JSON --> Project[Your React / Next.js Project]
+
+  Site[ui.abhivarde.in - Next.js App] --> Registry
+  Site --> MUI[Material UI]
+  Site --> Motion[Motion - motion/react]
+  Site --> Analytics[Umami Analytics]
+  Site -. deploy .-> Deploy[Vercel / Docker]
+```
+
+The CLI, MCP server, and Agent Skill are all thin clients over the same hosted registry — whichever route a developer or agent uses, they resolve to the same JSON definitions, so new entries go live everywhere the moment the site deploys.
 
 ## What's Inside
 
@@ -98,19 +92,17 @@ Your AI coding tool will know every component, variant, and animation pattern wi
 
 ## Tech Stack
 
-| Category   | Technology            |
-| ---------- | --------------------- |
-| Built with | React, Next.js        |
-| Styling    | Material UI (MUI)     |
-| Animation  | Motion (motion/react) |
-| Analytics  | Umami                 |
-| Deploy     | Vercel, Docker        |
-
-This is the stack the Sync UI website itself runs on. See [Framework Support](#framework-support) above for what you can install Sync UI into.
+| Category  | Technology            |
+| --------- | --------------------- |
+| Framework | React, Next.js        |
+| Styling   | Material UI (MUI)     |
+| Animation | Motion (motion/react) |
+| Analytics | Umami                 |
+| Deploy    | Vercel, Docker        |
 
 ## Getting Started
 
-```bash
+```
 git clone https://github.com/AbhiVarde/syncui
 cd syncui
 npm install
@@ -119,12 +111,12 @@ npm run dev
 
 **Docker**
 
-```bash
+```
 docker build -t syncui .
 docker run -p 3000:3000 syncui
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open <http://localhost:3000>.
 
 ## Contributing
 
