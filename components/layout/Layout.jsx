@@ -14,19 +14,33 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
   const [count, setCount] = useState(null);
 
   useEffect(() => {
+    let id = null;
     try {
-      const saved = localStorage.getItem("visitor-number");
-      if (saved) return setCount(Number(saved));
+      id = localStorage.getItem("visitor-id");
+      if (!id) {
+        id =
+          typeof crypto !== "undefined" && crypto.randomUUID
+            ? crypto.randomUUID()
+            : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+        localStorage.setItem("visitor-id", id);
+      }
     } catch {}
 
-    fetch("/api/visitors", { method: "POST" })
+    if (!id) {
+      fetch("/api/visitors")
+        .then((r) => r.json())
+        .then((d) => setCount(d.count))
+        .catch(() => {});
+      return;
+    }
+
+    fetch("/api/visitors", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    })
       .then((r) => r.json())
-      .then((d) => {
-        try {
-          localStorage.setItem("visitor-number", String(d.count));
-        } catch {}
-        setCount(d.count);
-      })
+      .then((d) => setCount(d.count))
       .catch(() => {});
   }, []);
 
