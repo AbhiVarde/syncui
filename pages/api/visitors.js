@@ -6,7 +6,6 @@ const redis = new Redis({
 });
 
 const SET_KEY = "visitors:ui:v2";
-const BASE = 70;
 const BOT_RE =
   /bot|crawl|spider|slurp|preview|facebookexternalhit|headless|lighthouse|vercel/i;
 const ID_RE = /^[a-zA-Z0-9-]{16,64}$/;
@@ -28,7 +27,7 @@ export default async function handler(req, res) {
     }
 
     const size = await redis.scard(SET_KEY);
-    return res.status(200).json({ count: BASE + Number(size || 0) });
+    return res.status(200).json({ count: Number(size || 0) });
   } catch {
     return res.status(200).json({ count: null });
   }

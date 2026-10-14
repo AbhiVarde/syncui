@@ -97,7 +97,7 @@ const Layout = ({ children, toggleTheme, isDarkMode, docsTree, toc }) => {
                 {" · "}
               </>
             )}
-            counting since 05 oct 2026
+            counting since 15 oct 2026
           </Typography>
         </Box>
       </Box>
