@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -9,7 +9,6 @@ import {
   Stack,
   useTheme,
   Skeleton,
-  IconButton,
 } from "@mui/material";
 import {
   LuPlus,
@@ -24,26 +23,42 @@ import { getAllDocsSlugs } from "@/lib/docs";
 
 const DISCUSS_URL = "https://github.com/AbhiVarde/syncui/discussions/4";
 const SPONSOR_URL = "https://github.com/sponsors/AbhiVarde";
+const REF = "syncui";
+const SKIP_REF_HOSTS = ["github.com"];
 
 function parseDomain(url) {
   try {
-    return new URL(url).hostname.replace("www.", "");
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+function withRef(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, "");
+    if (SKIP_REF_HOSTS.includes(host)) return url;
+    if (!u.searchParams.has("ref")) u.searchParams.set("ref", REF);
+    return u.toString();
   } catch {
     return url;
   }
 }
 
 function cleanTitle(raw) {
-  if (!raw) return raw;
+  if (!raw) return null;
   const cleaned = raw
     .replace(/\s*:\s+.+$/, "")
     .replace(/\s+[-\u2013\u2014|]\s+.+$/, "")
     .replace(/\s+\/\/\s+.+$/, "")
     .trim();
+  const lower = cleaned.toLowerCase();
   if (
-    cleaned.toLowerCase().includes("attention required") ||
-    cleaned.toLowerCase().includes("just a moment") ||
-    cleaned.toLowerCase().includes("access denied")
+    !cleaned ||
+    lower.includes("attention required") ||
+    lower.includes("just a moment") ||
+    lower.includes("access denied")
   ) {
     return null;
   }
@@ -102,22 +117,25 @@ function CardSkeleton() {
   return (
     <Box
       sx={{
-        border: "1px dashed",
+        borderRadius: 3,
+        border: "1px solid",
         borderColor: "divider",
-        borderRadius: 1,
-        overflow: "hidden",
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
       }}
     >
       <Skeleton
-        variant="rectangular"
-        height={172}
+        variant="rounded"
+        height={180}
         animation="wave"
-        sx={{ bgcolor: "action.hover" }}
+        sx={{ bgcolor: "action.hover", borderRadius: 2 }}
       />
-      <Box sx={{ px: 1.5, py: 1.25, display: "flex", alignItems: "center" }}>
+      <Box sx={{ px: 0.5, display: "flex", alignItems: "center" }}>
         <Skeleton
           width="55%"
-          height={16}
+          height={28}
           animation="wave"
           sx={{ bgcolor: "action.hover" }}
         />
@@ -126,7 +144,7 @@ function CardSkeleton() {
   );
 }
 
-function ResourceCard({ r }) {
+function ResourceCard({ r, index }) {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
   const domain = parseDomain(r.url);
@@ -135,15 +153,26 @@ function ResourceCard({ r }) {
   const [loaded, setLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
+  const showImage = r.image && !imgError;
+
   return (
     <Box
-      component={motion.div}
+      component={motion.a}
+      href={withRef(r.url)}
+      target="_blank"
+      rel="noopener"
+      aria-label={`Open ${title}`}
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.28, ease: "easeOut" }}
-      onClick={() => window.open(r.url, "_blank", "noopener")}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.28,
+        ease: "easeOut",
+        delay: (index % 2) * 0.05,
+      }}
       sx={{
+        color: "inherit",
+        textDecoration: "none",
         cursor: "pointer",
         borderRadius: 3,
         border: "1px solid",
@@ -153,8 +182,17 @@ function ResourceCard({ r }) {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        "&:hover .icon": { transform: "rotate(45deg)" },
         position: "relative",
+        transition: "border-color 0.2s ease",
+        "&:hover": {
+          borderColor: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
+        },
+        "&:hover .icon": { transform: "rotate(45deg)" },
+        "&:focus-visible": {
+          outline: "2px solid",
+          outlineColor: "text.primary",
+          outlineOffset: 2,
+        },
       }}
     >
       <Box
@@ -167,7 +205,6 @@ function ResourceCard({ r }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          pointerEvents: "none",
           bgcolor: isDark ? "#111" : "#f2f2f2",
         }}
       >
@@ -197,30 +234,32 @@ function ResourceCard({ r }) {
           </Box>
         )}
 
-        {r.image && !imgError ? (
-          <Box sx={{ width: "100%", transform: "scale(0.94)" }}>
-            <img
-              src={r.image}
-              alt={title}
-              onLoad={() => setLoaded(true)}
-              onError={() => setImgError(true)}
-              loading="lazy"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-                opacity: loaded ? 1 : 0,
-                transition: "opacity 0.35s ease",
-              }}
-            />
-          </Box>
-        ) : (
+        {showImage && (
+          <img
+            src={r.image}
+            alt=""
+            onLoad={() => setLoaded(true)}
+            onError={() => setImgError(true)}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              opacity: loaded ? 1 : 0,
+              transition: "opacity 0.35s ease",
+            }}
+          />
+        )}
+
+        {(!showImage || !loaded) && (
           <Typography
             variant="caption"
-            fontWeight={400}
             color="text.disabled"
-            sx={{ fontFamily: "monospace" }}
+            sx={{ fontFamily: "monospace", px: 2, textAlign: "center" }}
           >
             {domain}
           </Typography>
@@ -232,34 +271,59 @@ function ResourceCard({ r }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: 1.5,
           px: 0.5,
         }}
       >
-        <Typography variant="h6" fontWeight={500}>
+        <Typography
+          variant="h6"
+          fontWeight={500}
+          noWrap
+          sx={{ minWidth: 0, flex: 1 }}
+        >
           {title}
         </Typography>
-        <IconButton
-          disableRipple
-          aria-label={`Visit ${title}`}
+        <Box
+          className="icon"
           sx={{
-            p: 0,
+            display: "inline-flex",
+            flexShrink: 0,
             color: "text.primary",
-            backgroundColor: "transparent",
-            "&:hover": { backgroundColor: "transparent" },
+            transition: "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
+            transformOrigin: "center",
           }}
         >
-          <Box
-            className="icon"
-            sx={{
-              display: "inline-flex",
-              transition: "transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)",
-              transformOrigin: "center",
-            }}
-          >
-            <LuArrowUpRight size={20} />
-          </Box>
-        </IconButton>
+          <LuArrowUpRight size={20} />
+        </Box>
       </Box>
+    </Box>
+  );
+}
+
+function StateBox({ title, message, children }) {
+  return (
+    <Box
+      sx={{
+        border: "1px dashed",
+        borderColor: "divider",
+        borderRadius: 3,
+        py: 10,
+        px: 2,
+        textAlign: "center",
+      }}
+    >
+      <Typography variant="body2" fontWeight={500} mb={0.5}>
+        {title}
+      </Typography>
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        display="block"
+        mb={2.5}
+      >
+        {message}
+      </Typography>
+      {children}
     </Box>
   );
 }
@@ -275,12 +339,12 @@ export default function ShowcasePage() {
 
   const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
-  const load = () => {
+  const load = useCallback((signal) => {
     setLoading(true);
-    setError(null);
-    fetch("/api/showcase-resources")
+    setError(false);
+    fetch("/api/showcase-resources", { signal })
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
@@ -290,14 +354,23 @@ export default function ShowcasePage() {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        if (err.name === "AbortError") return;
+        setError(true);
         setLoading(false);
       });
-  };
+  }, []);
 
   useEffect(() => {
-    load();
-  }, []);
+    const controller = new AbortController();
+    load(controller.signal);
+    return () => controller.abort();
+  }, [load]);
+
+  const ogImage = `https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`;
+
+  const stripes = isDark
+    ? "repeating-linear-gradient(-60deg, transparent 0px, transparent 9px, rgba(255,255,255,0.12) 9px, rgba(255,255,255,0.12) 10px)"
+    : "repeating-linear-gradient(-60deg, transparent 0px, transparent 9px, rgba(0,0,0,0.08) 9px, rgba(0,0,0,0.08) 10px)";
 
   return (
     <>
@@ -321,11 +394,7 @@ export default function ShowcasePage() {
           property="og:description"
           content="Explore projects, tools, and libraries shared by the Sync UI community."
         />
-        <meta
-          key="og-image"
-          property="og:image"
-          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
-        />
+        <meta key="og-image" property="og:image" content={ogImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Sync UI Developer Showcase" />
@@ -339,11 +408,7 @@ export default function ShowcasePage() {
           name="twitter:description"
           content="Explore projects, tools, and libraries shared by the Sync UI community."
         />
-        <meta
-          key="tw-image"
-          name="twitter:image"
-          content={`https://ui.abhivarde.in/api/og?title=${encodeURIComponent("Developer Showcase")}&type=Showcase`}
-        />
+        <meta key="tw-image" name="twitter:image" content={ogImage} />
       </Head>
 
       <Container maxWidth="xl" sx={{ px: "0px !important" }}>
@@ -357,25 +422,7 @@ export default function ShowcasePage() {
             alignItems: "center",
             minHeight: 280,
             backgroundColor: "background.default",
-            backgroundImage: isDark
-              ? `
-          repeating-linear-gradient(
-            -60deg,
-            transparent 0px,
-            transparent 9px,
-            rgba(255,255,255,0.12) 9px,
-            rgba(255,255,255,0.12) 10px
-          )
-        `
-              : `
-          repeating-linear-gradient(
-            -60deg,
-            transparent 0px,
-            transparent 9px,
-            rgba(0,0,0,0.08) 9px,
-            rgba(0,0,0,0.08) 10px
-          )
-        `,
+            backgroundImage: stripes,
           }}
         >
           <Box
@@ -431,9 +478,7 @@ export default function ShowcasePage() {
                     textTransform: "none",
                     color: "text.primary",
                     pointerEvents: "none",
-                    "&:hover": {
-                      backgroundColor: "background.paper",
-                    },
+                    "&:hover": { backgroundColor: "background.paper" },
                   }}
                 >
                   Sync UI Showcase
@@ -455,6 +500,7 @@ export default function ShowcasePage() {
                 >
                   <Typography
                     variant="h3"
+                    component="h1"
                     sx={{
                       fontWeight: 600,
                       letterSpacing: "-0.02em",
@@ -472,6 +518,7 @@ export default function ShowcasePage() {
                 >
                   <Typography
                     variant="h6"
+                    component="p"
                     sx={{
                       fontWeight: 400,
                       color: "text.secondary",
@@ -493,7 +540,6 @@ export default function ShowcasePage() {
                 <Stack
                   direction="row"
                   sx={{
-                    display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexWrap: "wrap",
@@ -536,60 +582,24 @@ export default function ShowcasePage() {
       >
         <Box sx={{ flex: 1 }}>
           {error && !loading && (
-            <Box
-              sx={{
-                border: "1px dashed",
-                borderColor: "divider",
-                borderRadius: 1,
-                py: 10,
-                textAlign: "center",
-              }}
+            <StateBox
+              title="Could not load resources"
+              message="Something went wrong. Please try again."
             >
-              <Typography variant="body2" fontWeight={500} mb={0.5}>
-                Could not load resources
-              </Typography>
-
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                display="block"
-                mb={2.5}
-              >
-                Something went wrong. Please try again.
-              </Typography>
-
               <OutlineButton
-                onClick={load}
+                onClick={() => load()}
                 startIcon={<LuRefreshCw size={11} />}
               >
                 Try again
               </OutlineButton>
-            </Box>
+            </StateBox>
           )}
 
           {!loading && !error && resources.length === 0 && (
-            <Box
-              sx={{
-                border: "1px dashed",
-                borderColor: "divider",
-                borderRadius: 1,
-                py: 10,
-                textAlign: "center",
-              }}
+            <StateBox
+              title="Nothing here yet"
+              message="Be the first to share a tool with the community."
             >
-              <Typography variant="body2" fontWeight={500} mb={0.5}>
-                Nothing here yet
-              </Typography>
-
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                display="block"
-                mb={2.5}
-              >
-                Be the first to share a tool with the community.
-              </Typography>
-
               <OutlineButton
                 href={DISCUSS_URL}
                 target="_blank"
@@ -598,25 +608,24 @@ export default function ShowcasePage() {
               >
                 Share yours
               </OutlineButton>
-            </Box>
+            </StateBox>
           )}
 
           {(loading || resources.length > 0) && !error && (
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: {
-                  xs: "1fr",
-                  sm: "repeat(2, 1fr)",
-                },
-                gap: { xs: 4, sm: 5, md: 6 },
+                gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
+                gap: { xs: 3, sm: 4, md: 5 },
               }}
             >
               {loading
-                ? Array.from({ length: 8 }).map((_, i) => (
+                ? Array.from({ length: 6 }).map((_, i) => (
                     <CardSkeleton key={i} />
                   ))
-                : resources.map((r) => <ResourceCard key={r.url} r={r} />)}
+                : resources.map((r, i) => (
+                    <ResourceCard key={r.url} r={r} index={i} />
+                  ))}
             </Box>
           )}
         </Box>
