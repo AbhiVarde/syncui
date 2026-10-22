@@ -46,13 +46,14 @@
     "uuid": "latest",
     "js-yaml": "^4.3.2",
     "sharp": "^0.35.5",
-    "toml": "^4.1.2"
+    "toml": "^4.1.2",
+    "follow-redirects": "^1.16.1"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.4.2",
     "critters": "^0.0.25",
     "cross-env": "^10.1.0",
-    "patch-package": "^8.0.1"
+    "patch-package": "^6.0.7"
   },
   "browserslist": [
     "chrome >= 100",
